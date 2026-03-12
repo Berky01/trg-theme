@@ -119,173 +119,214 @@
   </aside>
 
   <div class="trg-mega-menu__content">
-    {% for child_link in parent_link.links %}
-      {% liquid
-        assign panel_id = id | append: '-panel-' | append: forloop.index
-        assign normalized_child_title = child_link.title | strip | downcase
-        assign normalized_child_handle = child_link.handle | strip | downcase
+    {% if is_brand_menu %}
+      <div class="trg-mega-menu__brand-search">
+        <label class="visually-hidden" for="{{ id }}-brand-search">Search brands</label>
+        <div class="trg-mega-menu__brand-search-field">
+          <span class="trg-mega-menu__brand-search-icon" aria-hidden="true">
+            {{- 'icon-search.svg' | inline_asset_content -}}
+          </span>
+          <input
+            id="{{ id }}-brand-search"
+            class="trg-mega-menu__brand-search-input"
+            type="search"
+            placeholder="Search brands..."
+            autocomplete="off"
+            autocorrect="off"
+            autocapitalize="off"
+            spellcheck="false"
+            data-trg-brand-search-input
+          >
+          <button
+            type="button"
+            class="trg-mega-menu__brand-search-clear"
+            data-trg-brand-search-clear
+            aria-label="Clear brand search"
+            hidden
+          >
+            {{- 'icon-close.svg' | inline_asset_content -}}
+          </button>
+        </div>
+        <div class="trg-mega-menu__brand-search-meta" data-trg-brand-search-meta aria-live="polite"></div>
+      </div>
 
-        assign is_all_brands_tab = false
-        if is_brand_menu and all_brands_match != blank
-          if normalized_child_title contains all_brands_match or normalized_child_handle contains all_brands_match
-            assign is_all_brands_tab = true
+      <div class="trg-mega-menu__brand-search-results" data-trg-brand-search-results hidden>
+        <div class="trg-mega-menu__brand-grid trg-mega-menu__brand-grid--search" data-trg-brand-search-grid></div>
+        <p class="trg-mega-menu__brand-search-empty" data-trg-brand-search-empty hidden>
+          No brands found for "<span data-trg-brand-search-term></span>"
+        </p>
+      </div>
+    {% endif %}
+
+    <div class="trg-mega-menu__panels" {% if is_brand_menu %}data-trg-brand-panels{% endif %}>
+      {% for child_link in parent_link.links %}
+        {% liquid
+          assign panel_id = id | append: '-panel-' | append: forloop.index
+          assign normalized_child_title = child_link.title | strip | downcase
+          assign normalized_child_handle = child_link.handle | strip | downcase
+
+          assign is_all_brands_tab = false
+          if is_brand_menu and all_brands_match != blank
+            if normalized_child_title contains all_brands_match or normalized_child_handle contains all_brands_match
+              assign is_all_brands_tab = true
+            endif
           endif
-        endif
 
-        assign item_count = child_link.links.size
-        assign subtitle = item_count | append: ' links'
-        if is_brand_menu
-          if is_all_brands_tab
-            assign subtitle = 'A-Z directory'
-          elsif item_count == 1
-            assign subtitle = '1 brand'
-          elsif item_count > 1
-            assign subtitle = item_count | append: ' brands'
+          assign item_count = child_link.links.size
+          assign subtitle = item_count | append: ' links'
+          if is_brand_menu
+            if is_all_brands_tab
+              assign subtitle = 'A-Z directory'
+            elsif item_count == 1
+              assign subtitle = '1 brand'
+            elsif item_count > 1
+              assign subtitle = item_count | append: ' brands'
+            else
+              assign subtitle = 'Browse this brand segment'
+            endif
           else
-            assign subtitle = 'Browse this brand segment'
+            if item_count == 1
+              assign subtitle = '1 type'
+            elsif item_count > 1
+              assign subtitle = item_count | append: ' types'
+            else
+              assign subtitle = 'Explore this category'
+            endif
           endif
-        else
-          if item_count == 1
-            assign subtitle = '1 type'
-          elsif item_count > 1
-            assign subtitle = item_count | append: ' types'
-          else
-            assign subtitle = 'Explore this category'
-          endif
-        endif
-      %}
+        %}
 
-      <section
-        id="{{ panel_id }}"
-        class="trg-mega-menu__panel{% if forloop.first %} is-active{% endif %}"
-        data-trg-mega-menu-panel
-        {% unless forloop.first %}
-          hidden
-        {% endunless %}
-      >
-        <header class="trg-mega-menu__panel-header">
-          <div>
-            <h3 class="trg-mega-menu__title">{{ child_link.title | escape }}</h3>
-            <p class="trg-mega-menu__subtitle">{{ subtitle | escape }}</p>
-          </div>
-        </header>
+        <section
+          id="{{ panel_id }}"
+          class="trg-mega-menu__panel{% if forloop.first %} is-active{% endif %}"
+          data-trg-mega-menu-panel
+          {% unless forloop.first %}
+            hidden
+          {% endunless %}
+        >
+          <header class="trg-mega-menu__panel-header">
+            <div>
+              <h3 class="trg-mega-menu__title">{{ child_link.title | escape }}</h3>
+              <p class="trg-mega-menu__subtitle">{{ subtitle | escape }}</p>
+            </div>
+          </header>
 
-        {% if is_brand_menu and is_all_brands_tab %}
-          <div class="trg-mega-menu__brand-columns">
-            {% assign letters = 'A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z' | split: ',' %}
-            {% for letter in letters %}
-              {% liquid
-                assign letter_links_markup = ''
-                assign seen_brand_titles = ''
-                assign letter_count = 0
-              %}
+          {% if is_brand_menu and is_all_brands_tab %}
+            <div class="trg-mega-menu__brand-columns">
+              {% assign letters = 'A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z' | split: ',' %}
+              {% for letter in letters %}
+                {% liquid
+                  assign letter_links_markup = ''
+                  assign seen_brand_titles = ''
+                  assign letter_count = 0
+                %}
 
+                {% if child_link.links.size > 0 %}
+                  {% for brand_link in child_link.links %}
+                    {% liquid
+                      assign first_character = brand_link.title | strip | slice: 0, 1 | upcase
+                      assign dedupe_key = '|' | append: brand_link.title | append: '|'
+                      assign already_seen = false
+                      if seen_brand_titles contains dedupe_key
+                        assign already_seen = true
+                      endif
+                    %}
+                    {% if first_character == letter and already_seen == false %}
+                      {% liquid
+                        assign seen_brand_titles = seen_brand_titles | append: dedupe_key
+                        assign letter_count = letter_count | plus: 1
+                        capture letter_links_markup
+                          echo letter_links_markup
+                          echo '<a class="trg-mega-menu__brand-link" href="'
+                          echo brand_link.url
+                          echo '">'
+                          echo brand_link.title | escape
+                          echo '</a>'
+                        endcapture
+                      %}
+                    {% endif %}
+                  {% endfor %}
+                {% else %}
+                  {% for group_link in parent_link.links %}
+                    {% unless group_link.handle == child_link.handle %}
+                      {% for brand_link in group_link.links %}
+                        {% liquid
+                          assign first_character = brand_link.title | strip | slice: 0, 1 | upcase
+                          assign dedupe_key = '|' | append: brand_link.title | append: '|'
+                          assign already_seen = false
+                          if seen_brand_titles contains dedupe_key
+                            assign already_seen = true
+                          endif
+                        %}
+                        {% if first_character == letter and already_seen == false %}
+                          {% liquid
+                            assign seen_brand_titles = seen_brand_titles | append: dedupe_key
+                            assign letter_count = letter_count | plus: 1
+                            capture letter_links_markup
+                              echo letter_links_markup
+                              echo '<a class="trg-mega-menu__brand-link" href="'
+                              echo brand_link.url
+                              echo '">'
+                              echo brand_link.title | escape
+                              echo '</a>'
+                            endcapture
+                          %}
+                        {% endif %}
+                      {% endfor %}
+                    {% endunless %}
+                  {% endfor %}
+                {% endif %}
+
+                {% if letter_count > 0 %}
+                  <div class="trg-mega-menu__brand-group">
+                    <div class="trg-mega-menu__brand-letter">{{ letter }}</div>
+                    {{ letter_links_markup }}
+                  </div>
+                {% endif %}
+              {% endfor %}
+            </div>
+          {% elsif is_brand_menu %}
+            <div class="trg-mega-menu__brand-grid">
               {% if child_link.links.size > 0 %}
                 {% for brand_link in child_link.links %}
-                  {% liquid
-                    assign first_character = brand_link.title | strip | slice: 0, 1 | upcase
-                    assign dedupe_key = '|' | append: brand_link.title | append: '|'
-                    assign already_seen = false
-                    if seen_brand_titles contains dedupe_key
-                      assign already_seen = true
-                    endif
-                  %}
-                  {% if first_character == letter and already_seen == false %}
-                    {% liquid
-                      assign seen_brand_titles = seen_brand_titles | append: dedupe_key
-                      assign letter_count = letter_count | plus: 1
-                      capture letter_links_markup
-                        echo letter_links_markup
-                        echo '<a class="trg-mega-menu__brand-link" href="'
-                        echo brand_link.url
-                        echo '">'
-                        echo brand_link.title | escape
-                        echo '</a>'
-                      endcapture
-                    %}
-                  {% endif %}
+                  <a class="trg-mega-menu__brand-link" href="{{ brand_link.url }}">{{ brand_link.title | escape }}</a>
                 {% endfor %}
-              {% else %}
-                {% for group_link in parent_link.links %}
-                  {% unless group_link.handle == child_link.handle %}
-                    {% for brand_link in group_link.links %}
-                      {% liquid
-                        assign first_character = brand_link.title | strip | slice: 0, 1 | upcase
-                        assign dedupe_key = '|' | append: brand_link.title | append: '|'
-                        assign already_seen = false
-                        if seen_brand_titles contains dedupe_key
-                          assign already_seen = true
-                        endif
-                      %}
-                      {% if first_character == letter and already_seen == false %}
-                        {% liquid
-                          assign seen_brand_titles = seen_brand_titles | append: dedupe_key
-                          assign letter_count = letter_count | plus: 1
-                          capture letter_links_markup
-                            echo letter_links_markup
-                            echo '<a class="trg-mega-menu__brand-link" href="'
-                            echo brand_link.url
-                            echo '">'
-                            echo brand_link.title | escape
-                            echo '</a>'
-                          endcapture
-                        %}
-                      {% endif %}
-                    {% endfor %}
-                  {% endunless %}
+              {% elsif child_link.url != blank %}
+                <a class="trg-mega-menu__brand-link" href="{{ child_link.url }}">{{ child_link.title | escape }}</a>
+              {% endif %}
+            </div>
+          {% else %}
+            <div class="trg-mega-menu__tile-grid">
+              {% if child_link.links.size > 0 %}
+                {% for grandchild_link in child_link.links %}
+                  <a class="trg-mega-menu__tile" href="{{ grandchild_link.url }}">
+                    <span class="trg-mega-menu__tile-name">{{ grandchild_link.title | escape }}</span>
+                  </a>
                 {% endfor %}
-              {% endif %}
-
-              {% if letter_count > 0 %}
-                <div class="trg-mega-menu__brand-group">
-                  <div class="trg-mega-menu__brand-letter">{{ letter }}</div>
-                  {{ letter_links_markup }}
-                </div>
-              {% endif %}
-            {% endfor %}
-          </div>
-        {% elsif is_brand_menu %}
-          <div class="trg-mega-menu__brand-grid">
-            {% if child_link.links.size > 0 %}
-              {% for brand_link in child_link.links %}
-                <a class="trg-mega-menu__brand-link" href="{{ brand_link.url }}">{{ brand_link.title | escape }}</a>
-              {% endfor %}
-            {% elsif child_link.url != blank %}
-              <a class="trg-mega-menu__brand-link" href="{{ child_link.url }}">{{ child_link.title | escape }}</a>
-            {% endif %}
-          </div>
-        {% else %}
-          <div class="trg-mega-menu__tile-grid">
-            {% if child_link.links.size > 0 %}
-              {% for grandchild_link in child_link.links %}
-                <a class="trg-mega-menu__tile" href="{{ grandchild_link.url }}">
-                  <span class="trg-mega-menu__tile-name">{{ grandchild_link.title | escape }}</span>
+              {% elsif child_link.url != blank %}
+                <a class="trg-mega-menu__tile trg-mega-menu__tile--single" href="{{ child_link.url }}">
+                  <span class="trg-mega-menu__tile-name">Explore {{ child_link.title | escape }}</span>
                 </a>
-              {% endfor %}
-            {% elsif child_link.url != blank %}
-              <a class="trg-mega-menu__tile trg-mega-menu__tile--single" href="{{ child_link.url }}">
-                <span class="trg-mega-menu__tile-name">Explore {{ child_link.title | escape }}</span>
-              </a>
-            {% endif %}
-          </div>
-        {% endif %}
-
-        {% assign panel_link = child_link.url | default: parent_link.url %}
-        {% if panel_link != blank %}
-          <div class="trg-mega-menu__footer">
-            <a class="trg-mega-menu__view-all" href="{{ panel_link }}">
-              {% if is_brand_menu and is_all_brands_tab %}
-                Open full brand directory
-              {% elsif is_brand_menu %}
-                View all {{ child_link.title | escape }}
-              {% else %}
-                Explore {{ child_link.title | escape }}
               {% endif %}
-            </a>
-          </div>
-        {% endif %}
-      </section>
-    {% endfor %}
+            </div>
+          {% endif %}
+
+          {% assign panel_link = child_link.url | default: parent_link.url %}
+          {% if panel_link != blank %}
+            <div class="trg-mega-menu__footer">
+              <a class="trg-mega-menu__view-all" href="{{ panel_link }}">
+                {% if is_brand_menu and is_all_brands_tab %}
+                  Open full brand directory
+                {% elsif is_brand_menu %}
+                  View all {{ child_link.title | escape }}
+                {% else %}
+                  Explore {{ child_link.title | escape }}
+                {% endif %}
+              </a>
+            </div>
+          {% endif %}
+        </section>
+      {% endfor %}
+    </div>
   </div>
 
   <aside class="trg-mega-menu__featured">
