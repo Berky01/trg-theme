@@ -1,0 +1,215 @@
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<section class="section section--full-width color-{{ section.settings.color_scheme }} trg-section trg-steps trg-steps--{{ section.settings.layout_variant }}">
+  <div class="trg-shell trg-steps__grid">
+    <div data-trg-reveal>
+      {% render 'trg-section-header',
+        eyebrow: section.settings.eyebrow,
+        title: section.settings.title,
+        body: section.settings.body,
+        align: 'left'
+      %}
+    </div>
+
+    <div class="trg-steps__list">
+      {% for block in section.blocks %}
+        {% liquid
+          assign step_number = forloop.index | prepend: '0' | slice: -2, 2
+          if block.settings.custom_number != blank
+            assign step_number = block.settings.custom_number
+          endif
+        %}
+        <div class="{% if section.settings.layout_variant == 'editorial_dark' %}trg-step trg-step--editorial{% else %}trg-surface trg-step{% endif %}" data-trg-reveal {{ block.shopify_attributes }}>
+          {% if section.settings.layout_variant == 'editorial_dark' %}
+            {% if block.settings.icon != blank %}
+              <div class="trg-step__icon">{{ block.settings.icon | escape }}</div>
+            {% endif %}
+            <p class="trg-step__num">{{ step_number | escape }}</p>
+            <h3 class="trg-step__title">{{ block.settings.title | escape }}</h3>
+            <p class="trg-step__body">{{ block.settings.body | escape }}</p>
+          {% else %}
+            <div class="trg-step__num">{{ step_number | escape }}</div>
+            <div>
+              <h3 class="trg-step__title">{{ block.settings.title | escape }}</h3>
+              <p class="trg-step__body">{{ block.settings.body | escape }}</p>
+            </div>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .trg-steps--editorial_dark .trg-section-header {
+    align-items: start;
+  }
+
+  .trg-steps--editorial_dark .trg-section-header .trg-heading {
+    color: rgb(var(--color-background-rgb));
+    font-size: clamp(1.9rem, 3vw, 2.6rem);
+    line-height: 1.15;
+  }
+
+  .trg-steps--editorial_dark .trg-section-header .trg-lead {
+    color: rgb(var(--color-background-rgb) / 0.45);
+    font-size: 0.85rem;
+  }
+
+  @media screen and (min-width: 990px) {
+    .trg-steps--editorial_dark .trg-steps__grid {
+      grid-template-columns: minmax(230px, 1fr) minmax(0, 2fr);
+      gap: clamp(34px, 4vw, 80px);
+      align-items: start;
+    }
+  }
+
+  .trg-steps--editorial_dark .trg-steps__list {
+    gap: clamp(16px, 2.5vw, 40px);
+  }
+
+  @media screen and (min-width: 990px) {
+    .trg-steps--editorial_dark .trg-steps__list {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .trg-steps--editorial_dark .trg-step--editorial {
+    display: block;
+    border: 0;
+    padding: 0;
+    background: transparent;
+  }
+
+  .trg-steps--editorial_dark .trg-step__icon {
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    margin-bottom: 1rem;
+    border: 1px solid rgb(var(--color-background-rgb) / 0.12);
+    border-radius: 3px;
+    color: var(--color-primary);
+    font-size: 0.9rem;
+  }
+
+  .trg-steps--editorial_dark .trg-step__num {
+    margin: 0 0 0.95rem;
+    color: rgb(var(--color-background-rgb) / 0.14);
+    font-family: var(--font-heading--family);
+    font-size: clamp(2.2rem, 4vw, 2.8rem);
+    line-height: 1;
+  }
+
+  .trg-steps--editorial_dark .trg-step__title {
+    margin: 0 0 0.45rem;
+    color: rgb(var(--color-background-rgb));
+    font-size: 0.9rem;
+    letter-spacing: 0.02em;
+  }
+
+  .trg-steps--editorial_dark .trg-step__body {
+    margin: 0;
+    color: rgb(var(--color-background-rgb) / 0.5);
+    font-size: 0.81rem;
+    line-height: 1.65;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "TRG Process Steps",
+  "tag": "section",
+  "class": "trg-process-steps",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-2"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "How it works"
+    },
+    {
+      "type": "richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "<p>How it <em>works</em></p>"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Body",
+      "default": "<p>Editorial curation and practical shopping intelligence.</p>"
+    },
+    {
+      "type": "select",
+      "id": "layout_variant",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "editorial_dark",
+          "label": "Editorial dark"
+        },
+        {
+          "value": "card_split",
+          "label": "Card split"
+        }
+      ],
+      "default": "editorial_dark"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "text",
+          "id": "custom_number",
+          "label": "Custom number"
+        },
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Icon",
+          "default": "✦"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "We do the research"
+        },
+        {
+          "type": "textarea",
+          "id": "body",
+          "label": "Body",
+          "default": "Every listing is manually evaluated for quality signals and shipping clarity."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "TRG Process Steps",
+      "blocks": [
+        {
+          "type": "step"
+        },
+        {
+          "type": "step"
+        },
+        {
+          "type": "step"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+

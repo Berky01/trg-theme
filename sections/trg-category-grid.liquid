@@ -1,0 +1,365 @@
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<section class="section section--full-width color-{{ section.settings.color_scheme }} trg-section trg-category-grid-section">
+  <div class="trg-shell">
+    {% render 'trg-section-header',
+      eyebrow: section.settings.eyebrow,
+      title: section.settings.title,
+      body: section.settings.body,
+      link_label: section.settings.link_label,
+      link_url: section.settings.link_url,
+      align: 'left',
+      reveal: true
+    %}
+
+    <div class="trg-category-grid" style="--trg-category-columns-desktop: {{ section.settings.columns_desktop }};">
+      {% for block in section.blocks %}
+        {% liquid
+          assign selected_collection = block.settings.collection
+          assign use_collection_data = false
+          if section.settings.source_mode == 'collection_blocks' and selected_collection != blank
+            assign use_collection_data = true
+          endif
+
+          assign card_name = block.settings.name
+          assign card_count = block.settings.count
+          assign card_link = block.settings.link
+          assign card_icon = block.settings.icon
+          assign card_icon_image = blank
+
+          if use_collection_data
+            assign card_name = selected_collection.title
+            assign card_link = selected_collection.url
+
+            if section.settings.collection_count_mode == 'products'
+              assign card_count = selected_collection.products_count | append: ' ' | append: section.settings.collection_count_suffix
+            elsif section.settings.collection_count_mode == 'hide'
+              assign card_count = blank
+            endif
+
+            if section.settings.collection_icon_mode == 'image' and selected_collection.image != blank
+              assign card_icon_image = selected_collection.image
+            endif
+          endif
+
+          if block.settings.count_override != blank
+            assign card_count = block.settings.count_override
+          endif
+          if block.settings.link != blank
+            assign card_link = block.settings.link
+          endif
+        %}
+
+        <a class="trg-category-card" href="{{ card_link | default: '#' }}" data-trg-reveal {{ block.shopify_attributes }}>
+          <div class="trg-category-icon">
+            {% if card_icon_image != blank %}
+              {{
+                card_icon_image
+                | image_url: width: 80
+                | image_tag:
+                  loading: 'lazy',
+                  widths: '40, 60, 80',
+                  sizes: '40px',
+                  alt: card_name
+              }}
+            {% else %}
+              {{ card_icon | escape }}
+            {% endif %}
+          </div>
+          <h3 class="trg-category-name">{{ card_name | escape }}</h3>
+          {% if card_count != blank %}
+            <p class="trg-category-count">{{ card_count | escape }}</p>
+          {% endif %}
+          <span class="trg-category-arrow" aria-hidden="true">→</span>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .trg-category-grid-section {
+    border-top: 1px solid var(--trg-border-color);
+    border-bottom: 1px solid var(--trg-border-color);
+  }
+
+  .trg-category-grid-section .trg-section-header {
+    align-items: start;
+  }
+
+  .trg-category-grid-section .trg-section-header .trg-heading {
+    font-size: clamp(1.7rem, 2.6vw, 2.25rem);
+  }
+
+  .trg-category-grid-section .trg-section-header .trg-lead {
+    color: var(--trg-muted-color);
+    font-size: 0.86rem;
+    line-height: 1.7;
+  }
+
+  .trg-category-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1px;
+    background: var(--trg-border-color);
+    border: 1px solid var(--trg-border-color);
+  }
+
+  @media screen and (min-width: 990px) {
+    .trg-category-grid {
+      grid-template-columns: repeat(var(--trg-category-columns-desktop, 4), minmax(0, 1fr));
+    }
+  }
+
+  .trg-category-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    min-height: 180px;
+    padding: 2rem 1.5rem;
+    background: rgb(var(--color-background-rgb));
+    text-decoration: none;
+    color: inherit;
+    transition: background 0.15s ease;
+  }
+
+  .trg-category-card:hover {
+    background: rgb(var(--color-foreground-rgb) / 0.02);
+  }
+
+  .trg-category-icon {
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--trg-border-color);
+    border-radius: 3px;
+    display: grid;
+    place-items: center;
+    color: var(--trg-muted-color);
+    font-size: 1rem;
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+
+  .trg-category-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .trg-category-name {
+    margin: 0;
+    color: var(--trg-heading-color);
+    font-family: var(--font-heading--family);
+    font-size: 1rem;
+    line-height: 1.2;
+  }
+
+  .trg-category-count {
+    margin: 0;
+    color: var(--trg-muted-color);
+    font-size: 0.75rem;
+    line-height: 1.4;
+  }
+
+  .trg-category-arrow {
+    margin-top: auto;
+    color: rgb(var(--color-border-rgb));
+    font-size: 0.9rem;
+    transition: color 0.15s ease, transform 0.2s ease;
+  }
+
+  .trg-category-card:hover .trg-category-icon {
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+  }
+
+  .trg-category-card:hover .trg-category-arrow {
+    color: var(--color-primary);
+    transform: translateX(4px);
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "TRG Category Grid",
+  "tag": "section",
+  "class": "trg-category-grid-schema",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow"
+    },
+    {
+      "type": "richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "<p>Shop by <em>Category</em></p>"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Body",
+      "default": "<p>From outerwear to footwear, every corner of a quality wardrobe.</p>"
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "label": "Header link label"
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "Header link"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Desktop columns",
+      "min": 3,
+      "max": 5,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "header",
+      "content": "Dynamic source"
+    },
+    {
+      "type": "select",
+      "id": "source_mode",
+      "label": "Card source",
+      "options": [
+        {
+          "value": "manual_blocks",
+          "label": "Manual block text"
+        },
+        {
+          "value": "collection_blocks",
+          "label": "Collection from each block"
+        }
+      ],
+      "default": "manual_blocks"
+    },
+    {
+      "type": "select",
+      "id": "collection_count_mode",
+      "label": "Collection count source",
+      "options": [
+        {
+          "value": "manual",
+          "label": "Use block count text"
+        },
+        {
+          "value": "products",
+          "label": "Use collection product count"
+        },
+        {
+          "value": "hide",
+          "label": "Hide count"
+        }
+      ],
+      "default": "manual"
+    },
+    {
+      "type": "text",
+      "id": "collection_count_suffix",
+      "label": "Collection count suffix",
+      "default": "products"
+    },
+    {
+      "type": "select",
+      "id": "collection_icon_mode",
+      "label": "Collection icon source",
+      "options": [
+        {
+          "value": "text",
+          "label": "Use block icon text"
+        },
+        {
+          "value": "image",
+          "label": "Use collection image"
+        }
+      ],
+      "default": "text"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Category card",
+      "limit": 12,
+      "settings": [
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Icon",
+          "default": "✦"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Outerwear"
+        },
+        {
+          "type": "text",
+          "id": "count",
+          "label": "Count text",
+          "default": "18 brands"
+        },
+        {
+          "type": "text",
+          "id": "count_override",
+          "label": "Count override (optional)"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "TRG Category Grid",
+      "blocks": [
+        {
+          "type": "category"
+        },
+        {
+          "type": "category"
+        },
+        {
+          "type": "category"
+        },
+        {
+          "type": "category"
+        },
+        {
+          "type": "category"
+        },
+        {
+          "type": "category"
+        },
+        {
+          "type": "category"
+        },
+        {
+          "type": "category"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

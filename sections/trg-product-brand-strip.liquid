@@ -1,0 +1,93 @@
+{% liquid
+  assign brand_name = section.settings.brand_name
+  if brand_name == blank
+    assign brand_name = product.vendor
+  endif
+
+  assign tags_array = section.settings.tags | split: ','
+%}
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<section class="section section--full-width color-{{ section.settings.color_scheme }} trg-section trg-pdp-brand-strip">
+  <div class="trg-shell trg-split-layout" style="grid-template-columns: minmax(0, 1fr) auto; align-items: center;">
+    <div data-trg-reveal>
+      <p class="trg-eyebrow">{{ section.settings.eyebrow | escape }}</p>
+      <h2 class="trg-heading" style="font-size: clamp(1.25rem, 2vw, 1.9rem); margin-top: 6px;">{{ brand_name | escape }}</h2>
+      {% if section.settings.description != blank %}
+        <div class="trg-lead" style="margin-top: 8px;">{{ section.settings.description }}</div>
+      {% endif %}
+
+      {% if section.settings.tags != blank %}
+        <div class="trg-tag-row" style="margin-top: 12px;">
+          {% for raw_tag in tags_array %}
+            {% assign tag = raw_tag | strip %}
+            {% if tag != blank %}<span class="trg-tag">{{ tag | escape }}</span>{% endif %}
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+
+    {% if section.settings.button_label != blank %}
+      <div data-trg-reveal>
+        <a class="button" href="{{ section.settings.button_link | default: '#' }}">{{ section.settings.button_label | escape }}</a>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "TRG Product Brand Strip",
+  "enabled_on": {
+    "templates": ["product"]
+  },
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Brand spotlight"
+    },
+    {
+      "type": "text",
+      "id": "brand_name",
+      "label": "Brand name override",
+      "info": "Leave blank to use product vendor"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Describe the brand proposition, positioning, and why it appears in your directory.</p>"
+    },
+    {
+      "type": "text",
+      "id": "tags",
+      "label": "Tags (comma separated)",
+      "default": "Mid-range, Affiliate, Ships to Canada"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "View brand profile"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "TRG Product Brand Strip"
+    }
+  ]
+}
+{% endschema %}

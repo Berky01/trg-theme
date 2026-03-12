@@ -1,0 +1,191 @@
+{%- assign network_rows = section.blocks | where: 'type', 'network_row' -%}
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<section class="section section--full-width color-{{ section.settings.color_scheme }} trg-section">
+  <div class="trg-shell trg-reading">
+    {% if section.settings.summary != blank %}
+      <div class="trg-surface" data-trg-reveal>
+        {% if section.settings.summary_label != blank %}
+          <p class="trg-eyebrow">{{ section.settings.summary_label | escape }}</p>
+        {% endif %}
+        <div class="trg-body-copy">{{ section.settings.summary }}</div>
+      </div>
+    {% endif %}
+
+    <div class="trg-main-flow" style="margin-top: 20px;">
+      {% for block in section.blocks %}
+        {% case block.type %}
+          {% when 'doc_section' %}
+            <article class="trg-main-block trg-surface" data-trg-reveal {{ block.shopify_attributes }}>
+              <h2 class="trg-main-block__heading" style="font-size: 1.4rem;">{{ block.settings.title | escape }}</h2>
+              <div class="trg-body-copy">{{ block.settings.body }}</div>
+            </article>
+        {% endcase %}
+      {% endfor %}
+
+      {% if network_rows.size > 0 %}
+        <article class="trg-main-block trg-surface" data-trg-reveal>
+          <h2 class="trg-main-block__heading" style="font-size: 1.4rem;">{{ section.settings.table_heading | escape }}</h2>
+          <table class="trg-disclosure-table">
+            <thead>
+              <tr>
+                <th>{{ section.settings.table_col_1 | escape }}</th>
+                <th>{{ section.settings.table_col_2 | escape }}</th>
+                <th>{{ section.settings.table_col_3 | escape }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for block in network_rows %}
+                <tr {{ block.shopify_attributes }}>
+                  <td>{{ block.settings.col_1 | escape }}</td>
+                  <td>{{ block.settings.col_2 | escape }}</td>
+                  <td>{{ block.settings.col_3 | escape }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </article>
+      {% endif %}
+
+      {% if section.settings.cta_text != blank or section.settings.cta_button_label != blank %}
+        <article class="trg-surface" data-trg-reveal style="display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap;">
+          <p class="trg-body-copy" style="margin: 0;">{{ section.settings.cta_text }}</p>
+          {% if section.settings.cta_button_label != blank %}
+            <a class="button" href="{{ section.settings.cta_button_link | default: '#' }}">{{ section.settings.cta_button_label | escape }}</a>
+          {% endif %}
+        </article>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "TRG Affiliate Disclosure",
+  "tag": "section",
+  "class": "trg-affiliate-disclosure",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "summary_label",
+      "label": "Summary label",
+      "default": "Plain-language summary"
+    },
+    {
+      "type": "richtext",
+      "id": "summary",
+      "label": "Summary",
+      "default": "<p>Some links are affiliate links. Purchases may earn a commission at no extra cost to readers.</p>"
+    },
+    {
+      "type": "text",
+      "id": "table_heading",
+      "label": "Network table heading",
+      "default": "Affiliate networks we work with"
+    },
+    {
+      "type": "text",
+      "id": "table_col_1",
+      "label": "Table column 1",
+      "default": "Network"
+    },
+    {
+      "type": "text",
+      "id": "table_col_2",
+      "label": "Table column 2",
+      "default": "Use case"
+    },
+    {
+      "type": "text",
+      "id": "table_col_3",
+      "label": "Table column 3",
+      "default": "Disclosure"
+    },
+    {
+      "type": "richtext",
+      "id": "cta_text",
+      "label": "Bottom CTA text",
+      "default": "<p><strong>Questions about this disclosure?</strong> Contact us for clarification on any link or relationship.</p>"
+    },
+    {
+      "type": "text",
+      "id": "cta_button_label",
+      "label": "Bottom CTA button label",
+      "default": "Contact us"
+    },
+    {
+      "type": "url",
+      "id": "cta_button_link",
+      "label": "Bottom CTA button link"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "doc_section",
+      "name": "Document section",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "What is an affiliate link?"
+        },
+        {
+          "type": "richtext",
+          "id": "body",
+          "label": "Body",
+          "default": "<p>Affiliate links include tracking parameters that identify referral traffic.</p>"
+        }
+      ]
+    },
+    {
+      "type": "network_row",
+      "name": "Network row",
+      "settings": [
+        {
+          "type": "text",
+          "id": "col_1",
+          "label": "Column 1",
+          "default": "Impact"
+        },
+        {
+          "type": "text",
+          "id": "col_2",
+          "label": "Column 2",
+          "default": "Brand direct links"
+        },
+        {
+          "type": "text",
+          "id": "col_3",
+          "label": "Column 3",
+          "default": "Marked as affiliate where relevant"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "TRG Affiliate Disclosure",
+      "blocks": [
+        {
+          "type": "doc_section"
+        },
+        {
+          "type": "doc_section"
+        },
+        {
+          "type": "network_row"
+        },
+        {
+          "type": "network_row"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

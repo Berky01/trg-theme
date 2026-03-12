@@ -1,0 +1,137 @@
+{% liquid
+  assign heading_html = section.settings.custom_title
+  if section.settings.title_source == 'collection' and collection.title != blank
+    assign heading_html = collection.title
+  endif
+
+  assign lead_html = section.settings.custom_body
+  if section.settings.body_source == 'collection_description' and collection.description != blank
+    assign lead_html = collection.description
+  endif
+%}
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<section class="section section--full-width color-{{ section.settings.color_scheme }} trg-section trg-collection-intro">
+  <div class="trg-shell">
+    <div data-trg-reveal>
+      {% if section.settings.eyebrow != blank %}<p class="trg-eyebrow">{{ section.settings.eyebrow | escape }}</p>{% endif %}
+      <div class="trg-heading">{{ heading_html }}</div>
+      {% if lead_html != blank %}<div class="trg-lead">{{ lead_html }}</div>{% endif %}
+      {% if section.settings.show_count %}
+        <p class="trg-muted-note" data-trg-result-count>{{ collection.products_count }} products</p>
+      {% endif %}
+    </div>
+
+    {% if section.settings.enable_collection_search %}
+      <div class="trg-newsletter__form" style="margin-top: 18px;" data-trg-collection-search>
+        <input
+          class="trg-newsletter__input"
+          type="search"
+          placeholder="{{ section.settings.search_placeholder | escape }}"
+          data-trg-search-input
+          aria-label="{{ section.settings.search_placeholder | escape }}"
+        >
+        <button class="button button--secondary" type="button" data-trg-clear-search>{{ section.settings.clear_label | escape }}</button>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "TRG Collection Intro",
+  "enabled_on": {
+    "templates": ["collection"]
+  },
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Products"
+    },
+    {
+      "type": "select",
+      "id": "title_source",
+      "label": "Title source",
+      "options": [
+        {
+          "value": "collection",
+          "label": "Collection title"
+        },
+        {
+          "value": "custom",
+          "label": "Custom"
+        }
+      ],
+      "default": "collection"
+    },
+    {
+      "type": "richtext",
+      "id": "custom_title",
+      "label": "Custom title",
+      "default": "<p>Product <em>Catalogue</em></p>",
+      "visible_if": "{{ section.settings.title_source == 'custom' }}"
+    },
+    {
+      "type": "select",
+      "id": "body_source",
+      "label": "Body source",
+      "options": [
+        {
+          "value": "custom",
+          "label": "Custom"
+        },
+        {
+          "value": "collection_description",
+          "label": "Collection description"
+        }
+      ],
+      "default": "custom"
+    },
+    {
+      "type": "richtext",
+      "id": "custom_body",
+      "label": "Custom body",
+      "default": "<p>Curated pieces and quality menswear across North America.</p>",
+      "visible_if": "{{ section.settings.body_source == 'custom' }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_count",
+      "label": "Show product count",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_collection_search",
+      "label": "Enable quick client-side search",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "search_placeholder",
+      "label": "Search placeholder",
+      "default": "Search products on this page"
+    },
+    {
+      "type": "text",
+      "id": "clear_label",
+      "label": "Clear button label",
+      "default": "Clear"
+    }
+  ],
+  "presets": [
+    {
+      "name": "TRG Collection Intro"
+    }
+  ]
+}
+{% endschema %}
+

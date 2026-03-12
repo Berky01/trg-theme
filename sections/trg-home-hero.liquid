@@ -1,0 +1,385 @@
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<section
+  class="section section--full-width color-{{ section.settings.color_scheme }} trg-section trg-home-hero trg-home-hero--{{ section.settings.layout_preset }}{% if section.settings.fill_viewport %} trg-home-hero--viewport{% endif %}"
+  style="
+    --padding-block-start: {{ section.settings.padding_block_start }}px;
+    --padding-block-end: {{ section.settings.padding_block_end }}px;
+    --trg-hero-left-max: {{ section.settings.left_column_max }}px;
+    --trg-hero-bg: {{ section.settings.hero_background }};
+    --trg-hero-text: {{ section.settings.hero_text }};
+    --trg-hero-accent: {{ section.settings.hero_accent }};
+  "
+>
+  <div class="trg-shell">
+    <div class="trg-home-hero__grid">
+      <div class="trg-home-hero__left" data-trg-reveal>
+        <p class="trg-eyebrow">{{ section.settings.eyebrow | escape }}</p>
+        <div class="trg-heading">{{ section.settings.heading }}</div>
+        <div class="trg-lead">{{ section.settings.body }}</div>
+
+        <div class="trg-home-hero__actions">
+          {% if section.settings.primary_label != blank %}
+            <a
+              class="trg-hero-btn trg-hero-btn--{{ section.settings.primary_style }}"
+              href="{{ section.settings.primary_link | default: '#' }}"
+            >
+              {{ section.settings.primary_label | escape }}
+            </a>
+          {% endif %}
+          {% if section.settings.secondary_label != blank %}
+            <a
+              class="trg-hero-btn trg-hero-btn--{{ section.settings.secondary_style }}"
+              href="{{ section.settings.secondary_link | default: '#' }}"
+            >
+              {{ section.settings.secondary_label | escape }}
+            </a>
+          {% endif %}
+        </div>
+
+        {% assign stats = section.blocks | where: 'type', 'stat' %}
+        {% if stats.size > 0 %}
+          <div class="trg-home-hero__stats" style="margin-top: 18px;">
+            {% for block in stats %}
+              <div class="trg-stat" {{ block.shopify_attributes }}>
+                <p class="trg-stat__value">{{ block.settings.value | escape }}{% if block.settings.suffix != blank %}<em>{{ block.settings.suffix | escape }}</em>{% endif %}</p>
+                <p class="trg-stat__label">{{ block.settings.label | escape }}</p>
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
+      {% assign cards = section.blocks | where: 'type', 'mosaic_card' %}
+      {% if cards.size > 0 %}
+        <div class="trg-mosaic" data-trg-reveal>
+          {% for block in cards %}
+            {% assign bg = 'linear-gradient(140deg, [start], [end])' | replace: '[start]', block.settings.gradient_start | replace: '[end]', block.settings.gradient_end %}
+            <a
+              class="trg-mosaic__item"
+              data-size="{{ block.settings.height }}"
+              data-index="{{ forloop.index }}"
+              href="{{ block.settings.link | default: '#' }}"
+              style="background: {{ bg }}; text-decoration: none;"
+              {{ block.shopify_attributes }}
+            >
+              {% if block.settings.image != blank %}
+                {{
+                  block.settings.image
+                  | image_url: width: 700
+                  | image_tag:
+                    loading: 'lazy',
+                    widths: '280, 420, 560, 700',
+                    sizes: '(min-width: 990px) 260px, 45vw',
+                    class: 'trg-mosaic__image',
+                    alt: block.settings.title
+                }}
+              {% endif %}
+
+              {% if block.settings.badge != blank %}
+                <span class="trg-mosaic__badge">{{ block.settings.badge | escape }}</span>
+              {% endif %}
+
+              <div>
+                <p class="trg-mosaic__title">{{ block.settings.title | escape }}</p>
+                {% if block.settings.meta != blank %}
+                  <p class="trg-mosaic__meta">{{ block.settings.meta | escape }}</p>
+                {% endif %}
+              </div>
+            </a>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "TRG Hero Mosaic",
+  "tag": "section",
+  "class": "trg-home-hero-section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "select",
+      "id": "layout_preset",
+      "label": "Layout preset",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default split"
+        },
+        {
+          "value": "editorial-dark",
+          "label": "Dark editorial split"
+        }
+      ],
+      "default": "editorial-dark"
+    },
+    {
+      "type": "checkbox",
+      "id": "fill_viewport",
+      "label": "Fill first viewport on desktop",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "left_column_max",
+      "label": "Left column max width",
+      "min": 420,
+      "max": 820,
+      "step": 20,
+      "unit": "px",
+      "default": 620
+    },
+    {
+      "type": "color",
+      "id": "hero_background",
+      "label": "Dark preset background",
+      "default": "#1a1a18"
+    },
+    {
+      "type": "color",
+      "id": "hero_text",
+      "label": "Dark preset text",
+      "default": "#f5f1eb"
+    },
+    {
+      "type": "color",
+      "id": "hero_accent",
+      "label": "Dark preset accent",
+      "default": "#c4562a"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Curated Menswear Directory"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "<p>Find the <em>right garment</em> the first time</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Body",
+      "default": "<p>Filter quality menswear brands by style, shipping behavior, and price intelligence built for North American shoppers.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Buttons"
+    },
+    {
+      "type": "text",
+      "id": "primary_label",
+      "label": "Primary button label",
+      "default": "Browse Brands"
+    },
+    {
+      "type": "url",
+      "id": "primary_link",
+      "label": "Primary button link"
+    },
+    {
+      "type": "select",
+      "id": "primary_style",
+      "label": "Primary button style",
+      "options": [
+        {
+          "value": "primary",
+          "label": "Primary"
+        },
+        {
+          "value": "secondary",
+          "label": "Secondary"
+        }
+      ],
+      "default": "primary"
+    },
+    {
+      "type": "text",
+      "id": "secondary_label",
+      "label": "Secondary button label",
+      "default": "Shop Products"
+    },
+    {
+      "type": "url",
+      "id": "secondary_link",
+      "label": "Secondary button link"
+    },
+    {
+      "type": "select",
+      "id": "secondary_style",
+      "label": "Secondary button style",
+      "options": [
+        {
+          "value": "primary",
+          "label": "Primary"
+        },
+        {
+          "value": "secondary",
+          "label": "Secondary"
+        }
+      ],
+      "default": "secondary"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_block_start",
+      "label": "Top padding override",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_block_end",
+      "label": "Bottom padding override",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Stat",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "text",
+          "id": "value",
+          "label": "Value",
+          "default": "315"
+        },
+        {
+          "type": "text",
+          "id": "suffix",
+          "label": "Suffix",
+          "default": "+"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Brands tracked"
+        }
+      ]
+    },
+    {
+      "type": "mosaic_card",
+      "name": "Mosaic card",
+      "limit": 9,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Viberg"
+        },
+        {
+          "type": "text",
+          "id": "meta",
+          "label": "Meta",
+          "default": "Footwear · Victoria, BC"
+        },
+        {
+          "type": "text",
+          "id": "badge",
+          "label": "Badge",
+          "default": "CA"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Background image"
+        },
+        {
+          "type": "color",
+          "id": "gradient_start",
+          "label": "Gradient start",
+          "default": "#2a1a10"
+        },
+        {
+          "type": "color",
+          "id": "gradient_end",
+          "label": "Gradient end",
+          "default": "#4a2e20"
+        },
+        {
+          "type": "select",
+          "id": "height",
+          "label": "Card height",
+          "options": [
+            {
+              "value": "normal",
+              "label": "Normal"
+            },
+            {
+              "value": "tall",
+              "label": "Tall"
+            }
+          ],
+          "default": "normal"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "TRG Hero Mosaic",
+      "blocks": [
+        {
+          "type": "stat"
+        },
+        {
+          "type": "stat"
+        },
+        {
+          "type": "stat"
+        },
+        {
+          "type": "mosaic_card"
+        },
+        {
+          "type": "mosaic_card"
+        },
+        {
+          "type": "mosaic_card"
+        },
+        {
+          "type": "mosaic_card"
+        },
+        {
+          "type": "mosaic_card"
+        },
+        {
+          "type": "mosaic_card"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+

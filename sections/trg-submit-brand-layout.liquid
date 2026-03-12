@@ -1,0 +1,226 @@
+{%- assign criteria = section.blocks | where: 'type', 'criteria_item' -%}
+{%- assign steps = section.blocks | where: 'type', 'timeline_step' -%}
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<section class="section section--full-width color-{{ section.settings.color_scheme }} trg-section">
+  <div class="trg-shell trg-split-layout">
+    <div class="trg-main-flow" data-trg-reveal>
+      {% if section.settings.embed_note != blank %}
+        <div class="trg-form-note">{{ section.settings.embed_note }}</div>
+      {% endif %}
+
+      {% if section.settings.review_note != blank %}
+        <div class="trg-form-note">{{ section.settings.review_note }}</div>
+      {% endif %}
+
+      {% if section.settings.form_embed != blank %}
+        <div class="trg-embed-frame">
+          {{ section.settings.form_embed }}
+        </div>
+      {% else %}
+        <div class="trg-embed-frame trg-body-copy">
+          <p>Add your Tally (or other) embed snippet in this section's <strong>Form embed code</strong> setting.</p>
+          <p>You can keep this placeholder visible while preparing the integration.</p>
+        </div>
+      {% endif %}
+
+      {% if section.settings.bottom_note != blank %}
+        <p class="trg-muted-note">{{ section.settings.bottom_note | escape }}</p>
+      {% endif %}
+    </div>
+
+    <aside class="trg-sidebar" data-sticky="{{ section.settings.sticky_sidebar }}">
+      {% if criteria.size > 0 %}
+        <article class="trg-sidebar-card" data-trg-reveal>
+          <div class="trg-sidebar-card__head">{{ section.settings.criteria_heading | escape }}</div>
+          <div class="trg-sidebar-card__body trg-checklist">
+            {% for block in criteria %}
+              <div class="trg-checklist__item" {{ block.shopify_attributes }}>
+                <span>{% if block.settings.status == 'pass' %}✓{% else %}✕{% endif %}</span>
+                <div>{{ block.settings.body }}</div>
+              </div>
+            {% endfor %}
+          </div>
+        </article>
+      {% endif %}
+
+      {% if steps.size > 0 %}
+        <article class="trg-sidebar-card" data-trg-reveal>
+          <div class="trg-sidebar-card__head">{{ section.settings.timeline_heading | escape }}</div>
+          <div class="trg-sidebar-card__body trg-timeline">
+            {% for block in steps %}
+              <div class="trg-timeline__item" {{ block.shopify_attributes }}>
+                <div class="trg-timeline__num">{{ forloop.index }}</div>
+                <div>
+                  <p style="margin: 0; font-size: 0.83rem; color: var(--trg-heading-color);">{{ block.settings.title | escape }}</p>
+                  <p class="trg-muted-note" style="margin-top: 3px;">{{ block.settings.body | escape }}</p>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </article>
+      {% endif %}
+
+      {% for block in section.blocks %}
+        {% if block.type == 'sidebar_note' %}
+          <article class="trg-sidebar-card" data-trg-reveal {{ block.shopify_attributes }}>
+            {% if block.settings.heading != blank %}<div class="trg-sidebar-card__head">{{ block.settings.heading | escape }}</div>{% endif %}
+            <div class="trg-sidebar-card__body trg-body-copy">{{ block.settings.body }}</div>
+          </article>
+        {% endif %}
+      {% endfor %}
+    </aside>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "TRG Submit Brand Layout",
+  "tag": "section",
+  "class": "trg-submit-brand-layout",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "checkbox",
+      "id": "sticky_sidebar",
+      "label": "Sticky sidebar on desktop",
+      "default": true
+    },
+    {
+      "type": "richtext",
+      "id": "embed_note",
+      "label": "Top note",
+      "default": "<p>In production, replace this area with your embedded form.</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "review_note",
+      "label": "Review note",
+      "default": "<p>Submissions are reviewed manually against editorial criteria.</p>"
+    },
+    {
+      "type": "liquid",
+      "id": "form_embed",
+      "label": "Form embed code"
+    },
+    {
+      "type": "text",
+      "id": "bottom_note",
+      "label": "Bottom note",
+      "default": "Submissions are reviewed within 2 to 4 weeks."
+    },
+    {
+      "type": "text",
+      "id": "criteria_heading",
+      "label": "Criteria heading",
+      "default": "What we look for"
+    },
+    {
+      "type": "text",
+      "id": "timeline_heading",
+      "label": "Timeline heading",
+      "default": "What happens next"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "criteria_item",
+      "name": "Criteria item",
+      "limit": 10,
+      "settings": [
+        {
+          "type": "select",
+          "id": "status",
+          "label": "Status",
+          "options": [
+            {
+              "value": "pass",
+              "label": "Pass"
+            },
+            {
+              "value": "fail",
+              "label": "Out of scope"
+            }
+          ],
+          "default": "pass"
+        },
+        {
+          "type": "richtext",
+          "id": "body",
+          "label": "Text",
+          "default": "<p><strong>Construction quality</strong> and long-term wearability.</p>"
+        }
+      ]
+    },
+    {
+      "type": "timeline_step",
+      "name": "Timeline step",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Submission received"
+        },
+        {
+          "type": "text",
+          "id": "body",
+          "label": "Body",
+          "default": "Added to the review queue"
+        }
+      ]
+    },
+    {
+      "type": "sidebar_note",
+      "name": "Sidebar note card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Brand representatives"
+        },
+        {
+          "type": "richtext",
+          "id": "body",
+          "label": "Body",
+          "default": "<p>Transparency matters. Please disclose if you are affiliated with the brand.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "TRG Submit Brand Layout",
+      "blocks": [
+        {
+          "type": "criteria_item"
+        },
+        {
+          "type": "criteria_item"
+        },
+        {
+          "type": "criteria_item"
+        },
+        {
+          "type": "timeline_step"
+        },
+        {
+          "type": "timeline_step"
+        },
+        {
+          "type": "timeline_step"
+        },
+        {
+          "type": "sidebar_note"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,110 @@
+{
+  "sections": {
+    "hero": {
+      "type": "trg-page-hero",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "hero_style": "light",
+        "alignment": "left",
+        "show_pattern": false,
+        "eyebrow": "Community",
+        "title": "<p>Submit a Brand</p>",
+        "body": "<p>Know a menswear brand that belongs in the directory? We review every submission manually.</p>",
+        "meta_text": ""
+      }
+    },
+    "content": {
+      "type": "trg-submit-brand-layout",
+      "blocks": {
+        "criteria_1": {
+          "type": "criteria_item",
+          "settings": {
+            "status": "pass",
+            "body": "<p><strong>Construction quality</strong> and long-term durability.</p>"
+          }
+        },
+        "criteria_2": {
+          "type": "criteria_item",
+          "settings": {
+            "status": "pass",
+            "body": "<p><strong>Honest materials</strong> and transparent product language.</p>"
+          }
+        },
+        "criteria_3": {
+          "type": "criteria_item",
+          "settings": {
+            "status": "pass",
+            "body": "<p><strong>Community reputation</strong> among serious menswear buyers.</p>"
+          }
+        },
+        "criteria_4": {
+          "type": "criteria_item",
+          "settings": {
+            "status": "fail",
+            "body": "<p><strong>No activewear</strong> in editorial scope.</p>"
+          }
+        },
+        "criteria_5": {
+          "type": "criteria_item",
+          "settings": {
+            "status": "fail",
+            "body": "<p><strong>No fast fashion</strong> trend-cycle brands.</p>"
+          }
+        },
+        "timeline_1": {
+          "type": "timeline_step",
+          "settings": {
+            "title": "Submission received",
+            "body": "Added to review queue"
+          }
+        },
+        "timeline_2": {
+          "type": "timeline_step",
+          "settings": {
+            "title": "Editorial review",
+            "body": "Manual validation against criteria"
+          }
+        },
+        "timeline_3": {
+          "type": "timeline_step",
+          "settings": {
+            "title": "Directory update",
+            "body": "Qualified brands are added on a rolling basis"
+          }
+        },
+        "note": {
+          "type": "sidebar_note",
+          "settings": {
+            "heading": "Brand representatives",
+            "body": "<p>You can submit your own brand. Please disclose affiliation for transparency.</p><p>Listings are editorial and unpaid.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "criteria_1",
+        "criteria_2",
+        "criteria_3",
+        "criteria_4",
+        "criteria_5",
+        "timeline_1",
+        "timeline_2",
+        "timeline_3",
+        "note"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "sticky_sidebar": true,
+        "embed_note": "<p>In production, replace this placeholder with your Tally embed code.</p>",
+        "review_note": "<p>Submissions are reviewed manually within 2 to 4 weeks.</p>",
+        "form_embed": "",
+        "bottom_note": "We do not confirm each submission individually, but all entries are reviewed.",
+        "criteria_heading": "What we look for",
+        "timeline_heading": "What happens next"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "content"
+  ]
+}
