@@ -111,24 +111,34 @@
                 style="{% render 'submenu-font-styles', settings: block_settings %}"
               >
                 {% assign list_id = 'MegaMenuList-' | append: forloop.index %}
-                <div class="mega-menu section section--full-width-margin section--{{ section.settings.section_width }}">
-                  <div
-                    class="mega-menu__grid"
-                    data-menu-grid-id="{{ list_id }}"
-                  >
-                    {% render 'mega-menu-list',
+                {% if menu_content_type == 'trg_editorial' %}
+                  <div class="trg-mega-menu-shell section section--full-width-margin section--{{ section.settings.section_width }}">
+                    {% render 'trg-mega-menu',
                       parent_link: link,
                       id: list_id,
-                      section: section,
-                      grid_columns_count: 6,
-                      grid_columns_count_tablet: 4,
-                      grid_columns_count_collection_images: 8,
-                      menu_content_type: menu_content_type,
-                      content_aspect_ratio: ratio,
-                      image_border_radius: image_border_radius
+                      menu_settings: block_settings
                     %}
                   </div>
-                </div>
+                {% else %}
+                  <div class="mega-menu section section--full-width-margin section--{{ section.settings.section_width }}">
+                    <div
+                      class="mega-menu__grid"
+                      data-menu-grid-id="{{ list_id }}"
+                    >
+                      {% render 'mega-menu-list',
+                        parent_link: link,
+                        id: list_id,
+                        section: section,
+                        grid_columns_count: 6,
+                        grid_columns_count_tablet: 4,
+                        grid_columns_count_collection_images: 8,
+                        menu_content_type: menu_content_type,
+                        content_aspect_ratio: ratio,
+                        image_border_radius: image_border_radius
+                      %}
+                    </div>
+                  </div>
+                {% endif %}
               </div>
             </div>
           {%- endif -%}
@@ -178,6 +188,14 @@
         type="module"
         fetchpriority="low"
       ></script>
+      {% if block_settings.menu_style == 'trg_editorial' %}
+        {{ 'trg-mega-menu.css' | asset_url | stylesheet_tag }}
+        <script
+          src="{{ 'trg-mega-menu.js' | asset_url }}"
+          type="module"
+          fetchpriority="low"
+        ></script>
+      {% endif %}
     </header-menu>
 {% endcase %}
 
@@ -802,6 +820,10 @@
         {
           "value": "featured_collections",
           "label": "t:options.featured_collections"
+        },
+        {
+          "value": "trg_editorial",
+          "label": "TRG editorial mega menu"
         }
       ],
       "default": "collection_images"
@@ -858,6 +880,117 @@
       "unit": "px",
       "default": 0,
       "visible_if": "{{ block.settings.menu_style != 'text' }}"
+    },
+    {
+      "type": "header",
+      "content": "TRG mega menu",
+      "visible_if": "{{ block.settings.menu_style == 'trg_editorial' }}"
+    },
+    {
+      "type": "text",
+      "id": "trg_brand_menu_match",
+      "label": "Brand menu match text",
+      "default": "brands",
+      "visible_if": "{{ block.settings.menu_style == 'trg_editorial' }}"
+    },
+    {
+      "type": "text",
+      "id": "trg_all_brands_match",
+      "label": "All brands tab match text",
+      "default": "all",
+      "visible_if": "{{ block.settings.menu_style == 'trg_editorial' }}"
+    },
+    {
+      "type": "text",
+      "id": "trg_shop_sidebar_label",
+      "label": "Shop sidebar label",
+      "default": "Product family",
+      "visible_if": "{{ block.settings.menu_style == 'trg_editorial' }}"
+    },
+    {
+      "type": "text",
+      "id": "trg_brand_sidebar_label",
+      "label": "Brand sidebar label",
+      "default": "Browse by",
+      "visible_if": "{{ block.settings.menu_style == 'trg_editorial' }}"
+    },
+    {
+      "type": "text",
+      "id": "trg_featured_label",
+      "label": "Featured column label",
+      "default": "Featured brand",
+      "visible_if": "{{ block.settings.menu_style == 'trg_editorial' }}"
+    },
+    {
+      "type": "text",
+      "id": "trg_quick_links_label",
+      "label": "Quick links label",
+      "default": "Quick links",
+      "visible_if": "{{ block.settings.menu_style == 'trg_editorial' }}"
+    },
+    {
+      "type": "link_list",
+      "id": "trg_quick_links_menu",
+      "label": "Quick links menu",
+      "visible_if": "{{ block.settings.menu_style == 'trg_editorial' }}"
+    },
+    {
+      "type": "header",
+      "content": "Featured brand source",
+      "visible_if": "{{ block.settings.menu_style == 'trg_editorial' }}"
+    },
+    {
+      "type": "text",
+      "id": "trg_featured_metaobject_type",
+      "label": "Metaobject type handle",
+      "default": "brand",
+      "visible_if": "{{ block.settings.menu_style == 'trg_editorial' }}"
+    },
+    {
+      "type": "text",
+      "id": "trg_featured_brand_handle",
+      "label": "Featured brand handle",
+      "visible_if": "{{ block.settings.menu_style == 'trg_editorial' }}"
+    },
+    {
+      "type": "image_picker",
+      "id": "trg_featured_image",
+      "label": "Fallback featured image",
+      "visible_if": "{{ block.settings.menu_style == 'trg_editorial' }}"
+    },
+    {
+      "type": "text",
+      "id": "trg_featured_eyebrow",
+      "label": "Fallback featured eyebrow",
+      "default": "Brand spotlight",
+      "visible_if": "{{ block.settings.menu_style == 'trg_editorial' }}"
+    },
+    {
+      "type": "text",
+      "id": "trg_featured_title",
+      "label": "Fallback featured title",
+      "default": "Viberg",
+      "visible_if": "{{ block.settings.menu_style == 'trg_editorial' }}"
+    },
+    {
+      "type": "textarea",
+      "id": "trg_featured_body",
+      "label": "Fallback featured body",
+      "default": "Handwelted since 1931. The benchmark for North American heritage boots.",
+      "visible_if": "{{ block.settings.menu_style == 'trg_editorial' }}"
+    },
+    {
+      "type": "text",
+      "id": "trg_featured_cta_label",
+      "label": "Featured CTA label",
+      "default": "View brand",
+      "visible_if": "{{ block.settings.menu_style == 'trg_editorial' }}"
+    },
+    {
+      "type": "url",
+      "id": "trg_featured_link",
+      "label": "Fallback featured link",
+      "visible_if": "{{ block.settings.menu_style == 'trg_editorial' }}"
     },
     {
       "type": "header",
