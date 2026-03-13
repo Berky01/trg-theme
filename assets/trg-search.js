@@ -34,6 +34,7 @@ function revealSharedSearch(shell) {
     return false;
   }
 
+  shell.hidden = false;
   shell.classList.add(SEARCH_REVEALED_CLASS);
   shell.setAttribute('aria-hidden', 'false');
   return true;

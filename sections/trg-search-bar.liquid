@@ -21,6 +21,7 @@
   {% if section.settings.start_hidden %}
     data-trg-search-collapsible
     aria-hidden="true"
+    hidden
   {% else %}
     aria-hidden="false"
   {% endif %}
@@ -149,6 +150,10 @@
       padding 0.24s ease;
   }
 
+  .trg-search-bar-section[hidden] {
+    display: none !important;
+  }
+
   .trg-search-bar-section--collapsible {
     max-height: 0;
     opacity: 0;
@@ -205,6 +210,7 @@
     flex: 1 1 260px;
     min-width: 0;
     align-self: stretch;
+    background: transparent;
   }
 
   .trg-search-bar__icon {
@@ -221,8 +227,11 @@
   }
 
   .trg-search-bar__input {
+    -webkit-appearance: none;
+    appearance: none;
     border: 0;
     background: transparent;
+    background-color: transparent !important;
     color: rgb(var(--color-foreground-rgb));
     font-family: var(--font-heading--family);
     font-size: clamp(1.05rem, 1.45vw, 1.16rem);
@@ -231,6 +240,7 @@
     min-width: 0;
     padding-block: 20px;
     box-shadow: none;
+    border-radius: 0;
   }
 
   .trg-search-bar__input::placeholder {
