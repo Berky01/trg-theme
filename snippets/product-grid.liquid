@@ -88,7 +88,7 @@
 <div
   id="ResultsList"
   class="
-    grid main-collection-grid
+    {% if trg_plp_mode == false %}grid {% endif %}main-collection-grid
     {%- if section.settings.inherit_color_scheme == false %} color-{{ section.settings.color_scheme }}{% endif %}
     {%- if trg_plp_mode == false and section.settings.product_grid_width == 'full-width' %} collection-wrapper--full-width{% endif %}
     {%- if trg_plp_mode == false and section.settings.full_width_on_mobile == true %} collection-wrapper--full-width-on-mobile{% endif %}
