@@ -77,21 +77,25 @@ function focusSharedSearch({ scroll = true } = {}) {
 }
 
 function initSearchDropdown() {
-  const trigger = document.querySelector('[data-trg-nav-search-trigger]');
+  const triggers = Array.from(document.querySelectorAll('[data-trg-nav-search-trigger]')).filter(
+    (element) => element instanceof HTMLButtonElement
+  );
   const dropdown = document.querySelector('[data-trg-search-dropdown]');
 
-  if (!(trigger instanceof HTMLButtonElement)) {
+  if (triggers.length === 0) {
     return;
   }
 
   if (!(dropdown instanceof HTMLElement)) {
-    trigger.addEventListener('click', () => {
-      const sharedShell = getSharedSearchShell();
-      const revealed = focusSharedSearch();
+    triggers.forEach((trigger) => {
+      trigger.addEventListener('click', () => {
+        const sharedShell = getSharedSearchShell();
+        const revealed = focusSharedSearch();
 
-      if (revealed && sharedShell?.hasAttribute('data-trg-search-collapsible')) {
-        trigger.setAttribute('aria-expanded', 'true');
-      }
+        if (revealed && sharedShell?.hasAttribute('data-trg-search-collapsible')) {
+          triggers.forEach((button) => button.setAttribute('aria-expanded', 'true'));
+        }
+      });
     });
     return;
   }
@@ -101,8 +105,10 @@ function initSearchDropdown() {
   const pillButtons = dropdown.querySelectorAll('[data-trg-search-dropdown-pill]');
 
   const setExpandedState = (isOpen) => {
-    trigger.classList.toggle(DROPDOWN_OPEN_CLASS, isOpen);
-    trigger.setAttribute('aria-expanded', String(isOpen));
+    triggers.forEach((trigger) => {
+      trigger.classList.toggle(DROPDOWN_OPEN_CLASS, isOpen);
+      trigger.setAttribute('aria-expanded', String(isOpen));
+    });
     dropdown.classList.toggle(DROPDOWN_OPEN_CLASS, isOpen);
   };
 
@@ -110,8 +116,10 @@ function initSearchDropdown() {
     const sharedShell = getSharedSearchShell();
 
     if (focusSharedSearch()) {
-      trigger.classList.toggle(DROPDOWN_OPEN_CLASS, Boolean(sharedShell?.hasAttribute('data-trg-search-collapsible')));
-      trigger.setAttribute('aria-expanded', String(Boolean(sharedShell?.hasAttribute('data-trg-search-collapsible'))));
+      triggers.forEach((trigger) => {
+        trigger.classList.toggle(DROPDOWN_OPEN_CLASS, Boolean(sharedShell?.hasAttribute('data-trg-search-collapsible')));
+        trigger.setAttribute('aria-expanded', String(Boolean(sharedShell?.hasAttribute('data-trg-search-collapsible'))));
+      });
       dropdown.classList.remove(DROPDOWN_OPEN_CLASS);
       return;
     }
@@ -127,17 +135,19 @@ function initSearchDropdown() {
     setExpandedState(false);
   };
 
-  trigger.addEventListener('click', () => {
-    if (getSharedSearchInput()) {
-      openDropdown();
-      return;
-    }
+  triggers.forEach((trigger) => {
+    trigger.addEventListener('click', () => {
+      if (getSharedSearchInput()) {
+        openDropdown();
+        return;
+      }
 
-    if (dropdown.classList.contains(DROPDOWN_OPEN_CLASS)) {
-      closeDropdown();
-    } else {
-      openDropdown();
-    }
+      if (dropdown.classList.contains(DROPDOWN_OPEN_CLASS)) {
+        closeDropdown();
+      } else {
+        openDropdown();
+      }
+    });
   });
 
   if (closeButton instanceof HTMLButtonElement) {
