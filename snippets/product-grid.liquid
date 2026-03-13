@@ -13,6 +13,12 @@
   {% render 'util-product-grid-card-size' section: section %}
 {% endcapture %}
 {% assign product_card_size = product_card_size | strip %}
+{% liquid
+  assign trg_plp_mode = false
+  if section.settings.trg_plp_shell_max_width != blank
+    assign trg_plp_mode = true
+  endif
+%}
 
 {% style %}
   @media screen and (min-width: 750px) {
@@ -84,8 +90,8 @@
   class="
     grid main-collection-grid
     {%- if section.settings.inherit_color_scheme == false %} color-{{ section.settings.color_scheme }}{% endif %}
-    {%- if section.settings.product_grid_width == 'full-width' %} collection-wrapper--full-width{% endif %}
-    {%- if section.settings.full_width_on_mobile == true %} collection-wrapper--full-width-on-mobile{% endif %}
+    {%- if trg_plp_mode == false and section.settings.product_grid_width == 'full-width' %} collection-wrapper--full-width{% endif %}
+    {%- if trg_plp_mode == false and section.settings.full_width_on_mobile == true %} collection-wrapper--full-width-on-mobile{% endif %}
     spacing-style
   "
 
