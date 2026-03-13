@@ -173,6 +173,32 @@
       %}
     </a>
   {% elsif product != blank and product.media.size == 0 %}
+    {% liquid
+      assign placeholder_label = product.vendor | strip
+      if placeholder_label == blank
+        assign placeholder_label = product.title
+      endif
+
+      assign placeholder_initials = ''
+      for word in placeholder_label | split: ' '
+        assign trimmed_word = word | strip
+        if trimmed_word != blank
+          assign placeholder_initial = trimmed_word | slice: 0, 1
+          assign placeholder_initials = placeholder_initials | append: placeholder_initial
+        endif
+        if placeholder_initials.size >= 2
+          break
+        endif
+      endfor
+
+      if placeholder_initials == blank
+        assign placeholder_initials = product.title | slice: 0, 2
+      endif
+
+      assign placeholder_initials = placeholder_initials | upcase
+      assign placeholder_type = product.type | default: 'Product'
+      assign placeholder_tone = product.id | modulo: 6 | plus: 1
+    %}
     <product-title class="product-card-gallery__title-placeholder">
       <a
         class="contents"
@@ -180,7 +206,12 @@
         href="{{ product.selected_or_first_available_variant.url }}"
         aria-hidden="true"
       >
-        <span class="title-text">{{- product.title -}}</span>
+        <span
+          class="product-card-gallery__placeholder-panel product-card-gallery__placeholder-panel--tone-{{ placeholder_tone }}"
+        >
+          <span class="product-card-gallery__placeholder-mark">{{ placeholder_initials }}</span>
+          <span class="product-card-gallery__placeholder-type">{{ placeholder_type | escape }}</span>
+        </span>
       </a>
     </product-title>
   {% elsif product == blank %}

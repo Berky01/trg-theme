@@ -1,0 +1,17 @@
+{% liquid
+  assign product = closest.product
+%}
+
+{% if product != blank and product.vendor != blank %}
+  <p class="trg-plp-card-brand" {{ block.shopify_attributes }}>
+    {{ product.vendor | escape }}
+  </p>
+{% endif %}
+
+{% schema %}
+{
+  "name": "TRG product brand",
+  "tag": null,
+  "settings": []
+}
+{% endschema %}

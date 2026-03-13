@@ -1,0 +1,28 @@
+{% liquid
+  assign product = closest.product
+  assign cta_label = block.settings.label | default: 'View details'
+%}
+
+{% if product != blank %}
+  <div class="trg-plp-card-cta-block" {{ block.shopify_attributes }}>
+    <a class="trg-plp-card-cta" href="{{ product.selected_or_first_available_variant.url }}">
+      <span>{{ cta_label | escape }}</span>
+      <span aria-hidden="true">-></span>
+    </a>
+  </div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "TRG product CTA",
+  "tag": null,
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Button label",
+      "default": "View details"
+    }
+  ]
+}
+{% endschema %}
