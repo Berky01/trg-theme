@@ -636,11 +636,20 @@
     background: var(--color-scheme-top-row);
   }
 
+  #header-component[data-has-secondary-row='false'] {
+    background: var(--color-scheme-top-row);
+    box-shadow: none;
+  }
+
   #header-component[data-has-secondary-row='false'] .header__underlay-open {
     background: linear-gradient(
       var(--color-scheme-top-row) 0 var(--header-height),
       var(--color-submenu) var(--header-height) 100%
     );
+  }
+
+  #header-component[data-has-secondary-row='false'] .header__underlay-open::after {
+    box-shadow: none;
   }
 
   /* When top row has transparent background, make underlay inherit colors from header component */
@@ -699,6 +708,12 @@
   .header__row--top.divider--page-width .header__columns,
   .header__row--bottom {
     border-bottom: var(--border-bottom-width) solid var(--color-border);
+  }
+
+  #header-component[data-has-secondary-row='false'] .header__row--top,
+  #header-component[data-has-secondary-row='false'] .header__row--top .header__columns,
+  #header-component[data-has-secondary-row='false'] .header__row--bottom {
+    border-bottom: 0 !important;
   }
 
   @media screen and (max-width: 749px) {
