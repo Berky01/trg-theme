@@ -59,7 +59,7 @@
       "settings": {
         "color_scheme": "scheme-header-ink",
         "start_hidden": false,
-        "accent_border": true,
+        "accent_border": false,
         "label": "Search",
         "accessibility_label": "Search this collection",
         "placeholder": "Products, brands, fabrics...",

@@ -46,7 +46,7 @@
       "settings": {
         "color_scheme": "scheme-header-ink",
         "start_hidden": true,
-        "accent_border": true,
+        "accent_border": false,
         "label": "Search",
         "accessibility_label": "Search the store",
         "placeholder": "Brands, styles, categories...",
