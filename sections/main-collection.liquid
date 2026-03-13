@@ -338,8 +338,17 @@
   }
 
   .trg-plp-body .facets--vertical:not(.facets--drawer) .price-facet__inputs-wrapper {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    align-items: center;
     gap: 10px;
     padding: 0;
+  }
+
+  .trg-plp-body .facets--vertical:not(.facets--drawer) .price-facet__field,
+  .trg-plp-body .facets--vertical:not(.facets--drawer) .field {
+    min-width: 0;
+    width: 100%;
   }
 
   .trg-plp-body .facets--vertical:not(.facets--drawer) .price-facet__field .field__input {
@@ -377,6 +386,17 @@
 
   .trg-plp-body .card-gallery {
     background: var(--trg-plp-card-background);
+    aspect-ratio: 4 / 5;
+    min-height: 320px;
+    display: block;
+  }
+
+  .trg-plp-body .card-gallery slideshow-component,
+  .trg-plp-body .card-gallery slideshow-slides,
+  .trg-plp-body .card-gallery slideshow-slide,
+  .trg-plp-body .card-gallery .product-media-container {
+    height: 100%;
+    min-height: 100%;
   }
 
   .trg-plp-body .card-gallery img,
@@ -388,11 +408,36 @@
   }
 
   .trg-plp-body .product-card-gallery__title-placeholder {
-    display: none;
+    position: relative;
+    display: block;
+    height: 100%;
+    min-height: 320px;
+    padding: 18px;
+    background: transparent;
+    color: var(--trg-plp-text-color);
+    font-size: 14px;
+    line-height: 1.25;
+    border-radius: 0;
   }
 
-  .trg-plp-body .quick-add {
-    display: none !important;
+  .trg-plp-body .product-card-gallery__title-placeholder .contents {
+    display: block;
+    height: 100%;
+  }
+
+  .trg-plp-body .product-card-gallery__title-placeholder .title-text {
+    display: block;
+    max-width: 14ch;
+  }
+
+  .trg-plp-body .card-gallery:has(.product-card-gallery__title-placeholder) {
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0)),
+      var(--trg-plp-card-background);
+  }
+
+  .trg-plp-body .card-gallery:has(.product-media-container) .product-card-gallery__title-placeholder {
+    display: none;
   }
 
   .trg-plp-body .product-badges {
@@ -408,6 +453,10 @@
     letter-spacing: 0.12em;
     text-transform: uppercase;
     padding: 5px 8px 4px;
+  }
+
+  .trg-plp-body .quick-add {
+    display: none !important;
   }
 
   .trg-plp-body .group-block {
@@ -500,6 +549,13 @@
 
     .trg-plp-body .products-count-wrapper span {
       font-size: 10px;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .trg-plp-body .card-gallery,
+    .trg-plp-body .product-card-gallery__title-placeholder {
+      min-height: 220px;
     }
   }
 
