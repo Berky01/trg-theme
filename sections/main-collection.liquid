@@ -51,11 +51,26 @@
     {% paginate collection.products by products_per_page %}
       {% capture children %}
         {% for product in collection.products %}
+          {% liquid
+            assign product_tags = product.tags | join: ' '
+            capture searchable_text
+              echo product.title
+              echo ' '
+              echo product.vendor
+              echo ' '
+              echo product.type
+              echo ' '
+              echo product_tags
+            endcapture
+            assign searchable_text = searchable_text | strip | downcase | escape
+          %}
           <li
             id="{{ section.id }}-{{ product.id }}"
             class="product-grid__item product-grid__item--{{ forloop.index0 }}"
             data-page="{{ paginate.current_page }}"
             data-product-id="{{ product.id }}"
+            data-trg-search-item
+            data-trg-search-text="{{ searchable_text }}"
             ref="cards[]"
           >
             {% # theme-check-disable %}

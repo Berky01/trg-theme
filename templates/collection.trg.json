@@ -11,17 +11,48 @@
   "sections": {
     "intro": {
       "type": "trg-collection-intro",
+      "blocks": {
+        "suggestion_workwear": {
+          "type": "suggestion",
+          "settings": {
+            "label": "Workwear",
+            "query": "Workwear"
+          }
+        },
+        "suggestion_merino": {
+          "type": "suggestion",
+          "settings": {
+            "label": "Merino",
+            "query": "Merino"
+          }
+        },
+        "suggestion_canada": {
+          "type": "suggestion",
+          "settings": {
+            "label": "Made in Canada",
+            "query": "Made in Canada"
+          }
+        }
+      },
+      "block_order": [
+        "suggestion_workwear",
+        "suggestion_merino",
+        "suggestion_canada"
+      ],
       "settings": {
-        "color_scheme": "scheme-1",
-        "eyebrow": "Products",
+        "color_scheme": "scheme-header-ink",
+        "eyebrow": "Product Catalogue",
         "title_source": "custom",
-        "custom_title": "<p>Product <em>Catalogue</em></p>",
+        "custom_title": "<p>Find the <em>Right</em> Piece</p>",
         "body_source": "custom",
-        "custom_body": "<p>Curated pieces and quality menswear across North America.</p>",
+        "custom_body": "<p>Curated menswear - quality goods across North America.</p>",
         "show_count": true,
+        "result_label": "products",
         "enable_collection_search": true,
-        "search_placeholder": "Search products on this page",
-        "clear_label": "Clear"
+        "search_label": "Search",
+        "search_placeholder": "Products, brands, fabrics...",
+        "search_button_label": "Search",
+        "empty_message": "No pieces match this search."
       }
     },
     "main": {
@@ -211,55 +242,9 @@
         "padding-block-start": 32,
         "padding-block-end": 32
       }
-    },
-    "trg_search_bar_geeg3D": {
-      "type": "trg-search-bar",
-      "blocks": {
-        "suggestion_6cRDrV": {
-          "type": "suggestion",
-          "settings": {
-            "label": "Workwear",
-            "query": "Workwear",
-            "url": ""
-          }
-        },
-        "suggestion_c3FdT3": {
-          "type": "suggestion",
-          "settings": {
-            "label": "Heritage",
-            "query": "Heritage",
-            "url": ""
-          }
-        },
-        "suggestion_mmLzKe": {
-          "type": "suggestion",
-          "settings": {
-            "label": "Ships to Canada",
-            "query": "Ships to Canada",
-            "url": ""
-          }
-        }
-      },
-      "block_order": [
-        "suggestion_6cRDrV",
-        "suggestion_c3FdT3",
-        "suggestion_mmLzKe"
-      ],
-      "name": "TRG Search Bar",
-      "settings": {
-        "color_scheme": "",
-        "label": "Search",
-        "accessibility_label": "Search the store",
-        "placeholder": "Brands, styles, categories...",
-        "button_label": "Search",
-        "max_width": 1320,
-        "padding_block_start": 0,
-        "padding_block_end": 0
-      }
     }
   },
   "order": [
-    "trg_search_bar_geeg3D",
     "intro",
     "main"
   ]
