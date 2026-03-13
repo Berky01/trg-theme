@@ -537,9 +537,55 @@
         "feature_button_label": "View brand",
         "feature_button_link": "shopify://collections/all"
       }
+    },
+    "trg_search_bar_nVixRj": {
+      "type": "trg-search-bar",
+      "blocks": {
+        "suggestion_nr6Dw9": {
+          "type": "suggestion",
+          "settings": {
+            "label": "Workwear",
+            "query": "Workwear",
+            "url": ""
+          }
+        },
+        "suggestion_fPDwYN": {
+          "type": "suggestion",
+          "settings": {
+            "label": "Heritage",
+            "query": "Heritage",
+            "url": ""
+          }
+        },
+        "suggestion_gKytN7": {
+          "type": "suggestion",
+          "settings": {
+            "label": "Ships to Canada",
+            "query": "Ships to Canada",
+            "url": ""
+          }
+        }
+      },
+      "block_order": [
+        "suggestion_nr6Dw9",
+        "suggestion_fPDwYN",
+        "suggestion_gKytN7"
+      ],
+      "name": "TRG Search Bar",
+      "settings": {
+        "color_scheme": "",
+        "label": "Search",
+        "accessibility_label": "Search the store",
+        "placeholder": "Brands, styles, categories...",
+        "button_label": "Search",
+        "max_width": 1320,
+        "padding_block_start": 0,
+        "padding_block_end": 0
+      }
     }
   },
   "order": [
+    "trg_search_bar_nVixRj",
     "trg_home_hero",
     "trg_strip",
     "trg_featured_brands",
