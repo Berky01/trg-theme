@@ -158,7 +158,7 @@ class HeaderMenu extends Component {
 
     this.headerComponent.style.setProperty('--submenu-height', `${finalHeight}px`);
     this.#setFullOpenHeaderHeight(finalHeight);
-    this.style.setProperty('--submenu-opacity', '1');
+    this.headerComponent?.style.setProperty('--submenu-opacity', '1');
   };
 
   /**
@@ -192,7 +192,7 @@ class HeaderMenu extends Component {
 
     this.headerComponent?.style.setProperty('--submenu-height', '0px');
     this.#setFullOpenHeaderHeight(0);
-    this.style.setProperty('--submenu-opacity', '0');
+    this.headerComponent?.style.setProperty('--submenu-opacity', '0');
     this.dataset.overflowExpanded = 'false';
 
     const submenu = findSubmenu(item);

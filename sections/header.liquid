@@ -546,6 +546,7 @@
   #header-component {
     --submenu-height: 0px;
     --full-open-header-height: 0px;
+    --submenu-opacity: 0;
   }
 
   #header-group:has(#header-component[sticky]) {
@@ -605,8 +606,12 @@
       var(--color-scheme-bottom-row) var(--top-row-height) var(--header-height),
       var(--color-submenu) var(--header-height) 100%
     );
+    opacity: var(--submenu-opacity);
+    pointer-events: none;
     /* header-height is updated via js, the transition works automagically */
-    transition: height var(--submenu-animation-speed) var(--ease-out-cubic);
+    transition:
+      height var(--submenu-animation-speed) var(--ease-out-cubic),
+      opacity var(--animation-speed-fast) var(--animation-easing);
   }
 
   .header__underlay-open::after {
@@ -614,8 +619,11 @@
     position: absolute;
     inset: 0;
     box-shadow: var(--shadow-popover);
+    opacity: var(--submenu-opacity);
     clip-path: inset(var(--header-height) 0 -100px 0); /* stylelint-disable-line */
-    transition: height var(--submenu-animation-speed) var(--ease-out-cubic);
+    transition:
+      height var(--submenu-animation-speed) var(--ease-out-cubic),
+      opacity var(--animation-speed-fast) var(--animation-easing);
   }
 
   /* When top row has transparent background, make underlay inherit colors from header component */
@@ -1112,6 +1120,15 @@
   .dropdown-localization:not(dropdown-localization-component) .language-selector {
     font-family: var(--menu-localization-font);
     font-size: var(--menu-localization-font-size);
+  }
+
+  #header-component .menu-list__link[href='/'] {
+    font-family: var(--menu-top-level-font-family) !important;
+    font-style: var(--menu-top-level-font-style) !important;
+    font-weight: var(--menu-top-level-font-weight) !important;
+    font-size: var(--menu-top-level-font-size) !important;
+    line-height: var(--menu-top-level-font-line-height) !important;
+    text-transform: var(--menu-top-level-font-case) !important;
   }
 {% endstylesheet %}
 
