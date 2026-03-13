@@ -997,6 +997,11 @@ body:has(.header[transparent]) .content-for-layout > .shopify-section:first-chil
   margin-top: calc(var(--header-group-height) * -1);
 }
 
+/* Close the 1px seam caused by the sticky header's observation offset. */
+body:has(#header-component[sticky='always']):not(:has(.header[transparent])) .content-for-layout > .shopify-section:first-child {
+  margin-top: -1px;
+}
+
 body:has(.header[transparent]) #header-group > .header-section {
   z-index: var(--layer-sticky);
 }
