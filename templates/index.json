@@ -9,6 +9,54 @@
  */
 {
   "sections": {
+    "trg_search_bar_nVixRj": {
+      "type": "trg-search-bar",
+      "blocks": {
+        "suggestion_nr6Dw9": {
+          "type": "suggestion",
+          "settings": {
+            "label": "Workwear",
+            "query": "Workwear",
+            "url": ""
+          }
+        },
+        "suggestion_fPDwYN": {
+          "type": "suggestion",
+          "settings": {
+            "label": "Heritage",
+            "query": "Heritage",
+            "url": ""
+          }
+        },
+        "suggestion_gKytN7": {
+          "type": "suggestion",
+          "settings": {
+            "label": "Ships to Canada",
+            "query": "Ships to Canada",
+            "url": ""
+          }
+        }
+      },
+      "block_order": [
+        "suggestion_nr6Dw9",
+        "suggestion_fPDwYN",
+        "suggestion_gKytN7"
+      ],
+      "name": "TRG Search Bar",
+      "settings": {
+        "color_scheme": "scheme-header-ink",
+        "start_hidden": false,
+        "accent_border": false,
+        "label": "Search",
+        "accessibility_label": "Search the store",
+        "placeholder": "Brands, styles, categories...",
+        "button_label": "Search",
+        "empty_message": "No pieces match this search.",
+        "max_width": 1320,
+        "padding_block_start": 0,
+        "padding_block_end": 0
+      }
+    },
     "trg_home_hero": {
       "type": "trg-home-hero",
       "blocks": {
@@ -536,54 +584,6 @@
         "feature_logo_text": "VB",
         "feature_button_label": "View brand",
         "feature_button_link": "shopify://collections/all"
-      }
-    },
-    "trg_search_bar_nVixRj": {
-      "type": "trg-search-bar",
-      "blocks": {
-        "suggestion_nr6Dw9": {
-          "type": "suggestion",
-          "settings": {
-            "label": "Workwear",
-            "query": "Workwear",
-            "url": ""
-          }
-        },
-        "suggestion_fPDwYN": {
-          "type": "suggestion",
-          "settings": {
-            "label": "Heritage",
-            "query": "Heritage",
-            "url": ""
-          }
-        },
-        "suggestion_gKytN7": {
-          "type": "suggestion",
-          "settings": {
-            "label": "Ships to Canada",
-            "query": "Ships to Canada",
-            "url": ""
-          }
-        }
-      },
-      "block_order": [
-        "suggestion_nr6Dw9",
-        "suggestion_fPDwYN",
-        "suggestion_gKytN7"
-      ],
-      "name": "TRG Search Bar",
-      "settings": {
-        "color_scheme": "scheme-1",
-        "start_hidden": true,
-        "accent_border": false,
-        "label": "Search",
-        "accessibility_label": "Search the store",
-        "placeholder": "Brands, styles, categories...",
-        "button_label": "Search",
-        "empty_message": "No results match this search.",
-        "max_width": 1320,
-        "padding_block_start": 0,
-        "padding_block_end": 0
       }
     }
   },
