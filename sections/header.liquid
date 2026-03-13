@@ -162,6 +162,11 @@
     assign class = class | append: ' ' | append: collapse_header_paddings_class
   endif
 
+  assign has_secondary_row = false
+  if bottom_row_blocks.size > 0 or navigation_bar != blank
+    assign has_secondary_row = true
+  endif
+
   # Determine transparent background value
   assign top_transparent = false
   assign bottom_transparent = false
@@ -300,6 +305,7 @@
   id="header-component"
   class="{{ class }}"
   data-theme-color="rgb({{ section.settings.color_scheme_top.settings.background.rgb }})"
+  data-has-secondary-row="{{ has_secondary_row }}"
   {% if transparent %}
     transparent="{{ transparent }}"
   {% endif %}
@@ -624,6 +630,17 @@
     transition:
       height var(--submenu-animation-speed) var(--ease-out-cubic),
       opacity var(--animation-speed-fast) var(--animation-easing);
+  }
+
+  #header-component[data-has-secondary-row='false'] .header__underlay-closed {
+    background: var(--color-scheme-top-row);
+  }
+
+  #header-component[data-has-secondary-row='false'] .header__underlay-open {
+    background: linear-gradient(
+      var(--color-scheme-top-row) 0 var(--header-height),
+      var(--color-submenu) var(--header-height) 100%
+    );
   }
 
   /* When top row has transparent background, make underlay inherit colors from header component */
