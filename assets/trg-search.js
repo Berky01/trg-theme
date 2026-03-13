@@ -2,9 +2,7 @@ import { debounce, onDocumentReady } from '@theme/utilities';
 
 const DROPDOWN_OPEN_CLASS = 'is-open';
 const SEARCH_REVEALED_CLASS = 'is-revealed';
-const SEARCH_FOCUS_CLASS = 'is-focused';
 const FILTER_DELAY_MS = 180;
-const FOCUS_FLASH_MS = 800;
 const SCROLL_FOCUS_DELAY_MS = 220;
 
 function normalize(value = '') {
@@ -25,12 +23,20 @@ function getSharedSearchInput() {
   return input instanceof HTMLInputElement ? input : null;
 }
 
+function isSharedSearchCollapsible(shell) {
+  return shell instanceof HTMLElement && shell.hasAttribute('data-trg-search-collapsible');
+}
+
+function isSharedSearchRevealed(shell) {
+  return isSharedSearchCollapsible(shell) && !shell.hidden && shell.classList.contains(SEARCH_REVEALED_CLASS);
+}
+
 function revealSharedSearch(shell) {
   if (!(shell instanceof HTMLElement)) {
     return false;
   }
 
-  if (!shell.hasAttribute('data-trg-search-collapsible')) {
+  if (!isSharedSearchCollapsible(shell)) {
     return false;
   }
 
@@ -40,15 +46,19 @@ function revealSharedSearch(shell) {
   return true;
 }
 
-function flashSharedSearch(shell) {
+function hideSharedSearch(shell) {
   if (!(shell instanceof HTMLElement)) {
-    return;
+    return false;
   }
 
-  shell.classList.add(SEARCH_FOCUS_CLASS);
-  window.setTimeout(() => {
-    shell.classList.remove(SEARCH_FOCUS_CLASS);
-  }, FOCUS_FLASH_MS);
+  if (!isSharedSearchCollapsible(shell)) {
+    return false;
+  }
+
+  shell.classList.remove(SEARCH_REVEALED_CLASS);
+  shell.setAttribute('aria-hidden', 'true');
+  shell.hidden = true;
+  return true;
 }
 
 function focusSharedSearch({ scroll = true } = {}) {
@@ -68,7 +78,6 @@ function focusSharedSearch({ scroll = true } = {}) {
   window.setTimeout(
     () => {
       input.focus();
-      flashSharedSearch(shell);
     },
     scroll ? SCROLL_FOCUS_DELAY_MS : 50
   );
@@ -90,10 +99,23 @@ function initSearchDropdown() {
     triggers.forEach((trigger) => {
       trigger.addEventListener('click', () => {
         const sharedShell = getSharedSearchShell();
+
+        if (isSharedSearchRevealed(sharedShell)) {
+          hideSharedSearch(sharedShell);
+          triggers.forEach((button) => {
+            button.classList.remove(DROPDOWN_OPEN_CLASS);
+            button.setAttribute('aria-expanded', 'false');
+          });
+          return;
+        }
+
         const revealed = focusSharedSearch();
 
-        if (revealed && sharedShell?.hasAttribute('data-trg-search-collapsible')) {
-          triggers.forEach((button) => button.setAttribute('aria-expanded', 'true'));
+        if (revealed && isSharedSearchCollapsible(sharedShell)) {
+          triggers.forEach((button) => {
+            button.classList.add(DROPDOWN_OPEN_CLASS);
+            button.setAttribute('aria-expanded', 'true');
+          });
         }
       });
     });
@@ -114,11 +136,22 @@ function initSearchDropdown() {
 
   const openDropdown = () => {
     const sharedShell = getSharedSearchShell();
+    const hasCollapsibleSearch = isSharedSearchCollapsible(sharedShell);
+
+    if (isSharedSearchRevealed(sharedShell)) {
+      hideSharedSearch(sharedShell);
+      triggers.forEach((trigger) => {
+        trigger.classList.remove(DROPDOWN_OPEN_CLASS);
+        trigger.setAttribute('aria-expanded', 'false');
+      });
+      dropdown.classList.remove(DROPDOWN_OPEN_CLASS);
+      return;
+    }
 
     if (focusSharedSearch()) {
       triggers.forEach((trigger) => {
-        trigger.classList.toggle(DROPDOWN_OPEN_CLASS, Boolean(sharedShell?.hasAttribute('data-trg-search-collapsible')));
-        trigger.setAttribute('aria-expanded', String(Boolean(sharedShell?.hasAttribute('data-trg-search-collapsible'))));
+        trigger.classList.toggle(DROPDOWN_OPEN_CLASS, hasCollapsibleSearch);
+        trigger.setAttribute('aria-expanded', String(hasCollapsibleSearch));
       });
       dropdown.classList.remove(DROPDOWN_OPEN_CLASS);
       return;
