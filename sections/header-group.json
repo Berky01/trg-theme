@@ -123,7 +123,7 @@
         "section_width": "page-width",
         "section_height": "compact",
         "enable_sticky_header": "always",
-        "divider_width": 1,
+        "divider_width": 0,
         "divider_size": "page-width",
         "border_width": 0,
         "actions_display_style": "text",
