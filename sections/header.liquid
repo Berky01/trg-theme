@@ -638,6 +638,19 @@
   #header-component[data-has-secondary-row='false'] {
     background: var(--color-scheme-top-row);
     box-shadow: none;
+    position: relative;
+  }
+
+  #header-component[data-has-secondary-row='false']::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -3px;
+    height: 6px;
+    background: var(--color-scheme-top-row);
+    pointer-events: none;
+    z-index: var(--layer-heightened);
   }
 
   #header-component[data-has-secondary-row='false'] .header__underlay-open {
