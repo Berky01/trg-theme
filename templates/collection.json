@@ -245,7 +245,23 @@
         "padding-inline-end": 0,
         "color_scheme": "scheme-1",
         "padding-block-start": 32,
-        "padding-block-end": 32
+        "padding-block-end": 32,
+        "trg_plp_shell_max_width": 1100,
+        "trg_plp_sidebar_width": 236,
+        "trg_plp_desktop_columns": "3",
+        "trg_plp_layout_gap": 26,
+        "trg_plp_toolbar_gap": 30,
+        "trg_plp_sidebar_padding": 16,
+        "trg_plp_caption_padding": 12,
+        "trg_plp_page_background": "#efede8",
+        "trg_plp_panel_background": "#f6f4f0",
+        "trg_plp_card_background": "#ececeb",
+        "trg_plp_caption_background": "#f8f7f4",
+        "trg_plp_border_color": "#d8d3ca",
+        "trg_plp_text_color": "#2f2b27",
+        "trg_plp_muted_color": "#8e877d",
+        "trg_plp_sale_background": "#8d644f",
+        "trg_plp_sale_text": "#f8f2ec"
       }
     }
   },
