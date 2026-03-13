@@ -391,7 +391,7 @@
 
   .trg-plp-body .product-grid {
     --product-grid-gap: 1px !important;
-    background: var(--trg-plp-border-color);
+    background: var(--trg-plp-page-background);
   }
 
   .trg-plp-body .product-grid__item {
@@ -449,6 +449,12 @@
     display: block;
     height: 100%;
     color: inherit;
+  }
+
+  .trg-plp-body .card-gallery.card-gallery--badge-top-left .product-card-gallery__title-placeholder,
+  .trg-plp-body .card-gallery.card-gallery--badge-top-right .product-card-gallery__title-placeholder,
+  .trg-plp-body .card-gallery.card-gallery--badge-bottom-left .product-card-gallery__title-placeholder {
+    padding: 0 !important;
   }
 
   .trg-plp-body .product-card-gallery__placeholder-panel {
@@ -519,8 +525,13 @@
   }
 
   .trg-plp-body .product-badges {
+    position: absolute;
     top: 10px;
     left: 10px;
+    right: auto;
+    bottom: auto;
+    z-index: 2;
+    pointer-events: none;
   }
 
   .trg-plp-body .product-badges__badge {
