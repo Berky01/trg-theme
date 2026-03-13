@@ -180,7 +180,8 @@
       endif
 
       assign placeholder_initials = ''
-      for word in placeholder_label | split: ' '
+      assign placeholder_words = placeholder_label | split: ' '
+      for word in placeholder_words
         assign trimmed_word = word | strip
         if trimmed_word != blank
           assign placeholder_initial = trimmed_word | slice: 0, 1
