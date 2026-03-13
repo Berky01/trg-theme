@@ -125,7 +125,7 @@
         "enable_sticky_header": "always",
         "divider_width": 1,
         "divider_size": "page-width",
-        "border_width": 1,
+        "border_width": 0,
         "actions_display_style": "text",
         "actions_font_size": "0.875rem",
         "actions_font": "body",
