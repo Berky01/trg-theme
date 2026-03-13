@@ -11,34 +11,6 @@
   "sections": {
     "intro": {
       "type": "trg-collection-intro",
-      "blocks": {
-        "suggestion_workwear": {
-          "type": "suggestion",
-          "settings": {
-            "label": "Workwear",
-            "query": "Workwear"
-          }
-        },
-        "suggestion_merino": {
-          "type": "suggestion",
-          "settings": {
-            "label": "Merino",
-            "query": "Merino"
-          }
-        },
-        "suggestion_canada": {
-          "type": "suggestion",
-          "settings": {
-            "label": "Made in Canada",
-            "query": "Made in Canada"
-          }
-        }
-      },
-      "block_order": [
-        "suggestion_workwear",
-        "suggestion_merino",
-        "suggestion_canada"
-      ],
       "settings": {
         "color_scheme": "scheme-header-ink",
         "eyebrow": "Product Catalogue",
@@ -47,12 +19,55 @@
         "body_source": "custom",
         "custom_body": "<p>Curated menswear - quality goods across North America.</p>",
         "show_count": true,
-        "result_label": "products",
-        "enable_collection_search": true,
-        "search_label": "Search",
-        "search_placeholder": "Products, brands, fabrics...",
-        "search_button_label": "Search",
-        "empty_message": "No pieces match this search."
+        "result_label": "products"
+      }
+    },
+    "trg_search_bar": {
+      "type": "trg-search-bar",
+      "blocks": {
+        "suggestion_workwear": {
+          "type": "suggestion",
+          "settings": {
+            "label": "Workwear",
+            "query": "Workwear",
+            "url": ""
+          }
+        },
+        "suggestion_merino": {
+          "type": "suggestion",
+          "settings": {
+            "label": "Merino",
+            "query": "Merino",
+            "url": ""
+          }
+        },
+        "suggestion_canada": {
+          "type": "suggestion",
+          "settings": {
+            "label": "Made in Canada",
+            "query": "Made in Canada",
+            "url": ""
+          }
+        }
+      },
+      "block_order": [
+        "suggestion_workwear",
+        "suggestion_merino",
+        "suggestion_canada"
+      ],
+      "name": "TRG Search Bar",
+      "settings": {
+        "color_scheme": "scheme-header-ink",
+        "start_hidden": false,
+        "accent_border": true,
+        "label": "Search",
+        "accessibility_label": "Search this collection",
+        "placeholder": "Products, brands, fabrics...",
+        "button_label": "Search",
+        "empty_message": "No pieces match this search.",
+        "max_width": 1320,
+        "padding_block_start": 0,
+        "padding_block_end": 0
       }
     },
     "main": {
@@ -234,8 +249,8 @@
         "products_per_page": 24,
         "product_grid_width": "full-width",
         "full_width_on_mobile": true,
-        "columns_gap_horizontal": 24,
-        "columns_gap_vertical": 24,
+        "columns_gap_horizontal": 1,
+        "columns_gap_vertical": 1,
         "padding-inline-start": 0,
         "padding-inline-end": 0,
         "color_scheme": "scheme-1",
@@ -246,6 +261,7 @@
   },
   "order": [
     "intro",
+    "trg_search_bar",
     "main"
   ]
 }

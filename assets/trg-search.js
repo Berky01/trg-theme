@@ -1,7 +1,8 @@
 import { debounce, onDocumentReady } from '@theme/utilities';
 
 const DROPDOWN_OPEN_CLASS = 'is-open';
-const INLINE_SEARCH_FOCUS_CLASS = 'is-focused';
+const SEARCH_REVEALED_CLASS = 'is-revealed';
+const SEARCH_FOCUS_CLASS = 'is-focused';
 const FILTER_DELAY_MS = 180;
 const FOCUS_FLASH_MS = 800;
 const SCROLL_FOCUS_DELAY_MS = 220;
@@ -14,32 +15,62 @@ function normalize(value = '') {
     .trim();
 }
 
-function getInlineSearchShell() {
-  return document.querySelector('[data-trg-inline-search-shell]');
+function getSharedSearchShell() {
+  const shell = document.querySelector('[data-trg-search-bar]');
+  return shell instanceof HTMLElement ? shell : null;
 }
 
-function getInlineSearchInput() {
-  return document.querySelector('[data-trg-inline-search-input]');
+function getSharedSearchInput() {
+  const input = document.querySelector('[data-trg-search-input]');
+  return input instanceof HTMLInputElement ? input : null;
 }
 
-function focusInlineSearch() {
-  const shell = getInlineSearchShell();
-  const input = getInlineSearchInput();
+function revealSharedSearch(shell) {
+  if (!(shell instanceof HTMLElement)) {
+    return false;
+  }
+
+  if (!shell.hasAttribute('data-trg-search-collapsible')) {
+    return false;
+  }
+
+  shell.classList.add(SEARCH_REVEALED_CLASS);
+  shell.setAttribute('aria-hidden', 'false');
+  return true;
+}
+
+function flashSharedSearch(shell) {
+  if (!(shell instanceof HTMLElement)) {
+    return;
+  }
+
+  shell.classList.add(SEARCH_FOCUS_CLASS);
+  window.setTimeout(() => {
+    shell.classList.remove(SEARCH_FOCUS_CLASS);
+  }, FOCUS_FLASH_MS);
+}
+
+function focusSharedSearch({ scroll = true } = {}) {
+  const shell = getSharedSearchShell();
+  const input = getSharedSearchInput();
 
   if (!(shell instanceof HTMLElement) || !(input instanceof HTMLInputElement)) {
     return false;
   }
 
-  shell.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  revealSharedSearch(shell);
 
-  window.setTimeout(() => {
-    input.focus();
-    shell.classList.add(INLINE_SEARCH_FOCUS_CLASS);
+  if (scroll) {
+    shell.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
 
-    window.setTimeout(() => {
-      shell.classList.remove(INLINE_SEARCH_FOCUS_CLASS);
-    }, FOCUS_FLASH_MS);
-  }, SCROLL_FOCUS_DELAY_MS);
+  window.setTimeout(
+    () => {
+      input.focus();
+      flashSharedSearch(shell);
+    },
+    scroll ? SCROLL_FOCUS_DELAY_MS : 50
+  );
 
   return true;
 }
@@ -48,7 +79,19 @@ function initSearchDropdown() {
   const trigger = document.querySelector('[data-trg-nav-search-trigger]');
   const dropdown = document.querySelector('[data-trg-search-dropdown]');
 
-  if (!(trigger instanceof HTMLButtonElement) || !(dropdown instanceof HTMLElement)) {
+  if (!(trigger instanceof HTMLButtonElement)) {
+    return;
+  }
+
+  if (!(dropdown instanceof HTMLElement)) {
+    trigger.addEventListener('click', () => {
+      const sharedShell = getSharedSearchShell();
+      const revealed = focusSharedSearch();
+
+      if (revealed && sharedShell?.hasAttribute('data-trg-search-collapsible')) {
+        trigger.setAttribute('aria-expanded', 'true');
+      }
+    });
     return;
   }
 
@@ -63,8 +106,12 @@ function initSearchDropdown() {
   };
 
   const openDropdown = () => {
-    if (focusInlineSearch()) {
-      setExpandedState(false);
+    const sharedShell = getSharedSearchShell();
+
+    if (focusSharedSearch()) {
+      trigger.classList.toggle(DROPDOWN_OPEN_CLASS, Boolean(sharedShell?.hasAttribute('data-trg-search-collapsible')));
+      trigger.setAttribute('aria-expanded', String(Boolean(sharedShell?.hasAttribute('data-trg-search-collapsible'))));
+      dropdown.classList.remove(DROPDOWN_OPEN_CLASS);
       return;
     }
 
@@ -80,9 +127,8 @@ function initSearchDropdown() {
   };
 
   trigger.addEventListener('click', () => {
-    if (getInlineSearchInput()) {
-      focusInlineSearch();
-      closeDropdown();
+    if (getSharedSearchInput()) {
+      openDropdown();
       return;
     }
 
@@ -115,24 +161,30 @@ function initSearchDropdown() {
   });
 }
 
-function initInlineCollectionSearch() {
-  const form = document.querySelector('[data-trg-inline-search-form]');
-  const input = document.querySelector('[data-trg-inline-search-input]');
+function initSharedSearchBar() {
+  const shell = getSharedSearchShell();
+  const form = document.querySelector('[data-trg-search-form]');
+  const input = getSharedSearchInput();
 
-  if (!(form instanceof HTMLFormElement) || !(input instanceof HTMLInputElement)) {
+  if (!(shell instanceof HTMLElement) || !(form instanceof HTMLFormElement) || !(input instanceof HTMLInputElement)) {
     return;
   }
 
   const count = document.querySelector('[data-trg-result-count]');
-  const emptyState = document.querySelector('[data-trg-inline-search-empty]');
+  const emptyState = shell.querySelector('[data-trg-search-empty]');
   const resultsRoot = document.querySelector('#ResultsList');
-  const pillButtons = document.querySelectorAll('[data-trg-inline-search-pill]');
-  const submitButton = document.querySelector('[data-trg-inline-search-submit]');
+  const pillButtons = shell.querySelectorAll('[data-trg-search-pill]');
+  const submitButton = shell.querySelector('[data-trg-search-submit]');
   const totalCount = count instanceof HTMLElement ? Number(count.dataset.trgTotalCount || '0') : 0;
 
   const getItems = () => Array.from(document.querySelectorAll('[data-trg-search-item]'));
+  const hasCollectionSearch = count instanceof HTMLElement && getItems().length > 0;
 
-  const applyFilter = () => {
+  const applyCollectionFilter = () => {
+    if (!hasCollectionSearch) {
+      return;
+    }
+
     const query = normalize(input.value);
     const tokens = query === '' ? [] : query.split(/\s+/).filter(Boolean);
     let visibleCount = 0;
@@ -161,49 +213,67 @@ function initInlineCollectionSearch() {
     }
   };
 
-  const debouncedApplyFilter = debounce(applyFilter, FILTER_DELAY_MS);
+  const debouncedApplyFilter = debounce(applyCollectionFilter, FILTER_DELAY_MS);
 
   form.addEventListener('submit', (event) => {
+    if (!hasCollectionSearch) {
+      return;
+    }
+
     event.preventDefault();
-    applyFilter();
+    applyCollectionFilter();
     input.focus();
   });
 
-  input.addEventListener('input', debouncedApplyFilter);
-  input.addEventListener('search', applyFilter);
+  if (hasCollectionSearch) {
+    input.addEventListener('input', debouncedApplyFilter);
+    input.addEventListener('search', applyCollectionFilter);
+  }
 
-  if (submitButton instanceof HTMLButtonElement) {
+  if (submitButton instanceof HTMLButtonElement && hasCollectionSearch) {
     submitButton.addEventListener('click', (event) => {
       event.preventDefault();
-      applyFilter();
+      applyCollectionFilter();
       input.focus();
     });
   }
 
   pillButtons.forEach((pill) => {
-    pill.addEventListener('click', () => {
+    pill.addEventListener('click', (event) => {
       if (!(pill instanceof HTMLElement)) {
         return;
       }
 
-      input.value = pill.dataset.trgInlineSearchPill ?? pill.textContent?.trim() ?? '';
-      applyFilter();
+      if (pill instanceof HTMLAnchorElement && !hasCollectionSearch) {
+        return;
+      }
+
+      event.preventDefault();
+
+      input.value = pill.dataset.trgSearchPill ?? pill.textContent?.trim() ?? '';
+
+      if (hasCollectionSearch) {
+        applyCollectionFilter();
+      }
+
       input.focus();
     });
   });
 
-  if (resultsRoot instanceof HTMLElement) {
+  if (resultsRoot instanceof HTMLElement && hasCollectionSearch) {
     const observer = new MutationObserver(() => {
-      applyFilter();
+      applyCollectionFilter();
     });
 
     observer.observe(resultsRoot, { childList: true, subtree: true });
   }
 
-  applyFilter();
+  if (hasCollectionSearch) {
+    applyCollectionFilter();
+  }
 }
 
 onDocumentReady(() => {
   initSearchDropdown();
-  initInlineCollectionSearch();
+  initSharedSearchBar();
 });

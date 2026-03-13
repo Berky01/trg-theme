@@ -9,12 +9,21 @@
 
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
 <section
-  class="section section--full-width color-{{ section.settings.color_scheme }} trg-search-bar-section"
+  class="section section--full-width color-{{ section.settings.color_scheme }} trg-search-bar-section{% if section.settings.start_hidden %} trg-search-bar-section--collapsible{% endif %}{% if section.settings.start_hidden == false %} is-revealed{% endif %}"
   style="
     --trg-search-padding-top: {{ section.settings.padding_block_start }}px;
     --trg-search-padding-bottom: {{ section.settings.padding_block_end }}px;
     --trg-search-max-width: {{ section.settings.max_width }}px;
+    --trg-search-border-bottom-width: {% if section.settings.accent_border %}2px{% else %}1px{% endif %};
+    --trg-search-border-bottom-color: {% if section.settings.accent_border %}var(--color-primary){% else %}rgb(var(--color-border-rgb) / 0.95){% endif %};
   "
+  data-trg-search-bar
+  {% if section.settings.start_hidden %}
+    data-trg-search-collapsible
+    aria-hidden="true"
+  {% else %}
+    aria-hidden="false"
+  {% endif %}
   {{ section.shopify_attributes }}
 >
   <div class="trg-search-bar__shell">
@@ -23,6 +32,7 @@
       method="get"
       role="search"
       class="trg-search-bar__form"
+      data-trg-search-form
     >
       <input
         type="hidden"
@@ -54,6 +64,7 @@
           autocorrect="off"
           autocapitalize="off"
           autocomplete="off"
+          data-trg-search-input
         >
       </div>
 
@@ -76,21 +87,27 @@
               if suggestion_query == blank
                 assign suggestion_query = suggestion_label
               endif
-
-              if suggestion_url == blank and suggestion_query != blank
-                assign encoded_query = suggestion_query | url_encode
-                assign suggestion_url = routes.search_url | append: '?q=' | append: encoded_query
-              endif
             %}
 
-            {% if suggestion_label != blank and suggestion_url != blank %}
-              <a
-                class="trg-search-bar__pill"
-                href="{{ suggestion_url }}"
-                {{ block.shopify_attributes }}
-              >
-                {{ suggestion_label | escape }}
-              </a>
+            {% if suggestion_label != blank %}
+              {% if suggestion_url != blank %}
+                <a
+                  class="trg-search-bar__pill"
+                  href="{{ suggestion_url }}"
+                  {{ block.shopify_attributes }}
+                >
+                  {{ suggestion_label | escape }}
+                </a>
+              {% elsif suggestion_query != blank %}
+                <button
+                  type="button"
+                  class="button-unstyled trg-search-bar__pill"
+                  data-trg-search-pill="{{ suggestion_query | escape }}"
+                  {{ block.shopify_attributes }}
+                >
+                  {{ suggestion_label | escape }}
+                </button>
+              {% endif %}
             {% endif %}
           {% endfor %}
         </div>
@@ -100,6 +117,7 @@
         <button
           type="submit"
           class="trg-search-bar__submit"
+          data-trg-search-submit
         >
           <span>{{ section.settings.button_label | escape }}</span>
           <span class="svg-wrapper trg-search-bar__submit-icon">
@@ -108,6 +126,10 @@
         </button>
       {% endif %}
     </form>
+
+    <p class="trg-search-bar__empty" hidden data-trg-search-empty>
+      {{ section.settings.empty_message | escape }}
+    </p>
   </div>
 </section>
 
@@ -115,13 +137,45 @@
   .trg-search-bar-section {
     padding-block: var(--trg-search-padding-top) var(--trg-search-padding-bottom);
     border-top: 1px solid rgb(var(--color-border-rgb) / 0.95);
-    border-bottom: 1px solid rgb(var(--color-border-rgb) / 0.95);
+    border-bottom: var(--trg-search-border-bottom-width) solid var(--trg-search-border-bottom-color);
     position: relative;
     z-index: 2;
+    overflow: clip;
+    transition:
+      max-height 0.32s ease,
+      opacity 0.24s ease,
+      transform 0.24s ease,
+      border-color 0.2s ease,
+      padding 0.24s ease;
+  }
+
+  .trg-search-bar-section--collapsible {
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(-8px);
+    padding-block: 0;
+    border-top-color: transparent;
+    border-bottom-color: transparent;
+    pointer-events: none;
+  }
+
+  .trg-search-bar-section--collapsible.is-revealed {
+    max-height: 220px;
+    opacity: 1;
+    transform: translateY(0);
+    padding-block: var(--trg-search-padding-top) var(--trg-search-padding-bottom);
+    border-top-color: rgb(var(--color-border-rgb) / 0.95);
+    border-bottom-color: var(--trg-search-border-bottom-color);
+    pointer-events: auto;
+  }
+
+  .trg-search-bar-section.is-focused {
+    outline: 2px solid var(--color-primary);
+    outline-offset: -2px;
   }
 
   .trg-search-bar__shell {
-    width: min(calc(100% - (var(--trg-side-padding, 16px) * 2)), var(--trg-search-max-width));
+    width: min(calc(100% - 32px), var(--trg-search-max-width));
     margin-inline: auto;
   }
 
@@ -129,7 +183,7 @@
     display: flex;
     align-items: center;
     gap: clamp(12px, 1.6vw, 24px);
-    min-height: 78px;
+    min-height: 74px;
   }
 
   .trg-search-bar__label {
@@ -151,10 +205,6 @@
     flex: 1 1 260px;
     min-width: 0;
     align-self: stretch;
-  }
-
-  .trg-search-bar__field:focus-within {
-    box-shadow: inset 0 -2px 0 0 var(--color-primary);
   }
 
   .trg-search-bar__icon {
@@ -222,6 +272,7 @@
     font-size: 0.68rem;
     font-weight: 500;
     transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
+    background: transparent;
   }
 
   .trg-search-bar__pill:hover {
@@ -231,7 +282,8 @@
   }
 
   .trg-search-bar__pill:focus-visible,
-  .trg-search-bar__submit:focus-visible {
+  .trg-search-bar__submit:focus-visible,
+  .trg-search-bar__input:focus-visible {
     outline: 2px solid var(--color-primary);
     outline-offset: 2px;
   }
@@ -267,45 +319,50 @@
     height: 11px;
   }
 
-  @media screen and (max-width: 1099px) {
+  .trg-search-bar__empty {
+    margin: 0;
+    padding: 0 0 14px;
+    color: rgb(var(--color-foreground-rgb) / 0.55);
+    font-size: 0.82rem;
+  }
+
+  @media screen and (max-width: 900px) {
+    .trg-search-bar-section--collapsible.is-revealed {
+      max-height: 180px;
+    }
+
     .trg-search-bar__form {
-      flex-wrap: wrap;
-      row-gap: 14px;
-      padding-block: 14px;
+      gap: 14px;
       min-height: 0;
     }
 
-    .trg-search-bar__label {
-      width: 100%;
-      padding: 0 0 12px;
-      border-right: 0;
-      border-bottom: 1px solid rgb(var(--color-border-rgb) / 0.95);
-    }
-
-    .trg-search-bar__field {
-      flex-basis: 100%;
-    }
-
-    .trg-search-bar__divider {
+    .trg-search-bar__label,
+    .trg-search-bar__divider,
+    .trg-search-bar__pills {
       display: none;
     }
 
-    .trg-search-bar__pills {
-      flex-basis: 100%;
+    .trg-search-bar__input {
+      padding-block: 16px;
+      font-size: 1rem;
+    }
+
+    .trg-search-bar__submit {
+      padding: 0.6rem 1rem;
     }
   }
 
   @media screen and (max-width: 749px) {
     .trg-search-bar__shell {
-      width: min(calc(100% - 32px), var(--trg-search-max-width));
+      width: min(calc(100% - 24px), var(--trg-search-max-width));
     }
 
-    .trg-search-bar__input {
-      padding-block: 8px;
+    .trg-search-bar__form {
+      gap: 12px;
     }
 
     .trg-search-bar__submit {
-      width: 100%;
+      flex-shrink: 0;
     }
   }
 {% endstylesheet %}
@@ -321,6 +378,18 @@
       "id": "color_scheme",
       "label": "Color scheme",
       "default": "scheme-1"
+    },
+    {
+      "type": "checkbox",
+      "id": "start_hidden",
+      "label": "Start hidden until header search is clicked",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "accent_border",
+      "label": "Use accent bottom border",
+      "default": false
     },
     {
       "type": "text",
@@ -345,6 +414,12 @@
       "id": "button_label",
       "label": "Button label",
       "default": "Search"
+    },
+    {
+      "type": "text",
+      "id": "empty_message",
+      "label": "Collection empty state message",
+      "default": "No pieces match this search."
     },
     {
       "type": "range",

@@ -76,11 +76,22 @@
   {% if block_settings.filter_style == 'vertical' %}
     {% # These elements are always rendered in the horizontal bar that's why we apply the .facets--horizontal class %}
     <div
-      class="facets facets--horizontal facets-controls-wrapper spacing-style"
+      class="facets facets--horizontal facets-controls-wrapper spacing-style trg-collection-controls"
       style="{% render 'spacing-style', settings: block_settings %}{% if block_settings.text_label_case == 'uppercase' %} --facet-label-transform: uppercase;{% endif %}"
     >
       {% if block_settings.enable_filtering %}
         <h4 class="facets--filters-title">{{ 'content.filters' | t }}</h4>
+      {% endif %}
+
+      {% if block_settings.enable_filtering %}
+        <div class="trg-collection-controls__active-filters">
+          {% render 'filter-remove-buttons',
+            filters: filters,
+            results_url: results_url,
+            show_filter_label: false,
+            should_show_clear_all: false
+          %}
+        </div>
       {% endif %}
 
       <div
@@ -154,12 +165,34 @@
           ref="facetsForm"
         >
           {% if should_show_pane %}
-            {% render 'filter-remove-buttons',
-              filters: filters,
-              results_url: results_url,
-              show_filter_label: block_settings.show_filter_label,
-              should_show_clear_all: true
-            %}
+            {% if block_settings.filter_style == 'vertical' and block_settings.enable_filtering %}
+              <div class="trg-facets-sidebar-header">
+                <h4 class="trg-facets-sidebar-title">{{ 'content.filters' | t }}</h4>
+
+                <facet-remove-component
+                  class="trg-facets-sidebar-clear"
+                  active-class="trg-facets-sidebar-clear--active"
+                  data-url="{{ results_url }}"
+                >
+                  <button
+                    type="button"
+                    class="button-unstyled trg-facets-sidebar-clear-button{% if total_active_values > 0 %} trg-facets-sidebar-clear-button--active{% endif %}"
+                    ref="clearButton"
+                    on:click="/removeFilter?form="
+                    on:keydown="/removeFilter?form="
+                  >
+                    {{- 'actions.clear_all' | t -}}
+                  </button>
+                </facet-remove-component>
+              </div>
+            {% else %}
+              {% render 'filter-remove-buttons',
+                filters: filters,
+                results_url: results_url,
+                show_filter_label: block_settings.show_filter_label,
+                should_show_clear_all: true
+              %}
+            {% endif %}
 
             {% if block_settings.enable_filtering %}
               {% assign total_active_values = 0 %}

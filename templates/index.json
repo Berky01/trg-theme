@@ -573,11 +573,14 @@
       ],
       "name": "TRG Search Bar",
       "settings": {
-        "color_scheme": "",
+        "color_scheme": "scheme-1",
+        "start_hidden": true,
+        "accent_border": false,
         "label": "Search",
         "accessibility_label": "Search the store",
         "placeholder": "Brands, styles, categories...",
         "button_label": "Search",
+        "empty_message": "No results match this search.",
         "max_width": 1320,
         "padding_block_start": 0,
         "padding_block_end": 0
