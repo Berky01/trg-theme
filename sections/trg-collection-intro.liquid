@@ -1,4 +1,9 @@
 {% liquid
+  assign product_count = blank
+  if collection != blank
+    assign product_count = collection.products_count
+  endif
+
   assign heading_html = section.settings.custom_title
   if section.settings.title_source == 'collection' and collection.title != blank
     assign heading_html = collection.title
@@ -26,9 +31,9 @@
         {% endif %}
       </div>
 
-      {% if section.settings.show_count %}
+      {% if section.settings.show_count and product_count != blank %}
         <p class="trg-collection-intro__result-count">
-          <strong data-trg-result-count data-trg-total-count="{{ collection.products_count }}">{{ collection.products_count }}</strong>
+          <strong data-trg-result-count data-trg-total-count="{{ product_count }}">{{ product_count }}</strong>
           {{ section.settings.result_label | escape }}
         </p>
       {% endif %}
@@ -171,9 +176,6 @@
 {% schema %}
 {
   "name": "TRG Collection Intro",
-  "enabled_on": {
-    "templates": ["collection"]
-  },
   "settings": [
     {
       "type": "color_scheme",
