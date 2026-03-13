@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "trg_home_hero": {
@@ -35,7 +44,8 @@
             "badge": "CA",
             "gradient_start": "#3b1d0f",
             "gradient_end": "#552915",
-            "height": "normal"
+            "height": "normal",
+            "link": ""
           }
         },
         "mosaic_2": {
@@ -46,7 +56,8 @@
             "badge": "New",
             "gradient_start": "#3f5274",
             "gradient_end": "#1f2f50",
-            "height": "normal"
+            "height": "normal",
+            "link": ""
           }
         },
         "mosaic_3": {
@@ -57,7 +68,8 @@
             "badge": "",
             "gradient_start": "#526850",
             "gradient_end": "#1e3a2f",
-            "height": "tall"
+            "height": "tall",
+            "link": ""
           }
         },
         "mosaic_4": {
@@ -68,7 +80,8 @@
             "badge": "CA",
             "gradient_start": "#2b3348",
             "gradient_end": "#121722",
-            "height": "normal"
+            "height": "normal",
+            "link": ""
           }
         },
         "mosaic_5": {
@@ -79,7 +92,8 @@
             "badge": "",
             "gradient_start": "#9f8468",
             "gradient_end": "#c5a783",
-            "height": "normal"
+            "height": "normal",
+            "link": ""
           }
         }
       },
@@ -97,12 +111,12 @@
         "color_scheme": "scheme-header-ink",
         "layout_preset": "editorial-dark",
         "fill_viewport": true,
-        "left_column_max": 620,
+        "left_column_max": 420,
         "hero_background": "#1a1a18",
         "hero_text": "#f5f1eb",
         "hero_accent": "#c4562a",
         "eyebrow": "Curated Menswear Directory",
-        "heading": "<p>The brands worth buying from.<br><em>Properly vetted.</em></p>",
+        "heading": "<p>The brands worth buying from.<br/><em>Properly vetted.</em></p>",
         "body": "<p>A hand-curated directory of quality menswear brands, filterable by style, price, and origin, with every detail a Canadian buyer needs to shop with confidence.</p>",
         "primary_label": "Browse Brands",
         "primary_link": "shopify://collections/all",
@@ -165,6 +179,7 @@
         "brand_1": {
           "type": "brand",
           "settings": {
+            "metaobject_handle": "",
             "logo_text": "VB",
             "badge_1": "Canadian",
             "badge_2": "",
@@ -179,6 +194,7 @@
         "brand_2": {
           "type": "brand",
           "settings": {
+            "metaobject_handle": "",
             "logo_text": "TS",
             "badge_1": "Affiliate",
             "badge_2": "",
@@ -193,6 +209,7 @@
         "brand_3": {
           "type": "brand",
           "settings": {
+            "metaobject_handle": "",
             "logo_text": "RC",
             "badge_1": "Canadian",
             "badge_2": "",
@@ -207,6 +224,7 @@
         "brand_4": {
           "type": "brand",
           "settings": {
+            "metaobject_handle": "",
             "logo_text": "SM",
             "badge_1": "",
             "badge_2": "Affiliate",
@@ -221,6 +239,7 @@
         "brand_5": {
           "type": "brand",
           "settings": {
+            "metaobject_handle": "",
             "logo_text": "NP",
             "badge_1": "",
             "badge_2": "",
@@ -235,6 +254,7 @@
         "brand_6": {
           "type": "brand",
           "settings": {
+            "metaobject_handle": "",
             "logo_text": "BM",
             "badge_1": "",
             "badge_2": "",
@@ -262,7 +282,22 @@
         "body": "<p>Handpicked brands, verified affiliate programs, and real shipping context.</p>",
         "link_label": "All brands",
         "link_url": "shopify://collections/all",
-        "columns_desktop": 3
+        "columns_desktop": 3,
+        "source_mode": "manual_blocks",
+        "metaobject_type": "brand",
+        "auto_limit": 6,
+        "metaobject_cta_label": "View",
+        "metaobject_fallback_link": "",
+        "mo_title_field": "name",
+        "mo_origin_field": "origin",
+        "mo_description_field": "description",
+        "mo_price_field": "price_range",
+        "mo_badge_primary_field": "badge_primary",
+        "mo_badge_secondary_field": "badge_secondary",
+        "mo_logo_field": "logo",
+        "mo_logo_text_field": "logo_text",
+        "mo_link_field": "url",
+        "mo_collection_field": "collection"
       }
     },
     "trg_categories": {
@@ -272,8 +307,10 @@
           "type": "category",
           "settings": {
             "icon": "🧥",
+            "collection": "",
             "name": "Outerwear",
             "count": "18 brands",
+            "count_override": "",
             "link": "shopify://collections/all"
           }
         },
@@ -281,8 +318,10 @@
           "type": "category",
           "settings": {
             "icon": "👕",
+            "collection": "",
             "name": "Casualwear",
             "count": "82 brands",
+            "count_override": "",
             "link": "shopify://collections/all"
           }
         },
@@ -290,8 +329,10 @@
           "type": "category",
           "settings": {
             "icon": "👔",
+            "collection": "",
             "name": "Shirting",
             "count": "19 brands",
+            "count_override": "",
             "link": "shopify://collections/all"
           }
         },
@@ -299,8 +340,10 @@
           "type": "category",
           "settings": {
             "icon": "👞",
+            "collection": "",
             "name": "Footwear",
             "count": "14 brands",
+            "count_override": "",
             "link": "shopify://collections/all"
           }
         },
@@ -308,8 +351,10 @@
           "type": "category",
           "settings": {
             "icon": "🛠",
+            "collection": "",
             "name": "Workwear",
             "count": "24 brands",
+            "count_override": "",
             "link": "shopify://collections/all"
           }
         },
@@ -317,8 +362,10 @@
           "type": "category",
           "settings": {
             "icon": "◻",
+            "collection": "",
             "name": "Basics",
             "count": "31 brands",
+            "count_override": "",
             "link": "shopify://collections/all"
           }
         },
@@ -326,8 +373,10 @@
           "type": "category",
           "settings": {
             "icon": "🎩",
+            "collection": "",
             "name": "Formalwear",
             "count": "9 brands",
+            "count_override": "",
             "link": "shopify://collections/all"
           }
         },
@@ -335,8 +384,10 @@
           "type": "category",
           "settings": {
             "icon": "⚙",
+            "collection": "",
             "name": "Technical",
             "count": "17 brands",
+            "count_override": "",
             "link": "shopify://collections/all"
           }
         }
