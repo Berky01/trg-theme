@@ -1,0 +1,439 @@
+{% assign suggestion_count = 0 %}
+{% for block in section.blocks %}
+  {% assign block_label = block.settings.label | strip %}
+  {% assign block_query = block.settings.query | strip %}
+  {% if block.settings.url != blank or block_label != blank or block_query != blank %}
+    {% assign suggestion_count = suggestion_count | plus: 1 %}
+  {% endif %}
+{% endfor %}
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<section
+  class="section section--full-width color-{{ section.settings.color_scheme }} trg-search-bar-section"
+  style="
+    --trg-search-padding-top: {{ section.settings.padding_block_start }}px;
+    --trg-search-padding-bottom: {{ section.settings.padding_block_end }}px;
+    --trg-search-max-width: {{ section.settings.max_width }}px;
+  "
+  {{ section.shopify_attributes }}
+>
+  <div class="trg-search-bar__shell">
+    <form
+      action="{{ routes.search_url }}"
+      method="get"
+      role="search"
+      class="trg-search-bar__form"
+    >
+      <input
+        type="hidden"
+        name="options[prefix]"
+        value="last"
+      >
+
+      {% if section.settings.label != blank %}
+        <span class="trg-search-bar__label">{{ section.settings.label | escape }}</span>
+      {% endif %}
+
+      <div class="trg-search-bar__field">
+        <label
+          class="visually-hidden"
+          for="TrgSearchBar-{{ section.id }}"
+        >
+          {{ section.settings.accessibility_label | escape }}
+        </label>
+        <span class="svg-wrapper trg-search-bar__icon">
+          {{ 'icon-search.svg' | inline_asset_content }}
+        </span>
+        <input
+          id="TrgSearchBar-{{ section.id }}"
+          class="trg-search-bar__input"
+          type="search"
+          name="q"
+          value="{{ search.terms | escape }}"
+          placeholder="{{ section.settings.placeholder | escape }}"
+          autocorrect="off"
+          autocapitalize="off"
+          autocomplete="off"
+        >
+      </div>
+
+      {% if suggestion_count > 0 %}
+        <div
+          class="trg-search-bar__divider"
+          aria-hidden="true"
+        ></div>
+        <div class="trg-search-bar__pills">
+          {% for block in section.blocks %}
+            {% liquid
+              assign suggestion_label = block.settings.label | strip
+              assign suggestion_query = block.settings.query | strip
+              assign suggestion_url = block.settings.url
+
+              if suggestion_label == blank
+                assign suggestion_label = suggestion_query
+              endif
+
+              if suggestion_query == blank
+                assign suggestion_query = suggestion_label
+              endif
+
+              if suggestion_url == blank and suggestion_query != blank
+                assign encoded_query = suggestion_query | url_encode
+                assign suggestion_url = routes.search_url | append: '?q=' | append: encoded_query
+              endif
+            %}
+
+            {% if suggestion_label != blank and suggestion_url != blank %}
+              <a
+                class="trg-search-bar__pill"
+                href="{{ suggestion_url }}"
+                {{ block.shopify_attributes }}
+              >
+                {{ suggestion_label | escape }}
+              </a>
+            {% endif %}
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      {% if section.settings.button_label != blank %}
+        <button
+          type="submit"
+          class="trg-search-bar__submit"
+        >
+          <span>{{ section.settings.button_label | escape }}</span>
+          <span class="svg-wrapper trg-search-bar__submit-icon">
+            {{ 'icon-arrow.svg' | inline_asset_content }}
+          </span>
+        </button>
+      {% endif %}
+    </form>
+  </div>
+</section>
+
+{% stylesheet %}
+  .trg-search-bar-section {
+    padding-block: var(--trg-search-padding-top) var(--trg-search-padding-bottom);
+    border-top: 1px solid rgb(var(--color-border-rgb) / 0.95);
+    border-bottom: 1px solid rgb(var(--color-border-rgb) / 0.95);
+    position: relative;
+    z-index: 2;
+  }
+
+  .trg-search-bar__shell {
+    width: min(calc(100% - (var(--trg-side-padding, 16px) * 2)), var(--trg-search-max-width));
+    margin-inline: auto;
+  }
+
+  .trg-search-bar__form {
+    display: flex;
+    align-items: center;
+    gap: clamp(12px, 1.6vw, 24px);
+    min-height: 78px;
+  }
+
+  .trg-search-bar__label {
+    padding: 20px 24px 20px 0;
+    border-right: 1px solid rgb(var(--color-border-rgb) / 0.95);
+    color: rgb(var(--color-foreground-rgb) / 0.58);
+    font-family: var(--font-heading--family);
+    font-size: clamp(1rem, 1.1vw, 1.08rem);
+    font-style: italic;
+    line-height: 1.1;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .trg-search-bar__field {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1 1 260px;
+    min-width: 0;
+    align-self: stretch;
+  }
+
+  .trg-search-bar__field:focus-within {
+    box-shadow: inset 0 -2px 0 0 var(--color-primary);
+  }
+
+  .trg-search-bar__icon {
+    color: rgb(var(--color-foreground-rgb) / 0.5);
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+
+  .trg-search-bar__icon svg,
+  .trg-search-bar__submit-icon svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .trg-search-bar__input {
+    border: 0;
+    background: transparent;
+    color: rgb(var(--color-foreground-rgb));
+    font-family: var(--font-heading--family);
+    font-size: clamp(1.05rem, 1.45vw, 1.16rem);
+    line-height: 1.25;
+    width: 100%;
+    min-width: 0;
+    padding-block: 20px;
+    box-shadow: none;
+  }
+
+  .trg-search-bar__input::placeholder {
+    color: rgb(var(--color-foreground-rgb) / 0.28);
+    font-style: italic;
+  }
+
+  .trg-search-bar__input:focus {
+    outline: none;
+  }
+
+  .trg-search-bar__divider {
+    width: 1px;
+    align-self: stretch;
+    background: rgb(var(--color-border-rgb) / 0.95);
+    flex-shrink: 0;
+  }
+
+  .trg-search-bar__pills {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  .trg-search-bar__pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 30px;
+    padding: 0.35rem 0.75rem;
+    border: 1px solid rgb(var(--color-border-rgb) / 0.95);
+    border-radius: 2px;
+    color: rgb(var(--color-foreground-rgb) / 0.58);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.68rem;
+    font-weight: 500;
+    transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
+  }
+
+  .trg-search-bar__pill:hover {
+    color: rgb(var(--color-foreground-rgb));
+    border-color: rgb(var(--color-foreground-rgb));
+    background: rgb(var(--color-foreground-rgb) / 0.03);
+  }
+
+  .trg-search-bar__pill:focus-visible,
+  .trg-search-bar__submit:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  .trg-search-bar__submit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 38px;
+    padding: 0.7rem 1.2rem;
+    border: 0;
+    border-radius: 2px;
+    background: var(--color-primary-button-background);
+    color: var(--color-primary-button-text);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.72rem;
+    font-weight: 600;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: transform 0.15s ease, opacity 0.15s ease;
+  }
+
+  .trg-search-bar__submit:hover {
+    transform: translateY(-1px);
+    background: var(--color-primary-button-hover-background);
+    color: var(--color-primary-button-hover-text);
+  }
+
+  .trg-search-bar__submit-icon {
+    width: 11px;
+    height: 11px;
+  }
+
+  @media screen and (max-width: 1099px) {
+    .trg-search-bar__form {
+      flex-wrap: wrap;
+      row-gap: 14px;
+      padding-block: 14px;
+      min-height: 0;
+    }
+
+    .trg-search-bar__label {
+      width: 100%;
+      padding: 0 0 12px;
+      border-right: 0;
+      border-bottom: 1px solid rgb(var(--color-border-rgb) / 0.95);
+    }
+
+    .trg-search-bar__field {
+      flex-basis: 100%;
+    }
+
+    .trg-search-bar__divider {
+      display: none;
+    }
+
+    .trg-search-bar__pills {
+      flex-basis: 100%;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .trg-search-bar__shell {
+      width: min(calc(100% - 32px), var(--trg-search-max-width));
+    }
+
+    .trg-search-bar__input {
+      padding-block: 8px;
+    }
+
+    .trg-search-bar__submit {
+      width: 100%;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "TRG Search Bar",
+  "tag": "section",
+  "class": "trg-search-bar-wrapper",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Label",
+      "default": "Search"
+    },
+    {
+      "type": "text",
+      "id": "accessibility_label",
+      "label": "Accessibility label",
+      "default": "Search the store"
+    },
+    {
+      "type": "text",
+      "id": "placeholder",
+      "label": "Placeholder",
+      "default": "Brands, styles, categories..."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Search"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "label": "Content width",
+      "min": 960,
+      "max": 1600,
+      "step": 20,
+      "unit": "px",
+      "default": 1320
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_block_start",
+      "label": "Top padding",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_block_end",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "suggestion",
+      "name": "Suggestion pill",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Workwear"
+        },
+        {
+          "type": "text",
+          "id": "query",
+          "label": "Search query",
+          "default": "Workwear"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Custom link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "TRG Search Bar",
+      "blocks": [
+        {
+          "type": "suggestion",
+          "settings": {
+            "label": "Workwear",
+            "query": "Workwear"
+          }
+        },
+        {
+          "type": "suggestion",
+          "settings": {
+            "label": "Heritage",
+            "query": "Heritage"
+          }
+        },
+        {
+          "type": "suggestion",
+          "settings": {
+            "label": "Ships to Canada",
+            "query": "Ships to Canada"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -9,6 +9,50 @@
  */
 {
   "sections": {
+    "trg_search_bar": {
+      "type": "trg-search-bar",
+      "blocks": {
+        "suggestion_workwear": {
+          "type": "suggestion",
+          "settings": {
+            "label": "Workwear",
+            "query": "Workwear",
+            "url": ""
+          }
+        },
+        "suggestion_heritage": {
+          "type": "suggestion",
+          "settings": {
+            "label": "Heritage",
+            "query": "Heritage",
+            "url": ""
+          }
+        },
+        "suggestion_canada": {
+          "type": "suggestion",
+          "settings": {
+            "label": "Ships to Canada",
+            "query": "Ships to Canada",
+            "url": ""
+          }
+        }
+      },
+      "block_order": [
+        "suggestion_workwear",
+        "suggestion_heritage",
+        "suggestion_canada"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "label": "Search",
+        "accessibility_label": "Search the store",
+        "placeholder": "Brands, styles, categories...",
+        "button_label": "Search",
+        "max_width": 1320,
+        "padding_block_start": 0,
+        "padding_block_end": 0
+      }
+    },
     "trg_home_hero": {
       "type": "trg-home-hero",
       "blocks": {
@@ -540,6 +584,7 @@
     }
   },
   "order": [
+    "trg_search_bar",
     "trg_home_hero",
     "trg_strip",
     "trg_featured_brands",
