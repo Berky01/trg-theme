@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "intro": {
@@ -202,9 +211,55 @@
         "padding-block-start": 32,
         "padding-block-end": 32
       }
+    },
+    "trg_search_bar_geeg3D": {
+      "type": "trg-search-bar",
+      "blocks": {
+        "suggestion_6cRDrV": {
+          "type": "suggestion",
+          "settings": {
+            "label": "Workwear",
+            "query": "Workwear",
+            "url": ""
+          }
+        },
+        "suggestion_c3FdT3": {
+          "type": "suggestion",
+          "settings": {
+            "label": "Heritage",
+            "query": "Heritage",
+            "url": ""
+          }
+        },
+        "suggestion_mmLzKe": {
+          "type": "suggestion",
+          "settings": {
+            "label": "Ships to Canada",
+            "query": "Ships to Canada",
+            "url": ""
+          }
+        }
+      },
+      "block_order": [
+        "suggestion_6cRDrV",
+        "suggestion_c3FdT3",
+        "suggestion_mmLzKe"
+      ],
+      "name": "TRG Search Bar",
+      "settings": {
+        "color_scheme": "",
+        "label": "Search",
+        "accessibility_label": "Search the store",
+        "placeholder": "Brands, styles, categories...",
+        "button_label": "Search",
+        "max_width": 1320,
+        "padding_block_start": 0,
+        "padding_block_end": 0
+      }
     }
   },
   "order": [
+    "trg_search_bar_geeg3D",
     "intro",
     "main"
   ]
