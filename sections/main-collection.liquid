@@ -214,6 +214,7 @@
     border: 1px solid var(--trg-plp-border-color);
     padding: var(--trg-plp-sidebar-padding);
     color: var(--trg-plp-text-color);
+    max-width: var(--trg-plp-sidebar-width);
   }
 
   .trg-plp-body .facets--vertical:not(.facets--drawer) .facets__form-wrapper {
@@ -262,12 +263,12 @@
 
   .trg-plp-body .facets--vertical:not(.facets--drawer) .facets__filters-wrapper {
     display: grid;
-    gap: 14px;
+    gap: 0;
   }
 
   .trg-plp-body .facets--vertical:not(.facets--drawer) .facets__item {
     margin: 0;
-    padding-top: 14px;
+    padding-top: 16px;
     border-top: 1px solid var(--trg-plp-border-color);
   }
 
@@ -280,6 +281,7 @@
     min-height: auto;
     padding: 0;
     color: var(--trg-plp-text-color);
+    align-items: center;
   }
 
   .trg-plp-body .facets--vertical:not(.facets--drawer) .facets__summary:hover {
@@ -318,7 +320,8 @@
   .trg-plp-body .facets--vertical:not(.facets--drawer) .checkbox__label {
     gap: 8px;
     color: var(--trg-plp-muted-color);
-    font-size: 14px;
+    font-size: 13px;
+    line-height: 1.25;
   }
 
   .trg-plp-body .facets--vertical:not(.facets--drawer) .checkbox__label-text {
@@ -337,12 +340,17 @@
     background: var(--color-background);
   }
 
+  .trg-plp-body .facets--vertical:not(.facets--drawer) .price-facet {
+    container-type: normal;
+  }
+
   .trg-plp-body .facets--vertical:not(.facets--drawer) .price-facet__inputs-wrapper {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    display: grid !important;
+    grid-template-columns: minmax(78px, 1fr) auto minmax(78px, 1fr);
     align-items: center;
     gap: 10px;
     padding: 0;
+    flex-wrap: nowrap !important;
   }
 
   .trg-plp-body .facets--vertical:not(.facets--drawer) .price-facet__field,
@@ -355,12 +363,25 @@
     min-height: 40px;
     border-color: var(--trg-plp-border-color);
     background: var(--trg-plp-caption-background);
+    padding-left: 28px;
+    padding-right: 10px;
   }
 
   .trg-plp-body .facets--vertical:not(.facets--drawer) .price-facet__label,
   .trg-plp-body .facets--vertical:not(.facets--drawer) .price-facet__separator,
   .trg-plp-body .facets--vertical:not(.facets--drawer) .price-facet__highest-price {
     color: var(--trg-plp-muted-color);
+  }
+
+  .trg-plp-body .facets--vertical:not(.facets--drawer) .price-facet__separator {
+    white-space: nowrap;
+    font-size: 13px;
+  }
+
+  .trg-plp-body .facets--vertical:not(.facets--drawer) .price-facet__highest-price {
+    max-width: 140px;
+    padding-top: 14px;
+    line-height: 1.35;
   }
 
   .trg-plp-body .product-grid {
@@ -791,7 +812,7 @@
           "label": "4"
         }
       ],
-      "default": "3"
+      "default": "4"
     },
     {
       "type": "range",
