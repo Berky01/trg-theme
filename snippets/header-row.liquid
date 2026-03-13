@@ -25,6 +25,26 @@
   endif
 
   for item in order
+    assign item_markup = ''
+    case item
+      when 'actions'
+        assign item_markup = actions
+      when 'logo'
+        assign item_markup = logo
+      when 'menu'
+        assign item_markup = menu
+      when 'localization'
+        assign item_markup = localization
+      when 'search'
+        assign item_markup = search
+      when 'drawer_search'
+        assign item_markup = drawer_search
+    endcase
+
+    if item_markup == blank
+      continue
+    endif
+
     assign column_key = item | append: '_position'
     assign row_key = item | append: '_row'
     assign item_row = settings[row_key] | default: 'top'
