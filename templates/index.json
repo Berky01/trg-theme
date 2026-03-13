@@ -44,8 +44,8 @@
       ],
       "name": "TRG Search Bar",
       "settings": {
-        "color_scheme": "scheme-header-ink",
-        "start_hidden": false,
+        "color_scheme": "scheme-1",
+        "start_hidden": true,
         "accent_border": false,
         "label": "Search",
         "accessibility_label": "Search the store",
