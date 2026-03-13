@@ -181,6 +181,13 @@
   elsif bottom_transparent
     assign transparent_color_scheme_value = 'bottom'
   endif
+
+  assign underlay_bottom_background = section.settings.color_scheme_bottom.settings.background.rgba
+  if underlay_bottom_background == blank
+    assign underlay_bottom_background = section.settings.color_scheme_top.settings.background.rgba
+  elsif bottom_row_blocks.size == 0 and navigation_bar == blank
+    assign underlay_bottom_background = section.settings.color_scheme_top.settings.background.rgba
+  endif
 %}
 
 {% capture localization_markup %}
@@ -309,7 +316,7 @@
   {% endif %}
   style="
     --color-scheme-top-row: rgba({{ section.settings.color_scheme_top.settings.background.rgba }});
-    --color-scheme-bottom-row: rgba({{ section.settings.color_scheme_bottom.settings.background.rgba }});
+    --color-scheme-bottom-row: rgba({{ underlay_bottom_background }});
     {% if section.settings.actions_display_style == 'text' %}
       --header-actions-font-size: {{ section.settings.actions_font_size | default: '1rem' }};
       --header-actions-font-family: var(--font-{{ section.settings.actions_font | default: 'heading' }}--family);
