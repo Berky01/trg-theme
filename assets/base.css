@@ -12,7 +12,21 @@ body {
   font-variation-settings: 'slnt' 0;
 }
 
+body.template-collection,
+.template-collection {
+  background: var(--paper);
+}
+
 :root {
+  --ink: #1a1a18;
+  --paper: #f5f1eb;
+  --warm-white: #faf8f4;
+  --mid: #8a8478;
+  --subtle: #e8e3db;
+  --accent: #c4562a;
+  --border: #ddd8cf;
+  --tag-bg: #ede8e0;
+  --nav-h: 56px;
   --hover-lift-amount: 4px;
   --hover-scale-amount: 1.03;
   --hover-subtle-zoom-amount: 1.015;
