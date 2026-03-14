@@ -1910,89 +1910,94 @@
       padding: 0;
     }
 
-    /* Hide the real input */
     dialog-component#filters-drawer .checkbox {
       position: relative;
       display: flex;
       align-items: center;
-      gap: 0.65rem;
+      width: 100%;
       padding: 0.25rem 0;
-      cursor: pointer;
     }
 
     dialog-component#filters-drawer .checkbox__input {
-      position: absolute;
-      opacity: 0;
-      width: 15px;
-      height: 15px;
-      margin: 0;
-      top: 50%;
-      left: 0;
-      transform: translateY(-50%);
-      z-index: 1;
-      cursor: pointer;
-    }
-
-    dialog-component#filters-drawer .checkbox__label > svg,
-    dialog-component#filters-drawer .checkbox__label > .svg-wrapper {
-      display: none !important;
+      position: absolute !important;
+      opacity: 0 !important;
+      width: 15px !important;
+      height: 15px !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      top: 50% !important;
+      left: 0 !important;
+      transform: translateY(-50%) !important;
+      z-index: 1 !important;
+      cursor: pointer !important;
+      appearance: none !important;
+      -webkit-appearance: none !important;
     }
 
     dialog-component#filters-drawer .checkbox__label {
-      display: flex;
-      align-items: center;
-      gap: 0.65rem;
-      font-size: 0.9rem;
-      color: #1a1a18;
-      cursor: pointer;
-      line-height: 1.3;
-      width: 100%;
-      padding-left: 22px;
-      position: relative;
+      position: relative !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 0.65rem !important;
+      width: 100% !important;
+      min-width: 0 !important;
+      padding: 0 !important;
+      font-size: 0.9rem !important;
+      line-height: 1.3 !important;
+      color: #1a1a18 !important;
+      cursor: pointer !important;
     }
 
-    dialog-component#filters-drawer .checkbox__label::before {
-      content: '' !important;
-      display: block !important;
-      position: absolute !important;
-      left: 0 !important;
-      top: 50% !important;
-      transform: translateY(-50%) !important;
+    dialog-component#filters-drawer .checkbox__label .icon-checkmark {
       width: 15px !important;
       height: 15px !important;
+      min-width: 15px !important;
+      flex-shrink: 0 !important;
       border: 1.5px solid #ddd8cf !important;
       border-radius: 2px !important;
       background: white !important;
-      box-shadow: none !important;
-      transition: background 0.15s, border-color 0.15s !important;
-      pointer-events: none !important;
-      z-index: 0 !important;
+      color: transparent !important;
+      transition:
+        background 0.15s ease,
+        border-color 0.15s ease,
+        color 0.15s ease !important;
     }
 
-    dialog-component#filters-drawer .checkbox__input:checked
-      ~ .checkbox__label::before,
-    dialog-component#filters-drawer .checkbox.checkbox--checked
-      .checkbox__label::before {
+    dialog-component#filters-drawer .checkbox__label .icon-checkmark path {
+      stroke: currentColor !important;
+      opacity: 1 !important;
+    }
+
+    dialog-component#filters-drawer .checkbox__input:checked + .checkbox__label .icon-checkmark {
       background: #1a1a18 !important;
       border-color: #1a1a18 !important;
+      color: white !important;
       box-shadow: inset 0 0 0 3px white !important;
     }
 
-    dialog-component#filters-drawer .checkbox__input:disabled
-      ~ .checkbox__label {
-      opacity: 0.38;
+    dialog-component#filters-drawer .checkbox__input:disabled + .checkbox__label {
+      opacity: 0.38 !important;
+    }
+
+    dialog-component#filters-drawer .checkbox__label::before {
+      content: none !important;
+      display: none !important;
     }
 
     dialog-component#filters-drawer .checkbox__label-text {
-      flex: 1;
-      color: inherit;
+      flex: 1 !important;
+      padding-inline-start: 0 !important;
+      color: inherit !important;
+      white-space: normal !important;
+      overflow: visible !important;
+      text-overflow: clip !important;
     }
 
     dialog-component#filters-drawer .trg-facet-count {
-      margin-left: auto;
-      color: #8a8478;
-      font-size: 0.75rem;
-      flex-shrink: 0;
+      margin-left: auto !important;
+      color: #8a8478 !important;
+      font-size: 0.75rem !important;
+      flex-shrink: 0 !important;
     }
 
     /* ── Swatch filters ── */
