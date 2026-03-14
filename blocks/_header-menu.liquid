@@ -232,6 +232,17 @@
     }
   }
 
+  @media screen and (max-width: 900px) {
+    #header-component[data-menu-style='menu'] .header__drawer {
+      display: flex;
+      min-height: 56px;
+    }
+
+    #header-component[data-menu-style='menu'] .header-menu {
+      display: none;
+    }
+  }
+
   .header--compact .header__drawer {
     min-height: var(--minimum-touch-target);
   }

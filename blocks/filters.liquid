@@ -474,7 +474,7 @@
   >
     <dialog
       ref="dialog"
-      class="facets facets--drawer dialog-modal drawer dialog-drawer dialog-drawer--right spacing-style"
+      class="facets facets--drawer dialog-modal drawer dialog-drawer dialog-drawer--right spacing-style filters-sidebar"
       style="{% render 'spacing-style', settings: block_settings %}"
       scroll-lock
       aria-labelledby="filters-drawer-heading"
@@ -492,7 +492,7 @@
           ref="facetsForm"
         >
           <div
-            class="facets__title-wrapper"
+            class="facets__title-wrapper filters-header"
             style="--color-shadow: rgb(var(--color-foreground-rgb) / var(--opacity-10-25));"
           >
             <h2
@@ -514,7 +514,7 @@
               {% endif %}
             </h2>
             <button
-              class="button facets-drawer__close button-unstyled close-button"
+              class="button facets-drawer__close mobile-drawer-close button-unstyled close-button"
               on:click="dialog-component/closeDialog"
               type="button"
             >
@@ -528,7 +528,7 @@
           </div>
 
           <scroll-hint
-            class="facets-drawer__filters"
+            class="facets-drawer__filters sidebar-inner"
           >
             {% if block_settings.enable_filtering %}
               {% render 'filter-remove-buttons',
@@ -1308,6 +1308,68 @@
     right: 0;
     padding: 0;
     cursor: pointer;
+  }
+
+  @media screen and (max-width: 900px) {
+    .filters-sidebar {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      width: 100% !important;
+      max-width: none;
+      max-height: 100vh;
+      height: 100dvh;
+      background: var(--warm-white, #faf8f4);
+      z-index: 300;
+      display: none;
+      overflow-y: auto;
+      border: none;
+      border-radius: 0;
+      box-shadow: none;
+    }
+
+    .filters-sidebar[open],
+    .filters-sidebar.open {
+      display: block;
+    }
+
+    .sidebar-inner {
+      width: 100%;
+      padding: 1.25rem 1.25rem 5rem;
+      box-sizing: border-box;
+    }
+
+    .filters-header {
+      position: sticky;
+      top: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--warm-white, #faf8f4);
+      z-index: 1;
+      padding: 1rem 1.25rem 0.75rem;
+      border-bottom: 1px solid var(--border, #ddd8cf);
+      margin: 0 0 1.25rem;
+    }
+
+    .mobile-drawer-close {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .mobile-drawer-close .svg-wrapper,
+    .mobile-drawer-close svg {
+      width: 16px;
+      height: 16px;
+      color: rgb(26 26 24 / 0.6);
+    }
+
+    .trg-plp-sidebar-hide-btn {
+      display: none !important;
+    }
   }
 
   /* Status */

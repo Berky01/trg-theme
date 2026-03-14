@@ -73,16 +73,19 @@
         color-{{ block_settings.color_scheme }}
       "
     >
-      <button
-        class="button close-button menu-drawer__close-button"
-        type="button"
-        aria-label="{{ 'actions.close' | t }}"
-        on:click="/close"
-      >
-        <span class="svg-wrapper header-drawer-icon header-drawer-icon--close">
-          {{- 'icon-close.svg' | inline_asset_content -}}
-        </span>
-      </button>
+      <div class="menu-drawer__mobile-header desktop:hidden">
+        <span class="menu-drawer__mobile-label">Menu</span>
+        <button
+          class="button close-button menu-drawer__close-button menu-drawer__close-button--mobile"
+          type="button"
+          aria-label="{{ 'actions.close' | t }}"
+          on:click="/close"
+        >
+          <span class="svg-wrapper header-drawer-icon header-drawer-icon--close">
+            {{- 'icon-close.svg' | inline_asset_content -}}
+          </span>
+        </button>
+      </div>
       <nav
         class="menu-drawer__navigation"
         style="
@@ -1156,6 +1159,132 @@
     height: fit-content;
     color: inherit;
     padding: var(--padding-lg);
+  }
+
+  @media screen and (max-width: 900px) {
+    .menu-drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      width: auto;
+      max-width: none;
+      height: 100dvh;
+      max-height: none;
+      display: none;
+      flex-direction: column;
+      background: var(--ink);
+      border-right: none;
+      box-shadow: none;
+      overflow: hidden;
+      z-index: 500;
+      transform: none;
+    }
+
+    details.menu-open > .menu-drawer {
+      display: flex;
+    }
+
+    .menu-drawer__mobile-header {
+      min-height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1rem;
+      border-bottom: 1px solid rgb(245 241 235 / 0.08);
+      flex-shrink: 0;
+    }
+
+    .menu-drawer__mobile-label {
+      color: var(--mid);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .menu-drawer__close-button,
+    .menu-drawer__close-button--mobile {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 16px;
+      min-width: 16px;
+      height: 16px;
+      padding: 0;
+      color: rgb(245 241 235 / 0.6);
+    }
+
+    .menu-drawer__close-button .svg-wrapper,
+    .menu-drawer__close-button svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .menu-drawer__navigation {
+      flex: 1 1 auto;
+      padding: 1rem 0;
+      overflow-y: auto;
+      background: var(--ink);
+    }
+
+    .menu-drawer__menu {
+      padding: 0;
+      margin: 0;
+    }
+
+    .menu-drawer__menu-item--mainlist,
+    .menu-drawer__menu-item--parent,
+    .menu-drawer__menu-item--child,
+    .menu-drawer__back-button {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: 0.9rem 1.25rem;
+      color: rgb(245 241 235 / 0.65);
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 400;
+      line-height: 1.2;
+      text-decoration: none;
+      border-bottom: 1px solid rgb(245 241 235 / 0.06);
+      transition: color 0.15s ease;
+    }
+
+    .menu-drawer__menu-item--mainlist:is(:hover, [aria-current='page'], .menu-drawer__menu-item--active),
+    .menu-drawer__menu-item--parent:is(:hover, [aria-current='page'], .menu-drawer__menu-item--active),
+    .menu-drawer__menu-item--child:is(:hover, [aria-current='page'], .menu-drawer__menu-item--active),
+    .menu-drawer__back-button:hover {
+      color: var(--paper, #f5f1eb);
+    }
+
+    .menu-drawer__menu-item > .svg-wrapper,
+    .menu-drawer__back-button > .svg-wrapper {
+      padding: 0;
+      margin: 0;
+      color: rgb(245 241 235 / 0.6);
+    }
+
+    .menu-drawer__nav-buttons {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 56px;
+      padding: 0 1rem;
+      border-bottom: 1px solid rgb(245 241 235 / 0.08);
+      background: var(--ink);
+      flex-shrink: 0;
+    }
+
+    .menu-drawer__nav-buttons .menu-drawer__back-button {
+      width: auto;
+      padding: 0;
+      border-bottom: 0;
+      font-size: 0.95rem;
+    }
   }
 
   .menu-drawer__back-button {

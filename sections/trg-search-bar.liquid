@@ -63,7 +63,14 @@
       >
 
       {% if show_filter_toggle %}
-        <button type="button" class="button-unstyled trg-search-bar__mobile-filter" data-trg-plp-mobile-filter-button>
+        <button
+          type="button"
+          class="button-unstyled trg-search-bar__mobile-filter mobile-filter-btn"
+          data-trg-plp-mobile-filter-button
+        >
+          <span class="svg-wrapper trg-search-bar__mobile-filter-icon" aria-hidden="true">
+            {{ 'icon-filter.svg' | inline_asset_content }}
+          </span>
           Filters
         </button>
       {% endif %}
@@ -459,12 +466,12 @@
     }
 
     .trg-search-bar__shell {
-      width: min(calc(100% - 24px), var(--trg-search-max-width));
-      padding-inline: max(12px, calc(var(--trg-search-horizontal-padding) * 0.5));
+      width: min(calc(100% - 32px), var(--trg-search-max-width));
+      padding-inline: 1rem;
     }
 
     .trg-search-bar__form {
-      gap: 12px;
+      gap: 0.6rem;
     }
 
     .trg-search-bar__label {
@@ -480,6 +487,7 @@
     }
 
     .trg-search-bar__submit {
+      padding-block: 0.5rem;
       padding-inline: 0.65rem;
       flex-shrink: 0;
     }
@@ -487,6 +495,25 @@
     .trg-search-bar-section--collection .trg-search-bar__mobile-filter {
       display: inline-flex;
       align-items: center;
+      gap: 0.5rem;
+      flex-shrink: 0;
+      padding: 0.5rem 0.85rem;
+      border: 1px solid var(--border, #ddd8cf);
+      border-radius: 2px;
+      background: #ffffff;
+      color: var(--mid, #8a8478);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    .trg-search-bar__mobile-filter-icon,
+    .trg-search-bar__mobile-filter-icon svg {
+      width: 14px;
+      height: 14px;
       flex-shrink: 0;
     }
 
@@ -496,6 +523,11 @@
 
     .trg-search-bar__sort {
       min-width: 94px;
+    }
+
+    .trg-search-bar__input {
+      font-size: 0.95rem;
+      padding-block: 0.85rem;
     }
   }
 

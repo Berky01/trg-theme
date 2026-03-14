@@ -1800,6 +1800,31 @@
   }
 
   @media screen and (max-width: 900px) {
+    .trg-plp-body .collection-wrapper {
+      width: 100%;
+      padding: 0.75rem 1rem 2rem;
+      row-gap: 0;
+      column-gap: 0;
+      grid-template-columns: minmax(0, 1fr) !important;
+    }
+
+    body.filters-hidden .trg-plp-body .collection-wrapper {
+      grid-template-columns: minmax(0, 1fr) !important;
+    }
+
+    .trg-plp-body .trg-collection-controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      padding: 0.5rem 0 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .trg-plp-body .sorting-filter .facets__summary {
+      max-width: 130px;
+    }
+
     .trg-plp-body .product-grid {
       --product-grid-columns-desktop: repeat(2, minmax(0, 1fr)) !important;
       --product-grid-gap: 0.75rem !important;
@@ -1814,6 +1839,21 @@
       min-height: 0 !important;
     }
 
+    .trg-plp-body .product-card,
+    .trg-plp-body .product-grid__card,
+    .trg-plp-body .group-block {
+      overflow: hidden;
+      transform: none !important;
+      box-shadow: none !important;
+    }
+
+    .trg-plp-body .card-gallery img,
+    .trg-plp-body .card-gallery video,
+    .trg-plp-body .card-gallery .media {
+      height: 100% !important;
+      object-position: top center !important;
+    }
+
     .trg-plp-body .trg-plp-card-shop-cta,
     .trg-plp-body .trg-plp-card-retailer {
       display: none !important;
@@ -1823,7 +1863,20 @@
       padding: 0.6rem 0.75rem 0.75rem !important;
     }
 
+    .trg-plp-body .trg-plp-card-brand {
+      font-size: 0.58rem;
+    }
+
+    .trg-plp-body .group-block-content > a.contents.user-select-text .text-block p {
+      font-size: 0.82rem;
+    }
+
+    .trg-plp-body .trg-plp-card-material {
+      font-size: 0.62rem;
+    }
+
     .trg-plp-body .group-block-content > product-price {
+      font-size: 0.82rem;
       margin-top: auto;
       padding-top: 0.5rem;
     }
@@ -1833,7 +1886,12 @@
       transform: none !important;
     }
 
+    .trg-plp-body .trg-plp-sidebar-hide-btn,
     .trg-plp-body .trg-plp-show-filters-btn {
+      display: none !important;
+    }
+
+    .trg-plp-body .facets-toggle {
       display: none !important;
     }
   }
