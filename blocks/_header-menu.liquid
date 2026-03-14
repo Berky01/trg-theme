@@ -96,7 +96,15 @@
               aria-haspopup="true"
               aria-expanded="false"
             {%- endif -%}
-            {% if link.current %}
+            {% liquid
+              assign is_home_link = false
+              if link.url == routes.root_url
+                assign is_home_link = true
+              endif
+            %}
+            {% if is_home_link and request.page_type == 'index' %}
+              aria-current="page"
+            {% elsif is_home_link == false and link.current %}
               aria-current="page"
             {% endif %}
             ref="menuitem"
