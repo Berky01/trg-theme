@@ -6,20 +6,9 @@
   endif
 
   if product != blank
-    assign material = product.metafields.custom.material.value | default: product.metafields.custom.material
-    if material == blank
-      assign material = product.metafields.custom.fabric.value | default: product.metafields.custom.fabric
-    endif
-    if material == blank
-      assign material = product.metafields.details.material.value | default: product.metafields.details.material
-    endif
-
-    assign made_in = product.metafields.custom.made_in.value | default: product.metafields.custom.made_in
-    if made_in == blank
-      assign made_in = product.metafields.custom.country_of_origin.value | default: product.metafields.custom.country_of_origin
-    endif
-
-    assign fit = product.metafields.custom.fit.value | default: product.metafields.custom.fit
+    assign material = product.metafields.custom.material_type
+    assign made_in = product.metafields.custom.made_in_country
+    assign fit = product.metafields.custom.style_aesthetic
     assign category = product.type
     assign brand = product.vendor
   endif
@@ -43,7 +32,7 @@
 
     {% if fit != blank %}
       <div class="trg-product-meta__row">
-        <span class="trg-product-meta__key">Fit</span>
+        <span class="trg-product-meta__key">Style</span>
         <span class="trg-product-meta__val">{{ fit }}</span>
       </div>
     {% endif %}

@@ -1,4 +1,4 @@
-{% liquid
+{%- liquid
   assign product = closest.product
 
   if request.visual_preview_mode and product == blank
@@ -6,23 +6,10 @@
   endif
 
   if product != blank
-    assign affiliate_url = product.metafields.custom.affiliate_url.value | default: product.metafields.custom.affiliate_url
-    if affiliate_url == blank
-      assign affiliate_url = product.metafields.custom.buy_url.value | default: product.metafields.custom.buy_url
-    endif
-    if affiliate_url == blank
-      assign affiliate_url = product.metafields.custom.retailer_url.value | default: product.metafields.custom.retailer_url
-    endif
-
-    assign retailer_name = product.metafields.custom.retailer.value | default: product.metafields.custom.retailer
-    if retailer_name == blank
-      assign retailer_name = product.metafields.custom.best_retailer.value | default: product.metafields.custom.best_retailer
-    endif
-    if retailer_name == blank
-      assign retailer_name = product.vendor
-    endif
+    assign affiliate_url = product.metafields.custom.buy_url | default: product.metafields.custom.affiliate_url | default: product.metafields.custom.retailer_url
+    assign retailer_name = product.metafields.custom.retailer | default: product.metafields.custom.best_retailer | default: product.vendor
   endif
-%}
+-%}
 
 {% if product != blank %}
   <div class="trg-affiliate-cta" {{ block.shopify_attributes }}>

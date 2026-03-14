@@ -10,23 +10,16 @@
 
   if product != blank
     assign ships_to_canada_value = product.metafields.custom.ships_to_canada.value | default: product.metafields.custom.ships_to_canada
-    assign ships_canada_value = product.metafields.custom.ships_canada.value | default: product.metafields.custom.ships_canada
+    assign duties_apply_value = product.metafields.custom.ca_duties_apply.value | default: product.metafields.custom.ca_duties_apply
 
-    if ships_to_canada_value != blank and ships_to_canada_value != false
-      assign ships_to_canada = true
-    elsif ships_canada_value != blank and ships_canada_value != false
+    if ships_to_canada_value == 'Yes'
       assign ships_to_canada = true
     elsif product.tags contains 'ships-to-canada'
       assign ships_to_canada = true
     endif
 
-    assign duties_apply_value = product.metafields.custom.ca_duties_apply.value | default: product.metafields.custom.ca_duties_apply
-    assign duties_included_value = product.metafields.custom.duties_included.value | default: product.metafields.custom.duties_included
-
-    if duties_apply_value != blank and duties_apply_value != false
+    if duties_apply_value == 'Yes'
       assign duties_apply = true
-    elsif duties_included_value != blank and duties_included_value != false
-      assign duties_apply = false
     endif
   endif
 %}
