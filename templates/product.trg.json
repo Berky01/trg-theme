@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
@@ -16,6 +25,7 @@
             "slideshow_mobile_controls_style": "dots",
             "thumbnail_position": "right",
             "thumbnail_width": 44,
+            "thumbnail_radius": 0,
             "aspect_ratio": "1/1.25",
             "constrain_to_viewport": false,
             "media_fit": "cover",
@@ -91,6 +101,7 @@
                 "show_number": true,
                 "rating_color": "primary",
                 "type_preset": "paragraph",
+                "width": "100%",
                 "alignment": "left"
               },
               "blocks": {}
@@ -132,6 +143,7 @@
             },
             "buy_buttons_eYQEYi": {
               "type": "buy-buttons",
+              "disabled": true,
               "settings": {
                 "stacking": false,
                 "show_pickup_availability": false,
@@ -164,6 +176,12 @@
                 }
               },
               "block_order": []
+            },
+            "trg_affiliate_cta_WHx6Gp": {
+              "type": "trg-affiliate-cta",
+              "name": "TRG Affiliate CTA",
+              "settings": {},
+              "blocks": {}
             },
             "accordion_Yd4U4w": {
               "type": "accordion",
@@ -316,6 +334,7 @@
             "price_a7krng",
             "variant_picker_R3rGDr",
             "buy_buttons_eYQEYi",
+            "trg_affiliate_cta_WHx6Gp",
             "accordion_Yd4U4w"
           ]
         }
@@ -326,6 +345,7 @@
         "equal_columns": false,
         "limit_details_width": true,
         "gap": 24,
+        "enable_sticky_add_to_cart": true,
         "color_scheme": "",
         "padding-block-start": 30,
         "padding-block-end": 0
@@ -409,7 +429,6 @@
             "group_HhWKWd": {
               "type": "_product-card-group",
               "settings": {
-                "open_in_new_tab": false,
                 "content_direction": "column",
                 "vertical_on_mobile": true,
                 "horizontal_alignment": "flex-start",
@@ -437,6 +456,8 @@
                 "overlay_color": "#00000026",
                 "overlay_style": "solid",
                 "gradient_direction": "to top",
+                "link": "",
+                "open_in_new_tab": false,
                 "padding-block-start": 0,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
@@ -534,6 +555,7 @@
           "static": true,
           "settings": {
             "media_type": "image",
+            "link": "",
             "video_loop": true,
             "video_autoplay": false,
             "image_position": "cover",
@@ -554,9 +576,14 @@
               "type": "product-card",
               "name": "t:names.product_card",
               "settings": {
+                "product": "",
                 "product_card_gap": 16,
                 "inherit_color_scheme": true,
                 "color_scheme": "",
+                "width": "fill",
+                "custom_width": 100,
+                "width_mobile": "fill",
+                "custom_width_mobile": 100,
                 "border": "none",
                 "border_width": 1,
                 "border_opacity": 100,
@@ -585,7 +612,6 @@
                 "group_Hxjm3h": {
                   "type": "_product-card-group",
                   "settings": {
-                    "open_in_new_tab": false,
                     "content_direction": "column",
                     "vertical_on_mobile": true,
                     "horizontal_alignment": "flex-start",
@@ -613,6 +639,8 @@
                     "overlay_color": "#00000026",
                     "overlay_style": "solid",
                     "gradient_direction": "to top",
+                    "link": "",
+                    "open_in_new_tab": false,
                     "padding-block-start": 0,
                     "padding-block-end": 0,
                     "padding-inline-start": 0,
