@@ -1255,8 +1255,8 @@ body.trg-reveal-enabled-false [data-trg-reveal] {
 }
 
 .main-collection-grid .product-grid {
-  border: 1px solid #ddd8cf;
-  background: #ddd8cf;
+  border: none;
+  background: transparent;
 }
 
 @media screen and (min-width: 990px) {
