@@ -1906,6 +1906,19 @@
       max-width: 130px;
     }
   }
+
+  @media screen and (max-width: 989px) {
+    .trg-plp-body.trg-plp-body .collection-wrapper {
+      grid-template-columns: minmax(0, 1fr) !important;
+      column-gap: 0 !important;
+    }
+
+    .trg-plp-body.trg-plp-body .collection-wrapper > div.facets-block-wrapper--vertical,
+    .trg-plp-body.trg-plp-body .collection-wrapper > div.facets-block-wrapper--vertical:not(.hidden) {
+      display: none !important;
+      width: 0 !important;
+    }
+  }
 {% endstylesheet %}
 
 {% schema %}
