@@ -177,6 +177,10 @@
 %}
 
 {% stylesheet %}
+  .product-information {
+    background: #f5f1eb;
+  }
+
   .sticky-add-to-cart__bar {
     position: fixed;
     bottom: 20px;
@@ -357,6 +361,18 @@
       text-overflow: ellipsis;
       white-space: nowrap;
     }
+  }
+
+  .sticky-add-to-cart__bar {
+    background: #1a1a18;
+    color: #f5f1eb;
+  }
+
+  .sticky-add-to-cart__bar .price__regular,
+  .sticky-add-to-cart__bar .price__sale,
+  .sticky-add-to-cart__bar .sticky-add-to-cart__title,
+  .sticky-add-to-cart__bar .sticky-add-to-cart__variant {
+    color: inherit;
   }
 {% endstylesheet %}
 
