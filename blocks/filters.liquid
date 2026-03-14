@@ -185,6 +185,41 @@
                   </button>
                 </facet-remove-component>
               </div>
+
+              {% if section.settings.trg_plp_shell_max_width != blank %}
+                <div class="trg-plp-toggle-filters">
+                  <button
+                    type="button"
+                    class="trg-plp-toggle-option"
+                    data-trg-toggle="ships-ca"
+                    aria-pressed="false"
+                  >
+                    <span class="trg-plp-toggle-label">
+                      <span class="trg-plp-canada-dot" aria-hidden="true"></span>
+                      Ships to Canada
+                    </span>
+                    <span class="trg-plp-toggle-switch" aria-hidden="true"></span>
+                  </button>
+                  <button
+                    type="button"
+                    class="trg-plp-toggle-option"
+                    data-trg-toggle="on-sale"
+                    aria-pressed="false"
+                  >
+                    <span class="trg-plp-toggle-label">On Sale</span>
+                    <span class="trg-plp-toggle-switch" aria-hidden="true"></span>
+                  </button>
+                  <button
+                    type="button"
+                    class="trg-plp-toggle-option"
+                    data-trg-toggle="new-arrivals"
+                    aria-pressed="false"
+                  >
+                    <span class="trg-plp-toggle-label">New Arrivals</span>
+                    <span class="trg-plp-toggle-switch" aria-hidden="true"></span>
+                  </button>
+                </div>
+              {% endif %}
             {% else %}
               {% render 'filter-remove-buttons',
                 filters: filters,

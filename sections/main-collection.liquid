@@ -174,6 +174,16 @@
           return;
         }
 
+        const toggleFilter = target.closest('[data-trg-toggle]');
+        if (toggleFilter instanceof HTMLButtonElement) {
+          event.preventDefault();
+          const isPressed = toggleFilter.getAttribute('aria-pressed') === 'true';
+          toggleFilter.setAttribute('aria-pressed', String(!isPressed));
+          this.renderActiveTags();
+          this.applySearch();
+          return;
+        }
+
         const loadMoreButton = target.closest('[data-trg-load-more-btn]');
         if (loadMoreButton instanceof HTMLAnchorElement) {
           event.preventDefault();
@@ -242,15 +252,38 @@
         return Array.from(this.root.querySelectorAll('[data-trg-search-item]'));
       }
 
+      getActiveToggles() {
+        const active = new Set();
+
+        for (const button of document.querySelectorAll('[data-trg-toggle]')) {
+          if (!(button instanceof HTMLButtonElement)) continue;
+          if (button.getAttribute('aria-pressed') === 'true' && button.dataset.trgToggle) {
+            active.add(button.dataset.trgToggle);
+          }
+        }
+
+        return active;
+      }
+
+      matchesToggleFilters(card, activeToggles) {
+        if (activeToggles.size === 0) return true;
+        if (activeToggles.has('ships-ca') && card.dataset.trgShipsCa !== 'true') return false;
+        if (activeToggles.has('on-sale') && card.dataset.trgOnSale !== 'true') return false;
+        if (activeToggles.has('new-arrivals') && card.dataset.trgNewArrivals !== 'true') return false;
+        return true;
+      }
+
       applySearch() {
         const searchInput = document.querySelector('[data-trg-search-input]');
         const query = normalizeText(searchInput?.value);
         const cards = this.getSearchCards();
+        const activeToggles = this.getActiveToggles();
         let visibleCount = 0;
 
         for (const card of cards) {
           const cardText = normalizeText(card.getAttribute('data-trg-search-text'));
-          const matches = query === '' || cardText.includes(query);
+          const matchesQuery = query === '' || cardText.includes(query);
+          const matches = matchesQuery && this.matchesToggleFilters(card, activeToggles);
           card.hidden = !matches;
           if (matches) visibleCount += 1;
         }
@@ -313,6 +346,21 @@
           });
         }
 
+        const toggleLabels = {
+          'ships-ca': 'Ships to Canada',
+          'on-sale': 'On Sale',
+          'new-arrivals': 'New Arrivals'
+        };
+        for (const toggle of this.getActiveToggles()) {
+          const label = toggleLabels[toggle];
+          if (!label) continue;
+          chips.push({
+            kind: 'toggle',
+            label,
+            toggle
+          });
+        }
+
         container.innerHTML = chips
           .map((chip) => {
             const attrs = Object.entries(chip)
@@ -327,6 +375,17 @@
 
       removeActiveTag(data) {
         const kind = data.kind || '';
+        if (kind === 'toggle') {
+          const toggleName = data.toggle || '';
+          const button = document.querySelector(`[data-trg-toggle="${toggleName}"]`);
+          if (button instanceof HTMLButtonElement) {
+            button.setAttribute('aria-pressed', 'false');
+            this.renderActiveTags();
+            this.applySearch();
+          }
+          return;
+        }
+
         if (kind === 'price-min' || kind === 'price-max') {
           const selector = kind === 'price-min' ? 'input[name="filter.v.price.gte"]' : 'input[name="filter.v.price.lte"]';
           const input = document.querySelector(selector);
@@ -502,6 +561,9 @@
           {% liquid
             assign product_tags = product.tags | join: ' '
             assign material_search = product.metafields.custom.material.value | default: product.metafields.custom.material
+            assign ships_to_canada = false
+            assign is_new_arrival = false
+            assign is_on_sale = false
             if material_search == blank
               assign material_search = product.metafields.custom.fabric.value | default: product.metafields.custom.fabric
             endif
@@ -514,6 +576,46 @@
             assign color_search = product.metafields.custom.color.value | default: product.metafields.custom.color
             if color_search == blank
               assign color_search = product.metafields.details.color.value | default: product.metafields.details.color
+            endif
+            assign ships_to_canada_meta = product.metafields.custom.ships_to_canada.value | default: product.metafields.custom.ships_to_canada
+            if ships_to_canada_meta == blank
+              assign ships_to_canada_meta = product.metafields.custom.shipsToCanada.value | default: product.metafields.custom.shipsToCanada
+            endif
+            if ships_to_canada_meta == blank
+              assign ships_to_canada_meta = product.metafields.custom.ships_canada.value | default: product.metafields.custom.ships_canada
+            endif
+            if ships_to_canada_meta == true or ships_to_canada_meta == 'true' or ships_to_canada_meta == '1'
+              assign ships_to_canada = true
+            endif
+            assign new_flag = product.metafields.custom.is_new.value | default: product.metafields.custom.is_new
+            if new_flag == blank
+              assign new_flag = product.metafields.custom.new_arrival.value | default: product.metafields.custom.new_arrival
+            endif
+            if new_flag == blank
+              assign new_flag = product.metafields.custom.newArrival.value | default: product.metafields.custom.newArrival
+            endif
+            if new_flag == true or new_flag == 'true' or new_flag == '1'
+              assign is_new_arrival = true
+            endif
+            if product.compare_at_price > product.price
+              assign is_on_sale = true
+            endif
+            if ships_to_canada == false or is_new_arrival == false
+              for tag in product.tags
+                assign normalized_tag = tag | downcase | strip
+                if ships_to_canada == false
+                  case normalized_tag
+                    when 'ships-to-canada', 'ships to canada', 'ships_to_canada', 'shipscanada'
+                      assign ships_to_canada = true
+                  endcase
+                endif
+                if is_new_arrival == false
+                  case normalized_tag
+                    when 'new', 'new arrival', 'new-arrival', 'new arrivals', 'new-arrivals', 'new_arrival'
+                      assign is_new_arrival = true
+                  endcase
+                endif
+              endfor
             endif
             capture searchable_text
               echo product.title
@@ -538,6 +640,9 @@
             data-product-id="{{ product.id }}"
             data-trg-search-item
             data-trg-search-text="{{ searchable_text }}"
+            data-trg-ships-ca="{% if ships_to_canada %}true{% else %}false{% endif %}"
+            data-trg-on-sale="{% if is_on_sale %}true{% else %}false{% endif %}"
+            data-trg-new-arrivals="{% if is_new_arrival %}true{% else %}false{% endif %}"
             style="--trg-plp-card-delay: {{ card_delay }}ms;"
             ref="cards[]"
           >
@@ -1016,8 +1121,8 @@
     display: flex;
     flex: 1 1 auto;
     padding: var(--trg-plp-caption-padding) var(--trg-plp-caption-padding) 0;
-    border-top: 1px solid rgb(var(--color-border-rgb) / 0.55);
-    background: var(--trg-plp-caption-background);
+    border-top: 1px solid var(--border);
+    background: var(--warm-white);
   }
 
   .trg-plp-body .group-block-content {
@@ -1055,10 +1160,10 @@
     margin: 0;
     color: var(--trg-plp-text-color);
     font-family: var(--font-heading--family);
-    font-size: 1.05rem;
+    font-size: 0.95rem;
     font-weight: 400;
     letter-spacing: 0;
-    line-height: 1.18;
+    line-height: 1.2;
     text-transform: none;
   }
 
@@ -1321,6 +1426,84 @@
     display: none !important;
   }
 
+  .trg-plp-body .trg-plp-toggle-filters {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid var(--trg-plp-border-color);
+  }
+
+  .trg-plp-body .trg-plp-toggle-option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 5px 2px;
+    background: none;
+    border: 0;
+    cursor: pointer;
+    font-family: inherit;
+    text-align: left;
+  }
+
+  .trg-plp-body .trg-plp-toggle-label {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    color: var(--trg-plp-muted-color);
+    font-size: 13px;
+    line-height: 1.25;
+  }
+
+  .trg-plp-body .trg-plp-canada-dot {
+    width: 7px;
+    height: 7px;
+    flex-shrink: 0;
+    background: #d4291a;
+    border-radius: 50%;
+  }
+
+  .trg-plp-body .trg-plp-toggle-switch {
+    position: relative;
+    width: 32px;
+    height: 18px;
+    flex-shrink: 0;
+    background: var(--trg-plp-border-color);
+    border-radius: 999px;
+    transition: background 0.2s ease;
+  }
+
+  .trg-plp-body .trg-plp-toggle-switch::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 14px;
+    height: 14px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgb(0 0 0 / 0.18);
+    transition: transform 0.2s ease;
+  }
+
+  .trg-plp-body .trg-plp-toggle-option[aria-pressed='true'] .trg-plp-toggle-switch {
+    background: var(--ink);
+  }
+
+  .trg-plp-body .trg-plp-toggle-option[aria-pressed='true'][data-trg-toggle='ships-ca'] .trg-plp-toggle-switch {
+    background: #d4291a;
+  }
+
+  .trg-plp-body .trg-plp-toggle-option[aria-pressed='true'] .trg-plp-toggle-switch::after {
+    transform: translateX(14px);
+  }
+
+  .trg-plp-body .trg-plp-toggle-option[aria-pressed='true'] .trg-plp-toggle-label {
+    color: var(--trg-plp-text-color);
+  }
+
   .trg-plp-body .facets--vertical:not(.facets--drawer) .facets__item {
     margin: 0;
     padding-top: 1.1rem;
@@ -1509,13 +1692,13 @@
     padding: 0 !important;
     position: relative;
     overflow: hidden;
-    background: var(--trg-plp-caption-background);
-    border-top: 1px solid var(--trg-plp-border-color);
+    background: var(--warm-white);
+    border-top: 1px solid var(--border);
   }
 
   .trg-plp-body .group-block-content {
     padding: var(--trg-plp-caption-padding) var(--trg-plp-caption-padding) 0;
-    background: var(--trg-plp-caption-background);
+    background: var(--warm-white);
   }
 
   .trg-plp-body .trg-plp-card-brand {
@@ -1523,9 +1706,10 @@
   }
 
   .trg-plp-body .group-block-content > a.contents.user-select-text .text-block p {
-    font-family: var(--font-body--family);
-    font-size: 1.05rem;
-    font-weight: 500;
+    font-family: var(--font-heading--family);
+    font-size: 0.95rem;
+    font-weight: 400;
+    line-height: 1.2;
   }
 
   .trg-plp-body .trg-plp-card-material {
@@ -1575,11 +1759,11 @@
     gap: 0.75rem;
     margin: 0;
     padding: 0.82rem var(--trg-plp-caption-padding);
-    background: #1a1a18;
-    color: #f5f1eb;
-    font-size: 0.72rem;
-    font-weight: 500;
-    letter-spacing: 0.06em;
+    background: var(--ink);
+    color: var(--paper);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
     text-decoration: none;
     text-transform: uppercase;
     opacity: 0;
@@ -1596,8 +1780,8 @@
   }
 
   .trg-plp-body .trg-plp-card-shop-cta:hover {
-    background: #c4562a;
-    color: #f5f1eb;
+    background: var(--accent);
+    color: var(--paper);
   }
 
   .trg-plp-body .trg-plp-progress-zone {
