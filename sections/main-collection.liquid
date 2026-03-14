@@ -150,7 +150,14 @@
         const mobileFilterButton = target.closest('[data-trg-plp-mobile-filter-button]');
         if (mobileFilterButton) {
           event.preventDefault();
-          document.querySelector('.facets-toggle__button')?.click();
+          const dialog = document.querySelector('dialog-component#filters-drawer');
+          if (dialog && typeof dialog.show === 'function') {
+            dialog.show();
+          } else if (dialog) {
+            dialog.setAttribute('open', '');
+          } else {
+            document.querySelector('.facets-toggle__button')?.click();
+          }
           return;
         }
 
