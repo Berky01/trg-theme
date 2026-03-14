@@ -461,6 +461,12 @@
   }
 
   @media screen and (max-width: 900px) {
+    .trg-search-bar,
+    [class*='search-bar'],
+    section[id*='search'] {
+      z-index: 90;
+    }
+
     .trg-search-bar-section--collapsible.is-revealed {
       max-height: 176px;
     }
