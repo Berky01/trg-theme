@@ -91,7 +91,7 @@
           <line x1="14" y1="12" x2="21" y2="12"/>
           <line x1="14" y1="16" x2="21" y2="16"/>
         </svg>
-        Show filters
+        Filters
       </button>
 
       {% if block_settings.enable_filtering %}
@@ -1369,6 +1369,23 @@
 
     .trg-plp-sidebar-hide-btn {
       display: none !important;
+    }
+  }
+
+  @media screen and (max-width: 989px) {
+    .trg-plp-body .trg-plp-show-filters-btn {
+      display: inline-flex !important;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border: 1px solid var(--trg-plp-border-color);
+      background: white;
+      border-radius: 2px;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--trg-plp-muted-color);
     }
   }
 
