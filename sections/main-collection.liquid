@@ -688,6 +688,7 @@
     justify-content: space-between;
     gap: 14px;
     padding: 0.75rem 0;
+    position: relative;
     border: 0;
     background: transparent;
   }
@@ -700,6 +701,9 @@
   .trg-plp-body .products-count-wrapper {
     margin: 0;
     flex-shrink: 0;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
   }
 
   .trg-plp-body .products-count-wrapper span {
@@ -735,15 +739,16 @@
   }
 
   .trg-plp-body .sorting-filter .facets__label {
+    display: none;
+  }
+
+  .trg-plp-body .sorting-filter .sorting-filter__status {
+    display: inline;
     color: inherit;
     font-size: 12px;
     font-weight: 500;
     letter-spacing: normal;
     text-transform: none;
-  }
-
-  .trg-plp-body .sorting-filter .sorting-filter__status {
-    display: none;
   }
 
   .trg-plp-body .sorting-filter__options {
@@ -1053,6 +1058,11 @@
       justify-content: space-between;
       gap: 10px;
       padding-bottom: 16px;
+    }
+
+    .trg-plp-body .products-count-wrapper {
+      position: static;
+      transform: none;
     }
 
     .trg-plp-body .products-count-wrapper span {
