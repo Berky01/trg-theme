@@ -26,9 +26,12 @@
       assign sort_label = section.settings.trg_plp_sort_label
     endif
     for option in results.sort_options
+      if status == blank and forloop.first
+        assign status = option.name
+      endif
       if option.value == sort_by
         assign status = option.name
-      elsif status == blank and sort_by == blank and option.value == default_sort_by
+      elsif option.value == default_sort_by and sort_by != default_sort_by
         assign status = option.name
       endif
     endfor
