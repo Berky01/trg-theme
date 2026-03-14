@@ -186,38 +186,48 @@
                 </facet-remove-component>
               </div>
 
-              {% if section.settings.trg_plp_shell_max_width != blank %}
+              {% if section.settings.trg_plp_shell_max_width != blank and section.settings.trg_plp_show_toggles %}
                 <div class="trg-plp-toggle-filters">
-                  <button
-                    type="button"
-                    class="trg-plp-toggle-option"
-                    data-trg-toggle="ships-ca"
-                    aria-pressed="false"
-                  >
-                    <span class="trg-plp-toggle-label">
-                      <span class="trg-plp-canada-dot" aria-hidden="true"></span>
-                      Ships to Canada
-                    </span>
-                    <span class="trg-plp-toggle-switch" aria-hidden="true"></span>
-                  </button>
-                  <button
-                    type="button"
-                    class="trg-plp-toggle-option"
-                    data-trg-toggle="on-sale"
-                    aria-pressed="false"
-                  >
-                    <span class="trg-plp-toggle-label">On Sale</span>
-                    <span class="trg-plp-toggle-switch" aria-hidden="true"></span>
-                  </button>
-                  <button
-                    type="button"
-                    class="trg-plp-toggle-option"
-                    data-trg-toggle="new-arrivals"
-                    aria-pressed="false"
-                  >
-                    <span class="trg-plp-toggle-label">New Arrivals</span>
-                    <span class="trg-plp-toggle-switch" aria-hidden="true"></span>
-                  </button>
+                  {% if section.settings.trg_plp_toggle_ships_ca %}
+                    <button
+                      type="button"
+                      class="trg-plp-toggle-option"
+                      data-trg-toggle="ships-ca"
+                      aria-pressed="false"
+                    >
+                      <span class="trg-plp-toggle-label">
+                        <span class="trg-plp-canada-dot" aria-hidden="true"></span>
+                        {{ section.settings.trg_plp_toggle_ships_ca_label | default: 'Ships to Canada' | escape }}
+                      </span>
+                      <span class="trg-plp-toggle-switch" aria-hidden="true"></span>
+                    </button>
+                  {% endif %}
+                  {% if section.settings.trg_plp_toggle_on_sale %}
+                    <button
+                      type="button"
+                      class="trg-plp-toggle-option"
+                      data-trg-toggle="on-sale"
+                      aria-pressed="false"
+                    >
+                      <span class="trg-plp-toggle-label">
+                        {{ section.settings.trg_plp_toggle_on_sale_label | default: 'On Sale' | escape }}
+                      </span>
+                      <span class="trg-plp-toggle-switch" aria-hidden="true"></span>
+                    </button>
+                  {% endif %}
+                  {% if section.settings.trg_plp_toggle_new %}
+                    <button
+                      type="button"
+                      class="trg-plp-toggle-option"
+                      data-trg-toggle="new-arrivals"
+                      aria-pressed="false"
+                    >
+                      <span class="trg-plp-toggle-label">
+                        {{ section.settings.trg_plp_toggle_new_label | default: 'New Arrivals' | escape }}
+                      </span>
+                      <span class="trg-plp-toggle-switch" aria-hidden="true"></span>
+                    </button>
+                  {% endif %}
                 </div>
               {% endif %}
             {% else %}

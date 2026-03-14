@@ -48,7 +48,7 @@
         "start_hidden": true,
         "accent_border": false,
         "show_filter_toggle": false,
-        "label": "Search",
+        "label": "",
         "accessibility_label": "Search the store",
         "placeholder": "Brands, styles, categories...",
         "button_label": "Search",

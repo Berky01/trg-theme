@@ -65,7 +65,12 @@
       {% if show_filter_toggle %}
         <button type="button" class="button-unstyled trg-search-bar__toggle" data-trg-plp-filter-toggle>
           <span class="svg-wrapper trg-search-bar__toggle-icon">
-            {{ 'icon-filter.svg' | inline_asset_content }}
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3" y="3" width="7" height="18" rx="1"></rect>
+              <line x1="14" y1="8" x2="21" y2="8"></line>
+              <line x1="14" y1="12" x2="21" y2="12"></line>
+              <line x1="14" y1="16" x2="21" y2="16"></line>
+            </svg>
           </span>
           <span data-trg-plp-filter-toggle-label>Hide filters</span>
         </button>
@@ -153,13 +158,8 @@
         </div>
       {% endif %}
 
-      {% if is_collection_toolbar %}
+      {% if section.settings.button_label != blank %}
         <div class="trg-search-bar__divider" aria-hidden="true"></div>
-        <label class="visually-hidden" for="TrgCollectionSort-{{ section.id }}">Sort products</label>
-        <select id="TrgCollectionSort-{{ section.id }}" class="trg-search-bar__sort" data-trg-plp-sort>
-          <option value="">Sort</option>
-        </select>
-      {% elsif section.settings.button_label != blank %}
         <button
           type="submit"
           class="trg-search-bar__submit"

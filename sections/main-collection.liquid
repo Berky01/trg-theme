@@ -265,6 +265,11 @@
         return active;
       }
 
+      getToggleLabel(toggleName) {
+        const label = document.querySelector(`[data-trg-toggle="${toggleName}"] .trg-plp-toggle-label`);
+        return label?.textContent?.trim() || '';
+      }
+
       matchesToggleFilters(card, activeToggles) {
         if (activeToggles.size === 0) return true;
         if (activeToggles.has('ships-ca') && card.dataset.trgShipsCa !== 'true') return false;
@@ -346,13 +351,8 @@
           });
         }
 
-        const toggleLabels = {
-          'ships-ca': 'Ships to Canada',
-          'on-sale': 'On Sale',
-          'new-arrivals': 'New Arrivals'
-        };
         for (const toggle of this.getActiveToggles()) {
-          const label = toggleLabels[toggle];
+          const label = this.getToggleLabel(toggle);
           if (!label) continue;
           chips.push({
             kind: 'toggle',
@@ -533,6 +533,11 @@
     --trg-plp-muted-color: {{ section.settings.trg_plp_muted_color }};
     --trg-plp-sale-background: {{ section.settings.trg_plp_sale_background }};
     --trg-plp-sale-text: {{ section.settings.trg_plp_sale_text }};
+    --trg-plp-cta-background: {{ section.settings.trg_plp_cta_background }};
+    --trg-plp-cta-text: {{ section.settings.trg_plp_cta_text }};
+    --trg-plp-cta-hover: {{ section.settings.trg_plp_cta_hover }};
+    --trg-plp-image-ratio: {{ section.settings.trg_plp_image_ratio }};
+    --trg-plp-image-position: {{ section.settings.trg_plp_image_position }};
   "
   section-id="{{ section.id }}"
   infinite-scroll="{{ section.settings.enable_infinite_scroll }}"
@@ -973,8 +978,8 @@
 
   .trg-plp-body .card-gallery {
     background: var(--trg-plp-card-background);
-    aspect-ratio: 4 / 5;
-    min-height: 320px;
+    aspect-ratio: var(--trg-plp-image-ratio, 3 / 4);
+    min-height: 0;
     display: block;
   }
 
@@ -992,6 +997,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: var(--trg-plp-image-position, top center);
   }
 
   .trg-plp-body .product-card-gallery__title-placeholder {
@@ -1121,8 +1127,8 @@
     display: flex;
     flex: 1 1 auto;
     padding: var(--trg-plp-caption-padding) var(--trg-plp-caption-padding) 0;
-    border-top: 1px solid var(--border);
-    background: var(--warm-white);
+    border-top: 1px solid var(--trg-plp-border-color);
+    background: var(--trg-plp-caption-background);
   }
 
   .trg-plp-body .group-block-content {
@@ -1431,7 +1437,7 @@
     flex-direction: column;
     gap: 2px;
     padding-bottom: 16px;
-    margin-bottom: 16px;
+    margin-bottom: 4px;
     border-bottom: 1px solid var(--trg-plp-border-color);
   }
 
@@ -1489,7 +1495,7 @@
   }
 
   .trg-plp-body .trg-plp-toggle-option[aria-pressed='true'] .trg-plp-toggle-switch {
-    background: var(--ink);
+    background: var(--trg-plp-text-color);
   }
 
   .trg-plp-body .trg-plp-toggle-option[aria-pressed='true'][data-trg-toggle='ships-ca'] .trg-plp-toggle-switch {
@@ -1595,6 +1601,7 @@
 
   .trg-plp-body .product-grid__item {
     background: transparent;
+    position: relative;
     opacity: 0;
     animation: trg-plp-fade-up 0.45s ease forwards;
     animation-delay: var(--trg-plp-card-delay, 0ms);
@@ -1612,7 +1619,7 @@
   }
 
   .trg-plp-body .card-gallery {
-    aspect-ratio: 3 / 4;
+    aspect-ratio: var(--trg-plp-image-ratio, 3 / 4);
     min-height: 0;
     background: var(--trg-plp-card-background);
   }
@@ -1620,12 +1627,12 @@
   .trg-plp-body .card-gallery img,
   .trg-plp-body .card-gallery video,
   .trg-plp-body .card-gallery .media {
-    object-position: top center;
+    object-position: var(--trg-plp-image-position, top center);
   }
 
   .trg-plp-body .product-card-gallery__title-placeholder {
     min-height: 0;
-    aspect-ratio: 3 / 4;
+    aspect-ratio: var(--trg-plp-image-ratio, 3 / 4);
   }
 
   .trg-plp-body .product-badges {
@@ -1692,13 +1699,13 @@
     padding: 0 !important;
     position: relative;
     overflow: hidden;
-    background: var(--warm-white);
-    border-top: 1px solid var(--border);
+    background: var(--trg-plp-caption-background);
+    border-top: 1px solid var(--trg-plp-border-color);
   }
 
   .trg-plp-body .group-block-content {
     padding: var(--trg-plp-caption-padding) var(--trg-plp-caption-padding) 0;
-    background: var(--warm-white);
+    background: var(--trg-plp-caption-background);
   }
 
   .trg-plp-body .trg-plp-card-brand {
@@ -1730,58 +1737,61 @@
   }
 
   .trg-plp-body .trg-plp-card-cta-block {
-    width: 100%;
-    margin-top: 0.5rem;
-    padding: 0;
-    border: 0;
-  }
-
-  .trg-plp-body .trg-plp-card-retailer {
-    margin: 0 0 0.7rem;
-    color: var(--trg-plp-muted-color);
-    font-size: 0.63rem;
-  }
-
-  .trg-plp-body .trg-plp-card-retailer strong {
-    color: var(--trg-plp-text-color);
-    font-weight: 500;
-  }
-
-  .trg-plp-body .trg-plp-card-shop-cta {
     position: absolute;
     right: 0;
     bottom: 0;
     left: 0;
     z-index: 3;
-    display: flex;
+    width: auto;
+    margin-top: 0;
+    padding: 10px var(--trg-plp-caption-padding);
+    background: var(--trg-plp-cta-background, #1a1a18);
+    border-top: 0;
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity 0.16s ease, transform 0.16s ease;
+    pointer-events: none;
+  }
+
+  .trg-plp-body .trg-plp-card-retailer {
+    margin: 0 0 4px;
+    color: rgb(245 241 235 / 0.55);
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+  }
+
+  .trg-plp-body .trg-plp-card-retailer strong {
+    color: rgb(245 241 235 / 0.8);
+    font-weight: 500;
+  }
+
+  .trg-plp-body .trg-plp-card-shop-cta {
+    display: inline-flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 0.75rem;
+    gap: 6px;
     margin: 0;
-    padding: 0.82rem var(--trg-plp-caption-padding);
-    background: var(--ink);
-    color: var(--paper);
+    padding: 0;
+    background: transparent;
+    color: var(--trg-plp-cta-text, #f5f1eb);
     font-size: 11px;
     font-weight: 600;
     letter-spacing: 0.14em;
+    line-height: 1.2;
     text-decoration: none;
     text-transform: uppercase;
-    opacity: 0;
-    pointer-events: none;
-    transform: translateY(100%);
-    transition: opacity 0.18s ease, transform 0.18s ease, background 0.18s ease, color 0.18s ease;
   }
 
-  .trg-plp-body .product-card:hover .trg-plp-card-shop-cta,
-  .trg-plp-body .product-card:focus-within .trg-plp-card-shop-cta {
+  .trg-plp-body .product-grid__item:hover .trg-plp-card-cta-block,
+  .trg-plp-body .product-grid__item:focus-within .trg-plp-card-cta-block {
     opacity: 1;
     pointer-events: auto;
     transform: translateY(0);
   }
 
   .trg-plp-body .trg-plp-card-shop-cta:hover {
-    background: var(--accent);
-    color: var(--paper);
+    background: transparent;
+    color: var(--trg-plp-cta-hover, #c4562a);
   }
 
   .trg-plp-body .trg-plp-progress-zone {
@@ -2180,6 +2190,104 @@
       "default": 12
     },
     {
+      "type": "text",
+      "id": "trg_plp_sort_label",
+      "label": "Sort dropdown label",
+      "default": "Sort"
+    },
+    {
+      "type": "select",
+      "id": "trg_plp_image_ratio",
+      "label": "Card image ratio",
+      "options": [
+        {
+          "value": "3 / 4",
+          "label": "3:4 Portrait (default)"
+        },
+        {
+          "value": "4 / 5",
+          "label": "4:5 Portrait"
+        },
+        {
+          "value": "1 / 1",
+          "label": "1:1 Square"
+        },
+        {
+          "value": "16 / 9",
+          "label": "16:9 Landscape"
+        }
+      ],
+      "default": "3 / 4"
+    },
+    {
+      "type": "select",
+      "id": "trg_plp_image_position",
+      "label": "Card image crop position",
+      "options": [
+        {
+          "value": "top center",
+          "label": "Top center (default)"
+        },
+        {
+          "value": "center center",
+          "label": "Center"
+        },
+        {
+          "value": "bottom center",
+          "label": "Bottom center"
+        }
+      ],
+      "default": "top center"
+    },
+    {
+      "type": "checkbox",
+      "id": "trg_plp_show_toggles",
+      "label": "Show sidebar toggle filters",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "trg_plp_toggle_ships_ca",
+      "label": "Show Ships to Canada toggle",
+      "default": true,
+      "visible_if": "{{ section.settings.trg_plp_show_toggles }}"
+    },
+    {
+      "type": "text",
+      "id": "trg_plp_toggle_ships_ca_label",
+      "label": "Ships CA toggle label",
+      "default": "Ships to Canada",
+      "visible_if": "{{ section.settings.trg_plp_show_toggles and section.settings.trg_plp_toggle_ships_ca }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "trg_plp_toggle_on_sale",
+      "label": "Show On Sale toggle",
+      "default": true,
+      "visible_if": "{{ section.settings.trg_plp_show_toggles }}"
+    },
+    {
+      "type": "text",
+      "id": "trg_plp_toggle_on_sale_label",
+      "label": "On Sale toggle label",
+      "default": "On Sale",
+      "visible_if": "{{ section.settings.trg_plp_show_toggles and section.settings.trg_plp_toggle_on_sale }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "trg_plp_toggle_new",
+      "label": "Show New Arrivals toggle",
+      "default": true,
+      "visible_if": "{{ section.settings.trg_plp_show_toggles }}"
+    },
+    {
+      "type": "text",
+      "id": "trg_plp_toggle_new_label",
+      "label": "New Arrivals toggle label",
+      "default": "New Arrivals",
+      "visible_if": "{{ section.settings.trg_plp_show_toggles and section.settings.trg_plp_toggle_new }}"
+    },
+    {
       "type": "color",
       "id": "trg_plp_page_background",
       "label": "Page background",
@@ -2201,7 +2309,7 @@
       "type": "color",
       "id": "trg_plp_caption_background",
       "label": "Card caption background",
-      "default": "#f8f7f4"
+      "default": "#faf8f4"
     },
     {
       "type": "color",
@@ -2232,6 +2340,24 @@
       "id": "trg_plp_sale_text",
       "label": "Sale badge text",
       "default": "#f8f2ec"
+    },
+    {
+      "type": "color",
+      "id": "trg_plp_cta_background",
+      "label": "CTA overlay background",
+      "default": "#1a1a18"
+    },
+    {
+      "type": "color",
+      "id": "trg_plp_cta_text",
+      "label": "CTA overlay text",
+      "default": "#f5f1eb"
+    },
+    {
+      "type": "color",
+      "id": "trg_plp_cta_hover",
+      "label": "CTA overlay hover color",
+      "default": "#c4562a"
     }
   ],
   "presets": []

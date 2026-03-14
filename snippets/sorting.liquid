@@ -21,6 +21,10 @@
 >
   {% liquid
     assign default_sort_by = results.default_sort_by
+    assign sort_label = 'actions.sort' | t
+    if section.settings.trg_plp_sort_label != blank
+      assign sort_label = section.settings.trg_plp_sort_label
+    endif
     for option in results.sort_options
       if option.value == sort_by
         assign status = option.name
@@ -33,7 +37,7 @@
       for="sort-select-{{ section_id }}"
       class="facets__label"
     >
-      {{- 'actions.sort' | t -}}
+      {{- sort_label -}}
     </label>
     <div class="sorting-filter__select-wrapper">
       <select
@@ -93,7 +97,7 @@
           class="facets__label"
           id="sort-label-{{ section_id }}"
         >
-          {{- 'actions.sort' | t -}}
+          {{- sort_label -}}
         </span>
         <span
           class="facets__status sorting-filter__status"
