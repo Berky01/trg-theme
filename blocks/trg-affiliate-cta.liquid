@@ -6,8 +6,8 @@
   endif
 
   if product != blank
-    assign affiliate_url = product.metafields.custom.buy_url | default: product.metafields.custom.affiliate_url | default: product.metafields.custom.retailer_url
-    assign retailer_name = product.metafields.custom.retailer | default: product.metafields.custom.best_retailer | default: product.vendor
+    assign affiliate_url = product.metafields.custom.buy_url
+    assign retailer_name = product.metafields.custom.retailer | default: product.vendor
   endif
 -%}
 

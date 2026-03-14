@@ -1,4 +1,4 @@
-{% liquid
+{%- liquid
   assign product = closest.product
 
   if request.visual_preview_mode and product == blank
@@ -6,23 +6,14 @@
   endif
 
   assign ships_to_canada = false
-  assign duties_apply = false
-
-  if product != blank
-    assign ships_to_canada_value = product.metafields.custom.ships_to_canada.value | default: product.metafields.custom.ships_to_canada
-    assign duties_apply_value = product.metafields.custom.ca_duties_apply.value | default: product.metafields.custom.ca_duties_apply
-
-    if ships_to_canada_value == 'Yes'
+  if product.metafields.custom.ships_to_canada == 'Yes'
       assign ships_to_canada = true
-    elsif product.tags contains 'ships-to-canada'
-      assign ships_to_canada = true
-    endif
-
-    if duties_apply_value == 'Yes'
-      assign duties_apply = true
-    endif
   endif
-%}
+  assign duties_apply = false
+  if product.metafields.custom.ca_duties_apply == 'Yes'
+      assign duties_apply = true
+  endif
+-%}
 
 {% if ships_to_canada %}
   <div class="trg-canada-strip" data-canada-strip {{ block.shopify_attributes }}>

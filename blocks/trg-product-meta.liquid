@@ -9,6 +9,7 @@
     assign material = product.metafields.custom.material_type
     assign made_in = product.metafields.custom.made_in_country
     assign fit = product.metafields.custom.style_aesthetic
+    assign season = product.metafields.custom.season
     assign category = product.type
     assign brand = product.vendor
   endif
@@ -34,6 +35,13 @@
       <div class="trg-product-meta__row">
         <span class="trg-product-meta__key">Style</span>
         <span class="trg-product-meta__val">{{ fit }}</span>
+      </div>
+    {% endif %}
+
+    {% if season != blank %}
+      <div class="trg-product-meta__row">
+        <span class="trg-product-meta__key">Season</span>
+        <span class="trg-product-meta__val">{{ season }}</span>
       </div>
     {% endif %}
 
