@@ -956,8 +956,8 @@
   }
 
   .trg-plp-body .product-grid {
-    --product-grid-gap: 1px !important;
-    background: var(--trg-plp-page-background);
+    --product-grid-gap: 0 !important;
+    background: transparent;
   }
 
   .trg-plp-body .product-grid__item {
@@ -1138,6 +1138,7 @@
     gap: 0;
     width: 100%;
     min-height: 100%;
+    padding-bottom: 40px;
   }
 
   .trg-plp-body .trg-plp-card-brand {
@@ -1211,11 +1212,7 @@
   }
 
   .trg-plp-body .trg-plp-card-cta-block {
-    width: calc(100% + (var(--trg-plp-caption-padding) * 2));
-    margin-top: auto;
-    margin-left: calc(var(--trg-plp-caption-padding) * -1);
-    padding: 14px var(--trg-plp-caption-padding) 12px;
-    border-top: 1px solid rgb(var(--color-border-rgb) / 0.55);
+    display: contents;
   }
 
   .trg-plp-body .trg-plp-card-cta {
@@ -1595,7 +1592,7 @@
   }
 
   .trg-plp-body .product-grid {
-    --product-grid-gap: 1.25rem !important;
+    --product-grid-gap: 0 !important;
     background: transparent;
   }
 
@@ -1671,6 +1668,7 @@
     background: rgb(26 26 24 / 0.16);
     backdrop-filter: blur(6px);
     opacity: 0;
+    pointer-events: none;
     transform: translateY(-4px);
     transition: opacity 0.18s ease, transform 0.18s ease, background-color 0.18s ease;
   }
@@ -1692,6 +1690,7 @@
   .trg-plp-body .product-card:hover .trg-plp-card-wishlist,
   .trg-plp-body .product-card:focus-within .trg-plp-card-wishlist {
     opacity: 1;
+    pointer-events: auto;
     transform: translateY(0);
   }
 
@@ -1704,7 +1703,7 @@
   }
 
   .trg-plp-body .group-block-content {
-    padding: var(--trg-plp-caption-padding) var(--trg-plp-caption-padding) 0;
+    padding: var(--trg-plp-caption-padding) var(--trg-plp-caption-padding) 40px;
     background: var(--trg-plp-caption-background);
   }
 
@@ -1737,28 +1736,24 @@
   }
 
   .trg-plp-body .trg-plp-card-cta-block {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 3;
-    width: auto;
-    margin-top: 0;
-    padding: 10px var(--trg-plp-caption-padding);
-    background: var(--trg-plp-cta-background, #1a1a18);
-    border-top: 0;
-    opacity: 0;
-    transform: translateY(4px);
-    transition: opacity 0.16s ease, transform 0.16s ease;
-    pointer-events: none;
+    display: contents;
   }
 
   .trg-plp-body .trg-plp-card-retailer {
-    margin: 0 0 4px;
+    position: absolute;
+    right: var(--trg-plp-caption-padding);
+    bottom: 34px;
+    left: var(--trg-plp-caption-padding);
+    z-index: 3;
+    margin: 0;
     color: rgb(245 241 235 / 0.55);
     font-size: 10px;
     font-weight: 400;
     letter-spacing: 0.06em;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(4px);
+    transition: opacity 0.16s ease, transform 0.16s ease;
   }
 
   .trg-plp-body .trg-plp-card-retailer strong {
@@ -1767,12 +1762,18 @@
   }
 
   .trg-plp-body .trg-plp-card-shop-cta {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 3;
     display: inline-flex;
     align-items: center;
+    justify-content: space-between;
     gap: 6px;
     margin: 0;
-    padding: 0;
-    background: transparent;
+    padding: 10px var(--trg-plp-caption-padding);
+    background: var(--trg-plp-cta-background, #1a1a18);
     color: var(--trg-plp-cta-text, #f5f1eb);
     font-size: 11px;
     font-weight: 600;
@@ -1780,10 +1781,16 @@
     line-height: 1.2;
     text-decoration: none;
     text-transform: uppercase;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(4px);
+    transition: opacity 0.16s ease, transform 0.16s ease, color 0.16s ease;
   }
 
-  .trg-plp-body .product-grid__item:hover .trg-plp-card-cta-block,
-  .trg-plp-body .product-grid__item:focus-within .trg-plp-card-cta-block {
+  .trg-plp-body .product-grid__item:hover .trg-plp-card-retailer,
+  .trg-plp-body .product-grid__item:focus-within .trg-plp-card-retailer,
+  .trg-plp-body .product-grid__item:hover .trg-plp-card-shop-cta,
+  .trg-plp-body .product-grid__item:focus-within .trg-plp-card-shop-cta {
     opacity: 1;
     pointer-events: auto;
     transform: translateY(0);
@@ -1904,13 +1911,13 @@
   @media screen and (max-width: 900px) {
     .trg-plp-body .product-grid {
       --product-grid-columns-desktop: repeat(2, minmax(0, 1fr)) !important;
-      --product-grid-gap: 0.75rem !important;
+      --product-grid-gap: 0 !important;
     }
   }
 
   @media screen and (max-width: 749px) {
     .trg-plp-body .group-block-content {
-      padding: 0.75rem 0.75rem 0;
+      padding: 0.75rem 0.75rem 40px;
     }
 
     .trg-plp-body .group-block-content > a.contents.user-select-text .text-block p {
