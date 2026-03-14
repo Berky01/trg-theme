@@ -1125,9 +1125,16 @@
     max-width: none;
     padding: var(--padding-block-start) var(--page-margin) var(--padding-block-end);
     display: grid !important;
-    grid-template-columns: minmax(220px, var(--trg-plp-sidebar-width)) minmax(0, 1fr) !important;
-    column-gap: var(--trg-plp-layout-gap);
+    grid-template-columns: minmax(0, 1fr) !important;
+    column-gap: 0;
     align-items: start;
+  }
+
+  @media screen and (min-width: 990px) {
+    .trg-plp-body .collection-wrapper {
+      grid-template-columns: minmax(220px, var(--trg-plp-sidebar-width)) minmax(0, 1fr) !important;
+      column-gap: var(--trg-plp-layout-gap);
+    }
   }
 
   body.filters-hidden .trg-plp-body .collection-wrapper {
@@ -1797,128 +1804,6 @@
     }
   }
 
-  @media screen and (max-width: 989px) {
-    /* -- Collapse 2-col grid to 1 col -- */
-    .trg-plp-body .collection-wrapper {
-      grid-template-columns: minmax(0, 1fr) !important;
-      column-gap: 0 !important;
-      padding: 0.75rem 1rem 2rem !important;
-      width: 100% !important;
-    }
-
-    body.filters-hidden .trg-plp-body .collection-wrapper {
-      grid-template-columns: minmax(0, 1fr) !important;
-    }
-
-    /* -- Hide desktop sidebar -- */
-    .trg-plp-body .collection-wrapper > .facets-block-wrapper--vertical,
-    .trg-plp-body .collection-wrapper > div.facets-block-wrapper--vertical:not(.hidden) {
-      display: none !important;
-      width: 0 !important;
-    }
-
-    /* -- Keep facets-toggle button reachable by JS but invisible --
-       The search bar Filters button calls .facets-toggle__button.click()
-       so the button must stay in DOM. Use visibility:hidden not display:none. */
-    .trg-plp-body .collection-wrapper > .facets-toggle {
-      visibility: hidden;
-      position: static;
-      width: 0;
-      height: 0;
-      overflow: hidden;
-      pointer-events: auto;
-    }
-
-    .trg-plp-body .collection-wrapper > .facets-toggle .facets-toggle__button {
-      pointer-events: auto;
-    }
-
-    /* -- Controls row: filters btn left, sort right -- */
-    .trg-plp-body .collection-wrapper > .trg-collection-controls {
-      grid-column: 1 !important;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0.5rem 0 0.75rem;
-      gap: 10px;
-    }
-
-    /* Hide desktop show/hide filter buttons -- */
-    .trg-plp-body .trg-plp-sidebar-hide-btn,
-    .trg-plp-body .trg-plp-show-filters-btn {
-      display: none !important;
-    }
-
-    /* -- Grid: full width, 2 columns -- */
-    .trg-plp-body .collection-wrapper > .main-collection-grid {
-      grid-column: 1 !important;
-      width: 100%;
-      min-width: 0;
-    }
-
-    /* -- 2-col product grid --
-       Dwell uses --mobile-columns on ul.product-grid.
-       Override via direct grid-template-columns on the ul. -- */
-    .trg-plp-body ul.product-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-      --product-grid-gap: 0.6rem !important;
-    }
-
-    /* -- Card adjustments -- */
-    .trg-plp-body .card-gallery {
-      aspect-ratio: 3 / 4 !important;
-      min-height: 0 !important;
-    }
-
-    .trg-plp-body .trg-plp-card-shop-cta,
-    .trg-plp-body .trg-plp-card-retailer {
-      display: none !important;
-    }
-
-    .trg-plp-body .group-block-content {
-      padding: 0.6rem 0.75rem 0.75rem !important;
-    }
-
-    .trg-plp-body .trg-plp-card-brand {
-      font-size: 0.58rem;
-    }
-
-    .trg-plp-body .group-block-content > a.contents.user-select-text .text-block p {
-      font-size: 0.82rem;
-    }
-
-    .trg-plp-body .trg-plp-card-material {
-      font-size: 0.62rem;
-    }
-
-    .trg-plp-body .group-block-content > product-price {
-      font-size: 0.82rem;
-      margin-top: auto;
-      padding-top: 0.5rem;
-    }
-
-    .trg-plp-body .products-count-wrapper {
-      position: static !important;
-      transform: none !important;
-    }
-
-    .trg-plp-body .sorting-filter .facets__summary {
-      max-width: 130px;
-    }
-  }
-
-  @media screen and (max-width: 989px) {
-    .trg-plp-body.trg-plp-body .collection-wrapper {
-      grid-template-columns: minmax(0, 1fr) !important;
-      column-gap: 0 !important;
-    }
-
-    .trg-plp-body.trg-plp-body .collection-wrapper > div.facets-block-wrapper--vertical,
-    .trg-plp-body.trg-plp-body .collection-wrapper > div.facets-block-wrapper--vertical:not(.hidden) {
-      display: none !important;
-      width: 0 !important;
-    }
-  }
 {% endstylesheet %}
 
 {% schema %}
