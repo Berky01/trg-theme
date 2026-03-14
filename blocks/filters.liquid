@@ -79,6 +79,21 @@
       class="facets facets--horizontal facets-controls-wrapper spacing-style trg-collection-controls"
       style="{% render 'spacing-style', settings: block_settings %}{% if block_settings.text_label_case == 'uppercase' %} --facet-label-transform: uppercase;{% endif %}"
     >
+      <button
+        type="button"
+        class="button-unstyled trg-plp-show-filters-btn"
+        data-trg-plp-filter-toggle
+        aria-label="Show filters"
+      >
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="3" y="3" width="7" height="18" rx="1"/>
+          <line x1="14" y1="8" x2="21" y2="8"/>
+          <line x1="14" y1="12" x2="21" y2="12"/>
+          <line x1="14" y1="16" x2="21" y2="16"/>
+        </svg>
+        Show filters
+      </button>
+
       {% if block_settings.enable_filtering %}
         <h4 class="facets--filters-title">{{ 'content.filters' | t }}</h4>
       {% endif %}
@@ -169,21 +184,38 @@
               <div class="trg-facets-sidebar-header">
                 <h4 class="trg-facets-sidebar-title">{{ 'content.filters' | t }}</h4>
 
-                <facet-remove-component
-                  class="trg-facets-sidebar-clear"
-                  active-class="trg-facets-sidebar-clear--active"
-                  data-url="{{ results_url }}"
-                >
+                <div class="trg-facets-sidebar-header__actions">
+                  <facet-remove-component
+                    class="trg-facets-sidebar-clear"
+                    active-class="trg-facets-sidebar-clear--active"
+                    data-url="{{ results_url }}"
+                  >
+                    <button
+                      type="button"
+                      class="button-unstyled trg-facets-sidebar-clear-button{% if total_active_values > 0 %} trg-facets-sidebar-clear-button--active{% endif %}"
+                      ref="clearButton"
+                      on:click="/removeFilter?form="
+                      on:keydown="/removeFilter?form="
+                    >
+                      {{- 'actions.clear_all' | t -}}
+                    </button>
+                  </facet-remove-component>
+
                   <button
                     type="button"
-                    class="button-unstyled trg-facets-sidebar-clear-button{% if total_active_values > 0 %} trg-facets-sidebar-clear-button--active{% endif %}"
-                    ref="clearButton"
-                    on:click="/removeFilter?form="
-                    on:keydown="/removeFilter?form="
+                    class="button-unstyled trg-plp-sidebar-hide-btn"
+                    data-trg-plp-filter-toggle
+                    aria-label="Hide filters"
+                    title="Hide filters"
                   >
-                    {{- 'actions.clear_all' | t -}}
+                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">
+                      <rect x="3" y="3" width="7" height="18" rx="1"/>
+                      <line x1="14" y1="8" x2="21" y2="8"/>
+                      <line x1="14" y1="12" x2="21" y2="12"/>
+                      <line x1="14" y1="16" x2="21" y2="16"/>
+                    </svg>
                   </button>
-                </facet-remove-component>
+                </div>
               </div>
 
               {% if section.settings.trg_plp_shell_max_width != blank and section.settings.trg_plp_show_toggles %}

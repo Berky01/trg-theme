@@ -63,18 +63,6 @@
       >
 
       {% if show_filter_toggle %}
-        <button type="button" class="button-unstyled trg-search-bar__toggle" data-trg-plp-filter-toggle>
-          <span class="svg-wrapper trg-search-bar__toggle-icon">
-            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">
-              <rect x="3" y="3" width="7" height="18" rx="1"></rect>
-              <line x1="14" y1="8" x2="21" y2="8"></line>
-              <line x1="14" y1="12" x2="21" y2="12"></line>
-              <line x1="14" y1="16" x2="21" y2="16"></line>
-            </svg>
-          </span>
-          <span data-trg-plp-filter-toggle-label>Hide filters</span>
-        </button>
-
         <button type="button" class="button-unstyled trg-search-bar__mobile-filter" data-trg-plp-mobile-filter-button>
           Filters
         </button>
@@ -245,7 +233,6 @@
     gap: 1rem;
   }
 
-  .trg-search-bar__toggle,
   .trg-search-bar__mobile-filter {
     display: none;
     color: rgb(var(--color-foreground-rgb) / 0.55);
@@ -257,32 +244,8 @@
     cursor: pointer;
   }
 
-  .trg-search-bar__toggle:hover,
   .trg-search-bar__mobile-filter:hover {
     color: rgb(var(--color-foreground-rgb));
-  }
-
-  .trg-search-bar-section--collection .trg-search-bar__toggle {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.45rem;
-    flex-shrink: 0;
-  }
-
-  .trg-search-bar__toggle-icon {
-    width: 13px;
-    height: 13px;
-    color: rgb(var(--color-foreground-rgb) / 0.44);
-    flex-shrink: 0;
-  }
-
-  .trg-search-bar__toggle:hover .trg-search-bar__toggle-icon,
-  body.filters-hidden .trg-search-bar__toggle .trg-search-bar__toggle-icon {
-    color: currentColor;
-  }
-
-  body.filters-hidden .trg-search-bar__toggle {
-    color: rgb(var(--color-foreground-rgb) / 0.78);
   }
 
   .trg-search-bar__label {
@@ -449,7 +412,6 @@
   .trg-search-bar__sort:focus-visible,
   .trg-search-bar__pill:focus-visible,
   .trg-search-bar__submit:focus-visible,
-  .trg-search-bar__toggle:focus-visible,
   .trg-search-bar__mobile-filter:focus-visible {
     outline: 2px solid var(--color-primary);
     outline-offset: 2px;
@@ -509,8 +471,7 @@
       display: none;
     }
 
-    .trg-search-bar__pills,
-    .trg-search-bar__toggle {
+    .trg-search-bar__pills {
       display: none !important;
     }
 
