@@ -1255,7 +1255,7 @@
 
   .trg-plp-body .collection-wrapper > .trg-collection-controls {
     justify-content: flex-start;
-    padding-bottom: 1rem;
+    padding-bottom: 0.4rem;
   }
 
   .trg-plp-body .collection-wrapper > .main-collection-grid,
@@ -1507,6 +1507,8 @@
 
   .trg-plp-body .group-block {
     padding: 0 !important;
+    position: relative;
+    overflow: hidden;
     background: var(--trg-plp-caption-background);
     border-top: 1px solid var(--trg-plp-border-color);
   }
@@ -1545,8 +1547,8 @@
 
   .trg-plp-body .trg-plp-card-cta-block {
     width: 100%;
-    margin-top: 0.8rem;
-    padding: 0.6rem 0 0;
+    margin-top: 0.5rem;
+    padding: 0;
     border: 0;
   }
 
@@ -1562,11 +1564,16 @@
   }
 
   .trg-plp-body .trg-plp-card-shop-cta {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 3;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 0.75rem;
-    margin: 0 calc(-1 * var(--trg-plp-caption-padding)) calc(-1 * var(--trg-plp-caption-padding));
+    margin: 0;
     padding: 0.82rem var(--trg-plp-caption-padding);
     background: #1a1a18;
     color: #f5f1eb;
@@ -1575,7 +1582,17 @@
     letter-spacing: 0.06em;
     text-decoration: none;
     text-transform: uppercase;
-    transition: background 0.18s ease, color 0.18s ease;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(100%);
+    transition: opacity 0.18s ease, transform 0.18s ease, background 0.18s ease, color 0.18s ease;
+  }
+
+  .trg-plp-body .product-card:hover .trg-plp-card-shop-cta,
+  .trg-plp-body .product-card:focus-within .trg-plp-card-shop-cta {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
   }
 
   .trg-plp-body .trg-plp-card-shop-cta:hover {
