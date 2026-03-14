@@ -151,10 +151,8 @@
         if (mobileFilterButton) {
           event.preventDefault();
           const dialog = document.querySelector('dialog-component#filters-drawer');
-          if (dialog && typeof dialog.show === 'function') {
-            dialog.show();
-          } else if (dialog) {
-            dialog.setAttribute('open', '');
+          if (dialog && typeof dialog.showDialog === 'function') {
+            dialog.showDialog();
           } else {
             document.querySelector('.facets-toggle__button')?.click();
           }
@@ -1808,6 +1806,12 @@
     .trg-plp-back-to-top {
       right: 1rem;
       bottom: 1rem;
+    }
+  }
+
+  @media screen and (max-width: 989px) {
+    .trg-plp-body .trg-collection-controls {
+      display: none !important;
     }
   }
 
