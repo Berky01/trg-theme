@@ -1773,24 +1773,69 @@
     background: #c4562a;
   }
 
+  @media screen and (max-width: 749px) {
+    .trg-plp-body .card-gallery,
+    .trg-plp-body .product-card-gallery__title-placeholder {
+      min-height: 0;
+    }
+
+    .trg-plp-body .group-block-content {
+      padding: 0.6rem 0.75rem 0.75rem !important;
+    }
+
+    .trg-plp-body .group-block-content > a.contents.user-select-text .text-block p {
+      font-size: 0.96rem;
+    }
+
+    .trg-plp-body .trg-plp-sidebar-hide-btn {
+      display: none !important;
+    }
+
+    .trg-plp-back-to-top {
+      right: 1rem;
+      bottom: 1rem;
+    }
+  }
+
   @media screen and (max-width: 989px) {
+    /* -- Collapse 2-col grid to 1 col -- */
     .trg-plp-body .collection-wrapper {
       grid-template-columns: minmax(0, 1fr) !important;
-      grid-template-rows: auto auto !important;
       column-gap: 0 !important;
+      padding: 0.75rem 1rem 2rem !important;
+      width: 100% !important;
     }
 
-    .trg-plp-body .collection-wrapper > .facets-block-wrapper--vertical {
-      display: none !important;
+    body.filters-hidden .trg-plp-body .collection-wrapper {
+      grid-template-columns: minmax(0, 1fr) !important;
     }
 
+    /* -- Hide desktop sidebar -- */
+    .trg-plp-body .collection-wrapper > .facets-block-wrapper--vertical,
     .trg-plp-body .collection-wrapper > div.facets-block-wrapper--vertical:not(.hidden) {
       display: none !important;
+      width: 0 !important;
     }
 
+    /* -- Keep facets-toggle button reachable by JS but invisible --
+       The search bar Filters button calls .facets-toggle__button.click()
+       so the button must stay in DOM. Use visibility:hidden not display:none. */
+    .trg-plp-body .collection-wrapper > .facets-toggle {
+      visibility: hidden;
+      position: static;
+      width: 0;
+      height: 0;
+      overflow: hidden;
+      pointer-events: auto;
+    }
+
+    .trg-plp-body .collection-wrapper > .facets-toggle .facets-toggle__button {
+      pointer-events: auto;
+    }
+
+    /* -- Controls row: filters btn left, sort right -- */
     .trg-plp-body .collection-wrapper > .trg-collection-controls {
       grid-column: 1 !important;
-      grid-row: 1 !important;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -1798,103 +1843,31 @@
       gap: 10px;
     }
 
-    .trg-plp-body .collection-wrapper > .main-collection-grid,
-    .trg-plp-body .collection-wrapper > #ResultsList,
-    .trg-plp-body .collection-wrapper > div:has(#ResultsList) {
+    /* Hide desktop show/hide filter buttons -- */
+    .trg-plp-body .trg-plp-sidebar-hide-btn,
+    .trg-plp-body .trg-plp-show-filters-btn {
+      display: none !important;
+    }
+
+    /* -- Grid: full width, 2 columns -- */
+    .trg-plp-body .collection-wrapper > .main-collection-grid {
       grid-column: 1 !important;
-      grid-row: 2 !important;
       width: 100%;
       min-width: 0;
     }
 
-    body.filters-hidden .trg-plp-body .collection-wrapper {
-      grid-template-columns: minmax(0, 1fr) !important;
-    }
-
-    .trg-plp-body .collection-wrapper > .facets-toggle {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      pointer-events: auto;
-      visibility: hidden;
-    }
-
-    .trg-plp-body .product-grid {
-      --product-grid-gap: 0.6rem !important;
-      --product-grid-columns: 2 !important;
-      --grid-desktop-columns: 2 !important;
-    }
-
-    .trg-plp-body .product-grid > li,
-    .trg-plp-body .product-grid__item {
-      min-width: 0;
-    }
-
-    .trg-plp-body .product-grid ul,
+    /* -- 2-col product grid --
+       Dwell uses --mobile-columns on ul.product-grid.
+       Override via direct grid-template-columns on the ul. -- */
     .trg-plp-body ul.product-grid {
       grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      --product-grid-gap: 0.6rem !important;
     }
 
-    .trg-plp-body .sorting-filter .facets__summary {
-      max-width: 140px;
-    }
-  }
-
-  @media screen and (max-width: 900px) {
-    .trg-plp-body .collection-wrapper {
-      width: 100%;
-      padding: 0.75rem 1rem 2rem;
-      row-gap: 0;
-      column-gap: 0;
-      grid-template-columns: minmax(0, 1fr) !important;
-    }
-
-    body.filters-hidden .trg-plp-body .collection-wrapper {
-      grid-template-columns: minmax(0, 1fr) !important;
-    }
-
-    .trg-plp-body .trg-collection-controls {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 0.75rem;
-      padding: 0.5rem 0 0.75rem;
-      margin-bottom: 0.75rem;
-    }
-
-    .trg-plp-body .sorting-filter .facets__summary {
-      max-width: 130px;
-    }
-
-    .trg-plp-body .product-grid {
-      --product-grid-columns-desktop: repeat(2, minmax(0, 1fr)) !important;
-      --product-grid-gap: 0.75rem !important;
-    }
-
-    .trg-plp-body .product-grid > * {
-      min-width: 0;
-    }
-
+    /* -- Card adjustments -- */
     .trg-plp-body .card-gallery {
       aspect-ratio: 3 / 4 !important;
       min-height: 0 !important;
-    }
-
-    .trg-plp-body .product-card,
-    .trg-plp-body .product-grid__card,
-    .trg-plp-body .group-block {
-      overflow: hidden;
-      transform: none !important;
-      box-shadow: none !important;
-    }
-
-    .trg-plp-body .card-gallery img,
-    .trg-plp-body .card-gallery video,
-    .trg-plp-body .card-gallery .media {
-      height: 100% !important;
-      object-position: top center !important;
     }
 
     .trg-plp-body .trg-plp-card-shop-cta,
@@ -1929,33 +1902,8 @@
       transform: none !important;
     }
 
-    .trg-plp-body .trg-plp-sidebar-hide-btn,
-    .trg-plp-body .trg-plp-show-filters-btn {
-      display: none !important;
-    }
-  }
-
-  @media screen and (max-width: 749px) {
-    .trg-plp-body .card-gallery,
-    .trg-plp-body .product-card-gallery__title-placeholder {
-      min-height: 0;
-    }
-
-    .trg-plp-body .group-block-content {
-      padding: 0.6rem 0.75rem 0.75rem !important;
-    }
-
-    .trg-plp-body .group-block-content > a.contents.user-select-text .text-block p {
-      font-size: 0.96rem;
-    }
-
-    .trg-plp-body .trg-plp-sidebar-hide-btn {
-      display: none !important;
-    }
-
-    .trg-plp-back-to-top {
-      right: 1rem;
-      bottom: 1rem;
+    .trg-plp-body .sorting-filter .facets__summary {
+      max-width: 130px;
     }
   }
 {% endstylesheet %}
