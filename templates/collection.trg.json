@@ -255,7 +255,7 @@
         "padding-inline-start": 0,
         "padding-inline-end": 0,
         "color_scheme": "scheme-1",
-        "padding-block-start": 8,
+        "padding-block-start": 0,
         "padding-block-end": 32,
         "trg_plp_shell_max_width": 1320,
         "trg_plp_sidebar_width": 220,
