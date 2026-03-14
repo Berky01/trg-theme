@@ -9,7 +9,7 @@
         "custom_title": "<p>Find the <em>Right</em> Piece</p>",
         "body_source": "custom",
         "custom_body": "<p>Curated menswear - quality goods across North America.</p>",
-        "show_count": true,
+        "show_count": false,
         "result_label": "products"
       }
     },
@@ -220,7 +220,7 @@
                 "trg_product_card_cta": {
                   "type": "trg-product-card-cta",
                   "settings": {
-                    "label": "View details"
+                  "label": "via"
                   },
                   "blocks": {}
                 },
@@ -259,7 +259,7 @@
         "layout_type": "grid",
         "product_card_size": "medium",
         "mobile_product_card_size": "small",
-        "enable_infinite_scroll": true,
+        "enable_infinite_scroll": false,
         "products_per_page": 24,
         "product_grid_width": "centered",
         "full_width_on_mobile": false,

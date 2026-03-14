@@ -171,7 +171,38 @@
 
         {{ children }}
       </ul>
-      {% if enable_infinite_scroll != false %}
+      {% if trg_plp_mode and enable_infinite_scroll == false %}
+        {% assign visible_count = paginate.current_offset | plus: products.size %}
+        {% assign progress_percentage = visible_count | times: 100.0 | divided_by: paginate.items %}
+        <div
+          class="trg-plp-progress-zone"
+          data-trg-load-more-zone
+          data-total-count="{{ paginate.items }}"
+          data-visible-count="{{ visible_count }}"
+          data-page-size="{{ paginate.page_size }}"
+          data-current-page="{{ paginate.current_page }}"
+        >
+          <div class="trg-plp-progress-text-row">
+            <span class="trg-plp-progress-text">
+              Showing <strong>{{ visible_count }}</strong> of <strong>{{ paginate.items }}</strong> products
+            </span>
+            <span class="trg-plp-progress-page">Page {{ paginate.current_page }}</span>
+          </div>
+          <div class="trg-plp-progress-bar">
+            <div class="trg-plp-progress-fill" style="width: {{ progress_percentage }}%;"></div>
+          </div>
+          {% if paginate.next %}
+            {% assign remaining_count = paginate.items | minus: visible_count %}
+            {% assign load_more_count = paginate.page_size %}
+            {% if remaining_count < load_more_count %}
+              {% assign load_more_count = remaining_count %}
+            {% endif %}
+            <a href="{{ paginate.next.url }}" class="trg-plp-load-more" data-trg-load-more-btn>
+              Load {{ load_more_count }} more products
+            </a>
+          {% endif %}
+        </div>
+      {% elsif enable_infinite_scroll != false %}
         <span ref="viewMoreNext"></span>
       {% else %}
         {% render 'pagination-controls', paginate: paginate %}

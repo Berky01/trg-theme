@@ -1,14 +1,68 @@
 {% liquid
   assign product = closest.product
-  assign cta_label = block.settings.label | default: 'View details'
+  assign prefix = block.settings.label | default: 'via'
+  assign buy_path = blank
+  assign retailer_name = blank
+
+  if product != blank
+    assign buy_path = product.metafields.custom.buy_path.value | default: product.metafields.custom.buy_path
+    if buy_path == blank
+      assign buy_path = product.metafields.custom.buyPath.value | default: product.metafields.custom.buyPath
+    endif
+    if buy_path == blank
+      assign buy_path = product.metafields.custom.purchase_path.value | default: product.metafields.custom.purchase_path
+    endif
+    if buy_path == blank
+      assign buy_path = product.metafields.custom.purchasePath.value | default: product.metafields.custom.purchasePath
+    endif
+
+    assign retailer_name = product.metafields.custom.retailer.value | default: product.metafields.custom.retailer
+    if retailer_name == blank
+      assign retailer_name = product.metafields.custom.retailer_name.value | default: product.metafields.custom.retailer_name
+    endif
+    if retailer_name == blank
+      assign retailer_name = product.metafields.custom.stockist.value | default: product.metafields.custom.stockist
+    endif
+    if retailer_name == blank
+      assign retailer_name = product.metafields.custom.retailerName.value | default: product.metafields.custom.retailerName
+    endif
+
+    if buy_path == blank or retailer_name == blank
+      for tag in product.tags
+        assign normalized_tag = tag | downcase | strip
+
+        if buy_path == blank
+          if normalized_tag contains 'buy-path:'
+            assign buy_path = normalized_tag | remove: 'buy-path:' | strip
+          elsif normalized_tag contains 'buy path:'
+            assign buy_path = normalized_tag | remove: 'buy path:' | strip
+          elsif normalized_tag == 'direct' or normalized_tag == 'reseller'
+            assign buy_path = normalized_tag
+          endif
+        endif
+
+        if retailer_name == blank
+          if normalized_tag contains 'retailer:'
+            assign retailer_name = tag | remove_first: 'retailer:' | strip
+          elsif normalized_tag contains 'stockist:'
+            assign retailer_name = tag | remove_first: 'stockist:' | strip
+          endif
+        endif
+      endfor
+    endif
+
+    if buy_path == blank
+      assign buy_path = 'direct'
+    endif
+  endif
 %}
 
-{% if product != blank %}
+{% if product != blank and buy_path == 'reseller' and retailer_name != blank %}
   <div class="trg-plp-card-cta-block" {{ block.shopify_attributes }}>
-    <a class="trg-plp-card-cta" href="{{ product.selected_or_first_available_variant.url }}">
-      <span>{{ cta_label | escape }}</span>
-      <span aria-hidden="true">-></span>
-    </a>
+    <p class="trg-plp-card-retailer">
+      {{ prefix | escape }}
+      <strong>{{ retailer_name | escape }}</strong>
+    </p>
   </div>
 {% endif %}
 
@@ -20,8 +74,8 @@
     {
       "type": "text",
       "id": "label",
-      "label": "Button label",
-      "default": "View details"
+      "label": "Retailer prefix",
+      "default": "via"
     }
   ]
 }

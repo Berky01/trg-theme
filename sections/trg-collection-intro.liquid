@@ -1,42 +1,22 @@
 {% liquid
-  assign product_count = blank
-  if collection != blank
-    assign product_count = collection.products_count
-  endif
-
   assign heading_html = section.settings.custom_title
   if section.settings.title_source == 'collection' and collection.title != blank
     assign heading_html = collection.title
   endif
-
-  assign lead_html = section.settings.custom_body
-  if section.settings.body_source == 'collection_description' and collection.description != blank
-    assign lead_html = collection.description
-  endif
 %}
 
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
-<section class="section section--full-width color-{{ section.settings.color_scheme }} trg-collection-intro">
-  <div class="trg-collection-intro__banner">
-    <div class="trg-collection-intro__banner-inner">
-      <div class="trg-collection-intro__banner-copy">
-        {% if section.settings.eyebrow != blank %}
-          <p class="trg-collection-intro__eyebrow">{{ section.settings.eyebrow | escape }}</p>
-        {% endif %}
-
-        <div class="trg-collection-intro__title">{{ heading_html }}</div>
-
-        {% if lead_html != blank %}
-          <div class="trg-collection-intro__subtitle">{{ lead_html }}</div>
-        {% endif %}
-      </div>
-
-      {% if section.settings.show_count and product_count != blank %}
-        <p class="trg-collection-intro__result-count">
-          <strong data-trg-result-count data-trg-total-count="{{ product_count }}">{{ product_count }}</strong>
-          {{ section.settings.result_label | escape }}
-        </p>
+<section
+  class="section section--full-width color-{{ section.settings.color_scheme }} trg-collection-intro"
+  {{ section.shopify_attributes }}
+>
+  <div class="trg-collection-intro__bar">
+    <div class="trg-collection-intro__inner">
+      {% if section.settings.eyebrow != blank %}
+        <p class="trg-collection-intro__eyebrow">{{ section.settings.eyebrow | escape }}</p>
       {% endif %}
+
+      <div class="trg-collection-intro__title">{{ heading_html }}</div>
     </div>
   </div>
 </section>
@@ -45,7 +25,7 @@
   @keyframes trg-collection-fade-up {
     from {
       opacity: 0;
-      transform: translate3d(0, 14px, 0);
+      transform: translate3d(0, 10px, 0);
     }
 
     to {
@@ -57,57 +37,50 @@
   .trg-collection-intro {
     padding-block: 0;
     background: #1a1a18;
+    border-top: 1px solid rgb(245 241 235 / 0.08);
     border-bottom: 1px solid rgb(245 241 235 / 0.08);
   }
 
-  .trg-collection-intro__banner {
+  .trg-collection-intro__bar {
+    min-height: 72px;
+    display: flex;
+    align-items: center;
     background: #1a1a18;
-    border-top: 1px solid rgb(245 241 235 / 0.08);
   }
 
-  .trg-collection-intro__banner-inner {
-    width: min(calc(100% - 32px), 1320px);
+  .trg-collection-intro__inner {
+    width: min(calc(100% - 64px), 1320px);
     margin: 0 auto;
-    padding: 2.9rem 2rem 2.4rem;
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    align-items: end;
-    gap: 1rem;
-  }
-
-  .trg-collection-intro__banner-copy {
-    min-width: 0;
-    max-width: 760px;
+    display: flex;
+    align-items: center;
+    gap: 0;
   }
 
   .trg-collection-intro__eyebrow {
-    margin: 0 0 1rem;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.75rem;
+    margin: 0;
+    padding-right: 1.5rem;
+    border-right: 1px solid rgb(245 241 235 / 0.12);
     color: #c4562a;
     font-family: var(--font-body--family);
-    font-size: 0.65rem;
-    font-weight: 500;
-    letter-spacing: 0.18em;
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    line-height: 1;
     text-transform: uppercase;
-    animation: trg-collection-fade-up 0.5s 0.1s ease both;
-  }
-
-  .trg-collection-intro__eyebrow::before {
-    content: '';
-    width: 28px;
-    height: 1px;
-    background: #c4562a;
+    white-space: nowrap;
     flex-shrink: 0;
+    animation: trg-collection-fade-up 0.4s 0.05s ease both;
   }
 
   .trg-collection-intro__title {
+    padding-left: 1.5rem;
     color: #f5f1eb;
     font-family: var(--font-heading--family);
-    font-size: clamp(2.2rem, 4vw, 3.9rem);
-    line-height: 0.98;
-    animation: trg-collection-fade-up 0.55s 0.15s ease both;
+    font-size: 1.9rem;
+    font-weight: 400;
+    line-height: 1;
+    white-space: nowrap;
+    animation: trg-collection-fade-up 0.4s 0.1s ease both;
   }
 
   .trg-collection-intro__title > * {
@@ -122,54 +95,23 @@
     font-style: italic;
   }
 
-  .trg-collection-intro__subtitle {
-    margin-top: 0.65rem;
-    color: rgb(245 241 235 / 0.45);
-    font-family: var(--font-body--family);
-    font-size: 0.82rem;
-    font-weight: 300;
-    line-height: 1.6;
-    animation: trg-collection-fade-up 0.55s 0.25s ease both;
-  }
-
-  .trg-collection-intro__subtitle > * {
-    margin: 0;
-    color: inherit;
-  }
-
-  .trg-collection-intro__result-count {
-    margin: 0;
-    padding-bottom: 0.4rem;
-    color: rgb(245 241 235 / 0.35);
-    font-family: var(--font-body--family);
-    font-size: 0.75rem;
-    letter-spacing: 0.04em;
-    white-space: nowrap;
-    animation: trg-collection-fade-up 0.55s 0.3s ease both;
-  }
-
-  .trg-collection-intro__result-count strong {
-    color: rgb(245 241 235 / 0.75);
-    font-weight: 500;
-  }
-
   @media screen and (max-width: 900px) {
-    .trg-collection-intro__banner-inner {
-      grid-template-columns: 1fr;
-      gap: 0.9rem;
-      padding-top: 2.2rem;
-      padding-bottom: 2rem;
+    .trg-collection-intro__bar {
+      min-height: 64px;
     }
 
-    .trg-collection-intro__result-count {
-      padding-bottom: 0;
+    .trg-collection-intro__inner {
+      width: min(calc(100% - 32px), 1320px);
     }
-  }
 
-  @media screen and (max-width: 749px) {
-    .trg-collection-intro__banner-inner {
-      width: min(calc(100% - 24px), 1320px);
-      padding-inline: 1rem;
+    .trg-collection-intro__eyebrow {
+      padding-right: 1rem;
+    }
+
+    .trg-collection-intro__title {
+      padding-left: 1rem;
+      font-size: clamp(1.4rem, 4vw, 1.8rem);
+      white-space: normal;
     }
   }
 {% endstylesheet %}
@@ -240,7 +182,7 @@
       "type": "checkbox",
       "id": "show_count",
       "label": "Show product count",
-      "default": true
+      "default": false
     },
     {
       "type": "text",

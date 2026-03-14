@@ -7,19 +7,449 @@
 ></script>
 
 {% javascript %}
-  const url = new URL(window.location.href);
-  if (url.hash) {
-    document.addEventListener(
-      'DOMContentLoaded',
-      () => {
-        const card = document.getElementById(url.hash.slice(1));
-        if (card) {
-          card.scrollIntoView({ behavior: 'instant' });
+  (() => {
+    const url = new URL(window.location.href);
+    if (url.hash) {
+      document.addEventListener(
+        'DOMContentLoaded',
+        () => {
+          const card = document.getElementById(url.hash.slice(1));
+          if (card) {
+            card.scrollIntoView({ behavior: 'instant' });
+          }
+        },
+        { once: true }
+      );
+    }
+
+    const FILTER_STORAGE_KEY = 'trg_filters_open';
+    const WISHLIST_STORAGE_KEY = 'trg_plp_saved_products';
+
+    const normalizeText = (value) => (value || '').toString().trim().toLowerCase();
+    const escapeHtml = (value) =>
+      (value || '')
+        .toString()
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#39;');
+
+    class TrgPlpController {
+      constructor(root) {
+        this.root = root;
+        this.syncTimeout = null;
+        this.handleClick = this.handleClick.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.handleInput = this.handleInput.bind(this);
+        this.handleScroll = this.handleScroll.bind(this);
+        this.handleUrlChange = this.handleUrlChange.bind(this);
+      }
+
+      connect() {
+        if (this.root.dataset.trgPlpReady === 'true') return;
+
+        this.root.dataset.trgPlpReady = 'true';
+        this.installHistoryHooks();
+        this.restoreFilterState();
+
+        document.addEventListener('click', this.handleClick);
+        document.addEventListener('change', this.handleChange, true);
+        document.addEventListener('input', this.handleInput, true);
+        window.addEventListener('scroll', this.handleScroll, { passive: true });
+        window.addEventListener('trg:url-changed', this.handleUrlChange);
+        document.addEventListener('shopify:section:load', this.handleUrlChange);
+
+        const searchInput = document.querySelector('[data-trg-search-input]');
+        if (searchInput?.form) {
+          searchInput.form.addEventListener('submit', (event) => {
+            event.preventDefault();
+            this.applySearch();
+          });
         }
-      },
-      { once: true }
-    );
-  }
+
+        this.syncSortSelect();
+        this.renderActiveTags();
+        this.applySearch();
+        this.syncWishlistState();
+        this.updateFilterToggleLabel();
+        this.updateBackToTop();
+      }
+
+      installHistoryHooks() {
+        if (window.__trgPlpHistoryPatched) return;
+
+        window.__trgPlpHistoryPatched = true;
+        const dispatch = () => window.dispatchEvent(new Event('trg:url-changed'));
+
+        for (const method of ['pushState', 'replaceState']) {
+          const original = history[method];
+          history[method] = function patchedHistoryState(...args) {
+            const result = original.apply(this, args);
+            dispatch();
+            return result;
+          };
+        }
+
+        window.addEventListener('popstate', dispatch);
+      }
+
+      restoreFilterState() {
+        const storedState = window.localStorage.getItem(FILTER_STORAGE_KEY);
+        document.body.classList.toggle('filters-hidden', storedState === '0');
+      }
+
+      handleUrlChange() {
+        this.scheduleSync();
+      }
+
+      handleInput(event) {
+        if (event.target instanceof HTMLInputElement && event.target.matches('[data-trg-search-input]')) {
+          this.applySearch();
+        }
+      }
+
+      handleChange(event) {
+        const target = event.target;
+        if (!(target instanceof HTMLElement)) return;
+
+        if (target.matches('[data-trg-plp-sort]')) {
+          const sortValue = target.value;
+          const nextUrl = new URL(window.location.href);
+          nextUrl.searchParams.delete('page');
+          if (sortValue) {
+            nextUrl.searchParams.set('sort_by', sortValue);
+          } else {
+            nextUrl.searchParams.delete('sort_by');
+          }
+          window.location.assign(nextUrl.toString());
+          return;
+        }
+
+        if (
+          target.matches(
+            '.facets input, .facets select, .sorting-filter input, .sorting-filter select, .price-facet input'
+          )
+        ) {
+          this.scheduleSync();
+        }
+      }
+
+      handleClick(event) {
+        const target = event.target instanceof Element ? event.target : null;
+        if (!target) return;
+
+        const toggleButton = target.closest('[data-trg-plp-filter-toggle]');
+        if (toggleButton) {
+          event.preventDefault();
+          const hidden = !document.body.classList.contains('filters-hidden');
+          document.body.classList.toggle('filters-hidden', hidden);
+          window.localStorage.setItem(FILTER_STORAGE_KEY, hidden ? '0' : '1');
+          this.updateFilterToggleLabel();
+          return;
+        }
+
+        const mobileFilterButton = target.closest('[data-trg-plp-mobile-filter-button]');
+        if (mobileFilterButton) {
+          event.preventDefault();
+          document.querySelector('.facets-toggle__button')?.click();
+          return;
+        }
+
+        const searchPill = target.closest('[data-trg-search-pill]');
+        if (searchPill instanceof HTMLElement) {
+          event.preventDefault();
+          const searchInput = document.querySelector('[data-trg-search-input]');
+          if (searchInput instanceof HTMLInputElement) {
+            searchInput.value = searchPill.dataset.trgSearchPill || '';
+            this.applySearch();
+          }
+          return;
+        }
+
+        const activeTag = target.closest('[data-trg-active-tag]');
+        if (activeTag instanceof HTMLElement) {
+          event.preventDefault();
+          this.removeActiveTag(activeTag.dataset);
+          return;
+        }
+
+        const loadMoreButton = target.closest('[data-trg-load-more-btn]');
+        if (loadMoreButton instanceof HTMLAnchorElement) {
+          event.preventDefault();
+          this.loadMore(loadMoreButton);
+          return;
+        }
+
+        const wishlistButton = target.closest('[data-trg-wishlist]');
+        if (wishlistButton instanceof HTMLButtonElement) {
+          event.preventDefault();
+          event.stopPropagation();
+          this.toggleWishlist(wishlistButton);
+          return;
+        }
+
+        const backToTop = target.closest('[data-trg-back-to-top]');
+        if (backToTop instanceof HTMLButtonElement) {
+          event.preventDefault();
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      }
+
+      scheduleSync() {
+        window.clearTimeout(this.syncTimeout);
+        this.syncTimeout = window.setTimeout(() => {
+          this.syncSortSelect();
+          this.renderActiveTags();
+          this.applySearch();
+        }, 90);
+      }
+
+      updateFilterToggleLabel() {
+        const label = document.querySelector('[data-trg-plp-filter-toggle-label]');
+        if (!label) return;
+        label.textContent = document.body.classList.contains('filters-hidden') ? 'Show filters' : 'Hide filters';
+      }
+
+      syncSortSelect() {
+        const sortSelect = document.querySelector('[data-trg-plp-sort]');
+        if (!(sortSelect instanceof HTMLSelectElement)) return;
+
+        const sourceSelect =
+          Array.from(document.querySelectorAll('select[name="sort_by"]')).find((select) => !select.disabled) ||
+          document.querySelector('select[name="sort_by"]');
+        if (!(sourceSelect instanceof HTMLSelectElement)) return;
+
+        const sourceSignature = Array.from(sourceSelect.options)
+          .map((option) => `${option.value}:${option.textContent?.trim()}`)
+          .join('|');
+
+        if (sortSelect.dataset.sourceSignature !== sourceSignature) {
+          sortSelect.innerHTML = '';
+          for (const option of sourceSelect.options) {
+            sortSelect.append(
+              new Option(option.textContent?.trim() || option.value, option.value, option.selected, option.selected)
+            );
+          }
+          sortSelect.dataset.sourceSignature = sourceSignature;
+        }
+
+        const currentSort = new URL(window.location.href).searchParams.get('sort_by') || sourceSelect.value;
+        sortSelect.value = currentSort;
+      }
+
+      getSearchCards() {
+        return Array.from(this.root.querySelectorAll('[data-trg-search-item]'));
+      }
+
+      applySearch() {
+        const searchInput = document.querySelector('[data-trg-search-input]');
+        const query = normalizeText(searchInput?.value);
+        const cards = this.getSearchCards();
+        let visibleCount = 0;
+
+        for (const card of cards) {
+          const cardText = normalizeText(card.getAttribute('data-trg-search-text'));
+          const matches = query === '' || cardText.includes(query);
+          card.hidden = !matches;
+          if (matches) visibleCount += 1;
+        }
+
+        const searchEmpty = document.querySelector('[data-trg-search-empty]');
+        if (searchEmpty instanceof HTMLElement) {
+          searchEmpty.hidden = visibleCount !== 0 || query === '';
+        }
+      }
+
+      resolveInputLabel(input) {
+        if (input instanceof HTMLInputElement && input.dataset.label) return input.dataset.label;
+
+        if (!(input instanceof HTMLInputElement)) return '';
+
+        if (input.id) {
+          const parentLabel = document.querySelector(`label[for="${input.id}"]`);
+          const textTarget =
+            parentLabel?.querySelector('.checkbox__label-text, .facets__pill-label, .facets__swatch-label') ||
+            parentLabel;
+          return textTarget?.textContent?.trim() || '';
+        }
+
+        return '';
+      }
+
+      renderActiveTags() {
+        const container = document.querySelector('[data-trg-active-tags]');
+        if (!(container instanceof HTMLElement)) return;
+
+        const chips = [];
+        const filterInputs = document.querySelectorAll(
+          '.facets--vertical input[type="checkbox"]:checked, .facets--vertical input[type="radio"]:checked'
+        );
+
+        for (const input of filterInputs) {
+          const label = this.resolveInputLabel(input);
+          if (label) {
+            chips.push({
+              kind: 'input',
+              label,
+              name: input.name,
+              value: input.value
+            });
+          }
+        }
+
+        const minPriceInput = document.querySelector('input[name="filter.v.price.gte"]');
+        const maxPriceInput = document.querySelector('input[name="filter.v.price.lte"]');
+        if (minPriceInput instanceof HTMLInputElement && minPriceInput.value.trim() !== '') {
+          chips.push({
+            kind: 'price-min',
+            label: `Min $${minPriceInput.value.trim()}`
+          });
+        }
+        if (maxPriceInput instanceof HTMLInputElement && maxPriceInput.value.trim() !== '') {
+          chips.push({
+            kind: 'price-max',
+            label: `Max $${maxPriceInput.value.trim()}`
+          });
+        }
+
+        container.innerHTML = chips
+          .map((chip) => {
+            const attrs = Object.entries(chip)
+              .map(([key, value]) => `data-${key === 'kind' ? 'kind' : key}="${escapeHtml(value)}"`)
+              .join(' ');
+            return `<button type="button" class="button-unstyled trg-search-bar__active-tag" data-trg-active-tag ${attrs}>${escapeHtml(
+              chip.label
+            )}<span>✕</span></button>`;
+          })
+          .join('');
+      }
+
+      removeActiveTag(data) {
+        const kind = data.kind || '';
+        if (kind === 'price-min' || kind === 'price-max') {
+          const selector = kind === 'price-min' ? 'input[name="filter.v.price.gte"]' : 'input[name="filter.v.price.lte"]';
+          const input = document.querySelector(selector);
+          if (input instanceof HTMLInputElement) {
+            input.value = '';
+            input.dispatchEvent(new Event('change', { bubbles: true }));
+          }
+          return;
+        }
+
+        const name = data.name || '';
+        const value = data.value || '';
+        if (!name) return;
+
+        const matchingInput = Array.from(document.querySelectorAll('input')).find(
+          (input) => input instanceof HTMLInputElement && input.name === name && input.value === value
+        );
+
+        if (matchingInput instanceof HTMLInputElement) {
+          matchingInput.checked = false;
+          matchingInput.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+      }
+
+      async loadMore(button) {
+        if (button.dataset.loading === 'true') return;
+
+        const nextUrl = button.href;
+        if (!nextUrl) return;
+
+        button.dataset.loading = 'true';
+        button.setAttribute('aria-busy', 'true');
+        const originalLabel = button.textContent;
+        button.textContent = 'Loading...';
+
+        try {
+          const response = await fetch(nextUrl, { credentials: 'same-origin' });
+          if (!response.ok) return;
+
+          const html = await response.text();
+          const nextDocument = new DOMParser().parseFromString(html, 'text/html');
+          const nextItems = nextDocument.querySelectorAll('#ResultsList .product-grid__item');
+          const grid = this.root.querySelector('.product-grid');
+          if (!(grid instanceof HTMLElement)) return;
+
+          for (const item of nextItems) {
+            grid.insertAdjacentHTML('beforeend', item.outerHTML);
+          }
+
+          const nextZone = nextDocument.querySelector('[data-trg-load-more-zone]');
+          const currentZone = this.root.querySelector('[data-trg-load-more-zone]');
+          if (nextZone && currentZone) {
+            currentZone.replaceWith(nextZone);
+          }
+
+          const pushedUrl = new URL(nextUrl, window.location.href);
+          history.replaceState({}, '', `${pushedUrl.pathname}${pushedUrl.search}${pushedUrl.hash}`);
+          this.syncWishlistState();
+          this.scheduleSync();
+        } catch (error) {
+          console.error('Failed to load more products.', error);
+          button.textContent = originalLabel || 'Load more';
+        } finally {
+          button.dataset.loading = 'false';
+          button.removeAttribute('aria-busy');
+        }
+      }
+
+      getWishlistIds() {
+        try {
+          return JSON.parse(window.localStorage.getItem(WISHLIST_STORAGE_KEY) || '[]');
+        } catch (error) {
+          return [];
+        }
+      }
+
+      syncWishlistState() {
+        const savedIds = new Set(this.getWishlistIds().map(String));
+        for (const button of document.querySelectorAll('[data-trg-wishlist]')) {
+          if (!(button instanceof HTMLButtonElement)) continue;
+          const productId = button.dataset.productId || '';
+          const isSaved = savedIds.has(productId);
+          button.classList.toggle('saved', isSaved);
+          button.setAttribute('aria-pressed', String(isSaved));
+        }
+      }
+
+      toggleWishlist(button) {
+        const productId = button.dataset.productId;
+        if (!productId) return;
+
+        const savedIds = new Set(this.getWishlistIds().map(String));
+        if (savedIds.has(productId)) {
+          savedIds.delete(productId);
+        } else {
+          savedIds.add(productId);
+        }
+
+        window.localStorage.setItem(WISHLIST_STORAGE_KEY, JSON.stringify(Array.from(savedIds)));
+        this.syncWishlistState();
+      }
+
+      updateBackToTop() {
+        const button = document.querySelector('[data-trg-back-to-top]');
+        if (!(button instanceof HTMLButtonElement)) return;
+        button.classList.toggle('visible', window.scrollY > window.innerHeight * 1.5);
+      }
+
+      handleScroll() {
+        this.updateBackToTop();
+      }
+    }
+
+    const initializeTrgPlp = () => {
+      document.querySelectorAll('.trg-plp-body').forEach((root) => {
+        const controller = new TrgPlpController(root);
+        controller.connect();
+      });
+    };
+
+    document.addEventListener('DOMContentLoaded', initializeTrgPlp, { once: true });
+    document.addEventListener('shopify:section:load', initializeTrgPlp);
+  })();
 {% endjavascript %}
 
 {% comment %} We always render this full-width, as the child blocks have width: page/full settings {% endcomment %}
@@ -71,6 +501,20 @@
         {% for product in collection.products %}
           {% liquid
             assign product_tags = product.tags | join: ' '
+            assign material_search = product.metafields.custom.material.value | default: product.metafields.custom.material
+            if material_search == blank
+              assign material_search = product.metafields.custom.fabric.value | default: product.metafields.custom.fabric
+            endif
+            if material_search == blank
+              assign material_search = product.metafields.details.material.value | default: product.metafields.details.material
+            endif
+            if material_search == blank
+              assign material_search = product.metafields.custom.primary_material.value | default: product.metafields.custom.primary_material
+            endif
+            assign color_search = product.metafields.custom.color.value | default: product.metafields.custom.color
+            if color_search == blank
+              assign color_search = product.metafields.details.color.value | default: product.metafields.details.color
+            endif
             capture searchable_text
               echo product.title
               echo ' '
@@ -78,9 +522,14 @@
               echo ' '
               echo product.type
               echo ' '
+              echo material_search
+              echo ' '
+              echo color_search
+              echo ' '
               echo product_tags
             endcapture
             assign searchable_text = searchable_text | strip | downcase | escape
+            assign card_delay = forloop.index0 | modulo: products_per_page | times: 25
           %}
           <li
             id="{{ section.id }}-{{ product.id }}"
@@ -89,6 +538,7 @@
             data-product-id="{{ product.id }}"
             data-trg-search-item
             data-trg-search-text="{{ searchable_text }}"
+            style="--trg-plp-card-delay: {{ card_delay }}ms;"
             ref="cards[]"
           >
             {% # theme-check-disable %}
@@ -108,6 +558,12 @@
     {% endpaginate %}
   </div>
 </results-list>
+
+<button class="trg-plp-back-to-top" type="button" data-trg-back-to-top title="Back to top" aria-label="Back to top">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+    <path d="M18 15l-6-6-6 6"></path>
+  </svg>
+</button>
 
 {% stylesheet %}
   .trg-plp-body {
@@ -757,6 +1213,431 @@
 
     @media screen and (min-width: 750px) {
       grid-column: var(--grid-column--desktop);
+    }
+  }
+
+  @keyframes trg-plp-fade-up {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 14px, 0);
+    }
+
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  .trg-plp-body .collection-wrapper {
+    width: calc(100% - 64px);
+    max-width: none;
+    padding-top: var(--padding-block-start);
+    padding-bottom: var(--padding-block-end);
+    display: grid !important;
+    grid-template-columns: minmax(0, var(--trg-plp-sidebar-width)) minmax(0, 1fr) !important;
+    column-gap: 2rem;
+    align-items: start;
+  }
+
+  body.filters-hidden .trg-plp-body .collection-wrapper {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .trg-plp-body .collection-wrapper > .trg-collection-controls {
+    justify-content: flex-start;
+    padding-bottom: 1rem;
+  }
+
+  body.filters-hidden .trg-plp-body .collection-wrapper > .trg-collection-controls,
+  body.filters-hidden .trg-plp-body .collection-wrapper > .main-collection-grid {
+    grid-column: 1 / -1 !important;
+  }
+
+  .trg-plp-body .trg-collection-controls .sorting-filter {
+    display: none !important;
+  }
+
+  .trg-plp-body .products-count-wrapper span {
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+  }
+
+  .trg-plp-body .collection-wrapper > div.facets-block-wrapper--vertical:not(.hidden) {
+    width: var(--trg-plp-sidebar-width);
+    overflow: hidden;
+    opacity: 1;
+    transition: width 0.25s ease, opacity 0.2s ease;
+  }
+
+  body.filters-hidden .trg-plp-body .collection-wrapper > div.facets-block-wrapper--vertical:not(.hidden) {
+    width: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .trg-plp-body .facets--vertical:not(.facets--drawer) {
+    top: calc(var(--chrome) + 1rem);
+    max-height: calc(100vh - var(--chrome) - 2rem);
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    padding: 0;
+  }
+
+  .trg-plp-body .trg-facets-sidebar-header {
+    margin-bottom: 1rem;
+    padding-bottom: 0.9rem;
+  }
+
+  .trg-plp-body .trg-facets-sidebar-title {
+    font-size: 0.62rem;
+  }
+
+  .trg-plp-body .facets--vertical:not(.facets--drawer) .facets__item {
+    padding-top: 1rem;
+  }
+
+  .trg-plp-body .facets--vertical:not(.facets--drawer) .facets__label {
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+  }
+
+  .trg-plp-body .facets--vertical:not(.facets--drawer) .facets__panel-content {
+    padding-top: 0.9rem;
+  }
+
+  .trg-plp-body .facets--vertical:not(.facets--drawer) .checkbox__label {
+    width: 100%;
+    font-size: 0.9rem;
+  }
+
+  .trg-plp-body .trg-facet-count {
+    margin-left: auto;
+    color: var(--trg-plp-muted-color);
+    font-size: 0.68rem;
+    flex-shrink: 0;
+  }
+
+  .trg-plp-body .checkbox__input:checked + .checkbox__label .trg-facet-count {
+    color: #c4562a;
+    font-weight: 500;
+  }
+
+  .trg-plp-body .main-collection-grid {
+    display: block;
+    padding: 0;
+  }
+
+  .trg-plp-body .main-collection-grid > div[style*='container-name: product-grid'] {
+    width: 100%;
+  }
+
+  .trg-plp-body .product-grid {
+    --product-grid-gap: 1.25rem !important;
+    background: transparent;
+  }
+
+  .trg-plp-body .product-grid__item {
+    background: transparent;
+    opacity: 0;
+    animation: trg-plp-fade-up 0.45s ease forwards;
+    animation-delay: var(--trg-plp-card-delay, 0ms);
+  }
+
+  .trg-plp-body .product-grid__card {
+    gap: 0 !important;
+    background: transparent;
+  }
+
+  .trg-plp-body .product-grid-view-zoom-out--details,
+  .trg-plp-body .quick-add {
+    display: none !important;
+  }
+
+  .trg-plp-body .card-gallery {
+    aspect-ratio: 3 / 4;
+    min-height: 0;
+    background: var(--trg-plp-card-background);
+  }
+
+  .trg-plp-body .card-gallery img,
+  .trg-plp-body .card-gallery video,
+  .trg-plp-body .card-gallery .media {
+    object-position: top center;
+  }
+
+  .trg-plp-body .product-card-gallery__title-placeholder {
+    min-height: 0;
+    aspect-ratio: 3 / 4;
+  }
+
+  .trg-plp-body .product-badges {
+    top: 12px;
+    left: 12px;
+    display: flex;
+    gap: 0.35rem;
+    z-index: 4;
+  }
+
+  .trg-plp-body .product-badges__badge {
+    background: #171716;
+    color: #f5f1eb;
+    border-radius: 2px;
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    padding: 0.38rem 0.48rem 0.32rem;
+  }
+
+  .trg-plp-body .trg-plp-card-wishlist,
+  .trg-plp-body .trg-plp-card-cta-overlay {
+    position: absolute;
+    z-index: 4;
+  }
+
+  .trg-plp-body .trg-plp-card-wishlist {
+    top: 12px;
+    right: 12px;
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    color: #f5f1eb;
+    background: rgb(26 26 24 / 0.16);
+    backdrop-filter: blur(6px);
+    opacity: 0;
+    transform: translateY(-4px);
+    transition: opacity 0.18s ease, transform 0.18s ease, background-color 0.18s ease;
+  }
+
+  .trg-plp-body .trg-plp-card-wishlist svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .trg-plp-body .trg-plp-card-wishlist.saved {
+    opacity: 1;
+    background: rgb(26 26 24 / 0.92);
+  }
+
+  .trg-plp-body .trg-plp-card-wishlist.saved svg path {
+    fill: currentColor;
+  }
+
+  .trg-plp-body .product-card:hover .trg-plp-card-wishlist,
+  .trg-plp-body .product-card:focus-within .trg-plp-card-wishlist {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .trg-plp-body .trg-plp-card-cta-overlay {
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.8rem 1rem;
+    background: #1a1a18;
+    color: #f5f1eb;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    text-transform: uppercase;
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity 0.18s ease, transform 0.18s ease;
+  }
+
+  .trg-plp-body .product-card:hover .trg-plp-card-cta-overlay,
+  .trg-plp-body .product-card:focus-within .trg-plp-card-cta-overlay {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .trg-plp-body .group-block {
+    padding: 0 !important;
+    background: #faf8f4;
+  }
+
+  .trg-plp-body .group-block-content {
+    padding: 0.85rem;
+  }
+
+  .trg-plp-body .trg-plp-card-brand {
+    font-size: 0.68rem;
+  }
+
+  .trg-plp-body .group-block-content > a.contents.user-select-text .text-block p {
+    font-family: var(--font-body--family);
+    font-size: 1.05rem;
+    font-weight: 500;
+  }
+
+  .trg-plp-body .trg-plp-card-material {
+    margin-top: 0.3rem;
+    font-size: 0.82rem;
+  }
+
+  .trg-plp-body .group-block-content > product-price {
+    margin-top: 0.85rem;
+  }
+
+  .trg-plp-body .group-block-content > product-price:has(.compare-at-price) .price {
+    color: #c4562a;
+  }
+
+  .trg-plp-body .group-block-content > product-price .compare-at-price {
+    color: #8a8478;
+  }
+
+  .trg-plp-body .trg-plp-card-cta-block {
+    width: 100%;
+    margin-top: 0.25rem;
+    padding: 0;
+    border: 0;
+  }
+
+  .trg-plp-body .trg-plp-card-retailer {
+    margin: 0;
+    color: var(--trg-plp-muted-color);
+    font-size: 0.63rem;
+  }
+
+  .trg-plp-body .trg-plp-card-retailer strong {
+    color: var(--trg-plp-text-color);
+    font-weight: 500;
+  }
+
+  .trg-plp-body .trg-plp-progress-zone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 2rem 0 3rem;
+  }
+
+  .trg-plp-body .trg-plp-progress-text-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 480px;
+    font-size: 0.78rem;
+    color: var(--trg-plp-muted-color);
+  }
+
+  .trg-plp-body .trg-plp-progress-text-row strong {
+    color: var(--trg-plp-text-color);
+  }
+
+  .trg-plp-body .trg-plp-progress-bar {
+    width: 100%;
+    max-width: 480px;
+    height: 2px;
+    background: #e8e3db;
+    border-radius: 1px;
+  }
+
+  .trg-plp-body .trg-plp-progress-fill {
+    height: 100%;
+    background: #1a1a18;
+    border-radius: 1px;
+    transition: width 0.4s ease;
+  }
+
+  .trg-plp-body .trg-plp-load-more {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.8rem 2.75rem;
+    border: 1.5px solid #1a1a18;
+    border-radius: 2px;
+    background: transparent;
+    color: #1a1a18;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: background 0.18s ease, color 0.18s ease;
+  }
+
+  .trg-plp-body .trg-plp-load-more:hover {
+    background: #1a1a18;
+    color: #f5f1eb;
+  }
+
+  .trg-plp-back-to-top {
+    position: fixed;
+    right: 1.75rem;
+    bottom: 1.75rem;
+    z-index: 150;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    border-radius: 2px;
+    background: #1a1a18;
+    color: #f5f1eb;
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(6px);
+    transition: opacity 0.22s ease, transform 0.22s ease, background 0.15s ease;
+  }
+
+  .trg-plp-back-to-top.visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  .trg-plp-back-to-top:hover {
+    background: #c4562a;
+  }
+
+  @media screen and (max-width: 989px) {
+    .trg-plp-body .collection-wrapper {
+      width: calc(100% - 32px);
+      grid-template-columns: minmax(0, 1fr) !important;
+    }
+
+    .trg-plp-body .collection-wrapper > div.facets-block-wrapper--vertical:not(.hidden) {
+      display: none !important;
+    }
+
+    .trg-plp-body .collection-wrapper > .trg-collection-controls,
+    .trg-plp-body .collection-wrapper > .main-collection-grid {
+      grid-column: 1 / -1 !important;
+    }
+  }
+
+  @media screen and (max-width: 900px) {
+    .trg-plp-body .product-grid {
+      --product-grid-columns-desktop: repeat(2, minmax(0, 1fr)) !important;
+      --product-grid-gap: 0.75rem !important;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .trg-plp-body .group-block-content {
+      padding: 0.75rem;
+    }
+
+    .trg-plp-body .group-block-content > a.contents.user-select-text .text-block p {
+      font-size: 0.98rem;
+    }
+
+    .trg-plp-back-to-top {
+      right: 1rem;
+      bottom: 1rem;
     }
   }
 {% endstylesheet %}

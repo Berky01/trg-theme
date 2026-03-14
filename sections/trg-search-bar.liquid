@@ -7,9 +7,16 @@
   {% endif %}
 {% endfor %}
 
+{% liquid
+  assign is_collection_toolbar = false
+  if collection != blank
+    assign is_collection_toolbar = true
+  endif
+%}
+
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
 <section
-  class="section section--full-width color-{{ section.settings.color_scheme }} trg-search-bar-section{% if section.settings.start_hidden %} trg-search-bar-section--collapsible{% endif %}{% if section.settings.start_hidden == false %} is-revealed{% endif %}"
+  class="section section--full-width color-{{ section.settings.color_scheme }} trg-search-bar-section{% if section.settings.start_hidden %} trg-search-bar-section--collapsible{% endif %}{% if section.settings.start_hidden == false %} is-revealed{% endif %}{% if is_collection_toolbar %} trg-search-bar-section--collection{% endif %}"
   style="
     --trg-search-padding-top: {{ section.settings.padding_block_start }}px;
     --trg-search-padding-bottom: {{ section.settings.padding_block_end }}px;
@@ -19,12 +26,15 @@
     --trg-search-divider-opacity: {{ section.settings.divider_opacity | times: 0.01 }};
     --trg-search-pill-border-opacity: {{ section.settings.pill_border_opacity | times: 0.01 }};
     --trg-search-border-bottom-width: {{ section.settings.bottom_border_width }}px;
-    --trg-search-border-bottom-color: {% if section.settings.accent_border %}var(--color-primary){% else %}rgb(var(--color-border-rgb) / var(--trg-search-top-border-opacity)){% endif %};
+    --trg-search-border-bottom-color: rgb(var(--color-border-rgb) / var(--trg-search-top-border-opacity));
     --trg-search-input-padding-y: {{ section.settings.input_padding_y }}px;
     --trg-search-submit-padding-y: {{ section.settings.button_padding_y }}px;
     --trg-search-submit-padding-x: {{ section.settings.button_padding_x }}px;
   "
   data-trg-search-bar
+  {% if is_collection_toolbar %}
+    data-trg-plp-toolbar
+  {% endif %}
   {% if section.settings.start_hidden %}
     data-trg-search-collapsible
     aria-hidden="true"
@@ -48,6 +58,16 @@
         value="last"
       >
 
+      {% if is_collection_toolbar %}
+        <button type="button" class="button-unstyled trg-search-bar__toggle" data-trg-plp-filter-toggle>
+          <span data-trg-plp-filter-toggle-label>Hide filters</span>
+        </button>
+
+        <button type="button" class="button-unstyled trg-search-bar__mobile-filter" data-trg-plp-mobile-filter-button>
+          Filters
+        </button>
+      {% endif %}
+
       {% if section.settings.label != blank %}
         <span class="trg-search-bar__label">{{ section.settings.label | escape }}</span>
       {% endif %}
@@ -62,6 +82,11 @@
         <span class="svg-wrapper trg-search-bar__icon">
           {{ 'icon-search.svg' | inline_asset_content }}
         </span>
+
+        {% if is_collection_toolbar %}
+          <div class="trg-search-bar__active-tags" data-trg-active-tags></div>
+        {% endif %}
+
         <input
           id="TrgSearchBar-{{ section.id }}"
           class="trg-search-bar__input"
@@ -106,7 +131,7 @@
                 >
                   {{ suggestion_label | escape }}
                 </a>
-              {% elsif suggestion_query != blank %}
+              {% else %}
                 <button
                   type="button"
                   class="button-unstyled trg-search-bar__pill"
@@ -121,7 +146,13 @@
         </div>
       {% endif %}
 
-      {% if section.settings.button_label != blank %}
+      {% if is_collection_toolbar %}
+        <div class="trg-search-bar__divider" aria-hidden="true"></div>
+        <label class="visually-hidden" for="TrgCollectionSort-{{ section.id }}">Sort products</label>
+        <select id="TrgCollectionSort-{{ section.id }}" class="trg-search-bar__sort" data-trg-plp-sort>
+          <option value="">Sort</option>
+        </select>
+      {% elsif section.settings.button_label != blank %}
         <button
           type="submit"
           class="trg-search-bar__submit"
@@ -142,12 +173,19 @@
 </section>
 
 {% stylesheet %}
+  :root {
+    --nav-h: 56px;
+    --search-h: 48px;
+    --chrome: calc(var(--nav-h) + var(--search-h));
+  }
+
   .trg-search-bar-section {
     padding-block: var(--trg-search-padding-top) var(--trg-search-padding-bottom);
     border-top: 1px solid rgb(var(--color-border-rgb) / var(--trg-search-top-border-opacity));
     border-bottom: var(--trg-search-border-bottom-width) solid var(--trg-search-border-bottom-color);
-    position: relative;
-    z-index: 2;
+    position: sticky;
+    top: var(--nav-h);
+    z-index: 90;
     overflow: clip;
     transition:
       max-height 0.32s ease,
@@ -172,17 +210,13 @@
   }
 
   .trg-search-bar-section--collapsible.is-revealed {
-    max-height: 132px;
+    max-height: 140px;
     opacity: 1;
     transform: translateY(0);
     padding-block: var(--trg-search-padding-top) var(--trg-search-padding-bottom);
     border-top-color: rgb(var(--color-border-rgb) / var(--trg-search-top-border-opacity));
     border-bottom-color: var(--trg-search-border-bottom-color);
     pointer-events: auto;
-  }
-
-  .trg-search-bar-section.is-focused {
-    outline: none;
   }
 
   .trg-search-bar__shell {
@@ -193,9 +227,37 @@
   }
 
   .trg-search-bar__form {
+    min-height: var(--search-h);
     display: flex;
     align-items: center;
     gap: 1rem;
+  }
+
+  .trg-search-bar__toggle,
+  .trg-search-bar__mobile-filter {
+    display: none;
+    color: rgb(var(--color-foreground-rgb) / 0.55);
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+
+  .trg-search-bar__toggle:hover,
+  .trg-search-bar__mobile-filter:hover {
+    color: rgb(var(--color-foreground-rgb));
+  }
+
+  .trg-search-bar-section--collection .trg-search-bar__toggle {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  body.filters-hidden .trg-search-bar__toggle {
+    color: rgb(var(--color-foreground-rgb) / 0.78);
   }
 
   .trg-search-bar__label {
@@ -214,7 +276,7 @@
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    flex: 1 1 260px;
+    flex: 1 1 auto;
     min-width: 0;
     align-self: stretch;
     background: transparent;
@@ -233,6 +295,39 @@
     height: 100%;
   }
 
+  .trg-search-bar__active-tags {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem;
+    min-width: 0;
+  }
+
+  .trg-search-bar__active-tags:empty {
+    display: none;
+  }
+
+  .trg-search-bar__active-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.25rem 0.5rem;
+    border: 1px solid rgb(var(--color-border-rgb) / 0.15);
+    border-radius: 2px;
+    background: rgb(var(--color-foreground-rgb) / 0.1);
+    color: rgb(var(--color-foreground-rgb) / 0.82);
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+
+  .trg-search-bar__active-tag span {
+    opacity: 0.55;
+    font-size: 0.82em;
+  }
+
   .trg-search-bar__input {
     -webkit-appearance: none;
     appearance: none;
@@ -242,9 +337,10 @@
     color: rgb(var(--color-foreground-rgb));
     font-family: var(--font-heading--family);
     font-size: clamp(1rem, 1.2vw, 1.08rem);
+    font-style: italic;
     line-height: 1.25;
     width: 100%;
-    min-width: 0;
+    min-width: 120px;
     padding: var(--trg-search-input-padding-y) 0;
     box-shadow: none;
     border-radius: 0;
@@ -252,13 +348,9 @@
 
   .trg-search-bar__input::placeholder {
     color: rgb(var(--color-foreground-rgb) / 0.28);
-    font-style: italic;
   }
 
-  .trg-search-bar__input:focus {
-    outline: none;
-  }
-
+  .trg-search-bar__input:focus,
   .trg-search-bar__input:focus-visible {
     outline: none;
   }
@@ -295,16 +387,45 @@
     font-weight: 500;
     transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
     background: transparent;
+    white-space: nowrap;
   }
 
   .trg-search-bar__pill:hover {
     color: rgb(var(--color-foreground-rgb));
-    border-color: rgb(var(--color-foreground-rgb));
+    border-color: rgb(var(--color-foreground-rgb) / 0.4);
     background: rgb(var(--color-foreground-rgb) / 0.03);
   }
 
+  .trg-search-bar__sort {
+    min-height: 34px;
+    min-width: 112px;
+    padding: 0 28px 0 12px;
+    border: 1px solid rgb(var(--color-border-rgb) / 0.18);
+    border-radius: 2px;
+    background:
+      linear-gradient(45deg, transparent 50%, rgb(var(--color-foreground-rgb) / 0.6) 50%) calc(100% - 15px) calc(50% - 1px) / 6px 6px
+        no-repeat,
+      linear-gradient(135deg, rgb(var(--color-foreground-rgb) / 0.6) 50%, transparent 50%) calc(100% - 11px) calc(50% - 1px) / 6px 6px
+        no-repeat,
+      rgb(var(--color-background-rgb) / 0.12);
+    color: rgb(var(--color-foreground-rgb) / 0.68);
+    font-family: var(--font-body--family);
+    font-size: 0.76rem;
+    font-weight: 500;
+    appearance: none;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  .trg-search-bar__sort:hover {
+    color: rgb(var(--color-foreground-rgb));
+  }
+
+  .trg-search-bar__sort:focus-visible,
   .trg-search-bar__pill:focus-visible,
-  .trg-search-bar__submit:focus-visible {
+  .trg-search-bar__submit:focus-visible,
+  .trg-search-bar__toggle:focus-visible,
+  .trg-search-bar__mobile-filter:focus-visible {
     outline: 2px solid var(--color-primary);
     outline-offset: 2px;
   }
@@ -340,48 +461,57 @@
 
   .trg-search-bar__empty {
     margin: 0;
-    padding: 0 0 14px;
+    padding: 0.5rem 0 0;
     color: rgb(var(--color-foreground-rgb) / 0.55);
     font-size: 0.82rem;
   }
 
   @media screen and (max-width: 900px) {
     .trg-search-bar-section--collapsible.is-revealed {
-      max-height: 160px;
+      max-height: 176px;
+    }
+
+    .trg-search-bar__shell {
+      width: min(calc(100% - 24px), var(--trg-search-max-width));
+      padding-inline: max(12px, calc(var(--trg-search-horizontal-padding) * 0.5));
     }
 
     .trg-search-bar__form {
       gap: 12px;
     }
 
-    .trg-search-bar__label,
-    .trg-search-bar__divider,
-    .trg-search-bar__pills {
+    .trg-search-bar__label {
       display: none;
     }
 
-    .trg-search-bar__input {
-      padding: calc(var(--trg-search-input-padding-y) - 2px) 0;
-      font-size: 1rem;
+    .trg-search-bar__pills,
+    .trg-search-bar__toggle {
+      display: none !important;
     }
 
-    .trg-search-bar__submit {
-      padding: max(6px, calc(var(--trg-search-submit-padding-y) - 1px)) max(14px, calc(var(--trg-search-submit-padding-x) - 2px));
+    .trg-search-bar-section--collection .trg-search-bar__mobile-filter {
+      display: inline-flex;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .trg-search-bar__divider {
+      display: none;
+    }
+
+    .trg-search-bar__sort {
+      min-width: 94px;
     }
   }
 
   @media screen and (max-width: 749px) {
-    .trg-search-bar__shell {
-      width: min(calc(100% - 24px), var(--trg-search-max-width));
-      padding-inline: max(16px, calc(var(--trg-search-horizontal-padding) * 0.5));
+    .trg-search-bar__active-tags {
+      display: none;
     }
 
-    .trg-search-bar__form {
-      gap: 12px;
-    }
-
-    .trg-search-bar__submit {
-      flex-shrink: 0;
+    .trg-search-bar__sort {
+      min-width: 84px;
+      padding-inline-start: 10px;
     }
   }
 {% endstylesheet %}

@@ -13,6 +13,9 @@
 {% liquid
   assign is_swatch = false
   assign swatch_index = filter.values | find_index: 'swatch'
+  assign filter_param_downcase = filter.param_name | downcase
+  assign filter_label_downcase = filter.label | downcase
+  assign show_filter_count = false
 
   if swatch_index != null
     assign is_swatch = true
@@ -21,6 +24,16 @@
   assign is_image = false
   if filter.presentation == 'image'
     assign is_image = true
+  endif
+
+  if filter_param_downcase contains 'vendor'
+    assign show_filter_count = true
+  elsif filter_param_downcase contains 'product_type'
+    assign show_filter_count = true
+  elsif filter_label_downcase contains 'brand'
+    assign show_filter_count = true
+  elsif filter_label_downcase contains 'category'
+    assign show_filter_count = true
   endif
 %}
 
@@ -372,6 +385,8 @@
                       name: value.param_name,
                       value: value.value,
                       label: value.label,
+                      count: value.count,
+                      showCount: show_filter_count,
                       checked: value.active,
                       id: input_id,
                       disabled: is_disabled,
