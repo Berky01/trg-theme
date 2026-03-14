@@ -28,6 +28,8 @@
     for option in results.sort_options
       if option.value == sort_by
         assign status = option.name
+      elsif status == blank and sort_by == blank and option.value == default_sort_by
+        assign status = option.name
       endif
     endfor
   %}
