@@ -141,6 +141,15 @@
         const toggleButton = target.closest('[data-trg-plp-filter-toggle]');
         if (toggleButton) {
           event.preventDefault();
+          if (window.matchMedia('(max-width: 989px)').matches) {
+            const dialog = document.querySelector('dialog-component#filters-drawer');
+            if (dialog && typeof dialog.showDialog === 'function') {
+              dialog.showDialog();
+            } else {
+              document.querySelector('.facets-toggle__button')?.click();
+            }
+            return;
+          }
           const hidden = !document.body.classList.contains('filters-hidden');
           document.body.classList.toggle('filters-hidden', hidden);
           window.localStorage.setItem(FILTER_STORAGE_KEY, hidden ? '0' : '1');
@@ -1810,6 +1819,27 @@
   }
 
   @media screen and (max-width: 989px) {
+    .trg-plp-body .collection-wrapper {
+      grid-template-columns: minmax(0, 1fr) !important;
+      column-gap: 0 !important;
+    }
+
+    .trg-plp-body .collection-wrapper > .facets-block-wrapper--vertical,
+    .trg-plp-body .collection-wrapper > div.facets-block-wrapper--vertical:not(.hidden) {
+      display: none !important;
+      width: 0 !important;
+    }
+
+    .trg-plp-body .collection-wrapper > .facets-toggle {
+      display: none !important;
+    }
+
+    .trg-plp-body .collection-wrapper > .main-collection-grid {
+      grid-column: 1 !important;
+      width: 100%;
+      min-width: 0;
+    }
+
     .trg-plp-body .trg-collection-controls.trg-collection-controls {
       display: flex !important;
       align-items: center;
