@@ -1788,22 +1788,72 @@
     .trg-plp-body .collection-wrapper > .main-collection-grid {
       grid-column: 1 / -1 !important;
     }
+
+    .trg-plp-body .trg-collection-controls {
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+    }
+
+    .trg-plp-body .sorting-filter .facets__summary {
+      max-width: 140px;
+    }
   }
 
   @media screen and (max-width: 900px) {
     .trg-plp-body .product-grid {
       --product-grid-columns-desktop: repeat(2, minmax(0, 1fr)) !important;
-      --product-grid-gap: 1.25rem !important;
+      --product-grid-gap: 0.75rem !important;
+    }
+
+    .trg-plp-body .product-grid > * {
+      min-width: 0;
+    }
+
+    .trg-plp-body .card-gallery {
+      aspect-ratio: 3 / 4 !important;
+      min-height: 0 !important;
+    }
+
+    .trg-plp-body .trg-plp-card-shop-cta,
+    .trg-plp-body .trg-plp-card-retailer {
+      display: none !important;
+    }
+
+    .trg-plp-body .group-block-content {
+      padding: 0.6rem 0.75rem 0.75rem !important;
+    }
+
+    .trg-plp-body .group-block-content > product-price {
+      margin-top: auto;
+      padding-top: 0.5rem;
+    }
+
+    .trg-plp-body .products-count-wrapper {
+      position: static !important;
+      transform: none !important;
+    }
+
+    .trg-plp-body .trg-plp-show-filters-btn {
+      display: none !important;
     }
   }
 
   @media screen and (max-width: 749px) {
+    .trg-plp-body .card-gallery,
+    .trg-plp-body .product-card-gallery__title-placeholder {
+      min-height: 0;
+    }
+
     .trg-plp-body .group-block-content {
-      padding: 0.75rem 0.75rem 40px;
+      padding: 0.6rem 0.75rem 0.75rem !important;
     }
 
     .trg-plp-body .group-block-content > a.contents.user-select-text .text-block p {
-      font-size: 0.98rem;
+      font-size: 0.96rem;
+    }
+
+    .trg-plp-body .trg-plp-sidebar-hide-btn {
+      display: none !important;
     }
 
     .trg-plp-back-to-top {
