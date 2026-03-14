@@ -1,8 +1,14 @@
 {% liquid
   assign product = closest.product
+  assign brand_label = product.vendor | default: 'Brand'
   assign prefix = block.settings.label | default: 'via'
   assign buy_path = blank
   assign retailer_name = blank
+  assign is_trg_plp = false
+
+  if section.settings.trg_plp_shell_max_width != blank
+    assign is_trg_plp = true
+  endif
 
   if product != blank
     assign buy_path = product.metafields.custom.buy_path.value | default: product.metafields.custom.buy_path
@@ -54,15 +60,31 @@
     if buy_path == blank
       assign buy_path = 'direct'
     endif
+
+    if retailer_name == blank
+      assign retailer_name = brand_label
+    endif
   endif
 %}
 
-{% if product != blank and buy_path == 'reseller' and retailer_name != blank %}
+{% if product != blank and is_trg_plp %}
   <div class="trg-plp-card-cta-block" {{ block.shopify_attributes }}>
-    <p class="trg-plp-card-retailer">
-      {{ prefix | escape }}
-      <strong>{{ retailer_name | escape }}</strong>
-    </p>
+    {% if buy_path == 'reseller' and retailer_name != blank %}
+      <p class="trg-plp-card-retailer">
+        {{ prefix | escape }}
+        <strong>{{ retailer_name | escape }}</strong>
+      </p>
+    {% endif %}
+    <a class="trg-plp-card-shop-cta" href="{{ product.selected_or_first_available_variant.url }}">
+      <span>
+        {% if buy_path == 'reseller' %}
+          Buy at {{ retailer_name | escape }}
+        {% else %}
+          Shop {{ brand_label | escape }}
+        {% endif %}
+      </span>
+      <span aria-hidden="true">↗</span>
+    </a>
   </div>
 {% endif %}
 

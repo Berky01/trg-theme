@@ -9,8 +9,12 @@
 
 {% liquid
   assign is_collection_toolbar = false
+  assign show_filter_toggle = false
   if collection != blank
     assign is_collection_toolbar = true
+  endif
+  if is_collection_toolbar and section.settings.show_filter_toggle
+    assign show_filter_toggle = true
   endif
 %}
 
@@ -58,8 +62,11 @@
         value="last"
       >
 
-      {% if is_collection_toolbar %}
+      {% if show_filter_toggle %}
         <button type="button" class="button-unstyled trg-search-bar__toggle" data-trg-plp-filter-toggle>
+          <span class="svg-wrapper trg-search-bar__toggle-icon">
+            {{ 'icon-filter.svg' | inline_asset_content }}
+          </span>
           <span data-trg-plp-filter-toggle-label>Hide filters</span>
         </button>
 
@@ -253,7 +260,20 @@
   .trg-search-bar-section--collection .trg-search-bar__toggle {
     display: inline-flex;
     align-items: center;
+    gap: 0.45rem;
     flex-shrink: 0;
+  }
+
+  .trg-search-bar__toggle-icon {
+    width: 13px;
+    height: 13px;
+    color: rgb(var(--color-foreground-rgb) / 0.44);
+    flex-shrink: 0;
+  }
+
+  .trg-search-bar__toggle:hover .trg-search-bar__toggle-icon,
+  body.filters-hidden .trg-search-bar__toggle .trg-search-bar__toggle-icon {
+    color: currentColor;
   }
 
   body.filters-hidden .trg-search-bar__toggle {
@@ -538,6 +558,12 @@
       "type": "checkbox",
       "id": "accent_border",
       "label": "Use accent bottom border",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_filter_toggle",
+      "label": "Show filter toggle on collection toolbars",
       "default": false
     },
     {
