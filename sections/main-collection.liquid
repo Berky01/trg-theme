@@ -685,9 +685,9 @@
   .trg-plp-body .trg-collection-controls {
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: space-between;
     gap: 14px;
-    padding: 0 0 var(--trg-plp-toolbar-gap);
+    padding: 0.75rem 0;
     border: 0;
     background: transparent;
   }
@@ -699,6 +699,7 @@
 
   .trg-plp-body .products-count-wrapper {
     margin: 0;
+    flex-shrink: 0;
   }
 
   .trg-plp-body .products-count-wrapper span {
@@ -1116,8 +1117,9 @@
   }
 
   .trg-plp-body .collection-wrapper > .trg-collection-controls {
-    justify-content: flex-start;
-    padding-bottom: 0.4rem;
+    justify-content: space-between;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
   }
 
   .trg-plp-body .collection-wrapper > .main-collection-grid,
@@ -1134,7 +1136,7 @@
   }
 
   .trg-plp-body .trg-collection-controls .sorting-filter {
-    margin-left: auto;
+    margin-left: 0;
   }
 
   .trg-plp-body .products-count-wrapper span {
