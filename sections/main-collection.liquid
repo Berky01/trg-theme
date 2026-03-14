@@ -1775,10 +1775,9 @@
 
   @media screen and (max-width: 989px) {
     .trg-plp-body .collection-wrapper {
-      width: 100%;
-      display: block !important;
-      grid-template-columns: none !important;
-      padding-inline: var(--page-margin);
+      grid-template-columns: minmax(0, 1fr) !important;
+      grid-template-rows: auto auto !important;
+      column-gap: 0 !important;
     }
 
     .trg-plp-body .collection-wrapper > .facets-block-wrapper--vertical {
@@ -1790,6 +1789,8 @@
     }
 
     .trg-plp-body .collection-wrapper > .trg-collection-controls {
+      grid-column: 1 !important;
+      grid-row: 1 !important;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -1797,21 +1798,27 @@
       gap: 10px;
     }
 
-    .trg-plp-body .collection-wrapper > .main-collection-grid {
+    .trg-plp-body .collection-wrapper > .main-collection-grid,
+    .trg-plp-body .collection-wrapper > #ResultsList,
+    .trg-plp-body .collection-wrapper > div:has(#ResultsList) {
+      grid-column: 1 !important;
+      grid-row: 2 !important;
       width: 100%;
+      min-width: 0;
     }
 
-    .trg-plp-body .collection-wrapper > .trg-collection-controls,
-    .trg-plp-body .collection-wrapper > .main-collection-grid {
-      grid-column: 1 / -1 !important;
+    body.filters-hidden .trg-plp-body .collection-wrapper {
+      grid-template-columns: minmax(0, 1fr) !important;
     }
 
-    .trg-plp-body .trg-plp-show-filters-btn {
-      display: inline-flex !important;
-    }
-
-    .trg-plp-body .trg-plp-sidebar-hide-btn {
-      display: none !important;
+    .trg-plp-body .collection-wrapper > .facets-toggle {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      pointer-events: auto;
+      visibility: hidden;
     }
 
     .trg-plp-body .product-grid {
@@ -1924,10 +1931,6 @@
 
     .trg-plp-body .trg-plp-sidebar-hide-btn,
     .trg-plp-body .trg-plp-show-filters-btn {
-      display: none !important;
-    }
-
-    .trg-plp-body .facets-toggle {
       display: none !important;
     }
   }
