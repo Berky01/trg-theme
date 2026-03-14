@@ -1,10 +1,30 @@
 {% liquid
-  assign brand_name = section.settings.brand_name
-  if brand_name == blank
-    assign brand_name = product.vendor
+  assign brand_name = product.vendor
+  assign brand_description = product.metafields.custom.brand_description.value | default: product.metafields.custom.brand_description
+  if brand_description == blank
+    assign brand_description = product.metafields.custom.brand_bio.value | default: product.metafields.custom.brand_bio
   endif
 
-  assign tags_array = section.settings.tags | split: ','
+  assign price_range_tag = product.metafields.custom.price_range.value | default: product.metafields.custom.price_range
+  assign commission_tag = product.metafields.custom.commission_rate.value | default: product.metafields.custom.commission_rate
+  if commission_tag == blank
+    assign commission_tag = product.metafields.custom.est_commission.value | default: product.metafields.custom.est_commission
+  endif
+
+  capture tags_source
+    if price_range_tag != blank
+      echo price_range_tag
+    endif
+    if commission_tag != blank
+      if price_range_tag != blank
+        echo ','
+      endif
+      echo commission_tag
+    endif
+  endcapture
+
+  assign tags_array = tags_source | split: ','
+  assign brand_button_link = '/collections/' | append: product.vendor | handleize
 %}
 
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
@@ -13,11 +33,11 @@
     <div data-trg-reveal>
       <p class="trg-eyebrow">{{ section.settings.eyebrow | escape }}</p>
       <h2 class="trg-heading" style="font-size: clamp(1.25rem, 2vw, 1.9rem); margin-top: 6px;">{{ brand_name | escape }}</h2>
-      {% if section.settings.description != blank %}
-        <div class="trg-lead" style="margin-top: 8px;">{{ section.settings.description }}</div>
+      {% if brand_description != blank %}
+        <div class="trg-lead" style="margin-top: 8px;">{{ brand_description }}</div>
       {% endif %}
 
-      {% if section.settings.tags != blank %}
+      {% if tags_source != blank %}
         <div class="trg-tag-row" style="margin-top: 12px;">
           {% for raw_tag in tags_array %}
             {% assign tag = raw_tag | strip %}
@@ -29,7 +49,7 @@
 
     {% if section.settings.button_label != blank %}
       <div data-trg-reveal>
-        <a class="button" href="{{ section.settings.button_link | default: '#' }}">{{ section.settings.button_label | escape }}</a>
+        <a class="button" href="{{ brand_button_link }}">{{ section.settings.button_label | escape }}</a>
       </div>
     {% endif %}
   </div>

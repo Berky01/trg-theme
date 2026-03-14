@@ -1,0 +1,99 @@
+{% liquid
+  assign product = closest.product
+
+  if request.visual_preview_mode and product == blank
+    assign product = collections.all.products.first
+  endif
+
+  assign ships_to_canada = false
+  assign duties_apply = false
+
+  if product != blank
+    assign ships_to_canada_value = product.metafields.custom.ships_to_canada.value | default: product.metafields.custom.ships_to_canada
+    assign ships_canada_value = product.metafields.custom.ships_canada.value | default: product.metafields.custom.ships_canada
+
+    if ships_to_canada_value != blank and ships_to_canada_value != false
+      assign ships_to_canada = true
+    elsif ships_canada_value != blank and ships_canada_value != false
+      assign ships_to_canada = true
+    elsif product.tags contains 'ships-to-canada'
+      assign ships_to_canada = true
+    endif
+
+    assign duties_apply_value = product.metafields.custom.ca_duties_apply.value | default: product.metafields.custom.ca_duties_apply
+    assign duties_included_value = product.metafields.custom.duties_included.value | default: product.metafields.custom.duties_included
+
+    if duties_apply_value != blank and duties_apply_value != false
+      assign duties_apply = true
+    elsif duties_included_value != blank and duties_included_value != false
+      assign duties_apply = false
+    endif
+  endif
+%}
+
+{% if ships_to_canada %}
+  <div class="trg-canada-strip" data-canada-strip {{ block.shopify_attributes }}>
+    <div class="trg-canada-strip__row">
+      <span class="trg-canada-strip__dot" aria-hidden="true"></span>
+      <span class="trg-canada-strip__text">
+        Ships to Canada
+        {% if duties_apply %}
+          <span class="trg-canada-strip__note"> · duties may apply</span>
+        {% else %}
+          <span class="trg-canada-strip__note"> · no duties</span>
+        {% endif %}
+      </span>
+    </div>
+  </div>
+{% endif %}
+
+{% stylesheet %}
+  .trg-canada-strip {
+    display: none;
+    background: rgba(212, 41, 26, 0.05);
+    border: 1px solid rgba(212, 41, 26, 0.15);
+    border-radius: 3px;
+    padding: 0.75rem 1rem;
+  }
+
+  body[data-region="CA"] .trg-canada-strip {
+    display: block;
+  }
+
+  .trg-canada-strip__row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.78rem;
+  }
+
+  .trg-canada-strip__dot {
+    width: 7px;
+    height: 7px;
+    background: #d4291a;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .trg-canada-strip__text {
+    color: #1a1a18;
+  }
+
+  .trg-canada-strip__note {
+    color: #8a8478;
+    font-weight: 300;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "TRG Canada Strip",
+  "tag": null,
+  "settings": [],
+  "presets": [
+    {
+      "name": "TRG Canada Strip"
+    }
+  ]
+}
+{% endschema %}
