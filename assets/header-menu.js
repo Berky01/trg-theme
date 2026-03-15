@@ -326,6 +326,13 @@ function findMenuItem(element) {
     return findMenuItem(element.parentElement?.querySelector('[slot="overflow"]'));
   }
 
+  // Walk up to the list item first, then search down for the menu item ref.
+  // This handles clicks on the <a> or <span> children of the <li>.
+  const listItem = element.closest('.menu-list__list-item');
+  if (listItem) {
+    return listItem.querySelector('[ref="menuitem"]');
+  }
+
   return element?.querySelector('[ref="menuitem"]');
 }
 

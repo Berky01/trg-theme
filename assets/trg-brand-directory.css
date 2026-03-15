@@ -5,9 +5,9 @@
 }
 
 .trg-bdir .trg-bdir__head {
-  position: relative;
-  z-index: 1;
-  top: auto;
+  position: sticky;
+  top: var(--header-group-height, 56px);
+  z-index: 0;
   background: var(--ink);
   border-top: 1px solid rgba(245, 241, 235, 0.08);
   border-bottom: 1px solid rgba(245, 241, 235, 0.08);
@@ -18,7 +18,12 @@
   top: var(--header-group-height, 56px);
   background: var(--ink);
   border-top: 1px solid rgba(245, 241, 235, 0.08);
-  isolation: auto;
+  z-index: 0;
+}
+
+.trg-bdir .trg-bdir__head,
+.trg-bdir .trg-bdir__searchbar {
+  z-index: 0;
 }
 
 .trg-bdir .trg-bdir__shell,
