@@ -178,6 +178,17 @@
     height: 100%;
   }
 
+  .product-information__media media-gallery {
+    aspect-ratio: var(--gallery-aspect-ratio, 4/5);
+    display: block;
+  }
+
+  .product-information__media .product-media-gallery__placeholder-image,
+  .product-information__media media-gallery,
+  .product-information__media .media-gallery {
+    max-height: calc(100vw * 0.8 * (5/4));
+  }
+
   .product-information__media {
     border: 1px solid #ddd8cf;
   }
