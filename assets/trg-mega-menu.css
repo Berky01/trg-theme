@@ -620,3 +620,8 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+
+.menu-drawer .trg-mega-menu,
+.menu-drawer .trg-mega-menu-shell {
+  display: none;
+}

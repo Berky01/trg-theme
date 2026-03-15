@@ -54,9 +54,8 @@ body.filters-hidden .trg-bdir .trg-bdir__layout {
   align-items: center;
 }
 
-.menu-drawer .trg-bdir__desktop-chrome,
-.header__drawer .trg-bdir__desktop-chrome {
-  display: none !important;
+body:has(.menu-drawer-container.menu-open) .trg-bdir__desktop-chrome {
+  visibility: hidden;
 }
 
 .trg-bdir .trg-bdir__eye {
@@ -199,39 +198,25 @@ body.filters-hidden .trg-bdir .trg-bdir__layout {
   border-bottom: none;
 }
 
-.trg-bdir .trg-bdir__btn[data-toggle] {
-  border: none;
-  background: none;
-  min-height: auto;
-  padding: 0;
+.trg-bdir .trg-bdir__side .trg-bdir__btn[data-toggle],
+.trg-bdir .trg-bdir__sort .trg-bdir__show {
+  border: none !important;
+  background: none !important;
+  min-height: auto !important;
+  padding: 0 !important;
   color: var(--mid);
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   display: inline-flex;
   align-items: center;
   gap: 0.3rem;
+  box-shadow: none;
 }
 
-.trg-bdir .trg-bdir__btn[data-toggle]:hover {
-  color: var(--ink);
-}
-
-.trg-bdir .trg-bdir__show {
-  border: none;
-  background: none;
-  min-height: auto;
-  padding: 0;
-  color: var(--mid);
-  font-size: 0.68rem;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  gap: 0.4rem;
-}
-
-.trg-bdir .trg-bdir__show:hover {
+.trg-bdir .trg-bdir__side .trg-bdir__btn[data-toggle]:hover,
+.trg-bdir .trg-bdir__sort .trg-bdir__show:hover {
   color: var(--ink);
 }
 
