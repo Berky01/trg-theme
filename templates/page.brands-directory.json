@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "main": {
+      "type": "trg-brand-directory",
+      "settings": {
+        "featured_brand_handle": "viberg"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

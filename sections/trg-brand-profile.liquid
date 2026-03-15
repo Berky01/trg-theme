@@ -1,0 +1,675 @@
+{% liquid
+  assign brand = metaobject
+
+  if brand == blank and shop.metaobjects.brand != blank
+    assign brand = shop.metaobjects.brand.values | first
+  endif
+
+  if brand != blank
+    assign brand_name_field = brand.name
+    assign brand_name = brand_name_field.value | default: brand_name_field | default: brand.handle
+
+    assign brand_country_field = brand.country
+    assign brand_country = brand_country_field.value | default: brand_country_field
+
+    assign brand_positioning_field = brand.brand_positioning
+    assign brand_positioning = brand_positioning_field.value | default: brand_positioning_field
+
+    assign brand_primary_category_field = brand.primary_category
+    assign brand_primary_category = brand_primary_category_field.value | default: brand_primary_category_field
+
+    assign brand_description_field = brand.description
+    assign brand_description = brand_description_field.value | default: brand_description_field
+
+    assign brand_notes_field = brand.notes
+    assign brand_notes = brand_notes_field.value | default: brand_notes_field
+
+    assign brand_website_field = brand.website
+    assign brand_website = brand_website_field.value | default: brand_website_field
+
+    assign brand_affiliate_link_field = brand.affiliate_link
+    assign brand_affiliate_link = brand_affiliate_link_field.value | default: brand_affiliate_link_field
+
+    assign brand_buy_path_field = brand.buy_path
+    assign brand_buy_path = brand_buy_path_field.value | default: brand_buy_path_field
+
+    assign brand_made_in_field = brand.made_in
+    assign brand_made_in = brand_made_in_field.value | default: brand_made_in_field
+
+    assign brand_price_range_field = brand.price_range
+    assign brand_price_range = brand_price_range_field.value | default: brand_price_range_field
+
+    assign brand_affiliate_network_field = brand.affiliate_network
+    assign brand_affiliate_network = brand_affiliate_network_field.value | default: brand_affiliate_network_field
+
+    assign brand_ships_to_canada_field = brand.ships_to_canada
+    assign brand_ships_to_canada = brand_ships_to_canada_field.value | default: brand_ships_to_canada_field
+
+    assign brand_canadian_field = brand.canadian_brand
+    assign brand_canadian = brand_canadian_field.value | default: brand_canadian_field
+
+    assign brand_ddp_field = brand.ddp_duties
+    assign brand_ddp = brand_ddp_field.value | default: brand_ddp_field
+
+    assign brand_tags_field = brand.tags
+    assign brand_tags = brand_tags_field.value | default: brand_tags_field
+
+    assign brand_logo_field = brand.logo
+    assign brand_logo = brand_logo_field.value | default: brand_logo_field
+    if brand_logo != blank and brand_logo.preview_image != blank
+      assign brand_logo = brand_logo.preview_image
+    endif
+
+    assign target_collection_field = brand.collection
+    assign target_collection = target_collection_field.value | default: target_collection_field
+    if target_collection == blank
+      assign target_collection = collections[brand.handle]
+    endif
+    assign brand_name_handle = brand_name | handleize
+    if target_collection == blank
+      assign target_collection = collections[brand_name_handle]
+    endif
+
+    assign primary_cta_url = brand_website | default: brand_affiliate_link
+    if primary_cta_url != blank
+      unless primary_cta_url contains '://'
+        assign primary_cta_url = 'https://' | append: primary_cta_url
+      endunless
+    endif
+
+    assign subtitle = brand_country
+    if brand_positioning != blank and subtitle != blank
+      assign subtitle = subtitle | append: ' · ' | append: brand_positioning
+    elsif brand_positioning != blank
+      assign subtitle = brand_positioning
+    endif
+
+    assign meta_label_1 = brand_primary_category
+    assign meta_label_2 = brand_country
+    assign meta_label_3 = brand_buy_path
+
+    assign products_to_show = section.settings.products_to_show | default: 6
+  endif
+%}
+
+{% if brand != blank %}
+  <section class="section section--full-width trg-brand-profile">
+    <div class="trg-brand-profile__hero">
+      <div class="trg-shell trg-brand-profile__hero-inner">
+        <div class="trg-brand-profile__logo-wrap">
+          <div class="trg-brand-profile__logo">
+            {% if brand_logo != blank %}
+              {{
+                brand_logo
+                | image_url: width: 320
+                | image_tag:
+                  loading: 'eager',
+                  widths: '120, 180, 240, 320',
+                  sizes: '96px',
+                  alt: brand_name
+              }}
+            {% else %}
+              <span>{{ brand_name | slice: 0, 2 | upcase }}</span>
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="trg-brand-profile__hero-copy">
+          <div class="trg-brand-profile__badges">
+            {% if brand_primary_category != blank %}
+              <span class="trg-brand-profile__badge trg-brand-profile__badge--accent">{{ brand_primary_category }}</span>
+            {% endif %}
+            {% if brand_ships_to_canada != blank %}
+              <span class="trg-brand-profile__badge">{{ brand_ships_to_canada }}</span>
+            {% endif %}
+            {% if brand_canadian != blank %}
+              <span class="trg-brand-profile__badge">{{ brand_canadian }}</span>
+            {% endif %}
+          </div>
+
+          <h1 class="trg-brand-profile__title">{{ brand_name }}</h1>
+
+          {% if subtitle != blank %}
+            <p class="trg-brand-profile__subtitle">{{ subtitle }}</p>
+          {% endif %}
+
+          {% if brand_description != blank %}
+            <div class="trg-brand-profile__lede rte">{{ brand_description | newline_to_br }}</div>
+          {% endif %}
+        </div>
+
+        <div class="trg-brand-profile__hero-actions">
+          {% if primary_cta_url != blank %}
+            <a class="trg-brand-profile__button" href="{{ primary_cta_url }}" target="_blank" rel="noopener noreferrer">
+              Visit {{ brand_name }}
+            </a>
+          {% endif %}
+
+          {% if target_collection != blank and target_collection.url != blank %}
+            <a class="trg-brand-profile__button trg-brand-profile__button--ghost" href="{{ target_collection.url }}">
+              Browse products
+            </a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <div class="trg-brand-profile__surface">
+      <div class="trg-shell trg-brand-profile__main">
+        <div class="trg-brand-profile__content">
+          <div class="trg-brand-profile__meta-grid">
+            {% if brand_buy_path != blank %}
+              <div class="trg-brand-profile__meta-row">
+                <span class="trg-brand-profile__meta-key">Buy Path</span>
+                <span class="trg-brand-profile__meta-value">{{ brand_buy_path }}</span>
+              </div>
+            {% endif %}
+
+            {% if brand_made_in != blank %}
+              <div class="trg-brand-profile__meta-row">
+                <span class="trg-brand-profile__meta-key">Made In</span>
+                <span class="trg-brand-profile__meta-value">{{ brand_made_in }}</span>
+              </div>
+            {% endif %}
+
+            {% if brand_price_range != blank %}
+              <div class="trg-brand-profile__meta-row">
+                <span class="trg-brand-profile__meta-key">Price Range</span>
+                <span class="trg-brand-profile__meta-value">{{ brand_price_range }}</span>
+              </div>
+            {% endif %}
+
+            {% if brand_affiliate_network != blank %}
+              <div class="trg-brand-profile__meta-row">
+                <span class="trg-brand-profile__meta-key">Affiliate Network</span>
+                <span class="trg-brand-profile__meta-value">{{ brand_affiliate_network }}</span>
+              </div>
+            {% endif %}
+
+            {% if brand_ships_to_canada != blank %}
+              <div class="trg-brand-profile__meta-row">
+                <span class="trg-brand-profile__meta-key">Ships To Canada</span>
+                <span class="trg-brand-profile__meta-value">{{ brand_ships_to_canada }}</span>
+              </div>
+            {% endif %}
+          </div>
+
+          {% if brand_tags != blank %}
+            {% assign normalized_tags = brand_tags | replace: '/', ',' | replace: '|', ',' | split: ',' %}
+            <div class="trg-brand-profile__section">
+              <div class="trg-brand-profile__section-label">Editorial Tags</div>
+              <div class="trg-brand-profile__tags">
+                {% for raw_tag in normalized_tags %}
+                  {% assign tag = raw_tag | strip %}
+                  {% if tag != blank %}
+                    <span class="trg-brand-profile__tag">{{ tag }}</span>
+                  {% endif %}
+                {% endfor %}
+              </div>
+            </div>
+          {% endif %}
+
+          {% if target_collection != blank and target_collection.products_count > 0 %}
+            <div class="trg-brand-profile__section">
+              <div class="trg-brand-profile__section-head">
+                <div>
+                  <div class="trg-brand-profile__section-label">Products</div>
+                  <h2 class="trg-brand-profile__section-title">From {{ brand_name }}</h2>
+                </div>
+                {% if target_collection.url != blank %}
+                  <a class="trg-brand-profile__section-link" href="{{ target_collection.url }}">View all</a>
+                {% endif %}
+              </div>
+
+              <ul class="trg-brand-profile__product-grid" role="list">
+                {% for product in target_collection.products limit: products_to_show %}
+                  <li class="trg-brand-profile__product-item">
+                    <article class="trg-brand-profile__product-card">
+                      <a class="trg-brand-profile__product-link" href="{{ product.url }}">
+                        <div class="trg-brand-profile__product-media">
+                          {% if product.featured_media != blank %}
+                            {{
+                              product.featured_media
+                              | image_url: width: 900
+                              | image_tag:
+                                loading: 'lazy',
+                                widths: '260, 360, 520, 720, 900',
+                                sizes: '(min-width: 990px) 31vw, 100vw',
+                                alt: product.title
+                            }}
+                          {% else %}
+                            {{ 'product-apparel-1' | placeholder_svg_tag }}
+                          {% endif %}
+                        </div>
+                        <div class="trg-brand-profile__product-body">
+                          <p class="trg-brand-profile__product-vendor">{{ product.vendor }}</p>
+                          <h3 class="trg-brand-profile__product-title">{{ product.title }}</h3>
+                          <div class="trg-brand-profile__product-price">
+                            {% render 'price', product_resource: product %}
+                          </div>
+                        </div>
+                      </a>
+                    </article>
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+          {% endif %}
+        </div>
+
+        <aside class="trg-brand-profile__sidebar">
+          <div class="trg-brand-profile__card">
+            <div class="trg-brand-profile__card-label">Brand Snapshot</div>
+            <div class="trg-brand-profile__snapshot">
+              {% if meta_label_1 != blank %}
+                <div class="trg-brand-profile__snapshot-row">
+                  <span class="trg-brand-profile__snapshot-key">Category</span>
+                  <span class="trg-brand-profile__snapshot-value">{{ meta_label_1 }}</span>
+                </div>
+              {% endif %}
+              {% if meta_label_2 != blank %}
+                <div class="trg-brand-profile__snapshot-row">
+                  <span class="trg-brand-profile__snapshot-key">Country</span>
+                  <span class="trg-brand-profile__snapshot-value">{{ meta_label_2 }}</span>
+                </div>
+              {% endif %}
+              {% if brand_ddp != blank %}
+                <div class="trg-brand-profile__snapshot-row">
+                  <span class="trg-brand-profile__snapshot-key">Duties To CA</span>
+                  <span class="trg-brand-profile__snapshot-value">{{ brand_ddp }}</span>
+                </div>
+              {% endif %}
+              {% if meta_label_3 != blank %}
+                <div class="trg-brand-profile__snapshot-row">
+                  <span class="trg-brand-profile__snapshot-key">Shop Route</span>
+                  <span class="trg-brand-profile__snapshot-value">{{ meta_label_3 }}</span>
+                </div>
+              {% endif %}
+            </div>
+          </div>
+
+          {% if brand_notes != blank %}
+            <div class="trg-brand-profile__card">
+              <div class="trg-brand-profile__card-label">Notes</div>
+              <div class="trg-brand-profile__notes rte">{{ brand_notes | newline_to_br }}</div>
+            </div>
+          {% endif %}
+        </aside>
+      </div>
+    </div>
+  </section>
+{% endif %}
+
+{% stylesheet %}
+  .trg-brand-profile {
+    --trg-brand-ink: #1a1a18;
+    --trg-brand-paper: #f5f1eb;
+    --trg-brand-surface: #faf8f4;
+    --trg-brand-muted: #8a8478;
+    --trg-brand-border: #ddd8cf;
+    --trg-brand-accent: #c4562a;
+    background: var(--trg-brand-paper);
+    color: var(--trg-brand-ink);
+  }
+
+  .trg-brand-profile__hero {
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0)),
+      var(--trg-brand-ink);
+    color: var(--trg-brand-paper);
+  }
+
+  .trg-brand-profile__hero-inner {
+    display: grid;
+    gap: 24px;
+    padding-block: 48px 56px;
+  }
+
+  .trg-brand-profile__logo-wrap {
+    display: flex;
+    align-items: flex-start;
+  }
+
+  .trg-brand-profile__logo {
+    width: 96px;
+    height: 96px;
+    border: 1px solid rgba(245, 241, 235, 0.14);
+    background: rgba(245, 241, 235, 0.07);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    font-family: var(--font-heading--family);
+    font-size: 2rem;
+    color: var(--trg-brand-paper);
+  }
+
+  .trg-brand-profile__logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .trg-brand-profile__badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+
+  .trg-brand-profile__badge {
+    border: 1px solid rgba(245, 241, 235, 0.16);
+    color: rgba(245, 241, 235, 0.72);
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.28rem 0.55rem;
+    border-radius: 999px;
+  }
+
+  .trg-brand-profile__badge--accent {
+    color: #f0a489;
+    border-color: rgba(196, 86, 42, 0.35);
+    background: rgba(196, 86, 42, 0.18);
+  }
+
+  .trg-brand-profile__title {
+    margin: 0;
+    color: var(--trg-brand-paper);
+    font-family: var(--font-heading--family);
+    font-size: clamp(2.1rem, 5vw, 3.6rem);
+    line-height: 1.02;
+  }
+
+  .trg-brand-profile__subtitle {
+    margin: 0.7rem 0 0;
+    font-size: 0.92rem;
+    color: rgba(245, 241, 235, 0.55);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .trg-brand-profile__lede {
+    margin-top: 1rem;
+    max-width: 62ch;
+    color: rgba(245, 241, 235, 0.82);
+    font-size: 0.98rem;
+    line-height: 1.8;
+  }
+
+  .trg-brand-profile__hero-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .trg-brand-profile__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 46px;
+    padding: 0.85rem 1.35rem;
+    border-radius: 2px;
+    background: var(--trg-brand-accent);
+    border: 1px solid var(--trg-brand-accent);
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.77rem;
+    font-weight: 600;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  .trg-brand-profile__button:hover {
+    opacity: 0.92;
+    transform: translateY(-1px);
+  }
+
+  .trg-brand-profile__button--ghost {
+    background: transparent;
+    color: rgba(245, 241, 235, 0.84);
+    border-color: rgba(245, 241, 235, 0.22);
+  }
+
+  .trg-brand-profile__surface {
+    background: var(--trg-brand-paper);
+  }
+
+  .trg-brand-profile__main {
+    display: grid;
+    gap: 28px;
+    padding-block: 32px 56px;
+  }
+
+  .trg-brand-profile__meta-grid {
+    display: grid;
+    gap: 1px;
+    background: var(--trg-brand-border);
+    border: 1px solid var(--trg-brand-border);
+  }
+
+  .trg-brand-profile__meta-row,
+  .trg-brand-profile__snapshot-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 18px;
+    background: var(--trg-brand-surface);
+    padding: 1rem 1.15rem;
+  }
+
+  .trg-brand-profile__meta-key,
+  .trg-brand-profile__snapshot-key,
+  .trg-brand-profile__card-label,
+  .trg-brand-profile__section-label {
+    font-size: 0.66rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--trg-brand-muted);
+  }
+
+  .trg-brand-profile__meta-value,
+  .trg-brand-profile__snapshot-value {
+    text-align: right;
+    color: var(--trg-brand-ink);
+    font-size: 0.86rem;
+    line-height: 1.45;
+  }
+
+  .trg-brand-profile__section {
+    margin-top: 28px;
+  }
+
+  .trg-brand-profile__section-head {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  .trg-brand-profile__section-title {
+    margin: 0.3rem 0 0;
+    font-family: var(--font-heading--family);
+    font-size: clamp(1.45rem, 2vw, 1.9rem);
+    color: var(--trg-brand-ink);
+  }
+
+  .trg-brand-profile__section-link {
+    color: var(--trg-brand-accent);
+    text-decoration: none;
+    font-size: 0.76rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .trg-brand-profile__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+  }
+
+  .trg-brand-profile__tag {
+    padding: 0.35rem 0.7rem;
+    border-radius: 999px;
+    border: 1px solid var(--trg-brand-border);
+    background: #efeae2;
+    color: var(--trg-brand-ink);
+    font-size: 0.74rem;
+  }
+
+  .trg-brand-profile__product-grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+
+  .trg-brand-profile__product-card {
+    height: 100%;
+    border: 1px solid var(--trg-brand-border);
+    background: #fff;
+  }
+
+  .trg-brand-profile__product-link {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .trg-brand-profile__product-media {
+    aspect-ratio: 4 / 5;
+    background: #ede8e0;
+    overflow: hidden;
+  }
+
+  .trg-brand-profile__product-media img,
+  .trg-brand-profile__product-media svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .trg-brand-profile__product-body {
+    display: grid;
+    gap: 6px;
+    padding: 1rem;
+  }
+
+  .trg-brand-profile__product-vendor {
+    margin: 0;
+    color: var(--trg-brand-muted);
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .trg-brand-profile__product-title {
+    margin: 0;
+    font-family: var(--font-heading--family);
+    font-size: 1rem;
+    line-height: 1.25;
+    color: var(--trg-brand-ink);
+  }
+
+  .trg-brand-profile__product-price {
+    color: var(--trg-brand-ink);
+    font-size: 0.9rem;
+  }
+
+  .trg-brand-profile__sidebar {
+    display: grid;
+    gap: 18px;
+  }
+
+  .trg-brand-profile__card {
+    border: 1px solid var(--trg-brand-border);
+    background: var(--trg-brand-surface);
+    padding: 1.1rem;
+  }
+
+  .trg-brand-profile__snapshot {
+    display: grid;
+    gap: 1px;
+    margin-top: 12px;
+    background: var(--trg-brand-border);
+    border: 1px solid var(--trg-brand-border);
+  }
+
+  .trg-brand-profile__notes {
+    margin-top: 12px;
+    color: var(--trg-brand-ink);
+    font-size: 0.88rem;
+    line-height: 1.7;
+  }
+
+  @media screen and (min-width: 750px) {
+    .trg-brand-profile__hero-inner {
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .trg-brand-profile__hero-actions {
+      align-items: flex-end;
+    }
+
+    .trg-brand-profile__meta-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .trg-brand-profile__product-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media screen and (min-width: 990px) {
+    .trg-brand-profile__main {
+      grid-template-columns: minmax(0, 1fr) 300px;
+      align-items: start;
+    }
+
+    .trg-brand-profile__sidebar {
+      position: sticky;
+      top: calc(var(--header-height, 72px) + 24px);
+    }
+
+    .trg-brand-profile__product-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "TRG Brand Profile",
+  "tag": "section",
+  "class": "trg-brand-profile-section",
+  "settings": [
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "label": "Products to show",
+      "min": 3,
+      "max": 9,
+      "step": 1,
+      "default": 6
+    }
+  ],
+  "presets": [
+    {
+      "name": "TRG Brand Profile"
+    }
+  ]
+}
+{% endschema %}

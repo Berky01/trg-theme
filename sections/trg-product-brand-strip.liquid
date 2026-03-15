@@ -24,7 +24,10 @@
   endcapture
 
   assign tags_array = tags_source | split: ','
-  assign brand_button_link = '/collections/' | append: product.vendor | handleize
+  capture brand_button_link
+    render 'trg-brand-page-url', brand_name: product.vendor, fallback_url: section.settings.button_link
+  endcapture
+  assign brand_button_link = brand_button_link | strip
 %}
 
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
@@ -47,7 +50,7 @@
       {% endif %}
     </div>
 
-    {% if section.settings.button_label != blank %}
+    {% if section.settings.button_label != blank and brand_button_link != blank %}
       <div data-trg-reveal>
         <a class="button" href="{{ brand_button_link }}">{{ section.settings.button_label | escape }}</a>
       </div>

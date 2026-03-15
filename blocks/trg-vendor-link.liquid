@@ -3,12 +3,19 @@
   if request.visual_preview_mode and product == blank
     assign product = collections.all.products.first
   endif
+
+  capture brand_link
+    render 'trg-brand-page-url',
+      brand_name: product.vendor,
+      fallback_url: '/collections/all?filter.p.vendor=' | append: product.vendor | url_encode
+  endcapture
+  assign brand_link = brand_link | strip
 %}
 
 {% if product != blank and product.vendor != blank %}
   <a
     class="trg-vendor-link"
-    href="/collections/all?filter.p.vendor={{ product.vendor | url_encode }}"
+    href="{{ brand_link }}"
     {{ block.shopify_attributes }}
   >
     {{ product.vendor }}

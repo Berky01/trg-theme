@@ -134,6 +134,13 @@
             endif
 
             if card_link == blank
+              capture brand_page_url
+                render 'trg-brand-page-url', brand_item: brand_item, fallback_url: fallback_link
+              endcapture
+              assign card_link = brand_page_url | strip
+            endif
+
+            if card_link == blank
               assign card_link = fallback_link
             endif
 
@@ -263,6 +270,13 @@
                   if card_link != blank and card_link.url != blank
                     assign card_link = card_link.url
                   endif
+                endif
+
+                if card_link == blank
+                  capture brand_page_url
+                    render 'trg-brand-page-url', brand_item: brand_item, fallback_url: fallback_link
+                  endcapture
+                  assign card_link = brand_page_url | strip
                 endif
 
                 if card_link == blank

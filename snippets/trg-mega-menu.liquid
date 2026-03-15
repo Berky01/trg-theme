@@ -56,8 +56,18 @@
     assign featured_title_field = featured_item.name
     assign featured_title = featured_title_field.value | default: featured_title_field | default: featured_title
 
-    assign featured_eyebrow_field = featured_item.origin
-    assign featured_eyebrow = featured_eyebrow_field.value | default: featured_eyebrow_field | default: featured_eyebrow
+    assign featured_primary_category_field = featured_item.primary_category
+    assign featured_primary_category = featured_primary_category_field.value | default: featured_primary_category_field
+    assign featured_country_field = featured_item.country
+    assign featured_country = featured_country_field.value | default: featured_country_field
+
+    if featured_eyebrow == blank
+      if featured_primary_category != blank and featured_country != blank
+        assign featured_eyebrow = featured_primary_category | append: ' · ' | append: featured_country
+      else
+        assign featured_eyebrow = featured_primary_category | default: featured_country | default: featured_eyebrow
+      endif
+    endif
 
     assign featured_body_field = featured_item.description
     assign featured_body = featured_body_field.value | default: featured_body_field | default: featured_body
@@ -68,19 +78,10 @@
       assign featured_image = featured_image.preview_image
     endif
 
-    assign featured_link_field = featured_item.url
-    assign featured_link = featured_link_field.value | default: featured_link_field | default: featured_link
-    if featured_link != blank and featured_link.url != blank
-      assign featured_link = featured_link.url
-    endif
-
-    if featured_link == blank
-      assign featured_collection_field = featured_item.collection
-      assign featured_collection = featured_collection_field.value | default: featured_collection_field
-      if featured_collection != blank and featured_collection.url != blank
-        assign featured_link = featured_collection.url
-      endif
-    endif
+    capture featured_brand_page_url
+      render 'trg-brand-page-url', brand_item: featured_item, fallback_url: featured_link
+    endcapture
+    assign featured_link = featured_brand_page_url | strip
   endif
 
   assign featured_fallback_initials = featured_title | default: parent_link.title | slice: 0, 2 | upcase

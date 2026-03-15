@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "main": {
+      "type": "trg-brand-profile",
+      "settings": {
+        "products_to_show": 6
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}
