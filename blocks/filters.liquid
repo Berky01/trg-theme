@@ -2212,6 +2212,13 @@
       background: #b04a22;
     }
   }
+
+  /* TRG FIX: prevent sidebar drop on desktop filter apply — align-self keeps sticky anchor */
+  @media screen and (min-width: 990px) {
+    .facets-block-wrapper--vertical {
+      align-self: start;
+    }
+  }
 {% endstylesheet %}
 
 {% schema %}

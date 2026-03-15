@@ -1036,11 +1036,12 @@
       grid-row: 1 !important;
     }
 
-    .trg-plp-body .collection-wrapper > div.facets-block-wrapper--vertical:not(.hidden) {
+    .trg-plp-body .collection-wrapper > .facets-block-wrapper--vertical:not(.hidden):not(dialog-component) {
       --grid-column--desktop: 1;
       grid-column: 1 !important;
       grid-row: 2 !important;
       align-self: start;
+      height: fit-content;
     }
 
     .trg-plp-body .facets--vertical:not(.facets--drawer) {
