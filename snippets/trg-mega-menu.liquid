@@ -98,9 +98,52 @@
     {% for child_link in parent_link.links %}
       {% liquid
         assign panel_id = id | append: '-panel-' | append: forloop.index
+        assign normalized_child_title = child_link.title | strip | downcase
+        assign normalized_child_handle = child_link.handle | strip | downcase
         assign item_count = child_link.links.size
-        if item_count == 0 and child_link.url != blank
-          assign item_count = 1
+
+        assign shop_tiles = ''
+        if is_brand_menu == false and item_count == 0
+          case normalized_child_handle
+            when 'footwear'
+              assign shop_tiles = 'Oxford & Derby::mens-dress-shoes|Chelsea Boots::mens-boots|Work & Logger Boots::goodyear-welt-boots|Loafers::mens-loafers|Sneakers & Trainers::mens-sneakers|Handwelted Shoes::handwelted-shoes'
+            when 'outerwear'
+              assign shop_tiles = 'Overcoat & Topcoat::mens-overcoats|Field & Barn Jacket::mens-field-jackets|Waxed & Heritage::outerwear|Rainwear::mens-rainwear|Down & Insulated::mens-down-jackets|Harrington & Bomber::mens-harrington-jackets|Chore & Utility::mens-chore-coats|Trench Coats::mens-trench-coats'
+            when 'casualwear'
+              assign shop_tiles = 'Overshirts::mens-overshirts|T-Shirts::mens-t-shirts|Polos::mens-polo-shirts|Chinos & Trousers::mens-chinos|Sweatshirts::mens-sweatshirts|Linen & Summer::linen-clothing|Shirting::shirting|Casualwear::casualwear'
+            when 'knitwear'
+              assign shop_tiles = 'Merino Wool::merino-wool-clothing|Cashmere::cashmere-clothing|Wool Knitwear::wool-clothing|Cotton Knitwear::cotton-clothing|Linen Knitwear::linen-clothing|All Knitwear::knitwear'
+            when 'denim'
+              assign shop_tiles = 'Raw Denim Jeans::raw-denim-jeans|Selvedge Denim::selvedge-denim|Japanese Denim::japanese-denim|Premium Denim::premium-denim|All Denim::denim'
+            when 'shirting'
+              assign shop_tiles = 'Dress Shirts::mens-dress-shirts|Overshirts::mens-overshirts|Polos::mens-polo-shirts|Linen Shirts::linen-clothing|All Shirting::shirting'
+            when 'basics'
+              assign shop_tiles = 'T-Shirts::mens-t-shirts|Sweatshirts::mens-sweatshirts|Underwear::mens-underwear|Cotton Basics::cotton-clothing|Organic Clothing::organic-clothing|All Basics::basics'
+            when 'formalwear'
+              assign shop_tiles = 'Suits::mens-suits|Sport Coats & Blazers::tailoring|Dress Shirts::mens-dress-shirts|Made to Measure::made-to-measure|Bespoke Menswear::bespoke-menswear|Formal Accessories::mens-ties'
+            when 'tailoring'
+              assign shop_tiles = 'Tailoring::tailoring|Suits::mens-suits|Made to Measure::made-to-measure|Bespoke::bespoke-menswear|Dress Shirts::mens-dress-shirts|Ties::mens-ties'
+            when 'smart-casual'
+              assign shop_tiles = 'Smart Casual::smart-casual|Tailoring::tailoring|Chinos::mens-chinos|Overshirts::mens-overshirts|Polos::mens-polo-shirts|Loafers::mens-loafers'
+            when 'workwear'
+              assign shop_tiles = 'Chore Coats::mens-chore-coats|Field Jackets::mens-field-jackets|Raw Denim::raw-denim-jeans|Heritage Menswear::heritage-menswear|Workwear Inspired::workwear-inspired|All Workwear::workwear'
+            when 'streetwear'
+              assign shop_tiles = 'Streetwear::streetwear|Sneakers::mens-sneakers|Sweatshirts::mens-sweatshirts|T-Shirts::mens-t-shirts|Caps::mens-hats-and-caps|Bags::mens-bags'
+            when 'activewear'
+              assign shop_tiles = 'Activewear::activewear|Technical Outerwear::technical-outerwear|Sneakers::mens-sneakers|Merino Layers::merino-wool-clothing|Rainwear::mens-rainwear'
+            when 'accessories'
+              assign shop_tiles = 'Bags::mens-bags|Scarves::mens-scarves|Ties::mens-ties|Hats & Caps::mens-hats-and-caps|Gloves::mens-gloves|Socks::mens-socks|Leather Goods::leather-goods|All Accessories::accessories'
+          endcase
+        endif
+
+        assign shop_tile_items = shop_tiles | split: '|'
+        assign shop_tile_count = 0
+        if shop_tiles != blank
+          assign shop_tile_count = shop_tile_items.size
+        endif
+
+        if item_count == 0 and shop_tile_count > 0
+          assign item_count = shop_tile_count
         endif
       %}
       <button
@@ -173,6 +216,66 @@
           endif
 
           assign item_count = child_link.links.size
+          assign shop_style_tags = ''
+          assign shop_tiles = ''
+
+          if is_brand_menu == false and item_count == 0
+            case normalized_child_handle
+              when 'footwear'
+                assign shop_style_tags = 'Heritage|Dress|Casual|Luxury / Bespoke|Technical'
+                assign shop_tiles = 'Oxford & Derby::mens-dress-shoes|Chelsea Boots::mens-boots|Work & Logger Boots::goodyear-welt-boots|Loafers::mens-loafers|Sneakers & Trainers::mens-sneakers|Handwelted Shoes::handwelted-shoes'
+              when 'outerwear'
+                assign shop_style_tags = 'Heritage & Trad|Technical / Alpine|Military-inspired|Tailored|Workwear-adjacent'
+                assign shop_tiles = 'Overcoat & Topcoat::mens-overcoats|Field & Barn Jacket::mens-field-jackets|Waxed & Heritage::outerwear|Rainwear::mens-rainwear|Down & Insulated::mens-down-jackets|Harrington & Bomber::mens-harrington-jackets|Chore & Utility::mens-chore-coats|Trench Coats::mens-trench-coats'
+              when 'casualwear'
+                assign shop_style_tags = 'Japanese|Scandinavian|Artisanal|Preppy / Ivy|French Casual|Coastal'
+                assign shop_tiles = 'Overshirts::mens-overshirts|T-Shirts::mens-t-shirts|Polos::mens-polo-shirts|Chinos & Trousers::mens-chinos|Sweatshirts::mens-sweatshirts|Linen & Summer::linen-clothing|Shirting::shirting|Casualwear::casualwear'
+              when 'knitwear'
+                assign shop_style_tags = 'Merino|Cashmere|Heritage|Luxury|Layering'
+                assign shop_tiles = 'Merino Wool::merino-wool-clothing|Cashmere::cashmere-clothing|Wool Knitwear::wool-clothing|Cotton Knitwear::cotton-clothing|Linen Knitwear::linen-clothing|All Knitwear::knitwear'
+              when 'denim'
+                assign shop_style_tags = 'Raw Denim|Selvedge|Japanese|Heritage|Premium'
+                assign shop_tiles = 'Raw Denim Jeans::raw-denim-jeans|Selvedge Denim::selvedge-denim|Japanese Denim::japanese-denim|Premium Denim::premium-denim|All Denim::denim'
+              when 'shirting'
+                assign shop_style_tags = 'Dress|Casual|Overshirts|Summer'
+                assign shop_tiles = 'Dress Shirts::mens-dress-shirts|Overshirts::mens-overshirts|Polos::mens-polo-shirts|Linen Shirts::linen-clothing|All Shirting::shirting'
+              when 'basics'
+                assign shop_style_tags = 'Core Essentials|Organic|Canadian-made|Layering'
+                assign shop_tiles = 'T-Shirts::mens-t-shirts|Sweatshirts::mens-sweatshirts|Underwear::mens-underwear|Cotton Basics::cotton-clothing|Organic Clothing::organic-clothing|All Basics::basics'
+              when 'formalwear'
+                assign shop_style_tags = 'Neapolitan|British Trad|Scandinavian|Italian Luxury|Made to Measure'
+                assign shop_tiles = 'Suits::mens-suits|Sport Coats & Blazers::tailoring|Dress Shirts::mens-dress-shirts|Made to Measure::made-to-measure|Bespoke Menswear::bespoke-menswear|Formal Accessories::mens-ties'
+              when 'tailoring'
+                assign shop_style_tags = 'Soft Tailoring|Classic Sartorial|Modern Business|MTM / Bespoke'
+                assign shop_tiles = 'Tailoring::tailoring|Suits::mens-suits|Made to Measure::made-to-measure|Bespoke::bespoke-menswear|Dress Shirts::mens-dress-shirts|Ties::mens-ties'
+              when 'smart-casual'
+                assign shop_style_tags = 'Office-ready|Travel|Relaxed Tailoring|Modern Classics'
+                assign shop_tiles = 'Smart Casual::smart-casual|Tailoring::tailoring|Chinos::mens-chinos|Overshirts::mens-overshirts|Polos::mens-polo-shirts|Loafers::mens-loafers'
+              when 'workwear'
+                assign shop_style_tags = 'Utility|Americana|French Workwear|Heritage'
+                assign shop_tiles = 'Chore Coats::mens-chore-coats|Field Jackets::mens-field-jackets|Raw Denim::raw-denim-jeans|Heritage Menswear::heritage-menswear|Workwear Inspired::workwear-inspired|All Workwear::workwear'
+              when 'streetwear'
+                assign shop_style_tags = 'Premium|Japanese|Sneakers|Graphic'
+                assign shop_tiles = 'Streetwear::streetwear|Sneakers::mens-sneakers|Sweatshirts::mens-sweatshirts|T-Shirts::mens-t-shirts|Caps::mens-hats-and-caps|Bags::mens-bags'
+              when 'activewear'
+                assign shop_style_tags = 'Performance|Outdoor|Travel|Recovery'
+                assign shop_tiles = 'Activewear::activewear|Technical Outerwear::technical-outerwear|Sneakers::mens-sneakers|Merino Layers::merino-wool-clothing|Rainwear::mens-rainwear'
+              when 'accessories'
+                assign shop_style_tags = 'Leather|Cold Weather|Formal|Everyday Carry'
+                assign shop_tiles = 'Bags::mens-bags|Scarves::mens-scarves|Ties::mens-ties|Hats & Caps::mens-hats-and-caps|Gloves::mens-gloves|Socks::mens-socks|Leather Goods::leather-goods|All Accessories::accessories'
+            endcase
+          endif
+
+          assign shop_tile_items = shop_tiles | split: '|'
+          assign shop_tile_count = 0
+          if shop_tiles != blank
+            assign shop_tile_count = shop_tile_items.size
+          endif
+
+          if item_count == 0 and shop_tile_count > 0
+            assign item_count = shop_tile_count
+          endif
+
           assign subtitle = item_count | append: ' links'
           if is_brand_menu
             if is_all_brands_tab
@@ -185,7 +288,9 @@
               assign subtitle = 'Browse this brand segment'
             endif
           else
-            if item_count == 1
+            if shop_tile_count > 0
+              assign subtitle = 'Shop by type'
+            elsif item_count == 1
               assign subtitle = '1 type'
             elsif item_count > 1
               assign subtitle = item_count | append: ' types'
@@ -210,6 +315,7 @@
             </div>
           </header>
 
+          {% assign panel_link = child_link.url | default: parent_link.url %}
           {% if is_brand_menu and is_all_brands_tab %}
             <div class="trg-mega-menu__brand-columns">
               {% assign letters = 'A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z' | split: ',' %}
@@ -295,22 +401,62 @@
               {% endif %}
             </div>
           {% else %}
-            <div class="trg-mega-menu__tile-grid">
-              {% if child_link.links.size > 0 %}
-                {% for grandchild_link in child_link.links %}
-                  <a class="trg-mega-menu__tile" href="{{ grandchild_link.url }}">
-                    <span class="trg-mega-menu__tile-name">{{ grandchild_link.title | escape }}</span>
+            {% if shop_style_tags != blank %}
+              {% assign shop_style_tag_items = shop_style_tags | split: '|' %}
+              <div class="trg-mega-menu__chip-section">
+                <div class="trg-mega-menu__section-label">Style aesthetic</div>
+                <div class="trg-mega-menu__chip-row">
+                  <a class="trg-mega-menu__chip is-active" href="{{ panel_link }}">All</a>
+                  {% for shop_style_tag in shop_style_tag_items %}
+                    <a class="trg-mega-menu__chip" href="{{ panel_link }}">{{ shop_style_tag | escape }}</a>
+                  {% endfor %}
+                </div>
+              </div>
+            {% endif %}
+
+            {% if shop_tile_count > 0 %}
+              <div class="trg-mega-menu__tile-section">
+                <div class="trg-mega-menu__section-label">Shop by type</div>
+                <div class="trg-mega-menu__tile-grid trg-mega-menu__tile-grid--editorial">
+                  {% for shop_tile in shop_tile_items %}
+                    {% liquid
+                      assign shop_tile_parts = shop_tile | split: '::'
+                      assign shop_tile_title = shop_tile_parts[0] | strip
+                      assign shop_tile_handle = shop_tile_parts[1] | strip
+                      assign shop_tile_url = '/collections/' | append: shop_tile_handle
+                      assign shop_tile_count_value = blank
+                      assign shop_collection = collections[shop_tile_handle]
+                      if shop_collection != blank
+                        assign shop_tile_count_value = shop_collection.products_count
+                        assign shop_tile_url = shop_collection.url | default: shop_tile_url
+                      endif
+                    %}
+                    <a class="trg-mega-menu__tile" href="{{ shop_tile_url }}">
+                      <span class="trg-mega-menu__tile-name">{{ shop_tile_title | escape }}</span>
+                      {% if shop_tile_count_value != blank %}
+                        <span class="trg-mega-menu__tile-count">{{ shop_tile_count_value }}</span>
+                      {% endif %}
+                    </a>
+                  {% endfor %}
+                </div>
+              </div>
+            {% else %}
+              <div class="trg-mega-menu__tile-grid">
+                {% if child_link.links.size > 0 %}
+                  {% for grandchild_link in child_link.links %}
+                    <a class="trg-mega-menu__tile" href="{{ grandchild_link.url }}">
+                      <span class="trg-mega-menu__tile-name">{{ grandchild_link.title | escape }}</span>
+                    </a>
+                  {% endfor %}
+                {% elsif child_link.url != blank %}
+                  <a class="trg-mega-menu__tile trg-mega-menu__tile--single" href="{{ child_link.url }}">
+                    <span class="trg-mega-menu__tile-name">Explore {{ child_link.title | escape }}</span>
                   </a>
-                {% endfor %}
-              {% elsif child_link.url != blank %}
-                <a class="trg-mega-menu__tile trg-mega-menu__tile--single" href="{{ child_link.url }}">
-                  <span class="trg-mega-menu__tile-name">Explore {{ child_link.title | escape }}</span>
-                </a>
-              {% endif %}
-            </div>
+                {% endif %}
+              </div>
+            {% endif %}
           {% endif %}
 
-          {% assign panel_link = child_link.url | default: parent_link.url %}
           {% if panel_link != blank %}
             <div class="trg-mega-menu__footer">
               <a class="trg-mega-menu__view-all" href="{{ panel_link }}">

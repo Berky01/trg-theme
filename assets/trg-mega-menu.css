@@ -13,7 +13,7 @@
   background: var(--trg-mega-surface);
   color: var(--trg-mega-paper);
   border: 1px solid var(--trg-mega-border);
-  border-radius: 10px;
+  border-radius: 12px;
   box-shadow: 0 26px 64px rgba(0, 0, 0, 0.42);
   overflow: hidden;
 }
@@ -74,7 +74,7 @@
 
 .trg-mega-menu__tab-count {
   color: rgba(245, 241, 235, 0.28);
-  font-size: 0.68rem;
+  font-size: 0.62rem;
   flex-shrink: 0;
 }
 
@@ -145,17 +145,19 @@
 .trg-mega-menu__tile-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 8px;
+  gap: 6px;
 }
 
 .trg-mega-menu__tile {
   display: flex;
   align-items: center;
-  min-height: 56px;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 54px;
   padding: 14px 16px;
   border: 1px solid rgba(245, 241, 235, 0.06);
-  border-radius: 6px;
-  background: rgba(255, 255, 255, 0.02);
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.018);
   color: var(--trg-mega-paper);
   text-decoration: none;
   transition: background 0.16s ease, border-color 0.16s ease, transform 0.16s ease;
@@ -174,10 +176,67 @@
   line-height: 1.3;
 }
 
+.trg-mega-menu__tile-count {
+  color: rgba(245, 241, 235, 0.3);
+  font-size: 0.66rem;
+  letter-spacing: 0.04em;
+  flex-shrink: 0;
+}
+
+.trg-mega-menu__chip-section,
+.trg-mega-menu__tile-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.trg-mega-menu__section-label {
+  color: rgba(245, 241, 235, 0.3);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.trg-mega-menu__chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.trg-mega-menu__chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 0 12px;
+  border: 1px solid rgba(245, 241, 235, 0.12);
+  border-radius: 999px;
+  color: rgba(245, 241, 235, 0.5);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  transition: background 0.14s ease, border-color 0.14s ease, color 0.14s ease;
+}
+
+.trg-mega-menu__chip:hover,
+.trg-mega-menu__chip:focus-visible {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(245, 241, 235, 0.24);
+  color: var(--trg-mega-paper);
+  outline: none;
+}
+
+.trg-mega-menu__chip.is-active {
+  background: rgba(196, 86, 42, 0.15);
+  border-color: rgba(196, 86, 42, 0.42);
+  color: var(--trg-mega-paper);
+}
+
 .trg-mega-menu__brand-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0 24px;
+  gap: 0 26px;
 }
 
 .trg-mega-menu__brand-columns {
@@ -211,7 +270,8 @@
 
 .trg-mega-menu__brand-link {
   display: block;
-  padding: 5px 0;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(245, 241, 235, 0.04);
   color: var(--trg-mega-muted);
   font-size: 0.78rem;
   line-height: 1.35;
@@ -235,10 +295,10 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  min-height: 46px;
+  min-height: 44px;
   padding: 0 14px;
   border: 1px solid rgba(245, 241, 235, 0.1);
-  border-radius: 6px;
+  border-radius: 3px;
   background: rgba(255, 255, 255, 0.05);
   transition: border-color 0.16s ease, background 0.16s ease;
 }
@@ -274,11 +334,13 @@
   color: var(--trg-mega-paper);
   font: inherit;
   font-size: 0.84rem;
+  letter-spacing: 0.01em;
   outline: none;
 }
 
 .trg-mega-menu__brand-search-input::placeholder {
   color: rgba(245, 241, 235, 0.28);
+  font-style: italic;
 }
 
 .trg-mega-menu__brand-search-clear {
@@ -331,7 +393,7 @@
 
 .trg-mega-menu__footer {
   margin-top: auto;
-  padding-top: 14px;
+  padding-top: 16px;
   border-top: 1px solid var(--trg-mega-border);
 }
 
@@ -364,7 +426,7 @@
   display: flex;
   flex-direction: column;
   border: 1px solid rgba(245, 241, 235, 0.08);
-  border-radius: 8px;
+  border-radius: 3px;
   overflow: hidden;
   color: inherit;
   text-decoration: none;
@@ -408,6 +470,7 @@
   flex-direction: column;
   gap: 8px;
   padding: 14px;
+  background: rgba(255, 255, 255, 0.02);
 }
 
 .trg-mega-menu__featured-eyebrow {
@@ -423,6 +486,7 @@
   font-family: var(--font-heading--family);
   font-size: 1rem;
   line-height: 1.2;
+  font-style: italic;
 }
 
 .trg-mega-menu__featured-copy {
