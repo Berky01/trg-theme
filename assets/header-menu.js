@@ -22,18 +22,28 @@ class HeaderMenu extends Component {
    */
   #submenuMutationObserver = null;
 
+  /**
+   * @type {ReturnType<typeof setTimeout> | null}
+   */
+  #deactivateTimer = null;
+
   connectedCallback() {
     super.connectedCallback();
 
     onDocumentLoaded(this.#preloadImages);
     window.addEventListener('resize', this.#resizeListener);
+    this.addEventListener('pointerover', this.#cancelPendingDeactivate, true);
     this.overflowMenu?.addEventListener('pointerleave', this.#overflowSubmenuListener);
+    this.overflowMenu?.addEventListener('pointerenter', this.#cancelPendingDeactivate);
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
     window.removeEventListener('resize', this.#resizeListener);
+    this.removeEventListener('pointerover', this.#cancelPendingDeactivate, true);
     this.overflowMenu?.removeEventListener('pointerleave', this.#overflowSubmenuListener);
+    this.overflowMenu?.removeEventListener('pointerenter', this.#cancelPendingDeactivate);
+    this.#cancelPendingDeactivate();
     this.#cleanupMutationObserver();
   }
 
@@ -46,7 +56,22 @@ class HeaderMenu extends Component {
 
 
   #overflowSubmenuListener = () => {
-    this.#deactivate();
+    this.#queueDeactivate();
+  };
+
+  #cancelPendingDeactivate = () => {
+    if (!this.#deactivateTimer) return;
+
+    clearTimeout(this.#deactivateTimer);
+    this.#deactivateTimer = null;
+  };
+
+  #queueDeactivate = (item = this.#state.activeItem) => {
+    this.#cancelPendingDeactivate();
+    this.#deactivateTimer = setTimeout(() => {
+      this.#deactivateTimer = null;
+      this.#deactivate(item);
+    }, 140);
   };
 
   /**
@@ -81,6 +106,7 @@ class HeaderMenu extends Component {
    */
   activate = (event) => {
     this.dispatchEvent(new MegaMenuHoverEvent());
+    this.#cancelPendingDeactivate();
 
     if (!(event.target instanceof Element) || !this.headerComponent) return;
 
@@ -179,7 +205,7 @@ class HeaderMenu extends Component {
 
     if (isMovingWithinMenu || isMovingToOverflowMenu || isMovingToSubmenu || isMovingBetweenTriggerAndSubmenu) return;
 
-    this.#deactivate();
+    this.#queueDeactivate();
   }
 
   /**
@@ -189,15 +215,15 @@ class HeaderMenu extends Component {
   #deactivate = (item = this.#state.activeItem) => {
     if (!item || item != this.#state.activeItem) return;
 
-    // Don't deactivate if the overflow menu or overflow list is still being hovered
-    if (this.overflowListHovered || this.overflowMenu?.matches(':hover')) return;
+    const submenu = findSubmenu(item);
+
+    // Don't deactivate while the pointer is still inside the active navigation surface.
+    if (submenu?.matches(':hover') || this.overflowListHovered || this.overflowMenu?.matches(':hover')) return;
 
     this.headerComponent?.style.setProperty('--submenu-height', '0px');
     this.#setFullOpenHeaderHeight(0);
     this.headerComponent?.style.setProperty('--submenu-opacity', '0');
     this.dataset.overflowExpanded = 'false';
-
-    const submenu = findSubmenu(item);
 
     this.#state.activeItem = null;
     this.ariaExpanded = 'false';
