@@ -6,7 +6,10 @@
   endif
 
   assign buy_url_us = product.metafields.trg.buy_url
-  assign buy_url_ca = product.metafields.trg.buy_url_ca
+  assign buy_url_ca = blank
+  if localization.country.iso_code == 'CA'
+    assign buy_url_ca = product.metafields.trg.buy_url_ca
+  endif
   assign retailer_name = product.metafields.trg.retailer_name | default: product.vendor
 -%}
 
