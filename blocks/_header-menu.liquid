@@ -421,6 +421,14 @@
     transition: clip-path var(--submenu-animation-speed) var(--ease-out-cubic); /* stylelint-disable-line */
   }
 
+  .menu-list__list-item:where(:not([slot='overflow'])) > .menu-list__submenu::before {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    top: -18px;
+    height: 18px;
+  }
+
   [data-submenu-overlap-bottom-row] {
     .menu-list__list-item:where(:not([slot='overflow'])) > .menu-list__submenu,
     .overflow-menu::part(overflow) {

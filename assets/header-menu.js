@@ -170,12 +170,14 @@ class HeaderMenu extends Component {
 
     const menu = findSubmenu(this.#state.activeItem);
     const isMovingWithinMenu = event.relatedTarget instanceof Node && menu?.contains(document.activeElement);
-    const isMovingToSubmenu =
-      event.relatedTarget instanceof Node && event.type === 'blur' && menu?.contains(event.relatedTarget);
+    const isMovingToSubmenu = event.relatedTarget instanceof Node && menu?.contains(event.relatedTarget);
+    const isMovingBetweenTriggerAndSubmenu =
+      event.relatedTarget instanceof Node &&
+      this.#state.activeItem?.parentElement?.contains(event.relatedTarget);
     const isMovingToOverflowMenu =
       event.relatedTarget instanceof Node && event.relatedTarget.parentElement?.matches('[slot="overflow"]');
 
-    if (isMovingWithinMenu || isMovingToOverflowMenu || isMovingToSubmenu) return;
+    if (isMovingWithinMenu || isMovingToOverflowMenu || isMovingToSubmenu || isMovingBetweenTriggerAndSubmenu) return;
 
     this.#deactivate();
   }
