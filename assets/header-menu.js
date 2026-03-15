@@ -176,29 +176,31 @@ class HeaderMenu extends Component {
     }
 
     requestAnimationFrame(() => {
-      let finalHeight = submenu?.offsetHeight || 0;
+      requestAnimationFrame(() => {
+        let finalHeight = submenu?.offsetHeight || 0;
 
-      // For overflow menu, the height needs to be either content of the submenu or the total height of the menu list links
-      if (!isDefaultSlot) {
-        const overflowListHeight = this.#getOverflowListLinksHeight();
-        if (hasSubmenu) {
-          /* Note: When the submenu is inside the overflow menu, its offsetHeight is not valid due to the lack of padding
-           * we could add the padding variables to the submenu.offsetHeight, but measuring the overflowMenu.offsetHeight is just easier */
-          const overflowHeight = this.overflowMenu?.offsetHeight || 0;
-          finalHeight = Math.max(overflowHeight, overflowListHeight);
-        } else {
-          finalHeight = overflowListHeight;
+        // For overflow menu, the height needs to be either content of the submenu or the total height of the menu list links
+        if (!isDefaultSlot) {
+          const overflowListHeight = this.#getOverflowListLinksHeight();
+          if (hasSubmenu) {
+            /* Note: When the submenu is inside the overflow menu, its offsetHeight is not valid due to the lack of padding
+             * we could add the padding variables to the submenu.offsetHeight, but measuring the overflowMenu.offsetHeight is just easier */
+            const overflowHeight = this.overflowMenu?.offsetHeight || 0;
+            finalHeight = Math.max(overflowHeight, overflowListHeight);
+          } else {
+            finalHeight = overflowListHeight;
+          }
         }
-      }
 
-      if (!submenu) {
-        // If there is no content to open, don't try to open it
-        finalHeight = 0;
-      }
+        if (!submenu) {
+          // If there is no content to open, don't try to open it
+          finalHeight = 0;
+        }
 
-      this.headerComponent.style.setProperty('--submenu-height', `${finalHeight}px`);
-      this.#setFullOpenHeaderHeight(finalHeight);
-      this.headerComponent?.style.setProperty('--submenu-opacity', '1');
+        this.headerComponent.style.setProperty('--submenu-height', `${finalHeight}px`);
+        this.#setFullOpenHeaderHeight(finalHeight);
+        this.headerComponent?.style.setProperty('--submenu-opacity', '1');
+      });
     });
   };
 
