@@ -69,29 +69,9 @@
           },
           "blocks": {
             "trg_vendor_link": {
-              "type": "text",
-              "name": "Brand link",
-              "settings": {
-                "text": "<a href='/collections/all?filter.p.vendor={{ closest.product.vendor | url_encode }}' style='font-size:0.7rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:#8a8478;text-decoration:none;'>{{ closest.product.vendor }}</a>",
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "paragraph",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "color": "var(--color-foreground)",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 4,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
+              "type": "trg-vendor-link",
+              "name": "TRG Vendor Link",
+              "settings": {},
               "blocks": {}
             },
             "text_WE3K4w": {
