@@ -84,8 +84,7 @@
           class="menu-list__list-item"
           on:focus="/activate"
           on:blur="/deactivate"
-          on:pointerenter="/activate"
-          on:pointerleave="/deactivate"
+          on:click="/activate"
         >
           <a
             href="{{ link.url }}"
@@ -120,7 +119,7 @@
               >
                 {% assign list_id = 'MegaMenuList-' | append: forloop.index %}
                 {% if menu_content_type == 'trg_editorial' %}
-                  <div class="trg-mega-menu-shell section section--full-width-margin section--{{ section.settings.section_width }}">
+                  <div class="trg-mega-menu-shell">
                     {% render 'trg-mega-menu',
                       parent_link: link,
                       id: list_id,
@@ -158,8 +157,7 @@
         slot="more"
         on:focus="/activate"
         on:blur="/deactivate"
-        on:pointerenter="/activate"
-        on:pointerleave="/deactivate"
+        on:click="/activate"
       >
         <button role="listitem" class="menu-list__link button-unstyled">
           <span class="menu-list__link-title">{{ 'actions.more' | t }}</span>

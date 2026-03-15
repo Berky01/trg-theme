@@ -418,6 +418,10 @@
   color: var(--trg-mega-paper);
 }
 
+.trg-mega-menu-shell {
+  width: 100%;
+}
+
 .trg-mega-menu__footer {
   margin-top: auto;
   padding-top: 16px;

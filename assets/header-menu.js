@@ -27,22 +27,31 @@ class HeaderMenu extends Component {
    */
   #deactivateTimer = null;
 
+  /**
+   * @type {((event: Event) => void) | null}
+   */
+  #documentClickListener = null;
+
   connectedCallback() {
     super.connectedCallback();
 
     onDocumentLoaded(this.#preloadImages);
     window.addEventListener('resize', this.#resizeListener);
-    this.addEventListener('pointerover', this.#cancelPendingDeactivate, true);
-    this.overflowMenu?.addEventListener('pointerleave', this.#overflowSubmenuListener);
-    this.overflowMenu?.addEventListener('pointerenter', this.#cancelPendingDeactivate);
+    this.#documentClickListener = (event) => {
+      if (!this.contains(/** @type {Node | null} */ (event.target))) {
+        this.#deactivate();
+      }
+    };
+    document.addEventListener('click', this.#documentClickListener, true);
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
     window.removeEventListener('resize', this.#resizeListener);
-    this.removeEventListener('pointerover', this.#cancelPendingDeactivate, true);
-    this.overflowMenu?.removeEventListener('pointerleave', this.#overflowSubmenuListener);
-    this.overflowMenu?.removeEventListener('pointerenter', this.#cancelPendingDeactivate);
+    if (this.#documentClickListener) {
+      document.removeEventListener('click', this.#documentClickListener, true);
+      this.#documentClickListener = null;
+    }
     this.#cancelPendingDeactivate();
     this.#cleanupMutationObserver();
   }
@@ -53,11 +62,6 @@ class HeaderMenu extends Component {
   #resizeListener = debounce(() => {
     setHeaderMenuStyle();
   }, 100);
-
-
-  #overflowSubmenuListener = () => {
-    this.#queueDeactivate();
-  };
 
   #cancelPendingDeactivate = () => {
     if (!this.#deactivateTimer) return;
@@ -112,9 +116,18 @@ class HeaderMenu extends Component {
 
     let item = findMenuItem(event.target);
 
-    if (!item || item == this.#state.activeItem) return;
-
+    if (!item) return;
     const isDefaultSlot = event.target.slot === '';
+    const hasExpandableContent = Boolean(findSubmenu(item)) || !isDefaultSlot;
+
+    if (event instanceof MouseEvent && hasExpandableContent) {
+      event.preventDefault();
+    }
+
+    if (item == this.#state.activeItem) {
+      this.#deactivate(item);
+      return;
+    }
 
     this.dataset.overflowExpanded = (!isDefaultSlot).toString();
 
@@ -216,9 +229,6 @@ class HeaderMenu extends Component {
     if (!item || item != this.#state.activeItem) return;
 
     const submenu = findSubmenu(item);
-
-    // Don't deactivate while the pointer is still inside the active navigation surface.
-    if (submenu?.matches(':hover') || this.overflowListHovered || this.overflowMenu?.matches(':hover')) return;
 
     this.headerComponent?.style.setProperty('--submenu-height', '0px');
     this.#setFullOpenHeaderHeight(0);

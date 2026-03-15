@@ -10,7 +10,7 @@
 
 .trg-bdir .trg-bdir__searchbar {
   position: sticky;
-  z-index: 18;
+  z-index: 9;
   top: var(--header-group-height, 56px);
   background: var(--ink);
   border-top: 1px solid rgba(245, 241, 235, 0.08);
@@ -47,6 +47,40 @@ body.filters-hidden .trg-bdir .trg-bdir__layout {
   display: flex;
   gap: 0.75rem;
   align-items: center;
+}
+
+.trg-bdir .trg-bdir__eye {
+  color: var(--acc);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding-right: 1.5rem;
+  border-right: 1px solid rgba(245, 241, 235, 0.12);
+  animation: trgFadeUp 0.4s 0.05s ease both;
+}
+
+.trg-bdir .trg-bdir__label {
+  color: var(--mid);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.trg-bdir .trg-bdir__gt {
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+}
+
+.trg-bdir .trg-bdir__check,
+.trg-bdir .trg-bdir__switchrow {
+  font-size: 0.85rem;
+}
+
+.trg-bdir .trg-bdir__body2 {
+  min-height: 0;
 }
 
 .trg-bdir .trg-bdir__search {
@@ -139,6 +173,10 @@ body.filters-hidden .trg-bdir .trg-bdir__layout {
   font-weight: 500;
 }
 
+.trg-bdir .trg-bdir__empty[hidden] {
+  display: none !important;
+}
+
 @media screen and (max-width: 1199px) {
   .trg-bdir .trg-bdir__layout {
     grid-template-columns: 220px minmax(0, 1fr);
@@ -168,5 +206,12 @@ body.filters-hidden .trg-bdir .trg-bdir__layout {
   .trg-bdir .trg-bdir__search input.trg-bdir__input {
     min-height: 0;
     padding: 0.85rem 0 !important;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .trg-bdir .trg-bdir__body2 {
+    padding-inline: 0.8rem;
+    min-height: 0;
   }
 }
