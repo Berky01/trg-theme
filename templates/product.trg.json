@@ -286,7 +286,7 @@
                     "text_wMFRAi": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>We prioritize quality in selecting the materials for our items, choosing premium fabrics and finishings that ensure durability, comfort, and timeless appeal.</p>",
+                        "text": "<p>Care instructions vary by product \u2014 check the brand's site for details.</p>",
                         "width": "100%",
                         "max_width": "normal",
                         "alignment": "left",
@@ -325,7 +325,7 @@
                     "text_Nrxfg8": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>We strive to process and ship all orders in a timely manner, working diligently to ensure that your items are on their way to you as soon as possible.</p>",
+                        "text": "<p>Shipping policies vary by brand and retailer. Visit the brand's site for current rates and delivery times.</p>",
                         "width": "100%",
                         "max_width": "normal",
                         "alignment": "left",
