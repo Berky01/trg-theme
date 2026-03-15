@@ -5,69 +5,231 @@
     assign product = collections.all.products.first
   endif
 
-  assign buy_url_us = product.metafields.trg.buy_url
-  assign buy_url_ca = blank
-  if localization.country.iso_code == 'CA'
-    assign buy_url_ca = product.metafields.trg.buy_url_ca
+  assign buy_path = product.metafields.trg.buy_path.value | default: product.metafields.trg.buy_path
+  assign buy_path = buy_path | default: 'Direct' | strip
+  assign buy_path_normalized = buy_path | downcase
+
+  assign vendor_name = product.vendor | default: product.title | default: 'Brand'
+
+  assign buy_url_us = product.metafields.trg.buy_url.value | default: product.metafields.trg.buy_url
+  assign buy_url_us = buy_url_us | default: product.metafields.trg.affiliate_link.value | default: product.metafields.trg.affiliate_link
+  assign buy_url_ca = product.metafields.trg.buy_url_ca.value | default: product.metafields.trg.buy_url_ca | default: buy_url_us
+  assign retailer_name_us = product.metafields.trg.retailer_name_us.value | default: product.metafields.trg.retailer_name_us
+  assign retailer_name_us = retailer_name_us | default: product.metafields.trg.best_retailer_na.value | default: product.metafields.trg.best_retailer_na
+  assign retailer_url_us = product.metafields.trg.retailer_url_us.value | default: product.metafields.trg.retailer_url_us
+  assign retailer_name_ca = product.metafields.trg.retailer_name_ca.value | default: product.metafields.trg.retailer_name_ca
+  assign retailer_name_ca = retailer_name_ca | default: product.metafields.trg.best_retailer_ca.value | default: product.metafields.trg.best_retailer_ca
+  assign retailer_url_ca = product.metafields.trg.retailer_url_ca.value | default: product.metafields.trg.retailer_url_ca
+
+  assign show_direct_cta = false
+  assign show_both_cta = false
+  assign show_reseller_cta = false
+
+  if buy_path_normalized == 'both'
+    assign show_both_cta = true
+  elsif buy_path_normalized == 'reseller only' or buy_path_normalized == 'reseller-only' or buy_path_normalized == 'reseller_only' or buy_path_normalized == 'reseller'
+    assign show_reseller_cta = true
+  else
+    assign show_direct_cta = true
   endif
-  assign retailer_name = product.metafields.trg.retailer_name | default: product.vendor
+
+  assign has_us_cta = false
+  assign has_ca_cta = false
+
+  if show_direct_cta and buy_url_us != blank
+    assign has_us_cta = true
+  endif
+
+  if show_direct_cta and buy_url_ca != blank
+    assign has_ca_cta = true
+  endif
+
+  if show_both_cta and buy_url_us != blank
+    assign has_us_cta = true
+  endif
+
+  if show_both_cta and retailer_name_us != blank and retailer_url_us != blank
+    assign has_us_cta = true
+  endif
+
+  if show_both_cta and buy_url_ca != blank
+    assign has_ca_cta = true
+  endif
+
+  if show_both_cta and retailer_name_ca != blank and retailer_url_ca != blank
+    assign has_ca_cta = true
+  endif
+
+  if show_reseller_cta and retailer_name_us != blank and retailer_url_us != blank
+    assign has_us_cta = true
+  endif
+
+  if show_reseller_cta and retailer_name_ca != blank and retailer_url_ca != blank
+    assign has_ca_cta = true
+  endif
 -%}
 
-<div
-  class="trg-affiliate-cta"
-  data-buy-url-us="{{ buy_url_us }}"
-  data-buy-url-ca="{{ buy_url_ca | default: buy_url_us }}"
-  data-retailer="{{ retailer_name | escape }}"
-  {{ block.shopify_attributes }}
->
-  {%- if buy_url_us != blank or buy_url_ca != blank -%}
-    <a
-      href="{{ buy_url_us }}"
-      target="_blank"
-      rel="noopener sponsored"
-      class="trg-affiliate-cta__btn"
-      id="trg-affiliate-btn-{{ block.id }}"
-    >
-      <span class="trg-affiliate-cta__label">
-        Shop at <span class="trg-affiliate-cta__retailer">{{ retailer_name }}</span>
-      </span>
-      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
-        <polyline points="15 3 21 3 21 9"/>
-        <line x1="10" y1="14" x2="21" y2="3"/>
-      </svg>
-    </a>
-    <p class="trg-affiliate-cta__disclosure">
-      Affiliate link — TRG may earn a commission at no extra cost to you
-    </p>
-  {%- else -%}
-    <p class="trg-affiliate-cta__unavailable">
-      No direct link available — search
-      <strong>{{ product.title }}</strong>
-      at your preferred retailer.
-    </p>
-  {%- endif -%}
-</div>
+<div class="trg-affiliate-cta" {{ block.shopify_attributes }}>
+  <div class="trg-affiliate-cta__market trg-affiliate-cta__market--us">
+    {%- if has_us_cta -%}
+      {%- if show_direct_cta or show_both_cta -%}
+        {%- if buy_url_us != blank -%}
+          <a
+            href="{{ buy_url_us }}"
+            target="_blank"
+            rel="noopener sponsored"
+            class="trg-affiliate-cta__btn"
+          >
+            <span class="trg-affiliate-cta__label">
+              Shop at <span class="trg-affiliate-cta__retailer">{{ vendor_name | escape }}</span>
+            </span>
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+              <polyline points="15 3 21 3 21 9"/>
+              <line x1="10" y1="14" x2="21" y2="3"/>
+            </svg>
+          </a>
+        {%- endif -%}
+      {%- endif -%}
 
-<script>
-  (function() {
-    var el = document.getElementById('trg-affiliate-btn-{{ block.id }}');
-    if (!el) return;
-    var wrap = el.closest('[data-buy-url-us]');
-    if (!wrap) return;
-    var isCA = document.body.getAttribute('data-region') === 'CA';
-    var url = isCA
-      ? (wrap.getAttribute('data-buy-url-ca') || wrap.getAttribute('data-buy-url-us'))
-      : wrap.getAttribute('data-buy-url-us');
-    if (url) el.setAttribute('href', url);
-  })();
-</script>
+      {%- if show_both_cta and retailer_name_us != blank and retailer_url_us != blank -%}
+        <a
+          href="{{ retailer_url_us }}"
+          target="_blank"
+          rel="noopener sponsored"
+          class="trg-affiliate-cta__btn"
+        >
+          <span class="trg-affiliate-cta__label">
+            Also at <span class="trg-affiliate-cta__retailer">{{ retailer_name_us | escape }}</span>
+          </span>
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+            <polyline points="15 3 21 3 21 9"/>
+            <line x1="10" y1="14" x2="21" y2="3"/>
+          </svg>
+        </a>
+      {%- endif -%}
+
+      {%- if show_reseller_cta and retailer_name_us != blank and retailer_url_us != blank -%}
+        <a
+          href="{{ retailer_url_us }}"
+          target="_blank"
+          rel="noopener sponsored"
+          class="trg-affiliate-cta__btn"
+        >
+          <span class="trg-affiliate-cta__label">
+            Shop at <span class="trg-affiliate-cta__retailer">{{ retailer_name_us | escape }}</span>
+          </span>
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+            <polyline points="15 3 21 3 21 9"/>
+            <line x1="10" y1="14" x2="21" y2="3"/>
+          </svg>
+        </a>
+      {%- endif -%}
+    {%- else -%}
+      <p class="trg-affiliate-cta__unavailable">
+        No direct link available — search
+        <strong>{{ product.title }}</strong>
+        at your preferred retailer.
+      </p>
+    {%- endif -%}
+  </div>
+
+  <div class="trg-affiliate-cta__market trg-affiliate-cta__market--ca">
+    {%- if has_ca_cta -%}
+      {%- if show_direct_cta or show_both_cta -%}
+        {%- if buy_url_ca != blank -%}
+          <a
+            href="{{ buy_url_ca }}"
+            target="_blank"
+            rel="noopener sponsored"
+            class="trg-affiliate-cta__btn"
+          >
+            <span class="trg-affiliate-cta__label">
+              Shop at <span class="trg-affiliate-cta__retailer">{{ vendor_name | escape }}</span>
+            </span>
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+              <polyline points="15 3 21 3 21 9"/>
+              <line x1="10" y1="14" x2="21" y2="3"/>
+            </svg>
+          </a>
+        {%- endif -%}
+      {%- endif -%}
+
+      {%- if show_both_cta and retailer_name_ca != blank and retailer_url_ca != blank -%}
+        <a
+          href="{{ retailer_url_ca }}"
+          target="_blank"
+          rel="noopener sponsored"
+          class="trg-affiliate-cta__btn"
+        >
+          <span class="trg-affiliate-cta__label">
+            Also at <span class="trg-affiliate-cta__retailer">{{ retailer_name_ca | escape }}</span>
+          </span>
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+            <polyline points="15 3 21 3 21 9"/>
+            <line x1="10" y1="14" x2="21" y2="3"/>
+          </svg>
+        </a>
+      {%- endif -%}
+
+      {%- if show_reseller_cta and retailer_name_ca != blank and retailer_url_ca != blank -%}
+        <a
+          href="{{ retailer_url_ca }}"
+          target="_blank"
+          rel="noopener sponsored"
+          class="trg-affiliate-cta__btn"
+        >
+          <span class="trg-affiliate-cta__label">
+            Shop at <span class="trg-affiliate-cta__retailer">{{ retailer_name_ca | escape }}</span>
+          </span>
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+            <polyline points="15 3 21 3 21 9"/>
+            <line x1="10" y1="14" x2="21" y2="3"/>
+          </svg>
+        </a>
+      {%- endif -%}
+    {%- else -%}
+      <p class="trg-affiliate-cta__unavailable">
+        No direct link available — search
+        <strong>{{ product.title }}</strong>
+        at your preferred retailer.
+      </p>
+    {%- endif -%}
+  </div>
+
+  <p class="trg-affiliate-cta__disclosure">
+    Affiliate link — TRG may earn a commission at no extra cost to you
+  </p>
+</div>
 
 {% stylesheet %}
   .trg-affiliate-cta {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+  }
+
+  .trg-affiliate-cta__market {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .trg-affiliate-cta__market--ca {
+    display: none;
+  }
+
+  body[data-region='ca'] .trg-affiliate-cta__market--us {
+    display: none;
+  }
+
+  body[data-region='ca'] .trg-affiliate-cta__market--ca {
+    display: flex;
   }
 
   .trg-affiliate-cta__btn {
