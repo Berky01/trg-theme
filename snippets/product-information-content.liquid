@@ -153,6 +153,12 @@
     grid-template-columns: subgrid;
     grid-column: 1 / -1;
     align-items: start;
+    grid-auto-rows: min-content;
+  }
+
+  [data-product-grid-content] {
+    height: fit-content;
+    align-self: start;
   }
 
   /* Default column positions */
