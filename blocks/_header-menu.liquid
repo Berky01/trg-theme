@@ -120,11 +120,13 @@
                 {% assign list_id = 'MegaMenuList-' | append: forloop.index %}
                 {% if menu_content_type == 'trg_editorial' %}
                   <div class="trg-mega-menu-shell">
-                    {% render 'trg-mega-menu',
-                      parent_link: link,
-                      id: list_id,
-                      menu_settings: block_settings
-                    %}
+                    <div class="trg-mega-menu-shell__inner">
+                      {% render 'trg-mega-menu',
+                        parent_link: link,
+                        id: list_id,
+                        menu_settings: block_settings
+                      %}
+                    </div>
                   </div>
                 {% else %}
                   <div class="mega-menu section section--full-width-margin section--{{ section.settings.section_width }}">

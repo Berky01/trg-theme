@@ -422,6 +422,16 @@
   width: 100%;
 }
 
+.trg-mega-menu-shell__inner {
+  max-width: 1320px;
+  margin-inline: auto;
+  padding-inline: 2rem;
+}
+
+.menu-list__submenu-inner:has(.trg-mega-menu-shell) {
+  padding-inline: 0;
+}
+
 .trg-mega-menu__footer {
   margin-top: auto;
   padding-top: 16px;
