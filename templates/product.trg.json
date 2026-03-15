@@ -183,6 +183,12 @@
               "settings": {},
               "blocks": {}
             },
+            "trg_product_meta_block": {
+              "type": "trg-product-meta",
+              "name": "TRG Product Meta",
+              "settings": {},
+              "blocks": {}
+            },
             "accordion_Yd4U4w": {
               "type": "accordion",
               "name": "Accordion",
@@ -335,6 +341,7 @@
             "variant_picker_R3rGDr",
             "buy_buttons_eYQEYi",
             "trg_affiliate_cta_WHx6Gp",
+            "trg_product_meta_block",
             "accordion_Yd4U4w"
           ]
         }

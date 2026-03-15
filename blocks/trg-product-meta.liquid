@@ -6,10 +6,10 @@
   endif
 
   if product != blank
-    assign material = product.metafields.custom.material_type
-    assign made_in = product.metafields.custom.made_in_country
-    assign fit = product.metafields.custom.style_aesthetic
-    assign season = product.metafields.custom.season
+  assign material = product.metafields.trg.material_type
+  assign made_in = product.metafields.trg.made_in_country
+  assign fit = product.metafields.trg.style_aesthetic
+  assign season = product.metafields.trg.season
     assign category = product.type
     assign brand = product.vendor
   endif
