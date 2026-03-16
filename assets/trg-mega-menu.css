@@ -649,3 +649,19 @@
 .menu-list__submenu[data-active] .trg-mega-menu-shell {
   pointer-events: auto;
 }
+
+/* Force submenu visible when active — Dwell only shows on :hover, we need click-based */
+.menu-list__submenu:has(.trg-mega-menu-shell) {
+  visibility: hidden;
+  transition: clip-path var(--submenu-animation-speed, 0.36s) cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.menu-list__submenu:has(.trg-mega-menu-shell)[data-active] {
+  visibility: visible !important;
+}
+
+/* Prevent white flash — ensure dark bg covers full submenu during animation */
+.menu-list__submenu:has(.trg-mega-menu-shell),
+.menu-list__submenu:has(.trg-mega-menu-shell)::before {
+  background: #211f1c;
+}
