@@ -575,7 +575,7 @@ body:not(.filters-hidden) .trg-bdir .trg-bdir__show {
 .trg-bdir .trg-bdir__body2 {
   flex: 1;
   min-height: 0;
-  padding: 1rem 1.1rem 2.6rem;
+  padding: 1rem 1.1rem 2.25rem;
 }
 
 .trg-bdir .trg-bdir__copy {
