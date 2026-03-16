@@ -195,10 +195,31 @@ function initMenu(root) {
 
   const menuListItem = root.closest('.menu-list__list-item');
 
-  // FIX 1: Remove on:click and on:focus from <li> to kill System A double-fire
+  // FIX 1: Strip on:click/on:focus from <li> and keep them stripped.
+  //
+  // Dwell's section hydration (section-hydration.js) runs on requestIdleCallback
+  // AFTER our code. It uses morphdom to diff old vs new DOM. Morph sees our <li>
+  // missing on:click vs the server HTML with on:click and ADDS IT BACK.
+  // MutationObserver catches this and re-removes it synchronously.
   if (menuListItem) {
     menuListItem.removeAttribute('on:click');
     menuListItem.removeAttribute('on:focus');
+    // on:blur="/deactivate" stays — needed for menu close behavior
+
+    if (!menuListItem._trgAttrObserver) {
+      const observer = new MutationObserver((mutations) => {
+        for (const mutation of mutations) {
+          if (mutation.attributeName === 'on:click' || mutation.attributeName === 'on:focus') {
+            menuListItem.removeAttribute(mutation.attributeName);
+          }
+        }
+      });
+      observer.observe(menuListItem, {
+        attributes: true,
+        attributeFilter: ['on:click', 'on:focus'],
+      });
+      menuListItem._trgAttrObserver = observer;
+    }
   }
 
   // FIX 2: Block focus shift on mousedown to eliminate focusin race
