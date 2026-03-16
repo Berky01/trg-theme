@@ -393,6 +393,9 @@ body:has(.menu-drawer-container.menu-open) .trg-bdir__desktop-chrome {
 
 .trg-bdir .trg-bdir__sort {
   position: relative;
+  margin-top: 0;
+  margin-bottom: 1.25rem;
+  padding-top: 1.25rem;
 }
 
 .trg-bdir .trg-bdir__res {
@@ -401,6 +404,10 @@ body:has(.menu-drawer-container.menu-open) .trg-bdir__desktop-chrome {
   transform: translateX(-50%);
   pointer-events: none;
   white-space: nowrap;
+}
+
+.trg-bdir .trg-bdir__body {
+  padding-top: 0;
 }
 
 /* Show Filters button — visible only when sidebar is collapsed on desktop */
@@ -547,9 +554,17 @@ body:not(.filters-hidden) .trg-bdir .trg-bdir__show {
 }
 
 /* Card body — taller with 3-line description */
+.trg-bdir .trg-bdir__carda {
+  overflow: hidden;
+}
+
+.trg-bdir .trg-bdir__media {
+  aspect-ratio: 4 / 3;
+}
+
 .trg-bdir .trg-bdir__body2 {
-  min-height: 11rem;
-  padding: 1rem 1.1rem 1rem;
+  min-height: 0;
+  padding: 1rem 1.1rem 2.6rem;
 }
 
 .trg-bdir .trg-bdir__copy {
