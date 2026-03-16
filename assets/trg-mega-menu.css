@@ -12,9 +12,9 @@
   min-height: 460px;
   background: var(--trg-mega-surface);
   color: var(--trg-mega-paper);
-  border: 1px solid var(--trg-mega-border);
-  border-radius: 12px;
-  box-shadow: 0 26px 64px rgba(0, 0, 0, 0.42);
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
   overflow: hidden;
 }
 
@@ -624,4 +624,11 @@
 .menu-drawer .trg-mega-menu,
 .menu-drawer .trg-mega-menu-shell {
   display: none;
+}
+
+.menu-list__submenu-inner:has(.trg-mega-menu-shell) {
+  padding-inline: 0;
+  padding-block: 0;
+  background: #211f1c;
+  box-shadow: 0 26px 64px rgba(0, 0, 0, 0.42);
 }

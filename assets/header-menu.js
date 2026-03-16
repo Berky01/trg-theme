@@ -125,7 +125,13 @@ class HeaderMenu extends Component {
     }
 
     if (item == this.#state.activeItem) {
-      this.#deactivate(item);
+      // Only toggle closed if the click originated directly on the nav item itself,
+      // not on content inside the open submenu (tiles, brand links, etc.)
+      const submenu = findSubmenu(item);
+      const clickedInsideSubmenu = submenu && event.target instanceof Element && submenu.contains(event.target);
+      if (!clickedInsideSubmenu) {
+        this.#deactivate(item);
+      }
       return;
     }
 

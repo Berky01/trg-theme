@@ -83,14 +83,27 @@ body:has(.menu-drawer-container.menu-open) .trg-bdir__desktop-chrome {
 }
 
 .trg-bdir .trg-bdir__gt {
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   font-weight: 500;
   letter-spacing: 0.1em;
+  color: var(--ink);
+  min-height: 2.5rem;
 }
 
-.trg-bdir .trg-bdir__check,
+.trg-bdir .trg-bdir__check {
+  font-size: 0.82rem;
+  color: var(--ink);
+  min-height: 1.8rem;
+}
+
 .trg-bdir .trg-bdir__switchrow {
   font-size: 0.85rem;
+}
+
+.trg-bdir .trg-bdir__check [data-count] {
+  font-size: 0.72rem;
+  color: var(--mid);
+  font-variant-numeric: tabular-nums;
 }
 
 .trg-bdir .trg-bdir__body2 {

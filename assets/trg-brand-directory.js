@@ -72,7 +72,7 @@
       const grid = q('[data-grid]');
       const chips = q('[data-chips]');
       const res = q('[data-results]');
-      const tot = q('[data-total]');
+      const tot = {textContent: ''}; // removed brand count from header
       const ttl = q('[data-title]');
       const sub = q('[data-sub]');
       const more = q('[data-more]');
@@ -167,7 +167,6 @@
       const updChips = () => {
         const items = [];
         const searchValue = (inp.value || '').trim();
-        if (searchValue) items.push(searchValue);
         if (state.browse !== 'All Brands') items.push(state.browse);
         items.push(...vals('category'), ...vals('aesthetic'), ...vals('price'), ...vals('made'));
         if (state.tog.ships) items.push('Ships to Canada');
@@ -203,7 +202,6 @@
         grid.hidden = !total;
         empty.hidden = !!total;
         res.textContent = String(total);
-        tot.textContent = String(total);
         if (ttl) ttl.textContent = state.browse === 'All Brands' ? 'All Brands' : state.browse;
         if (sub) sub.textContent = total === 1 ? '1 brand' : `${total} brands`;
         pc.textContent = `Showing ${visible.length} of ${total} brands`;
