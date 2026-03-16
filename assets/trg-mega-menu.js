@@ -194,7 +194,7 @@ function initMenu(root) {
 }
 
 function initAllMenus(target = document) {
-  if (!(target instanceof ParentNode)) return;
+  if (!target || typeof target.querySelectorAll !== 'function') return;
   target.querySelectorAll(SELECTOR).forEach(initMenu);
 }
 
