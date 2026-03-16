@@ -53,8 +53,8 @@ body.filters-hidden .trg-bdir .trg-bdir__layout {
 }
 
 .trg-bdir .trg-bdir__side {
-  top: calc(var(--header-group-height, 56px) + var(--search) + 1rem);
-  max-height: calc(100vh - var(--header-group-height, 56px) - var(--search) - 2rem);
+  top: calc(var(--header-group-height, 56px) + var(--head) + var(--search) + 1rem);
+  max-height: calc(100vh - var(--header-group-height, 56px) - var(--head) - var(--search) - 2rem);
   border: none;
   border-right: 1px solid var(--bd);
   background: transparent;
@@ -122,6 +122,8 @@ body:has(.menu-drawer-container.menu-open) .trg-bdir__desktop-chrome {
 .trg-bdir .trg-bdir__card {
   background: var(--warm);
   border: 1px solid var(--bd);
+  display: flex;
+  flex-direction: column;
 }
 
 .trg-bdir .trg-bdir__card:hover {
@@ -555,14 +557,19 @@ body:not(.filters-hidden) .trg-bdir .trg-bdir__show {
 
 /* Card body — taller with 3-line description */
 .trg-bdir .trg-bdir__carda {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
   overflow: hidden;
 }
 
 .trg-bdir .trg-bdir__media {
   aspect-ratio: 4 / 3;
+  flex-shrink: 0;
 }
 
 .trg-bdir .trg-bdir__body2 {
+  flex: 1;
   min-height: 0;
   padding: 1rem 1.1rem 2.6rem;
 }
