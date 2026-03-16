@@ -123,22 +123,20 @@ class HeaderMenu extends Component {
     let item = findMenuItem(event.target);
 
     if (!item) return;
-    const submenu = findSubmenu(item);
-    const clickedInsideSubmenu = submenu?.contains(event.target) ?? false;
-
-    if (clickedInsideSubmenu) {
-      return;
-    }
-
     const isDefaultSlot = event.target.slot === '';
-    const hasExpandableContent = Boolean(submenu) || !isDefaultSlot;
+    const hasExpandableContent = Boolean(findSubmenu(item)) || !isDefaultSlot;
 
     if (event instanceof MouseEvent && hasExpandableContent) {
       event.preventDefault();
     }
 
     if (item == this.#state.activeItem) {
-      if (event instanceof MouseEvent) {
+      // Only toggle closed if the click originated directly on the nav item itself,
+      // not on content inside the open submenu (tiles, brand links, etc.)
+      const submenu = findSubmenu(item);
+      const clickedInsideSubmenu = submenu && event.target instanceof Element && submenu.contains(event.target);
+      // Only toggle closed on explicit mouse click, not on focus (focus fires before click and causes immediate re-deactivation)
+      if (!clickedInsideSubmenu && event instanceof MouseEvent) {
         this.#deactivate(item);
       }
       return;
@@ -156,16 +154,16 @@ class HeaderMenu extends Component {
     this.ariaExpanded = 'true';
     item.ariaExpanded = 'true';
 
-    let activeSubmenu = submenu;
+    let submenu = findSubmenu(item);
     const hasSubmenu = Boolean(submenu);
 
     if (!hasSubmenu && !isDefaultSlot) {
-      activeSubmenu = this.overflowMenu;
+      submenu = this.overflowMenu;
     }
 
-    if (activeSubmenu) {
+    if (submenu) {
       // Mark submenu as active for content-visibility optimization
-      activeSubmenu.dataset.active = '';
+      submenu.dataset.active = '';
 
       // Cleanup any existing mutation observer from previous menu activations
       this.#cleanupMutationObserver();
@@ -173,18 +171,16 @@ class HeaderMenu extends Component {
       // Monitor DOM mutations to catch deferred content injection (from section hydration)
       this.#submenuMutationObserver = new MutationObserver(() => {
         requestAnimationFrame(() => {
+          // Double requestAnimationFrame to ensure the height is properly calculated and not defaulting to the contain-intrinsic-size
           requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-              const measuredHeight = measureSubmenuHeight(activeSubmenu);
-              if (measuredHeight > 0) {
-                this.headerComponent?.style.setProperty('--submenu-height', `${measuredHeight}px`);
-                this.#cleanupMutationObserver();
-              }
-            });
+            if (submenu.offsetHeight > 0) {
+              this.headerComponent?.style.setProperty('--submenu-height', `${submenu.offsetHeight}px`);
+              this.#cleanupMutationObserver();
+            }
           });
         });
       });
-      this.#submenuMutationObserver.observe(activeSubmenu, {childList: true, subtree: true});
+      this.#submenuMutationObserver.observe(submenu, {childList: true, subtree: true});
 
       // Auto-disconnect after 500ms to prevent memory leaks
       setTimeout(() => {
@@ -195,7 +191,7 @@ class HeaderMenu extends Component {
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
-          let finalHeight = measureSubmenuHeight(activeSubmenu);
+          let finalHeight = submenu?.offsetHeight || 0;
 
           // For overflow menu, the height needs to be either content of the submenu or the total height of the menu list links
           if (!isDefaultSlot) {
@@ -210,7 +206,7 @@ class HeaderMenu extends Component {
             }
           }
 
-          if (!activeSubmenu) {
+          if (!submenu) {
             // If there is no content to open, don't try to open it
             finalHeight = 0;
           }
@@ -363,24 +359,4 @@ function findMenuItem(element) {
 function findSubmenu(element) {
   const submenu = element?.parentElement?.querySelector('[ref="submenu[]"]');
   return submenu instanceof HTMLElement ? submenu : null;
-}
-
-/**
- * Measure submenu height without relying only on offsetHeight, which can lag during
- * content-visibility/clip-path transitions.
- * @param {HTMLElement | null | undefined} submenu
- * @returns {number}
- */
-function measureSubmenuHeight(submenu) {
-  if (!(submenu instanceof HTMLElement)) return 0;
-
-  const inner = submenu.querySelector('.menu-list__submenu-inner');
-  const content = inner instanceof HTMLElement ? inner : submenu;
-
-  return Math.max(
-    submenu.offsetHeight || 0,
-    submenu.scrollHeight || 0,
-    content.offsetHeight || 0,
-    content.scrollHeight || 0,
-  );
 }

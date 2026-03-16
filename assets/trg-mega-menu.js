@@ -177,6 +177,58 @@ function initMenu(root) {
 
   root.dataset.trgMegaMenuReady = 'true';
 
+  const menuListItem = root.closest('.menu-list__list-item');
+  const headerMenu = root.closest('header-menu');
+
+  // FIX 1: Patch activate() on header-menu to skip TRG mega menu clicks.
+  // This intercepts ALL event paths at the method level — morph-proof.
+  if (headerMenu && !headerMenu._trgActivatePatched) {
+    const originalActivate = headerMenu.activate;
+    if (typeof originalActivate === 'function') {
+      headerMenu.activate = function (event) {
+        if (event instanceof Event && event.target instanceof Element) {
+          // Click on <a> inside TRG mega menu → let it navigate, don't call activate
+          if (event.target.closest('.trg-mega-menu a[href]')) return;
+          // Click on non-link content inside TRG mega menu → don't toggle menu closed
+          if (event.target.closest('.trg-mega-menu')) return;
+        }
+        return originalActivate.call(this, event);
+      };
+      headerMenu._trgActivatePatched = true;
+    }
+  }
+
+  // FIX 2: Strip on:click/on:focus from <li> + MutationObserver guard.
+  if (menuListItem) {
+    menuListItem.removeAttribute('on:click');
+    menuListItem.removeAttribute('on:focus');
+
+    if (!menuListItem._trgAttrObserver) {
+      const observer = new MutationObserver((mutations) => {
+        for (const mutation of mutations) {
+          if (mutation.attributeName === 'on:click' || mutation.attributeName === 'on:focus') {
+            menuListItem.removeAttribute(mutation.attributeName);
+          }
+        }
+      });
+      observer.observe(menuListItem, {
+        attributes: true,
+        attributeFilter: ['on:click', 'on:focus'],
+      });
+      menuListItem._trgAttrObserver = observer;
+    }
+  }
+
+  // FIX 3: Block focusin race
+  if (menuListItem) {
+    const navLink = menuListItem.querySelector(':scope > .menu-list__link');
+    if (navLink) {
+      navLink.addEventListener('mousedown', (event) => {
+        event.preventDefault();
+      });
+    }
+  }
+
   const tabs = root.querySelectorAll('[data-trg-mega-menu-tab]');
   tabs.forEach((tab) => {
     const panelId = tab.dataset.trgMegaMenuTab;
