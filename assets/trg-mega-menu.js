@@ -177,34 +177,31 @@ function initMenu(root) {
 
   root.dataset.trgMegaMenuReady = 'true';
 
-  /*
-   * Dwell header-menu.js integration fixes
-   *
-   * Dwell has TWO event systems that both fire activate() on the same click:
-   *
-   *   System A: component.js document-level capture-phase delegation
-   *     Reads on:click="/activate" from <li>, calls activate() on header-menu.
-   *     Fires at document level BEFORE any child handler can intercept.
-   *
-   *   System B: header-menu.js this.addEventListener('click', this.activate)
-   *     Fires in bubble phase on <header-menu>.
-   *
-   * Fix: Remove on:click and on:focus from <li> to eliminate System A.
-   * System B remains = single activate() per click. on:blur stays for close.
-   */
-
   const menuListItem = root.closest('.menu-list__list-item');
+  const headerMenu = root.closest('header-menu');
 
-  // FIX 1: Strip on:click/on:focus from <li> and keep them stripped.
-  //
-  // Dwell's section hydration (section-hydration.js) runs on requestIdleCallback
-  // AFTER our code. It uses morphdom to diff old vs new DOM. Morph sees our <li>
-  // missing on:click vs the server HTML with on:click and ADDS IT BACK.
-  // MutationObserver catches this and re-removes it synchronously.
+  // FIX 1: Patch activate() on header-menu to skip TRG mega menu clicks.
+  // This intercepts ALL event paths at the method level — morph-proof.
+  if (headerMenu && !headerMenu._trgActivatePatched) {
+    const originalActivate = headerMenu.activate;
+    if (typeof originalActivate === 'function') {
+      headerMenu.activate = function (event) {
+        if (event instanceof Event && event.target instanceof Element) {
+          // Click on <a> inside TRG mega menu → let it navigate, don't call activate
+          if (event.target.closest('.trg-mega-menu a[href]')) return;
+          // Click on non-link content inside TRG mega menu → don't toggle menu closed
+          if (event.target.closest('.trg-mega-menu')) return;
+        }
+        return originalActivate.call(this, event);
+      };
+      headerMenu._trgActivatePatched = true;
+    }
+  }
+
+  // FIX 2: Strip on:click/on:focus from <li> + MutationObserver guard.
   if (menuListItem) {
     menuListItem.removeAttribute('on:click');
     menuListItem.removeAttribute('on:focus');
-    // on:blur="/deactivate" stays — needed for menu close behavior
 
     if (!menuListItem._trgAttrObserver) {
       const observer = new MutationObserver((mutations) => {
@@ -222,7 +219,7 @@ function initMenu(root) {
     }
   }
 
-  // FIX 2: Block focus shift on mousedown to eliminate focusin race
+  // FIX 3: Block focusin race
   if (menuListItem) {
     const navLink = menuListItem.querySelector(':scope > .menu-list__link');
     if (navLink) {
@@ -231,13 +228,6 @@ function initMenu(root) {
       });
     }
   }
-
-  // FIX 3: Stop <a> clicks inside mega menu from reaching header-menu
-  root.addEventListener('click', (event) => {
-    if (event.target.closest('a[href]')) {
-      event.stopPropagation();
-    }
-  });
 
   const tabs = root.querySelectorAll('[data-trg-mega-menu-tab]');
   tabs.forEach((tab) => {
