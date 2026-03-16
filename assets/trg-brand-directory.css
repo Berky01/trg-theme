@@ -332,8 +332,7 @@ body:has(.menu-drawer-container.menu-open) .trg-bdir__desktop-chrome {
   border-bottom: none;
 }
 
-.trg-bdir .trg-bdir__side .trg-bdir__btn[data-toggle],
-.trg-bdir .trg-bdir__sort .trg-bdir__show {
+.trg-bdir .trg-bdir__side .trg-bdir__btn[data-toggle] {
   border: none !important;
   background: none !important;
   min-height: auto !important;
@@ -349,7 +348,28 @@ body:has(.menu-drawer-container.menu-open) .trg-bdir__desktop-chrome {
   box-shadow: none;
 }
 
-.trg-bdir .trg-bdir__side .trg-bdir__btn[data-toggle]:hover,
+/* Show Filters button — display:none by default (base CSS).
+   Only visible at ≤989px via the mobile media query.
+   Do NOT set display here — that was overriding base display:none on desktop. */
+.trg-bdir .trg-bdir__sort .trg-bdir__show {
+  border: none !important;
+  background: none !important;
+  min-height: auto !important;
+  padding: 0 !important;
+  color: var(--mid);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  align-items: center;
+  gap: 0.3rem;
+  box-shadow: none;
+}
+
+.trg-bdir .trg-bdir__side .trg-bdir__btn[data-toggle]:hover {
+  color: var(--ink);
+}
+
 .trg-bdir .trg-bdir__sort .trg-bdir__show:hover {
   color: var(--ink);
 }
