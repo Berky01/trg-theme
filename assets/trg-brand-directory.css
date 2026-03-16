@@ -59,6 +59,7 @@ body.filters-hidden .trg-bdir .trg-bdir__layout {
   border-right: 1px solid var(--bd);
   background: transparent;
   padding: 0;
+  padding-top: 2.75rem;
   padding-right: 1.75rem;
 }
 
@@ -561,6 +562,8 @@ body:not(.filters-hidden) .trg-bdir .trg-bdir__show {
   flex-direction: column;
   flex: 1;
   overflow: hidden;
+  position: relative;
+  height: 100%;
 }
 
 .trg-bdir .trg-bdir__media {
