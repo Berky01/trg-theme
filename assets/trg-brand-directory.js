@@ -113,7 +113,7 @@
         const out = [];
         if (brand.priceRange) out.push(`<span class="trg-bdir__tag trg-bdir__tag--o">${esc(brand.priceRange)}</span>`);
         (brand.brandPositioning || [])
-          .slice(0, 2)
+          .slice(0, 1)
           .forEach((tag) => out.push(`<span class="trg-bdir__tag">${esc(tag)}</span>`));
         return out.join('');
       };
@@ -131,10 +131,6 @@
             <div class="trg-bdir__body2">
               <div class="trg-bdir__toprow">
                 <h3>${esc(brand.name)}</h3>
-                <div class="trg-bdir__mini">
-                  ${brand.affiliateProgram ? '<span>Affiliate</span>' : ''}
-                  ${/^(usa|canada)$/i.test(brand.country || '') ? '<span>NA Brand</span>' : ''}
-                </div>
               </div>
               <p class="trg-bdir__origin">${esc(brand.country || 'Global')}${brand.category ? ` · ${esc(brand.category)}` : ''}</p>
               <p class="trg-bdir__copy">${esc(brand.description || 'Brand profile coming soon.')}</p>

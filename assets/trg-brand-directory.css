@@ -121,6 +121,11 @@ body:has(.menu-drawer-container.menu-open) .trg-bdir__desktop-chrome {
 
 .trg-bdir .trg-bdir__card {
   background: var(--warm);
+  border: 1px solid var(--bd);
+}
+
+.trg-bdir .trg-bdir__card:hover {
+  border-color: var(--mid);
 }
 
 .trg-bdir .trg-bdir__group {
@@ -384,6 +389,18 @@ body:has(.menu-drawer-container.menu-open) .trg-bdir__desktop-chrome {
   letter-spacing: normal;
   text-transform: none;
   color: var(--acc);
+}
+
+.trg-bdir .trg-bdir__sort {
+  position: relative;
+}
+
+.trg-bdir .trg-bdir__res {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+  white-space: nowrap;
 }
 
 @media screen and (max-width: 1199px) {
