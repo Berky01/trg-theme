@@ -332,6 +332,7 @@ body:has(.menu-drawer-container.menu-open) .trg-bdir__desktop-chrome {
   min-height: 0;
   padding: 0.52rem 1rem;
   letter-spacing: 0.1em;
+  transform: translateY(0);
 }
 
 .trg-bdir .trg-bdir__row {
