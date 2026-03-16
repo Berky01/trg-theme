@@ -177,52 +177,46 @@ function initMenu(root) {
 
   root.dataset.trgMegaMenuReady = 'true';
 
-  // FIX A: Stop clicks on <a> links from bubbling to header-menu.js.
-  // Dwell's header-menu.js calls event.preventDefault() on ALL clicks inside a
-  // menu-list__list-item with expandable content — this kills link navigation.
+  /*
+   * Dwell header-menu.js integration fixes
+   *
+   * Dwell has TWO event systems that both fire activate() on the same click:
+   *
+   *   System A: component.js document-level capture-phase delegation
+   *     Reads on:click="/activate" from <li>, calls activate() on header-menu.
+   *     Fires at document level BEFORE any child handler can intercept.
+   *
+   *   System B: header-menu.js this.addEventListener('click', this.activate)
+   *     Fires in bubble phase on <header-menu>.
+   *
+   * Fix: Remove on:click and on:focus from <li> to eliminate System A.
+   * System B remains = single activate() per click. on:blur stays for close.
+   */
+
+  const menuListItem = root.closest('.menu-list__list-item');
+
+  // FIX 1: Remove on:click and on:focus from <li> to kill System A double-fire
+  if (menuListItem) {
+    menuListItem.removeAttribute('on:click');
+    menuListItem.removeAttribute('on:focus');
+  }
+
+  // FIX 2: Block focus shift on mousedown to eliminate focusin race
+  if (menuListItem) {
+    const navLink = menuListItem.querySelector(':scope > .menu-list__link');
+    if (navLink) {
+      navLink.addEventListener('mousedown', (event) => {
+        event.preventDefault();
+      });
+    }
+  }
+
+  // FIX 3: Stop <a> clicks inside mega menu from reaching header-menu
   root.addEventListener('click', (event) => {
     if (event.target.closest('a[href]')) {
       event.stopPropagation();
     }
   });
-
-  // FIX B: Prevent Dwell's double-activation on nav trigger click.
-  //
-  // Problem: Dwell calls activate() TWICE per click:
-  //   1. Via on:click="/activate" attribute binding on <li>
-  //   2. Via addEventListener('click', this.activate) on <header-menu>
-  // First call opens, second sees item===activeItem and deactivates = flash.
-  //
-  // Fix: Capture-phase click handler on <li> intercepts clicks on the nav
-  // trigger only. stopImmediatePropagation() kills both Dwell handlers.
-  // Then we call headerMenu.activate(event) exactly once.
-  // mousedown.preventDefault() still blocks focusin from racing ahead.
-  const menuListItem = root.closest('.menu-list__list-item');
-  if (menuListItem) {
-    const headerMenu = root.closest('header-menu');
-    const navLink = menuListItem.querySelector(':scope > .menu-list__link');
-
-    if (navLink) {
-      // Block focus shift to prevent focusin from firing before click
-      navLink.addEventListener('mousedown', (event) => {
-        event.preventDefault();
-      });
-    }
-
-    if (navLink && headerMenu && typeof headerMenu.activate === 'function') {
-      // Capture-phase: runs before Dwell's bubble-phase on:click and addEventListener
-      menuListItem.addEventListener(
-        'click',
-        (event) => {
-          // Only intercept clicks on the nav trigger itself, not mega menu content
-          if (!navLink.contains(event.target)) return;
-          event.stopImmediatePropagation();
-          headerMenu.activate(event);
-        },
-        true,
-      );
-    }
-  }
 
   const tabs = root.querySelectorAll('[data-trg-mega-menu-tab]');
   tabs.forEach((tab) => {
