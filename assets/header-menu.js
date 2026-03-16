@@ -129,7 +129,8 @@ class HeaderMenu extends Component {
       // not on content inside the open submenu (tiles, brand links, etc.)
       const submenu = findSubmenu(item);
       const clickedInsideSubmenu = submenu && event.target instanceof Element && submenu.contains(event.target);
-      if (!clickedInsideSubmenu) {
+      // Only toggle closed on explicit mouse click, not on focus (focus fires before click and causes immediate re-deactivation)
+      if (!clickedInsideSubmenu && event instanceof MouseEvent) {
         this.#deactivate(item);
       }
       return;
