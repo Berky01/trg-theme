@@ -638,16 +638,16 @@
 }
 
 .menu-list__submenu[data-active] {
-  pointer-events: auto;
+  pointer-events: auto !important;
 }
 
 .menu-list__submenu[data-active] * {
-  pointer-events: auto;
+  pointer-events: auto !important;
 }
 
 .menu-list__submenu[data-active] .trg-mega-menu,
 .menu-list__submenu[data-active] .trg-mega-menu-shell {
-  pointer-events: auto;
+  pointer-events: auto !important;
 }
 
 /* Force submenu visible when active — Dwell only shows on :hover, we need click-based */
@@ -658,10 +658,18 @@
 
 .menu-list__submenu:has(.trg-mega-menu-shell)[data-active] {
   visibility: visible !important;
+  pointer-events: auto !important;
+}
+
+.menu-list__submenu:has(.trg-mega-menu-shell)[data-active] *,
+.menu-list__submenu:has(.trg-mega-menu-shell)[data-active] .trg-mega-menu,
+.menu-list__submenu:has(.trg-mega-menu-shell)[data-active] .trg-mega-menu-shell {
+  pointer-events: auto !important;
 }
 
 /* Prevent white flash — ensure dark bg covers full submenu during animation */
 .menu-list__submenu:has(.trg-mega-menu-shell),
 .menu-list__submenu:has(.trg-mega-menu-shell)::before {
-  background: #211f1c;
+  background: #211f1c !important;
+  background-color: #211f1c !important;
 }
