@@ -632,3 +632,11 @@
   background: #211f1c;
   box-shadow: 0 26px 64px rgba(0, 0, 0, 0.42);
 }
+
+.menu-list__submenu[data-active] {
+  pointer-events: auto;
+}
+
+.menu-list__submenu[data-active] * {
+  pointer-events: auto;
+}
