@@ -16,7 +16,7 @@
 
 .trg-bdir .trg-bdir__searchbar {
   position: sticky;
-  top: var(--header-group-height, 56px);
+  top: calc(var(--header-group-height, 56px) + var(--head));
   background: var(--ink);
   border-top: 1px solid rgba(245, 241, 235, 0.08);
   z-index: 0;
