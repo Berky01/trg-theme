@@ -633,43 +633,16 @@
   box-shadow: 0 26px 64px rgba(0, 0, 0, 0.42);
 }
 
-.menu-list__submenu {
+.menu-list__submenu:has(.trg-mega-menu-shell) {
+  background: #211f1c !important;
+}
+
+.menu-list__submenu:has(.trg-mega-menu-shell)::before {
   background: #211f1c;
 }
 
-.menu-list__submenu[data-active] {
-  pointer-events: auto !important;
-}
-
-.menu-list__submenu[data-active] * {
-  pointer-events: auto !important;
-}
-
 .menu-list__submenu[data-active] .trg-mega-menu,
-.menu-list__submenu[data-active] .trg-mega-menu-shell {
-  pointer-events: auto !important;
-}
-
-/* Force submenu visible when active — Dwell only shows on :hover, we need click-based */
-.menu-list__submenu:has(.trg-mega-menu-shell) {
-  visibility: hidden;
-  transition: clip-path var(--submenu-animation-speed, 0.36s) cubic-bezier(0.25, 0.1, 0.25, 1);
-}
-
-.menu-list__submenu:has(.trg-mega-menu-shell)[data-active] {
-  visibility: visible !important;
-  pointer-events: auto !important;
-}
-
-.menu-list__submenu:has(.trg-mega-menu-shell)[data-active] *,
-.menu-list__submenu:has(.trg-mega-menu-shell)[data-active] .trg-mega-menu,
-.menu-list__submenu:has(.trg-mega-menu-shell)[data-active] .trg-mega-menu-shell {
-  pointer-events: auto !important;
-}
-
-/* Prevent white flash — ensure dark bg covers full submenu during animation */
-.menu-list__submenu:has(.trg-mega-menu-shell),
-.menu-list__submenu:has(.trg-mega-menu-shell)::before {
-  background: #211f1c !important;
-  background-color: #211f1c !important;
+.menu-list__submenu[data-active] .trg-mega-menu-shell,
+.menu-list__submenu[data-active] .trg-mega-menu * {
+  pointer-events: auto;
 }
