@@ -2,6 +2,7 @@
 
 .trg-bdir {
   position: static;
+  --card: var(--warm);
 }
 
 .trg-bdir .trg-bdir__head {
@@ -119,8 +120,10 @@ body:has(.menu-drawer-container.menu-open) .trg-bdir__desktop-chrome {
 
 .trg-bdir .trg-bdir__side {
   border: none;
+  border-right: 1px solid var(--bd);
   background: transparent;
   padding: 0;
+  padding-right: 1.75rem;
 }
 
 .trg-bdir .trg-bdir__group {
@@ -142,7 +145,7 @@ body:has(.menu-drawer-container.menu-open) .trg-bdir__desktop-chrome {
 .trg-bdir .trg-bdir__gt {
   font-size: 0.72rem !important;
   font-weight: 500 !important;
-  letter-spacing: 0.18em !important;
+  letter-spacing: 0.12em !important;
   text-transform: uppercase !important;
   color: var(--mid) !important;
   min-height: auto !important;
@@ -512,11 +515,7 @@ body:has(.menu-drawer-container.menu-open) .trg-bdir__desktop-chrome {
   font-size: 0.78rem;
 }
 
-/* Filter sidebar — match product PLP style */
-.trg-bdir .trg-bdir__side {
-  padding-right: 1.75rem;
-  border-right: 1px solid var(--bd);
-}
+/* Filter sidebar — match product PLP style (consolidated above) */
 
 /* Sort bar top alignment — match product PLP */
 .trg-bdir .trg-bdir__sort {
