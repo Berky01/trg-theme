@@ -28,9 +28,14 @@
 
 .trg-bdir .trg-bdir__shell,
 .trg-bdir .trg-bdir__body--outer {
-  width: min(calc(100% - 32px), 1320px);
+  width: 100%;
+  max-width: 1440px;
   margin-inline: auto;
   padding-inline: 2rem;
+}
+
+.trg-bdir .trg-bdir__grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
 .trg-bdir .trg-bdir__layout {
@@ -381,6 +386,10 @@ body:has(.menu-drawer-container.menu-open) .trg-bdir__desktop-chrome {
   .trg-bdir .trg-bdir__side {
     top: 0;
     max-height: none;
+  }
+
+  .trg-bdir__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
