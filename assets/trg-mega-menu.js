@@ -177,6 +177,30 @@ function initMenu(root) {
 
   root.dataset.trgMegaMenuReady = 'true';
 
+  // FIX A: Stop clicks on <a> links from bubbling to header-menu.js.
+  // Dwell's header-menu.js calls event.preventDefault() on ALL clicks inside a
+  // menu-list__list-item with expandable content — this kills link navigation.
+  root.addEventListener('click', (event) => {
+    if (event.target.closest('a[href]')) {
+      event.stopPropagation();
+    }
+  });
+
+  // FIX B: Prevent the focusin/click race on the parent nav trigger.
+  // Dwell binds both focusin and click to activate(). focusin fires first and
+  // activates the menu, then click sees it's already active and deactivates.
+  // mousedown.preventDefault() blocks the focus shift without blocking click,
+  // so only click reaches header-menu.js and opens the menu cleanly.
+  const menuListItem = root.closest('.menu-list__list-item');
+  if (menuListItem) {
+    const navLink = menuListItem.querySelector(':scope > .menu-list__link');
+    if (navLink) {
+      navLink.addEventListener('mousedown', (event) => {
+        event.preventDefault();
+      });
+    }
+  }
+
   const tabs = root.querySelectorAll('[data-trg-mega-menu-tab]');
   tabs.forEach((tab) => {
     const panelId = tab.dataset.trgMegaMenuTab;
