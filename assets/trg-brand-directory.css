@@ -55,6 +55,11 @@ body.filters-hidden .trg-bdir .trg-bdir__layout {
 .trg-bdir .trg-bdir__side {
   top: calc(var(--header-group-height, 56px) + var(--search) + 1rem);
   max-height: calc(100vh - var(--header-group-height, 56px) - var(--search) - 2rem);
+  border: none;
+  border-right: 1px solid var(--bd);
+  background: transparent;
+  padding: 0;
+  padding-right: 1.75rem;
 }
 
 .trg-bdir .trg-bdir__feat {
@@ -116,14 +121,6 @@ body:has(.menu-drawer-container.menu-open) .trg-bdir__desktop-chrome {
 
 .trg-bdir .trg-bdir__card {
   background: var(--warm);
-}
-
-.trg-bdir .trg-bdir__side {
-  border: none;
-  border-right: 1px solid var(--bd);
-  background: transparent;
-  padding: 0;
-  padding-right: 1.75rem;
 }
 
 .trg-bdir .trg-bdir__group {
@@ -513,14 +510,4 @@ body:has(.menu-drawer-container.menu-open) .trg-bdir__desktop-chrome {
   -webkit-line-clamp: 3;
   margin-top: 0.6rem;
   font-size: 0.78rem;
-}
-
-/* Filter sidebar — match product PLP style (consolidated above) */
-
-/* Sort bar top alignment — match product PLP */
-.trg-bdir .trg-bdir__sort {
-  padding-top: 0;
-  margin-bottom: 1.25rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid var(--bd);
 }
