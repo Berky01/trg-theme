@@ -43,6 +43,10 @@ class HeaderMenu extends Component {
       }
     };
     document.addEventListener('click', this.#documentClickListener, true);
+
+    // Directly bind click and focus to activate since on:click attribute binding is unreliable
+    this.addEventListener('click', this.activate);
+    this.addEventListener('focusin', this.activate);
   }
 
   disconnectedCallback() {
@@ -52,6 +56,8 @@ class HeaderMenu extends Component {
       document.removeEventListener('click', this.#documentClickListener, true);
       this.#documentClickListener = null;
     }
+    this.removeEventListener('click', this.activate);
+    this.removeEventListener('focusin', this.activate);
     this.#cancelPendingDeactivate();
     this.#cleanupMutationObserver();
   }
