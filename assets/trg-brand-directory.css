@@ -329,10 +329,19 @@ body:has(.menu-drawer-container.menu-open) .trg-bdir__desktop-chrome {
 }
 
 .trg-bdir .trg-bdir__cta {
+  position: static;
+  transform: none;
+  margin-top: auto;
+  opacity: 1;
   min-height: 0;
   padding: 0.52rem 1rem;
   letter-spacing: 0.1em;
-  transform: translateY(0);
+  flex-shrink: 0;
+}
+
+.trg-bdir .trg-bdir__card:hover .trg-bdir__cta {
+  transform: none;
+  opacity: 1;
 }
 
 .trg-bdir .trg-bdir__row {
@@ -562,7 +571,7 @@ body:not(.filters-hidden) .trg-bdir .trg-bdir__show {
   display: flex;
   flex-direction: column;
   flex: 1;
-  overflow: hidden;
+  overflow: visible;
   position: relative;
   height: 100%;
 }
@@ -575,7 +584,9 @@ body:not(.filters-hidden) .trg-bdir .trg-bdir__show {
 .trg-bdir .trg-bdir__body2 {
   flex: 1;
   min-height: 0;
-  padding: 1rem 1.1rem 2.25rem;
+  padding: 1rem 1.1rem 1rem;
+  display: flex;
+  flex-direction: column;
 }
 
 .trg-bdir .trg-bdir__copy {
