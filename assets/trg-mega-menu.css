@@ -646,3 +646,10 @@
 .menu-list__submenu[data-active] .trg-mega-menu * {
   pointer-events: auto;
 }
+
+/* Force TRG submenus to skip content-visibility:auto so height calc is accurate.
+   Dwell sets content-visibility:auto + contain-intrinsic-size:0px 500px on all submenus.
+   Without this, --submenu-height may use the 500px fallback instead of actual height. */
+.header-menu .menu-list__submenu:has(.trg-mega-menu-shell) {
+  content-visibility: visible;
+}
