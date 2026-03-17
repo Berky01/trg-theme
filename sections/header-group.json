@@ -18,7 +18,7 @@
           "type": "_announcement",
           "settings": {
             "text": "Shop the bedroom event - on now!",
-            "link": "shopify:\/\/collections\/all",
+            "link": "shopify://collections/all",
             "font": "var(--font-accent--family)",
             "font_size": "0.75rem",
             "weight": "",
@@ -68,8 +68,8 @@
             "type_font_primary_link": "body",
             "type_case_primary_link": "uppercase",
             "menu_style": "trg_editorial",
-            "featured_products_aspect_ratio": "4 \/ 5",
-            "featured_collections_aspect_ratio": "16 \/ 9",
+            "featured_products_aspect_ratio": "4 / 5",
+            "featured_collections_aspect_ratio": "16 / 9",
             "image_border_radius": 0,
             "trg_brand_menu_match": "brands",
             "trg_all_brands_match": "all",
@@ -136,16 +136,16 @@
         "fam_footwear": {
           "type": "family",
           "settings": {
-            "collection": "shopify:\/\/collections\/footwear",
+            "collection": "shopify://collections/footwear",
             "title_override": "Footwear",
             "subtitle": "77 brands",
-            "chips": "All, Heritage, Dress, Casual, Luxury \/ Bespoke, Technical"
+            "chips": "All, Heritage, Dress, Casual, Luxury / Bespoke, Technical"
           }
         },
         "s_fo_oxford_derby": {
           "type": "subcategory",
           "settings": {
-            "collection": "shopify:\/\/collections\/mens-dress-shoes",
+            "collection": "shopify://collections/mens-dress-shoes",
             "title_override": "Oxford & Derby",
             "count": "22"
           }
@@ -153,7 +153,7 @@
         "s_fo_chelsea_boots": {
           "type": "subcategory",
           "settings": {
-            "collection": "shopify:\/\/collections\/mens-boots",
+            "collection": "shopify://collections/mens-boots",
             "title_override": "Chelsea Boots",
             "count": "18"
           }
@@ -161,15 +161,63 @@
         "s_fo_loafers": {
           "type": "subcategory",
           "settings": {
-            "collection": "shopify:\/\/collections\/mens-loafers",
+            "collection": "shopify://collections/mens-loafers",
             "title_override": "Loafers",
             "count": "12"
+          }
+        },
+        "sx_work_logger_boots": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/footwear",
+            "title_override": "Work & Logger Boots",
+            "count": "14"
+          }
+        },
+        "sx_chukka_desert_boot": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/footwear",
+            "title_override": "Chukka & Desert Boot",
+            "count": "10"
+          }
+        },
+        "sx_monk_strap": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/formalwear",
+            "title_override": "Monk Strap",
+            "count": "9"
+          }
+        },
+        "sx_sneakers_trainers": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/footwear",
+            "title_override": "Sneakers & Trainers",
+            "count": "8"
+          }
+        },
+        "sx_moccasin_camp": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/footwear",
+            "title_override": "Moccasin & Camp",
+            "count": "6"
+          }
+        },
+        "sx_bespoke_mto": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/footwear",
+            "title_override": "Bespoke & MTO",
+            "count": "8"
           }
         },
         "fam_outerwear": {
           "type": "family",
           "settings": {
-            "collection": "shopify:\/\/collections\/outerwear",
+            "collection": "shopify://collections/outerwear",
             "title_override": "Outerwear",
             "subtitle": "42 brands",
             "chips": "All, Heritage, Technical, Military"
@@ -178,7 +226,7 @@
         "s_ou_field_jacket": {
           "type": "subcategory",
           "settings": {
-            "collection": "shopify:\/\/collections\/outerwear",
+            "collection": "shopify://collections/outerwear",
             "title_override": "Field Jacket",
             "count": "12"
           }
@@ -186,7 +234,7 @@
         "s_ou_waxed_cotton": {
           "type": "subcategory",
           "settings": {
-            "collection": "shopify:\/\/collections\/outerwear",
+            "collection": "shopify://collections/outerwear",
             "title_override": "Waxed Cotton",
             "count": "8"
           }
@@ -194,24 +242,72 @@
         "s_ou_down_jacket": {
           "type": "subcategory",
           "settings": {
-            "collection": "shopify:\/\/collections\/outerwear",
+            "collection": "shopify://collections/outerwear",
             "title_override": "Down Jacket",
             "count": "10"
+          }
+        },
+        "sx_raincoat_mac": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/outerwear",
+            "title_override": "Raincoat & Mac",
+            "count": "7"
+          }
+        },
+        "sx_harrington_bomber": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/outerwear",
+            "title_override": "Harrington & Bomber",
+            "count": "9"
+          }
+        },
+        "sx_parka": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/outerwear",
+            "title_override": "Parka",
+            "count": "8"
+          }
+        },
+        "sx_leather_jacket": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/outerwear",
+            "title_override": "Leather Jacket",
+            "count": "7"
+          }
+        },
+        "sx_peacoat_reefer": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/outerwear",
+            "title_override": "Peacoat & Reefer",
+            "count": "5"
+          }
+        },
+        "sx_wool_coat": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/outerwear",
+            "title_override": "Wool Coat",
+            "count": "9"
           }
         },
         "fam_casualwear": {
           "type": "family",
           "settings": {
-            "collection": "shopify:\/\/collections\/casualwear",
+            "collection": "shopify://collections/casualwear",
             "title_override": "Casualwear",
             "subtitle": "91 brands",
-            "chips": "All, Japanese, Scandinavian, Artisanal, Preppy \/ Ivy"
+            "chips": "All, Japanese, Scandinavian, Artisanal, Preppy / Ivy"
           }
         },
         "s_ca_casual_shirts": {
           "type": "subcategory",
           "settings": {
-            "collection": "shopify:\/\/collections\/shirting",
+            "collection": "shopify://collections/shirting",
             "title_override": "Casual Shirts",
             "count": "38"
           }
@@ -219,7 +315,7 @@
         "s_ca_t_shirts": {
           "type": "subcategory",
           "settings": {
-            "collection": "shopify:\/\/collections\/basics",
+            "collection": "shopify://collections/basics",
             "title_override": "T-Shirts",
             "count": "31"
           }
@@ -227,15 +323,63 @@
         "s_ca_chinos": {
           "type": "subcategory",
           "settings": {
-            "collection": "shopify:\/\/collections\/casualwear",
+            "collection": "shopify://collections/casualwear",
             "title_override": "Chinos",
             "count": "28"
+          }
+        },
+        "sx_overshirts": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/casualwear",
+            "title_override": "Overshirts",
+            "count": "20"
+          }
+        },
+        "sx_sweatshirts_fleece": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/basics",
+            "title_override": "Sweatshirts & Fleece",
+            "count": "22"
+          }
+        },
+        "sx_camp_collar_shirts": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/casualwear",
+            "title_override": "Camp Collar Shirts",
+            "count": "16"
+          }
+        },
+        "sx_polos": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/casualwear",
+            "title_override": "Polos",
+            "count": "17"
+          }
+        },
+        "sx_shorts": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/casualwear",
+            "title_override": "Shorts",
+            "count": "19"
+          }
+        },
+        "sx_linen_summer": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/casualwear",
+            "title_override": "Linen & Summer",
+            "count": "14"
           }
         },
         "fam_formalwear": {
           "type": "family",
           "settings": {
-            "collection": "shopify:\/\/collections\/formalwear",
+            "collection": "shopify://collections/formalwear",
             "title_override": "Formalwear",
             "subtitle": "49 brands",
             "chips": "All, Neapolitan, British Trad, Italian Luxury"
@@ -244,7 +388,7 @@
         "s_fo_suits": {
           "type": "subcategory",
           "settings": {
-            "collection": "shopify:\/\/collections\/formalwear",
+            "collection": "shopify://collections/formalwear",
             "title_override": "Suits",
             "count": "29"
           }
@@ -252,7 +396,7 @@
         "s_fo_sport_coats": {
           "type": "subcategory",
           "settings": {
-            "collection": "shopify:\/\/collections\/formalwear",
+            "collection": "shopify://collections/formalwear",
             "title_override": "Sport Coats",
             "count": "24"
           }
@@ -260,23 +404,64 @@
         "s_fo_dress_shirts": {
           "type": "subcategory",
           "settings": {
-            "collection": "shopify:\/\/collections\/shirting",
+            "collection": "shopify://collections/shirting",
             "title_override": "Dress Shirts",
             "count": "22"
+          }
+        },
+        "sx_dress_trousers": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/formalwear",
+            "title_override": "Dress Trousers",
+            "count": "18"
+          }
+        },
+        "sx_ties_pocket_squares": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/formalwear",
+            "title_override": "Ties & Pocket Squares",
+            "count": "14"
+          }
+        },
+        "sx_waistcoats": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/formalwear",
+            "title_override": "Waistcoats",
+            "count": "8"
+          }
+        },
+        "sx_tuxedo_black_tie": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/formalwear",
+            "title_override": "Tuxedo & Black Tie",
+            "count": "6"
+          }
+        },
+        "sx_bespoke_mtm": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/formalwear",
+            "title_override": "Bespoke & MTM",
+            "count": "11"
           }
         },
         "fam_knitwear": {
           "type": "family",
           "settings": {
-            "collection": "shopify:\/\/collections\/knitwear",
+            "collection": "shopify://collections/knitwear",
             "title_override": "Knitwear",
-            "subtitle": "28 brands"
+            "subtitle": "28 brands",
+            "chips": ""
           }
         },
         "s_kn_crewneck": {
           "type": "subcategory",
           "settings": {
-            "collection": "shopify:\/\/collections\/knitwear",
+            "collection": "shopify://collections/knitwear",
             "title_override": "Crewneck",
             "count": "22"
           }
@@ -284,7 +469,7 @@
         "s_kn_cardigan": {
           "type": "subcategory",
           "settings": {
-            "collection": "shopify:\/\/collections\/knitwear",
+            "collection": "shopify://collections/knitwear",
             "title_override": "Cardigan",
             "count": "18"
           }
@@ -292,15 +477,39 @@
         "s_kn_turtleneck": {
           "type": "subcategory",
           "settings": {
-            "collection": "shopify:\/\/collections\/knitwear",
+            "collection": "shopify://collections/knitwear",
             "title_override": "Turtleneck",
             "count": "15"
+          }
+        },
+        "sx_aran_fisherman": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/knitwear",
+            "title_override": "Aran & Fisherman",
+            "count": "8"
+          }
+        },
+        "sx_cashmere": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/knitwear",
+            "title_override": "Cashmere",
+            "count": "11"
+          }
+        },
+        "sx_merino": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/knitwear",
+            "title_override": "Merino",
+            "count": "14"
           }
         },
         "fam_denim": {
           "type": "family",
           "settings": {
-            "collection": "shopify:\/\/collections\/denim",
+            "collection": "shopify://collections/denim",
             "title_override": "Denim",
             "subtitle": "35 brands",
             "chips": "All, Japanese Selvedge, American Heritage, Raw"
@@ -309,7 +518,7 @@
         "s_de_jeans": {
           "type": "subcategory",
           "settings": {
-            "collection": "shopify:\/\/collections\/denim",
+            "collection": "shopify://collections/denim",
             "title_override": "Jeans",
             "count": "28"
           }
@@ -317,7 +526,7 @@
         "s_de_denim_jacket": {
           "type": "subcategory",
           "settings": {
-            "collection": "shopify:\/\/collections\/denim",
+            "collection": "shopify://collections/denim",
             "title_override": "Denim Jacket",
             "count": "16"
           }
@@ -325,78 +534,110 @@
         "s_de_raw_denim": {
           "type": "subcategory",
           "settings": {
-            "collection": "shopify:\/\/collections\/denim",
+            "collection": "shopify://collections/denim",
             "title_override": "Raw Denim",
             "count": "14"
+          }
+        },
+        "sx_slim_tapered": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/denim",
+            "title_override": "Slim & Tapered",
+            "count": "20"
+          }
+        },
+        "sx_straight_relaxed": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/denim",
+            "title_override": "Straight & Relaxed",
+            "count": "18"
+          }
+        },
+        "sx_denim_shirt": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/denim",
+            "title_override": "Denim Shirt",
+            "count": "12"
+          }
+        },
+        "sx_overalls_coveralls": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/denim",
+            "title_override": "Overalls & Coveralls",
+            "count": "7"
           }
         },
         "bc_casualwear": {
           "type": "brand_category",
           "settings": {
-            "collection": "shopify:\/\/collections\/casualwear",
+            "collection": "shopify://collections/casualwear",
             "title_override": "Casualwear"
           }
         },
         "bc_footwear": {
           "type": "brand_category",
           "settings": {
-            "collection": "shopify:\/\/collections\/footwear",
+            "collection": "shopify://collections/footwear",
             "title_override": "Footwear"
           }
         },
         "bc_formalwear": {
           "type": "brand_category",
           "settings": {
-            "collection": "shopify:\/\/collections\/formalwear",
+            "collection": "shopify://collections/formalwear",
             "title_override": "Formalwear"
           }
         },
         "bc_outerwear": {
           "type": "brand_category",
           "settings": {
-            "collection": "shopify:\/\/collections\/outerwear",
+            "collection": "shopify://collections/outerwear",
             "title_override": "Outerwear"
           }
         },
         "bc_denim": {
           "type": "brand_category",
           "settings": {
-            "collection": "shopify:\/\/collections\/denim",
+            "collection": "shopify://collections/denim",
             "title_override": "Denim"
           }
         },
         "bc_knitwear": {
           "type": "brand_category",
           "settings": {
-            "collection": "shopify:\/\/collections\/knitwear",
+            "collection": "shopify://collections/knitwear",
             "title_override": "Knitwear"
           }
         },
         "bc_smart_casual": {
           "type": "brand_category",
           "settings": {
-            "collection": "shopify:\/\/collections\/smart-casual",
+            "collection": "shopify://collections/smart-casual",
             "title_override": "Smart Casual"
           }
         },
         "bc_basics": {
           "type": "brand_category",
           "settings": {
-            "collection": "shopify:\/\/collections\/basics",
+            "collection": "shopify://collections/basics",
             "title_override": "Basics"
           }
         },
         "bc_workwear": {
           "type": "brand_category",
           "settings": {
-            "collection": "shopify:\/\/collections\/workwear",
+            "collection": "shopify://collections/workwear",
             "title_override": "Workwear"
           }
         },
         "bc_streetwear": {
           "type": "brand_category",
           "settings": {
-            "collection": "shopify:\/\/collections\/streetwear",
+            "collection": "shopify://collections/streetwear",
             "title_override": "Streetwear"
           }
         },
@@ -406,14 +647,13 @@
             "brand_name": "Viberg",
             "brand_eyebrow": "Footwear · Victoria",
             "brand_description": "Handwelted since 1931. The benchmark for North American heritage boots.",
-            "brand_url": "\/pages\/brands\/viberg",
-            "brand_image": "",
+            "brand_url": "/pages/brands/viberg",
             "link_1_text": "Made in Canada",
-            "link_1_url": "\/pages\/brands",
+            "link_1_url": "/pages/brands",
             "link_2_text": "Has affiliate program",
-            "link_2_url": "\/pages\/brands",
+            "link_2_url": "/pages/brands",
             "link_3_text": "Ships to Canada",
-            "link_3_url": "\/pages\/brands"
+            "link_3_url": "/pages/brands"
           }
         },
         "fb_shop": {
@@ -422,254 +662,13 @@
             "brand_name": "Viberg",
             "brand_eyebrow": "Footwear · Victoria",
             "brand_description": "Handwelted since 1931. The benchmark for North American heritage boots.",
-            "brand_url": "\/pages\/brands\/viberg",
-            "brand_image": "",
+            "brand_url": "/pages/brands/viberg",
             "link_1_text": "Under $200 entry point",
-            "link_1_url": "\/collections\/all",
+            "link_1_url": "/collections/all",
             "link_2_text": "Ships duty-free to CA",
-            "link_2_url": "\/pages\/brands",
+            "link_2_url": "/pages/brands",
             "link_3_text": "Submit a brand",
-            "link_3_url": "\/pages\/submit-brand"
-          }
-        },
-        "sx_work_logger_boots": {
-          "type": "subcategory",
-          "settings": {
-            "collection": "shopify:\/\/collections\/footwear",
-            "title_override": "Work & Logger Boots",
-            "count": "14"
-          }
-        },
-        "sx_chukka_desert_boot": {
-          "type": "subcategory",
-          "settings": {
-            "collection": "shopify:\/\/collections\/footwear",
-            "title_override": "Chukka & Desert Boot",
-            "count": "10"
-          }
-        },
-        "sx_monk_strap": {
-          "type": "subcategory",
-          "settings": {
-            "collection": "shopify:\/\/collections\/formalwear",
-            "title_override": "Monk Strap",
-            "count": "9"
-          }
-        },
-        "sx_sneakers_trainers": {
-          "type": "subcategory",
-          "settings": {
-            "collection": "shopify:\/\/collections\/footwear",
-            "title_override": "Sneakers & Trainers",
-            "count": "8"
-          }
-        },
-        "sx_moccasin_camp": {
-          "type": "subcategory",
-          "settings": {
-            "collection": "shopify:\/\/collections\/footwear",
-            "title_override": "Moccasin & Camp",
-            "count": "6"
-          }
-        },
-        "sx_bespoke_mto": {
-          "type": "subcategory",
-          "settings": {
-            "collection": "shopify:\/\/collections\/footwear",
-            "title_override": "Bespoke & MTO",
-            "count": "8"
-          }
-        },
-        "sx_raincoat_mac": {
-          "type": "subcategory",
-          "settings": {
-            "collection": "shopify:\/\/collections\/outerwear",
-            "title_override": "Raincoat & Mac",
-            "count": "7"
-          }
-        },
-        "sx_harrington_bomber": {
-          "type": "subcategory",
-          "settings": {
-            "collection": "shopify:\/\/collections\/outerwear",
-            "title_override": "Harrington & Bomber",
-            "count": "9"
-          }
-        },
-        "sx_parka": {
-          "type": "subcategory",
-          "settings": {
-            "collection": "shopify:\/\/collections\/outerwear",
-            "title_override": "Parka",
-            "count": "8"
-          }
-        },
-        "sx_leather_jacket": {
-          "type": "subcategory",
-          "settings": {
-            "collection": "shopify:\/\/collections\/outerwear",
-            "title_override": "Leather Jacket",
-            "count": "7"
-          }
-        },
-        "sx_peacoat_reefer": {
-          "type": "subcategory",
-          "settings": {
-            "collection": "shopify:\/\/collections\/outerwear",
-            "title_override": "Peacoat & Reefer",
-            "count": "5"
-          }
-        },
-        "sx_wool_coat": {
-          "type": "subcategory",
-          "settings": {
-            "collection": "shopify:\/\/collections\/outerwear",
-            "title_override": "Wool Coat",
-            "count": "9"
-          }
-        },
-        "sx_overshirts": {
-          "type": "subcategory",
-          "settings": {
-            "collection": "shopify:\/\/collections\/casualwear",
-            "title_override": "Overshirts",
-            "count": "20"
-          }
-        },
-        "sx_sweatshirts_fleece": {
-          "type": "subcategory",
-          "settings": {
-            "collection": "shopify:\/\/collections\/basics",
-            "title_override": "Sweatshirts & Fleece",
-            "count": "22"
-          }
-        },
-        "sx_camp_collar_shirts": {
-          "type": "subcategory",
-          "settings": {
-            "collection": "shopify:\/\/collections\/casualwear",
-            "title_override": "Camp Collar Shirts",
-            "count": "16"
-          }
-        },
-        "sx_polos": {
-          "type": "subcategory",
-          "settings": {
-            "collection": "shopify:\/\/collections\/casualwear",
-            "title_override": "Polos",
-            "count": "17"
-          }
-        },
-        "sx_shorts": {
-          "type": "subcategory",
-          "settings": {
-            "collection": "shopify:\/\/collections\/casualwear",
-            "title_override": "Shorts",
-            "count": "19"
-          }
-        },
-        "sx_linen_summer": {
-          "type": "subcategory",
-          "settings": {
-            "collection": "shopify:\/\/collections\/casualwear",
-            "title_override": "Linen & Summer",
-            "count": "14"
-          }
-        },
-        "sx_dress_trousers": {
-          "type": "subcategory",
-          "settings": {
-            "collection": "shopify:\/\/collections\/formalwear",
-            "title_override": "Dress Trousers",
-            "count": "18"
-          }
-        },
-        "sx_ties_pocket_squares": {
-          "type": "subcategory",
-          "settings": {
-            "collection": "shopify:\/\/collections\/formalwear",
-            "title_override": "Ties & Pocket Squares",
-            "count": "14"
-          }
-        },
-        "sx_waistcoats": {
-          "type": "subcategory",
-          "settings": {
-            "collection": "shopify:\/\/collections\/formalwear",
-            "title_override": "Waistcoats",
-            "count": "8"
-          }
-        },
-        "sx_tuxedo_black_tie": {
-          "type": "subcategory",
-          "settings": {
-            "collection": "shopify:\/\/collections\/formalwear",
-            "title_override": "Tuxedo & Black Tie",
-            "count": "6"
-          }
-        },
-        "sx_bespoke_mtm": {
-          "type": "subcategory",
-          "settings": {
-            "collection": "shopify:\/\/collections\/formalwear",
-            "title_override": "Bespoke & MTM",
-            "count": "11"
-          }
-        },
-        "sx_aran_fisherman": {
-          "type": "subcategory",
-          "settings": {
-            "collection": "shopify:\/\/collections\/knitwear",
-            "title_override": "Aran & Fisherman",
-            "count": "8"
-          }
-        },
-        "sx_cashmere": {
-          "type": "subcategory",
-          "settings": {
-            "collection": "shopify:\/\/collections\/knitwear",
-            "title_override": "Cashmere",
-            "count": "11"
-          }
-        },
-        "sx_merino": {
-          "type": "subcategory",
-          "settings": {
-            "collection": "shopify:\/\/collections\/knitwear",
-            "title_override": "Merino",
-            "count": "14"
-          }
-        },
-        "sx_slim_tapered": {
-          "type": "subcategory",
-          "settings": {
-            "collection": "shopify:\/\/collections\/denim",
-            "title_override": "Slim & Tapered",
-            "count": "20"
-          }
-        },
-        "sx_straight_relaxed": {
-          "type": "subcategory",
-          "settings": {
-            "collection": "shopify:\/\/collections\/denim",
-            "title_override": "Straight & Relaxed",
-            "count": "18"
-          }
-        },
-        "sx_denim_shirt": {
-          "type": "subcategory",
-          "settings": {
-            "collection": "shopify:\/\/collections\/denim",
-            "title_override": "Denim Shirt",
-            "count": "12"
-          }
-        },
-        "sx_overalls_coveralls": {
-          "type": "subcategory",
-          "settings": {
-            "collection": "shopify:\/\/collections\/denim",
-            "title_override": "Overalls & Coveralls",
-            "count": "7"
+            "link_3_url": "/pages/submit-brand"
           }
         }
       },
