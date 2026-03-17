@@ -196,7 +196,11 @@ function bindMobTabs(){
       if(tc)tc.classList.add('on');
       var body=document.getElementById('trg-mob-body');
       if(body)body.scrollTop=0;
-      if(tab.dataset.mobTab==='brands')initMobBrands();
+      if(tab.dataset.mobTab==='brands'){initMobBrands();
+        /* Re-bind search in case DOM was re-rendered */
+        var si=document.getElementById('trg-mob-bi');
+        if(si&&!si._trgBound){si._trgBound=true;si.addEventListener('input',function(){mobBQ=si.value.trim().toLowerCase();renderMobBrands()});}
+      }
     });
   });
 }
@@ -206,7 +210,9 @@ function bindMobAccordion(){
   document.querySelectorAll('.trg-mob-fam-hdr').forEach(function(hdr){
     hdr.addEventListener('click',function(){
       var fam=hdr.closest('.trg-mob-fam');
+      if(!fam)return;
       var body=fam.querySelector('.trg-mob-fam-body');
+      if(!body)return;
       var isOpen=fam.classList.contains('on');
       /* Close others */
       document.querySelectorAll('.trg-mob-fam.on').forEach(function(f){
@@ -246,21 +252,19 @@ function initMobBrands(){
 }
 
 function getMobBrands(){
-  /* Reuse desktop brand data */
+  /* Collect all possible sources and return the largest */
+  var sources=[];
+  /* Source 1: metaobject JSON (may be capped at ~150 by Liquid) */
   var el=document.getElementById('trg-mm-bd');
-  if(el){try{var d=JSON.parse(el.textContent);if(Array.isArray(d)&&d.length>0)return d}catch(e){}}
-  /* Fallback 1: use desktop brand array (already mapped from FB or JSON) */
-  if(typeof br!=='undefined'&&br.length>0)return br;
-  /* Fallback 2: use the FB hardcoded array */
-  if(typeof FB!=='undefined'&&FB.length>0)return FB;
-  /* Fallback 3: reconstruct from DOM */
-  var links=document.querySelectorAll('#trg-mm-bg .trg-mm-bl');
-  if(links.length>0){
-    return Array.from(links).map(function(a){
-      var h=a.getAttribute('href')||'';
-      var slug=h.replace('/pages/','');
-      return{name:a.textContent,slug:slug,category:''};
-    });
+  if(el){try{var d=JSON.parse(el.textContent);if(Array.isArray(d)&&d.length>0)sources.push(d)}catch(e){}}
+  /* Source 2: desktop brand array (loaded from JSON or FB) */
+  if(typeof br!=='undefined'&&br.length>0)sources.push(br);
+  /* Source 3: hardcoded FB array (full 460+) */
+  if(typeof FB!=='undefined'&&FB.length>0)sources.push(FB);
+  /* Return the largest source */
+  if(sources.length>0){
+    sources.sort(function(a,b){return b.length-a.length});
+    return sources[0];
   }
   return[];
 }

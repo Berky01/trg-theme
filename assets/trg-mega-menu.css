@@ -189,10 +189,10 @@ header-drawer .menu-drawer__inner-container{display:none!important}
 .trg-mob-lbl{font-size:.55rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:rgba(245,241,235,.3);margin-bottom:.5rem;display:block;padding-top:.75rem}
 
 /* Swipeable chips */
-.trg-mob-chips,.trg-mob-bchips{display:flex;gap:.35rem;overflow-x:auto;-webkit-overflow-scrolling:touch;scroll-snap-type:x proximity;scrollbar-width:none;padding-bottom:.15rem;cursor:grab;user-select:none;-webkit-user-select:none}
+.trg-mob-chips,.trg-mob-bchips{display:flex;gap:.35rem;overflow-x:auto;-webkit-overflow-scrolling:touch;scroll-snap-type:x proximity;scrollbar-width:none;padding:.6rem 1.25rem .15rem;cursor:grab;user-select:none;-webkit-user-select:none}
 .trg-mob-chips::-webkit-scrollbar,.trg-mob-bchips::-webkit-scrollbar{display:none}
 .trg-mob-chips.grabbing,.trg-mob-bchips.grabbing{cursor:grabbing;scroll-snap-type:none}
-.trg-mob-chips{margin-bottom:1rem;flex-wrap:nowrap}
+.trg-mob-chips{margin-bottom:1rem;flex-wrap:nowrap;padding:0 1.25rem}
 .trg-mob-bchips{padding:.75rem 1.25rem 0;flex-wrap:nowrap}
 .trg-mob-chip{font-family:'DM Sans',sans-serif;font-size:.62rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;padding:.3rem .7rem;border:1px solid rgba(255,255,255,.1);border-radius:20px;color:rgba(245,241,235,.55);background:none;cursor:pointer;white-space:nowrap;flex-shrink:0;-webkit-tap-highlight-color:transparent;transition:all .12s;text-decoration:none;display:inline-block;scroll-snap-align:start}
 .trg-mob-chip.on{background:rgba(196,86,42,.15);border-color:rgba(196,86,42,.45);color:#f5f1eb}
@@ -226,7 +226,7 @@ header-drawer .menu-drawer__inner-container{display:none!important}
 .trg-mob-bsf:focus-within{border-color:rgba(196,86,42,.5)}
 .trg-mob-bsf svg{color:rgba(245,241,235,.3);flex-shrink:0}
 .trg-mob-bsf:focus-within svg{color:rgba(196,86,42,.7)}
-.trg-mob-bin{flex:1;background:none;border:none;outline:none;font-family:'DM Sans',sans-serif;font-size:.82rem;color:#f5f1eb;padding:.7rem 0}
+.trg-mob-bin{flex:1;background:none;border:none;outline:none;font-family:'DM Sans',sans-serif;font-size:.82rem;color:#f5f1eb;padding:.7rem 0;touch-action:auto;-webkit-user-select:text;user-select:text}
 .trg-mob-bin::placeholder{color:rgba(245,241,235,.3);font-style:italic}
 .trg-mob-bsx{background:none;border:none;cursor:pointer;font-size:.7rem;color:rgba(245,241,235,.3);padding:.25rem;display:none;-webkit-tap-highlight-color:transparent}
 .trg-mob-bsx.on{display:block}
