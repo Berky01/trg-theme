@@ -313,6 +313,85 @@
   </div>
 </div>
 
+
+{%- comment -%}Mobile hotfix — overrides cached JS for brand count, search, accordion, chips{%- endcomment -%}
+<script>
+(function(){
+  /* Override getMobBrands to use largest source (FB has 460+) */
+  if(typeof getMobBrands==='function'){
+    window._origGetMob=getMobBrands;
+  }
+  /* Wait for DOM + external JS to load */
+  window.addEventListener('load',function(){
+    /* FIX 1: Brand count — use FB (hardcoded 460+) instead of JSON (capped ~143) */
+    if(typeof _mobBrands!=='undefined'){_mobBrands=null}
+    if(typeof getMobBrands!=='undefined'){
+      getMobBrands=function(){
+        var sources=[];
+        var el=document.getElementById('trg-mm-bd');
+        if(el){try{var d=JSON.parse(el.textContent);if(Array.isArray(d)&&d.length>0)sources.push(d)}catch(e){}}
+        if(typeof br!=='undefined'&&br.length>0)sources.push(br);
+        if(typeof FB!=='undefined'&&FB.length>0)sources.push(FB);
+        if(sources.length>0){sources.sort(function(a,b){return b.length-a.length});return sources[0]}
+        return[];
+      };
+    }
+
+    /* FIX 2: Re-bind accordion (in case old JS didn't bind properly) */
+    document.querySelectorAll('.trg-mob-fam-hdr').forEach(function(hdr){
+      if(hdr._trgFixed)return;
+      hdr._trgFixed=true;
+      hdr.addEventListener('click',function(e){
+        e.preventDefault();e.stopPropagation();
+        var fam=hdr.closest('.trg-mob-fam');
+        if(!fam)return;
+        var body=fam.querySelector('.trg-mob-fam-body');
+        if(!body)return;
+        var isOpen=fam.classList.contains('on');
+        document.querySelectorAll('.trg-mob-fam.on').forEach(function(f){
+          if(f!==fam){f.classList.remove('on');var b=f.querySelector('.trg-mob-fam-body');if(b)b.style.maxHeight='0'}
+        });
+        if(isOpen){fam.classList.remove('on');body.style.maxHeight='0'}
+        else{fam.classList.add('on');body.style.maxHeight=body.scrollHeight+'px';
+          setTimeout(function(){hdr.scrollIntoView({behavior:'smooth',block:'start'})},200);
+        }
+      });
+    });
+
+    /* FIX 3: Re-bind search */
+    var si=document.getElementById('trg-mob-bi');
+    if(si&&!si._trgFixed){
+      si._trgFixed=true;
+      si.addEventListener('input',function(){
+        if(typeof mobBQ!=='undefined')mobBQ=si.value.trim().toLowerCase();
+        if(typeof renderMobBrands==='function')renderMobBrands();
+      });
+    }
+    var sx=document.getElementById('trg-mob-bsx');
+    if(sx&&!sx._trgFixed){
+      sx._trgFixed=true;
+      sx.addEventListener('click',function(){
+        if(si){si.value='';si.focus()}
+        if(typeof mobBQ!=='undefined')mobBQ='';
+        if(typeof renderMobBrands==='function')renderMobBrands();
+      });
+    }
+
+    /* FIX 4: Re-render brands if tab already open */
+    if(typeof renderMobBrands==='function'&&typeof _mobBrands!=='undefined'){
+      _mobBrands=null;
+      var tc=document.getElementById('trg-mob-tc-brands');
+      if(tc&&tc.classList.contains('on'))renderMobBrands();
+    }
+  });
+
+  /* FIX 5: Chips padding — inject style override */
+  var s=document.createElement('style');
+  s.textContent='.trg-mob-bchips,.trg-mob-chips{padding-left:1.25rem!important;padding-right:1.25rem!important;padding-top:.5rem!important}.trg-mob-bin{touch-action:auto!important;-webkit-user-select:text!important;user-select:text!important}';
+  document.head.appendChild(s);
+})();
+</script>
+
 {% schema %}
 {
   "name": "Mega Menu",
