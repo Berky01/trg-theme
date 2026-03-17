@@ -190,21 +190,25 @@
       };
 
       const render = () => {
-        const total = state.filtered.length;
-        const pages = Math.max(1, Math.ceil(total / PAGE));
-        const visible = state.filtered.slice(0, state.page * PAGE);
+        try {
+          const total = state.filtered.length;
+          const pages = Math.max(1, Math.ceil(total / PAGE));
+          const visible = state.filtered.slice(0, state.page * PAGE);
 
-        grid.innerHTML = visible.map(card).join('');
-        grid.hidden = !total;
-        empty.hidden = !!total;
-        res.textContent = String(total);
-        if (ttl) ttl.textContent = state.browse === 'All Brands' ? 'All Brands' : state.browse;
-        if (sub) sub.textContent = total === 1 ? '1 brand' : `${total} brands`;
-        pc.textContent = `Showing ${visible.length} of ${total} brands`;
-        pp.textContent = `Page ${Math.min(state.page, pages)} of ${pages}`;
-        fill.style.width = total ? `${(visible.length / total) * 100}%` : '0%';
-        more.hidden = visible.length >= total;
-        q('[data-prog]').hidden = !total;
+          if (grid) { grid.innerHTML = visible.map(card).join(''); grid.hidden = !total; }
+          if (empty) empty.hidden = !!total;
+          if (res) res.textContent = String(total);
+          if (ttl) ttl.textContent = state.browse === 'All Brands' ? 'All Brands' : state.browse;
+          if (sub) sub.textContent = total === 1 ? '1 brand' : `${total} brands`;
+          if (pc) pc.textContent = `Showing ${visible.length} of ${total} brands`;
+          if (pp) pp.textContent = `Page ${Math.min(state.page, pages)} of ${pages}`;
+          if (fill) fill.style.width = total ? `${(visible.length / total) * 100}%` : '0%';
+          if (more) more.hidden = visible.length >= total;
+          const prog = q('[data-prog]');
+          if (prog) prog.hidden = !total;
+        } catch (err) {
+          console.error('[TRG Brand Directory] render error:', err);
+        }
       };
 
       const apply = () => {
