@@ -14,7 +14,7 @@
     assign resolved_url = resolved_url.url
   endif
 
-  assign resolved_prefix = directory_prefix | default: '/pages/brands/'
+  assign resolved_prefix = directory_prefix | default: '/pages/'
   if resolved_handle != blank
     assign resolved_url = resolved_prefix | append: resolved_handle
   endif
