@@ -25,10 +25,10 @@
               assign ft = 'Untitled'
             endif
           -%}
-          {%- assign sc = 0 -%}{%- assign ct = false -%}
+          {%- assign sc = 0 -%}{%- assign ctg = false -%}
           {%- for b in section.blocks -%}
-            {%- if b.id == block.id -%}{%- assign ct = true -%}{%- continue -%}{%- endif -%}
-            {%- if ct -%}{%- if b.type == 'family' -%}{%- break -%}{%- elsif b.type == 'subcategory' -%}{%- assign sc = sc | plus: 1 -%}{%- endif -%}{%- endif -%}
+            {%- if b.id == block.id -%}{%- assign ctg = true -%}{%- continue -%}{%- endif -%}
+            {%- if ctg -%}{%- if b.type == 'family' -%}{%- break -%}{%- elsif b.type == 'subcategory' -%}{%- assign sc = sc | plus: 1 -%}{%- endif -%}{%- endif -%}
           {%- endfor -%}
           <button class="trg-mm-t{% if fi == 0 %} on{% endif %}" data-tab="shop-{{ ft | handleize }}" type="button" {{ block.shopify_attributes }}>{{ ft }}{%- if sc > 0 %}<span class="trg-mm-tc">{{ sc }}</span>{%- endif -%}</button>
           {%- assign fi = fi | plus: 1 -%}
@@ -123,15 +123,15 @@
       {%- for block in section.blocks -%}
         {%- if block.type == 'brand_category' -%}
           {%- liquid
-            assign ct = block.settings.title_override
-            if ct == blank and block.settings.collection != blank
-              assign ct = block.settings.collection.title
+            assign ctt = block.settings.title_override
+            if ctt == blank and block.settings.collection != blank
+              assign ctt = block.settings.collection.title
             endif
-            if ct == blank
-              assign ct = 'Untitled'
+            if ctt == blank
+              assign ctt = 'Untitled'
             endif
           -%}
-          <button class="trg-mm-t" data-tab="brands-{{ ct | handleize }}" data-bc="{{ ct | handleize }}" type="button" {{ block.shopify_attributes }}>{{ ct }}</button>
+          <button class="trg-mm-t" data-tab="brands-{{ ctt | handleize }}" data-bc="{{ ctt | handleize }}" type="button" {{ block.shopify_attributes }}>{{ ctt }}</button>
         {%- endif -%}
       {%- endfor -%}
     </nav>
@@ -214,38 +214,6 @@
       {"type":"text","id":"link_3_text","label":"Link 3","default":"Submit a brand"},{"type":"url","id":"link_3_url","label":"URL 3"}
     ]}
   ],
-  "presets":[{"name":"Mega Menu","blocks":[
-    {"type":"family","settings":{"title_override":"Footwear","subtitle":"77 brands"}},
-    {"type":"aesthetic_chip","settings":{"title":"All","is_default":true}},
-    {"type":"aesthetic_chip","settings":{"title":"Heritage"}},
-    {"type":"aesthetic_chip","settings":{"title":"Dress"}},
-    {"type":"aesthetic_chip","settings":{"title":"Casual"}},
-    {"type":"subcategory","settings":{"title_override":"Oxford & Derby","count":"22"}},
-    {"type":"subcategory","settings":{"title_override":"Chelsea Boots","count":"18"}},
-    {"type":"subcategory","settings":{"title_override":"Loafers","count":"12"}},
-    {"type":"family","settings":{"title_override":"Outerwear","subtitle":"42 brands"}},
-    {"type":"aesthetic_chip","settings":{"title":"All","is_default":true}},
-    {"type":"aesthetic_chip","settings":{"title":"Heritage & Trad"}},
-    {"type":"aesthetic_chip","settings":{"title":"Technical"}},
-    {"type":"subcategory","settings":{"title_override":"Field & Barn Jacket","count":"12"}},
-    {"type":"subcategory","settings":{"title_override":"Waxed Cotton","count":"8"}},
-    {"type":"subcategory","settings":{"title_override":"Down & Insulated","count":"10"}},
-    {"type":"family","settings":{"title_override":"Casualwear","subtitle":"91 brands"}},
-    {"type":"subcategory","settings":{"title_override":"Casual Shirts","count":"38"}},
-    {"type":"subcategory","settings":{"title_override":"T-Shirts","count":"31"}},
-    {"type":"subcategory","settings":{"title_override":"Chinos & Trousers","count":"28"}},
-    {"type":"brand_category","settings":{"title_override":"Casualwear"}},
-    {"type":"brand_category","settings":{"title_override":"Footwear"}},
-    {"type":"brand_category","settings":{"title_override":"Formalwear"}},
-    {"type":"brand_category","settings":{"title_override":"Outerwear"}},
-    {"type":"brand_category","settings":{"title_override":"Denim"}},
-    {"type":"brand_category","settings":{"title_override":"Knitwear"}},
-    {"type":"brand_category","settings":{"title_override":"Smart Casual"}},
-    {"type":"brand_category","settings":{"title_override":"Basics"}},
-    {"type":"brand_category","settings":{"title_override":"Workwear"}},
-    {"type":"brand_category","settings":{"title_override":"Streetwear"}},
-    {"type":"featured_brand","settings":{"brand_name":"Norse Projects","brand_eyebrow":"Casualwear · Copenhagen","brand_description":"Scandinavian precision. Quietly considered, built to last."}},
-    {"type":"featured_brand_shop","settings":{"brand_name":"Viberg","brand_eyebrow":"Footwear · Victoria","brand_description":"Handwelted since 1931. The benchmark for North American heritage boots."}}
-  ]}]
+  "presets":[{"name":"Mega Menu"}]
 }
 {% endschema %}
