@@ -27,6 +27,7 @@
     {%- render 'meta-tags' -%}
     {%- render 'stylesheets' -%}
     {{ 'trg-mega-menu.css' | asset_url | stylesheet_tag }}
+    {{ 'trg-brand-pdp.css' | asset_url | stylesheet_tag }}
     {%- render 'fonts' -%}
     {%- render 'scripts' -%}
     {%- render 'theme-styles-variables' -%}
@@ -134,6 +135,7 @@
       {% render 'quick-add-modal' %}
     {% endif %}
     <script src="{{ 'trg-mega-menu.js' | asset_url }}" defer></script>
-  <!-- trg-cache-1773718112 -->
+<script src="{{ 'trg-brand-pdp.js' | asset_url }}" defer></script>
+  <!-- trg-cache-1773719171 -->
 </body>
 </html>
