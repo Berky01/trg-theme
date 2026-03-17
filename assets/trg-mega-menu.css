@@ -128,7 +128,7 @@
 /* Responsive */
 @media(max-width:1199px){.trg-mm-in{min-height:400px}.trg-mm-sb{width:170px}.trg-mm-sg{grid-template-columns:repeat(2,1fr)}.trg-mm-bg{grid-template-columns:repeat(4,1fr)}.trg-mm-ft{display:none}}
 
-.trg-mm-ac{cursor:pointer}
+.trg-mm-ac{cursor:default}
 
 .trg-mm-sf input[type='text'],.trg-mm-sf input[type='search']{background:transparent!important;color:#f5f1eb!important;border:none!important;box-shadow:none!important}
 .trg-mm-sf input::placeholder{color:rgba(245,241,235,.6)!important}
