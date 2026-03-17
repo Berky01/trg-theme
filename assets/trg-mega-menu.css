@@ -1,4 +1,4 @@
-/* TRG Mega Menu v3.1.1773717858 */
+/* TRG Mega Menu v4.0 — desktop + mobile */
 :root{--trg-mm-bg:#211f1c;--trg-mm-border:rgba(245,241,235,.08);--trg-mm-text:#f5f1eb;--trg-mm-dim:rgba(245,241,235,.55);--trg-mm-faint:rgba(245,241,235,.3);--trg-mm-ghost:rgba(245,241,235,.18);--trg-mm-accent:#c4562a;--trg-mm-accent-dim:rgba(196,86,42,.15);--trg-mm-accent-bd:rgba(196,86,42,.45);--trg-mm-hover:rgba(255,255,255,.04);--trg-mm-shadow:0 24px 60px rgba(0,0,0,.45)}
 
 /* Nav active state */
@@ -134,3 +134,122 @@
 .trg-mm-sf input[type='text'],.trg-mm-sf input[type='search']{background:transparent!important;color:#f5f1eb!important;border:none!important;box-shadow:none!important}
 .trg-mm-sf input::placeholder{color:rgba(245,241,235,.6)!important}
 .trg-mm-ac:hover{background:rgba(255,255,255,.06);color:var(--trg-mm-text);border-color:rgba(255,255,255,.22)}
+
+/* ═══ TRG MOBILE MEGA MENU ═══ */
+
+/* Hide mobile drawer on desktop */
+.trg-mob{display:none}
+
+@media(max-width:989px){
+/* Hide desktop panels on mobile */
+.trg-mm-bk,.trg-mm-p{display:none!important}
+/* Hide Dwell native drawer content */
+header-drawer .menu-drawer__inner-container{display:none!important}
+/* Show mobile drawer */
+.trg-mob{display:block;position:fixed;inset:0;z-index:200;pointer-events:none;opacity:0;transition:opacity .3s}
+.trg-mob.on{pointer-events:all;opacity:1}
+.trg-mob-bk{position:absolute;inset:0;background:rgba(0,0,0,.5);opacity:0;transition:opacity .3s}
+.trg-mob.on .trg-mob-bk{opacity:1}
+.trg-mob-drawer{position:absolute;top:0;left:0;width:100%;height:100%;background:var(--trg-mm-bg,#211f1c);transform:translateX(-100%);transition:transform .35s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;overflow:hidden}
+.trg-mob.on .trg-mob-drawer{transform:translateX(0)}
+
+/* Head */
+.trg-mob-head{height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 1rem;border-bottom:1px solid rgba(245,241,235,.08);flex-shrink:0;background:#1a1a18}
+.trg-mob-logo{font-family:'Playfair Display',serif;font-size:.9rem;color:rgba(245,241,235,.92);text-decoration:none}
+.trg-mob-logo span{color:#c4562a;font-style:italic}
+.trg-mob-close{width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:none;border:none;cursor:pointer;color:rgba(245,241,235,.55);-webkit-tap-highlight-color:transparent}
+
+/* Tabs */
+.trg-mob-tabs{display:flex;border-bottom:1px solid rgba(245,241,235,.08);flex-shrink:0;background:#1a1917}
+.trg-mob-tab{flex:1;height:48px;display:flex;align-items:center;justify-content:center;background:none;border:none;font-family:'DM Sans',sans-serif;font-size:.72rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:rgba(245,241,235,.3);cursor:pointer;position:relative;-webkit-tap-highlight-color:transparent}
+.trg-mob-tab.on{color:rgba(245,241,235,.92)}
+.trg-mob-tab.on::after{content:'';position:absolute;bottom:0;left:1rem;right:1rem;height:2px;background:#c4562a;border-radius:1px 1px 0 0}
+
+/* Body */
+.trg-mob-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+.trg-mob-body::-webkit-scrollbar{width:2px}
+.trg-mob-body::-webkit-scrollbar-thumb{background:rgba(255,255,255,.08)}
+.trg-mob-tc{display:none}
+.trg-mob-tc.on{display:block}
+
+/* Accordion families */
+.trg-mob-fam{border-bottom:1px solid rgba(245,241,235,.08)}
+.trg-mob-fam-hdr{display:flex;align-items:center;justify-content:space-between;width:100%;min-height:48px;padding:.85rem 1.25rem;background:none;border:none;cursor:pointer;text-align:left;-webkit-tap-highlight-color:transparent}
+.trg-mob-fam-hdr:active{background:rgba(255,255,255,.03)}
+.trg-mob-fam-left{display:flex;flex-direction:column;gap:.15rem}
+.trg-mob-fam-name{font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:500;color:rgba(245,241,235,.92);letter-spacing:.01em}
+.trg-mob-fam-count{font-size:.65rem;color:rgba(245,241,235,.3);letter-spacing:.04em}
+.trg-mob-chv{color:rgba(245,241,235,.3);transition:transform .25s cubic-bezier(.4,0,.2,1),color .15s;flex-shrink:0}
+.trg-mob-fam.on .trg-mob-chv{transform:rotate(180deg);color:#c4562a}
+.trg-mob-fam.on .trg-mob-fam-name{color:#f5f1eb}
+.trg-mob-fam-body{max-height:0;overflow:hidden;transition:max-height .35s cubic-bezier(.4,0,.2,1);background:#1a1917}
+.trg-mob-fam-inner{padding:0 1.25rem 1rem}
+
+/* Labels */
+.trg-mob-lbl{font-size:.55rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:rgba(245,241,235,.3);margin-bottom:.5rem;display:block;padding-top:.75rem}
+
+/* Swipeable chips */
+.trg-mob-chips,.trg-mob-bchips{display:flex;gap:.35rem;overflow-x:auto;-webkit-overflow-scrolling:touch;scroll-snap-type:x proximity;scrollbar-width:none;padding-bottom:.15rem;cursor:grab;user-select:none;-webkit-user-select:none}
+.trg-mob-chips::-webkit-scrollbar,.trg-mob-bchips::-webkit-scrollbar{display:none}
+.trg-mob-chips.grabbing,.trg-mob-bchips.grabbing{cursor:grabbing;scroll-snap-type:none}
+.trg-mob-chips{margin-bottom:1rem;flex-wrap:nowrap}
+.trg-mob-bchips{padding:.75rem 1.25rem 0;flex-wrap:nowrap}
+.trg-mob-chip{font-family:'DM Sans',sans-serif;font-size:.62rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;padding:.3rem .7rem;border:1px solid rgba(255,255,255,.1);border-radius:20px;color:rgba(245,241,235,.55);background:none;cursor:pointer;white-space:nowrap;flex-shrink:0;-webkit-tap-highlight-color:transparent;transition:all .12s;text-decoration:none;display:inline-block;scroll-snap-align:start}
+.trg-mob-chip.on{background:rgba(196,86,42,.15);border-color:rgba(196,86,42,.45);color:#f5f1eb}
+
+/* Subcategories */
+.trg-mob-subs{display:flex;flex-direction:column}
+.trg-mob-sub{display:flex;align-items:center;justify-content:space-between;min-height:44px;padding:.5rem 0;border-bottom:1px solid rgba(255,255,255,.04);text-decoration:none;-webkit-tap-highlight-color:transparent}
+.trg-mob-sub:last-child{border-bottom:none}
+.trg-mob-sub-name{font-size:.8rem;color:rgba(245,241,235,.92);font-weight:400}
+.trg-mob-sub-count{font-size:.62rem;color:rgba(245,241,235,.3)}
+
+/* View All CTA */
+.trg-mob-va{display:flex;align-items:center;justify-content:center;gap:.4rem;min-height:44px;margin-top:.5rem;padding:.6rem 1rem;background:rgba(196,86,42,.1);border:1px solid rgba(196,86,42,.25);border-radius:3px;font-family:'DM Sans',sans-serif;font-size:.68rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:#c4562a;text-decoration:none}
+.trg-mob-va::after{content:'→'}
+
+/* Footer links */
+.trg-mob-footer{padding:1rem 1.25rem 0;border-top:1px solid rgba(245,241,235,.08);display:flex;flex-direction:column}
+.trg-mob-flink{display:flex;align-items:center;gap:.6rem;min-height:48px;padding:.5rem 0;font-size:.82rem;color:rgba(245,241,235,.55);text-decoration:none;border-bottom:1px solid rgba(255,255,255,.04);-webkit-tap-highlight-color:transparent}
+.trg-mob-flink:last-child{border-bottom:none}
+.trg-mob-flink svg{color:#c4562a;flex-shrink:0}
+
+/* Newsletter */
+.trg-mob-nl{margin:1rem 1.25rem 2rem;padding:1rem;background:rgba(196,86,42,.08);border:1px solid rgba(196,86,42,.2);border-radius:4px;text-align:center}
+.trg-mob-nl-title{font-family:'Playfair Display',serif;font-size:.9rem;color:#f5f1eb;font-style:italic;margin-bottom:.3rem}
+.trg-mob-nl-text{font-size:.65rem;color:rgba(245,241,235,.3);line-height:1.5;margin-bottom:.75rem}
+.trg-mob-nl-btn{display:inline-flex;align-items:center;padding:.5rem 1.2rem;background:#c4562a;color:#fff;border:none;border-radius:2px;font-family:'DM Sans',sans-serif;font-size:.68rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;text-decoration:none}
+
+/* Brands tab */
+.trg-mob-bsearch{padding:.85rem 1.25rem;background:#1a1917;border-bottom:1px solid rgba(245,241,235,.08);position:sticky;top:0;z-index:5}
+.trg-mob-bsf{display:flex;align-items:center;gap:.6rem;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:0 .75rem}
+.trg-mob-bsf:focus-within{border-color:rgba(196,86,42,.5)}
+.trg-mob-bsf svg{color:rgba(245,241,235,.3);flex-shrink:0}
+.trg-mob-bsf:focus-within svg{color:rgba(196,86,42,.7)}
+.trg-mob-bin{flex:1;background:none;border:none;outline:none;font-family:'DM Sans',sans-serif;font-size:.82rem;color:#f5f1eb;padding:.7rem 0}
+.trg-mob-bin::placeholder{color:rgba(245,241,235,.3);font-style:italic}
+.trg-mob-bsx{background:none;border:none;cursor:pointer;font-size:.7rem;color:rgba(245,241,235,.3);padding:.25rem;display:none;-webkit-tap-highlight-color:transparent}
+.trg-mob-bsx.on{display:block}
+
+/* Brand count */
+.trg-mob-bcount{font-size:.62rem;color:rgba(245,241,235,.3);letter-spacing:.03em;padding:.65rem 1.25rem .6rem;border-bottom:1px solid rgba(245,241,235,.08);margin-top:.15rem}
+.trg-mob-bcount strong{color:rgba(196,86,42,.8);font-weight:500}
+
+/* Picks section */
+.trg-mob-bpicks-lbl{font-size:.52rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#c4562a;padding:.75rem 1.25rem .35rem;display:flex;align-items:center;gap:.5rem}
+.trg-mob-bpicks-lbl::after{content:'';flex:1;height:1px;background:rgba(196,86,42,.2)}
+.trg-mob-bpick{display:flex;align-items:center;justify-content:space-between;min-height:42px;padding:.3rem 1.25rem;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.04);-webkit-tap-highlight-color:transparent}
+.trg-mob-bpick:last-of-type{border-bottom:none}
+.trg-mob-bpick-name{font-size:.78rem;color:rgba(245,241,235,.92)}
+.trg-mob-bpick-dot{width:5px;height:5px;border-radius:50%;background:#c4562a;opacity:.6;flex-shrink:0}
+
+/* Rest section */
+.trg-mob-brest-lbl{font-size:.52rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(245,241,235,.3);padding:.6rem 1.25rem .35rem;display:flex;align-items:center;gap:.5rem}
+.trg-mob-brest-lbl::after{content:'';flex:1;height:1px;background:rgba(245,241,235,.08)}
+.trg-mob-brest-list{padding:0 1.25rem 2rem}
+.trg-mob-lt{font-size:.52rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#c4562a;padding:.7rem 0 .25rem;border-bottom:1px solid rgba(196,86,42,.2);margin-top:.4rem}
+.trg-mob-lt:first-child{margin-top:0}
+.trg-mob-bl{display:flex;align-items:center;min-height:40px;padding:.25rem 0;font-size:.76rem;color:rgba(245,241,235,.55);text-decoration:none;border-bottom:1px solid rgba(255,255,255,.03);-webkit-tap-highlight-color:transparent}
+.trg-mob-bl mark{background:rgba(196,86,42,.25);color:#f5f1eb;border-radius:2px;padding:0 1px}
+.trg-mob-bempty{padding:2rem 1.25rem;text-align:center;font-size:.8rem;color:rgba(245,241,235,.3);font-style:italic}
+}

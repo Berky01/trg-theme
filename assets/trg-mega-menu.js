@@ -1,4 +1,4 @@
-/* TRG Mega Menu v3.1.1773717858 */
+/* TRG Mega Menu v4.0 — desktop + mobile */
 (function(){
 'use strict';
 var P={shop:'trg-mm-p-shop',brands:'trg-mm-p-brands'},BK='trg-mm-bk',DK=990;
@@ -133,4 +133,257 @@ function esc(s){var d=document.createElement('div');d.textContent=s;return d.inn
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 window.addEventListener('resize',function(){if(!dk()&&op)close()});
 document.addEventListener('shopify:section:load',function(e){if(e.target&&e.target.querySelector&&(e.target.querySelector('header-menu')||e.target.querySelector('.trg-mm-p')))setTimeout(init,150)});
+})();
+
+
+/* ═══ TRG MOBILE MEGA MENU v4.0 ═══ */
+(function(){
+'use strict';
+var MK=990;
+function isMob(){return window.innerWidth<MK}
+
+/* ─── DRAWER OPEN/CLOSE ─── */
+var mobOpen=false;
+function openMob(){
+  var el=document.getElementById('trg-mob');
+  if(!el)return;
+  el.classList.add('on');el.setAttribute('aria-hidden','false');
+  document.body.style.overflow='hidden';
+  mobOpen=true;
+  initMobBrands();
+}
+function closeMob(){
+  var el=document.getElementById('trg-mob');
+  if(!el)return;
+  el.classList.remove('on');el.setAttribute('aria-hidden','true');
+  document.body.style.overflow='';
+  mobOpen=false;
+}
+
+/* Intercept Dwell hamburger on mobile */
+function hookHamburger(){
+  if(!isMob())return;
+  /* Dwell puts the hamburger in header-drawer or .header__icon--menu */
+  var btns=document.querySelectorAll('header-drawer button, .header__icon--menu, [aria-controls="menu-drawer"]');
+  btns.forEach(function(btn){
+    if(btn._trgHooked)return;
+    btn._trgHooked=true;
+    btn.addEventListener('click',function(e){
+      if(!isMob())return;
+      e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();
+      if(mobOpen)closeMob();else openMob();
+    },true);/* capture phase to beat Dwell */
+  });
+}
+
+/* Close button */
+function bindMobClose(){
+  var c=document.getElementById('trg-mob-close');
+  if(c)c.addEventListener('click',closeMob);
+  var bk=document.getElementById('trg-mob-bk');
+  if(bk)bk.addEventListener('click',closeMob);
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mobOpen)closeMob()});
+}
+
+/* ─── TAB SWITCHER ─── */
+function bindMobTabs(){
+  document.querySelectorAll('.trg-mob-tab').forEach(function(tab){
+    tab.addEventListener('click',function(){
+      document.querySelectorAll('.trg-mob-tab').forEach(function(t){t.classList.remove('on')});
+      document.querySelectorAll('.trg-mob-tc').forEach(function(c){c.classList.remove('on')});
+      tab.classList.add('on');
+      var tc=document.getElementById('trg-mob-tc-'+tab.dataset.mobTab);
+      if(tc)tc.classList.add('on');
+      var body=document.getElementById('trg-mob-body');
+      if(body)body.scrollTop=0;
+      if(tab.dataset.mobTab==='brands')initMobBrands();
+    });
+  });
+}
+
+/* ─── ACCORDION ─── */
+function bindMobAccordion(){
+  document.querySelectorAll('.trg-mob-fam-hdr').forEach(function(hdr){
+    hdr.addEventListener('click',function(){
+      var fam=hdr.closest('.trg-mob-fam');
+      var body=fam.querySelector('.trg-mob-fam-body');
+      var isOpen=fam.classList.contains('on');
+      /* Close others */
+      document.querySelectorAll('.trg-mob-fam.on').forEach(function(f){
+        if(f!==fam){f.classList.remove('on');f.querySelector('.trg-mob-fam-body').style.maxHeight='0'}
+      });
+      if(isOpen){fam.classList.remove('on');body.style.maxHeight='0'}
+      else{fam.classList.add('on');body.style.maxHeight=body.scrollHeight+'px';
+        setTimeout(function(){hdr.scrollIntoView({behavior:'smooth',block:'start'})},200);
+      }
+    });
+  });
+}
+
+/* ─── SWIPEABLE CHIPS ─── */
+function bindSwipeChips(){
+  document.querySelectorAll('[data-swipe]').forEach(function(el){
+    var startX,scrollL,isDrag=false;
+    el.addEventListener('touchstart',function(e){startX=e.touches[0].pageX;scrollL=el.scrollLeft},{passive:true});
+    el.addEventListener('touchmove',function(e){if(startX===undefined)return;el.scrollLeft=scrollL-(e.touches[0].pageX-startX)},{passive:true});
+    el.addEventListener('touchend',function(){startX=undefined},{passive:true});
+    /* Mouse drag for testing */
+    el.addEventListener('mousedown',function(e){isDrag=true;startX=e.pageX;scrollL=el.scrollLeft;el.classList.add('grabbing');e.preventDefault()});
+    window.addEventListener('mousemove',function(e){if(!isDrag)return;el.scrollLeft=scrollL-(e.pageX-startX)});
+    window.addEventListener('mouseup',function(){if(isDrag){isDrag=false;el.classList.remove('grabbing')}});
+  });
+}
+
+/* ─── BRANDS TAB (HYBRID) ─── */
+var mobBCat='all',mobBQ='',mobBrandsInited=false;
+
+function initMobBrands(){
+  if(mobBrandsInited)return;
+  mobBrandsInited=true;
+  bindMobBrandChips();
+  bindMobBrandSearch();
+  renderMobBrands();
+}
+
+function getMobBrands(){
+  /* Reuse desktop brand data */
+  var el=document.getElementById('trg-mm-bd');
+  if(el){try{var d=JSON.parse(el.textContent);if(Array.isArray(d)&&d.length>0)return d}catch(e){}}
+  /* Fallback: use the FB array from desktop IIFE — reconstruct from DOM */
+  var links=document.querySelectorAll('#trg-mm-bg .trg-mm-bl');
+  if(links.length>0){
+    return Array.from(links).map(function(a){
+      var h=a.getAttribute('href')||'';
+      var slug=h.replace('/pages/','');
+      return{name:a.textContent,slug:slug,category:''};
+    });
+  }
+  return[];
+}
+
+var _mobBrands=null;
+function mobBrands(){
+  if(!_mobBrands)_mobBrands=getMobBrands();
+  return _mobBrands;
+}
+
+/* Rough priority: brands with shorter names in top categories tend to be higher priority.
+   For a real implementation, add a "priority" field to the brand metaobject.
+   For now, use a hardcoded set of "picks" slugs. */
+var PICKS=new Set(['a-p-c','allen-edmonds','arcteryx','asket','auralee','barbour','belstaff','brooks-brothers',
+'buck-mason','canada-goose','carhartt-wip','carmina','churchs','corridor','crockett-and-jones','drakes',
+'edward-green','engineered-garments','filson','folk','grant-stone','inis-meain','iron-heart','isaia',
+'j-crew','john-lobb','john-smedley','johnstons-of-elgin','kiton','lady-white-co','lemaire',
+'mackintosh','margaret-howell','meermin','momotaro','naked-and-famous','nigel-cabourn','norse-projects',
+'our-legacy','paraboot','patagonia','private-white-vc','pure-blue-japan','red-wing-heritage',
+'ring-jacket','rogue-territory','schott-nyc','sefr','spier-and-mackay','stone-island',
+'studio-nicholson','suitsupply','sunspel','taylor-stitch','the-armoury','todd-snyder',
+'trickers','viberg','william-lockie']);
+
+function isPick(b){return PICKS.has(b.slug)}
+
+function renderMobBrands(){
+  var all=mobBrands().slice();
+  var cat=mobBCat,q=mobBQ;
+  if(cat&&cat!=='all')all=all.filter(function(b){return b.category===cat});
+  if(q)all=all.filter(function(b){return b.name.toLowerCase().indexOf(q)!==-1});
+  all.sort(function(a,b){return a.name.replace(/^[^a-zA-Z]+/,'').localeCompare(b.name.replace(/^[^a-zA-Z]+/,''),'en',{sensitivity:'base'})});
+
+  var picks=all.filter(isPick);
+  var rest=all.filter(function(b){return!isPick(b)});
+  var total=picks.length+rest.length;
+
+  var countEl=document.getElementById('trg-mob-bcount');
+  if(countEl)countEl.innerHTML='<strong>'+total+'</strong> brand'+(total!==1?'s':'');
+
+  var clearEl=document.getElementById('trg-mob-bsx');
+  if(clearEl)clearEl.classList.toggle('on',!!q);
+
+  var picksEl=document.getElementById('trg-mob-bpicks');
+  var restEl=document.getElementById('trg-mob-brest');
+
+  if(!total){
+    if(picksEl)picksEl.innerHTML='';
+    if(restEl)restEl.innerHTML='<div class="trg-mob-bempty">No brands found.</div>';
+    return;
+  }
+
+  /* Picks */
+  if(picksEl){
+    if(picks.length){
+      var ph='<div class="trg-mob-bpicks-lbl">Our Picks</div>';
+      ph+=picks.map(function(b){
+        var d=hl(b.name,q);
+        return'<a href="/pages/brands/'+b.slug+'" class="trg-mob-bpick"><span class="trg-mob-bpick-name">'+d+'</span><span class="trg-mob-bpick-dot"></span></a>';
+      }).join('');
+      picksEl.innerHTML=ph;
+    }else{picksEl.innerHTML=''}
+  }
+
+  /* Rest A-Z */
+  if(restEl){
+    if(rest.length){
+      var rh='<div class="trg-mob-brest-lbl">All Brands</div><div class="trg-mob-brest-list">';
+      var gr={};
+      rest.forEach(function(b){var l=b.name.replace(/^[^a-zA-Z]+/,'').charAt(0).toUpperCase()||'#';if(!gr[l])gr[l]=[];gr[l].push(b)});
+      Object.keys(gr).sort().forEach(function(l){
+        rh+='<div class="trg-mob-lt">'+l+'</div>';
+        gr[l].forEach(function(b){rh+='<a href="/pages/brands/'+b.slug+'" class="trg-mob-bl">'+hl(b.name,q)+'</a>'});
+      });
+      rh+='</div>';
+      restEl.innerHTML=rh;
+    }else{restEl.innerHTML=''}
+  }
+}
+
+function hl(name,q){
+  if(!q)return esc(name);
+  var i=name.toLowerCase().indexOf(q);
+  if(i<0)return esc(name);
+  return esc(name.slice(0,i))+'<mark>'+esc(name.slice(i,i+q.length))+'</mark>'+esc(name.slice(i+q.length));
+}
+function esc(s){var d=document.createElement('div');d.textContent=s;return d.innerHTML}
+
+function bindMobBrandChips(){
+  document.querySelectorAll('#trg-mob-bchips .trg-mob-chip').forEach(function(chip){
+    chip.addEventListener('click',function(){
+      document.querySelectorAll('#trg-mob-bchips .trg-mob-chip').forEach(function(c){c.classList.remove('on')});
+      chip.classList.add('on');
+      mobBCat=chip.dataset.bcat||'all';
+      renderMobBrands();
+      /* Reset scroll */
+      var body=document.getElementById('trg-mob-body');
+      if(body){
+        var tc=document.getElementById('trg-mob-tc-brands');
+        if(tc)tc.scrollTop=0;
+      }
+    });
+  });
+}
+
+function bindMobBrandSearch(){
+  var i=document.getElementById('trg-mob-bi');
+  var x=document.getElementById('trg-mob-bsx');
+  if(i){
+    i.addEventListener('input',function(){mobBQ=i.value.trim().toLowerCase();renderMobBrands()});
+  }
+  if(x){
+    x.addEventListener('click',function(){if(i){i.value='';i.focus()};mobBQ='';renderMobBrands()});
+  }
+}
+
+/* ─── INIT ─── */
+function initMob(){
+  hookHamburger();
+  bindMobClose();
+  bindMobTabs();
+  bindMobAccordion();
+  bindSwipeChips();
+}
+
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initMob);else initMob();
+/* Re-hook on section load */
+document.addEventListener('shopify:section:load',function(){setTimeout(function(){hookHamburger();bindMobAccordion();bindSwipeChips()},200)});
+/* Re-hook on resize */
+window.addEventListener('resize',function(){hookHamburger();if(!isMob()&&mobOpen)closeMob()});
 })();

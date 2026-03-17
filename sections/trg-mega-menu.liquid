@@ -1,4 +1,4 @@
-{% comment %}nuke1773718112{% endcomment %}
+{% comment %}trg-mm-v4.0{% endcomment %}
 {%- liquid
   assign bd = shop.metaobjects['brand']
   assign has_mo = false
@@ -166,6 +166,149 @@
 </div>
 
 <script id="trg-mm-bd" type="application/json">{%- if has_mo -%}[{%- for brand in bd.values -%}{%- if brand.status == 'Active' or brand.status == blank -%}{"name":{{ brand.name | json }},"slug":{{ brand.slug | default: brand.name | handleize | json }},"category":{{ brand.primary_category | default: '' | handleize | json }}}{% unless forloop.last %},{% endunless %}{%- endif -%}{%- endfor -%}]{%- else -%}[]{%- endif -%}</script>
+
+
+{%- comment -%}
+  ══════ MOBILE MEGA MENU DRAWER (≤989px) ══════
+  Reads from the same section blocks as desktop.
+  JS shows/hides this; Dwell native drawer is hidden via CSS.
+{%- endcomment -%}
+<div class="trg-mob" id="trg-mob" aria-hidden="true">
+  <div class="trg-mob-bk" id="trg-mob-bk"></div>
+  <div class="trg-mob-drawer">
+    <div class="trg-mob-head">
+      <a href="/" class="trg-mob-logo">The <span>Right</span> Garment</a>
+      <button class="trg-mob-close" id="trg-mob-close" type="button" aria-label="Close menu">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="trg-mob-tabs">
+      <button class="trg-mob-tab on" data-mob-tab="shop" type="button">Shop by Type</button>
+      <button class="trg-mob-tab" data-mob-tab="brands" type="button">Brands</button>
+    </div>
+    <div class="trg-mob-body" id="trg-mob-body">
+
+      {%- comment -%}═══ SHOP BY TYPE TAB ═══{%- endcomment -%}
+      <div class="trg-mob-tc on" id="trg-mob-tc-shop">
+        {%- assign mfi = 0 -%}
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'family' -%}
+            {%- liquid
+              assign mft = block.settings.title_override
+              if mft == blank and block.settings.collection != blank
+                assign mft = block.settings.collection.title
+              endif
+              if mft == blank
+                assign mft = 'Untitled'
+              endif
+              assign mfu = block.settings.title_override | default: 'all' | handleize | prepend: '/collections/'
+              if block.settings.collection != blank and block.settings.collection.url != blank
+                assign mfu = block.settings.collection.url
+              endif
+            -%}
+            {%- comment -%}Close previous family body if open{%- endcomment -%}
+            {%- if mfi > 0 -%}
+              </div></div></div>
+            {%- endif -%}
+            <div class="trg-mob-fam" data-fam-idx="{{ mfi }}">
+              <button class="trg-mob-fam-hdr" type="button">
+                <div class="trg-mob-fam-left">
+                  <span class="trg-mob-fam-name">{{ mft }}</span>
+                  {%- if block.settings.subtitle != blank -%}<span class="trg-mob-fam-count">{{ block.settings.subtitle }}</span>{%- endif -%}
+                </div>
+                <svg class="trg-mob-chv" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+              </button>
+              <div class="trg-mob-fam-body"><div class="trg-mob-fam-inner">
+                {%- if block.settings.chips != blank -%}
+                  <span class="trg-mob-lbl">Style aesthetic</span>
+                  <div class="trg-mob-chips" data-swipe>
+                    {%- assign mchips = block.settings.chips | split: ',' -%}
+                    {%- for chip in mchips -%}
+                      <a href="{{ mfu }}" class="trg-mob-chip{% if forloop.first %} on{% endif %}">{{ chip | strip }}</a>
+                    {%- endfor -%}
+                  </div>
+                {%- endif -%}
+                {%- assign msubs_started = false -%}
+            {%- assign mfi = mfi | plus: 1 -%}
+
+          {%- elsif block.type == 'subcategory' and mfi > 0 -%}
+            {%- unless msubs_started -%}
+              <span class="trg-mob-lbl">Shop by type</span>
+              <div class="trg-mob-subs">
+              {%- assign msubs_started = true -%}
+            {%- endunless -%}
+            {%- liquid
+              assign mst = block.settings.title_override
+              if mst == blank and block.settings.collection != blank
+                assign mst = block.settings.collection.title
+              endif
+              if mst == blank
+                assign mst = 'Untitled'
+              endif
+              assign msu = block.settings.title_override | default: 'all' | handleize | prepend: '/collections/'
+              if block.settings.collection != blank and block.settings.collection.url != blank
+                assign msu = block.settings.collection.url
+              endif
+            -%}
+            <a href="{{ msu }}" class="trg-mob-sub">
+              <span class="trg-mob-sub-name">{{ mst }}</span>
+              {%- if block.settings.count != blank -%}<span class="trg-mob-sub-count">{{ block.settings.count }}</span>{%- endif -%}
+            </a>
+          {%- endif -%}
+        {%- endfor -%}
+        {%- if mfi > 0 -%}
+          {%- if msubs_started -%}</div>{%- endif -%}
+          <a href="{{ mfu }}" class="trg-mob-va">View all {{ mft | downcase }}</a>
+          </div></div></div>
+        {%- endif -%}
+
+        {%- comment -%}Footer links{%- endcomment -%}
+        <div class="trg-mob-footer">
+          <a href="/blogs/journal" class="trg-mob-flink"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h4l2 3h8a2 2 0 012 2v9a2 2 0 01-2 2z"/></svg>Journal</a>
+          <a href="/pages/about" class="trg-mob-flink"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>About</a>
+          <a href="/pages/submit-brand" class="trg-mob-flink"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>Submit a Brand</a>
+        </div>
+        <div class="trg-mob-nl">
+          <div class="trg-mob-nl-title">The Right Edit</div>
+          <div class="trg-mob-nl-text">Curated menswear picks, brand deep-dives, and style notes — delivered weekly.</div>
+          <a href="/pages/newsletter" class="trg-mob-nl-btn">Subscribe</a>
+        </div>
+      </div>
+
+      {%- comment -%}═══ BRANDS TAB ═══{%- endcomment -%}
+      <div class="trg-mob-tc" id="trg-mob-tc-brands">
+        <div class="trg-mob-bsearch" id="trg-mob-bsearch">
+          <div class="trg-mob-bsf">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
+            <input type="text" id="trg-mob-bi" class="trg-mob-bin" placeholder="Search 460+ brands…" autocomplete="off" spellcheck="false">
+            <button class="trg-mob-bsx" id="trg-mob-bsx" type="button">✕</button>
+          </div>
+        </div>
+        <div class="trg-mob-bchips" data-swipe id="trg-mob-bchips">
+          <button class="trg-mob-chip on" data-bcat="all" type="button">All</button>
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'brand_category' -%}
+              {%- liquid
+                assign bctt = block.settings.title_override
+                if bctt == blank and block.settings.collection != blank
+                  assign bctt = block.settings.collection.title
+                endif
+                if bctt == blank
+                  assign bctt = 'Untitled'
+                endif
+              -%}
+              <button class="trg-mob-chip" data-bcat="{{ bctt | handleize }}" type="button">{{ bctt }}</button>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+        <div class="trg-mob-bcount" id="trg-mob-bcount"></div>
+        <div class="trg-mob-bpicks" id="trg-mob-bpicks"></div>
+        <div class="trg-mob-brest" id="trg-mob-brest"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
 
 {% schema %}
 {
