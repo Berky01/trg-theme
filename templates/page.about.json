@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero": {
@@ -8,8 +17,8 @@
         "alignment": "center",
         "show_pattern": true,
         "eyebrow": "Our Approach",
-        "title": "<p>Built for the guy who <em>already knows</em> what he wants</p>",
-        "body": "<p>The Right Garment is a curated menswear directory for quality-conscious buyers. No activewear. No fast fashion.</p>",
+        "title": "<p>Built for the guy who <em>already knows<\/em> what he wants<\/p>",
+        "body": "<p>The Right Garment is a curated menswear directory for quality-conscious buyers. No filler. No fast fashion.<\/p>",
         "meta_text": ""
       }
     },
@@ -20,8 +29,8 @@
           "type": "main_text",
           "settings": {
             "eyebrow": "Why we built this",
-            "title": "<p>The menswear internet is broken. <em>We are fixing the index.</em></p>",
-            "body": "<p>Most brand directories optimize for volume and novelty. We optimize for quality, relevance, and shopping clarity.</p>"
+            "title": "<p>The menswear internet is broken. <em>We are fixing the index.<\/em><\/p>",
+            "body": "<p>Most brand directories optimize for volume and novelty. We optimize for quality, relevance, and shopping clarity.<\/p>"
           }
         },
         "quote": {
@@ -34,8 +43,8 @@
           "type": "main_text",
           "settings": {
             "eyebrow": "How curation works",
-            "title": "<p>Every brand is <em>manually evaluated.</em></p>",
-            "body": "<p>Each listing is reviewed for quality signals, durability expectations, and shipping practicality for Canadian and US buyers.</p>"
+            "title": "<p>Every brand is <em>manually evaluated.<\/em><\/p>",
+            "body": "<p>Each listing is reviewed for quality signals, durability expectations, and shipping practicality for Canadian and US buyers.<\/p>"
           }
         },
         "principle_1": {
@@ -62,7 +71,7 @@
         "principle_4": {
           "type": "principle",
           "settings": {
-            "title": "No activewear, no fast fashion",
+            "title": "No filler, no fast fashion",
             "body": "This is a deliberate editorial scope built around long-term wardrobe quality."
           }
         },
@@ -98,16 +107,16 @@
           "type": "sidebar_card",
           "settings": {
             "heading": "Who's behind this",
-            "body": "<p>The Right Garment is an independent project built by a small team in Montreal.</p><p>We have no investors and no paid editorial relationships.</p>"
+            "body": "<p>The Right Garment is an independent project built by a small team in Montreal.<\/p><p>We have no investors and no paid editorial relationships.<\/p>"
           }
         },
         "cta": {
           "type": "sidebar_cta",
           "settings": {
             "title": "The occasional well-edited email",
-            "body": "<p>New brands, restocks, and shopping intelligence. No noise.</p>",
+            "body": "<p>New brands, restocks, and shopping intelligence. No noise.<\/p>",
             "button_label": "Subscribe",
-            "button_link": "shopify://pages/contact"
+            "button_link": "shopify:\/\/pages\/contact"
           }
         }
       },

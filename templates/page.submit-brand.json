@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero": {
@@ -8,8 +17,8 @@
         "alignment": "left",
         "show_pattern": false,
         "eyebrow": "Community",
-        "title": "<p>Submit a Brand</p>",
-        "body": "<p>Know a menswear brand that belongs in the directory? We review every submission manually.</p>",
+        "title": "<p>Submit a Brand<\/p>",
+        "body": "<p>Know a menswear brand that belongs in the directory? We review every submission manually.<\/p>",
         "meta_text": ""
       }
     },
@@ -20,35 +29,35 @@
           "type": "criteria_item",
           "settings": {
             "status": "pass",
-            "body": "<p><strong>Construction quality</strong> and long-term durability.</p>"
+            "body": "<p><strong>Construction quality<\/strong> and long-term durability.<\/p>"
           }
         },
         "criteria_2": {
           "type": "criteria_item",
           "settings": {
             "status": "pass",
-            "body": "<p><strong>Honest materials</strong> and transparent product language.</p>"
+            "body": "<p><strong>Honest materials<\/strong> and transparent product language.<\/p>"
           }
         },
         "criteria_3": {
           "type": "criteria_item",
           "settings": {
             "status": "pass",
-            "body": "<p><strong>Community reputation</strong> among serious menswear buyers.</p>"
+            "body": "<p><strong>Community reputation<\/strong> among serious menswear buyers.<\/p>"
           }
         },
         "criteria_4": {
           "type": "criteria_item",
           "settings": {
             "status": "fail",
-            "body": "<p><strong>No activewear</strong> in editorial scope.</p>"
+            "body": "<p><strong>No filler<\/strong> in editorial scope.<\/p>"
           }
         },
         "criteria_5": {
           "type": "criteria_item",
           "settings": {
             "status": "fail",
-            "body": "<p><strong>No fast fashion</strong> trend-cycle brands.</p>"
+            "body": "<p><strong>No fast fashion<\/strong> trend-cycle brands.<\/p>"
           }
         },
         "timeline_1": {
@@ -76,7 +85,7 @@
           "type": "sidebar_note",
           "settings": {
             "heading": "Brand representatives",
-            "body": "<p>You can submit your own brand. Please disclose affiliation for transparency.</p><p>Listings are editorial and unpaid.</p>"
+            "body": "<p>You can submit your own brand. Please disclose affiliation for transparency.<\/p><p>Listings are editorial and unpaid.<\/p>"
           }
         }
       },
@@ -94,8 +103,8 @@
       "settings": {
         "color_scheme": "scheme-1",
         "sticky_sidebar": true,
-        "embed_note": "<p>In production, replace this placeholder with your Tally embed code.</p>",
-        "review_note": "<p>Submissions are reviewed manually within 2 to 4 weeks.</p>",
+        "embed_note": "<p>In production, replace this placeholder with your Tally embed code.<\/p>",
+        "review_note": "<p>Submissions are reviewed manually within 2 to 4 weeks.<\/p>",
         "form_embed": "",
         "bottom_note": "We do not confirm each submission individually, but all entries are reviewed.",
         "criteria_heading": "What we look for",
