@@ -94,39 +94,7 @@
       {%- endpaginate -%}
     ]
   </script>
-  <script>
-    /* Paginate: fetch all remaining brand pages */
-    (function(){
-      var el = document.querySelector('[data-brands-json]');
-      if (!el) return;
-      var brands;
-      try { brands = JSON.parse(el.textContent); } catch(e){ return; }
-      var PS = 50;
-      if (brands.length < PS) return;
-      var sid = el.closest('[data-id]').dataset.id;
-      var bp = window.location.pathname;
-      var pg = 2;
-      function next() {
-        fetch(bp + '?page=' + pg + '&section_id=' + sid)
-          .then(function(r){ return r.text(); })
-          .then(function(html){
-            var m = html.match(/data-brands-json[^>]*>([\s\S]*?)<\/script>/);
-            if (m) {
-              try {
-                var more = JSON.parse(m[1]);
-                if (more.length) {
-                  brands = brands.concat(more);
-                  el.textContent = JSON.stringify(brands);
-                  document.dispatchEvent(new CustomEvent('trg:brands-updated'));
-                  if (more.length >= PS) { pg++; next(); }
-                }
-              } catch(e){}
-            }
-          }).catch(function(){});
-      }
-      next();
-    })();
-  </script>
+  
   <script>
     /* Fix 39 brands where handleize differs from actual page handle */
     (function(){var C={"Arc'teryx": "arcteryx", "Berg & Berg": "berg-and-berg", "Bryceland's": "brycelands", "Buzz Rickson's": "buzz-ricksons", "Cad & The Dandy": "cad-and-the-dandy", "Church's": "churchs", "Colhay's": "colhays", "Crockett & Jones": "crockett-and-jones", "Ede & Ravenscroft": "ede-and-ravenscroft", "Gaziano & Girling": "gaziano-and-girling", "Hawes & Curtis": "hawes-and-curtis", "Hilditch & Key": "hilditch-and-key", "L'Estrange London": "lestrange-london", "Levi's Vintage Clothing": "levis-vintage-clothing", "Mott & Bow": "mott-and-bow", "Naked & Famous": "naked-and-famous", "Outstanding & Co.": "outstanding-and-co", "Petru & Claymoor": "petru-and-claymoor", "Rancourt & Co": "rancourt-and-co", "Saint Crispin's": "saint-crispins", "Sanders & Sanders": "sanders-and-sanders", "Spier & Mackay": "spier-and-mackay", "Studio D'Artisan": "studio-dartisan", "The Real McCoy's": "the-real-mccoys", "Toad&Co": "toad-and-co", "Tricker's": "trickers", "Turnbull & Asser": "turnbull-and-asser", "White's Boots": "whites-boots", "Warehouse & Co.": "warehouse-and-co", "Mason's": "masons", "Paul & Shark": "paul-and-shark", "A Day's March": "a-days-march", "Begg & Co": "begg-and-co", "Rodd & Gunn": "rodd-and-gunn", "Abaga": "abagavelli", "Roberto Collima": "roberto-collina", "georgecleverley": "george-cleverley", "Ascotchang": "ascot-chang", "Pringlescotland": "pringle-of-scotland"};function fix(){var el=document.querySelector('[data-brands-json]');if(!el)return;try{var b=JSON.parse(el.textContent),n=0;b.forEach(function(x){if(C[x.name]){x.handle=C[x.name];x.url='/pages/'+C[x.name];n++;}});if(n){el.textContent=JSON.stringify(b);document.dispatchEvent(new CustomEvent('trg:brands-updated'));}}catch(e){}}fix();document.addEventListener('trg:brands-updated',function(){setTimeout(fix,100);});})();
