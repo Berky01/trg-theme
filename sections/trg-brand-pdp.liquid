@@ -2,6 +2,9 @@
 {%- liquid
   assign all_brands = shop.metaobjects['brand'].values
   assign page_slug = page.handle | remove: 'brands/'
+  if page_slug == page.handle
+    assign page_slug = page.handle | remove: 'brands-'
+  endif
   assign brand = nil
   for b in all_brands
     assign bslug = b.slug | default: b.name | handleize
