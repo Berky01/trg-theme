@@ -265,12 +265,6 @@
           </div></div></div>
         {%- endif -%}
 
-        {%- comment -%}Primary CTAs{%- endcomment -%}
-        <div class="trg-mob-ctas">
-          <a href="/collections/all" class="trg-mob-cta-primary">Browse All Products →</a>
-          <a href="/pages/brands" class="trg-mob-cta-secondary">View All 460+ Brands →</a>
-        </div>
-
         {%- comment -%}Footer links{%- endcomment -%}
         <div class="trg-mob-footer">
           <a href="/blogs/journal" class="trg-mob-flink"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h4l2 3h8a2 2 0 012 2v9a2 2 0 01-2 2z"/></svg>Journal</a>
@@ -313,88 +307,645 @@
         <div class="trg-mob-bcount" id="trg-mob-bcount"></div>
         <div class="trg-mob-bpicks" id="trg-mob-bpicks"></div>
         <div class="trg-mob-brest" id="trg-mob-brest"></div>
-        <div class="trg-mob-ctas" style="margin-top:.5rem">
-          <a href="/pages/brands" class="trg-mob-cta-primary">View Full Brand Directory →</a>
-          <a href="/collections/all" class="trg-mob-cta-secondary">Browse All Products →</a>
-        </div>
-
       </div>
 
     </div>
   </div>
 </div>
 
-{%- comment -%}Mobile hotfix v2 — self-contained, uses window._trgFB from external JS{%- endcomment -%}
+
+{%- comment -%}TRG Mobile Hotfix v3 — fully self-contained brands + fixes{%- endcomment -%}
+<script id="trg-mob-data" type="text/plain">032C|032c|casualwear|L
+100 Hands|100-hands|formalwear|L
+3.Paradis|3-paradis|casualwear|M
+3sixteen|3sixteen|casualwear|H
+73London|73london|formalwear|L
+A Day's March|a-days-march|casualwear|M
+A Kind of Guise|a-kind-of-guise|casualwear|M
+A.P.C.|a-p-c|casualwear|H
+A.PRESSE|a-presse|casualwear|M
+Abaga|abagavelli|casualwear|L
+Ace Marks|ace-marks|footwear|M
+Acne Studios|acne-studios|casualwear|H
+Agolde|agolde|casualwear|M
+Aime Leon Dore|aime-leon-dore|casualwear|H
+Albam|albam|casualwear|M
+Alden|alden|footwear|H
+Alex Mill|alex-mill|casualwear|M
+Allen Edmonds|allen-edmonds|footwear|H
+Ambrosi Napoli|ambrosi-napoli|formalwear|L
+American Giant|american-giant|basics|H
+American Trench|american-trench|accessories|H
+AMI Paris|ami-paris|casualwear|H
+Amiri|amiri|formalwear|L
+Anderson and Sheppard|anderson-and-sheppard|formalwear|L
+Anglo-Italian|anglo-italian|formalwear|H
+Another Aspect|another-aspect|casualwear|M
+Anovair|anovair|casualwear|M
+Anthology|anthology|formalwear|M
+Aran Sweater Market|aran-sweater-market|knitwear|L
+Arc'teryx|arcteryx|outerwear|H
+Arpenteur|arpenteur|casualwear|H
+Ascotchang|ascot-chang|formalwear|L
+Asics|asics|footwear|M
+Asket|asket|basics|H
+Aspesi|aspesi|casualwear|M
+Astorflex|astorflex|footwear|M
+Aubercy|aubercy|footwear|L
+August Special|august-special|footwear|M
+Auralee|auralee|casualwear|H
+Aurelien|aurelien|footwear|H
+AvVattev|avvattev|formalwear|L
+AYR|ayr|casualwear|M
+Banana Republic|banana-republic|formalwear|L
+Baracuta|baracuta|outerwear|M
+Barbanera|barbanera|casualwear|M
+Barbarian|barbarian|casualwear|M
+Barbour|barbour|outerwear|H
+Barena Venezia|barena-venezia|casualwear|H
+Barker|barker|footwear|M
+Bather|bather|casualwear|M
+Batoner|batoner|basics|M
+Baudoin and Lange|baudoin-and-lange|footwear|H
+Beams Plus|beams-plus|casualwear|H
+Beckett Simonon|beckett-simonon|footwear|M
+Begg & Co|begg-and-co|knitwear|M
+Bellief|bellief|formalwear|M
+Belstaff|belstaff|outerwear|M
+Berg & Berg|berg-and-berg|formalwear|M
+Berluti|berluti|footwear|M
+Berwick 1707|berwick-1707|footwear|M
+Bigi|bigi|accessories|L
+Billy Reid|billy-reid|casualwear|M
+Bleu de Paname|bleu-de-paname|casualwear|M
+Blkbrd Shoemaker|blkbrd-shoemaker|footwear|M
+Blue Blue Japan|blue-blue-japan|casualwear|M
+Blundstone|blundstone|footwear|H
+Bode|bode|formalwear|L
+Boglioli|boglioli|formalwear|M
+Bonobos|bonobos|casualwear|M
+Bontoni|bontoni|footwear|L
+Bordon Boots|bordon-boots|footwear|M
+Bosie Knitwear|bosie-knitwear|knitwear|M
+Bottega Veneta|bottega-veneta|accessories|H
+Brass Tokyo|brass-tokyo|casualwear|L
+Bridlen|bridlen|footwear|M
+Brioni|brioni|formalwear|H
+Bronson Mfg. Co.|bronson-mfg-co|denim|M
+Brooks Brothers|brooks-brothers|formalwear|H
+Brunello Cucinelli|brunello-cucinelli|casualwear|M
+Brut|brut|casualwear|M
+Bryceland's|brycelands|casualwear|M
+Buck Mason|buck-mason|casualwear|M
+Buzz Rickson's|buzz-ricksons|outerwear|H
+Cad & The Dandy|cad-and-the-dandy|formalwear|M
+Camoshita|camoshita|formalwear|M
+Canada Goose|canada-goose|outerwear|H
+Canali|canali|formalwear|M
+Carhartt WIP|carhartt-wip|workwear|H
+Carlos Santos|carlos-santos|footwear|H
+Carmina|carmina|footwear|H
+Caruso|caruso|formalwear|M
+Casatlantic|casatlantic|casualwear|M
+Casey Casey|casey-casey|casualwear|L
+Cavour|cavour|formalwear|L
+CDLP|cdlp|basics|H
+Cesare Attolini|cesare-attolini|formalwear|H
+Chapal|chapal|outerwear|M
+Charles Tyrwhitt|charles-tyrwhitt|formalwear|H
+Cheaney|cheaney|footwear|M
+Christian Dior|christian-dior|formalwear|L
+Christian Kimber|christian-kimber|footwear|H
+Church's|churchs|footwear|M
+Ciele Athletics|ciele-athletics|casualwear|M
+Cifonelli|cifonelli|formalwear|M
+Clarks|clarks|footwear|H
+Closed|closed|casualwear|H
+Club Monaco|club-monaco|casualwear|H
+Cobbler Union|cobbler-union|footwear|H
+Coherence|coherence|outerwear|M
+Colhay's|colhays|knitwear|H
+Cookman|cookman|casualwear|L
+Corneliani|corneliani|formalwear|M
+Corridor|corridor|casualwear|M
+Corthay|corthay|formalwear|M
+COS|cos|casualwear|M
+CP Company|cp-company|outerwear|H
+CQP|cqp|footwear|M
+Crescent Down Works|crescent-down-works|outerwear|L
+Crockett & Jones|crockett-and-jones|footwear|H
+Crown Northampton|crown-northampton|footwear|H
+Dale of Norway|dale-of-norway|knitwear|M
+Danner|danner|footwear|H
+Danton|danton|casualwear|H
+De Bonne Facture|de-bonne-facture|casualwear|L
+Dehen 1920|dehen-1920|outerwear|H
+Derek Rose|derek-rose|basics|M
+Dickies|dickies|basics|M
+Document|document|casualwear|M
+Doppiaa|doppiaa|casualwear|M
+Drakes|drakes|formalwear|M
+Drumohr|drumohr|knitwear|M
+Drôle de Monsieur|drole-de-monsieur|casualwear|M
+Duckworth|duckworth|knitwear|H
+E. Marinella|e-marinella|formalwear|M
+East Harbour Surplus|east-harbour-surplus|casualwear|L
+Eastlogue|eastlogue|casualwear|M
+eckhauslatta|eckhauslatta|casualwear|L
+Ede & Ravenscroft|ede-and-ravenscroft|formalwear|L
+Edward Green|edward-green|footwear|H
+Edwin|edwin|denim|M
+Eleventy|eleventy|formalwear|H
+Emma Willis|emma-willis|formalwear|L
+Engineered Garments|engineered-garments|workwear|M
+Enzo Bonafe|enzo-bonafe|footwear|H
+Epaulet|epaulet|casualwear|M
+Eton Shirts|eton-shirts|formalwear|H
+Evan Kinori|evan-kinori|casualwear|M
+Everlane|everlane|basics|M
+Faherty Brand|faherty-brand|casualwear|H
+Falconeri|falconeri|knitwear|M
+Far Afield|far-afield|casualwear|L
+Fedeli|fedeli|knitwear|M
+Feit|feit|footwear|M
+Filson|filson|outerwear|H
+Finamore|finamore|formalwear|H
+Fisherman Out of Ireland|fisherman-out-of-ireland|knitwear|M
+Flint and Tinder|flint-and-tinder|basics|M
+Folk|folk|casualwear|M
+Forét|foret|casualwear|M
+Foster And Son|foster-and-son|footwear|L
+Frank And Oak|frank-and-oak|casualwear|H
+Frank Leder|frank-leder|casualwear|M
+Freenote Cloth|freenote-cloth|casualwear|M
+Frescobol Carioca|frescobol-carioca|casualwear|M
+FrizmWORKS|frizmworks|casualwear|M
+Fujito|fujito|casualwear|M
+Fullcount|fullcount|denim|M
+Gaziano & Girling|gaziano-and-girling|formalwear|M
+georgecleverley|george-cleverley|footwear|L
+Ghiaia Cashmere|ghiaia-cashmere|knitwear|M
+Gitman Vintage|gitman-vintage|formalwear|M
+Giuliva Heritage|giuliva-heritage|formalwear|M
+Glanshirt|glanshirt|casualwear|M
+Goldwin|goldwin|outerwear|M
+Good Man Brand|good-man-brand|casualwear|M
+GORAL|goral|footwear|M
+Gran Sasso|gran-sasso|casualwear|H
+Grant Stone|grant-stone|footwear|H
+Graph Zero|graph-zero|denim|M
+Grenson|grenson|footwear|M
+Gustin|gustin|denim|M
+Hamilton Shirts|hamilton-shirts|formalwear|M
+Hansen Garments|hansen-garments|casualwear|M
+Harris Tweed Hebrides|harris-tweed-hebrides|casualwear|L
+Harris Wharf London|harris-wharf-london|outerwear|M
+HAVEN|haven|casualwear|M
+Hawes & Curtis|hawes-and-curtis|formalwear|M
+Heimat Textil|heimat-textil|basics|M
+Herill|herill|casualwear|M
+Herno|herno|outerwear|M
+Herring Shoes|herring-shoes|footwear|M
+Heschung|heschung|footwear|M
+Hestra|hestra|accessories|M
+Hilditch & Key|hilditch-and-key|formalwear|M
+Hiro Yanagimachi|hiro-yanagimachi|formalwear|L
+Holzweiler|holzweiler|casualwear|M
+House of Blanks|house-of-blanks|basics|M
+Husbands|husbands|formalwear|M
+Imogene + Willie|imogene-willie|workwear|H
+Incotex|incotex|formalwear|H
+Informale|informale|formalwear|L
+Inis Meáin|inis-meain|knitwear|H
+Inverallan|inverallan|knitwear|M
+IrelandsEye|irelandseye|knitwear|M
+Iron Heart|iron-heart|denim|H
+Isaia|isaia|formalwear|M
+J. FitzPatrick|j-fitzpatrick|footwear|M
+J.Crew|j-crew|casualwear|M
+J.M. Weston|j-m-weston|footwear|H
+Jacob Cohën|jacob-cohen|denim|M
+Jacquemus|jacquemus|casualwear|L
+James Coward|james-coward|casualwear|M
+Japan Blue Jeans|japan-blue-jeans|denim|M
+Jil Sander|jil-sander|casualwear|L
+Jim Green|jim-green|footwear|M
+JL-AL|jl-al|casualwear|L
+John Lobb|john-lobb|formalwear|M
+John Lofgren|john-lofgren|footwear|H
+John Smedley|john-smedley|knitwear|H
+Johnstons of Elgin|johnstons-of-elgin|knitwear|H
+Joseph Cheaney|joseph-cheaney|footwear|H
+Justo Gimeno|justo-gimeno|footwear|M
+Kamakura|kamakura|casualwear|M
+Kanata|kanata|knitwear|H
+Kapital|kapital|casualwear|M
+Kaptain Sunshine|kaptain-sunshine|casualwear|M
+Kardo|kardo|casualwear|M
+Kartik Research|kartik-research|casualwear|M
+Kent Wang|kent-wang|formalwear|M
+KESTIN|kestin|casualwear|H
+Kiko Kostadinov|kiko-kostadinov|casualwear|L
+Kith|kith|casualwear|H
+Kiton|kiton|formalwear|H
+Knickerbocker|knickerbocker|basics|H
+Kotn|kotn|basics|H
+L'Estrange London|lestrange-london|basics|M
+L.B.M. 1911|l-b-m-1911|formalwear|H
+La Botte Gardiane|la-botte-gardiane|footwear|M
+La Paz|la-paz|casualwear|M
+Labour Union|labour-union|casualwear|L
+Lady White Co.|lady-white-co|casualwear|H
+Lardini|lardini|formalwear|M
+Lavenham|lavenham|outerwear|M
+Le Laboureur|le-laboureur|workwear|H
+Lee|lee|workwear|L
+Left Field NYC|left-field-nyc|denim|M
+Lemaire|lemaire|casualwear|M
+Levi's Vintage Clothing|levis-vintage-clothing|denim|H
+LL Bean|ll-bean|outerwear|H
+Loake|loake|footwear|H
+Loro Piana|loro-piana|knitwear|M
+Ludwig Reiter|ludwig-reiter|footwear|M
+Luigi Bianchi Mantova|luigi-bianchi-mantova|formalwear|M
+Luigi Borrelli|luigi-borrelli|formalwear|M
+Mackintosh|mackintosh|outerwear|M
+Madewell|madewell|casualwear|M
+Magee 1866|magee-1866|formalwear|H
+MAN 1924|man-1924|accessories|L
+Mango Man|mango-man|casualwear|L
+Manifattura Ceccarelli|manifattura-ceccarelli|outerwear|M
+Margaret Howell|margaret-howell|casualwear|M
+Marka|marka|casualwear|M
+Mason's|masons|casualwear|M
+Massimo Alba|massimo-alba|casualwear|H
+Maurizio Baldassari|maurizio-baldassari|casualwear|M
+Meccariello|meccariello|footwear|L
+Meermin|meermin|footwear|H
+Merz b. Schwanen|merz-b-schwanen|basics|H
+Mister Freedom|mister-freedom|casualwear|H
+Momotaro|momotaro|denim|H
+Monitaly|monitaly|casualwear|M
+MooRER|moorer|outerwear|M
+Moreschi|moreschi|footwear|L
+Mott & Bow|mott-and-bow|basics|M
+Muji|muji|basics|M
+Muttonhead|muttonhead|casualwear|M
+Myrqvist|myrqvist|footwear|M
+N. Hoolywood|n-hoolywood|casualwear|M
+N.Peal|n-peal|knitwear|M
+Naked & Famous|naked-and-famous|denim|H
+Nanamica|nanamica|outerwear|M
+Natalino|natalino|formalwear|L
+New Balance|new-balance|footwear|H
+Nicks Boots|nicks-boots|footwear|H
+Nigel Cabourn|nigel-cabourn|outerwear|M
+Nitto Knitwear|nitto-knitwear|knitwear|L
+NN07|nn07|casualwear|H
+Noah NYC|noah-nyc|casualwear|H
+NoManWalksAlone|nomanwalksalone|formalwear|M
+Nonnative|nonnative|casualwear|M
+Norda|norda|footwear|H
+Norhla|norhla|outerwear|L
+Norse Projects|norse-projects|casualwear|H
+Norwegian Rain|norwegian-rain|outerwear|H
+Nudie Jeans|nudie-jeans|casualwear|M
+Oak Street Bootmakers|oak-street-bootmakers|footwear|H
+OAS Company|oas-company|casualwear|H
+Octobre Éditions|octobre-editions|casualwear|M
+Officine Générale|officine-generale|formalwear|M
+Oliver Spencer|oliver-spencer|formalwear|M
+Oni Denim|oni-denim|denim|M
+Orazio Luciano|orazio-luciano|formalwear|H
+Orlebar Brown|orlebar-brown|casualwear|M
+Orslow|orslow|casualwear|H
+Our Legacy|our-legacy|casualwear|M
+Outclass|outclass|basics|M
+Outerknown|outerknown|casualwear|M
+Outlier|outlier|casualwear|H
+Outstanding & Co.|outstanding-and-co|casualwear|M
+Paraboot|paraboot|footwear|H
+Parel Studio|parel-studio|casualwear|L
+Parkhurst|parkhurst|footwear|M
+Patagonia|patagonia|outerwear|H
+Paul & Shark|paul-and-shark|casualwear|M
+Paul Smith|paul-smith|casualwear|H
+Pendleton|pendleton|outerwear|M
+Percival|percival|formalwear|M
+Peter Millar|peter-millar|casualwear|L
+Petru & Claymoor|petru-and-claymoor|formalwear|M
+Pike Brothers|pike-brothers|denim|M
+Pini Parma|pini-parma|formalwear|M
+Portuguese Flannel|portuguese-flannel|casualwear|H
+Poszetka|poszetka|accessories|L
+Prada|prada|casualwear|H
+Pringlescotland|pringle-of-scotland|knitwear|M
+Private White V.C.|private-white-v-c|outerwear|H
+Proper Cloth|proper-cloth|formalwear|H
+Province of Canada|province-of-canada|basics|M
+PT01 / PT Torino|pt01-pt-torino|formalwear|H
+Pure Blue Japan|pure-blue-japan|denim|H
+Pyrenex|pyrenex|outerwear|M
+Rancourt & Co|rancourt-and-co|footwear|M
+Re-HasH|re-hash|casualwear|M
+Red Wing|red-wing|footwear|H
+Red Wing Heritage|red-wing-heritage|footwear|H
+Reigning Champ|reigning-champ|casualwear|H
+Relwen|relwen|casualwear|M
+Resolute|resolute|denim|M
+Rick Owens|rick-owens|formalwear|L
+Ring Jacket|ring-jacket|formalwear|M
+Roberto Collima|roberto-collina|knitwear|L
+Rocky Mountain Featherbed|rocky-mountain-featherbed|outerwear|H
+Rodd & Gunn|rodd-and-gunn|casualwear|H
+Rogue Territory|rogue-territory|workwear|M
+Rolling Dub Trio|rolling-dub-trio|footwear|H
+Roots|roots|casualwear|M
+Rota|rota|formalwear|H
+RRD|rrd|outerwear|L
+RRL (Ralph Lauren)|rrl-ralph-lauren|workwear|H
+Rubinacci|rubinacci|formalwear|M
+Russell Moccasin|russell-moccasin|footwear|H
+Sagara / Ambiorix|sagara-ambiorix|footwear|L
+Sage de Cret|sage-de-cret|casualwear|M
+Sage Nation|sage-nation|casualwear|L
+Saint Crispin's|saint-crispins|footwear|M
+Salvatore Piccolo|salvatore-piccolo|formalwear|M
+Saman Amel|saman-amel|formalwear|H
+Samuelsohn|samuelsohn|formalwear|H
+Samurai Jeans|samurai-jeans|denim|M
+Sanders & Sanders|sanders-and-sanders|footwear|M
+Sandqvist|sandqvist|accessories|M
+Sandro|sandro|formalwear|M
+Santoni|santoni|footwear|M
+Sartoria Partenopea|sartoria-partenopea|formalwear|M
+Sartorio Napoli|sartorio-napoli|formalwear|H
+Sassafras|sassafras|casualwear|M
+Satisfy Running|satisfy-running|casualwear|M
+Saturdays NYC|saturdays-nyc|casualwear|M
+Save Khaki United|save-khaki-united|casualwear|H
+Scarosso|scarosso|footwear|M
+Schott NYC|schott-nyc|outerwear|H
+Scott Fraser|scott-fraser|knitwear|L
+Sease|sease|casualwear|L
+Septième Largeur|septieme-largeur|footwear|L
+Settefili Cashmere|settefili-cashmere|casualwear|M
+Shibumi Firenze|shibumi-firenze|accessories|L
+Shockoe Atelier|shockoe-atelier|denim|M
+Sid Mashburn|sid-mashburn|formalwear|H
+Silvano Lattanzi|silvano-lattanzi|formalwear|L
+SMR Days|smr-days|casualwear|L
+Snow Peak|snow-peak|outerwear|M
+Solovair|solovair|footwear|H
+Son of a Tailor|son-of-a-tailor|basics|H
+Soulland|soulland|casualwear|M
+Spencer Badu|spencer-badu|casualwear|M
+Spier & Mackay|spier-and-mackay|formalwear|H
+Stan Ray|stan-ray|casualwear|H
+Standard Types|standard-types|casualwear|M
+Stefano Bemer|stefano-bemer|formalwear|M
+Sterlingwear|sterlingwear|outerwear|H
+Stevenson Overall Co.|stevenson-overall-co|workwear|M
+Still by Hand|still-by-hand|casualwear|H
+Stoffa|stoffa|formalwear|M
+Stone Island|stone-island|outerwear|H
+Story Mfg.|story-mfg|casualwear|M
+Strike Gold|strike-gold|denim|M
+Studio D'Artisan|studio-dartisan|denim|H
+Studio Donegal|studio-donegal|knitwear|H
+Studio Nicholson|studio-nicholson|casualwear|M
+Stutterheim|stutterheim|outerwear|M
+Sugar Cane|sugar-cane|workwear|H
+Suitsupply|suitsupply|formalwear|H
+Sun Surf|sun-surf|casualwear|M
+Sunflower|sunflower|casualwear|M
+Sunspel|sunspel|basics|H
+Séfr|sefr|casualwear|H
+Tanuki|tanuki|denim|M
+Taylor Stitch|taylor-stitch|casualwear|H
+TCB Jeans|tcb-jeans|denim|H
+Tecovas|tecovas|footwear|H
+Tellason|tellason|denim|H
+Ten C|ten-c|outerwear|M
+Ten Thousand|ten-thousand|casualwear|M
+The Anthology|the-anthology|formalwear|L
+The Armoury|the-armoury|formalwear|H
+The Elder Statesman|the-elder-statesman|knitwear|M
+The Flat Head|the-flat-head|workwear|M
+The Gigi|the-gigi|accessories|L
+The Iron Snail|the-iron-snail|casualwear|H
+The Post Romantic|the-post-romantic|casualwear|M
+The Real McCoy's|the-real-mccoys|casualwear|H
+The Unbranded Brand|the-unbranded-brand|denim|L
+Thom Browne|thom-browne|formalwear|M
+Thursday Boot Co.|thursday-boot-co|footwear|H
+Tlb Mallorca|tlb-mallorca|footwear|L
+To Boot New York|to-boot-new-york|footwear|M
+Toad&Co|toad-and-co|casualwear|M
+Todd Snyder|todd-snyder|casualwear|H
+TravisMathew|travismathew|casualwear|M
+Tricker's|trickers|footwear|H
+Truman Boot Co.|truman-boot-co|footwear|H
+ts(s)|ts-s|casualwear|M
+Turnbull & Asser|turnbull-and-asser|formalwear|M
+Undercoverism|undercoverism|casualwear|L
+Uniform Bridge|uniform-bridge|casualwear|M
+Uniqlo|uniqlo|basics|H
+Universal Works|universal-works|casualwear|M
+Valstar|valstar|casualwear|H
+Vass|vass|footwear|H
+Vass Shoes|vass-shoes|formalwear|M
+Velasca|velasca|footwear|H
+Vetra|vetra|workwear|H
+Viberg|viberg|footwear|H
+Visvim|visvim|casualwear|M
+Vuori|vuori|casualwear|H
+Wales Bonner|wales-bonner|formalwear|L
+Walker Slater|walker-slater|outerwear|H
+WANT Les Essentiels|want-les-essentiels|accessories|H
+Warehouse & Co.|warehouse-and-co|denim|H
+Wax London|wax-london|casualwear|M
+WeatherWool|weatherwool|outerwear|H
+Western Rise|western-rise|casualwear|M
+White's Boots|whites-boots|footwear|H
+Whitesville|whitesville|basics|H
+William Lockie|william-lockie|knitwear|M
+Wings+Horns|wings-horns|basics|M
+Wolf vs Goat|wolf-vs-goat|basics|H
+Wonder Looper|wonder-looper|basics|H
+Woolrich|woolrich|outerwear|M
+Wrangler|wrangler|workwear|L
+WTAPS|wtaps|casualwear|M
+Wythe|wythe|casualwear|H
+YMC|ymc|casualwear|M
+Yuketen|yuketen|footwear|M
+Yves Saint Laurent|yves-saint-laurent|casualwear|H
+Zanone|zanone|casualwear|H
+Zegna|zegna|formalwear|M</script>
 <style>
-/* Hide style aesthetic chips on mobile Shop by Type (keep brand category chips) */
+/* Hide style aesthetic chips on mobile — not relevant for product browsing */
 .trg-mob-chips{display:none!important}
-.trg-mob-lbl:has(+ .trg-mob-chips){display:none!important}
-/* Fallback for older browsers without :has */
-@supports not (selector(:has(+ *))) {
-  .trg-mob-fam-inner > .trg-mob-lbl:first-child{display:none!important}
-}
-/* Fix brand chips padding */
-.trg-mob-bchips{padding-left:1.25rem!important;padding-right:1.25rem!important;padding-top:.6rem!important}
-/* CTA buttons */
-.trg-mob-ctas{padding:1rem 1.25rem;display:flex;flex-direction:column;gap:.5rem}
-.trg-mob-cta-primary{display:flex;align-items:center;justify-content:center;min-height:48px;padding:.7rem 1rem;background:rgba(196,86,42,.12);border:1px solid rgba(196,86,42,.35);border-radius:3px;font-family:'DM Sans',sans-serif;font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#c4562a;text-decoration:none;-webkit-tap-highlight-color:transparent}
-.trg-mob-cta-secondary{display:flex;align-items:center;justify-content:center;min-height:44px;padding:.6rem 1rem;background:rgba(255,255,255,.03);border:1px solid rgba(245,241,235,.1);border-radius:3px;font-family:'DM Sans',sans-serif;font-size:.68rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:rgba(245,241,235,.55);text-decoration:none;-webkit-tap-highlight-color:transparent}
-/* Search input usable */
+/* Hide the "Style aesthetic" label */
+.trg-mob-fam-inner>.trg-mob-lbl:first-child{display:none!important}
+/* Brand chips padding */
+.trg-mob-bchips{padding:.6rem 1.25rem .15rem!important}
+/* Search input */
 .trg-mob-bin{touch-action:auto!important;-webkit-user-select:text!important;user-select:text!important}
+/* CTAs */
+.trg-mob-ctas{padding:1rem 1.25rem;display:flex;flex-direction:column;gap:.5rem}
+.trg-mob-cta-primary{display:flex;align-items:center;justify-content:center;min-height:48px;padding:.7rem 1rem;background:rgba(196,86,42,.12);border:1px solid rgba(196,86,42,.35);border-radius:3px;font-family:'DM Sans',sans-serif;font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#c4562a;text-decoration:none}
+.trg-mob-cta-secondary{display:flex;align-items:center;justify-content:center;min-height:44px;padding:.6rem 1rem;background:rgba(255,255,255,.03);border:1px solid rgba(245,241,235,.1);border-radius:3px;font-family:'DM Sans',sans-serif;font-size:.68rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:rgba(245,241,235,.55);text-decoration:none}
 </style>
 <script>
 (function(){
-  function ready(fn){if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',fn);else fn()}
-  /* Wait for external JS to execute first */
-  window.addEventListener('load',function(){
-    setTimeout(function(){
-      /* ── FIX BRAND DATA SOURCE ── */
-      /* window._trgFB is exposed from the desktop IIFE (460+ brands) */
-      var best=[];
-      var el=document.getElementById('trg-mm-bd');
-      if(el){try{var d=JSON.parse(el.textContent);if(Array.isArray(d)&&d.length>0)best=d}catch(e){}}
-      if(window._trgBR&&window._trgBR.length>best.length)best=window._trgBR;
-      if(window._trgFB&&window._trgFB.length>best.length)best=window._trgFB;
-      /* Patch the mobile brands cache */
-      if(typeof _mobBrands!=='undefined'){window._mobBrands=null}
-      try{_mobBrands=best}catch(e){}
+  /* ── BRAND DATA (self-contained, 467 brands) ── */
+  var _AB=[];var _PICKS=new Set(["3sixteen","a-p-c","aime-leon-dore","allen-edmonds","american-giant","american-trench","ami-paris","anglo-italian","arcteryx","asket","auralee","barbour","blundstone","brooks-brothers","buzz-ricksons","canada-goose","carhartt-wip","carlos-santos","carmina","charles-tyrwhitt","clarks","club-monaco","cobbler-union","colhays","crockett-and-jones","crown-northampton","dehen-1920","duckworth","edward-green","enzo-bonafe","eton-shirts","faherty-brand","filson","frank-and-oak","orslow","pure-blue-japan","rolling-dub-trio","grant-stone","tecovas","whitesville","imogene-willie","inis-meain","iron-heart","john-lofgren","john-smedley","johnstons-of-elgin","joseph-cheaney","kanata","kith","kotn","lady-white-co","levis-vintage-clothing","ll-bean","loake","magee-1866","meermin","merz-b-schwanen","mister-freedom","momotaro","naked-and-famous","new-balance","nicks-boots","noah-nyc","norda","norse-projects","oak-street-bootmakers","oas-company","outlier","paraboot","patagonia","paul-smith","portuguese-flannel","private-white-v-c","proper-cloth","red-wing","red-wing-heritage","reigning-champ","rocky-mountain-featherbed","rota","rrl-ralph-lauren","russell-moccasin","save-khaki-united","schott-nyc","sefr","sid-mashburn","solovair","knickerbocker","spier-and-mackay","stan-ray","sterlingwear","studio-donegal","sugar-cane","suitsupply","sunspel","taylor-stitch","tcb-jeans","the-armoury","the-iron-snail","studio-dartisan","the-real-mccoys","thursday-boot-co","todd-snyder","trickers","truman-boot-co","uniqlo","valstar","vass","velasca","viberg","vuori","walker-slater","want-les-essentiels","weatherwool","whites-boots","wolf-vs-goat","wonder-looper","wythe","beams-plus","warehouse-and-co","tellason","kestin","still-by-hand","danner","le-laboureur","vetra","arpenteur","cesare-attolini","kiton","brioni","orazio-luciano","sartorio-napoli","incotex","saman-amel","finamore","j-m-weston","eleventy","gran-sasso","barena-venezia","l-b-m-1911","pt01-pt-torino","samuelsohn","norwegian-rain","nn07","danton","stone-island","acne-studios","cp-company","zanone","massimo-alba","closed","cdlp","rodd-and-gunn","son-of-a-tailor","prada","bottega-veneta","yves-saint-laurent","aurelien","christian-kimber","baudoin-and-lange","alden"]);
+  (function parseBrands(){
+    var el=document.getElementById('trg-mob-data');
+    if(!el)return;
+    el.textContent.split('\n').forEach(function(line){
+      var p=line.split('|');
+      if(p.length>=4)_AB.push({name:p[0],slug:p[1],cat:p[2],hi:p[3]==='H'});
+    });
+  })();
 
-      /* ── FIX SEARCH ── */
-      var si=document.getElementById('trg-mob-bi');
-      if(si){
-        si.addEventListener('input',function(){
-          try{mobBQ=si.value.trim().toLowerCase();renderMobBrands()}catch(e){}
-        });
-      }
-      var sx=document.getElementById('trg-mob-bsx');
-      if(sx){
-        sx.addEventListener('click',function(){
-          if(si){si.value='';si.focus()}
-          try{mobBQ='';renderMobBrands()}catch(e){}
-        });
-      }
+  var _cat='all',_q='';
 
-      /* ── FIX ACCORDION ── */
-      document.querySelectorAll('.trg-mob-fam-hdr').forEach(function(hdr){
-        if(hdr._hf2)return;hdr._hf2=true;
-        hdr.addEventListener('click',function(e){
-          e.preventDefault();e.stopPropagation();
-          var fam=hdr.closest('.trg-mob-fam');if(!fam)return;
-          var body=fam.querySelector('.trg-mob-fam-body');if(!body)return;
-          var isOpen=fam.classList.contains('on');
-          document.querySelectorAll('.trg-mob-fam.on').forEach(function(f){
-            if(f!==fam){f.classList.remove('on');var b=f.querySelector('.trg-mob-fam-body');if(b)b.style.maxHeight='0'}
+  function esc(s){var d=document.createElement('div');d.textContent=s;return d.innerHTML}
+  function hl(name){
+    if(!_q)return esc(name);
+    var i=name.toLowerCase().indexOf(_q);
+    if(i<0)return esc(name);
+    return esc(name.slice(0,i))+'<mark>'+esc(name.slice(i,i+_q.length))+'</mark>'+esc(name.slice(i+_q.length));
+  }
+
+  function renderBrands(){
+    var all=_AB.slice();
+    if(_cat&&_cat!=='all')all=all.filter(function(b){return b.cat===_cat});
+    if(_q)all=all.filter(function(b){return b.name.toLowerCase().indexOf(_q)!==-1});
+    all.sort(function(a,b){return a.name.replace(/^[^a-zA-Z0-9]+/,'').localeCompare(b.name.replace(/^[^a-zA-Z0-9]+/,''),'en',{sensitivity:'base'})});
+
+    var picks=all.filter(function(b){return _PICKS.has(b.slug)});
+    var rest=all.filter(function(b){return!_PICKS.has(b.slug)});
+    var total=picks.length+rest.length;
+
+    /* Count */
+    var countEl=document.getElementById('trg-mob-bcount');
+    if(countEl)countEl.innerHTML='<strong>'+total+'</strong> brand'+(total!==1?'s':'');
+
+    /* Clear btn */
+    var sx=document.getElementById('trg-mob-bsx');
+    if(sx)sx.classList.toggle('on',!!_q);
+
+    var picksEl=document.getElementById('trg-mob-bpicks');
+    var restEl=document.getElementById('trg-mob-brest');
+
+    if(!total){
+      if(picksEl)picksEl.innerHTML='';
+      if(restEl)restEl.innerHTML='<div style="padding:2rem 1.25rem;text-align:center;font-size:.8rem;color:rgba(245,241,235,.3);font-style:italic">No brands found.</div>';
+      return;
+    }
+
+    /* Picks */
+    if(picksEl){
+      if(picks.length){
+        var ph='<div style="font-size:.52rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#c4562a;padding:.75rem 1.25rem .35rem;display:flex;align-items:center;gap:.5rem">Our Picks<span style="flex:1;height:1px;background:rgba(196,86,42,.2)"></span></div>';
+        ph+='<div style="padding:0 1.25rem">';
+        picks.forEach(function(b){
+          ph+='<a href="/pages/brands/'+b.slug+'" style="display:flex;align-items:center;justify-content:space-between;min-height:42px;padding:.3rem 0;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.04)"><span style="font-size:.78rem;color:rgba(245,241,235,.92)">'+hl(b.name)+'</span><span style="width:5px;height:5px;border-radius:50%;background:#c4562a;opacity:.6;flex-shrink:0"></span></a>';
+        });
+        ph+='</div>';
+        picksEl.innerHTML=ph;
+      }else{picksEl.innerHTML=''}
+    }
+
+    /* Rest A-Z */
+    if(restEl){
+      if(rest.length){
+        var rh='<div style="font-size:.52rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(245,241,235,.3);padding:.6rem 1.25rem .35rem;display:flex;align-items:center;gap:.5rem">All Brands<span style="flex:1;height:1px;background:rgba(245,241,235,.08)"></span></div>';
+        rh+='<div style="padding:0 1.25rem 1rem">';
+        var gr={};
+        rest.forEach(function(b){var l=b.name.replace(/^[^a-zA-Z]+/,'').charAt(0).toUpperCase()||'#';if(!gr[l])gr[l]=[];gr[l].push(b)});
+        Object.keys(gr).sort().forEach(function(l){
+          rh+='<div style="font-size:.52rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#c4562a;padding:.7rem 0 .25rem;border-bottom:1px solid rgba(196,86,42,.2);margin-top:.4rem">'+l+'</div>';
+          gr[l].forEach(function(b){
+            rh+='<a href="/pages/brands/'+b.slug+'" style="display:flex;align-items:center;min-height:40px;padding:.25rem 0;font-size:.76rem;color:rgba(245,241,235,.55);text-decoration:none;border-bottom:1px solid rgba(255,255,255,.03)">'+hl(b.name)+'</a>';
           });
-          if(isOpen){fam.classList.remove('on');body.style.maxHeight='0'}
-          else{fam.classList.add('on');body.style.maxHeight=body.scrollHeight+'px';
-            setTimeout(function(){hdr.scrollIntoView({behavior:'smooth',block:'start'})},200);
-          }
         });
-      });
+        rh+='</div>';
 
-      /* ── RE-RENDER BRANDS ── */
-      try{_mobBrands=best;renderMobBrands()}catch(e){}
-    },300);/* 300ms delay lets external JS finish */
+        /* CTA at bottom */
+        rh+='<div class="trg-mob-ctas"><a href="/pages/brands" class="trg-mob-cta-primary">View Full Brand Directory \u2192</a><a href="/collections/all" class="trg-mob-cta-secondary">Browse All Products \u2192</a></div>';
+
+        restEl.innerHTML=rh;
+      }else{restEl.innerHTML=''}
+    }
+  }
+
+  function ready(fn){if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',fn);else fn()}
+
+  ready(function(){
+    /* ── SEARCH ── */
+    var si=document.getElementById('trg-mob-bi');
+    if(si){
+      /* Remove old handlers by cloning */
+      var newSi=si.cloneNode(true);
+      si.parentNode.replaceChild(newSi,si);
+      si=newSi;
+      si.addEventListener('input',function(){_q=si.value.trim().toLowerCase();renderBrands()});
+      si.addEventListener('touchstart',function(){si.focus()},{passive:true});
+    }
+    var sx=document.getElementById('trg-mob-bsx');
+    if(sx){
+      var newSx=sx.cloneNode(true);
+      sx.parentNode.replaceChild(newSx,sx);
+      sx=newSx;
+      sx.addEventListener('click',function(){si.value='';si.focus();_q='';renderBrands()});
+    }
+
+    /* ── BRAND CHIPS ── */
+    document.querySelectorAll('#trg-mob-bchips .trg-mob-chip').forEach(function(chip){
+      var newChip=chip.cloneNode(true);
+      chip.parentNode.replaceChild(newChip,chip);
+      newChip.addEventListener('click',function(){
+        document.querySelectorAll('#trg-mob-bchips .trg-mob-chip').forEach(function(c){c.classList.remove('on')});
+        newChip.classList.add('on');
+        _cat=newChip.dataset.bcat||'all';
+        renderBrands();
+        var body=document.getElementById('trg-mob-body');
+        if(body)body.scrollTop=0;
+      });
+    });
+
+    /* ── ACCORDION (re-bind with guarantee) ── */
+    document.querySelectorAll('.trg-mob-fam-hdr').forEach(function(hdr){
+      if(hdr._v3)return;hdr._v3=true;
+      hdr.addEventListener('click',function(e){
+        e.preventDefault();e.stopPropagation();
+        var fam=hdr.closest('.trg-mob-fam');if(!fam)return;
+        var body=fam.querySelector('.trg-mob-fam-body');if(!body)return;
+        var isOpen=fam.classList.contains('on');
+        document.querySelectorAll('.trg-mob-fam.on').forEach(function(f){
+          if(f!==fam){f.classList.remove('on');var b=f.querySelector('.trg-mob-fam-body');if(b)b.style.maxHeight='0'}
+        });
+        if(isOpen){fam.classList.remove('on');body.style.maxHeight='0'}
+        else{fam.classList.add('on');body.style.maxHeight=body.scrollHeight+'px';
+          setTimeout(function(){hdr.scrollIntoView({behavior:'smooth',block:'start'})},200);
+        }
+      });
+    });
+
+    /* ── SHOP BY TYPE CTAs ── */
+    var shopFooter=document.querySelector('#trg-mob-tc-shop .trg-mob-footer');
+    if(shopFooter&&!shopFooter.previousElementSibling.classList.contains('trg-mob-ctas')){
+      var ctaDiv=document.createElement('div');
+      ctaDiv.className='trg-mob-ctas';
+      ctaDiv.innerHTML='<a href="/collections/all" class="trg-mob-cta-primary">Browse All Products \u2192</a><a href="/pages/brands" class="trg-mob-cta-secondary">View All 460+ Brands \u2192</a>';
+      shopFooter.parentNode.insertBefore(ctaDiv,shopFooter);
+    }
+
+    /* ── INITIAL RENDER ── */
+    renderBrands();
   });
 })();
 </script>
