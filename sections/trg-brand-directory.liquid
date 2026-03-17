@@ -96,45 +96,7 @@
       {%- endpaginate -%}
     ]
   </script>
-  <script>
-    /* Fetch ALL remaining brand pages via Section Rendering API */
-    (function(){
-      var el = document.querySelector('[data-brands-json]');
-      if (!el) return;
-      var brands;
-      try { brands = JSON.parse(el.textContent); } catch(e){ return; }
-      var PAGE_SIZE = 50; /* Shopify metaobject Liquid cap */
-      if (brands.length < PAGE_SIZE) return; /* No more pages */
-      
-      var sectionId = el.closest('[data-id]').dataset.id;
-      var basePath = window.location.pathname;
-      var page = 2;
-      
-      function fetchNext() {
-        fetch(basePath + '?page=' + page + '&section_id=' + sectionId)
-          .then(function(r){ return r.text(); })
-          .then(function(html){
-            var m = html.match(/data-brands-json[^>]*>([\s\S]*?)<\/script>/);
-            if (m) {
-              try {
-                var more = JSON.parse(m[1]);
-                if (more.length) {
-                  brands = brands.concat(more);
-                  el.textContent = JSON.stringify(brands);
-                  document.dispatchEvent(new CustomEvent('trg:brands-updated'));
-                  if (more.length >= PAGE_SIZE) {
-                    page++;
-                    fetchNext(); /* More pages to load */
-                  }
-                }
-              } catch(e){}
-            }
-          })
-          .catch(function(){});
-      }
-      fetchNext();
-    })();
-  </script>
+  
   <div class="trg-bdir__head trg-bdir__desktop-chrome">
     <div class="trg-bdir__shell trg-bdir__headin">
       <div class="trg-bdir__eye">Directory</div>
