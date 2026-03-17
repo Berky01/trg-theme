@@ -1,3 +1,4 @@
+{%- comment -%}v1773714346{%- endcomment -%}
 {%- liquid
   assign bd = shop.metaobjects['brand']
   assign has_mo = false
@@ -54,13 +55,9 @@
             if ft == blank
               assign ft = 'Untitled'
             endif
-            assign fu = '#'
+            assign fu = block.settings.title_override | default: 'all' | handleize | prepend: '/collections/'
             if block.settings.collection != blank and block.settings.collection.url != blank
               assign fu = block.settings.collection.url
-            elsif block.settings.collection != blank
-              assign fu = block.settings.collection.handle | prepend: '/collections/'
-            elsif block.settings.title_override != blank
-              assign fu = block.settings.title_override | handleize | prepend: '/collections/'
             endif
             assign pft = ft
             assign pfu = fu
@@ -91,13 +88,9 @@
             if st == blank
               assign st = 'Untitled'
             endif
-            assign su = '#'
+            assign su = block.settings.title_override | default: 'all' | handleize | prepend: '/collections/'
             if block.settings.collection != blank and block.settings.collection.url != blank
               assign su = block.settings.collection.url
-            elsif block.settings.collection != blank
-              assign su = block.settings.collection.handle | prepend: '/collections/'
-            elsif block.settings.title_override != blank
-              assign su = block.settings.title_override | handleize | prepend: '/collections/'
             endif
           -%}
           <a href="{{ su }}" class="trg-mm-st" {{ block.shopify_attributes }}><span class="trg-mm-sn">{{ st }}</span>{%- if block.settings.count != blank -%}<span class="trg-mm-sc">{{ block.settings.count }}</span>{%- endif -%}</a>
