@@ -138,7 +138,8 @@
           "settings": {
             "collection": "shopify://collections/footwear",
             "title_override": "Footwear",
-            "subtitle": "77 brands"
+            "subtitle": "77 brands",
+            "chips": "All, Heritage, Dress, Casual, Luxury / Bespoke, Technical"
           }
         },
         "s_fo_oxford_derby": {
@@ -170,7 +171,8 @@
           "settings": {
             "collection": "shopify://collections/outerwear",
             "title_override": "Outerwear",
-            "subtitle": "42 brands"
+            "subtitle": "42 brands",
+            "chips": "All, Heritage, Technical, Military"
           }
         },
         "s_ou_field_jacket": {
@@ -202,7 +204,8 @@
           "settings": {
             "collection": "shopify://collections/casualwear",
             "title_override": "Casualwear",
-            "subtitle": "91 brands"
+            "subtitle": "91 brands",
+            "chips": "All, Japanese, Scandinavian, Artisanal, Preppy / Ivy"
           }
         },
         "s_ca_casual_shirts": {
@@ -234,7 +237,8 @@
           "settings": {
             "collection": "shopify://collections/formalwear",
             "title_override": "Formalwear",
-            "subtitle": "49 brands"
+            "subtitle": "49 brands",
+            "chips": "All, Neapolitan, British Trad, Italian Luxury"
           }
         },
         "s_fo_suits": {
@@ -298,7 +302,8 @@
           "settings": {
             "collection": "shopify://collections/denim",
             "title_override": "Denim",
-            "subtitle": "35 brands"
+            "subtitle": "35 brands",
+            "chips": "All, Japanese Selvedge, American Heritage, Raw"
           }
         },
         "s_de_jeans": {
@@ -399,7 +404,7 @@
           "type": "featured_brand",
           "settings": {
             "brand_name": "Viberg",
-            "brand_eyebrow": "Footwear · Victoria",
+            "brand_eyebrow": "Footwear \u00b7 Victoria",
             "brand_description": "Handwelted since 1931. The benchmark for North American heritage boots.",
             "brand_url": "/pages/brands/viberg",
             "brand_image": "",
@@ -415,7 +420,7 @@
           "type": "featured_brand_shop",
           "settings": {
             "brand_name": "Viberg",
-            "brand_eyebrow": "Footwear · Victoria",
+            "brand_eyebrow": "Footwear \u00b7 Victoria",
             "brand_description": "Handwelted since 1931. The benchmark for North American heritage boots.",
             "brand_url": "/pages/brands/viberg",
             "brand_image": "",
