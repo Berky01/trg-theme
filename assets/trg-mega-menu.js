@@ -249,7 +249,11 @@ function getMobBrands(){
   /* Reuse desktop brand data */
   var el=document.getElementById('trg-mm-bd');
   if(el){try{var d=JSON.parse(el.textContent);if(Array.isArray(d)&&d.length>0)return d}catch(e){}}
-  /* Fallback: use the FB array from desktop IIFE — reconstruct from DOM */
+  /* Fallback 1: use desktop brand array (already mapped from FB or JSON) */
+  if(typeof br!=='undefined'&&br.length>0)return br;
+  /* Fallback 2: use the FB hardcoded array */
+  if(typeof FB!=='undefined'&&FB.length>0)return FB;
+  /* Fallback 3: reconstruct from DOM */
   var links=document.querySelectorAll('#trg-mm-bg .trg-mm-bl');
   if(links.length>0){
     return Array.from(links).map(function(a){

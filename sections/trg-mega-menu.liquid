@@ -165,7 +165,7 @@
   </div>
 </div>
 
-<script id="trg-mm-bd" type="application/json">{%- if has_mo -%}[{%- for brand in bd.values -%}{%- if brand.status == 'Active' or brand.status == blank -%}{"name":{{ brand.name | json }},"slug":{{ brand.slug | default: brand.name | handleize | json }},"category":{{ brand.primary_category | default: '' | handleize | json }}}{% unless forloop.last %},{% endunless %}{%- endif -%}{%- endfor -%}]{%- else -%}[]{%- endif -%}</script>
+<script id="trg-mm-bd" type="application/json">{%- if has_mo -%}[{%- for brand in bd.values -%}{%- if brand.status == 'Active' or brand.status == 'Add' or brand.status == blank -%}{"name":{{ brand.name | json }},"slug":{{ brand.slug | default: brand.name | handleize | json }},"category":{{ brand.primary_category | default: '' | handleize | json }}}{% unless forloop.last %},{% endunless %}{%- endif -%}{%- endfor -%}]{%- else -%}[]{%- endif -%}</script>
 
 
 {%- comment -%}
