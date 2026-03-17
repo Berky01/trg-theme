@@ -399,13 +399,6 @@
             "is_default": false
           }
         },
-        "c_de_raw": {
-          "type": "aesthetic_chip",
-          "settings": {
-            "title": "Raw",
-            "is_default": false
-          }
-        },
         "s_de_jeans": {
           "type": "subcategory",
           "settings": {
@@ -569,7 +562,6 @@
         "fam_denim",
         "c_de_all",
         "c_de_japanese_selvedge",
-        "c_de_raw",
         "s_de_jeans",
         "s_de_denim_jacket",
         "s_de_raw_denim",
