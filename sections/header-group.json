@@ -141,57 +141,36 @@
             "subtitle": "77 brands"
           }
         },
-        "chip_fw_all": {
+        "c_fo_all": {
           "type": "aesthetic_chip",
           "settings": {
             "title": "All",
             "is_default": true
           }
         },
-        "chip_fw_heritage": {
+        "c_fo_heritage": {
           "type": "aesthetic_chip",
           "settings": {
             "title": "Heritage",
             "is_default": false
           }
         },
-        "chip_fw_dress": {
+        "c_fo_dress": {
           "type": "aesthetic_chip",
           "settings": {
             "title": "Dress",
             "is_default": false
           }
         },
-        "chip_fw_casual": {
-          "type": "aesthetic_chip",
-          "settings": {
-            "title": "Casual",
-            "is_default": false
-          }
-        },
-        "chip_fw_luxury_bespoke": {
-          "type": "aesthetic_chip",
-          "settings": {
-            "title": "Luxury Bespoke",
-            "is_default": false
-          }
-        },
-        "chip_fw_technical": {
-          "type": "aesthetic_chip",
-          "settings": {
-            "title": "Technical",
-            "is_default": false
-          }
-        },
-        "sub_fw_oxford_and_derby": {
+        "s_fo_oxford_derby": {
           "type": "subcategory",
           "settings": {
             "collection": "shopify://collections/mens-dress-shoes",
-            "title_override": "Oxford and Derby",
+            "title_override": "Oxford & Derby",
             "count": "22"
           }
         },
-        "sub_fw_chelsea_boots": {
+        "s_fo_chelsea_boots": {
           "type": "subcategory",
           "settings": {
             "collection": "shopify://collections/mens-boots",
@@ -199,36 +178,12 @@
             "count": "18"
           }
         },
-        "sub_fw_loafers": {
+        "s_fo_loafers": {
           "type": "subcategory",
           "settings": {
             "collection": "shopify://collections/mens-loafers",
             "title_override": "Loafers",
             "count": "12"
-          }
-        },
-        "sub_fw_work_boots": {
-          "type": "subcategory",
-          "settings": {
-            "collection": "shopify://collections/mens-boots",
-            "title_override": "Work Boots",
-            "count": "14"
-          }
-        },
-        "sub_fw_sneakers": {
-          "type": "subcategory",
-          "settings": {
-            "collection": "shopify://collections/footwear",
-            "title_override": "Sneakers",
-            "count": "8"
-          }
-        },
-        "sub_fw_bespoke_mto": {
-          "type": "subcategory",
-          "settings": {
-            "collection": "shopify://collections/footwear",
-            "title_override": "Bespoke MTO",
-            "count": "8"
           }
         },
         "fam_outerwear": {
@@ -239,35 +194,28 @@
             "subtitle": "42 brands"
           }
         },
-        "chip_ow_all": {
+        "c_ou_all": {
           "type": "aesthetic_chip",
           "settings": {
             "title": "All",
             "is_default": true
           }
         },
-        "chip_ow_heritage": {
+        "c_ou_heritage": {
           "type": "aesthetic_chip",
           "settings": {
             "title": "Heritage",
             "is_default": false
           }
         },
-        "chip_ow_technical": {
+        "c_ou_technical": {
           "type": "aesthetic_chip",
           "settings": {
             "title": "Technical",
             "is_default": false
           }
         },
-        "chip_ow_military": {
-          "type": "aesthetic_chip",
-          "settings": {
-            "title": "Military",
-            "is_default": false
-          }
-        },
-        "sub_ow_field_jacket": {
+        "s_ou_field_jacket": {
           "type": "subcategory",
           "settings": {
             "collection": "shopify://collections/outerwear",
@@ -275,7 +223,7 @@
             "count": "12"
           }
         },
-        "sub_ow_waxed_cotton": {
+        "s_ou_waxed_cotton": {
           "type": "subcategory",
           "settings": {
             "collection": "shopify://collections/outerwear",
@@ -283,28 +231,12 @@
             "count": "8"
           }
         },
-        "sub_ow_down_insulated": {
+        "s_ou_down_jacket": {
           "type": "subcategory",
           "settings": {
             "collection": "shopify://collections/outerwear",
-            "title_override": "Down Insulated",
+            "title_override": "Down Jacket",
             "count": "10"
-          }
-        },
-        "sub_ow_raincoat": {
-          "type": "subcategory",
-          "settings": {
-            "collection": "shopify://collections/outerwear",
-            "title_override": "Raincoat",
-            "count": "7"
-          }
-        },
-        "sub_ow_parka": {
-          "type": "subcategory",
-          "settings": {
-            "collection": "shopify://collections/outerwear",
-            "title_override": "Parka",
-            "count": "8"
           }
         },
         "fam_casualwear": {
@@ -315,42 +247,28 @@
             "subtitle": "91 brands"
           }
         },
-        "chip_cw_all": {
+        "c_ca_all": {
           "type": "aesthetic_chip",
           "settings": {
             "title": "All",
             "is_default": true
           }
         },
-        "chip_cw_japanese": {
+        "c_ca_japanese": {
           "type": "aesthetic_chip",
           "settings": {
             "title": "Japanese",
             "is_default": false
           }
         },
-        "chip_cw_scandinavian": {
+        "c_ca_scandinavian": {
           "type": "aesthetic_chip",
           "settings": {
             "title": "Scandinavian",
             "is_default": false
           }
         },
-        "chip_cw_artisanal": {
-          "type": "aesthetic_chip",
-          "settings": {
-            "title": "Artisanal",
-            "is_default": false
-          }
-        },
-        "chip_cw_preppy_ivy": {
-          "type": "aesthetic_chip",
-          "settings": {
-            "title": "Preppy Ivy",
-            "is_default": false
-          }
-        },
-        "sub_cw_casual_shirts": {
+        "s_ca_casual_shirts": {
           "type": "subcategory",
           "settings": {
             "collection": "shopify://collections/shirting",
@@ -358,15 +276,15 @@
             "count": "38"
           }
         },
-        "sub_cw_t_shirts": {
+        "s_ca_t_shirts": {
           "type": "subcategory",
           "settings": {
             "collection": "shopify://collections/basics",
-            "title_override": "T Shirts",
+            "title_override": "T-Shirts",
             "count": "31"
           }
         },
-        "sub_cw_chinos": {
+        "s_ca_chinos": {
           "type": "subcategory",
           "settings": {
             "collection": "shopify://collections/casualwear",
@@ -374,59 +292,36 @@
             "count": "28"
           }
         },
-        "sub_cw_overshirts": {
-          "type": "subcategory",
-          "settings": {
-            "collection": "shopify://collections/casualwear",
-            "title_override": "Overshirts",
-            "count": "20"
-          }
-        },
-        "sub_cw_sweatshirts": {
-          "type": "subcategory",
-          "settings": {
-            "collection": "shopify://collections/basics",
-            "title_override": "Sweatshirts",
-            "count": "22"
-          }
-        },
         "fam_formalwear": {
           "type": "family",
           "settings": {
             "collection": "shopify://collections/formalwear",
-            "title_override": "Formalwear & Tailoring",
+            "title_override": "Formalwear",
             "subtitle": "49 brands"
           }
         },
-        "chip_fm_all": {
+        "c_fo_all_1": {
           "type": "aesthetic_chip",
           "settings": {
             "title": "All",
             "is_default": true
           }
         },
-        "chip_fm_neapolitan": {
+        "c_fo_neapolitan": {
           "type": "aesthetic_chip",
           "settings": {
             "title": "Neapolitan",
             "is_default": false
           }
         },
-        "chip_fm_british_trad": {
+        "c_fo_british_trad": {
           "type": "aesthetic_chip",
           "settings": {
             "title": "British Trad",
             "is_default": false
           }
         },
-        "chip_fm_italian_luxury": {
-          "type": "aesthetic_chip",
-          "settings": {
-            "title": "Italian Luxury",
-            "is_default": false
-          }
-        },
-        "sub_fm_suits": {
+        "s_fo_suits": {
           "type": "subcategory",
           "settings": {
             "collection": "shopify://collections/formalwear",
@@ -434,7 +329,7 @@
             "count": "29"
           }
         },
-        "sub_fm_sport_coats": {
+        "s_fo_sport_coats": {
           "type": "subcategory",
           "settings": {
             "collection": "shopify://collections/formalwear",
@@ -442,20 +337,12 @@
             "count": "24"
           }
         },
-        "sub_fm_dress_shirts": {
+        "s_fo_dress_shirts": {
           "type": "subcategory",
           "settings": {
             "collection": "shopify://collections/shirting",
             "title_override": "Dress Shirts",
             "count": "22"
-          }
-        },
-        "sub_fm_dress_trousers": {
-          "type": "subcategory",
-          "settings": {
-            "collection": "shopify://collections/formalwear",
-            "title_override": "Dress Trousers",
-            "count": "18"
           }
         },
         "fam_knitwear": {
@@ -466,15 +353,15 @@
             "subtitle": "28 brands"
           }
         },
-        "sub_kn_crewneck_sweater": {
+        "s_kn_crewneck": {
           "type": "subcategory",
           "settings": {
             "collection": "shopify://collections/knitwear",
-            "title_override": "Crewneck Sweater",
+            "title_override": "Crewneck",
             "count": "22"
           }
         },
-        "sub_kn_cardigan": {
+        "s_kn_cardigan": {
           "type": "subcategory",
           "settings": {
             "collection": "shopify://collections/knitwear",
@@ -482,7 +369,7 @@
             "count": "18"
           }
         },
-        "sub_kn_turtleneck": {
+        "s_kn_turtleneck": {
           "type": "subcategory",
           "settings": {
             "collection": "shopify://collections/knitwear",
@@ -498,35 +385,28 @@
             "subtitle": "35 brands"
           }
         },
-        "chip_dn_all": {
+        "c_de_all": {
           "type": "aesthetic_chip",
           "settings": {
             "title": "All",
             "is_default": true
           }
         },
-        "chip_dn_japanese_selvedge": {
+        "c_de_japanese_selvedge": {
           "type": "aesthetic_chip",
           "settings": {
             "title": "Japanese Selvedge",
             "is_default": false
           }
         },
-        "chip_dn_american_heritage": {
-          "type": "aesthetic_chip",
-          "settings": {
-            "title": "American Heritage",
-            "is_default": false
-          }
-        },
-        "chip_dn_raw": {
+        "c_de_raw": {
           "type": "aesthetic_chip",
           "settings": {
             "title": "Raw",
             "is_default": false
           }
         },
-        "sub_dn_jeans": {
+        "s_de_jeans": {
           "type": "subcategory",
           "settings": {
             "collection": "shopify://collections/denim",
@@ -534,7 +414,7 @@
             "count": "28"
           }
         },
-        "sub_dn_denim_jacket": {
+        "s_de_denim_jacket": {
           "type": "subcategory",
           "settings": {
             "collection": "shopify://collections/denim",
@@ -542,7 +422,7 @@
             "count": "16"
           }
         },
-        "sub_dn_raw_denim": {
+        "s_de_raw_denim": {
           "type": "subcategory",
           "settings": {
             "collection": "shopify://collections/denim",
@@ -550,141 +430,77 @@
             "count": "14"
           }
         },
-        "fam_basics": {
-          "type": "family",
-          "settings": {
-            "collection": "shopify://collections/basics",
-            "title_override": "Basics",
-            "subtitle": "19 brands"
-          }
-        },
-        "sub_ba_t_shirts": {
-          "type": "subcategory",
-          "settings": {
-            "collection": "shopify://collections/basics",
-            "title_override": "T Shirts",
-            "count": "17"
-          }
-        },
-        "sub_ba_sweatshirts": {
-          "type": "subcategory",
-          "settings": {
-            "collection": "shopify://collections/basics",
-            "title_override": "Sweatshirts",
-            "count": "15"
-          }
-        },
-        "sub_ba_hoodies": {
-          "type": "subcategory",
-          "settings": {
-            "collection": "shopify://collections/basics",
-            "title_override": "Hoodies",
-            "count": "13"
-          }
-        },
-        "fam_workwear": {
-          "type": "family",
-          "settings": {
-            "collection": "shopify://collections/workwear",
-            "title_override": "Workwear",
-            "subtitle": "13 brands"
-          }
-        },
-        "sub_ww_chore_coat": {
-          "type": "subcategory",
-          "settings": {
-            "collection": "shopify://collections/workwear",
-            "title_override": "Chore Coat",
-            "count": "10"
-          }
-        },
-        "sub_ww_work_trousers": {
-          "type": "subcategory",
-          "settings": {
-            "collection": "shopify://collections/workwear",
-            "title_override": "Work Trousers",
-            "count": "9"
-          }
-        },
-        "sub_ww_work_shirt": {
-          "type": "subcategory",
-          "settings": {
-            "collection": "shopify://collections/workwear",
-            "title_override": "Work Shirt",
-            "count": "8"
-          }
-        },
-        "bcat_casualwear": {
+        "bc_casualwear": {
           "type": "brand_category",
           "settings": {
             "collection": "shopify://collections/casualwear",
             "title_override": "Casualwear"
           }
         },
-        "bcat_footwear": {
+        "bc_footwear": {
           "type": "brand_category",
           "settings": {
             "collection": "shopify://collections/footwear",
             "title_override": "Footwear"
           }
         },
-        "bcat_formalwear": {
+        "bc_formalwear": {
           "type": "brand_category",
           "settings": {
             "collection": "shopify://collections/formalwear",
             "title_override": "Formalwear"
           }
         },
-        "bcat_outerwear": {
+        "bc_outerwear": {
           "type": "brand_category",
           "settings": {
             "collection": "shopify://collections/outerwear",
             "title_override": "Outerwear"
           }
         },
-        "bcat_denim": {
+        "bc_denim": {
           "type": "brand_category",
           "settings": {
             "collection": "shopify://collections/denim",
             "title_override": "Denim"
           }
         },
-        "bcat_knitwear": {
+        "bc_knitwear": {
           "type": "brand_category",
           "settings": {
             "collection": "shopify://collections/knitwear",
             "title_override": "Knitwear"
           }
         },
-        "bcat_smart_casual": {
+        "bc_smart_casual": {
           "type": "brand_category",
           "settings": {
             "collection": "shopify://collections/smart-casual",
             "title_override": "Smart Casual"
           }
         },
-        "bcat_basics": {
+        "bc_basics": {
           "type": "brand_category",
           "settings": {
             "collection": "shopify://collections/basics",
             "title_override": "Basics"
           }
         },
-        "bcat_workwear": {
+        "bc_workwear": {
           "type": "brand_category",
           "settings": {
             "collection": "shopify://collections/workwear",
             "title_override": "Workwear"
           }
         },
-        "bcat_streetwear": {
+        "bc_streetwear": {
           "type": "brand_category",
           "settings": {
             "collection": "shopify://collections/streetwear",
             "title_override": "Streetwear"
           }
         },
-        "feat_brands": {
+        "fb_brands": {
           "type": "featured_brand",
           "settings": {
             "brand_name": "Viberg",
@@ -700,7 +516,7 @@
             "link_3_url": "/pages/brands"
           }
         },
-        "feat_shop": {
+        "fb_shop": {
           "type": "featured_brand_shop",
           "settings": {
             "brand_name": "Viberg",
@@ -719,80 +535,56 @@
       },
       "block_order": [
         "fam_footwear",
-        "chip_fw_all",
-        "chip_fw_heritage",
-        "chip_fw_dress",
-        "chip_fw_casual",
-        "chip_fw_luxury_bespoke",
-        "chip_fw_technical",
-        "sub_fw_oxford_and_derby",
-        "sub_fw_chelsea_boots",
-        "sub_fw_loafers",
-        "sub_fw_work_boots",
-        "sub_fw_sneakers",
-        "sub_fw_bespoke_mto",
+        "c_fo_all",
+        "c_fo_heritage",
+        "c_fo_dress",
+        "s_fo_oxford_derby",
+        "s_fo_chelsea_boots",
+        "s_fo_loafers",
         "fam_outerwear",
-        "chip_ow_all",
-        "chip_ow_heritage",
-        "chip_ow_technical",
-        "chip_ow_military",
-        "sub_ow_field_jacket",
-        "sub_ow_waxed_cotton",
-        "sub_ow_down_insulated",
-        "sub_ow_raincoat",
-        "sub_ow_parka",
+        "c_ou_all",
+        "c_ou_heritage",
+        "c_ou_technical",
+        "s_ou_field_jacket",
+        "s_ou_waxed_cotton",
+        "s_ou_down_jacket",
         "fam_casualwear",
-        "chip_cw_all",
-        "chip_cw_japanese",
-        "chip_cw_scandinavian",
-        "chip_cw_artisanal",
-        "chip_cw_preppy_ivy",
-        "sub_cw_casual_shirts",
-        "sub_cw_t_shirts",
-        "sub_cw_chinos",
-        "sub_cw_overshirts",
-        "sub_cw_sweatshirts",
+        "c_ca_all",
+        "c_ca_japanese",
+        "c_ca_scandinavian",
+        "s_ca_casual_shirts",
+        "s_ca_t_shirts",
+        "s_ca_chinos",
         "fam_formalwear",
-        "chip_fm_all",
-        "chip_fm_neapolitan",
-        "chip_fm_british_trad",
-        "chip_fm_italian_luxury",
-        "sub_fm_suits",
-        "sub_fm_sport_coats",
-        "sub_fm_dress_shirts",
-        "sub_fm_dress_trousers",
+        "c_fo_all_1",
+        "c_fo_neapolitan",
+        "c_fo_british_trad",
+        "s_fo_suits",
+        "s_fo_sport_coats",
+        "s_fo_dress_shirts",
         "fam_knitwear",
-        "sub_kn_crewneck_sweater",
-        "sub_kn_cardigan",
-        "sub_kn_turtleneck",
+        "s_kn_crewneck",
+        "s_kn_cardigan",
+        "s_kn_turtleneck",
         "fam_denim",
-        "chip_dn_all",
-        "chip_dn_japanese_selvedge",
-        "chip_dn_american_heritage",
-        "chip_dn_raw",
-        "sub_dn_jeans",
-        "sub_dn_denim_jacket",
-        "sub_dn_raw_denim",
-        "fam_basics",
-        "sub_ba_t_shirts",
-        "sub_ba_sweatshirts",
-        "sub_ba_hoodies",
-        "fam_workwear",
-        "sub_ww_chore_coat",
-        "sub_ww_work_trousers",
-        "sub_ww_work_shirt",
-        "bcat_casualwear",
-        "bcat_footwear",
-        "bcat_formalwear",
-        "bcat_outerwear",
-        "bcat_denim",
-        "bcat_knitwear",
-        "bcat_smart_casual",
-        "bcat_basics",
-        "bcat_workwear",
-        "bcat_streetwear",
-        "feat_brands",
-        "feat_shop"
+        "c_de_all",
+        "c_de_japanese_selvedge",
+        "c_de_raw",
+        "s_de_jeans",
+        "s_de_denim_jacket",
+        "s_de_raw_denim",
+        "bc_casualwear",
+        "bc_footwear",
+        "bc_formalwear",
+        "bc_outerwear",
+        "bc_denim",
+        "bc_knitwear",
+        "bc_smart_casual",
+        "bc_basics",
+        "bc_workwear",
+        "bc_streetwear",
+        "fb_brands",
+        "fb_shop"
       ],
       "settings": {}
     }
