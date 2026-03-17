@@ -1,69 +1,34 @@
-{%- comment -%}v1773720216{%- endcomment -%}
+{%- comment -%}TRG Brand PDP v3 (page metafields) v1773720735{%- endcomment -%}
 {%- liquid
-  assign page_slug = page.title | handleize
-  assign brand = nil
-  assign all_brands = shop.metaobjects['brand'].values
-  for b in all_brands
-    assign bname_h = b.name | handleize
-    if bname_h == page_slug
-      assign brand = b
-      break
-    endif
-  endfor
--%}
-
-{%- if brand == nil -%}
-<div style="max-width:800px;margin:2rem auto;padding:2rem;font-family:monospace;font-size:13px;background:#f5f1eb;border:1px solid #ddd8cf;border-radius:4px;">
-  <h2 style="font-family:'Playfair Display',serif;margin-bottom:1rem;">Debug: Brand Lookup v1773720597</h2>
-  <p><b>page.handle:</b> {{ page.handle }}</p>
-  <p><b>page.title:</b> {{ page.title }}</p>
-  <p><b>page_slug:</b> {{ page_slug }}</p>
-  <p><b>page.template_suffix:</b> {{ page.template_suffix }}</p>
-  <hr style="margin:1rem 0;">
-  <p><b>Metaobject type test:</b></p>
-  <p>shop.metaobjects.brand.values.size = {{ shop.metaobjects.brand.values.size }}</p>
-  <p>shop.metaobjects['brand'].values.size = {{ shop.metaobjects['brand'].values.size }}</p>
-  <hr style="margin:1rem 0;">
-  <p><b>First 5 brand metaobjects:</b></p>
-  {%- for b in shop.metaobjects.brand.values limit: 5 -%}
-    <p>{{ forloop.index }}. handle={{ b.system.handle }} | name={{ b.name }} | slug={{ b.slug }}</p>
-  {%- else -%}
-    <p style="color:red;"><b>NO METAOBJECTS FOUND</b> — shop.metaobjects.brand.values is empty!</p>
-  {%- endfor -%}
-  <hr style="margin:1rem 0;">
-  <p><b>Direct handle access test:</b></p>
-  {%- assign direct = shop.metaobjects.brand['taylor-stitch'] -%}
-  <p>shop.metaobjects.brand['taylor-stitch'] = {{ direct.name | default: 'nil' }}</p>
-  {%- assign direct2 = shop.metaobjects['brand']['taylor-stitch'] -%}
-  <p>shop.metaobjects['brand']['taylor-stitch'] = {{ direct2.name | default: 'nil' }}</p>
-</div>
-{%- else -%}
-
-{%- liquid
-  assign b_name = brand.name | default: page.title
-  assign b_cat = brand.primary_category | default: ''
-  assign b_country = brand.country | default: ''
-  assign b_made = brand.made_in | default: ''
-  assign b_price = brand.price_range | default: ''
-  assign b_desc = brand.description | default: ''
-  assign b_tagline = brand.brand_positioning | default: ''
-  assign b_take = brand.trg_take | default: ''
-  assign b_materials = brand.known_for_materials | default: ''
-  assign b_bestfor = brand.known_for_best_for | default: ''
-  assign b_fit = brand.fit_tendency | default: ''
-  assign b_sizing = brand.sizing_note | default: ''
-  assign b_returns = brand.returns_window | default: ''
-  assign b_tags = brand.tags | default: ''
-  assign b_buy_path = brand.buy_path | default: 'Direct'
-  assign b_website = brand.website | default: '#'
-  assign b_aff_link = brand.affiliate_link | default: b_website
-  assign b_ships_ca = brand.ships_to_canada | default: 'Unknown'
-  assign b_ddp = brand.ddp_duties | default: ''
-  assign b_best_ca = brand.best_retailer_ca | default: ''
-  assign b_ret_url_ca = brand.retailer_url_ca | default: '#'
-  assign b_free_ca = brand.free_shipping_ca_threshold | default: ''
-  assign b_aff_prog = brand.affiliate_program | default: 'No'
-  assign b_similar_raw = brand.similar_brands | default: ''
+  assign b_name = page.metafields.trg.brand_name | default: page.title
+  assign has_brand = false
+  if b_name != blank
+    assign has_brand = true
+  endif
+  assign b_slug = page.metafields.trg.slug | default: page.title | handleize
+  assign b_cat = page.metafields.trg.primary_category | default: ''
+  assign b_country = page.metafields.trg.country | default: ''
+  assign b_made = page.metafields.trg.made_in | default: ''
+  assign b_price = page.metafields.trg.price_range | default: ''
+  assign b_desc = page.metafields.trg.description | default: ''
+  assign b_tagline = page.metafields.trg.brand_positioning | default: ''
+  assign b_take = page.metafields.trg.trg_take | default: ''
+  assign b_materials = page.metafields.trg.known_for_materials | default: ''
+  assign b_bestfor = page.metafields.trg.known_for_best_for | default: ''
+  assign b_fit = page.metafields.trg.fit_tendency | default: ''
+  assign b_sizing = page.metafields.trg.sizing_note | default: ''
+  assign b_returns = page.metafields.trg.returns_window | default: ''
+  assign b_tags = page.metafields.trg.tags | default: ''
+  assign b_buy_path = page.metafields.trg.buy_path | default: 'Direct'
+  assign b_website = page.metafields.trg.website | default: '#'
+  assign b_aff_link = page.metafields.trg.website | default: '#'
+  assign b_ships_ca = page.metafields.trg.ships_to_canada | default: 'Unknown'
+  assign b_ddp = page.metafields.trg.ddp_duties | default: ''
+  assign b_best_ca = page.metafields.trg.best_retailer_ca | default: ''
+  assign b_ret_url_ca = page.metafields.trg.retailer_url_ca | default: '#'
+  assign b_free_ca = page.metafields.trg.free_shipping_ca_threshold | default: ''
+  assign b_aff_prog = page.metafields.trg.affiliate_program | default: 'No'
+  assign b_similar_raw = page.metafields.trg.similar_brands | default: ''
   assign b_initials = b_name | truncate: 2, ''
   assign b_origin_line = b_cat
   if b_country != blank
@@ -74,6 +39,13 @@
     endif
   endif
 -%}
+
+{%- unless has_brand -%}
+<div style="max-width:800px;margin:4rem auto;padding:2rem;text-align:center;">
+  <h1 style="font-family:'Playfair Display',serif;font-size:2rem;margin-bottom:1rem;">Brand not found</h1>
+  <p style="color:#8a8478;">No brand data found for this page. <a href="/brands" style="color:#c4562a;">Browse all brands &rarr;</a></p>
+</div>
+{%- else -%}
 
 <!-- HERO -->
 <div class="bp-hero">
@@ -363,7 +335,7 @@
   </aside>
 
 </div>
-{%- endif -%}
+{%- endunless -%}
 
 {% schema %}
 {
