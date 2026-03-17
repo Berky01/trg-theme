@@ -54,12 +54,80 @@
             {% when 'menu_column' %}
               <nav class="trg-footer__col" {{ block.shopify_attributes }}>
                 {% if block.settings.heading != blank %}<p class="trg-footer__col-title">{{ block.settings.heading | escape }}</p>{% endif %}
-                {% if block.settings.menu != blank %}
-                  <ul class="trg-footer__links" role="list">
-                    {% for link in linklists[block.settings.menu].links %}
-                      <li><a href="{{ link.url }}">{{ link.title | escape }}</a></li>
-                    {% endfor %}
-                  </ul>
+                {% if block.settings.menu != blank and linklists[block.settings.menu].links.size > 0 %}
+                  {% assign menu_has_real_links = false %}
+                  {% for link in linklists[block.settings.menu].links %}
+                    {% unless link.url == '/search' %}{% assign menu_has_real_links = true %}{% endunless %}
+                  {% endfor %}
+                  {% if menu_has_real_links %}
+                    <ul class="trg-footer__links" role="list">
+                      {% for link in linklists[block.settings.menu].links %}
+                        <li><a href="{{ link.url }}">{{ link.title | escape }}</a></li>
+                      {% endfor %}
+                    </ul>
+                  {% else %}
+                    {%- comment -%}Fallback links when menu has only /search placeholders{%- endcomment -%}
+                    {% if block.settings.heading == 'Directory' %}
+                      <ul class="trg-footer__links" role="list">
+                        <li><a href="/pages/brands">All Brands</a></li>
+                        <li><a href="/collections/footwear">Footwear</a></li>
+                        <li><a href="/collections/outerwear">Outerwear</a></li>
+                        <li><a href="/collections/casualwear">Casualwear</a></li>
+                        <li><a href="/collections/denim">Denim</a></li>
+                        <li><a href="/collections/knitwear">Knitwear</a></li>
+                        <li><a href="/collections/tailoring">Tailoring</a></li>
+                      </ul>
+                    {% elsif block.settings.heading == 'Categories' %}
+                      <ul class="trg-footer__links" role="list">
+                        <li><a href="/collections/outerwear">Outerwear</a></li>
+                        <li><a href="/collections/footwear">Footwear</a></li>
+                        <li><a href="/collections/casualwear">Casualwear</a></li>
+                        <li><a href="/collections/denim">Denim</a></li>
+                        <li><a href="/collections/knitwear">Knitwear</a></li>
+                        <li><a href="/collections/formalwear">Formalwear</a></li>
+                        <li><a href="/collections/workwear">Workwear</a></li>
+                      </ul>
+                    {% elsif block.settings.heading == 'About' %}
+                      <ul class="trg-footer__links" role="list">
+                        <li><a href="/pages/about">About TRG</a></li>
+                        <li><a href="/pages/affiliate-disclosure">Affiliate Disclosure</a></li>
+                        <li><a href="/pages/submit-brand">Submit a Brand</a></li>
+                        <li><a href="/blogs/journal">Journal</a></li>
+                        <li><a href="/policies/privacy-policy">Privacy Policy</a></li>
+                      </ul>
+                    {% endif %}
+                  {% endif %}
+                {% else %}
+                  {%- comment -%}No menu set — show fallback based on heading{%- endcomment -%}
+                  {% if block.settings.heading == 'Directory' %}
+                    <ul class="trg-footer__links" role="list">
+                      <li><a href="/pages/brands">All Brands</a></li>
+                      <li><a href="/collections/footwear">Footwear</a></li>
+                      <li><a href="/collections/outerwear">Outerwear</a></li>
+                      <li><a href="/collections/casualwear">Casualwear</a></li>
+                      <li><a href="/collections/denim">Denim</a></li>
+                      <li><a href="/collections/knitwear">Knitwear</a></li>
+                      <li><a href="/collections/tailoring">Tailoring</a></li>
+                    </ul>
+                  {% elsif block.settings.heading == 'Categories' %}
+                    <ul class="trg-footer__links" role="list">
+                      <li><a href="/collections/outerwear">Outerwear</a></li>
+                      <li><a href="/collections/footwear">Footwear</a></li>
+                      <li><a href="/collections/casualwear">Casualwear</a></li>
+                      <li><a href="/collections/denim">Denim</a></li>
+                      <li><a href="/collections/knitwear">Knitwear</a></li>
+                      <li><a href="/collections/formalwear">Formalwear</a></li>
+                      <li><a href="/collections/workwear">Workwear</a></li>
+                    </ul>
+                  {% elsif block.settings.heading == 'About' %}
+                    <ul class="trg-footer__links" role="list">
+                      <li><a href="/pages/about">About TRG</a></li>
+                      <li><a href="/pages/affiliate-disclosure">Affiliate Disclosure</a></li>
+                      <li><a href="/pages/submit-brand">Submit a Brand</a></li>
+                      <li><a href="/blogs/journal">Journal</a></li>
+                      <li><a href="/policies/privacy-policy">Privacy Policy</a></li>
+                    </ul>
+                  {% endif %}
                 {% endif %}
               </nav>
 
