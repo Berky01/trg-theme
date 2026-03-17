@@ -1,4 +1,4 @@
-/* TRG Mobile v2.2 — piggybacks on old JS, overrides render with delay */
+/* TRG Mobile v2.3 — fixes search focus + chip clicks */
 (function(){
 'use strict';
 var AB=
@@ -473,7 +473,6 @@ var AB=
 {n:"Zegna",s:"zegna",c:"formalwear",p:"m"}
 ];
 var mCat='all',mQ='',booted=false;
-
 function esc(s){var d=document.createElement('div');d.textContent=s;return d.innerHTML}
 function hl(n,q){if(!q)return esc(n);var i=n.toLowerCase().indexOf(q);if(i<0)return esc(n);return esc(n.slice(0,i))+'<mark style="background:rgba(196,86,42,.25);color:rgba(245,241,235,.92);border-radius:2px;padding:0 1px">'+esc(n.slice(i,i+q.length))+'</mark>'+esc(n.slice(i+q.length))}
 
@@ -495,7 +494,7 @@ function render(){
       var ph='<div style="font-size:.52rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#c4562a;padding:.75rem 1.25rem .35rem;display:flex;align-items:center;gap:.5rem">Our picks<span style="flex:1;height:1px;background:rgba(196,86,42,.2)"></span></div><div style="padding:0 1.25rem">';
       picks.forEach(function(b){ph+='<a href="/pages/brands/'+b.s+'" style="display:flex;align-items:center;justify-content:space-between;min-height:42px;padding:.3rem 0;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.04)"><span style="font-size:.78rem;color:rgba(245,241,235,.92)">'+hl(b.n,mQ)+'</span><span style="width:5px;height:5px;border-radius:50%;background:#c4562a;opacity:.6;flex-shrink:0"></span></a>'});
       ph+='</div>';pEl.innerHTML=ph;
-    }else{pEl.innerHTML=''}
+    }else pEl.innerHTML='';
   }
   if(rEl){
     if(rest.length){
@@ -503,65 +502,70 @@ function render(){
       var gr={};rest.forEach(function(b){var l=b.n.replace(/^[^a-zA-Z]+/,'').charAt(0).toUpperCase()||'#';if(!gr[l])gr[l]=[];gr[l].push(b)});
       Object.keys(gr).sort().forEach(function(l){rh+='<div style="font-size:.52rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#c4562a;padding:.7rem 0 .25rem;border-bottom:1px solid rgba(196,86,42,.2);margin-top:.4rem">'+l+'</div>';gr[l].forEach(function(b){rh+='<a href="/pages/brands/'+b.s+'" style="display:flex;align-items:center;min-height:40px;padding:.25rem 0;font-size:.76rem;color:rgba(245,241,235,.55);text-decoration:none;border-bottom:1px solid rgba(255,255,255,.03)">'+hl(b.n,mQ)+'</a>'})});
       rh+='</div>';rEl.innerHTML=rh;
-    }else{rEl.innerHTML=''}
+    }else rEl.innerHTML='';
   }
 }
 
-/* Delayed render — always wins over old JS */
-var renderTimer=null;
-function delayedRender(){clearTimeout(renderTimer);renderTimer=setTimeout(render,60)}
+var rt=null;
+function dr(){clearTimeout(rt);rt=setTimeout(render,60)}
 
 function boot(){
   if(booted)return;booted=true;
+
+  /* ── NUKE OLD HANDLERS: replace the input and chips with fresh clones ── */
   
-  /* SEARCH: capture-phase listener on the search container — fires BEFORE old JS handlers */
-  var sf=document.getElementById('trg-mob-bsearch');
-  if(sf){
-    sf.addEventListener('input',function(e){
-      if(e.target&&e.target.id==='trg-mob-bi'){
-        mQ=e.target.value.trim().toLowerCase();
-        delayedRender();
-      }
-    },true);
-    /* Make search input tappable — prevent swipe handler from stealing touch */
-    sf.addEventListener('touchstart',function(e){
-      if(e.target&&(e.target.id==='trg-mob-bi'||e.target.closest('.trg-mob-bsf'))){
-        e.stopPropagation();
-      }
-    },true);
-    sf.addEventListener('mousedown',function(e){
-      if(e.target&&(e.target.id==='trg-mob-bi'||e.target.closest('.trg-mob-bsf'))){
-        e.stopPropagation();
-      }
-    },true);
+  /* 1. Search input — completely replace to kill ALL old event listeners */
+  var oldInput=document.getElementById('trg-mob-bi');
+  if(oldInput){
+    var newInput=document.createElement('input');
+    newInput.type='text';
+    newInput.id='trg-mob-bi';
+    newInput.className='trg-mob-bin';
+    newInput.placeholder='Search 468 brands\u2026';
+    newInput.autocomplete='off';
+    newInput.setAttribute('autocorrect','off');
+    newInput.setAttribute('spellcheck','false');
+    newInput.style.cssText='flex:1;background:transparent;border:none;outline:none;font-family:DM Sans,sans-serif;font-size:.82rem;color:rgba(245,241,235,.92);padding:.7rem 0;touch-action:auto;-webkit-user-select:text;user-select:text;-webkit-appearance:none;appearance:none';
+    oldInput.parentNode.replaceChild(newInput,oldInput);
+    newInput.addEventListener('input',function(){mQ=newInput.value.trim().toLowerCase();dr()});
   }
-  /* Clear button */
-  var sx=document.getElementById('trg-mob-bsx');
-  if(sx){
-    sx.addEventListener('click',function(){
+  
+  /* 2. Clear button — replace */
+  var oldX=document.getElementById('trg-mob-bsx');
+  if(oldX){
+    var newX=oldX.cloneNode(true);
+    oldX.parentNode.replaceChild(newX,oldX);
+    newX.addEventListener('click',function(e){
+      e.preventDefault();e.stopPropagation();
       var inp=document.getElementById('trg-mob-bi');
       if(inp){inp.value='';inp.focus()}
-      mQ='';delayedRender();
-    },true);
+      mQ='';dr();
+    });
   }
 
-  /* CHIPS: capture-phase listener on chip container */
+  /* 3. Chips — remove data-swipe, then replace each chip to kill swipe drag handlers */
   var cc=document.getElementById('trg-mob-bchips');
   if(cc){
-    cc.addEventListener('click',function(e){
-      var chip=e.target.closest('.trg-mob-chip');
-      if(!chip)return;
-      mCat=chip.dataset.bcat||'all';
-      /* Update visual state */
-      cc.querySelectorAll('.trg-mob-chip').forEach(function(c){c.classList.remove('on')});
-      chip.classList.add('on');
-      delayedRender();
-      var body=document.getElementById('trg-mob-body');
-      if(body)body.scrollTop=0;
-    },true);
+    cc.removeAttribute('data-swipe');
+    cc.style.cssText='display:flex;gap:.35rem;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:.6rem 1.25rem .15rem;cursor:default;user-select:none;-webkit-user-select:none';
+    /* Replace all chips */
+    var oldChips=cc.querySelectorAll('.trg-mob-chip');
+    oldChips.forEach(function(old){
+      var nc=old.cloneNode(true);
+      old.parentNode.replaceChild(nc,old);
+      nc.addEventListener('click',function(e){
+        e.preventDefault();e.stopPropagation();
+        cc.querySelectorAll('.trg-mob-chip').forEach(function(c){c.classList.remove('on')});
+        nc.classList.add('on');
+        mCat=nc.dataset.bcat||'all';
+        dr();
+        var body=document.getElementById('trg-mob-body');
+        if(body)body.scrollTop=0;
+      });
+    });
   }
 
-  /* ACCORDION: capture-phase on all family headers */
+  /* 4. Accordion — capture phase on document */
   document.addEventListener('click',function(e){
     var hdr=e.target.closest('.trg-mob-fam-hdr');
     if(!hdr)return;
@@ -581,27 +585,19 @@ function boot(){
   /* Initial render */
   render();
 
-  /* Re-render when brands tab or drawer opens (overwrite old JS output) */
+  /* Re-render on tab/drawer open to overwrite old JS */
   var btc=document.getElementById('trg-mob-tc-brands');
-  if(btc){
-    new MutationObserver(function(){
-      if(btc.classList.contains('on'))delayedRender();
-    }).observe(btc,{attributes:true,attributeFilter:['class']});
-  }
+  if(btc)new MutationObserver(function(){if(btc.classList.contains('on'))dr()}).observe(btc,{attributes:true,attributeFilter:['class']});
   var mob=document.getElementById('trg-mob');
-  if(mob){
-    new MutationObserver(function(){
-      if(mob.classList.contains('on'))setTimeout(render,150);
-    }).observe(mob,{attributes:true,attributeFilter:['class']});
-  }
+  if(mob)new MutationObserver(function(){if(mob.classList.contains('on'))setTimeout(render,150)}).observe(mob,{attributes:true,attributeFilter:['class']});
 }
 
-/* CSS */
+/* CSS — aggressive overrides */
 var s=document.createElement('style');
-s.textContent='.trg-mob-chips{display:none!important}.trg-mob-fam-inner>.trg-mob-lbl:first-child{display:none!important}.trg-mob-bchips{padding:.6rem 1.25rem .15rem!important}.trg-mob-bin{touch-action:auto!important;-webkit-user-select:text!important;user-select:text!important;pointer-events:auto!important;position:relative!important;z-index:20!important}.trg-mob-bsf{position:relative!important;z-index:20!important}.trg-mob-bsearch{position:sticky!important;top:0!important;z-index:20!important}.trg-mob-ctas{padding:1rem 1.25rem;display:flex;flex-direction:column;gap:.5rem}.trg-mob-cta-primary{display:flex;align-items:center;justify-content:center;min-height:48px;padding:.7rem 1rem;background:rgba(196,86,42,.12);border:1px solid rgba(196,86,42,.35);border-radius:3px;font-family:"DM Sans",sans-serif;font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#c4562a;text-decoration:none}.trg-mob-cta-secondary{display:flex;align-items:center;justify-content:center;min-height:44px;padding:.6rem 1rem;background:rgba(255,255,255,.03);border:1px solid rgba(245,241,235,.1);border-radius:3px;font-family:"DM Sans",sans-serif;font-size:.68rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:rgba(245,241,235,.55);text-decoration:none}';
+s.textContent='.trg-mob-chips{display:none!important}.trg-mob-fam-inner>.trg-mob-lbl:first-child{display:none!important}.trg-mob-bchips{padding:.6rem 1.25rem .15rem!important;cursor:default!important}.trg-mob-bin,.trg-mob-bsf input,.trg-mob-bsearch input{background:transparent!important;color:rgba(245,241,235,.92)!important;touch-action:auto!important;-webkit-user-select:text!important;user-select:text!important;pointer-events:auto!important;-webkit-appearance:none!important;appearance:none!important;opacity:1!important}.trg-mob-bsf{pointer-events:auto!important;position:relative!important;z-index:20!important}.trg-mob-bsearch{pointer-events:auto!important}.trg-mob-ctas{padding:1rem 1.25rem;display:flex;flex-direction:column;gap:.5rem}.trg-mob-cta-primary{display:flex;align-items:center;justify-content:center;min-height:48px;padding:.7rem 1rem;background:rgba(196,86,42,.12);border:1px solid rgba(196,86,42,.35);border-radius:3px;font-family:"DM Sans",sans-serif;font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#c4562a;text-decoration:none}.trg-mob-cta-secondary{display:flex;align-items:center;justify-content:center;min-height:44px;padding:.6rem 1rem;background:rgba(255,255,255,.03);border:1px solid rgba(245,241,235,.1);border-radius:3px;font-family:"DM Sans",sans-serif;font-size:.68rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:rgba(245,241,235,.55);text-decoration:none}';
 document.head.appendChild(s);
 
-/* Boot early — use capture-phase so we don't need to clone anything */
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);
-else boot();
+/* Boot AFTER old JS has finished — use setTimeout to ensure we run last */
+if(document.readyState==='complete')setTimeout(boot,200);
+else window.addEventListener('load',function(){setTimeout(boot,300)});
 })();
