@@ -41,18 +41,9 @@ function bindNav(){
   });
 }
 
-function addChv(lk){
-  if(lk.querySelector('.trg-mm-chv'))return;
-  var s=document.createElement('span');s.className='trg-mm-chv';s.setAttribute('aria-hidden','true');
-  lk.appendChild(s);
-}
+function addChv(lk){}
 
-function watchChv(){
-  if(mo)mo.disconnect();
-  var hm=document.querySelector('header-menu');if(!hm)return;
-  mo=new MutationObserver(function(){$$('[data-trg-mm]').forEach(addChv)});
-  mo.observe(hm,{childList:true,subtree:true});
-}
+function watchChv(){}
 
 function toggle(k){
   if(op===k){close();return}

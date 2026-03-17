@@ -1,4 +1,4 @@
-{%- comment -%}v1773714495{%- endcomment -%}
+{%- comment -%}v1773714970{%- endcomment -%}
 {%- liquid
   assign bd = shop.metaobjects['brand']
   assign has_mo = false
@@ -71,7 +71,7 @@
                 {%- assign chip_list = block.settings.chips | split: ',' -%}
                 {%- for chip in chip_list -%}
                   {%- assign chip_clean = chip | strip -%}
-                  <a href="#" class="trg-mm-ac{% if forloop.first %} on{% endif %}">{{ chip_clean }}</a>
+                  <a href="javascript:void(0)" class="trg-mm-ac{% if forloop.first %} on{% endif %}">{{ chip_clean }}</a>
                 {%- endfor -%}
               </div>
             </div>
