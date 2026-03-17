@@ -1,4 +1,4 @@
-/* TRG Mobile Brands Tab v2 — self-contained, bypasses CDN cache */
+/* TRG Mobile Brands Tab v2.1 — self-contained, overrides old JS on every render */
 (function(){
 'use strict';
 var AB=
@@ -472,15 +472,10 @@ var AB=
 {n:"Zanone",s:"zanone",c:"casualwear",p:"h"},
 {n:"Zegna",s:"zegna",c:"formalwear",p:"m"}
 ];
-var mobCat='all',mobQ='';
+var mobCat='all',mobQ='',didInit=false;
 
 function esc(s){var d=document.createElement('div');d.textContent=s;return d.innerHTML}
-function hl(name,q){
-  if(!q)return esc(name);
-  var i=name.toLowerCase().indexOf(q);
-  if(i<0)return esc(name);
-  return esc(name.slice(0,i))+'<mark style="background:rgba(196,86,42,.25);color:rgba(245,241,235,.92);border-radius:2px;padding:0 1px">'+esc(name.slice(i,i+q.length))+'</mark>'+esc(name.slice(i+q.length));
-}
+function hl(n,q){if(!q)return esc(n);var i=n.toLowerCase().indexOf(q);if(i<0)return esc(n);return esc(n.slice(0,i))+'<mark style="background:rgba(196,86,42,.25);color:rgba(245,241,235,.92);border-radius:2px;padding:0 1px">'+esc(n.slice(i,i+q.length))+'</mark>'+esc(n.slice(i+q.length))}
 
 function renderMB(){
   var all=AB.slice();
@@ -494,11 +489,7 @@ function renderMB(){
   if(cEl)cEl.innerHTML='<strong style="color:rgba(196,86,42,.8);font-weight:500">'+total+'</strong> brand'+(total!==1?'s':'');
   var pEl=document.getElementById('trg-mob-bpicks');
   var rEl=document.getElementById('trg-mob-brest');
-  if(!total){
-    if(pEl)pEl.innerHTML='';
-    if(rEl)rEl.innerHTML='<div style="padding:2rem 1.25rem;text-align:center;font-size:.8rem;color:rgba(245,241,235,.3);font-style:italic">No brands found.</div>';
-    return;
-  }
+  if(!total){if(pEl)pEl.innerHTML='';if(rEl)rEl.innerHTML='<div style="padding:2rem 1.25rem;text-align:center;font-size:.8rem;color:rgba(245,241,235,.3);font-style:italic">No brands found.</div>';return}
   if(pEl){
     if(picks.length){
       var ph='<div style="font-size:.52rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#c4562a;padding:.75rem 1.25rem .35rem;display:flex;align-items:center;gap:.5rem">Our picks<span style="flex:1;height:1px;background:rgba(196,86,42,.2)"></span></div><div style="padding:0 1.25rem">';
@@ -516,29 +507,35 @@ function renderMB(){
   }
 }
 
-function initMB(){
+function bindMB(){
+  /* Search — clone to strip old handlers */
   var si=document.getElementById('trg-mob-bi');
-  if(si){
-    var ns=si.cloneNode(true);si.parentNode.replaceChild(ns,si);si=ns;
+  if(si&&!si._v2){
+    var ns=si.cloneNode(true);si.parentNode.replaceChild(ns,si);si=ns;si._v2=true;
     si.addEventListener('input',function(){mobQ=si.value.trim().toLowerCase();renderMB()});
     si.addEventListener('touchstart',function(e){e.stopPropagation()},{passive:true});
   }
   var sx=document.getElementById('trg-mob-bsx');
-  if(sx){
-    var nx=sx.cloneNode(true);sx.parentNode.replaceChild(nx,sx);sx=nx;
+  if(sx&&!sx._v2){
+    var nx=sx.cloneNode(true);sx.parentNode.replaceChild(nx,sx);sx=nx;sx._v2=true;
     sx.addEventListener('click',function(){var i=document.getElementById('trg-mob-bi');if(i){i.value='';i.focus()};mobQ='';renderMB()});
   }
+  /* Chips */
   document.querySelectorAll('#trg-mob-bchips .trg-mob-chip').forEach(function(chip){
-    var nc=chip.cloneNode(true);chip.parentNode.replaceChild(nc,chip);
+    if(chip._v2)return;
+    var nc=chip.cloneNode(true);chip.parentNode.replaceChild(nc,chip);nc._v2=true;
     nc.addEventListener('click',function(){
       document.querySelectorAll('#trg-mob-bchips .trg-mob-chip').forEach(function(c){c.classList.remove('on')});
       nc.classList.add('on');mobCat=nc.dataset.bcat||'all';renderMB();
       var body=document.getElementById('trg-mob-body');if(body)body.scrollTop=0;
     });
   });
-  /* Accordion fix */
+}
+
+function initAccordion(){
   document.querySelectorAll('.trg-mob-fam-hdr').forEach(function(hdr){
-    var nh=hdr.cloneNode(true);hdr.parentNode.replaceChild(nh,hdr);
+    if(hdr._v2)return;
+    var nh=hdr.cloneNode(true);hdr.parentNode.replaceChild(nh,hdr);nh._v2=true;
     nh.addEventListener('click',function(e){
       e.preventDefault();e.stopPropagation();
       var fam=nh.closest('.trg-mob-fam');if(!fam)return;
@@ -553,13 +550,39 @@ function initMB(){
       }
     });
   });
-  renderMB();
 }
-/* Inject CSS overrides */
+
+function fullInit(){
+  if(didInit)return;didInit=true;
+  bindMB();initAccordion();renderMB();
+  /* Watch for brands tab becoming visible — re-render to override old JS */
+  var btc=document.getElementById('trg-mob-tc-brands');
+  if(btc){
+    new MutationObserver(function(muts){
+      muts.forEach(function(m){
+        if(m.type==='attributes'&&m.attributeName==='class'){
+          if(btc.classList.contains('on')){
+            setTimeout(renderMB,50);/* Re-render after old JS has written */
+          }
+        }
+      });
+    }).observe(btc,{attributes:true});
+  }
+  /* Also watch drawer open */
+  var mob=document.getElementById('trg-mob');
+  if(mob){
+    new MutationObserver(function(){
+      if(mob.classList.contains('on'))setTimeout(function(){renderMB();initAccordion()},100);
+    }).observe(mob,{attributes:true});
+  }
+}
+
+/* Inject CSS */
 var s=document.createElement('style');
 s.textContent='.trg-mob-chips{display:none!important}.trg-mob-fam-inner>.trg-mob-lbl:first-child{display:none!important}.trg-mob-bchips{padding:.6rem 1.25rem .15rem!important}.trg-mob-bin{touch-action:auto!important;-webkit-user-select:text!important;user-select:text!important}.trg-mob-ctas{padding:1rem 1.25rem;display:flex;flex-direction:column;gap:.5rem}.trg-mob-cta-primary{display:flex;align-items:center;justify-content:center;min-height:48px;padding:.7rem 1rem;background:rgba(196,86,42,.12);border:1px solid rgba(196,86,42,.35);border-radius:3px;font-family:"DM Sans",sans-serif;font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#c4562a;text-decoration:none}.trg-mob-cta-secondary{display:flex;align-items:center;justify-content:center;min-height:44px;padding:.6rem 1rem;background:rgba(255,255,255,.03);border:1px solid rgba(245,241,235,.1);border-radius:3px;font-family:"DM Sans",sans-serif;font-size:.68rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:rgba(245,241,235,.55);text-decoration:none}';
 document.head.appendChild(s);
-/* Run */
-if(document.readyState==='complete')setTimeout(initMB,100);
-else window.addEventListener('load',function(){setTimeout(initMB,200)});
+
+/* Boot */
+if(document.readyState==='complete')fullInit();
+else window.addEventListener('load',function(){setTimeout(fullInit,100)});
 })();
