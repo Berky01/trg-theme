@@ -204,7 +204,7 @@
     <div class="bp-prods">
       <div class="bp-prods-hd">
         <div class="bp-lbl" style="margin-bottom:0;flex:1;">Products</div>
-        <a href="/collections/all?filter.p.vendor={{ b_name | url_encode }}" class="bp-va">View all {{ brand_products.size }}<svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        <a href="/collections/{{ b_name | handleize }}" class="bp-va">View all products<svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
       </div>
       <div class="bp-pgrid">
         {%- for product in brand_products limit: 3 -%}
