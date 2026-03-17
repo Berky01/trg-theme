@@ -7,10 +7,6 @@
 {{ 'trg-brand-directory.css' | asset_url | stylesheet_tag }}
 <script src="{{ 'trg-brand-directory.js' | asset_url }}" defer></script>
 <section class="section section--full-width trg-bdir" data-id="{{ section.id }}">
-  {%- comment -%}
-    Load ALL brand metaobjects across multiple pages (Shopify limits to 250 per page).
-    We paginate by 250 and concatenate into a single JSON array for client-side filtering.
-  {%- endcomment -%}
   <script type="application/json" data-brands-json>
     [
       {%- assign brand_output_count = 0 -%}
@@ -101,13 +97,21 @@
     ]
   </script>
   <script>
-    /* If page 1 has 250 items, fetch page 2 via section rendering API */
+    /* Fetch ALL remaining brand pages via Section Rendering API */
     (function(){
       var el = document.querySelector('[data-brands-json]');
       if (!el) return;
-      var brands = JSON.parse(el.textContent);
-      if (brands.length >= 250) {
-        fetch(window.location.pathname + '?page=2&section_id=' + el.closest('[data-id]').dataset.id)
+      var brands;
+      try { brands = JSON.parse(el.textContent); } catch(e){ return; }
+      var PAGE_SIZE = 50; /* Shopify metaobject Liquid cap */
+      if (brands.length < PAGE_SIZE) return; /* No more pages */
+      
+      var sectionId = el.closest('[data-id]').dataset.id;
+      var basePath = window.location.pathname;
+      var page = 2;
+      
+      function fetchNext() {
+        fetch(basePath + '?page=' + page + '&section_id=' + sectionId)
           .then(function(r){ return r.text(); })
           .then(function(html){
             var m = html.match(/data-brands-json[^>]*>([\s\S]*?)<\/script>/);
@@ -117,99 +121,19 @@
                 if (more.length) {
                   brands = brands.concat(more);
                   el.textContent = JSON.stringify(brands);
-                  /* Re-init the directory JS */
-                  var evt = new CustomEvent('trg:brands-updated');
-                  document.dispatchEvent(evt);
+                  document.dispatchEvent(new CustomEvent('trg:brands-updated'));
+                  if (more.length >= PAGE_SIZE) {
+                    page++;
+                    fetchNext(); /* More pages to load */
+                  }
                 }
               } catch(e){}
             }
-          });
+          })
+          .catch(function(){});
       }
+      fetchNext();
     })();
-  </script>
-
-<section class="section section--full-width trg-bdir" data-id="{{ section.id }}">
-  <script type="application/json" data-brands-json>
-    [
-      {% for brand in brands %}
-        {% liquid
-          assign name = brand.name.value | default: brand.name | default: brand.handle
-          if name == blank
-            continue
-          endif
-          assign country = brand.country.value | default: brand.country | strip
-          assign made_in = brand.made_in.value | default: brand.made_in | strip
-          assign raw_cat = brand.primary_category.value | default: brand.primary_category | strip
-          assign src = raw_cat | downcase
-          assign cat = 'Other'
-          if src contains 'footwear'
-            assign cat = 'Footwear'
-          elsif src contains 'outerwear'
-            assign cat = 'Outerwear'
-          elsif src contains 'formalwear' or src contains 'tailoring'
-            assign cat = 'Formalwear & Tailoring'
-          elsif src contains 'knitwear'
-            assign cat = 'Knitwear'
-          elsif src contains 'denim'
-            assign cat = 'Denim'
-          elsif src contains 'shirting' or src contains 'shirt'
-            assign cat = 'Shirting'
-          elsif src contains 'basics'
-            assign cat = 'Basics'
-          elsif src contains 'workwear'
-            assign cat = 'Workwear'
-          elsif src contains 'smart casual'
-            assign cat = 'Smart Casual'
-          elsif src contains 'streetwear'
-            assign cat = 'Streetwear'
-          elsif src contains 'accessories'
-            assign cat = 'Accessories'
-          elsif src contains 'activewear'
-            assign cat = 'Activewear'
-          elsif src contains 'casualwear' or src contains 'contemporary'
-            assign cat = 'Casualwear'
-          endif
-          assign pos = brand.brand_positioning.value | default: brand.brand_positioning | default: '' | replace: ';', ',' | replace: '/', ',' | replace: '|', ',' | split: ','
-          assign tags = brand.tags.value | default: brand.tags | default: '' | replace: ';', ',' | replace: '/', ',' | replace: '|', ',' | split: ','
-          assign desc = brand.description.value | default: brand.description | default: '' | strip_html | strip
-          assign aff = brand.affiliate_program.value | default: brand.affiliate_program | downcase | strip
-          assign ships = brand.ships_to_canada.value | default: brand.ships_to_canada | downcase | strip
-          assign ddp = brand.ddp_duties.value | default: brand.ddp_duties | downcase | strip
-          assign nat = brand.natural_materials.value | default: brand.natural_materials | downcase | strip
-          assign ca = brand.canadian_brand.value | default: brand.canadian_brand | downcase | strip
-          assign made_src = made_in | downcase
-          if made_src == blank
-            assign made_src = country | downcase
-          endif
-          assign made_group = 'Other'
-          if made_src contains 'usa' or made_src contains 'united states'
-            assign made_group = 'USA'
-          elsif made_src contains 'canada'
-            assign made_group = 'Canada'
-          elsif made_src contains 'japan'
-            assign made_group = 'Japan'
-          elsif made_src contains 'uk' or made_src contains 'united kingdom' or made_src contains 'england' or made_src contains 'scotland'
-            assign made_group = 'United Kingdom'
-          elsif made_src contains 'sweden' or made_src contains 'denmark' or made_src contains 'norway' or made_src contains 'scandinavia'
-            assign made_group = 'Scandinavia'
-          elsif made_src contains 'italy' or made_src contains 'france' or made_src contains 'spain' or made_src contains 'portugal' or made_src contains 'germany' or made_src contains 'belgium' or made_src contains 'netherlands' or made_src contains 'hungary' or made_src contains 'poland' or made_src contains 'europe'
-            assign made_group = 'Europe'
-          endif
-          assign logo = brand.logo.value | default: brand.logo
-          if logo != blank and logo.preview_image != blank
-            assign logo = logo.preview_image
-          endif
-          assign logo_url = ''
-          if logo != blank
-            assign logo_url = logo | image_url: width: 400
-          endif
-          capture url
-            render 'trg-brand-page-url', brand_item: brand
-          endcapture
-        %}
-        {"handle":{{ brand.handle | json }},"name":{{ name | json }},"url":{{ url | strip | json }},"country":{{ country | json }},"madeIn":{{ made_in | json }},"madeInGroup":{{ made_group | json }},"primaryCategoryRaw":{{ raw_cat | json }},"category":{{ cat | json }},"priceRange":{{ brand.price_range.value | default: brand.price_range | json }},"buyPath":{{ brand.buy_path.value | default: brand.buy_path | json }},"bestRetailerNa":{{ brand.best_retailer_na.value | default: brand.best_retailer_na | json }},"bestRetailerCa":{{ brand.best_retailer_ca.value | default: brand.best_retailer_ca | json }},"affiliateProgram":{% if aff == 'yes' or aff == 'true' %}true{% else %}false{% endif %},"affiliateNetwork":{{ brand.affiliate_network.value | default: brand.affiliate_network | json }},"commission":{{ brand.commission.value | default: brand.commission | json }},"shipsToCanada":{% if ships == 'yes' or ships == 'true' %}true{% else %}false{% endif %},"ddpDuties":{% if ddp == 'yes' or ddp == 'true' %}true{% else %}false{% endif %},"naturalMaterials":{% if nat == 'yes' or nat == 'true' %}true{% else %}false{% endif %},"canadianBrand":{% if ca == 'yes' or ca == 'true' %}true{% else %}false{% endif %},"brandPositioning":{{ pos | json }},"tags":{{ tags | json }},"description":{{ desc | truncate: 120 | json }},"logoUrl":{{ logo_url | json }},"priority":{{ brand.priority.value | default: brand.priority | json }}}{% unless forloop.last %},{% endunless %}
-      {% endfor %}
-    ]
   </script>
   <div class="trg-bdir__head trg-bdir__desktop-chrome">
     <div class="trg-bdir__shell trg-bdir__headin">
