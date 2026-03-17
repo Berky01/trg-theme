@@ -65,6 +65,23 @@
       }));
 
       const PAGE = 24;
+
+      /* Listen for page 2 brands to arrive */
+      document.addEventListener('trg:brands-updated', () => {
+        try {
+          const fresh = JSON.parse(dataNode.textContent || '[]').map((brand) => ({
+            ...brand,
+            brandPositioning: Array.isArray(brand.brandPositioning)
+              ? brand.brandPositioning.map((v) => String(v || '').trim()).filter(Boolean) : [],
+            tags: Array.isArray(brand.tags) ? brand.tags.map((v) => String(v || '').trim()).filter(Boolean) : [],
+          }));
+          data.length = 0;
+          data.push(...fresh);
+          state.all = data;
+          state.page = 1;
+          applyFilters();
+        } catch(e) {}
+      });
       const key = 'trg_saved_brands';
       const q = (selector) => section.querySelector(selector);
       const qa = (selector) => bySel(section, selector);
