@@ -1,4 +1,4 @@
-{%- comment -%}v1773714425{%- endcomment -%}
+{%- comment -%}v1773714495{%- endcomment -%}
 {%- liquid
   assign bd = shop.metaobjects['brand']
   assign has_mo = false
@@ -65,20 +65,22 @@
           -%}
           <div class="trg-mm-pn{% if fi == 0 %} on{% endif %}" id="trg-mm-pn-shop-{{ ft | handleize }}" {{ block.shopify_attributes }}>
             <div class="trg-mm-ph"><span class="trg-mm-pt">{{ ft }}</span>{%- if block.settings.subtitle != blank -%}<span class="trg-mm-ps">{{ block.settings.subtitle }}</span>{%- endif -%}</div>
+          {%- if block.settings.chips != blank -%}
+            <div class="trg-mm-ar"><span class="trg-mm-al">Style Aesthetic</span>
+              <div class="trg-mm-acs">
+                {%- assign chip_list = block.settings.chips | split: ',' -%}
+                {%- for chip in chip_list -%}
+                  {%- assign chip_clean = chip | strip -%}
+                  <a href="#" class="trg-mm-ac{% if forloop.first %} on{% endif %}">{{ chip_clean }}</a>
+                {%- endfor -%}
+              </div>
+            </div>
+          {%- endif -%}
           {%- assign po = true -%}{%- assign fi = fi | plus: 1 -%}
 
-        {%- elsif block.type == 'aesthetic_chip' and po -%}
-          {%- unless ao -%}<div class="trg-mm-ar"><span class="trg-mm-al">Style Aesthetic</span><div class="trg-mm-acs">{%- assign ao = true -%}{%- endunless -%}
-          {%- liquid
-            assign cu = '#'
-            if block.settings.collection != blank
-              assign cu = block.settings.collection.url
-            endif
-          -%}
-          <a href="{{ cu }}" class="trg-mm-ac{% if block.settings.is_default %} on{% endif %}" {{ block.shopify_attributes }}>{{ block.settings.title }}</a>
+        {%- comment -%}aesthetic_chip blocks deprecated - chips now in family settings{%- endcomment -%}
 
         {%- elsif block.type == 'subcategory' and po -%}
-          {%- if ao -%}</div></div>{%- assign ao = false -%}{%- endif -%}
           {%- unless go -%}<span class="trg-mm-sl">Shop by type</span><div class="trg-mm-sg">{%- assign go = true -%}{%- endunless -%}
           {%- liquid
             assign st = block.settings.title_override
@@ -177,7 +179,8 @@
     {"type":"family","name":"Product Family","settings":[
       {"type":"collection","id":"collection","label":"Collection"},
       {"type":"text","id":"title_override","label":"Custom title (optional)"},
-      {"type":"text","id":"subtitle","label":"Subtitle (optional)","info":"E.g. '77 brands'"}
+      {"type":"text","id":"subtitle","label":"Subtitle (optional)","info":"E.g. '77 brands'"},
+      {"type":"text","id":"chips","label":"Style aesthetic chips (comma-separated)","info":"E.g. 'All, Heritage, Dress, Casual'. Leave blank for no chips."}
     ]},
     {"type":"aesthetic_chip","name":"Style Chip","settings":[
       {"type":"text","id":"title","label":"Label","default":"Heritage"},
