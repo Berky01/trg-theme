@@ -353,10 +353,7 @@ input:focus-visible {
 }
 
 /* ─── HIDE SIGN IN (no account functionality for affiliate directory) ─── */
-[href*="customer_authentication"],
-a[href*="customer_authentication"] {
-  display: none !important;
-}
+/* Sign In visible — account system active */
 
 /* ─── newsletter-dedup: Only show body newsletter on homepage ─── */
 /* Interior pages: hide the body-level newsletter (footer one stays) */
