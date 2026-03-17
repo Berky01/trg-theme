@@ -431,6 +431,246 @@
             "link_3_text": "Submit a brand",
             "link_3_url": "/pages/submit-brand"
           }
+        },
+        "sx_work_logger_boots": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/footwear",
+            "title_override": "Work & Logger Boots",
+            "count": "14"
+          }
+        },
+        "sx_chukka_desert_boot": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/footwear",
+            "title_override": "Chukka & Desert Boot",
+            "count": "10"
+          }
+        },
+        "sx_monk_strap": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/formalwear",
+            "title_override": "Monk Strap",
+            "count": "9"
+          }
+        },
+        "sx_sneakers_trainers": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/footwear",
+            "title_override": "Sneakers & Trainers",
+            "count": "8"
+          }
+        },
+        "sx_moccasin_camp": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/footwear",
+            "title_override": "Moccasin & Camp",
+            "count": "6"
+          }
+        },
+        "sx_bespoke_mto": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/footwear",
+            "title_override": "Bespoke & MTO",
+            "count": "8"
+          }
+        },
+        "sx_raincoat_mac": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/outerwear",
+            "title_override": "Raincoat & Mac",
+            "count": "7"
+          }
+        },
+        "sx_harrington_bomber": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/outerwear",
+            "title_override": "Harrington & Bomber",
+            "count": "9"
+          }
+        },
+        "sx_parka": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/outerwear",
+            "title_override": "Parka",
+            "count": "8"
+          }
+        },
+        "sx_leather_jacket": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/outerwear",
+            "title_override": "Leather Jacket",
+            "count": "7"
+          }
+        },
+        "sx_peacoat_reefer": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/outerwear",
+            "title_override": "Peacoat & Reefer",
+            "count": "5"
+          }
+        },
+        "sx_wool_coat": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/outerwear",
+            "title_override": "Wool Coat",
+            "count": "9"
+          }
+        },
+        "sx_overshirts": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/casualwear",
+            "title_override": "Overshirts",
+            "count": "20"
+          }
+        },
+        "sx_sweatshirts_fleece": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/basics",
+            "title_override": "Sweatshirts & Fleece",
+            "count": "22"
+          }
+        },
+        "sx_camp_collar_shirts": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/casualwear",
+            "title_override": "Camp Collar Shirts",
+            "count": "16"
+          }
+        },
+        "sx_polos": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/casualwear",
+            "title_override": "Polos",
+            "count": "17"
+          }
+        },
+        "sx_shorts": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/casualwear",
+            "title_override": "Shorts",
+            "count": "19"
+          }
+        },
+        "sx_linen_summer": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/casualwear",
+            "title_override": "Linen & Summer",
+            "count": "14"
+          }
+        },
+        "sx_dress_trousers": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/formalwear",
+            "title_override": "Dress Trousers",
+            "count": "18"
+          }
+        },
+        "sx_ties_pocket_squares": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/formalwear",
+            "title_override": "Ties & Pocket Squares",
+            "count": "14"
+          }
+        },
+        "sx_waistcoats": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/formalwear",
+            "title_override": "Waistcoats",
+            "count": "8"
+          }
+        },
+        "sx_tuxedo_black_tie": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/formalwear",
+            "title_override": "Tuxedo & Black Tie",
+            "count": "6"
+          }
+        },
+        "sx_bespoke_mtm": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/formalwear",
+            "title_override": "Bespoke & MTM",
+            "count": "11"
+          }
+        },
+        "sx_aran_fisherman": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/knitwear",
+            "title_override": "Aran & Fisherman",
+            "count": "8"
+          }
+        },
+        "sx_cashmere": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/knitwear",
+            "title_override": "Cashmere",
+            "count": "11"
+          }
+        },
+        "sx_merino": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/knitwear",
+            "title_override": "Merino",
+            "count": "14"
+          }
+        },
+        "sx_slim_tapered": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/denim",
+            "title_override": "Slim & Tapered",
+            "count": "20"
+          }
+        },
+        "sx_straight_relaxed": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/denim",
+            "title_override": "Straight & Relaxed",
+            "count": "18"
+          }
+        },
+        "sx_denim_shirt": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/denim",
+            "title_override": "Denim Shirt",
+            "count": "12"
+          }
+        },
+        "sx_overalls_coveralls": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/denim",
+            "title_override": "Overalls & Coveralls",
+            "count": "7"
+          }
         }
       },
       "block_order": [
@@ -438,26 +678,56 @@
         "s_fo_oxford_derby",
         "s_fo_chelsea_boots",
         "s_fo_loafers",
+        "sx_work_logger_boots",
+        "sx_chukka_desert_boot",
+        "sx_monk_strap",
+        "sx_sneakers_trainers",
+        "sx_moccasin_camp",
+        "sx_bespoke_mto",
         "fam_outerwear",
         "s_ou_field_jacket",
         "s_ou_waxed_cotton",
         "s_ou_down_jacket",
+        "sx_raincoat_mac",
+        "sx_harrington_bomber",
+        "sx_parka",
+        "sx_leather_jacket",
+        "sx_peacoat_reefer",
+        "sx_wool_coat",
         "fam_casualwear",
         "s_ca_casual_shirts",
         "s_ca_t_shirts",
         "s_ca_chinos",
+        "sx_overshirts",
+        "sx_sweatshirts_fleece",
+        "sx_camp_collar_shirts",
+        "sx_polos",
+        "sx_shorts",
+        "sx_linen_summer",
         "fam_formalwear",
         "s_fo_suits",
         "s_fo_sport_coats",
         "s_fo_dress_shirts",
+        "sx_dress_trousers",
+        "sx_ties_pocket_squares",
+        "sx_waistcoats",
+        "sx_tuxedo_black_tie",
+        "sx_bespoke_mtm",
         "fam_knitwear",
         "s_kn_crewneck",
         "s_kn_cardigan",
         "s_kn_turtleneck",
+        "sx_aran_fisherman",
+        "sx_cashmere",
+        "sx_merino",
         "fam_denim",
         "s_de_jeans",
         "s_de_denim_jacket",
         "s_de_raw_denim",
+        "sx_slim_tapered",
+        "sx_straight_relaxed",
+        "sx_denim_shirt",
+        "sx_overalls_coveralls",
         "bc_casualwear",
         "bc_footwear",
         "bc_formalwear",
