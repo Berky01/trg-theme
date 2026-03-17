@@ -62,7 +62,8 @@
                   alt: card_name
               }}
             {% else %}
-              {{ card_icon | escape }}
+              {%- assign cat_slug = card_name | downcase | replace: ' ', '-' | replace: '&', '' -%}
+                {%- render 'trg-category-icon', type: cat_slug -%}
             {% endif %}
           </div>
           <h3 class="trg-category-name">{{ card_name | escape }}</h3>
