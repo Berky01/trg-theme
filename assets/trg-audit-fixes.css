@@ -1,0 +1,353 @@
+/* ============================================
+   TRG AUDIT FIXES — trg-audit-fixes.css
+   Deploy: Upload to Shopify > Assets
+   Include: Add to theme.liquid before </head>
+   {{ 'trg-audit-fixes.css' | asset_url | stylesheet_tag }}
+   ============================================ */
+
+/* ─── 1. FIX: Search empty state showing by default ─── */
+/* Hide "No pieces match this search" until search is actually active */
+.trg-search-bar ~ .trg-search-empty,
+.trg-search-empty:not(.is-active) {
+  display: none !important;
+}
+
+/* ─── 2. FIX: Brand PLP empty state polish ─── */
+/* When brand directory shows no results, improve the empty state */
+.brand-grid-empty {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: var(--trg-mid, #8a8478);
+}
+.brand-grid-empty h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  font-weight: 400;
+  color: var(--trg-ink, #1a1a18);
+  margin-bottom: 0.5rem;
+}
+.brand-grid-empty p {
+  font-size: 0.85rem;
+  font-weight: 300;
+}
+
+/* ─── 3. POLISH: Product card hover refinement ─── */
+.product-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.product-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(26, 26, 24, 0.08);
+}
+
+/* ─── 4. POLISH: Brand card monogram refinement ─── */
+/* Make monogram placeholders look more intentional while images are missing */
+.brand-card__logo-placeholder,
+.product-card .placeholder-svg,
+[class*="brand-logo-fallback"] {
+  background: linear-gradient(135deg, #1a1a18 0%, #2d2d2a 100%) !important;
+  border: 1px solid rgba(245, 241, 235, 0.08);
+  font-family: 'Playfair Display', serif !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.02em;
+  color: rgba(245, 241, 235, 0.7) !important;
+}
+
+/* ─── 5. POLISH: Newsletter section — only show once per page ─── */
+/* Hide the second newsletter section when it appears as a duplicate */
+.shopify-section + .shopify-section [class*="newsletter"],
+.shopify-section + .shopify-section [class*="email-signup"] {
+  /* Don't hide by default — but this selector can be fine-tuned
+     once we identify the exact section IDs */
+}
+
+/* ─── 6. POLISH: Footer link states ─── */
+footer a,
+.footer a,
+[class*="footer"] a {
+  transition: color 0.15s ease;
+}
+footer a:hover,
+.footer a:hover,
+[class*="footer"] a:hover {
+  color: var(--trg-accent, #c4562a) !important;
+}
+
+/* ─── 7. POLISH: Breadcrumb styling consistency ─── */
+.breadcrumb,
+[class*="breadcrumb"] {
+  font-size: 0.75rem;
+  color: var(--trg-mid, #8a8478);
+  letter-spacing: 0.02em;
+}
+.breadcrumb a:hover {
+  color: var(--trg-accent, #c4562a);
+}
+
+/* ─── 8. POLISH: CTA button hierarchy on Brand PDP ─── */
+/* Primary CTA (Shop Direct) */
+.btn-shop-direct,
+[class*="affiliate-cta"] .btn-primary,
+.trg-affiliate-cta__primary {
+  background: var(--trg-accent, #c4562a);
+  color: #ffffff;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.85rem 1.75rem;
+  border-radius: 2px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: opacity 0.2s ease;
+  white-space: nowrap;
+}
+.btn-shop-direct:hover,
+[class*="affiliate-cta"] .btn-primary:hover,
+.trg-affiliate-cta__primary:hover {
+  opacity: 0.88;
+}
+
+/* Secondary CTA (Retailer) */
+.btn-retailer,
+[class*="affiliate-cta"] .btn-secondary,
+.trg-affiliate-cta__secondary {
+  background: transparent;
+  color: var(--trg-ink, #1a1a18);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  padding: 0.65rem 1.25rem;
+  border: 1px solid var(--trg-border, #ddd8cf);
+  border-radius: 2px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: border-color 0.2s ease, color 0.2s ease;
+  white-space: nowrap;
+}
+.btn-retailer:hover,
+[class*="affiliate-cta"] .btn-secondary:hover,
+.trg-affiliate-cta__secondary:hover {
+  border-color: var(--trg-accent, #c4562a);
+  color: var(--trg-accent, #c4562a);
+}
+
+/* ─── 9. POLISH: Tag/badge consistency ─── */
+.badge,
+[class*="badge-"],
+.trg-badge {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  padding: 0.22rem 0.6rem;
+  border-radius: 2px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  white-space: nowrap;
+}
+.badge-canadian,
+.trg-badge--ca {
+  background: rgba(212, 41, 26, 0.1);
+  color: #b82318;
+  border: 1px solid rgba(212, 41, 26, 0.2);
+}
+.badge-affiliate,
+.trg-badge--affiliate {
+  background: rgba(196, 86, 42, 0.1);
+  color: #a84a1f;
+  border: 1px solid rgba(196, 86, 42, 0.2);
+}
+.badge-ships-ca,
+.trg-badge--ships-ca {
+  background: rgba(80, 160, 80, 0.1);
+  color: #3d8c3d;
+  border: 1px solid rgba(80, 160, 80, 0.2);
+}
+.badge-price,
+.trg-badge--price {
+  background: var(--trg-tag-bg, #ede8e0);
+  color: var(--trg-mid, #8a8478);
+  border: 1px solid var(--trg-border, #ddd8cf);
+}
+
+/* ─── 10. POLISH: Scroll-to-top button ─── */
+.scroll-to-top,
+[class*="back-to-top"] {
+  background: var(--trg-ink, #1a1a18);
+  color: var(--trg-paper, #f5f1eb);
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  font-size: 1rem;
+}
+.scroll-to-top:hover {
+  opacity: 0.8;
+}
+
+/* ─── 11. CANADA CONDITIONAL: Only show when data-region=CA ─── */
+/* These elements should be hidden by default and shown via geo JS */
+.canada-only,
+[data-ca-only],
+.trg-canada-strip,
+.badge-ships-ca:not([data-always-show]),
+.trg-ca-cta {
+  display: none !important;
+}
+body[data-region="CA"] .canada-only,
+body[data-region="CA"] [data-ca-only],
+body[data-region="CA"] .trg-canada-strip,
+body[data-region="CA"] .badge-ships-ca,
+body[data-region="CA"] .trg-ca-cta {
+  display: flex !important;
+}
+/* For inline elements */
+body[data-region="CA"] span.canada-only,
+body[data-region="CA"] span[data-ca-only] {
+  display: inline !important;
+}
+/* For block elements */
+body[data-region="CA"] div.canada-only,
+body[data-region="CA"] section.canada-only {
+  display: block !important;
+}
+
+/* ─── 12. POLISH: Collection page filter panel ─── */
+.trg-filter-panel,
+[class*="filter-sidebar"] {
+  border-right: 1px solid var(--trg-border, #ddd8cf);
+}
+.trg-filter-group__title {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--trg-mid, #8a8478);
+  margin-bottom: 0.75rem;
+}
+
+/* ─── 13. POLISH: Typography scale consistency ─── */
+/* Ensure Playfair is used for all headings, DM Sans for body */
+h1, h2, h3,
+.h1, .h2, .h3,
+[class*="heading"],
+[class*="title"]:not(input):not(button) {
+  font-family: 'Playfair Display', serif;
+}
+/* Italic accent in headings */
+h1 em, h2 em, h3 em,
+.h1 em, .h2 em, .h3 em {
+  font-style: italic;
+  color: var(--trg-accent, #c4562a);
+}
+
+/* ─── 14. POLISH: Link styles ─── */
+a {
+  color: inherit;
+  text-decoration-color: var(--trg-border, #ddd8cf);
+  text-underline-offset: 0.15em;
+  transition: color 0.15s ease, text-decoration-color 0.15s ease;
+}
+a:hover {
+  color: var(--trg-accent, #c4562a);
+  text-decoration-color: var(--trg-accent, #c4562a);
+}
+/* Remove underline from nav links, buttons, cards */
+nav a,
+button a,
+.card a,
+[class*="card"] a,
+[class*="btn"] {
+  text-decoration: none;
+}
+
+/* ─── 15. POLISH: Loading/skeleton states ─── */
+@keyframes trg-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.trg-skeleton {
+  background: linear-gradient(90deg, #ede8e0 25%, #e8e3db 50%, #ede8e0 75%);
+  background-size: 200% 100%;
+  animation: trg-shimmer 1.5s ease infinite;
+  border-radius: 2px;
+}
+
+/* ─── 16. POLISH: Selection color ─── */
+::selection {
+  background: rgba(196, 86, 42, 0.15);
+  color: var(--trg-ink, #1a1a18);
+}
+
+/* ─── 17. POLISH: Focus styles for accessibility ─── */
+*:focus-visible {
+  outline: 2px solid var(--trg-accent, #c4562a);
+  outline-offset: 2px;
+}
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--trg-accent, #c4562a);
+  outline-offset: 2px;
+}
+
+/* ─── 18. RESPONSIVE: Mobile refinements ─── */
+@media (max-width: 749px) {
+  /* Tighter spacing on mobile */
+  .section-heading {
+    font-size: 1.6rem !important;
+  }
+  
+  /* Stack CTAs on mobile */
+  .brand-hero-cta {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+  
+  /* Full-width buttons on mobile */
+  .btn-shop-direct,
+  .btn-retailer,
+  .trg-affiliate-cta__primary,
+  .trg-affiliate-cta__secondary {
+    justify-content: center;
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* ─── 19. PRINT STYLES ─── */
+@media print {
+  nav, footer, .newsletter-section, .scroll-to-top,
+  .trg-mega-menu, .search-overlay {
+    display: none !important;
+  }
+  body {
+    background: white;
+    color: black;
+    font-size: 12pt;
+  }
+  a[href]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    color: #666;
+  }
+}

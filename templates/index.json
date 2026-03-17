@@ -72,7 +72,7 @@
         "stat_1": {
           "type": "stat",
           "settings": {
-            "value": "315",
+            "value": "460",
             "suffix": "+",
             "label": "Brands tracked"
           }
@@ -80,9 +80,9 @@
         "stat_2": {
           "type": "stat",
           "settings": {
-            "value": "40",
+            "value": "100",
             "suffix": "+",
-            "label": "Ships to Canada"
+            "label": "With affiliate programs"
           }
         },
         "stat_3": {
@@ -102,7 +102,7 @@
             "gradient_start": "#3b1d0f",
             "gradient_end": "#552915",
             "height": "normal",
-            "link": ""
+            "link": "/pages/brands/viberg"
           }
         },
         "mosaic_2": {
@@ -114,7 +114,7 @@
             "gradient_start": "#3f5274",
             "gradient_end": "#1f2f50",
             "height": "normal",
-            "link": ""
+            "link": "/pages/brands/taylor-stitch"
           }
         },
         "mosaic_3": {
@@ -126,7 +126,7 @@
             "gradient_start": "#526850",
             "gradient_end": "#1e3a2f",
             "height": "tall",
-            "link": ""
+            "link": "/pages/brands/norse-projects"
           }
         },
         "mosaic_4": {
@@ -138,7 +138,7 @@
             "gradient_start": "#2b3348",
             "gradient_end": "#121722",
             "height": "normal",
-            "link": ""
+            "link": "/pages/brands/reigning-champ"
           }
         },
         "mosaic_5": {
@@ -150,7 +150,7 @@
             "gradient_start": "#9f8468",
             "gradient_end": "#c5a783",
             "height": "normal",
-            "link": ""
+            "link": "/pages/brands/buck-mason"
           }
         }
       },
@@ -173,13 +173,13 @@
         "hero_text": "#f5f1eb",
         "hero_accent": "#c4562a",
         "eyebrow": "Curated Menswear Directory",
-        "heading": "<p>The brands worth buying from.<br/><em>Properly vetted.</em></p>",
-        "body": "<p>A hand-curated directory of quality menswear brands, filterable by style, price, and origin, with every detail a Canadian buyer needs to shop with confidence.</p>",
+        "heading": "<p>The brands worth knowing.<br/><em>Editorially curated.</em></p>",
+        "body": "<p>Quality menswear brands, vetted and organized by style, price, and origin.</p>",
         "primary_label": "Browse Brands",
-        "primary_link": "shopify://collections/all",
+        "primary_link": "/pages/brands",
         "primary_style": "primary",
         "secondary_label": "Shop Products",
-        "secondary_link": "shopify://collections/all",
+        "secondary_link": "/collections/all",
         "secondary_style": "secondary",
         "padding_block_start": 0,
         "padding_block_end": 0
@@ -191,8 +191,8 @@
         "item_1": {
           "type": "item",
           "settings": {
-            "icon": "🍁",
-            "text": "Canada shipping context"
+            "icon": "⌖",
+            "text": "460+ brands tracked"
           }
         },
         "item_2": {
@@ -226,7 +226,7 @@
       "settings": {
         "color_scheme": "scheme-1",
         "variant": "canada",
-        "lead_text": "Built for quality-focused shoppers in Canada and the US",
+        "lead_text": "Built for the quality-focused shopper",
         "padding_y": 10
       }
     },
@@ -245,7 +245,7 @@
             "body": "Heirloom-quality boots handcrafted in Canada with exceptional build integrity.",
             "price_tag": "Luxury",
             "cta_label": "View",
-            "link": "shopify://collections/all"
+            "link": "/pages/brands/viberg"
           }
         },
         "brand_2": {
@@ -260,7 +260,7 @@
             "body": "Workshop-grade essentials with sturdy materials and classic silhouettes.",
             "price_tag": "Mid-range",
             "cta_label": "View",
-            "link": "shopify://collections/all"
+            "link": "/pages/brands/taylor-stitch"
           }
         },
         "brand_3": {
@@ -275,7 +275,7 @@
             "body": "Quiet premium basics and fleece with reliable quality control.",
             "price_tag": "Premium",
             "cta_label": "View",
-            "link": "shopify://collections/all"
+            "link": "/pages/brands/reigning-champ"
           }
         },
         "brand_4": {
@@ -290,7 +290,7 @@
             "body": "Strong tailoring value with thoughtful fabric and fit options.",
             "price_tag": "Mid-range",
             "cta_label": "View",
-            "link": "shopify://collections/all"
+            "link": "/pages/brands/spier-and-mackay"
           }
         },
         "brand_5": {
@@ -305,7 +305,7 @@
             "body": "Modern essentials with clean lines and durable fabrics.",
             "price_tag": "Premium",
             "cta_label": "View",
-            "link": "shopify://collections/all"
+            "link": "/pages/brands/norse-projects"
           }
         },
         "brand_6": {
@@ -320,7 +320,7 @@
             "body": "Refined basics and staple layers with practical everyday fit.",
             "price_tag": "Mid-range",
             "cta_label": "View",
-            "link": "shopify://collections/all"
+            "link": "/pages/brands/buck-mason"
           }
         }
       },
@@ -368,7 +368,7 @@
             "name": "Outerwear",
             "count": "18 brands",
             "count_override": "",
-            "link": "shopify://collections/all"
+            "link": "/collections/outerwear"
           }
         },
         "cat_2": {
@@ -379,7 +379,7 @@
             "name": "Casualwear",
             "count": "82 brands",
             "count_override": "",
-            "link": "shopify://collections/all"
+            "link": "/collections/casualwear"
           }
         },
         "cat_3": {
@@ -390,7 +390,7 @@
             "name": "Shirting",
             "count": "19 brands",
             "count_override": "",
-            "link": "shopify://collections/all"
+            "link": "/collections/shirting"
           }
         },
         "cat_4": {
@@ -401,7 +401,7 @@
             "name": "Footwear",
             "count": "14 brands",
             "count_override": "",
-            "link": "shopify://collections/all"
+            "link": "/collections/footwear"
           }
         },
         "cat_5": {
@@ -412,7 +412,7 @@
             "name": "Workwear",
             "count": "24 brands",
             "count_override": "",
-            "link": "shopify://collections/all"
+            "link": "/collections/workwear"
           }
         },
         "cat_6": {
@@ -423,7 +423,7 @@
             "name": "Basics",
             "count": "31 brands",
             "count_override": "",
-            "link": "shopify://collections/all"
+            "link": "/collections/basics"
           }
         },
         "cat_7": {
@@ -434,7 +434,7 @@
             "name": "Formalwear",
             "count": "9 brands",
             "count_override": "",
-            "link": "shopify://collections/all"
+            "link": "/collections/formalwear"
           }
         },
         "cat_8": {
@@ -445,7 +445,7 @@
             "name": "Technical",
             "count": "17 brands",
             "count_override": "",
-            "link": "shopify://collections/all"
+            "link": "/collections/activewear"
           }
         }
       },
@@ -523,17 +523,17 @@
         "pillar_1": {
           "type": "pillar",
           "settings": {
-            "icon": "🍁",
-            "title": "Canada-first intelligence",
-            "body": "Duty transparency, DDP filtering, and Canadian retailer routing for cross-border shoppers."
+            "icon": "⌖",
+            "title": "Practical buying intelligence",
+            "body": "Shipping context, retailer routing, and price transparency for every brand."
           }
         },
         "pillar_2": {
           "type": "pillar",
           "settings": {
             "icon": "◯",
-            "title": "No activewear, no fast fashion",
-            "body": "Every brand passes an editorial quality test with a strict scope."
+            "title": "No fast fashion, no filler",
+            "body": "Every brand passes an editorial quality bar with a strict scope."
           }
         },
         "pillar_3": {
@@ -592,7 +592,7 @@
         "feature_meta": "Brand of the Month · Heritage Footwear",
         "feature_logo_text": "VB",
         "feature_button_label": "View brand",
-        "feature_button_link": "shopify://collections/all"
+        "feature_button_link": "/pages/brands/viberg"
       }
     }
   },
