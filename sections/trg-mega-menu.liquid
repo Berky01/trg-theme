@@ -206,8 +206,11 @@
                 assign mfu = block.settings.collection.url
               endif
             -%}
+            {%- assign pmft = mft -%}{%- assign pmfu = mfu -%}
             {%- comment -%}Close previous family body if open{%- endcomment -%}
             {%- if mfi > 0 -%}
+              {%- if msubs_started -%}</div>{%- assign msubs_started = false -%}{%- endif -%}
+              <a href="{{ pmfu }}" class="trg-mob-va">View all {{ pmft | downcase }}</a>
               </div></div></div>
             {%- endif -%}
             <div class="trg-mob-fam" data-fam-idx="{{ mfi }}">
