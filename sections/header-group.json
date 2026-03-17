@@ -18,7 +18,7 @@
           "type": "_announcement",
           "settings": {
             "text": "Shop the bedroom event - on now!",
-            "link": "shopify://collections/all",
+            "link": "shopify:\/\/collections\/all",
             "font": "var(--font-accent--family)",
             "font_size": "0.75rem",
             "weight": "",
@@ -68,8 +68,8 @@
             "type_font_primary_link": "body",
             "type_case_primary_link": "uppercase",
             "menu_style": "trg_editorial",
-            "featured_products_aspect_ratio": "4 / 5",
-            "featured_collections_aspect_ratio": "16 / 9",
+            "featured_products_aspect_ratio": "4 \/ 5",
+            "featured_collections_aspect_ratio": "16 \/ 9",
             "image_border_radius": 0,
             "trg_brand_menu_match": "brands",
             "trg_all_brands_match": "all",
@@ -136,7 +136,7 @@
         "fam_footwear": {
           "type": "family",
           "settings": {
-            "collection": "shopify://collections/footwear",
+            "collection": "shopify:\/\/collections\/footwear",
             "title_override": "Footwear",
             "subtitle": "77 brands"
           }
@@ -165,7 +165,7 @@
         "s_fo_oxford_derby": {
           "type": "subcategory",
           "settings": {
-            "collection": "shopify://collections/mens-dress-shoes",
+            "collection": "shopify:\/\/collections\/mens-dress-shoes",
             "title_override": "Oxford & Derby",
             "count": "22"
           }
@@ -173,7 +173,7 @@
         "s_fo_chelsea_boots": {
           "type": "subcategory",
           "settings": {
-            "collection": "shopify://collections/mens-boots",
+            "collection": "shopify:\/\/collections\/mens-boots",
             "title_override": "Chelsea Boots",
             "count": "18"
           }
@@ -181,7 +181,7 @@
         "s_fo_loafers": {
           "type": "subcategory",
           "settings": {
-            "collection": "shopify://collections/mens-loafers",
+            "collection": "shopify:\/\/collections\/mens-loafers",
             "title_override": "Loafers",
             "count": "12"
           }
@@ -189,7 +189,7 @@
         "fam_outerwear": {
           "type": "family",
           "settings": {
-            "collection": "shopify://collections/outerwear",
+            "collection": "shopify:\/\/collections\/outerwear",
             "title_override": "Outerwear",
             "subtitle": "42 brands"
           }
@@ -218,7 +218,7 @@
         "s_ou_field_jacket": {
           "type": "subcategory",
           "settings": {
-            "collection": "shopify://collections/outerwear",
+            "collection": "shopify:\/\/collections\/outerwear",
             "title_override": "Field Jacket",
             "count": "12"
           }
@@ -226,7 +226,7 @@
         "s_ou_waxed_cotton": {
           "type": "subcategory",
           "settings": {
-            "collection": "shopify://collections/outerwear",
+            "collection": "shopify:\/\/collections\/outerwear",
             "title_override": "Waxed Cotton",
             "count": "8"
           }
@@ -234,7 +234,7 @@
         "s_ou_down_jacket": {
           "type": "subcategory",
           "settings": {
-            "collection": "shopify://collections/outerwear",
+            "collection": "shopify:\/\/collections\/outerwear",
             "title_override": "Down Jacket",
             "count": "10"
           }
@@ -242,7 +242,7 @@
         "fam_casualwear": {
           "type": "family",
           "settings": {
-            "collection": "shopify://collections/casualwear",
+            "collection": "shopify:\/\/collections\/casualwear",
             "title_override": "Casualwear",
             "subtitle": "91 brands"
           }
@@ -271,7 +271,7 @@
         "s_ca_casual_shirts": {
           "type": "subcategory",
           "settings": {
-            "collection": "shopify://collections/shirting",
+            "collection": "shopify:\/\/collections\/shirting",
             "title_override": "Casual Shirts",
             "count": "38"
           }
@@ -279,7 +279,7 @@
         "s_ca_t_shirts": {
           "type": "subcategory",
           "settings": {
-            "collection": "shopify://collections/basics",
+            "collection": "shopify:\/\/collections\/basics",
             "title_override": "T-Shirts",
             "count": "31"
           }
@@ -287,7 +287,7 @@
         "s_ca_chinos": {
           "type": "subcategory",
           "settings": {
-            "collection": "shopify://collections/casualwear",
+            "collection": "shopify:\/\/collections\/casualwear",
             "title_override": "Chinos",
             "count": "28"
           }
@@ -295,7 +295,7 @@
         "fam_formalwear": {
           "type": "family",
           "settings": {
-            "collection": "shopify://collections/formalwear",
+            "collection": "shopify:\/\/collections\/formalwear",
             "title_override": "Formalwear",
             "subtitle": "49 brands"
           }
@@ -324,7 +324,7 @@
         "s_fo_suits": {
           "type": "subcategory",
           "settings": {
-            "collection": "shopify://collections/formalwear",
+            "collection": "shopify:\/\/collections\/formalwear",
             "title_override": "Suits",
             "count": "29"
           }
@@ -332,7 +332,7 @@
         "s_fo_sport_coats": {
           "type": "subcategory",
           "settings": {
-            "collection": "shopify://collections/formalwear",
+            "collection": "shopify:\/\/collections\/formalwear",
             "title_override": "Sport Coats",
             "count": "24"
           }
@@ -340,7 +340,7 @@
         "s_fo_dress_shirts": {
           "type": "subcategory",
           "settings": {
-            "collection": "shopify://collections/shirting",
+            "collection": "shopify:\/\/collections\/shirting",
             "title_override": "Dress Shirts",
             "count": "22"
           }
@@ -348,7 +348,7 @@
         "fam_knitwear": {
           "type": "family",
           "settings": {
-            "collection": "shopify://collections/knitwear",
+            "collection": "shopify:\/\/collections\/knitwear",
             "title_override": "Knitwear",
             "subtitle": "28 brands"
           }
@@ -356,7 +356,7 @@
         "s_kn_crewneck": {
           "type": "subcategory",
           "settings": {
-            "collection": "shopify://collections/knitwear",
+            "collection": "shopify:\/\/collections\/knitwear",
             "title_override": "Crewneck",
             "count": "22"
           }
@@ -364,7 +364,7 @@
         "s_kn_cardigan": {
           "type": "subcategory",
           "settings": {
-            "collection": "shopify://collections/knitwear",
+            "collection": "shopify:\/\/collections\/knitwear",
             "title_override": "Cardigan",
             "count": "18"
           }
@@ -372,7 +372,7 @@
         "s_kn_turtleneck": {
           "type": "subcategory",
           "settings": {
-            "collection": "shopify://collections/knitwear",
+            "collection": "shopify:\/\/collections\/knitwear",
             "title_override": "Turtleneck",
             "count": "15"
           }
@@ -380,7 +380,7 @@
         "fam_denim": {
           "type": "family",
           "settings": {
-            "collection": "shopify://collections/denim",
+            "collection": "shopify:\/\/collections\/denim",
             "title_override": "Denim",
             "subtitle": "35 brands"
           }
@@ -402,7 +402,7 @@
         "s_de_jeans": {
           "type": "subcategory",
           "settings": {
-            "collection": "shopify://collections/denim",
+            "collection": "shopify:\/\/collections\/denim",
             "title_override": "Jeans",
             "count": "28"
           }
@@ -410,7 +410,7 @@
         "s_de_denim_jacket": {
           "type": "subcategory",
           "settings": {
-            "collection": "shopify://collections/denim",
+            "collection": "shopify:\/\/collections\/denim",
             "title_override": "Denim Jacket",
             "count": "16"
           }
@@ -418,7 +418,7 @@
         "s_de_raw_denim": {
           "type": "subcategory",
           "settings": {
-            "collection": "shopify://collections/denim",
+            "collection": "shopify:\/\/collections\/denim",
             "title_override": "Raw Denim",
             "count": "14"
           }
@@ -426,70 +426,70 @@
         "bc_casualwear": {
           "type": "brand_category",
           "settings": {
-            "collection": "shopify://collections/casualwear",
+            "collection": "shopify:\/\/collections\/casualwear",
             "title_override": "Casualwear"
           }
         },
         "bc_footwear": {
           "type": "brand_category",
           "settings": {
-            "collection": "shopify://collections/footwear",
+            "collection": "shopify:\/\/collections\/footwear",
             "title_override": "Footwear"
           }
         },
         "bc_formalwear": {
           "type": "brand_category",
           "settings": {
-            "collection": "shopify://collections/formalwear",
+            "collection": "shopify:\/\/collections\/formalwear",
             "title_override": "Formalwear"
           }
         },
         "bc_outerwear": {
           "type": "brand_category",
           "settings": {
-            "collection": "shopify://collections/outerwear",
+            "collection": "shopify:\/\/collections\/outerwear",
             "title_override": "Outerwear"
           }
         },
         "bc_denim": {
           "type": "brand_category",
           "settings": {
-            "collection": "shopify://collections/denim",
+            "collection": "shopify:\/\/collections\/denim",
             "title_override": "Denim"
           }
         },
         "bc_knitwear": {
           "type": "brand_category",
           "settings": {
-            "collection": "shopify://collections/knitwear",
+            "collection": "shopify:\/\/collections\/knitwear",
             "title_override": "Knitwear"
           }
         },
         "bc_smart_casual": {
           "type": "brand_category",
           "settings": {
-            "collection": "shopify://collections/smart-casual",
+            "collection": "shopify:\/\/collections\/smart-casual",
             "title_override": "Smart Casual"
           }
         },
         "bc_basics": {
           "type": "brand_category",
           "settings": {
-            "collection": "shopify://collections/basics",
+            "collection": "shopify:\/\/collections\/basics",
             "title_override": "Basics"
           }
         },
         "bc_workwear": {
           "type": "brand_category",
           "settings": {
-            "collection": "shopify://collections/workwear",
+            "collection": "shopify:\/\/collections\/workwear",
             "title_override": "Workwear"
           }
         },
         "bc_streetwear": {
           "type": "brand_category",
           "settings": {
-            "collection": "shopify://collections/streetwear",
+            "collection": "shopify:\/\/collections\/streetwear",
             "title_override": "Streetwear"
           }
         },
@@ -497,32 +497,32 @@
           "type": "featured_brand",
           "settings": {
             "brand_name": "Viberg",
-            "brand_eyebrow": "Footwear \u00b7 Victoria",
+            "brand_eyebrow": "Footwear · Victoria",
             "brand_description": "Handwelted since 1931. The benchmark for North American heritage boots.",
-            "brand_url": "/pages/brands/viberg",
+            "brand_url": "\/pages\/brands\/viberg",
             "brand_image": "",
             "link_1_text": "Made in Canada",
-            "link_1_url": "/pages/brands",
+            "link_1_url": "\/pages\/brands",
             "link_2_text": "Has affiliate program",
-            "link_2_url": "/pages/brands",
+            "link_2_url": "\/pages\/brands",
             "link_3_text": "Ships to Canada",
-            "link_3_url": "/pages/brands"
+            "link_3_url": "\/pages\/brands"
           }
         },
         "fb_shop": {
           "type": "featured_brand_shop",
           "settings": {
             "brand_name": "Viberg",
-            "brand_eyebrow": "Footwear \u00b7 Victoria",
+            "brand_eyebrow": "Footwear · Victoria",
             "brand_description": "Handwelted since 1931. The benchmark for North American heritage boots.",
-            "brand_url": "/pages/brands/viberg",
+            "brand_url": "\/pages\/brands\/viberg",
             "brand_image": "",
             "link_1_text": "Under $200 entry point",
-            "link_1_url": "/collections/all",
+            "link_1_url": "\/collections\/all",
             "link_2_text": "Ships duty-free to CA",
-            "link_2_url": "/pages/brands",
+            "link_2_url": "\/pages\/brands",
             "link_3_text": "Submit a brand",
-            "link_3_url": "/pages/submit-brand"
+            "link_3_url": "\/pages\/submit-brand"
           }
         }
       },
