@@ -1,4 +1,4 @@
-/* TRG Mega Menu v3.1 — paste into assets/trg-mega-menu.js */
+/* TRG Mega Menu v3.1.1773717858 */
 (function(){
 'use strict';
 var P={shop:'trg-mm-p-shop',brands:'trg-mm-p-brands'},BK='trg-mm-bk',DK=990;
