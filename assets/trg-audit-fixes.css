@@ -367,3 +367,11 @@ a[href*="customer_authentication"] {
 body:not(.template-index) .shopify-section[id*="newsletter"]:not([id*="footer"]) {
   display: none;
 }
+
+/* ─── 20. FIX: Hide duplicate newsletter on interior pages ─── */
+/* The footer-group newsletter stays; body newsletter only shows on homepage */
+body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"]) [class*="newsletter"],
+body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"]) [class*="email-signup"] {
+  /* Uncomment below to hide body newsletter on non-homepage: */
+  /* display: none !important; */
+}
