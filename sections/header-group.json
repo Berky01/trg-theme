@@ -138,7 +138,43 @@
           "settings": {
             "collection": "shopify://collections/footwear",
             "title_override": "Footwear",
-            "subtitle": ""
+            "subtitle": "77 brands"
+          },
+          "blocks": {}
+        },
+        "aesthetic_footwear_all": {
+          "type": "aesthetic_chip",
+          "settings": {
+            "title": "All",
+            "collection": "",
+            "is_default": true
+          },
+          "blocks": {}
+        },
+        "aesthetic_footwear_heritage": {
+          "type": "aesthetic_chip",
+          "settings": {
+            "title": "Heritage",
+            "collection": "",
+            "is_default": false
+          },
+          "blocks": {}
+        },
+        "aesthetic_footwear_dress": {
+          "type": "aesthetic_chip",
+          "settings": {
+            "title": "Dress",
+            "collection": "",
+            "is_default": false
+          },
+          "blocks": {}
+        },
+        "aesthetic_footwear_casual": {
+          "type": "aesthetic_chip",
+          "settings": {
+            "title": "Casual",
+            "collection": "",
+            "is_default": false
           },
           "blocks": {}
         },
@@ -146,7 +182,8 @@
           "type": "subcategory",
           "settings": {
             "collection": "shopify://collections/mens-dress-shoes",
-            "title_override": "Oxford & Derby"
+            "title_override": "Oxford & Derby",
+            "count": "22"
           },
           "blocks": {}
         },
@@ -154,7 +191,8 @@
           "type": "subcategory",
           "settings": {
             "collection": "shopify://collections/mens-boots",
-            "title_override": "Chelsea Boots"
+            "title_override": "Chelsea Boots",
+            "count": "18"
           },
           "blocks": {}
         },
@@ -162,7 +200,8 @@
           "type": "subcategory",
           "settings": {
             "collection": "shopify://collections/mens-loafers",
-            "title_override": "Loafers"
+            "title_override": "Loafers",
+            "count": "12"
           },
           "blocks": {}
         },
@@ -171,7 +210,34 @@
           "settings": {
             "collection": "shopify://collections/outerwear",
             "title_override": "Outerwear",
-            "subtitle": ""
+            "subtitle": "42 brands"
+          },
+          "blocks": {}
+        },
+        "aesthetic_outerwear_all": {
+          "type": "aesthetic_chip",
+          "settings": {
+            "title": "All",
+            "collection": "",
+            "is_default": true
+          },
+          "blocks": {}
+        },
+        "aesthetic_outerwear_heritage": {
+          "type": "aesthetic_chip",
+          "settings": {
+            "title": "Heritage & Trad",
+            "collection": "",
+            "is_default": false
+          },
+          "blocks": {}
+        },
+        "aesthetic_outerwear_technical": {
+          "type": "aesthetic_chip",
+          "settings": {
+            "title": "Technical",
+            "collection": "",
+            "is_default": false
           },
           "blocks": {}
         },
@@ -179,7 +245,8 @@
           "type": "subcategory",
           "settings": {
             "collection": "shopify://collections/mens-field-jackets",
-            "title_override": "Field & Barn Jacket"
+            "title_override": "Field & Barn Jacket",
+            "count": "12"
           },
           "blocks": {}
         },
@@ -187,7 +254,17 @@
           "type": "subcategory",
           "settings": {
             "collection": "shopify://collections/outerwear",
-            "title_override": "Waxed Cotton"
+            "title_override": "Waxed Cotton",
+            "count": "8"
+          },
+          "blocks": {}
+        },
+        "subcategory_down": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/mens-down-jackets",
+            "title_override": "Down & Insulated",
+            "count": "10"
           },
           "blocks": {}
         },
@@ -196,7 +273,7 @@
           "settings": {
             "collection": "shopify://collections/casualwear",
             "title_override": "Casualwear",
-            "subtitle": ""
+            "subtitle": "91 brands"
           },
           "blocks": {}
         },
@@ -204,7 +281,8 @@
           "type": "subcategory",
           "settings": {
             "collection": "shopify://collections/shirting",
-            "title_override": "Casual Shirts"
+            "title_override": "Casual Shirts",
+            "count": "38"
           },
           "blocks": {}
         },
@@ -212,7 +290,17 @@
           "type": "subcategory",
           "settings": {
             "collection": "shopify://collections/basics",
-            "title_override": "T-Shirts"
+            "title_override": "T-Shirts",
+            "count": "31"
+          },
+          "blocks": {}
+        },
+        "subcategory_chinos": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/mens-chinos",
+            "title_override": "Chinos & Trousers",
+            "count": "28"
           },
           "blocks": {}
         },
@@ -299,10 +387,10 @@
         "featured_brand_main": {
           "type": "featured_brand",
           "settings": {
-            "brand_name": "Viberg",
-            "brand_eyebrow": "Footwear · Victoria",
-            "brand_description": "Handwelted since 1931. The benchmark for North American heritage boots.",
-            "brand_url": "/pages/brands/viberg",
+            "brand_name": "Norse Projects",
+            "brand_eyebrow": "Casualwear · Copenhagen",
+            "brand_description": "Scandinavian precision. Quietly considered, built to last.",
+            "brand_url": "/pages/brands/norse-projects",
             "brand_image": "",
             "link_1_text": "Made in Canada",
             "link_1_url": "/pages/brands?made-in=canada",
@@ -312,19 +400,45 @@
             "link_3_url": "/pages/brands?ships-to-canada=yes"
           },
           "blocks": {}
+        },
+        "featured_brand_shop_main": {
+          "type": "featured_brand_shop",
+          "settings": {
+            "brand_name": "Viberg",
+            "brand_eyebrow": "Footwear · Victoria",
+            "brand_description": "Handwelted since 1931. The benchmark for North American heritage boots.",
+            "brand_url": "/pages/brands/viberg",
+            "brand_image": "",
+            "link_1_text": "Under $200 entry point",
+            "link_1_url": "/pages/brands",
+            "link_2_text": "Ships duty-free to CA",
+            "link_2_url": "/pages/brands?ships-to-canada=yes",
+            "link_3_text": "Submit a brand",
+            "link_3_url": "/pages/submit-a-brand"
+          },
+          "blocks": {}
         }
       },
       "block_order": [
         "family_footwear",
+        "aesthetic_footwear_all",
+        "aesthetic_footwear_heritage",
+        "aesthetic_footwear_dress",
+        "aesthetic_footwear_casual",
         "subcategory_oxford",
         "subcategory_chelsea",
         "subcategory_loafers",
         "family_outerwear",
+        "aesthetic_outerwear_all",
+        "aesthetic_outerwear_heritage",
+        "aesthetic_outerwear_technical",
         "subcategory_field",
         "subcategory_waxed",
+        "subcategory_down",
         "family_casualwear",
         "subcategory_casual_shirts",
         "subcategory_tshirts",
+        "subcategory_chinos",
         "brand_category_casualwear",
         "brand_category_footwear",
         "brand_category_formalwear",
@@ -335,7 +449,8 @@
         "brand_category_basics",
         "brand_category_workwear",
         "brand_category_streetwear",
-        "featured_brand_main"
+        "featured_brand_main",
+        "featured_brand_shop_main"
       ],
       "settings": {}
     }
