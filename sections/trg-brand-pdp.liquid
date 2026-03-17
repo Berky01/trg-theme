@@ -13,9 +13,29 @@
 -%}
 
 {%- if brand == nil -%}
-<div style="max-width:800px;margin:4rem auto;padding:2rem;text-align:center;">
-  <h1 style="font-family:'Playfair Display',serif;font-size:2rem;margin-bottom:1rem;">Brand not found (v1773720128)</h1>
-  <p style="color:#8a8478;">No brand metaobject matching "{{ page_slug }}" was found. <a href="/brands" style="color:#c4562a;">Browse all brands →</a></p>
+<div style="max-width:800px;margin:2rem auto;padding:2rem;font-family:monospace;font-size:13px;background:#f5f1eb;border:1px solid #ddd8cf;border-radius:4px;">
+  <h2 style="font-family:'Playfair Display',serif;margin-bottom:1rem;">Debug: Brand Lookup v1773720597</h2>
+  <p><b>page.handle:</b> {{ page.handle }}</p>
+  <p><b>page.title:</b> {{ page.title }}</p>
+  <p><b>page_slug:</b> {{ page_slug }}</p>
+  <p><b>page.template_suffix:</b> {{ page.template_suffix }}</p>
+  <hr style="margin:1rem 0;">
+  <p><b>Metaobject type test:</b></p>
+  <p>shop.metaobjects.brand.values.size = {{ shop.metaobjects.brand.values.size }}</p>
+  <p>shop.metaobjects['brand'].values.size = {{ shop.metaobjects['brand'].values.size }}</p>
+  <hr style="margin:1rem 0;">
+  <p><b>First 5 brand metaobjects:</b></p>
+  {%- for b in shop.metaobjects.brand.values limit: 5 -%}
+    <p>{{ forloop.index }}. handle={{ b.system.handle }} | name={{ b.name }} | slug={{ b.slug }}</p>
+  {%- else -%}
+    <p style="color:red;"><b>NO METAOBJECTS FOUND</b> — shop.metaobjects.brand.values is empty!</p>
+  {%- endfor -%}
+  <hr style="margin:1rem 0;">
+  <p><b>Direct handle access test:</b></p>
+  {%- assign direct = shop.metaobjects.brand['taylor-stitch'] -%}
+  <p>shop.metaobjects.brand['taylor-stitch'] = {{ direct.name | default: 'nil' }}</p>
+  {%- assign direct2 = shop.metaobjects['brand']['taylor-stitch'] -%}
+  <p>shop.metaobjects['brand']['taylor-stitch'] = {{ direct2.name | default: 'nil' }}</p>
 </div>
 {%- else -%}
 
