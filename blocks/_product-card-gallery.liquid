@@ -113,9 +113,10 @@
     {% if is_trg_plp %}
       <button
         type="button"
-        class="button-unstyled trg-plp-card-wishlist"
+        class="button-unstyled trg-plp-card-wishlist trg-wishlist-btn"
         data-trg-wishlist
         data-product-id="{{ product.id }}"
+        data-product="{{ product.handle }}"
         aria-pressed="false"
         aria-label="Save {{ product.title | escape }}"
       >
