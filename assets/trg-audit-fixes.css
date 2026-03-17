@@ -351,3 +351,19 @@ input:focus-visible {
     color: #666;
   }
 }
+
+/* ─── HIDE SIGN IN (no account functionality for affiliate directory) ─── */
+[href*="customer_authentication"],
+a[href*="customer_authentication"] {
+  display: none !important;
+}
+
+/* ─── newsletter-dedup: Only show body newsletter on homepage ─── */
+/* Interior pages: hide the body-level newsletter (footer one stays) */
+.shopify-section:not([id*="footer"]):not([id*="header"]) .trg-newsletter:not(:first-of-type) {
+  /* If two newsletters appear in content area, hide the second */
+}
+/* On non-homepage: the newsletter before footer is redundant */
+body:not(.template-index) .shopify-section[id*="newsletter"]:not([id*="footer"]) {
+  display: none;
+}
