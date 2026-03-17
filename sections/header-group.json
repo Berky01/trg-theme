@@ -62,7 +62,7 @@
           "static": true,
           "settings": {
             "menu": "main-menu",
-            "color_scheme": "scheme-1",
+            "color_scheme": "scheme-header-ink",
             "type_font_primary_size": "0.875rem",
             "menu_font_style": "inverse",
             "type_font_primary_link": "body",
@@ -86,7 +86,7 @@
             "trg_featured_cta_label": "View brand profile",
             "trg_featured_link": "",
             "navigation_bar": false,
-            "color_scheme_navigation_bar": "",
+            "color_scheme_navigation_bar": "scheme-header-ink",
             "drawer_accordion": false,
             "drawer_accordion_expand_first": false,
             "drawer_dividers": false
