@@ -79,6 +79,15 @@
 
     {% capture children %}
       {% for link in block_settings.menu.links %}
+        {% liquid
+          assign normalized_link_title = link.title | strip | downcase
+          assign is_trg_overlay_trigger = false
+          if menu_content_type == 'trg_editorial'
+            if normalized_link_title == 'brands' or normalized_link_title == 'products'
+              assign is_trg_overlay_trigger = true
+            endif
+          endif
+        %}
         <li
           role="presentation"
           class="menu-list__list-item"
@@ -90,7 +99,7 @@
             href="{{ link.url }}"
             data-skip-node-update="true"
             class="menu-list__link{% if link.active %} menu-list__link--active{% endif %}"
-            {%- if link.links != blank -%}
+            {%- if link.links != blank and is_trg_overlay_trigger == false -%}
               aria-controls="submenu-{{ forloop.index }}"
               aria-haspopup="true"
               aria-expanded="false"
@@ -110,7 +119,7 @@
           >
             <span class="menu-list__link-title">{{- link.title -}}</span>
           </a>
-          {%- if link.links != blank -%}
+          {%- if link.links != blank and is_trg_overlay_trigger == false -%}
             <div class="menu-list__submenu{{ color_scheme_classes }}" ref="submenu[]">
               <div
                 id="submenu-{{ forloop.index }}"

@@ -129,10 +129,220 @@
         "enable_transparent_header_collection": false,
         "collection_color_scheme": "default"
       }
+    },
+    "trg_mega_menu_TpK7cN": {
+      "type": "trg-mega-menu",
+      "blocks": {
+        "family_footwear": {
+          "type": "family",
+          "settings": {
+            "collection": "shopify://collections/footwear",
+            "title_override": "Footwear",
+            "subtitle": ""
+          },
+          "blocks": {}
+        },
+        "subcategory_oxford": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/mens-dress-shoes",
+            "title_override": "Oxford & Derby"
+          },
+          "blocks": {}
+        },
+        "subcategory_chelsea": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/mens-boots",
+            "title_override": "Chelsea Boots"
+          },
+          "blocks": {}
+        },
+        "subcategory_loafers": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/mens-loafers",
+            "title_override": "Loafers"
+          },
+          "blocks": {}
+        },
+        "family_outerwear": {
+          "type": "family",
+          "settings": {
+            "collection": "shopify://collections/outerwear",
+            "title_override": "Outerwear",
+            "subtitle": ""
+          },
+          "blocks": {}
+        },
+        "subcategory_field": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/mens-field-jackets",
+            "title_override": "Field & Barn Jacket"
+          },
+          "blocks": {}
+        },
+        "subcategory_waxed": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/outerwear",
+            "title_override": "Waxed Cotton"
+          },
+          "blocks": {}
+        },
+        "family_casualwear": {
+          "type": "family",
+          "settings": {
+            "collection": "shopify://collections/casualwear",
+            "title_override": "Casualwear",
+            "subtitle": ""
+          },
+          "blocks": {}
+        },
+        "subcategory_casual_shirts": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/shirting",
+            "title_override": "Casual Shirts"
+          },
+          "blocks": {}
+        },
+        "subcategory_tshirts": {
+          "type": "subcategory",
+          "settings": {
+            "collection": "shopify://collections/basics",
+            "title_override": "T-Shirts"
+          },
+          "blocks": {}
+        },
+        "brand_category_casualwear": {
+          "type": "brand_category",
+          "settings": {
+            "collection": "shopify://collections/casualwear",
+            "title_override": "Casualwear"
+          },
+          "blocks": {}
+        },
+        "brand_category_footwear": {
+          "type": "brand_category",
+          "settings": {
+            "collection": "shopify://collections/footwear",
+            "title_override": "Footwear"
+          },
+          "blocks": {}
+        },
+        "brand_category_formalwear": {
+          "type": "brand_category",
+          "settings": {
+            "collection": "shopify://collections/formalwear",
+            "title_override": "Formalwear"
+          },
+          "blocks": {}
+        },
+        "brand_category_outerwear": {
+          "type": "brand_category",
+          "settings": {
+            "collection": "shopify://collections/outerwear",
+            "title_override": "Outerwear"
+          },
+          "blocks": {}
+        },
+        "brand_category_denim": {
+          "type": "brand_category",
+          "settings": {
+            "collection": "shopify://collections/denim",
+            "title_override": "Denim"
+          },
+          "blocks": {}
+        },
+        "brand_category_knitwear": {
+          "type": "brand_category",
+          "settings": {
+            "collection": "shopify://collections/knitwear",
+            "title_override": "Knitwear"
+          },
+          "blocks": {}
+        },
+        "brand_category_smart_casual": {
+          "type": "brand_category",
+          "settings": {
+            "collection": "shopify://collections/smart-casual",
+            "title_override": "Smart Casual"
+          },
+          "blocks": {}
+        },
+        "brand_category_basics": {
+          "type": "brand_category",
+          "settings": {
+            "collection": "shopify://collections/basics",
+            "title_override": "Basics"
+          },
+          "blocks": {}
+        },
+        "brand_category_workwear": {
+          "type": "brand_category",
+          "settings": {
+            "collection": "shopify://collections/workwear",
+            "title_override": "Workwear"
+          },
+          "blocks": {}
+        },
+        "brand_category_streetwear": {
+          "type": "brand_category",
+          "settings": {
+            "collection": "shopify://collections/streetwear",
+            "title_override": "Streetwear"
+          },
+          "blocks": {}
+        },
+        "featured_brand_main": {
+          "type": "featured_brand",
+          "settings": {
+            "brand_name": "Viberg",
+            "brand_eyebrow": "Footwear · Victoria",
+            "brand_description": "Handwelted since 1931. The benchmark for North American heritage boots.",
+            "brand_url": "/pages/brands/viberg",
+            "brand_image": "",
+            "link_1_text": "Made in Canada",
+            "link_1_url": "/pages/brands?made-in=canada",
+            "link_2_text": "Has affiliate program",
+            "link_2_url": "/pages/brands?affiliate=yes",
+            "link_3_text": "Ships to Canada",
+            "link_3_url": "/pages/brands?ships-to-canada=yes"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "family_footwear",
+        "subcategory_oxford",
+        "subcategory_chelsea",
+        "subcategory_loafers",
+        "family_outerwear",
+        "subcategory_field",
+        "subcategory_waxed",
+        "family_casualwear",
+        "subcategory_casual_shirts",
+        "subcategory_tshirts",
+        "brand_category_casualwear",
+        "brand_category_footwear",
+        "brand_category_formalwear",
+        "brand_category_outerwear",
+        "brand_category_denim",
+        "brand_category_knitwear",
+        "brand_category_smart_casual",
+        "brand_category_basics",
+        "brand_category_workwear",
+        "brand_category_streetwear",
+        "featured_brand_main"
+      ],
+      "settings": {}
     }
   },
   "order": [
     "header_announcements_pbXTDf",
-    "header_section"
+    "header_section",
+    "trg_mega_menu_TpK7cN"
   ]
 }
