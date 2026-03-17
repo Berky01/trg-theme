@@ -265,6 +265,12 @@
           </div></div></div>
         {%- endif -%}
 
+        {%- comment -%}Primary CTAs{%- endcomment -%}
+        <div class="trg-mob-ctas">
+          <a href="/collections/all" class="trg-mob-cta-primary">Browse All Products →</a>
+          <a href="/pages/brands" class="trg-mob-cta-secondary">View All 460+ Brands →</a>
+        </div>
+
         {%- comment -%}Footer links{%- endcomment -%}
         <div class="trg-mob-footer">
           <a href="/blogs/journal" class="trg-mob-flink"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h4l2 3h8a2 2 0 012 2v9a2 2 0 01-2 2z"/></svg>Journal</a>
@@ -307,88 +313,89 @@
         <div class="trg-mob-bcount" id="trg-mob-bcount"></div>
         <div class="trg-mob-bpicks" id="trg-mob-bpicks"></div>
         <div class="trg-mob-brest" id="trg-mob-brest"></div>
+        <div class="trg-mob-ctas" style="margin-top:.5rem">
+          <a href="/pages/brands" class="trg-mob-cta-primary">View Full Brand Directory →</a>
+          <a href="/collections/all" class="trg-mob-cta-secondary">Browse All Products →</a>
+        </div>
+
       </div>
 
     </div>
   </div>
 </div>
 
-
-{%- comment -%}Mobile hotfix — overrides cached JS for brand count, search, accordion, chips{%- endcomment -%}
+{%- comment -%}Mobile hotfix v2 — self-contained, uses window._trgFB from external JS{%- endcomment -%}
+<style>
+/* Hide style aesthetic chips on mobile Shop by Type (keep brand category chips) */
+.trg-mob-chips{display:none!important}
+.trg-mob-lbl:has(+ .trg-mob-chips){display:none!important}
+/* Fallback for older browsers without :has */
+@supports not (selector(:has(+ *))) {
+  .trg-mob-fam-inner > .trg-mob-lbl:first-child{display:none!important}
+}
+/* Fix brand chips padding */
+.trg-mob-bchips{padding-left:1.25rem!important;padding-right:1.25rem!important;padding-top:.6rem!important}
+/* CTA buttons */
+.trg-mob-ctas{padding:1rem 1.25rem;display:flex;flex-direction:column;gap:.5rem}
+.trg-mob-cta-primary{display:flex;align-items:center;justify-content:center;min-height:48px;padding:.7rem 1rem;background:rgba(196,86,42,.12);border:1px solid rgba(196,86,42,.35);border-radius:3px;font-family:'DM Sans',sans-serif;font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#c4562a;text-decoration:none;-webkit-tap-highlight-color:transparent}
+.trg-mob-cta-secondary{display:flex;align-items:center;justify-content:center;min-height:44px;padding:.6rem 1rem;background:rgba(255,255,255,.03);border:1px solid rgba(245,241,235,.1);border-radius:3px;font-family:'DM Sans',sans-serif;font-size:.68rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:rgba(245,241,235,.55);text-decoration:none;-webkit-tap-highlight-color:transparent}
+/* Search input usable */
+.trg-mob-bin{touch-action:auto!important;-webkit-user-select:text!important;user-select:text!important}
+</style>
 <script>
 (function(){
-  /* Override getMobBrands to use largest source (FB has 460+) */
-  if(typeof getMobBrands==='function'){
-    window._origGetMob=getMobBrands;
-  }
-  /* Wait for DOM + external JS to load */
+  function ready(fn){if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',fn);else fn()}
+  /* Wait for external JS to execute first */
   window.addEventListener('load',function(){
-    /* FIX 1: Brand count — use FB (hardcoded 460+) instead of JSON (capped ~143) */
-    if(typeof _mobBrands!=='undefined'){_mobBrands=null}
-    if(typeof getMobBrands!=='undefined'){
-      getMobBrands=function(){
-        var sources=[];
-        var el=document.getElementById('trg-mm-bd');
-        if(el){try{var d=JSON.parse(el.textContent);if(Array.isArray(d)&&d.length>0)sources.push(d)}catch(e){}}
-        if(typeof br!=='undefined'&&br.length>0)sources.push(br);
-        if(typeof FB!=='undefined'&&FB.length>0)sources.push(FB);
-        if(sources.length>0){sources.sort(function(a,b){return b.length-a.length});return sources[0]}
-        return[];
-      };
-    }
+    setTimeout(function(){
+      /* ── FIX BRAND DATA SOURCE ── */
+      /* window._trgFB is exposed from the desktop IIFE (460+ brands) */
+      var best=[];
+      var el=document.getElementById('trg-mm-bd');
+      if(el){try{var d=JSON.parse(el.textContent);if(Array.isArray(d)&&d.length>0)best=d}catch(e){}}
+      if(window._trgBR&&window._trgBR.length>best.length)best=window._trgBR;
+      if(window._trgFB&&window._trgFB.length>best.length)best=window._trgFB;
+      /* Patch the mobile brands cache */
+      if(typeof _mobBrands!=='undefined'){window._mobBrands=null}
+      try{_mobBrands=best}catch(e){}
 
-    /* FIX 2: Re-bind accordion (in case old JS didn't bind properly) */
-    document.querySelectorAll('.trg-mob-fam-hdr').forEach(function(hdr){
-      if(hdr._trgFixed)return;
-      hdr._trgFixed=true;
-      hdr.addEventListener('click',function(e){
-        e.preventDefault();e.stopPropagation();
-        var fam=hdr.closest('.trg-mob-fam');
-        if(!fam)return;
-        var body=fam.querySelector('.trg-mob-fam-body');
-        if(!body)return;
-        var isOpen=fam.classList.contains('on');
-        document.querySelectorAll('.trg-mob-fam.on').forEach(function(f){
-          if(f!==fam){f.classList.remove('on');var b=f.querySelector('.trg-mob-fam-body');if(b)b.style.maxHeight='0'}
+      /* ── FIX SEARCH ── */
+      var si=document.getElementById('trg-mob-bi');
+      if(si){
+        si.addEventListener('input',function(){
+          try{mobBQ=si.value.trim().toLowerCase();renderMobBrands()}catch(e){}
         });
-        if(isOpen){fam.classList.remove('on');body.style.maxHeight='0'}
-        else{fam.classList.add('on');body.style.maxHeight=body.scrollHeight+'px';
-          setTimeout(function(){hdr.scrollIntoView({behavior:'smooth',block:'start'})},200);
-        }
-      });
-    });
+      }
+      var sx=document.getElementById('trg-mob-bsx');
+      if(sx){
+        sx.addEventListener('click',function(){
+          if(si){si.value='';si.focus()}
+          try{mobBQ='';renderMobBrands()}catch(e){}
+        });
+      }
 
-    /* FIX 3: Re-bind search */
-    var si=document.getElementById('trg-mob-bi');
-    if(si&&!si._trgFixed){
-      si._trgFixed=true;
-      si.addEventListener('input',function(){
-        if(typeof mobBQ!=='undefined')mobBQ=si.value.trim().toLowerCase();
-        if(typeof renderMobBrands==='function')renderMobBrands();
+      /* ── FIX ACCORDION ── */
+      document.querySelectorAll('.trg-mob-fam-hdr').forEach(function(hdr){
+        if(hdr._hf2)return;hdr._hf2=true;
+        hdr.addEventListener('click',function(e){
+          e.preventDefault();e.stopPropagation();
+          var fam=hdr.closest('.trg-mob-fam');if(!fam)return;
+          var body=fam.querySelector('.trg-mob-fam-body');if(!body)return;
+          var isOpen=fam.classList.contains('on');
+          document.querySelectorAll('.trg-mob-fam.on').forEach(function(f){
+            if(f!==fam){f.classList.remove('on');var b=f.querySelector('.trg-mob-fam-body');if(b)b.style.maxHeight='0'}
+          });
+          if(isOpen){fam.classList.remove('on');body.style.maxHeight='0'}
+          else{fam.classList.add('on');body.style.maxHeight=body.scrollHeight+'px';
+            setTimeout(function(){hdr.scrollIntoView({behavior:'smooth',block:'start'})},200);
+          }
+        });
       });
-    }
-    var sx=document.getElementById('trg-mob-bsx');
-    if(sx&&!sx._trgFixed){
-      sx._trgFixed=true;
-      sx.addEventListener('click',function(){
-        if(si){si.value='';si.focus()}
-        if(typeof mobBQ!=='undefined')mobBQ='';
-        if(typeof renderMobBrands==='function')renderMobBrands();
-      });
-    }
 
-    /* FIX 4: Re-render brands if tab already open */
-    if(typeof renderMobBrands==='function'&&typeof _mobBrands!=='undefined'){
-      _mobBrands=null;
-      var tc=document.getElementById('trg-mob-tc-brands');
-      if(tc&&tc.classList.contains('on'))renderMobBrands();
-    }
+      /* ── RE-RENDER BRANDS ── */
+      try{_mobBrands=best;renderMobBrands()}catch(e){}
+    },300);/* 300ms delay lets external JS finish */
   });
-
-  /* FIX 5: Chips padding — inject style override */
-  var s=document.createElement('style');
-  s.textContent='.trg-mob-bchips,.trg-mob-chips{padding-left:1.25rem!important;padding-right:1.25rem!important;padding-top:.5rem!important}.trg-mob-bin{touch-action:auto!important;-webkit-user-select:text!important;user-select:text!important}';
-  document.head.appendChild(s);
 })();
 </script>
 

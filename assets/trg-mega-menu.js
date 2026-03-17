@@ -24,6 +24,7 @@ function loadBrands(){
   if(el){try{var d=JSON.parse(el.textContent);if(Array.isArray(d)&&d.length>0){br=d;return}}catch(e){}}
   br=FB;
 }
+window._trgBR=br;
 
 function bindNav(){
   $$('header-menu .menu-list__list-item, .header-menu .menu-list__list-item').forEach(function(li){
@@ -104,7 +105,8 @@ function render(cat,q){
   if(!f.length){g.innerHTML='<div class="trg-mm-empty">No brands found'+(ql?' for \u201c'+esc(q)+'\u201d':'')+'</div>';return}
   if(ql){g.classList.add('sr');g.innerHTML=f.map(function(b){var i=b.name.toLowerCase().indexOf(ql);return'<a href="/pages/'+b.slug+'" class="trg-mm-bl">'+b.name.slice(0,i)+'<mark>'+b.name.slice(i,i+ql.length)+'</mark>'+b.name.slice(i+ql.length)+'</a>'}).join('');return}
   if(cat&&cat!=='all'){g.classList.add('ct');g.innerHTML=f.map(function(b){return'<a href="/pages/'+b.slug+'" class="trg-mm-bl">'+esc(b.name)+'</a>'}).join('');return}
-  var gr={};f.forEach(function(b){var l=b.name.replace(/^[^a-zA-Z]+/,'').charAt(0).toUpperCase()||'#';if(!gr[l])gr[l]=[];gr[l].push(b)});
+  var gr={};f.forEach(function(b){var l=b.name.replace(/^[^a-zA-Z]+/,'').charAt(0).toUpperCase()||'#';if(!gr[l])gr[l]=[];
+window._trgFB=FB;gr[l].push(b)});
   var ls=Object.keys(gr).sort(),pc=Math.ceil(ls.length/5),cs=[];
   for(var i=0;i<5;i++)cs.push(ls.slice(i*pc,(i+1)*pc));
   g.innerHTML=cs.map(function(cl){if(!cl.length)return'';return'<div class="trg-mm-col">'+cl.map(function(l){return'<div class="trg-mm-lt">'+l+'</div>'+gr[l].map(function(b){return'<a href="/pages/'+b.slug+'" class="trg-mm-bl">'+esc(b.name)+'</a>'}).join('')}).join('')+'</div>'}).join('');

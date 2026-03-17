@@ -161,3 +161,25 @@
   .bp-main{padding:1.5rem 1.25rem 3rem;gap:2rem}
   .bp-sim-grid,.bp-pgrid{grid-template-columns:1fr 1fr;gap:.65rem}
 }
+
+
+/* ─── Follow Brand Button (Account System) ─── */
+.trg-follow-btn {
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.7rem; font-weight: 500;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 0.55rem 1rem; border-radius: 2px;
+  cursor: pointer;
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  transition: all 0.2s;
+  background: transparent;
+  border: 1px solid rgba(245,241,235,0.25);
+  color: rgba(245,241,235,0.7);
+  margin-top: 0.6rem;
+}
+.trg-follow-btn:hover { border-color: rgba(245,241,235,0.5); color: #f5f1eb; }
+.trg-follow-btn.following {
+  background: rgba(196,86,42,0.2);
+  border-color: rgba(196,86,42,0.4);
+  color: #e8937a;
+}
