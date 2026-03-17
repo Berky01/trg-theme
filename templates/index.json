@@ -337,7 +337,7 @@
         "eyebrow": "Featured",
         "title": "<p>Featured <em>Brands</em></p>",
         "body": "<p>Handpicked brands, verified affiliate programs, and real shipping context.</p>",
-        "link_label": "/pages/brands",
+        "link_label": "All brands",
         "link_url": "/pages/brands",
         "columns_desktop": 3,
         "source_mode": "manual_blocks",
@@ -353,7 +353,7 @@
         "mo_badge_secondary_field": "badge_secondary",
         "mo_logo_field": "logo",
         "mo_logo_text_field": "logo_text",
-        "mo_link_field": "/pages/brands",
+        "mo_link_field": "url",
         "mo_collection_field": "collection"
       }
     },
