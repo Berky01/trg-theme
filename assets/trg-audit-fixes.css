@@ -485,3 +485,87 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
     color: rgba(245, 241, 235, 0.6) !important;
   }
 }
+
+
+/* ─── ACCOUNT SYSTEM: Show Sign In button ─── */
+.header__icon--account {
+  display: inline-flex !important;
+}
+
+/* Nav wishlist heart (loads via trg-account.css once CDN recompiles, 
+   but add here too for immediate availability) */
+.trg-nav-wishlist {
+  color: rgba(245,241,235,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  text-decoration: none;
+  transition: color 0.2s;
+  padding: 4px;
+}
+.trg-nav-wishlist:hover { color: #f5f1eb; }
+.trg-nav-wishlist__count {
+  position: absolute; top: -3px; right: -5px;
+  background: #c4562a; color: #fff;
+  font-size: 0.5rem; font-weight: 500;
+  width: 13px; height: 13px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  line-height: 1;
+}
+.trg-nav-wishlist__count:empty { display: none; }
+
+/* Follow button on brand PDP */
+.trg-follow-btn {
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.7rem; font-weight: 500;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 0.55rem 1rem; border-radius: 2px;
+  cursor: pointer;
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  transition: all 0.2s;
+  background: transparent;
+  border: 1px solid rgba(245,241,235,0.25);
+  color: rgba(245,241,235,0.7);
+  margin-top: 0.6rem;
+}
+.trg-follow-btn:hover { border-color: rgba(245,241,235,0.5); color: #f5f1eb; }
+.trg-follow-btn.following {
+  background: rgba(196,86,42,0.2);
+  border-color: rgba(196,86,42,0.4);
+  color: #e8937a;
+}
+
+/* Toast notification */
+.trg-toast {
+  position: fixed;
+  bottom: 1rem; left: 1rem; right: 1rem;
+  background: #1a1a18; color: #f5f1eb;
+  padding: 0.65rem 1rem; border-radius: 2px;
+  display: flex; align-items: center; gap: 0.5rem;
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.75rem; font-weight: 400;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+  z-index: 999;
+  transform: translateY(100%); opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  pointer-events: none;
+}
+.trg-toast.show { transform: translateY(0); opacity: 1; pointer-events: auto; }
+.trg-toast__icon { color: #c4562a; flex-shrink: 0; }
+
+/* Wishlist button on product cards — always visible on mobile */
+.trg-plp-card-wishlist.trg-wishlist-btn {
+  opacity: 1 !important;
+}
+.trg-plp-card-wishlist.trg-wishlist-btn.saved {
+  color: #c4562a !important;
+}
+.trg-plp-card-wishlist.trg-wishlist-btn.saved svg path {
+  fill: #c4562a;
+  stroke: #c4562a;
+}
+
+@media (min-width: 990px) {
+  .trg-toast { left: auto; right: 2rem; bottom: 2rem; width: auto; max-width: 320px; }
+}
