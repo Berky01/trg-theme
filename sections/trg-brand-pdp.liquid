@@ -4,23 +4,36 @@
   if page_slug == page.handle
     assign page_slug = page.handle | remove: 'brands-'
   endif
-  assign all_brands = shop.metaobjects['brand'].values
-  assign brand = nil
-  for b in all_brands
-    if b.system.handle == page_slug
-      assign brand = b
-      break
-    endif
-  endfor
+  assign brand = shop.metaobjects['brand'][page_slug]
+  if brand == nil
+    assign all_brands = shop.metaobjects['brand'].values
+    for b in all_brands
+      assign bhandle = b.handle | default: ''
+      if bhandle == page_slug
+        assign brand = b
+        break
+      endif
+    endfor
+  endif
   if brand == nil
     for b in all_brands
-      assign bslug = b.slug | default: b.name | handleize
+      assign bslug = b.slug | default: ''
       if bslug == page_slug
         assign brand = b
         break
       endif
     endfor
   endif
+  if brand == nil
+    for b in all_brands
+      assign bname_h = b.name | handleize
+      if bname_h == page_slug
+        assign brand = b
+        break
+      endif
+    endfor
+  endif
+  assign all_brands = shop.metaobjects['brand'].values
 -%}
 
 {%- if brand == nil -%}
