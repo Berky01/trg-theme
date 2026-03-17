@@ -69,6 +69,12 @@
         {%- if b_ships_ca == 'Yes' -%}<span class="bp-badge bp-badge-ca bp-ca-only">🍁 Ships to Canada</span>{%- endif -%}
         {%- if b_ddp == 'Yes' or b_ddp == 'Included' -%}<span class="bp-badge bp-badge-ddp bp-ca-only">Duties Included</span>{%- endif -%}
       </div>
+      <!-- Follow Brand Button -->
+      <button class="trg-follow-btn" data-brand="{{ b_slug }}"
+        {% unless customer %}onclick="window.location.href='/account/login?return_to='+encodeURIComponent(window.location.pathname); return false;"{% endunless %}>
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+        Follow
+      </button>
     </div>
     <div class="bp-hero-img">
       {%- if brand.hero_image -%}
