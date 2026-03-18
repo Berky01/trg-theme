@@ -1,57 +1,37 @@
 /* ══════════════════════════════════════════
    TRG ACCOUNT SYSTEM — Phase 1
    Follow Brands + Wishlist + Nav State
+   localStorage-powered (New Customer Accounts)
    ══════════════════════════════════════════ */
 
 (function() {
   'use strict';
 
   const TRG_ACCOUNT = {
-    /* ─── STORAGE ─── */
     _cache: {},
 
-    getCustomerId() {
-      const el = document.querySelector('[data-trg-customer-id]');
-      return el ? el.dataset.trgCustomerId : null;
-    },
-
     isLoggedIn() {
-      return !!this.getCustomerId();
+      return !!document.querySelector('[data-trg-customer-id]');
     },
 
-    /* Read metafield from page data (injected by Liquid) */
-    getMetafield(key) {
-      if (this._cache[key] !== undefined) return this._cache[key];
-      const el = document.querySelector(`[data-trg-meta-${key}]`);
-      if (!el) return null;
-      try {
-        const raw = el.dataset[`trgMeta${key.charAt(0).toUpperCase() + key.slice(1).replace(/_([a-z])/g, (m,c) => c.toUpperCase())}`];
-        this._cache[key] = JSON.parse(raw);
-        return this._cache[key];
-      } catch(e) {
-        return null;
-      }
-    },
-
-    /* Write metafield — localStorage always, server sync when available */
+    /* ─── STORAGE (localStorage) ─── */
     async saveMetafield(key, value) {
       this._cache[key] = value;
-      /* Always persist to localStorage (works for all users) */
       try { localStorage.setItem(`trg_${key}`, JSON.stringify(value)); } catch(e) {}
     },
 
+    getLocal(key) {
+      if (this._cache[key] !== undefined) return this._cache[key];
+      try {
+        const val = JSON.parse(localStorage.getItem(`trg_${key}`));
+        if (val) this._cache[key] = val;
+        return val;
+      } catch(e) { return null; }
+    },
 
     /* ─── FOLLOW BRANDS ─── */
     getFollowedBrands() {
-      /* localStorage is the source of truth (New Customer Accounts can't POST to /account) */
-      try {
-        const local = JSON.parse(localStorage.getItem('trg_followed_brands'));
-        if (local && local.length) return local;
-      } catch(e) {}
-      /* Fallback: Liquid-injected metafield (read-only, from last server render) */
-      const stored = this.getMetafield('followed_brands');
-      if (stored) return stored;
-      return [];
+      return this.getLocal('followed_brands') || [];
     },
 
     isFollowing(handle) {
@@ -59,6 +39,10 @@
     },
 
     async toggleFollow(handle) {
+      if (!this.isLoggedIn()) {
+        window.location.href = '/customer_authentication/login?return_to=' + encodeURIComponent(window.location.pathname);
+        return;
+      }
       let brands = [...this.getFollowedBrands()];
       const idx = brands.indexOf(handle);
       if (idx > -1) {
@@ -71,6 +55,7 @@
       await this.saveMetafield('followed_brands', brands);
       this.updateFollowButtons(handle);
       this.updateNavCounts();
+      this.renderBrandsTab();
     },
 
     updateFollowButtons(handle) {
@@ -83,16 +68,9 @@
       });
     },
 
-
     /* ─── WISHLIST ─── */
     getWishlist() {
-      try {
-        const local = JSON.parse(localStorage.getItem('trg_wishlist'));
-        if (local && local.length) return local;
-      } catch(e) {}
-      const stored = this.getMetafield('wishlist');
-      if (stored) return stored;
-      return [];
+      return this.getLocal('wishlist') || [];
     },
 
     isWishlisted(handle) {
@@ -100,6 +78,10 @@
     },
 
     async toggleWishlist(handle) {
+      if (!this.isLoggedIn()) {
+        window.location.href = '/customer_authentication/login?return_to=' + encodeURIComponent(window.location.pathname);
+        return;
+      }
       let items = [...this.getWishlist()];
       const idx = items.findIndex(i => i.handle === handle);
       if (idx > -1) {
@@ -112,6 +94,7 @@
       await this.saveMetafield('wishlist', items);
       this.updateWishlistButtons(handle);
       this.updateNavCounts();
+      this.renderWishlistTab();
     },
 
     updateWishlistButtons(handle) {
@@ -126,8 +109,7 @@
       });
     },
 
-
-    /* ─── NAV STATE ─── */
+    /* ─── NAV COUNTS ─── */
     updateNavCounts() {
       const wishCount = this.getWishlist().length;
       const followCount = this.getFollowedBrands().length;
@@ -148,6 +130,89 @@
       });
     },
 
+    /* ─── RENDER BRANDS TAB (from localStorage) ─── */
+    renderBrandsTab() {
+      const container = document.getElementById('trg-brands-container');
+      const countText = document.getElementById('trg-brands-count-text');
+      if (!container) return;
+
+      const brands = this.getFollowedBrands();
+      if (countText) countText.textContent = brands.length + ' brand' + (brands.length !== 1 ? 's' : '') + ' you follow';
+
+      if (brands.length === 0) {
+        container.innerHTML = `
+          <div class="trg-acct__empty">
+            <div class="trg-acct__empty-icon">
+              <svg width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+            </div>
+            <div class="trg-acct__empty-title">No brands followed yet</div>
+            <div class="trg-acct__empty-desc">Follow brands to get updates when they add new products or run promotions.</div>
+            <a href="/pages/brands-directory" class="trg-acct__btn-cta">Browse Brands</a>
+          </div>`;
+        return;
+      }
+
+      // Fetch brand data from the storefront
+      const cards = brands.map(handle => {
+        const initials = handle.split('-').map(w => w[0] || '').slice(0, 2).join('').toUpperCase();
+        const name = handle.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+        return `
+          <a href="/pages/brands/${handle}" class="trg-acct__brand-card">
+            <button class="trg-acct__brand-unfollow" data-brand="${handle}" title="Unfollow" onclick="event.preventDefault(); event.stopPropagation(); TRG_ACCOUNT.toggleFollow('${handle}');">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            </button>
+            <div class="trg-acct__brand-logo">${initials}</div>
+            <div class="trg-acct__brand-name">${name}</div>
+          </a>`;
+      }).join('');
+
+      container.innerHTML = `<div class="trg-acct__brands-grid">${cards}</div>`;
+    },
+
+    /* ─── RENDER WISHLIST TAB (from localStorage) ─── */
+    renderWishlistTab() {
+      const container = document.getElementById('trg-wishlist-container');
+      const countText = document.getElementById('trg-wishlist-count-text');
+      if (!container) return;
+
+      const items = this.getWishlist();
+      if (countText) countText.textContent = items.length + ' saved item' + (items.length !== 1 ? 's' : '');
+
+      if (items.length === 0) {
+        container.innerHTML = `
+          <div class="trg-acct__empty">
+            <div class="trg-acct__empty-icon">
+              <svg width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            </div>
+            <div class="trg-acct__empty-title">Your wishlist is empty</div>
+            <div class="trg-acct__empty-desc">Save products you love by tapping the heart icon on any product card.</div>
+            <a href="/collections/all" class="trg-acct__btn-cta">Browse Products</a>
+          </div>`;
+        return;
+      }
+
+      const cards = items.map(item => {
+        const name = item.handle.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+        return `
+          <div class="trg-acct__wish-card">
+            <div class="trg-acct__wish-img">
+              <button class="trg-acct__wish-remove" onclick="TRG_ACCOUNT.toggleWishlist('${item.handle}');" title="Remove">
+                <svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+              </button>
+            </div>
+            <div class="trg-acct__wish-info">
+              <div class="trg-acct__wish-name">${name}</div>
+              <div class="trg-acct__wish-added">Added ${item.added || ''}</div>
+              <a href="/products/${item.handle}" class="trg-acct__wish-cta">
+                View Product
+                <svg width="9" height="9" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+              </a>
+            </div>
+          </div>`;
+      }).join('');
+
+      container.innerHTML = `<div class="trg-acct__wish-grid">${cards}</div>`;
+    },
 
     /* ─── TOAST ─── */
     showToast(msg) {
@@ -164,8 +229,7 @@
       toast._timer = setTimeout(() => toast.classList.remove('show'), 2500);
     },
 
-
-    /* ─── TAB SWITCHING ─── */
+    /* ─── TABS ─── */
     initTabs() {
       document.querySelectorAll('.trg-acct__tab').forEach(btn => {
         btn.addEventListener('click', () => {
@@ -183,7 +247,6 @@
       document.querySelectorAll('.trg-acct__toggle').forEach(toggle => {
         toggle.addEventListener('click', () => {
           toggle.classList.toggle('on');
-          // Save prefs
           const prefs = {};
           document.querySelectorAll('.trg-acct__toggle[data-pref]').forEach(t => {
             prefs[t.dataset.pref] = t.classList.contains('on');
@@ -193,14 +256,17 @@
       });
     },
 
-
     /* ─── INIT ─── */
     init() {
       this.initTabs();
       this.initToggles();
       this.updateNavCounts();
 
-      // Bind follow buttons
+      // Render account page tabs if on account page
+      this.renderBrandsTab();
+      this.renderWishlistTab();
+
+      // Bind follow buttons (on brand PDP pages)
       document.querySelectorAll('.trg-follow-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
           e.preventDefault();
@@ -208,7 +274,7 @@
         });
       });
 
-      // Bind wishlist buttons
+      // Bind wishlist buttons (on product cards/PDP)
       document.querySelectorAll('.trg-wishlist-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
           e.preventDefault();
@@ -217,25 +283,18 @@
         });
       });
 
-      // Init existing states
+      // Init existing button states
       document.querySelectorAll('.trg-follow-btn[data-brand]').forEach(btn => {
         this.updateFollowButtons(btn.dataset.brand);
       });
       document.querySelectorAll('.trg-wishlist-btn[data-product]').forEach(btn => {
         this.updateWishlistButtons(btn.dataset.product);
       });
-
-      // Update last_seen
-      if (this.isLoggedIn()) {
-        this.saveMetafield('last_seen', new Date().toISOString().split('T')[0]);
-      }
     }
   };
 
-  // Expose globally
   window.TRG_ACCOUNT = TRG_ACCOUNT;
 
-  // Auto-init
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => TRG_ACCOUNT.init());
   } else {
