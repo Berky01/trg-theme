@@ -160,8 +160,6 @@ function openMob(){
     var details=dwellDrawer.querySelector('details[open]');
     if(details){details.removeAttribute('open');details.classList.remove('menu-open')}
   }
-  /* Also dispatch Escape to trigger any other cleanup */
-  document.dispatchEvent(new KeyboardEvent('keydown',{key:'Escape',bubbles:true}));
   el.classList.add('on');el.setAttribute('aria-hidden','false');
   document.body.style.overflow='hidden';
   mobOpen=true;
