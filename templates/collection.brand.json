@@ -9,10 +9,6 @@
  */
 {
   "sections": {
-    "brand_header": {
-      "type": "trg-brand-collection-header",
-      "settings": {}
-    },
     "trg_search_bar": {
       "type": "trg-search-bar",
       "blocks": {
@@ -60,6 +56,10 @@
         "padding_block_start": 0,
         "padding_block_end": 0
       }
+    },
+    "brand_header": {
+      "type": "trg-brand-collection-header",
+      "settings": {}
     },
     "main": {
       "type": "main-collection",
