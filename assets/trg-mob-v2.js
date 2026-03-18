@@ -526,11 +526,15 @@ function boot(){
   var wrapper=document.createElement('div');
   wrapper.id='trg-v3-controls';
   wrapper.innerHTML=
-    '<div style="padding:.85rem 1.25rem;background:#1a1917;border-bottom:1px solid rgba(245,241,235,.08);position:sticky;top:0;z-index:30">'
-    +'<div style="display:flex;align-items:center;gap:.6rem;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:0 .75rem">'
+    '<div id="trg-v3-search-wrap" style="padding:.85rem 1.25rem;background:#1a1917;border-bottom:1px solid rgba(245,241,235,.08);position:sticky;top:0;z-index:30">'
+    +'<button id="trg-v3-search-btn" type="button" style="display:flex;align-items:center;gap:.6rem;width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:.65rem .75rem;cursor:text;text-align:left;-webkit-tap-highlight-color:transparent">'
     +'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(245,241,235,.3)" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>'
-    +'<input id="trg-v3-search" type="text" placeholder="Search 468 brands\u2026" autocomplete="off" autocorrect="off" spellcheck="false" style="flex:1;background:transparent;border:none;outline:none;font-family:DM Sans,sans-serif;font-size:.82rem;color:rgba(245,241,235,.92);padding:.7rem 0;-webkit-appearance:none;appearance:none">'
-    +'<button id="trg-v3-clear" type="button" style="background:none;border:none;cursor:pointer;font-size:.7rem;color:rgba(245,241,235,.3);padding:.25rem;display:none">\u2715</button>'
+    +'<span style="font-family:DM Sans,sans-serif;font-size:.82rem;color:rgba(245,241,235,.3);font-style:italic">Search 468 brands\u2026</span>'
+    +'</button>'
+    +'<div id="trg-v3-search-active" style="display:none;align-items:center;gap:.6rem;background:rgba(255,255,255,.07);border:1px solid rgba(196,86,42,.5);border-radius:4px;padding:0 .75rem">'
+    +'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(196,86,42,.7)" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>'
+    +'<input id="trg-v3-input" type="search" autocomplete="off" autocorrect="off" inputmode="search" spellcheck="false" style="flex:1;background:transparent;border:none;outline:none;font-family:DM Sans,sans-serif;font-size:.82rem;color:rgba(245,241,235,.92);padding:.65rem 0;-webkit-appearance:none;appearance:none">'
+    +'<button id="trg-v3-cancel" type="button" style="background:none;border:none;cursor:pointer;font-family:DM Sans,sans-serif;font-size:.72rem;color:rgba(196,86,42,.8);padding:.25rem;white-space:nowrap">Cancel</button>'
     +'</div>'
     +'</div>'
     +'<div id="trg-v3-chips" style="display:flex;gap:.35rem;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:.6rem 1.25rem .4rem"></div>'
@@ -559,44 +563,39 @@ function boot(){
     chipBox.appendChild(btn);
   });
 
-  /* Bind search */
-  var si=document.getElementById('trg-v3-search');
-  var sx=document.getElementById('trg-v3-clear');
-  si.addEventListener('input',function(){
-    mQ=si.value.trim().toLowerCase();
-    sx.style.display=mQ?'block':'none';
+  /* Bind search — tap-to-activate pattern */
+  var sBtn=document.getElementById('trg-v3-search-btn');
+  var sActive=document.getElementById('trg-v3-search-active');
+  var sInput=document.getElementById('trg-v3-input');
+  var sCancel=document.getElementById('trg-v3-cancel');
+  
+  sBtn.addEventListener('click',function(e){
+    e.preventDefault();e.stopPropagation();
+    sBtn.style.display='none';
+    sActive.style.display='flex';
+    /* Focus with a tiny delay — ensures iOS keyboard opens */
+    setTimeout(function(){sInput.focus()},50);
+  });
+  
+  sInput.addEventListener('input',function(){
+    mQ=sInput.value.trim().toLowerCase();
     dr();
   });
-  sx.addEventListener('click',function(e){
-    e.preventDefault();
-    si.value='';si.focus();
-    sx.style.display='none';
-    mQ='';dr();
-  });
-  /* Force focus: tap anywhere on the search bar area focuses the input */
-  var searchWrap=si.closest('div').parentNode;
-  searchWrap.addEventListener('touchend',function(e){
+  
+  sCancel.addEventListener('click',function(e){
     e.preventDefault();e.stopPropagation();
-    si.focus();
-    /* Ensure keyboard opens on iOS */
-    si.click();
+    sInput.value='';
+    mQ='';
+    sActive.style.display='none';
+    sBtn.style.display='flex';
+    dr();
   });
-  searchWrap.addEventListener('click',function(e){
-    e.stopPropagation();
-    si.focus();
-  });
-  /* Prevent anything from stealing focus back */
-  si.addEventListener('touchstart',function(e){e.stopPropagation()},{capture:true});
-  si.addEventListener('touchend',function(e){e.stopPropagation()},{capture:true});
-  si.addEventListener('mousedown',function(e){e.stopPropagation()},{capture:true});
-  si.addEventListener('click',function(e){e.stopPropagation();si.focus()},{capture:true});
-  si.addEventListener('focus',function(){
-    searchWrap.querySelector('div').style.borderColor='rgba(196,86,42,.5)';
-    searchWrap.querySelector('svg').setAttribute('stroke','rgba(196,86,42,.7)');
-  });
-  si.addEventListener('blur',function(){
-    searchWrap.querySelector('div').style.borderColor='rgba(255,255,255,.1)';
-    searchWrap.querySelector('svg').setAttribute('stroke','rgba(245,241,235,.3)');
+  
+  sInput.addEventListener('blur',function(){
+    if(!sInput.value){
+      sActive.style.display='none';
+      sBtn.style.display='flex';
+    }
   });
 
   /* Accordion */
@@ -638,7 +637,7 @@ function boot(){
 
 /* CSS */
 var s=document.createElement('style');
-s.textContent='.trg-mob-chips{display:none!important}.trg-mob-fam-inner>.trg-mob-lbl:first-child{display:none!important}#trg-v3-chips::-webkit-scrollbar{display:none}#trg-v3-search::placeholder{color:rgba(245,241,235,.3);font-style:italic}.trg-mob-ctas{padding:1rem 1.25rem;display:flex;flex-direction:column;gap:.5rem}.trg-mob-cta-primary{display:flex;align-items:center;justify-content:center;min-height:48px;padding:.7rem 1rem;background:rgba(196,86,42,.12);border:1px solid rgba(196,86,42,.35);border-radius:3px;font-family:"DM Sans",sans-serif;font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#c4562a;text-decoration:none}.trg-mob-cta-secondary{display:flex;align-items:center;justify-content:center;min-height:44px;padding:.6rem 1rem;background:rgba(255,255,255,.03);border:1px solid rgba(245,241,235,.1);border-radius:3px;font-family:"DM Sans",sans-serif;font-size:.68rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:rgba(245,241,235,.55);text-decoration:none}';
+s.textContent='.trg-mob-chips{display:none!important}.trg-mob-fam-inner>.trg-mob-lbl:first-child{display:none!important}#trg-v3-chips::-webkit-scrollbar{display:none}#trg-v3-input::placeholder{color:rgba(245,241,235,.3);font-style:italic}#trg-v3-search-active{transition:none}.trg-mob-ctas{padding:1rem 1.25rem;display:flex;flex-direction:column;gap:.5rem}.trg-mob-cta-primary{display:flex;align-items:center;justify-content:center;min-height:48px;padding:.7rem 1rem;background:rgba(196,86,42,.12);border:1px solid rgba(196,86,42,.35);border-radius:3px;font-family:"DM Sans",sans-serif;font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#c4562a;text-decoration:none}.trg-mob-cta-secondary{display:flex;align-items:center;justify-content:center;min-height:44px;padding:.6rem 1rem;background:rgba(255,255,255,.03);border:1px solid rgba(245,241,235,.1);border-radius:3px;font-family:"DM Sans",sans-serif;font-size:.68rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:rgba(245,241,235,.55);text-decoration:none}';
 document.head.appendChild(s);
 
 if(document.readyState==='complete')setTimeout(boot,200);
