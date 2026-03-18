@@ -1,18 +1,15 @@
 
-/* === TRG: Handle Corrections + Page 2 Fetch === */
+/* === TRG: Handle Corrections + Overflow Fetch === */
 (function() {
   var CORRECTIONS = {"Arc'teryx": "arcteryx", "Berg & Berg": "berg-and-berg", "Bryceland's": "brycelands", "Buzz Rickson's": "buzz-ricksons", "Cad & The Dandy": "cad-and-the-dandy", "Church's": "churchs", "Colhay's": "colhays", "Crockett & Jones": "crockett-and-jones", "Ede & Ravenscroft": "ede-and-ravenscroft", "Gaziano & Girling": "gaziano-and-girling", "Hawes & Curtis": "hawes-and-curtis", "Hilditch & Key": "hilditch-and-key", "L'Estrange London": "lestrange-london", "Levi's Vintage Clothing": "levis-vintage-clothing", "Mott & Bow": "mott-and-bow", "Naked & Famous": "naked-and-famous", "Outstanding & Co.": "outstanding-and-co", "Petru & Claymoor": "petru-and-claymoor", "Rancourt & Co": "rancourt-and-co", "Saint Crispin's": "saint-crispins", "Sanders & Sanders": "sanders-and-sanders", "Spier & Mackay": "spier-and-mackay", "Studio D'Artisan": "studio-dartisan", "The Real McCoy's": "the-real-mccoys", "Toad&Co": "toad-and-co", "Tricker's": "trickers", "Turnbull & Asser": "turnbull-and-asser", "White's Boots": "whites-boots", "Warehouse & Co.": "warehouse-and-co", "Mason's": "masons", "Paul & Shark": "paul-and-shark", "A Day's March": "a-days-march", "Begg & Co": "begg-and-co", "Rodd & Gunn": "rodd-and-gunn", "Abaga": "abagavelli", "Roberto Collima": "roberto-collina", "georgecleverley": "george-cleverley", "Ascotchang": "ascot-chang", "Pringlescotland": "pringle-of-scotland"};
 
   function fixHandles(brandsArray) {
-    var n = 0;
     brandsArray.forEach(function(b) {
       if (CORRECTIONS[b.name]) {
         b.handle = CORRECTIONS[b.name];
         b.url = '/pages/' + CORRECTIONS[b.name];
-        n++;
       }
     });
-    return n;
   }
 
   function init() {
@@ -24,33 +21,25 @@
     fixHandles(brands);
     el.textContent = JSON.stringify(brands);
 
-    /* Check if more brands exist (Shopify caps metaobjects at 250/page) */
-    /* If we got exactly 250 brands, Shopify paginated — fetch page 2 */
-    if (brands.length >= 250) {
-      /* Fetch page 2 via full page request (section_id doesn't paginate for metaobjects) */
-      var bp = window.location.pathname;
-      fetch(bp + '?page=2')
-        .then(function(r) { return r.text(); })
-        .then(function(html) {
-          var m = html.match(/data-brands-json[^>]*>([\s\S]*?)<\/script>/);
-          if (!m) return;
-          try {
-            var more = JSON.parse(m[1]);
-            if (!more.length) return;
-            fixHandles(more);
-            /* Deduplicate by handle */
-            var seen = {};
-            brands.forEach(function(b) { if (b.handle) seen[b.handle] = true; });
-            var unique = more.filter(function(b) { return b.handle && !seen[b.handle]; });
-            if (unique.length) {
-              brands = brands.concat(unique);
-              el.textContent = JSON.stringify(brands);
-              /* Update total count attribute for the main app */
-              el.setAttribute('data-total-brands', String(brands.length));
-              document.dispatchEvent(new CustomEvent('trg:brands-updated'));
-            }
-          } catch(e) {}
-        }).catch(function() {});
+    /* Fetch overflow brands (251+) from static asset */
+    var overflowUrl = el.getAttribute('data-overflow-url');
+    if (overflowUrl && brands.length >= 250) {
+      fetch(overflowUrl)
+        .then(function(r) { return r.json(); })
+        .then(function(more) {
+          if (!more || !more.length) return;
+          fixHandles(more);
+          /* Deduplicate by handle */
+          var seen = {};
+          brands.forEach(function(b) { if (b.handle) seen[b.handle] = true; });
+          var unique = more.filter(function(b) { return b.handle && !seen[b.handle]; });
+          if (unique.length) {
+            brands = brands.concat(unique);
+            el.textContent = JSON.stringify(brands);
+            el.setAttribute('data-total-brands', String(brands.length));
+            document.dispatchEvent(new CustomEvent('trg:brands-updated'));
+          }
+        }).catch(function(e) { console.warn('TRG: overflow fetch failed', e); });
     } else {
       document.dispatchEvent(new CustomEvent('trg:brands-updated'));
     }
@@ -62,7 +51,7 @@
     init();
   }
 })();
-/* === END TRG Handle Corrections + Pagination === */
+/* === END TRG Handle Corrections + Overflow === */
 
 (() => {
   const esc = (value) =>
