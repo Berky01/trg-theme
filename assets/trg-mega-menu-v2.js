@@ -147,6 +147,21 @@ var mobOpen=false;
 function openMob(){
   var el=document.getElementById('trg-mob');
   if(!el)return;
+  /* CRITICAL: Close Dwell's drawer to remove its focus trap.
+     Dwell's trapFocus() adds a capture-phase focusin handler that redirects
+     focus back to the <details> container. Our #trg-mob is outside that
+     container, so ALL focus in our drawer gets killed. Closing Dwell's
+     drawer calls removeTrapFocus() and clears it. */
+  var dwellDrawer=document.querySelector('header-drawer');
+  if(dwellDrawer){
+    /* Try calling close() method directly */
+    if(typeof dwellDrawer.close==='function'){try{dwellDrawer.close()}catch(e){}}
+    /* Also close the details element */
+    var details=dwellDrawer.querySelector('details[open]');
+    if(details){details.removeAttribute('open');details.classList.remove('menu-open')}
+  }
+  /* Also dispatch Escape to trigger any other cleanup */
+  document.dispatchEvent(new KeyboardEvent('keydown',{key:'Escape',bubbles:true}));
   el.classList.add('on');el.setAttribute('aria-hidden','false');
   document.body.style.overflow='hidden';
   mobOpen=true;
