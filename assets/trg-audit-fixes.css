@@ -589,25 +589,11 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
 
 
 /* ─── PDP: Remove gallery image border ─── */
-.product-information .product-information__media .media-gallery__slide,
-.product-information .product-information__media .media-gallery__item,
-.product-information .product-information__media .slideshow__slide,
-.product-information .product-media-gallery__slide {
-  border: none !important;
-  outline: none !important;
-}
-
-.product-information .product-information__media img,
-.product-information .media-gallery img {
-  border: none !important;
-  outline: none !important;
-  box-shadow: none !important;
-}
-
-/* Remove outer border on the gallery container */
+.product-information__media,
 .product-information .product-information__media {
   border: none !important;
   outline: none !important;
+  box-shadow: none !important;
 }
 
 /* ─── PDP: Space between product section and brand strip ─── */
