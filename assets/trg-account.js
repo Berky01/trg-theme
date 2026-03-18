@@ -333,3 +333,26 @@
   };
 
 })();
+
+/* TRG: Force Playfair on PDP price (Dwell h6 preset override) */
+(function() {
+  function fixPdpPrice() {
+    var pi = document.querySelector('.product-information');
+    if (!pi) return;
+    var pp = pi.querySelectorAll('.product-details product-price, .product-details product-price .price, .product-details product-price span');
+    pp.forEach(function(el) {
+      el.style.setProperty('font-family', "'Playfair Display', serif", 'important');
+      el.style.setProperty('font-size', '1.5rem', 'important');
+      el.style.setProperty('font-weight', '600', 'important');
+      el.style.setProperty('text-transform', 'none', 'important');
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', fixPdpPrice);
+  } else {
+    fixPdpPrice();
+  }
+  // Also run after Dwell's morphdom hydration which can reset styles
+  setTimeout(fixPdpPrice, 500);
+  setTimeout(fixPdpPrice, 1500);
+})();
