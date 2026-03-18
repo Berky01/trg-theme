@@ -87,7 +87,7 @@
         
     ]
   </script>
-  <script type="application/json" data-brands-page2>
+  <template data-brands-page2><script type="application/json">
     [
       {%- assign p2_count = 0 -%}
       {%- for brand in shop.metaobjects.brand.values offset: 250 -%}
@@ -167,7 +167,7 @@
         {%- assign total_brand_count = total_brand_count | plus: 1 -%}
       {%- endfor -%}
     ]
-  </script>
+  </script></template></template>
   
   <script>
     /* Fix 39 brands where handleize differs from actual page handle */
