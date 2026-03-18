@@ -566,3 +566,23 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
 @media (min-width: 990px) {
   .trg-toast { left: auto; right: 2rem; bottom: 2rem; width: auto; max-width: 320px; }
 }
+
+
+/* ─── PDP PRICE STYLING (mockup match) ─── */
+.product-information .price {
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid #ddd8cf;
+  margin-bottom: 0.25rem;
+}
+
+.product-information .price .amount {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1a1a18;
+}
+
+/* ─── PDP RECOMMENDATION SECTION ─── */
+.product-recommendations .section-heading {
+  font-family: 'Playfair Display', serif;
+}
