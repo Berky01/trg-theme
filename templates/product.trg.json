@@ -27,7 +27,7 @@
             "thumbnail_width": 44,
             "thumbnail_radius": 0,
             "aspect_ratio": "4/5",
-            "constrain_to_viewport": false,
+            "constrain_to_viewport": true,
             "media_fit": "cover",
             "media_radius": 0,
             "extend_media": false,
@@ -266,7 +266,7 @@
                     "text_wMFRAi": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>Care instructions vary by product \u2014 check the brand's site for details.</p>",
+                        "text": "<p>Care instructions vary by product — check the brand's site for details.</p>",
                         "width": "100%",
                         "max_width": "normal",
                         "alignment": "left",
