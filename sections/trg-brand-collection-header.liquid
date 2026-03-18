@@ -1,7 +1,7 @@
 {% comment %}
   TRG Brand Collection Header
-  Renders brand editorial content as the collection header.
   Reads brand data from collection.metafields.trg.brand (metaobject reference).
+  Mobile: context strip collapses into accordion to keep products above fold.
 {% endcomment %}
 
 {% liquid
@@ -98,7 +98,7 @@
     </div>
   </div>
 
-  {%- comment -%} ════ BRAND CONTEXT STRIP ════ {%- endcomment -%}
+  {%- comment -%} ════ CONTEXT STRIP — desktop visible, mobile accordion ════ {%- endcomment -%}
   {%- assign has_description = false -%}
   {%- assign has_known_for = false -%}
   {%- assign has_facts = false -%}
@@ -107,15 +107,14 @@
   {%- if brand.price_range != blank or brand.made_in != blank or brand.primary_category != blank or brand.returns_window != blank -%}{%- assign has_facts = true -%}{%- endif -%}
 
   {%- if has_description or has_known_for or has_facts -%}
-  <div class="trg-bch-context trg-bch-reveal-1">
-    <div class="trg-bch-context__inner">
 
-      {%- comment -%} Left: Description + Known For {%- endcomment -%}
+  {%- comment -%} Desktop: visible strip {%- endcomment -%}
+  <div class="trg-bch-context trg-bch-reveal-1 trg-bch-context--desktop">
+    <div class="trg-bch-context__inner">
       <div class="trg-bch-editorial">
         {%- if has_description -%}
           <p class="trg-bch-description">{{ brand.description }}</p>
         {%- endif -%}
-
         {%- if has_known_for -%}
           <div class="trg-bch-known">
             <span class="trg-bch-known__label">Known for</span>
@@ -134,37 +133,72 @@
           </div>
         {%- endif -%}
       </div>
-
-      {%- comment -%} Right: Quick Facts {%- endcomment -%}
       {%- if has_facts -%}
       <div class="trg-bch-facts">
         {%- if brand.price_range != blank -%}
-          <div class="trg-bch-fact">
-            <span class="trg-bch-fact__label">Price Range</span>
-            <span class="trg-bch-fact__value">{{ brand.price_range }}</span>
-          </div>
+          <div class="trg-bch-fact"><span class="trg-bch-fact__label">Price Range</span><span class="trg-bch-fact__value">{{ brand.price_range }}</span></div>
         {%- endif -%}
         {%- if brand.made_in != blank -%}
-          <div class="trg-bch-fact">
-            <span class="trg-bch-fact__label">Made In</span>
-            <span class="trg-bch-fact__value">{{ brand.made_in }}</span>
-          </div>
+          <div class="trg-bch-fact"><span class="trg-bch-fact__label">Made In</span><span class="trg-bch-fact__value">{{ brand.made_in }}</span></div>
         {%- endif -%}
         {%- if brand.primary_category != blank -%}
-          <div class="trg-bch-fact">
-            <span class="trg-bch-fact__label">Category</span>
-            <span class="trg-bch-fact__value">{{ brand.primary_category }}</span>
-          </div>
+          <div class="trg-bch-fact"><span class="trg-bch-fact__label">Category</span><span class="trg-bch-fact__value">{{ brand.primary_category }}</span></div>
         {%- endif -%}
         {%- if brand.returns_window != blank -%}
-          <div class="trg-bch-fact">
-            <span class="trg-bch-fact__label">Returns</span>
-            <span class="trg-bch-fact__value trg-bch-fact__value--green">{{ brand.returns_window }}</span>
-          </div>
+          <div class="trg-bch-fact"><span class="trg-bch-fact__label">Returns</span><span class="trg-bch-fact__value trg-bch-fact__value--green">{{ brand.returns_window }}</span></div>
         {%- endif -%}
       </div>
       {%- endif -%}
+    </div>
+  </div>
 
+  {%- comment -%} Mobile: collapsed accordion {%- endcomment -%}
+  <div class="trg-bch-context-mobile">
+    <button class="trg-bch-context-mobile__toggle" aria-expanded="false"
+      onclick="this.setAttribute('aria-expanded',this.getAttribute('aria-expanded')==='true'?'false':'true');this.nextElementSibling.classList.toggle('is-open');">
+      <span class="trg-bch-context-mobile__toggle-text">
+        About {{ brand.name }}
+        {%- if brand.price_range != blank %} · {{ brand.price_range }}{%- endif -%}
+      </span>
+      <svg class="trg-bch-context-mobile__chevron" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+    </button>
+    <div class="trg-bch-context-mobile__body">
+      {%- if has_description -%}
+        <p class="trg-bch-description">{{ brand.description }}</p>
+      {%- endif -%}
+      {%- if has_known_for -%}
+        <div class="trg-bch-known">
+          <span class="trg-bch-known__label">Known for</span>
+          {%- if brand.known_for_materials != blank -%}
+            {%- assign materials = brand.known_for_materials | split: ',' -%}
+            {%- for mat in materials -%}
+              <span class="trg-bch-known__tag trg-bch-known__tag--material">{{ mat | strip }}</span>
+            {%- endfor -%}
+          {%- endif -%}
+          {%- if brand.known_for_best_for != blank -%}
+            {%- assign best_for = brand.known_for_best_for | split: ',' -%}
+            {%- for item in best_for -%}
+              <span class="trg-bch-known__tag">{{ item | strip }}</span>
+            {%- endfor -%}
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+      {%- if has_facts -%}
+      <div class="trg-bch-facts trg-bch-facts--mobile">
+        {%- if brand.price_range != blank -%}
+          <div class="trg-bch-fact"><span class="trg-bch-fact__label">Price Range</span><span class="trg-bch-fact__value">{{ brand.price_range }}</span></div>
+        {%- endif -%}
+        {%- if brand.made_in != blank -%}
+          <div class="trg-bch-fact"><span class="trg-bch-fact__label">Made In</span><span class="trg-bch-fact__value">{{ brand.made_in }}</span></div>
+        {%- endif -%}
+        {%- if brand.primary_category != blank -%}
+          <div class="trg-bch-fact"><span class="trg-bch-fact__label">Category</span><span class="trg-bch-fact__value">{{ brand.primary_category }}</span></div>
+        {%- endif -%}
+        {%- if brand.returns_window != blank -%}
+          <div class="trg-bch-fact"><span class="trg-bch-fact__label">Returns</span><span class="trg-bch-fact__value trg-bch-fact__value--green">{{ brand.returns_window }}</span></div>
+        {%- endif -%}
+      </div>
+      {%- endif -%}
     </div>
   </div>
   {%- endif -%}
