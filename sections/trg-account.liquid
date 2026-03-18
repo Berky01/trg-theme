@@ -1,10 +1,24 @@
 {% comment %}
   TRG Account Page — Phase 1
-  Replaces default Shopify account page with custom tabs:
-  My Brands | Wishlist | Notifications | Settings
+  Custom page at /pages/my-account
 {% endcomment %}
 
 {{ 'trg-account.css' | asset_url | stylesheet_tag }}
+
+{%- unless customer -%}
+<div style="min-height:60vh; display:flex; align-items:center; justify-content:center; padding:2rem 1rem; background:#f5f1eb;">
+  <div style="background:#fff; max-width:400px; width:100%; padding:2rem 1.5rem; text-align:center;">
+    <div style="font-family:'Playfair Display',serif; font-size:1rem; margin-bottom:1.25rem;">The Right <span style="color:#c4562a; font-style:italic;">Garment</span></div>
+    <div style="font-family:'Playfair Display',serif; font-size:1.3rem; font-weight:400; margin-bottom:0.3rem;">Your Account</div>
+    <div style="font-size:0.78rem; color:#8a8478; font-weight:300; margin-bottom:1.5rem; line-height:1.5;">Sign in to follow brands, save products to your wishlist, and manage your preferences.</div>
+    <a href="{{ routes.account_login_url }}" style="display:block; width:100%; font-family:'DM Sans',sans-serif; font-size:0.78rem; font-weight:500; letter-spacing:0.06em; text-transform:uppercase; padding:0.75rem; border-radius:2px; border:none; background:#c4562a; color:#fff; text-decoration:none; text-align:center;">Sign In or Create Account</a>
+    <div style="font-size:0.68rem; color:#8a8478; font-weight:300; margin-top:1rem;">After signing in, you'll be redirected back here.</div>
+  </div>
+</div>
+{%- endunless -%}
+
+{%- if customer -%}
+
 
 {% assign followed = customer.metafields.trg.followed_brands.value %}
 {% assign wishlist = customer.metafields.trg.wishlist.value %}
@@ -293,6 +307,9 @@
 </div>
 
 <script src="{{ 'trg-account.js' | asset_url }}" defer></script>
+
+
+{%- endif -%}
 
 {% schema %}
 {
