@@ -76,6 +76,37 @@
   endcase
 %}
 
+
+<!-- TRG PDP inline overrides — rendered fresh, no CDN cache -->
+<style data-trg-pdp>
+  /* Price: Playfair with border separator */
+  .product-information .product-details product-price {
+    display: block !important;
+    padding-bottom: 1.25rem !important;
+    border-bottom: 1px solid #ddd8cf !important;
+    margin-bottom: 0.75rem !important;
+  }
+  .product-information .product-details product-price .price,
+  .product-information .product-details product-price span.price {
+    font-family: 'Playfair Display', serif !important;
+    font-size: 1.5rem !important;
+    font-weight: 600 !important;
+    color: #1a1a18 !important;
+  }
+  /* Column gap: Dwell grid has 0 column-gap, use padding */
+  @media screen and (min-width: 750px) {
+    .product-information .product-information__grid > .product-information__media {
+      padding-inline-end: 1rem !important;
+    }
+    .product-information .product-information__grid > .product-details {
+      padding-inline-start: 1rem !important;
+    }
+  }
+  /* No image border */
+  .product-information__media {
+    border: none !important;
+  }
+</style>
 <div class="section-background color-{{ settings.color_scheme }}"></div>
 <div
   class="product-information section section--{{ content_width }} spacing-style color-{{ settings.color_scheme }} relative"
