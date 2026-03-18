@@ -382,7 +382,6 @@
     "trg_brand_strip": {
       "type": "trg-product-brand-strip",
       "settings": {
-        "color_scheme": "scheme-header-ink",
         "eyebrow": "Brand spotlight",
         "button_label": "View Brand"
       }
