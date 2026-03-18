@@ -33,38 +33,25 @@
       }
     },
 
-    /* Write metafield via Storefront/Customer API */
+    /* Write metafield — localStorage always, server sync when available */
     async saveMetafield(key, value) {
       this._cache[key] = value;
-      const customerId = this.getCustomerId();
-      if (!customerId) {
-        // Fallback: localStorage for logged-out users
-        localStorage.setItem(`trg_${key}`, JSON.stringify(value));
-        return;
-      }
-      try {
-        const resp = await fetch('/account', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: new URLSearchParams({
-            'form_type': 'customer',
-            'utf8': '✓',
-            [`customer[metafields][trg][${key}]`]: JSON.stringify(value)
-          })
-        });
-      } catch(e) {
-        console.warn('TRG: metafield save failed', e);
-      }
+      /* Always persist to localStorage (works for all users) */
+      try { localStorage.setItem(`trg_${key}`, JSON.stringify(value)); } catch(e) {}
     },
 
 
     /* ─── FOLLOW BRANDS ─── */
     getFollowedBrands() {
+      /* localStorage is the source of truth (New Customer Accounts can't POST to /account) */
+      try {
+        const local = JSON.parse(localStorage.getItem('trg_followed_brands'));
+        if (local && local.length) return local;
+      } catch(e) {}
+      /* Fallback: Liquid-injected metafield (read-only, from last server render) */
       const stored = this.getMetafield('followed_brands');
       if (stored) return stored;
-      // Fallback: localStorage
-      try { return JSON.parse(localStorage.getItem('trg_followed_brands')) || []; }
-      catch(e) { return []; }
+      return [];
     },
 
     isFollowing(handle) {
@@ -72,10 +59,6 @@
     },
 
     async toggleFollow(handle) {
-      if (!this.isLoggedIn()) {
-        window.location.href = `/account/login?return_to=${encodeURIComponent(window.location.pathname)}`;
-        return;
-      }
       let brands = [...this.getFollowedBrands()];
       const idx = brands.indexOf(handle);
       if (idx > -1) {
@@ -103,10 +86,13 @@
 
     /* ─── WISHLIST ─── */
     getWishlist() {
+      try {
+        const local = JSON.parse(localStorage.getItem('trg_wishlist'));
+        if (local && local.length) return local;
+      } catch(e) {}
       const stored = this.getMetafield('wishlist');
       if (stored) return stored;
-      try { return JSON.parse(localStorage.getItem('trg_wishlist')) || []; }
-      catch(e) { return []; }
+      return [];
     },
 
     isWishlisted(handle) {
@@ -114,10 +100,6 @@
     },
 
     async toggleWishlist(handle) {
-      if (!this.isLoggedIn()) {
-        window.location.href = `/account/login?return_to=${encodeURIComponent(window.location.pathname)}`;
-        return;
-      }
       let items = [...this.getWishlist()];
       const idx = items.findIndex(i => i.handle === handle);
       if (idx > -1) {
