@@ -6,79 +6,98 @@
   endif
 
   if product != blank
-  assign material = product.metafields.trg.material_type
-  assign made_in = product.metafields.trg.made_in_country
-  assign fit = product.metafields.trg.style_aesthetic
-  assign season = product.metafields.trg.season
-    assign category = product.type
-    assign brand = product.vendor
+    assign material  = product.metafields.trg.material_type
+    assign made_in   = product.metafields.trg.made_in_country
+    assign fit       = product.metafields.trg.style_aesthetic
+    assign season    = product.metafields.trg.season
+    assign category  = product.type
+    assign brand     = product.vendor
+    assign price_rng = product.metafields.trg.price_range
+    assign made_in_str = made_in | downcase
+    assign is_na = false
+    if made_in_str contains 'usa' or made_in_str contains 'united states' or made_in_str contains 'canada' or made_in_str contains 'mexico'
+      assign is_na = true
+    endif
   endif
 %}
 
 {% if product != blank %}
   <div class="trg-product-meta" {{ block.shopify_attributes }}>
     {% if material != blank %}
-      <div class="trg-product-meta__row">
+      <div class="trg-product-meta__item">
         <span class="trg-product-meta__key">Material</span>
         <span class="trg-product-meta__val">{{ material }}</span>
       </div>
     {% endif %}
-
     {% if made_in != blank %}
-      <div class="trg-product-meta__row">
+      <div class="trg-product-meta__item">
         <span class="trg-product-meta__key">Made In</span>
-        <span class="trg-product-meta__val">{{ made_in }}</span>
+        <span class="trg-product-meta__val{% if is_na %} trg-product-meta__val--na{% endif %}">{{ made_in }}</span>
       </div>
     {% endif %}
-
     {% if fit != blank %}
-      <div class="trg-product-meta__row">
+      <div class="trg-product-meta__item">
         <span class="trg-product-meta__key">Style</span>
-        <span class="trg-product-meta__val">{{ fit }}</span>
+        <span class="trg-product-meta__val trg-product-meta__val--tag">{{ fit }}</span>
       </div>
     {% endif %}
-
     {% if season != blank %}
-      <div class="trg-product-meta__row">
+      <div class="trg-product-meta__item">
         <span class="trg-product-meta__key">Season</span>
         <span class="trg-product-meta__val">{{ season }}</span>
       </div>
     {% endif %}
-
+    {% if price_rng != blank %}
+      <div class="trg-product-meta__item">
+        <span class="trg-product-meta__key">Price Range</span>
+        <span class="trg-product-meta__val">{{ price_rng }}</span>
+      </div>
+    {% endif %}
   </div>
 {% endif %}
 
 {% stylesheet %}
   .trg-product-meta {
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-    padding-top: 1rem;
-    margin-top: 0.5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem 1rem;
+    padding: 1rem 0;
+    margin-top: 0.25rem;
     border-top: 1px solid #ddd8cf;
+    border-bottom: 1px solid #ddd8cf;
   }
 
-  .trg-product-meta__row {
+  .trg-product-meta__item {
     display: flex;
-    align-items: baseline;
-    gap: 0.75rem;
-    font-size: 0.82rem;
+    flex-direction: column;
+    gap: 0.2rem;
   }
 
   .trg-product-meta__key {
-    font-size: 0.68rem;
-    font-weight: 500;
-    letter-spacing: 0.08em;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     color: #8a8478;
-    min-width: 80px;
-    flex-shrink: 0;
   }
 
   .trg-product-meta__val {
-    color: #1a1a18;
-    font-weight: 400;
     font-size: 0.82rem;
+    font-weight: 500;
+    color: #1a1a18;
+  }
+
+  .trg-product-meta__val--tag {
+    display: inline-block;
+    background: #ede8e0;
+    padding: 0.15rem 0.5rem;
+    border-radius: 2px;
+    font-size: 0.72rem;
+    width: fit-content;
+  }
+
+  .trg-product-meta__val--na {
+    color: #3d8c5e;
   }
 {% endstylesheet %}
 
