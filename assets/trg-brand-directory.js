@@ -1,68 +1,35 @@
 
-/* === TRG: Pagination + Handle Corrections === */
+/* === TRG: Handle Corrections (pagination disabled — Shopify caps metaobjects at 250/page) === */
 (function() {
   var CORRECTIONS = {"Arc'teryx": "arcteryx", "Berg & Berg": "berg-and-berg", "Bryceland's": "brycelands", "Buzz Rickson's": "buzz-ricksons", "Cad & The Dandy": "cad-and-the-dandy", "Church's": "churchs", "Colhay's": "colhays", "Crockett & Jones": "crockett-and-jones", "Ede & Ravenscroft": "ede-and-ravenscroft", "Gaziano & Girling": "gaziano-and-girling", "Hawes & Curtis": "hawes-and-curtis", "Hilditch & Key": "hilditch-and-key", "L'Estrange London": "lestrange-london", "Levi's Vintage Clothing": "levis-vintage-clothing", "Mott & Bow": "mott-and-bow", "Naked & Famous": "naked-and-famous", "Outstanding & Co.": "outstanding-and-co", "Petru & Claymoor": "petru-and-claymoor", "Rancourt & Co": "rancourt-and-co", "Saint Crispin's": "saint-crispins", "Sanders & Sanders": "sanders-and-sanders", "Spier & Mackay": "spier-and-mackay", "Studio D'Artisan": "studio-dartisan", "The Real McCoy's": "the-real-mccoys", "Toad&Co": "toad-and-co", "Tricker's": "trickers", "Turnbull & Asser": "turnbull-and-asser", "White's Boots": "whites-boots", "Warehouse & Co.": "warehouse-and-co", "Mason's": "masons", "Paul & Shark": "paul-and-shark", "A Day's March": "a-days-march", "Begg & Co": "begg-and-co", "Rodd & Gunn": "rodd-and-gunn", "Abaga": "abagavelli", "Roberto Collima": "roberto-collina", "georgecleverley": "george-cleverley", "Ascotchang": "ascot-chang", "Pringlescotland": "pringle-of-scotland"};
   
-  function fixHandles(brandsArray) {
-    var n = 0;
-    brandsArray.forEach(function(b) {
-      if (CORRECTIONS[b.name]) {
-        b.handle = CORRECTIONS[b.name];
-        b.url = '/pages/' + CORRECTIONS[b.name];
-        n++;
-      }
-    });
-    return n;
-  }
-  
-  function paginateBrands() {
+  function fixHandles() {
     var el = document.querySelector('[data-brands-json]');
     if (!el) return;
-    var brands;
-    try { brands = JSON.parse(el.textContent); } catch(e) { return; }
-    
-    /* Fix handles on initial load */
-    fixHandles(brands);
-    el.textContent = JSON.stringify(brands);
-    
-    var PS = 50;
-    if (brands.length < PS) return;
-    
-    var section = el.closest('[data-id]');
-    if (!section) return;
-    var sid = section.dataset.id;
-    var bp = window.location.pathname;
-    var pg = 2;
-    
-    function fetchPage() {
-      fetch(bp + '?page=' + pg + '&section_id=' + sid)
-        .then(function(r) { return r.text(); })
-        .then(function(html) {
-          var m = html.match(/data-brands-json[^>]*>([\s\S]*?)<\/script>/);
-          if (m) {
-            try {
-              var more = JSON.parse(m[1]);
-              if (more.length) {
-                fixHandles(more);
-                brands = brands.concat(more);
-                el.textContent = JSON.stringify(brands);
-                document.dispatchEvent(new CustomEvent('trg:brands-updated'));
-                if (more.length >= PS) { pg++; fetchPage(); }
-              }
-            } catch(e) {}
-          }
-        }).catch(function() {});
-    }
-    fetchPage();
+    try {
+      var brands = JSON.parse(el.textContent);
+      var n = 0;
+      brands.forEach(function(b) {
+        if (CORRECTIONS[b.name]) {
+          b.handle = CORRECTIONS[b.name];
+          b.url = '/pages/' + CORRECTIONS[b.name];
+          n++;
+        }
+      });
+      if (n) {
+        el.textContent = JSON.stringify(brands);
+        document.dispatchEvent(new CustomEvent('trg:brands-updated'));
+      }
+    } catch(e) {}
   }
   
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', paginateBrands);
+    document.addEventListener('DOMContentLoaded', fixHandles);
   } else {
-    paginateBrands();
+    fixHandles();
   }
 })();
-/* === END TRG Pagination === */
+/* === END TRG Handle Corrections === */
 
 (() => {
   const esc = (value) =>
@@ -116,11 +83,13 @@
       if (!dataNode) return;
 
       let data = [];
+      let totalBrandsCount = 0;
       try {
         data = JSON.parse(dataNode.textContent || '[]');
       } catch (error) {
         return;
       }
+      totalBrandsCount = parseInt(dataNode.getAttribute('data-total-brands') || '0', 10) || data.length;
 
       data = data.map((brand) => ({
         ...brand,
@@ -132,7 +101,7 @@
 
       const PAGE = 24;
 
-      /* Listen for page 2 brands to arrive */
+      /* Listen for handle corrections */
       document.addEventListener('trg:brands-updated', () => {
         try {
           const fresh = JSON.parse(dataNode.textContent || '[]').map((brand) => ({
@@ -143,9 +112,8 @@
           }));
           data.length = 0;
           data.push(...fresh);
-          state.all = data;
           state.page = 1;
-          applyFilters();
+          apply();
         } catch(e) {}
       });
       const key = 'trg_saved_brands';
