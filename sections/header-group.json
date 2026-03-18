@@ -547,60 +547,6 @@
             "count": "8"
           }
         },
-        "2a434a7d360b": {
-          "type": "brand_category",
-          "settings": {
-            "title_override": "Casualwear"
-          }
-        },
-        "ed773055e5a4": {
-          "type": "brand_category",
-          "settings": {
-            "title_override": "Footwear"
-          }
-        },
-        "72c7902a138e": {
-          "type": "brand_category",
-          "settings": {
-            "title_override": "Formalwear"
-          }
-        },
-        "0cf3201b632e": {
-          "type": "brand_category",
-          "settings": {
-            "title_override": "Outerwear"
-          }
-        },
-        "2414b8cadb76": {
-          "type": "brand_category",
-          "settings": {
-            "title_override": "Denim"
-          }
-        },
-        "f13195b450c8": {
-          "type": "brand_category",
-          "settings": {
-            "title_override": "Knitwear"
-          }
-        },
-        "4c9138497095": {
-          "type": "brand_category",
-          "settings": {
-            "title_override": "Smart Casual"
-          }
-        },
-        "90089ec8e2b1": {
-          "type": "brand_category",
-          "settings": {
-            "title_override": "Basics"
-          }
-        },
-        "e4ba73a0c744": {
-          "type": "brand_category",
-          "settings": {
-            "title_override": "Workwear"
-          }
-        },
         "f2cf7cbf6bfd": {
           "type": "featured_brand",
           "settings": {
@@ -629,6 +575,54 @@
             "link_2_url": "/pages/brands",
             "link_3_text": "Submit a brand",
             "link_3_url": "/pages/submit-brand"
+          }
+        },
+        "42db7bee3678": {
+          "type": "brand_category",
+          "settings": {
+            "title_override": "Shirts & Tops"
+          }
+        },
+        "9b64b7ef3937": {
+          "type": "brand_category",
+          "settings": {
+            "title_override": "Outerwear & Jackets"
+          }
+        },
+        "b4a8b7c0e8cb": {
+          "type": "brand_category",
+          "settings": {
+            "title_override": "Trousers & Bottoms"
+          }
+        },
+        "53c1952df4f0": {
+          "type": "brand_category",
+          "settings": {
+            "title_override": "Footwear"
+          }
+        },
+        "8f0f983a300b": {
+          "type": "brand_category",
+          "settings": {
+            "title_override": "Knitwear"
+          }
+        },
+        "18d6761946a4": {
+          "type": "brand_category",
+          "settings": {
+            "title_override": "Denim"
+          }
+        },
+        "1f358f990f2d": {
+          "type": "brand_category",
+          "settings": {
+            "title_override": "Suits & Tailoring"
+          }
+        },
+        "16bc57aac4da": {
+          "type": "brand_category",
+          "settings": {
+            "title_override": "Accessories"
           }
         }
       },
@@ -691,17 +685,16 @@
         "689f6aa04824",
         "28dcb112e31e",
         "9ccabf93d74e",
-        "2a434a7d360b",
-        "ed773055e5a4",
-        "72c7902a138e",
-        "0cf3201b632e",
-        "2414b8cadb76",
-        "f13195b450c8",
-        "4c9138497095",
-        "90089ec8e2b1",
-        "e4ba73a0c744",
         "f2cf7cbf6bfd",
-        "6cde3bab46d0"
+        "6cde3bab46d0",
+        "42db7bee3678",
+        "9b64b7ef3937",
+        "b4a8b7c0e8cb",
+        "53c1952df4f0",
+        "8f0f983a300b",
+        "18d6761946a4",
+        "1f358f990f2d",
+        "16bc57aac4da"
       ],
       "settings": {}
     }
