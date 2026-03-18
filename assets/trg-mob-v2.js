@@ -555,89 +555,47 @@ function boot(){
   });
 
   /* Search float panel — lives OUTSIDE .trg-mob-drawer (no transform) */
-  var floatPanel=document.getElementById('trg-mob-search-float');
-  var floatInput=document.getElementById('trg-mob-search-input');
-  var floatClear=document.getElementById('trg-mob-search-clear');
-  var floatBack=document.getElementById('trg-mob-search-back');
-  var floatResults=document.getElementById('trg-mob-search-results');
+  
+  
+  
+  
+  
 
-  function openSearch(){
-    if(!floatPanel)return;
-    /* CRITICAL: Remove body overflow:hidden — iOS blocks keyboard otherwise */
-    document.body.style.overflow='';
-    document.body.style.position='fixed';
-    document.body.style.width='100%';
-    document.body.style.top='-'+window.scrollY+'px';
-    floatPanel.style.display='flex';
-    /* Focus synchronously */
-    if(floatInput){floatInput.focus();floatInput.click();}
-  }
-  function closeSearch(){
-    if(!floatPanel)return;
-    floatPanel.style.display='none';
-    if(floatInput)floatInput.blur();
-    /* Restore scroll lock */
-    var scrollY=document.body.style.top;
-    document.body.style.position='';
-    document.body.style.width='';
-    document.body.style.top='';
-    document.body.style.overflow='hidden';
-    window.scrollTo(0,parseInt(scrollY||'0')*-1);
-  }
-  function renderSearchResults(){
-    if(!floatResults)return;
-    var q=floatInput?floatInput.value.trim().toLowerCase():'';
-    mQ=q;
-    if(!q){floatResults.innerHTML='<div style="padding:1.5rem 1.25rem;font-size:.78rem;color:rgba(245,241,235,.3);font-style:italic">Type to search brands…</div>';dr();return}
-    var matches=AB.filter(function(b){return b.n.toLowerCase().indexOf(q)!==-1});
-    matches.sort(function(a,b){return a.n.replace(/^[^a-zA-Z0-9]+/,'').localeCompare(b.n.replace(/^[^a-zA-Z0-9]+/,''),'en',{sensitivity:'base'})});
-    if(!matches.length){floatResults.innerHTML='<div style="padding:2rem 1.25rem;text-align:center;font-size:.8rem;color:rgba(245,241,235,.3);font-style:italic">No brands matching “'+esc(floatInput.value.trim())+'”</div>';dr();return}
-    var h='<div style="padding:.5rem 1.25rem .3rem;font-size:.62rem;color:rgba(245,241,235,.3)"><strong style="color:rgba(196,86,42,.8)">'+matches.length+'</strong> result'+(matches.length!==1?'s':'')+'</div><div style="padding:0 1.25rem">';
-    matches.forEach(function(b){
-      var isPick=b.p==='h';
-      h+='<a href="/pages/brands/'+b.s+'" style="display:flex;align-items:center;justify-content:space-between;min-height:44px;padding:.35rem 0;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.04)">';
-      h+='<span style="font-size:.8rem;color:rgba(245,241,235,.92)">'+hl(b.n,q)+'</span>';
-      if(isPick)h+='<span style="width:5px;height:5px;border-radius:50%;background:#c4562a;opacity:.6;flex-shrink:0"></span>';
-      h+='</a>';
-    });
-    h+='</div>';
-    floatResults.innerHTML=h;
-    dr();
-  }
+  
+  
+  
 
-  if(floatInput){
-    floatInput.addEventListener('input',renderSearchResults);
-  }
-  if(floatClear){
-    floatClear.addEventListener('click',function(e){
-      e.preventDefault();
-      if(floatInput){floatInput.value='';floatInput.focus()}
-      floatClear.style.display='none';
-      renderSearchResults();
-    });
-  }
-  if(floatInput){
-    floatInput.addEventListener('input',function(){
-      if(floatClear)floatClear.style.display=floatInput.value?'block':'none';
-    });
-  }
-  if(floatBack){
-    floatBack.addEventListener('click',function(e){
-      e.preventDefault();
-      /* Apply search to main brands list too */
-      mQ=floatInput?floatInput.value.trim().toLowerCase():'';
-      closeSearch();
-      dr();
-    });
-  }
+  
+  
+  
+  
 
   /* Search tap target → opens float panel AND creates body-level test input */
   var searchTap=document.getElementById('trg-v3-search-tap');
   if(searchTap){
     searchTap.addEventListener('click',function(e){
       e.preventDefault();e.stopPropagation();
-      openSearch();
+      var q=window.prompt('Search brands:','');
+      if(q!==null){
+        mQ=q.trim().toLowerCase();
+        render();
+        /* Scroll to top */
+        var body=document.getElementById('trg-mob-body');
+        if(body)body.scrollTop=0;
+        /* Update the button text to show active search */
+        if(mQ){
+          searchTap.innerHTML='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(196,86,42,.7)" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg><span style="font-family:DM Sans,sans-serif;font-size:.82rem;color:rgba(245,241,235,.92)">\u201c'+esc(q.trim())+'\u201d</span><span style="font-family:DM Sans,sans-serif;font-size:.68rem;color:#c4562a;margin-left:auto">Clear</span>';
+        }else{
+          searchTap.innerHTML='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(245,241,235,.3)" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg><span style="font-family:DM Sans,sans-serif;font-size:.82rem;color:rgba(245,241,235,.3);font-style:italic">Search 468 brands\u2026</span>';
+        }
+      }
     });
+    /* Also handle clear by tapping when search is active */
+    searchTap.addEventListener('dblclick',function(e){
+      e.preventDefault();
+      mQ='';render();
+      searchTap.innerHTML='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(245,241,235,.3)" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg><span style="font-family:DM Sans,sans-serif;font-size:.82rem;color:rgba(245,241,235,.3);font-style:italic">Search 468 brands\u2026</span>';
+    })
   }
 
   /* Accordion */
