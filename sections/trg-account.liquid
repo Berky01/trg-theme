@@ -1,6 +1,6 @@
 {% comment %}
   TRG Account Page — Phase 1
-  Custom page at /pages/my-account
+  /pages/my-account — JS-powered (reads from localStorage)
 {% endcomment %}
 
 {{ 'trg-account.css' | asset_url | stylesheet_tag }}
@@ -11,37 +11,20 @@
     <div style="font-family:'Playfair Display',serif; font-size:1rem; margin-bottom:1.25rem;">The Right <span style="color:#c4562a; font-style:italic;">Garment</span></div>
     <div style="font-family:'Playfair Display',serif; font-size:1.3rem; font-weight:400; margin-bottom:0.3rem;">Your Account</div>
     <div style="font-size:0.78rem; color:#8a8478; font-weight:300; margin-bottom:1.5rem; line-height:1.5;">Sign in to follow brands, save products to your wishlist, and manage your preferences.</div>
-    <a href="{{ routes.account_login_url }}" style="display:block; width:100%; font-family:'DM Sans',sans-serif; font-size:0.78rem; font-weight:500; letter-spacing:0.06em; text-transform:uppercase; padding:0.75rem; border-radius:2px; border:none; background:#c4562a; color:#fff; text-decoration:none; text-align:center;">Sign In or Create Account</a>
+    <a href="/customer_authentication/login?return_to=/pages/my-account" style="display:block; width:100%; font-family:'DM Sans',sans-serif; font-size:0.78rem; font-weight:500; letter-spacing:0.06em; text-transform:uppercase; padding:0.75rem; border-radius:2px; border:none; background:#c4562a; color:#fff; text-decoration:none; text-align:center;">Sign In or Create Account</a>
     <div style="font-size:0.68rem; color:#8a8478; font-weight:300; margin-top:1rem;">After signing in, you'll be redirected back here.</div>
   </div>
 </div>
 {%- endunless -%}
 
 {%- if customer -%}
-
-
-{% assign followed = customer.metafields.trg.followed_brands.value %}
-{% assign wishlist = customer.metafields.trg.wishlist.value %}
-{% assign notif_prefs = customer.metafields.trg.notification_prefs.value %}
-{% assign initials = customer.first_name | slice: 0 | append: customer.last_name | slice: 0 %}
-
-{%- comment -%} Inject customer data for JS {%- endcomment -%}
 <div data-trg-customer-id="{{ customer.id }}" style="display:none"></div>
-{% if followed %}
-  <div data-trg-meta-followed_brands='{{ followed | json }}' style="display:none"></div>
-{% endif %}
-{% if wishlist %}
-  <div data-trg-meta-wishlist='{{ wishlist | json }}' style="display:none"></div>
-{% endif %}
-{% if notif_prefs %}
-  <div data-trg-meta-notification_prefs='{{ notif_prefs | json }}' style="display:none"></div>
-{% endif %}
 
 <!-- HERO -->
 <div class="trg-acct__hero">
   <div class="trg-acct__hero-inner">
     <div class="trg-acct__hero-left">
-      <div class="trg-acct__avatar">{{ initials | upcase }}</div>
+      <div class="trg-acct__avatar">{{ customer.first_name | slice: 0 | upcase }}{{ customer.last_name | slice: 0 | upcase }}</div>
       <div>
         <div class="trg-acct__name">{{ customer.first_name }} {{ customer.last_name | truncate: 1, '.' }}</div>
         <div class="trg-acct__meta">
@@ -54,27 +37,27 @@
     </div>
     <div class="trg-acct__stats">
       <div class="trg-acct__stat">
-        <div class="trg-acct__stat-num" data-stat="following">{% if followed %}{{ followed | size }}{% else %}0{% endif %}</div>
+        <div class="trg-acct__stat-num" data-stat="following">0</div>
         <div class="trg-acct__stat-label">Following</div>
       </div>
       <div class="trg-acct__stat">
-        <div class="trg-acct__stat-num" data-stat="wishlist">{% if wishlist %}{{ wishlist | size }}{% else %}0{% endif %}</div>
+        <div class="trg-acct__stat-num" data-stat="wishlist">0</div>
         <div class="trg-acct__stat-label">Wishlist</div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- TAB BAR -->
+<!-- TABS -->
 <div class="trg-acct__tabs">
   <div class="trg-acct__tabs-inner">
     <button class="trg-acct__tab active" data-tab="brands">
       <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
-      My Brands <span class="trg-acct__tab-count" data-count="brands">{% if followed %}{{ followed | size }}{% else %}0{% endif %}</span>
+      My Brands <span class="trg-acct__tab-count" data-count="brands">0</span>
     </button>
     <button class="trg-acct__tab" data-tab="wishlist">
       <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-      Wishlist <span class="trg-acct__tab-count" data-count="wishlist">{% if wishlist %}{{ wishlist | size }}{% else %}0{% endif %}</span>
+      Wishlist <span class="trg-acct__tab-count" data-count="wishlist">0</span>
     </button>
     <button class="trg-acct__tab" data-tab="notifications">
       <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
@@ -90,116 +73,24 @@
 <!-- MAIN -->
 <div class="trg-acct__main">
 
-  <!-- MY BRANDS -->
+  <!-- MY BRANDS (JS-rendered) -->
   <div class="trg-acct__panel active" id="trg-tab-brands">
-    {% if followed and followed != blank %}
-      <div class="trg-acct__toolbar">
-        <div class="trg-acct__toolbar-count">{{ followed | size }} brands you follow</div>
-        <select class="trg-acct__sort">
-          <option>Recently followed</option>
-          <option>A–Z</option>
-        </select>
-      </div>
-      <div class="trg-acct__brands-grid">
-        {% for handle in followed %}
-          {% assign brand = shop.metaobjects.brand[handle] %}
-          {% if brand %}
-            <a href="/pages/brands/{{ handle }}" class="trg-acct__brand-card">
-              <button class="trg-acct__brand-unfollow trg-follow-btn" data-brand="{{ handle }}" title="Unfollow">
-                <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
-              </button>
-              <div class="trg-acct__brand-logo">
-                {% if brand.logo %}
-                  <img src="{{ brand.logo | image_url: width: 112 }}" alt="{{ brand.name }}" loading="lazy">
-                {% else %}
-                  {{ brand.name | slice: 0, 2 | upcase }}
-                {% endif %}
-              </div>
-              <div class="trg-acct__brand-name">{{ brand.name }}</div>
-              <div class="trg-acct__brand-meta">
-                {{ brand.country | default: '' }}
-                {% if brand.price_range %} · {{ brand.price_range }}{% endif %}
-              </div>
-              <div class="trg-acct__brand-badges">
-                {% if brand.ships_to_canada == 'Yes' %}
-                  <span class="trg-acct__badge trg-acct__badge--ca">Ships CA</span>
-                {% endif %}
-                {% if brand.canadian_brand == 'Yes' %}
-                  <span class="trg-acct__badge trg-acct__badge--ca">Canadian</span>
-                {% endif %}
-              </div>
-            </a>
-          {% endif %}
-        {% endfor %}
-      </div>
-    {% else %}
-      <div class="trg-acct__empty">
-        <div class="trg-acct__empty-icon">
-          <svg width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
-        </div>
-        <div class="trg-acct__empty-title">No brands followed yet</div>
-        <div class="trg-acct__empty-desc">Follow brands to get updates when they add new products or run promotions.</div>
-        <a href="/pages/brands-directory" class="trg-acct__btn-cta">Browse Brands</a>
-      </div>
-    {% endif %}
+    <div class="trg-acct__toolbar">
+      <div class="trg-acct__toolbar-count" id="trg-brands-count-text">Loading...</div>
+    </div>
+    <div id="trg-brands-container">
+      <!-- JS will populate this -->
+    </div>
   </div>
 
-  <!-- WISHLIST -->
+  <!-- WISHLIST (JS-rendered) -->
   <div class="trg-acct__panel" id="trg-tab-wishlist">
-    {% if wishlist and wishlist != blank %}
-      <div class="trg-acct__toolbar">
-        <div class="trg-acct__toolbar-count">{{ wishlist | size }} saved items</div>
-        <select class="trg-acct__sort">
-          <option>Recently added</option>
-          <option>Price: Low → High</option>
-          <option>Price: High → Low</option>
-        </select>
-      </div>
-      <div class="trg-acct__wish-grid">
-        {% for item in wishlist %}
-          {% assign product = all_products[item.handle] %}
-          {% if product %}
-            <div class="trg-acct__wish-card">
-              <div class="trg-acct__wish-img">
-                <button class="trg-acct__wish-remove trg-wishlist-btn saved" data-product="{{ item.handle }}" title="Remove">
-                  <svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-                </button>
-                {% if product.featured_image %}
-                  <img src="{{ product.featured_image | image_url: width: 400 }}" alt="{{ product.title }}" loading="lazy">
-                {% endif %}
-              </div>
-              <div class="trg-acct__wish-info">
-                <div class="trg-acct__wish-brand">{{ product.vendor }}</div>
-                <div class="trg-acct__wish-name">{{ product.title }}</div>
-                <div class="trg-acct__wish-price">
-                  {% if product.compare_at_price > product.price %}
-                    <span class="original">{{ product.compare_at_price | money }}</span>
-                    <span class="sale">{{ product.price | money }}</span>
-                  {% else %}
-                    {{ product.price | money }}
-                  {% endif %}
-                </div>
-                <div class="trg-acct__wish-added">Added {{ item.added | date: '%b %d' }}</div>
-                {% assign buy_url = product.metafields.trg.buy_url.value | default: product.url %}
-                <a href="{{ buy_url }}" class="trg-acct__wish-cta" target="_blank" rel="noopener">
-                  Shop at {{ product.vendor }}
-                  <svg width="9" height="9" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-                </a>
-              </div>
-            </div>
-          {% endif %}
-        {% endfor %}
-      </div>
-    {% else %}
-      <div class="trg-acct__empty">
-        <div class="trg-acct__empty-icon">
-          <svg width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-        </div>
-        <div class="trg-acct__empty-title">Your wishlist is empty</div>
-        <div class="trg-acct__empty-desc">Save products you love by tapping the heart icon on any product card.</div>
-        <a href="/collections/all" class="trg-acct__btn-cta">Browse Products</a>
-      </div>
-    {% endif %}
+    <div class="trg-acct__toolbar">
+      <div class="trg-acct__toolbar-count" id="trg-wishlist-count-text">Loading...</div>
+    </div>
+    <div id="trg-wishlist-container">
+      <!-- JS will populate this -->
+    </div>
   </div>
 
   <!-- NOTIFICATIONS -->
@@ -212,14 +103,14 @@
           <div class="trg-acct__notif-label">New products digest</div>
           <div class="trg-acct__notif-sub">Weekly email with new arrivals from your brands</div>
         </div>
-        <button class="trg-acct__toggle{% if notif_prefs.new_products != false %} on{% endif %}" data-pref="new_products"></button>
+        <button class="trg-acct__toggle on" data-pref="new_products"></button>
       </div>
       <div class="trg-acct__notif-row">
         <div>
           <div class="trg-acct__notif-label">Sale &amp; promotion alerts</div>
           <div class="trg-acct__notif-sub">When a followed brand runs a sale</div>
         </div>
-        <button class="trg-acct__toggle{% if notif_prefs.sales != false %} on{% endif %}" data-pref="sales"></button>
+        <button class="trg-acct__toggle on" data-pref="sales"></button>
       </div>
     </div>
     <div class="trg-acct__notif-section">
@@ -230,25 +121,14 @@
           <div class="trg-acct__notif-label">Price drop alerts</div>
           <div class="trg-acct__notif-sub">When a wishlisted product goes on sale</div>
         </div>
-        <button class="trg-acct__toggle{% if notif_prefs.price_drops %} on{% endif %}" data-pref="price_drops"></button>
+        <button class="trg-acct__toggle" data-pref="price_drops"></button>
       </div>
       <div class="trg-acct__notif-row">
         <div>
           <div class="trg-acct__notif-label">Back in stock</div>
           <div class="trg-acct__notif-sub">When a sold-out wishlisted item returns</div>
         </div>
-        <button class="trg-acct__toggle{% if notif_prefs.back_in_stock %} on{% endif %}" data-pref="back_in_stock"></button>
-      </div>
-    </div>
-    <div class="trg-acct__notif-section">
-      <div class="trg-acct__notif-title">Newsletter</div>
-      <div class="trg-acct__notif-desc">The Right Garment editorial via Beehiiv.</div>
-      <div class="trg-acct__notif-row">
-        <div>
-          <div class="trg-acct__notif-label">Weekly newsletter</div>
-          <div class="trg-acct__notif-sub">Curated picks, new brands, and features</div>
-        </div>
-        <button class="trg-acct__toggle{% if notif_prefs.newsletter != false %} on{% endif %}" data-pref="newsletter"></button>
+        <button class="trg-acct__toggle" data-pref="back_in_stock"></button>
       </div>
     </div>
     <div class="trg-acct__legal-note">
@@ -262,11 +142,7 @@
       <div class="trg-acct__settings-title">Profile</div>
       <div class="trg-acct__field">
         <label>First Name</label>
-        <input type="text" value="{{ customer.first_name }}">
-      </div>
-      <div class="trg-acct__field">
-        <label>Last Name</label>
-        <input type="text" value="{{ customer.last_name }}">
+        <input type="text" value="{{ customer.first_name }}" readonly>
       </div>
       <div class="trg-acct__field">
         <label>Email</label>
@@ -277,39 +153,36 @@
       <div class="trg-acct__settings-title">Preferences</div>
       <div class="trg-acct__field">
         <label>Region</label>
-        <select>
-          <option {% if customer.metafields.trg.region == 'CA' %}selected{% endif %}>Canada</option>
-          <option {% if customer.metafields.trg.region == 'US' %}selected{% endif %}>United States</option>
+        <select id="trg-pref-region">
+          <option value="CA">Canada</option>
+          <option value="US">United States</option>
         </select>
       </div>
       <div class="trg-acct__field">
         <label>Size Preference</label>
-        <select>
+        <select id="trg-pref-size">
           <option value="">Not set</option>
-          <option {% if customer.metafields.trg.size_pref == 'XS' %}selected{% endif %}>XS</option>
-          <option {% if customer.metafields.trg.size_pref == 'S' %}selected{% endif %}>S</option>
-          <option {% if customer.metafields.trg.size_pref == 'M' %}selected{% endif %}>M</option>
-          <option {% if customer.metafields.trg.size_pref == 'L' %}selected{% endif %}>L</option>
-          <option {% if customer.metafields.trg.size_pref == 'XL' %}selected{% endif %}>XL</option>
-          <option {% if customer.metafields.trg.size_pref == 'XXL' %}selected{% endif %}>XXL</option>
+          <option value="XS">XS</option>
+          <option value="S">S</option>
+          <option value="M">M</option>
+          <option value="L">L</option>
+          <option value="XL">XL</option>
+          <option value="XXL">XXL</option>
         </select>
       </div>
-      <button class="trg-acct__btn-save">Save Preferences</button>
     </div>
     <div class="trg-acct__settings-card">
       <div class="trg-acct__settings-title">Account</div>
       <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-top:0.25rem;">
-        <a href="{{ routes.account_logout_url }}" class="trg-acct__btn-danger">Sign Out</a>
+        <a href="{{ routes.account_url }}" class="trg-acct__btn-danger">Manage Account</a>
       </div>
     </div>
   </div>
 
 </div>
+{%- endif -%}
 
 <script src="{{ 'trg-account.js' | asset_url }}" defer></script>
-
-
-{%- endif -%}
 
 {% schema %}
 {
