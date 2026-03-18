@@ -55,6 +55,7 @@
       await this.saveMetafield('followed_brands', brands);
       this.updateFollowButtons(handle);
       this.updateNavCounts();
+      this.initPdpWishlist();
       this.renderBrandsTab();
     },
 
@@ -94,6 +95,7 @@
       await this.saveMetafield('wishlist', items);
       this.updateWishlistButtons(handle);
       this.updateNavCounts();
+      this.initPdpWishlist();
       this.renderWishlistTab();
     },
 
@@ -257,10 +259,29 @@
     },
 
     /* ─── INIT ─── */
+
+    /* ─── PDP WISHLIST BUTTON ─── */
+    initPdpWishlist() {
+      const btn = document.getElementById('trg-pdp-wishlist');
+      if (!btn) return;
+      const handle = btn.dataset.product;
+      if (!handle) return;
+      const saved = this.isWishlisted(handle);
+      btn.classList.toggle('trg-wishlist--saved', saved);
+      const icon = btn.querySelector('.trg-affiliate-cta__wishlist-icon');
+      const text = btn.querySelector('.trg-affiliate-cta__wishlist-text');
+      if (icon) {
+        icon.setAttribute('fill', saved ? 'currentColor' : 'none');
+        icon.setAttribute('stroke', saved ? 'none' : 'currentColor');
+      }
+      if (text) text.textContent = saved ? 'Saved' : 'Save to Wishlist';
+    },
+
     init() {
       this.initTabs();
       this.initToggles();
       this.updateNavCounts();
+      this.initPdpWishlist();
 
       // Render account page tabs if on account page
       this.renderBrandsTab();
@@ -300,4 +321,15 @@
   } else {
     TRG_ACCOUNT.init();
   }
+
+  /* ── Global PDP wishlist handler ── */
+  window.trgToggleWishlist = function(btn) {
+    const handle = btn.dataset.product;
+    if (handle && window.TRG) {
+      window.TRG.toggleWishlist(handle).then(() => {
+        window.TRG.initPdpWishlist();
+      });
+    }
+  };
+
 })();
