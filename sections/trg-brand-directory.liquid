@@ -11,8 +11,8 @@
   <script type="application/json" data-brands-json>
     [
       {%- assign brand_output_count = 0 -%}
-      {%- paginate shop.metaobjects.brand.values by 250 -%}
-        {%- for brand in shop.metaobjects.brand.values -%}
+      {%- comment -%}No paginate — Shopify iterates up to 1000 items{%- endcomment -%}
+        {%- for brand in shop.metaobjects.brand.values limit: 999 -%}
           {%- assign name = brand.name.value | default: brand.name | default: brand.handle -%}
           {%- if name == blank -%}{%- continue -%}{%- endif -%}
           {%- if brand_output_count > 0 -%},{%- endif -%}
@@ -83,7 +83,6 @@
         {"handle":{{ name | handleize | json }},"name":{{ name | json }},"url":{{ name | handleize | prepend: "/pages/" | json }},"country":{{ country | json }},"madeIn":{{ made_in | json }},"madeInGroup":{{ made_group | json }},"primaryCategoryRaw":{{ raw_cat | json }},"category":{{ cat | json }},"priceRange":{{ brand.price_range.value | default: brand.price_range | json }},"buyPath":{{ brand.buy_path.value | default: brand.buy_path | json }},"bestRetailerNa":{{ brand.best_retailer_na.value | default: brand.best_retailer_na | json }},"bestRetailerCa":{{ brand.best_retailer_ca.value | default: brand.best_retailer_ca | json }},"affiliateProgram":{% if aff == 'yes' or aff == 'true' %}true{% else %}false{% endif %},"affiliateNetwork":{{ brand.affiliate_network.value | default: brand.affiliate_network | json }},"commission":{{ brand.commission.value | default: brand.commission | json }},"shipsToCanada":{% if ships == 'yes' or ships == 'true' %}true{% else %}false{% endif %},"ddpDuties":{% if ddp == 'yes' or ddp == 'true' %}true{% else %}false{% endif %},"naturalMaterials":{% if nat == 'yes' or nat == 'true' %}true{% else %}false{% endif %},"canadianBrand":{% if ca == 'yes' or ca == 'true' %}true{% else %}false{% endif %},"brandPositioning":{{ pos | json }},"tags":{{ tags | json }},"description":{{ desc | truncate: 120 | json }},"logoUrl":{{ logo_url | json }},"priority":{{ brand.priority.value | default: brand.priority | json }}}
           {%- assign brand_output_count = brand_output_count | plus: 1 -%}
         {%- endfor -%}
-      {%- endpaginate -%}
       {%- assign total_brand_count = brand_output_count -%}
         
     ]
