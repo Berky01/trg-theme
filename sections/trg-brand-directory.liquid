@@ -198,16 +198,16 @@
       <div class="trg-bdir__main">
         <div class="trg-bdir__sort">
           <button type="button" class="trg-bdir__btn trg-bdir__show" data-toggle>Show Filters</button>
-          <div class="trg-bdir__res"><strong data-results>{{ brand_output_count }}</strong> Brands</div>
+          <div class="trg-bdir__res"><strong data-results>{{ total_brand_count }}</strong> Brands</div>
           <label class="trg-bdir__sortlbl">Sort<select data-sort><option value="recommended">Recommended</option><option value="name">Name A-Z</option><option value="price-low">Price: Low to High</option><option value="price-high">Price: High to Low</option></select></label>
         </div>
         <div hidden aria-hidden="true">
           <span data-title>All Brands</span>
-          <span data-sub>{{ brand_output_count }} brands</span>
+          <span data-sub>{{ total_brand_count }} brands</span>
         </div>
         <div class="trg-bdir__grid" data-grid></div>
         <div class="trg-bdir__empty" data-empty hidden><h3>No brands match your filters</h3><p>Try adjusting your criteria.</p><button type="button" data-clear>Clear All Filters</button></div>
-        <div class="trg-bdir__prog" data-prog><div class="trg-bdir__progmeta"><span data-prog-copy>Showing 0 of {{ brand_output_count }} brands</span><span data-prog-page>Page 1 of 1</span></div><div class="trg-bdir__bar"><span data-fill></span></div></div>
+        <div class="trg-bdir__prog" data-prog><div class="trg-bdir__progmeta"><span data-prog-copy>Showing 0 of {{ total_brand_count }} brands</span><span data-prog-page>Page 1 of 1</span></div><div class="trg-bdir__bar"><span data-fill></span></div></div>
         <div class="trg-bdir__load"><button type="button" class="trg-bdir__btn" data-more>Load More Brands</button></div>
       </div>
     </div>
