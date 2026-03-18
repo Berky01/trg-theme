@@ -522,7 +522,7 @@ function boot(){
   var w=document.createElement('div');
   w.id='trg-v4';
   /* Search button (uses prompt — guaranteed to work) */
-  var searchHTML='<div style="padding:.75rem 1.25rem .25rem"><button id="trg-v4-search" type="button" style="display:flex;align-items:center;gap:.6rem;width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:.6rem .75rem;cursor:pointer;-webkit-tap-highlight-color:transparent;text-align:left"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(245,241,235,.3)" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg><span id="trg-v4-search-label" style="font-family:DM Sans,sans-serif;font-size:.82rem;color:rgba(245,241,235,.3);font-style:italic">Search 468 brands\u2026</span></button></div>';
+  var searchHTML='<div style="padding:.75rem 1.25rem .25rem"><label style="display:flex;align-items:center;gap:.6rem;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:0 .75rem;cursor:text"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(245,241,235,.3)" stroke-width="2" stroke-linecap="round" style="flex-shrink:0"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg><input id="trg-v4-input" type="search" placeholder="Search 468 brands\u2026" autocomplete="off" inputmode="search" style="flex:1;background:transparent;border:none;outline:none;font-family:DM Sans,sans-serif;font-size:16px;color:rgba(245,241,235,.92);padding:.65rem 0;-webkit-appearance:none;min-height:44px"><button id="trg-v4-clear" type="button" style="background:none;border:none;cursor:pointer;font-size:.75rem;color:rgba(245,241,235,.4);padding:.35rem;display:none;flex-shrink:0">\u2715</button></label></div>';
   /* Chips */
   var chipData=[{l:'All',v:'all'},{l:'Casualwear',v:'casualwear'},{l:'Footwear',v:'footwear'},{l:'Formalwear',v:'formalwear'},{l:'Outerwear',v:'outerwear'},{l:'Denim',v:'denim'},{l:'Knitwear',v:'knitwear'},{l:'Basics',v:'basics'},{l:'Workwear',v:'workwear'}];
   var chipsHTML='<div id="trg-v4-chips" style="display:flex;gap:.35rem;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:.6rem 1.25rem .4rem">';
@@ -534,21 +534,24 @@ function boot(){
   var countHTML='<div id="trg-v4-count" style="font-size:.62rem;color:rgba(245,241,235,.3);letter-spacing:.03em;padding:.5rem 1.25rem .6rem;border-bottom:1px solid rgba(245,241,235,.08)"></div>';
   w.innerHTML=searchHTML+chipsHTML+countHTML;
   tc.insertBefore(w,tc.firstChild);
-  /* Bind search prompt */
-  document.getElementById('trg-v4-search').addEventListener('click',function(e){
-    e.preventDefault();e.stopPropagation();
-    var q=window.prompt('Search brands:',mQ||'');
-    if(q!==null){
-      mQ=q.trim().toLowerCase();
-      render();
-      var label=document.getElementById('trg-v4-search-label');
-      if(label){
-        if(mQ){label.textContent='\u201c'+q.trim()+'\u201d';label.style.color='rgba(245,241,235,.92)';label.style.fontStyle='normal'}
-        else{label.textContent='Search 468 brands\u2026';label.style.color='rgba(245,241,235,.3)';label.style.fontStyle='italic'}
-      }
-      var body=document.getElementById('trg-mob-body');if(body)body.scrollTop=0;
-    }
-  });
+  /* Bind search input */
+  var sInput=document.getElementById('trg-v4-input');
+  var sClear=document.getElementById('trg-v4-clear');
+  if(sInput){
+    sInput.addEventListener('input',function(){
+      mQ=sInput.value.trim().toLowerCase();
+      if(sClear)sClear.style.display=mQ?'block':'none';
+      dr();
+    });
+  }
+  if(sClear){
+    sClear.addEventListener('click',function(e){
+      e.preventDefault();
+      if(sInput){sInput.value='';sInput.focus()}
+      sClear.style.display='none';
+      mQ='';dr();
+    });
+  }
   /* Bind chips */
   document.getElementById('trg-v4-chips').addEventListener('click',function(e){
     var chip=e.target.closest('button');if(!chip)return;
