@@ -573,10 +573,8 @@ function boot(){
     e.preventDefault();e.stopPropagation();
     sBtn.style.display='none';
     sActive.style.display='flex';
-    /* Focus with retries to beat any focus-stealing */
-    setTimeout(function(){sInput.focus()},100);
-    setTimeout(function(){sInput.focus()},300);
-    setTimeout(function(){sInput.focus()},600);
+    /* Focus SYNCHRONOUSLY — required for mobile keyboard to open */
+    sInput.focus();
   });
   
   sInput.addEventListener('input',function(){
