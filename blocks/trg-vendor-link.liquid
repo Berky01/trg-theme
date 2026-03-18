@@ -3,19 +3,12 @@
   if request.visual_preview_mode and product == blank
     assign product = collections.all.products.first
   endif
-
-  capture brand_link
-    render 'trg-brand-page-url',
-      brand_name: product.vendor,
-      fallback_url: '/collections/all?filter.p.vendor=' | append: product.vendor | url_encode
-  endcapture
-  assign brand_link = brand_link | strip
 %}
 
 {% if product != blank and product.vendor != blank %}
   <a
     class="trg-vendor-link"
-    href="{{ brand_link }}"
+    href="{{ product.vendor | handleize | prepend: '/collections/' }}"
     {{ block.shopify_attributes }}
   >
     {{ product.vendor }}
@@ -26,16 +19,16 @@
   .trg-vendor-link {
     display: inline-block;
     font-size: 0.7rem;
-    font-weight: 500;
-    letter-spacing: 0.1em;
+    font-weight: 600;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: #8a8478;
+    color: #c4562a;
     text-decoration: none;
-    transition: color 0.15s;
+    transition: opacity 0.15s;
   }
 
   .trg-vendor-link:hover {
-    color: #c4562a;
+    opacity: 0.7;
   }
 {% endstylesheet %}
 
