@@ -564,9 +564,7 @@ function boot(){
   function openSearch(){
     if(!floatPanel)return;
     floatPanel.style.display='flex';
-    floatPanel.style.flexDirection='column';
-    floatPanel.style.position='fixed';
-    floatPanel.style.inset='0';
+    /* Synchronous focus in same click handler — keyboard MUST open */
     if(floatInput)floatInput.focus();
   }
   function closeSearch(){

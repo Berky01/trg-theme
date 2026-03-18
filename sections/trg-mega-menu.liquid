@@ -175,20 +175,7 @@
 {%- endcomment -%}
 <div class="trg-mob" id="trg-mob" aria-hidden="true">
   <div class="trg-mob-bk" id="trg-mob-bk"></div>
-  <div id="trg-mob-search-float" style="display:none;position:fixed;top:0;left:0;right:0;z-index:210;background:#1a1917;padding:0">
-    <div style="display:flex;align-items:center;height:52px;padding:0 1rem;border-bottom:1px solid rgba(245,241,235,.08);background:#1a1a18">
-      <span style="font-family:Playfair Display,serif;font-size:.9rem;color:rgba(245,241,235,.92)">Search</span>
-      <button id="trg-mob-search-back" type="button" style="margin-left:auto;background:none;border:none;cursor:pointer;font-family:DM Sans,sans-serif;font-size:.72rem;color:#c4562a;padding:.5rem;letter-spacing:.06em;text-transform:uppercase">Done</button>
-    </div>
-    <div style="padding:.75rem 1.25rem;border-bottom:1px solid rgba(245,241,235,.08)">
-      <label style="display:flex;align-items:center;gap:.6rem;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:0 .75rem;cursor:text">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(245,241,235,.3)" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
-        <input id="trg-mob-search-input" type="search" placeholder="Search 468 brands…" autocomplete="off" autocorrect="off" inputmode="search" spellcheck="false" style="flex:1;background:transparent;border:none;outline:none;font-family:DM Sans,sans-serif;font-size:16px;color:rgba(245,241,235,.92);padding:.65rem 0;-webkit-appearance:none;min-height:44px">
-        <button id="trg-mob-search-clear" type="button" style="background:none;border:none;cursor:pointer;font-size:.75rem;color:rgba(245,241,235,.4);padding:.35rem;display:none;flex-shrink:0">✕</button>
-      </label>
-    </div>
-    <div id="trg-mob-search-results" style="flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;max-height:calc(100vh - 120px);background:#211f1c"></div>
-  </div>
+
   <div class="trg-mob-drawer">
     <div class="trg-mob-head">
       <a href="/" class="trg-mob-logo">The <span>Right</span> Garment</a>
@@ -336,6 +323,22 @@
 
     </div>
   </div>
+</div>
+
+
+<div id="trg-mob-search-float" style="display:none;position:fixed;inset:0;z-index:999;background:#1a1917;flex-direction:column">
+  <div style="display:flex;align-items:center;height:52px;padding:0 1rem;border-bottom:1px solid rgba(245,241,235,.08);background:#1a1a18;flex-shrink:0">
+    <span style="font-family:'Playfair Display',serif;font-size:.9rem;color:rgba(245,241,235,.92)">Search</span>
+    <button id="trg-mob-search-back" type="button" style="margin-left:auto;background:none;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:.72rem;color:#c4562a;padding:.5rem;letter-spacing:.06em;text-transform:uppercase">Done</button>
+  </div>
+  <div style="padding:.75rem 1.25rem;border-bottom:1px solid rgba(245,241,235,.08);flex-shrink:0">
+    <label for="trg-mob-search-input" style="display:flex;align-items:center;gap:.6rem;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:0 .75rem;cursor:text">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(245,241,235,.3)" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
+      <input id="trg-mob-search-input" type="search" placeholder="Search 468 brands…" autocomplete="off" autocorrect="off" inputmode="search" spellcheck="false" style="flex:1;background:transparent;border:none;outline:none;font-family:'DM Sans',sans-serif;font-size:16px;color:rgba(245,241,235,.92);padding:.65rem 0;-webkit-appearance:none;min-height:44px">
+      <button id="trg-mob-search-clear" type="button" style="background:none;border:none;cursor:pointer;font-size:.75rem;color:rgba(245,241,235,.4);padding:.35rem;display:none;flex-shrink:0">✕</button>
+    </label>
+  </div>
+  <div id="trg-mob-search-results" style="flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;background:#211f1c"></div>
 </div>
 
 {% schema %}
