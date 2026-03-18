@@ -338,9 +338,22 @@
                 "accordion_row_HUWbDi",
                 "accordion_row_GTWFgP"
               ]
+            },
+            "trg_breadcrumb": {
+              "type": "trg-breadcrumb",
+              "name": "TRG Breadcrumb",
+              "settings": {},
+              "blocks": {}
+            },
+            "trg_canada_strip": {
+              "type": "trg-canada-strip",
+              "name": "TRG Canada Strip",
+              "settings": {},
+              "blocks": {}
             }
           },
           "block_order": [
+            "trg_breadcrumb",
             "trg_vendor_link",
             "text_WE3K4w",
             "reviews",
@@ -348,6 +361,7 @@
             "variant_picker_R3rGDr",
             "buy_buttons_eYQEYi",
             "trg_affiliate_cta_WHx6Gp",
+            "trg_canada_strip",
             "trg_product_meta_block",
             "accordion_Yd4U4w"
           ]
@@ -368,7 +382,7 @@
     "trg_brand_strip": {
       "type": "trg-product-brand-strip",
       "settings": {
-        "color_scheme": "scheme-1",
+        "color_scheme": "scheme-header-ink",
         "eyebrow": "Brand spotlight",
         "brand_name": "",
         "description": "<p>Use this strip for brand context, affiliate transparency, and shipping notes that matter before checkout.</p>",
