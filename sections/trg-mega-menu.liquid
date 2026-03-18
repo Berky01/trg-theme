@@ -186,6 +186,13 @@
       <button class="trg-mob-tab on" data-mob-tab="shop" type="button">Shop by Type</button>
       <button class="trg-mob-tab" data-mob-tab="brands" type="button">Brands</button>
     </div>
+    <div id="trg-mob-fixed-search" style="display:none;padding:.75rem 1.25rem;background:#1a1917;border-bottom:1px solid rgba(245,241,235,.08)">
+      <label style="display:flex;align-items:center;gap:.6rem;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:0 .75rem;cursor:text">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(245,241,235,.3)" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
+        <input id="trg-mob-fixed-input" type="search" placeholder="Search 468 brands…" autocomplete="off" autocorrect="off" inputmode="search" spellcheck="false" style="flex:1;background:transparent;border:none;outline:none;font-family:'DM Sans',sans-serif;font-size:16px;color:rgba(245,241,235,.92);padding:.65rem 0;-webkit-appearance:none;min-height:44px">
+        <button id="trg-mob-fixed-clear" type="button" style="background:none;border:none;cursor:pointer;font-size:.75rem;color:rgba(245,241,235,.4);padding:.35rem;display:none;flex-shrink:0">✕</button>
+      </label>
+    </div>
     <div class="trg-mob-body" id="trg-mob-body">
 
       {%- comment -%}═══ SHOP BY TYPE TAB ═══{%- endcomment -%}
