@@ -1,4 +1,4 @@
-/* TRG Mega Menu v4.0 — desktop + mobile */
+/* TRG Mega Menu v4.2 — click-swap — desktop + mobile */
 (function(){
 'use strict';
 var P={shop:'trg-mm-p-shop',brands:'trg-mm-p-brands'},BK='trg-mm-bk',DK=990;
@@ -47,19 +47,20 @@ function watchChv(){}
 
 function toggle(k){
   if(op===k){close();return}
-  close(false);op=k;
+  /* Swap: hide old panel, show new — keep backdrop stable */
+  if(op){var old=$(P[op]);if(old)old.classList.remove('on')}
+  op=k;
   var p=$(P[k]),b=$(BK);
   if(p)p.classList.add('on');if(b)b.classList.add('on');
   $$('[data-trg-mm]').forEach(function(el){el.setAttribute('aria-expanded',el.getAttribute('data-trg-mm')===k?'true':'false')});
   if(k==='brands'){var i=$('trg-mm-bi');if(i)setTimeout(function(){i.focus()},120)}
 }
 
-function close(rs){
-  if(rs===undefined)rs=true;
+function close(){
   Object.keys(P).forEach(function(k){var e=$(P[k]);if(e)e.classList.remove('on')});
   var b=$(BK);if(b)b.classList.remove('on');
   $$('[data-trg-mm]').forEach(function(el){el.setAttribute('aria-expanded','false')});
-  if(rs){op=null;var i=$('trg-mm-bi');if(i&&i.value){i.value='';render(ac,'');upUI('')}}
+  op=null;var i=$('trg-mm-bi');if(i&&i.value){i.value='';render(ac,'');upUI('')}
 }
 
 function bindCC(){
@@ -126,7 +127,18 @@ function upUI(q){
   m.innerHTML='<strong>'+c+'</strong> brand'+(c!==1?'s':'')+' matching \u201c'+esc(q)+'\u201d';
 }
 
-function bindBk(){var b=$(BK);if(b)b.addEventListener('click',function(){close()})}
+function bindBk(){
+  var b=$(BK);if(b)b.addEventListener('click',function(){close()});
+  /* Click-outside: close when clicking anything outside panels & nav triggers */
+  document.addEventListener('click',function(e){
+    if(!op||!dk())return;
+    /* Ignore clicks inside panels or on nav triggers */
+    if(e.target.closest('.trg-mm-p')||e.target.closest('[data-trg-mm]'))return;
+    /* Ignore clicks on backdrop (handled separately) */
+    if(e.target.closest('.trg-mm-bk'))return;
+    close();
+  })
+}
 function bindKb(){document.addEventListener('keydown',function(e){if(e.key==='Escape'&&op)close()})}
 function esc(s){var d=document.createElement('div');d.textContent=s;return d.innerHTML}
 
@@ -134,6 +146,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 window.addEventListener('resize',function(){if(!dk()&&op)close()});
 document.addEventListener('shopify:section:load',function(e){if(e.target&&e.target.querySelector&&(e.target.querySelector('header-menu')||e.target.querySelector('.trg-mm-p')))setTimeout(init,150)});
 })();
+
 
 
 /* ═══ TRG MOBILE MEGA MENU v4.0 ═══ */
@@ -153,8 +166,6 @@ function openMob(){
      listeners by cloning document and replacing — but that's nuclear.
      Instead: add our own higher-priority focusin that stops propagation
      for elements inside #trg-mob. */
-  /* Remove Dwell's focus trap so inputs work in our drawer */
-  if(typeof window._trgRemoveFocusTraps==='function')window._trgRemoveFocusTraps();
   el.classList.add('on');el.setAttribute('aria-hidden','false');
   document.body.style.overflow='hidden';
   mobOpen=true;
@@ -166,8 +177,7 @@ function closeMob(){
   el.classList.remove('on');el.setAttribute('aria-hidden','true');
   document.body.style.overflow='';
   mobOpen=false;
-  /* Restore Dwell's focus trap */
-  if(typeof window._trgRestoreFocusTraps==='function')window._trgRestoreFocusTraps();
+
 }
 
 /* Intercept Dwell hamburger on mobile */
@@ -395,3 +405,4 @@ document.addEventListener('shopify:section:load',function(){setTimeout(function(
 /* Re-hook on resize */
 window.addEventListener('resize',function(){hookHamburger();if(!isMob()&&mobOpen)closeMob()});
 })();
+
