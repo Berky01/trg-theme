@@ -22,8 +22,12 @@
     el.textContent = JSON.stringify(brands);
 
     /* Fetch overflow brands (251+) from static asset */
-    var sectionEl = el.closest('[data-overflow]');
-    var overflowUrl = sectionEl ? sectionEl.getAttribute('data-overflow') : null;
+    /* Construct overflow URL from the CSS asset URL (same CDN path) */
+    var overflowUrl = null;
+    var cssLink = document.querySelector('link[href*="trg-brand-directory"]');
+    if (cssLink) {
+      overflowUrl = cssLink.href.replace(/trg-brand-directory\.css[^"]*/, 'brands-overflow.json');
+    }
     if (overflowUrl && brands.length >= 250) {
       fetch(overflowUrl)
         .then(function(r) { return r.json(); })
