@@ -87,10 +87,7 @@
         
     ]
   </script>
-  <span id="trg-diag-p2" hidden
-    data-count-no-offset="{%- assign dc1 = 0 -%}{%- for b in shop.metaobjects.brand.values -%}{%- assign dc1 = dc1 | plus: 1 -%}{%- endfor -%}{{ dc1 }}"
-    data-count-offset-250="{%- assign dc2 = 0 -%}{%- for b in shop.metaobjects.brand.values offset: 250 -%}{%- assign dc2 = dc2 | plus: 1 -%}{%- endfor -%}{{ dc2 }}"
-  ></span>
+  <input type="hidden" id="trg-overflow-url" value="{{ 'brands-overflow.json' | asset_url }}">
   
   </template>
   

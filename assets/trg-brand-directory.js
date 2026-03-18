@@ -22,7 +22,8 @@
     el.textContent = JSON.stringify(brands);
 
     /* Fetch overflow brands (251+) from static asset */
-    var overflowUrl = el.getAttribute('data-overflow-url');
+    var overflowInput = document.getElementById('trg-overflow-url');
+    var overflowUrl = overflowInput ? overflowInput.value : null;
     if (overflowUrl && brands.length >= 250) {
       fetch(overflowUrl)
         .then(function(r) { return r.json(); })
