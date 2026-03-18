@@ -563,14 +563,26 @@ function boot(){
 
   function openSearch(){
     if(!floatPanel)return;
+    /* CRITICAL: Remove body overflow:hidden — iOS blocks keyboard otherwise */
+    document.body.style.overflow='';
+    document.body.style.position='fixed';
+    document.body.style.width='100%';
+    document.body.style.top='-'+window.scrollY+'px';
     floatPanel.style.display='flex';
-    /* Synchronous focus in same click handler — keyboard MUST open */
-    if(floatInput)floatInput.focus();
+    /* Focus synchronously */
+    if(floatInput){floatInput.focus();floatInput.click();}
   }
   function closeSearch(){
     if(!floatPanel)return;
     floatPanel.style.display='none';
     if(floatInput)floatInput.blur();
+    /* Restore scroll lock */
+    var scrollY=document.body.style.top;
+    document.body.style.position='';
+    document.body.style.width='';
+    document.body.style.top='';
+    document.body.style.overflow='hidden';
+    window.scrollTo(0,parseInt(scrollY||'0')*-1);
   }
   function renderSearchResults(){
     if(!floatResults)return;
@@ -624,50 +636,15 @@ function boot(){
   if(searchTap){
     searchTap.addEventListener('click',function(e){
       e.preventDefault();e.stopPropagation();
-      
-      /* Kill ALL transforms and opacity on ancestors */
-      var mob=document.getElementById('trg-mob');
-      if(mob)mob.style.cssText='display:block;position:fixed;inset:0;z-index:200;pointer-events:all;opacity:1;transform:none!important';
-      var drawer=document.querySelector('.trg-mob-drawer');
-      if(drawer)drawer.style.cssText='position:absolute;top:0;left:0;width:100%;height:100%;background:#211f1c;display:flex;flex-direction:column;overflow:hidden;transform:none!important';
-      
       openSearch();
-      
-      /* Also try: create input directly on body as fallback */
-      if(!document.getElementById('trg-body-search')){
-        var wrap=document.createElement('div');
-        wrap.id='trg-body-search';
-        wrap.style.cssText='position:fixed;top:0;left:0;right:0;z-index:99999;background:#1a1a18;padding:12px;display:flex;gap:8px;align-items:center';
-        var inp=document.createElement('input');
-        inp.type='search';
-        inp.id='trg-body-input';
-        inp.placeholder='Type here to search brands...';
-        inp.style.cssText='flex:1;background:rgba(255,255,255,.1);border:2px solid #c4562a;border-radius:6px;padding:14px 12px;font-size:16px;color:#f5f1eb;outline:none;-webkit-appearance:none;font-family:DM Sans,sans-serif';
-        var done=document.createElement('button');
-        done.textContent='Done';
-        done.style.cssText='background:#c4562a;color:#fff;border:none;border-radius:6px;padding:14px 16px;font-size:14px;font-family:DM Sans,sans-serif;cursor:pointer';
-        done.addEventListener('click',function(){
-          mQ=inp.value.trim().toLowerCase();
-          wrap.remove();
-          /* Close float panel too */
-          closeSearch();
-          render();
-        });
-        inp.addEventListener('input',function(){
-          mQ=inp.value.trim().toLowerCase();
-          /* Render results in the float panel */
-          renderSearchResults();
-        });
-        wrap.appendChild(inp);
-        wrap.appendChild(done);
-        document.body.appendChild(wrap);
-        inp.focus();
-      }
     });
   }
 
   /* Accordion */
   document.addEventListener('click',function(e){
+    /* Don't interfere with search panel */
+    if(e.target.closest('#trg-mob-search-float'))return;
+    if(e.target.closest('#trg-body-search'))return;
     var hdr=e.target.closest('.trg-mob-fam-hdr');
     if(!hdr)return;
     e.preventDefault();e.stopPropagation();
