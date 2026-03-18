@@ -124,10 +124,24 @@
     color: #1a1a18;
   }
 
-  .product-information .price__regular,
-  .product-information .price__sale {
-    font-size: 1.4rem;
-    font-weight: 500;
+  /* TRG: PDP price — Playfair with border separator */
+  .product-information .product-details product-price {
+    display: block;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid #ddd8cf;
+    margin-bottom: 0.75rem;
+  }
+
+  .product-information .product-details product-price .price,
+  .product-information .product-details product-price span.price,
+  .product-information .product-details .price__regular,
+  .product-information .product-details .price__sale,
+  .product-information .product-details .price {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1a1a18;
+    letter-spacing: 0.01em;
   }
 
   .product-information .price__sale {
