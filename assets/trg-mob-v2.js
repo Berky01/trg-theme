@@ -1,6 +1,33 @@
 /* TRG Mobile v3 — replaces search + chips entirely with new DOM */
 (function(){
 'use strict';
+
+/* ── FOCUS TRAP NEUTRALIZER ──
+   Dwell's focus.js trapFocus() adds a capture-phase focusin handler on document
+   that redirects any focus outside its container back inside. Our drawer is
+   outside that container, so ALL input focus gets killed.
+   Fix: monkey-patch document.addEventListener to track focusin capture handlers,
+   then remove them when our drawer opens and restore when it closes. */
+var _origAdd=document.addEventListener.bind(document);
+var _origRem=document.removeEventListener.bind(document);
+var _focusinTraps=[];
+document.addEventListener=function(type,fn,opts){
+  var isCap=opts===true||(opts&&opts.capture);
+  if(type==='focusin'&&isCap){
+    _focusinTraps.push(fn);
+    /* If our drawer is open, BLOCK this registration entirely */
+    var mob=document.getElementById('trg-mob');
+    if(mob&&mob.classList.contains('on'))return;
+  }
+  return _origAdd(type,fn,opts);
+};
+window._trgRemoveFocusTraps=function(){
+  _focusinTraps.forEach(function(fn){_origRem('focusin',fn,true)});
+};
+window._trgRestoreFocusTraps=function(){
+  _focusinTraps.forEach(function(fn){_origAdd('focusin',fn,true)});
+};
+
 var AB=
 [
 {n:"A Day's March",s:"a-days-march",c:"casualwear",p:"m"},
@@ -511,6 +538,8 @@ function dr(){clearTimeout(rt);rt=setTimeout(render,50)}
 
 function boot(){
   if(booted)return;booted=true;
+  
+  
   var tc=document.getElementById('trg-mob-tc-brands');
   if(!tc)return;
 
@@ -621,6 +650,27 @@ function boot(){
 var s=document.createElement('style');
 s.textContent='#trg-mob-fixed-input::placeholder{color:rgba(245,241,235,.3);font-style:italic}#trg-mob-fixed-input:focus{color:rgba(245,241,235,.92)}#trg-mob-fixed-search label:focus-within{border-color:rgba(196,86,42,.5)}#trg-mob-fixed-search label:focus-within svg{stroke:rgba(196,86,42,.7)}.trg-mob-chips{display:none!important}.trg-mob-fam-inner>.trg-mob-lbl:first-child{display:none!important}#trg-v3-chips::-webkit-scrollbar{display:none}#trg-v3-search::placeholder{color:rgba(245,241,235,.3);font-style:italic}.trg-mob-ctas{padding:1rem 1.25rem;display:flex;flex-direction:column;gap:.5rem}.trg-mob-cta-primary{display:flex;align-items:center;justify-content:center;min-height:48px;padding:.7rem 1rem;background:rgba(196,86,42,.12);border:1px solid rgba(196,86,42,.35);border-radius:3px;font-family:"DM Sans",sans-serif;font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#c4562a;text-decoration:none}.trg-mob-cta-secondary{display:flex;align-items:center;justify-content:center;min-height:44px;padding:.6rem 1rem;background:rgba(255,255,255,.03);border:1px solid rgba(245,241,235,.1);border-radius:3px;font-family:"DM Sans",sans-serif;font-size:.68rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:rgba(245,241,235,.55);text-decoration:none}';
 document.head.appendChild(s);
+
+/* Periodic focus trap removal — catches traps added AFTER drawer opens */
+var _trapInterval=null;
+function startTrapWatch(){
+  if(_trapInterval)return;
+  _trapInterval=setInterval(function(){
+    var mob=document.getElementById('trg-mob');
+    if(mob&&mob.classList.contains('on')){
+      if(typeof window._trgRemoveFocusTraps==='function')window._trgRemoveFocusTraps();
+    }else{
+      clearInterval(_trapInterval);_trapInterval=null;
+    }
+  },500);
+}
+/* Hook into drawer open via MutationObserver */
+var _mobEl=document.getElementById('trg-mob');
+if(_mobEl){
+  new MutationObserver(function(){
+    if(_mobEl.classList.contains('on'))startTrapWatch();
+  }).observe(_mobEl,{attributes:true,attributeFilter:['class']});
+}
 
 if(document.readyState==='complete')setTimeout(boot,200);
 else window.addEventListener('load',function(){setTimeout(boot,300)});
