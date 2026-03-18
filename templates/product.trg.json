@@ -372,7 +372,7 @@
         "desktop_media_position": "left",
         "equal_columns": false,
         "limit_details_width": true,
-        "gap": 24,
+        "gap": 16,
         "enable_sticky_add_to_cart": true,
         "color_scheme": "",
         "padding-block-start": 30,
