@@ -1,0 +1,77 @@
+{% liquid
+  assign product = closest.product
+  if request.visual_preview_mode and product == blank
+    assign product = collections.all.products.first
+  endif
+  assign bc_collection = nil
+  if product != blank
+    for col in product.collections
+      if col.handle != 'all' and col.handle != 'frontpage'
+        assign bc_collection = col
+        break
+      endif
+    endfor
+  endif
+%}
+
+{% if product != blank %}
+<nav class="trg-breadcrumb" aria-label="Breadcrumb" {{ block.shopify_attributes }}>
+  <a class="trg-breadcrumb__link" href="/">Home</a>
+  <span class="trg-breadcrumb__sep" aria-hidden="true">›</span>
+  <a class="trg-breadcrumb__link" href="/collections/all">Products</a>
+  {% if bc_collection != nil %}
+    <span class="trg-breadcrumb__sep" aria-hidden="true">›</span>
+    <a class="trg-breadcrumb__link" href="{{ bc_collection.url }}">{{ bc_collection.title }}</a>
+  {% endif %}
+  <span class="trg-breadcrumb__sep" aria-hidden="true">›</span>
+  <span class="trg-breadcrumb__current">{{ product.title }}</span>
+</nav>
+{% endif %}
+
+{% stylesheet %}
+  .trg-breadcrumb {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .trg-breadcrumb__link {
+    font-size: 0.7rem;
+    color: #8a8478;
+    text-decoration: none;
+    transition: color 0.15s;
+    font-weight: 400;
+  }
+
+  .trg-breadcrumb__link:hover {
+    color: #1a1a18;
+  }
+
+  .trg-breadcrumb__sep {
+    font-size: 0.7rem;
+    color: #8a8478;
+    opacity: 0.5;
+  }
+
+  .trg-breadcrumb__current {
+    font-size: 0.7rem;
+    color: #1a1a18;
+    font-weight: 500;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "TRG Breadcrumb",
+  "tag": null,
+  "settings": [],
+  "presets": [
+    {
+      "name": "TRG Breadcrumb"
+    }
+  ]
+}
+{% endschema %}
