@@ -569,33 +569,27 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
 
 
 /* ─── PDP PRICE STYLING (mockup match) ─── */
-/* Dwell: product-price.text-block > div[ref=priceContainer] > span.price */
-.product-information product-price,
-.product-information product-price.text-block {
+/* Scoped to .product-information ONLY — never touch card/recommendation prices */
+.product-information > .product-information__grid product-price,
+.product-information .product-details product-price {
   display: block !important;
   padding-bottom: 1.25rem !important;
   border-bottom: 1px solid #ddd8cf !important;
   margin-bottom: 0.75rem !important;
 }
 
-.product-information product-price .price,
-.product-information product-price span.price,
+.product-information > .product-information__grid product-price .price,
+.product-information > .product-information__grid product-price span.price,
 .product-information .product-details product-price .price,
-.product-information .product-details .price,
-product-price .price {
+.product-information .product-details product-price span.price,
+.product-information .product-details .price__regular,
+.product-information .product-details .price__sale,
+.product-information .product-details .price {
   font-family: 'Playfair Display', serif !important;
   font-size: 1.5rem !important;
   font-weight: 600 !important;
   color: #1a1a18 !important;
   letter-spacing: 0.01em !important;
-}
-
-/* Override Dwell section stylesheet price rules */
-.product-information .price__regular,
-.product-information .price__sale,
-.product-information .price {
-  font-family: 'Playfair Display', serif !important;
-  font-size: 1.5rem !important;
 }
 
 /* ─── PDP RECOMMENDATION SECTION ─── */
