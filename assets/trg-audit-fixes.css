@@ -597,10 +597,6 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
 }
 
 /* ─── PDP: Space between product section and brand strip ─── */
-.product-information {
-  padding-bottom: 2.5rem !important;
-}
-
-.trg-pdp-brand-strip + .shopify-section {
-  margin-top: 0;
+.product-information.section-page-width {
+  padding-block-end: 2rem !important;
 }

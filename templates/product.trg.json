@@ -370,9 +370,9 @@
       "settings": {
         "content_width": "content-center-aligned",
         "desktop_media_position": "left",
-        "equal_columns": false,
+        "equal_columns": true,
         "limit_details_width": true,
-        "gap": 16,
+        "gap": 32,
         "enable_sticky_add_to_cart": true,
         "color_scheme": "",
         "padding-block-start": 30,
