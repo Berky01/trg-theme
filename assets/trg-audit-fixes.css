@@ -569,17 +569,21 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
 
 
 /* ─── PDP PRICE STYLING (mockup match) ─── */
-.product-information .price {
-  padding-bottom: 1.25rem;
-  border-bottom: 1px solid #ddd8cf;
-  margin-bottom: 0.25rem;
+/* Dwell structure: product-price > div > span.price */
+.product-information product-price {
+  display: block !important;
+  padding-bottom: 1.25rem !important;
+  border-bottom: 1px solid #ddd8cf !important;
+  margin-bottom: 0.75rem !important;
 }
 
-.product-information .price .amount {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: #1a1a18;
+.product-information product-price .price,
+.product-information product-price span.price {
+  font-family: 'Playfair Display', serif !important;
+  font-size: 1.5rem !important;
+  font-weight: 600 !important;
+  color: #1a1a18 !important;
+  letter-spacing: 0.01em !important;
 }
 
 /* ─── PDP RECOMMENDATION SECTION ─── */
