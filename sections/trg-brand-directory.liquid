@@ -8,7 +8,7 @@
 {{ 'trg-brand-directory.css' | asset_url | stylesheet_tag }}
 <script src="{{ 'trg-brand-directory.js' | asset_url }}" defer></script>
 <section class="section section--full-width trg-bdir" data-id="{{ section.id }}">
-  <script type="application/json" data-brands-json>
+  <script type="application/json" data-brands-json data-total-brands="{{ total_brand_count }}">
     [
       {%- assign brand_output_count = 0 -%}
       {%- paginate shop.metaobjects.brand.values by 250 -%}

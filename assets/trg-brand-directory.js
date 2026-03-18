@@ -25,8 +25,12 @@
     el.textContent = JSON.stringify(brands);
 
     /* Check if more brands exist (Shopify caps metaobjects at 250/page) */
-    var totalEl = document.getElementById('trg-total-brands');
-    var total = totalEl ? parseInt(totalEl.getAttribute('data-total'), 10) : 0;
+    /* Read total from script tag attribute or span */
+    var total = parseInt(el.getAttribute('data-total-brands') || '0', 10);
+    if (!total) {
+      var totalEl = document.getElementById('trg-total-brands');
+      total = totalEl ? parseInt(totalEl.getAttribute('data-total') || '0', 10) : 0;
+    }
     if (total > brands.length) {
       /* Fetch page 2 via full page request (section_id doesn't paginate for metaobjects) */
       var bp = window.location.pathname;
@@ -121,8 +125,12 @@
       } catch (error) {
         return;
       }
-      var totalEl = document.getElementById('trg-total-brands');
-      totalBrandsCount = totalEl ? parseInt(totalEl.getAttribute('data-total') || '0', 10) : data.length;
+      /* Read total from script tag attribute or span */
+      totalBrandsCount = parseInt(dataNode.getAttribute('data-total-brands') || '0', 10);
+      if (!totalBrandsCount) {
+        var totalSpan = document.getElementById('trg-total-brands');
+        totalBrandsCount = totalSpan ? parseInt(totalSpan.getAttribute('data-total') || '0', 10) : 0;
+      }
       if (!totalBrandsCount || totalBrandsCount < data.length) totalBrandsCount = data.length;
 
       data = data.map((brand) => ({
