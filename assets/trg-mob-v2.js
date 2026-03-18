@@ -573,8 +573,10 @@ function boot(){
     e.preventDefault();e.stopPropagation();
     sBtn.style.display='none';
     sActive.style.display='flex';
-    /* Focus with a tiny delay — ensures iOS keyboard opens */
-    setTimeout(function(){sInput.focus()},50);
+    /* Focus with retries to beat any focus-stealing */
+    setTimeout(function(){sInput.focus()},100);
+    setTimeout(function(){sInput.focus()},300);
+    setTimeout(function(){sInput.focus()},600);
   });
   
   sInput.addEventListener('input',function(){
@@ -591,12 +593,7 @@ function boot(){
     dr();
   });
   
-  sInput.addEventListener('blur',function(){
-    if(!sInput.value){
-      sActive.style.display='none';
-      sBtn.style.display='flex';
-    }
-  });
+  /* blur-to-close removed — Cancel button only */
 
   /* Accordion */
   document.addEventListener('click',function(e){
@@ -637,7 +634,7 @@ function boot(){
 
 /* CSS */
 var s=document.createElement('style');
-s.textContent='.trg-mob-chips{display:none!important}.trg-mob-fam-inner>.trg-mob-lbl:first-child{display:none!important}#trg-v3-chips::-webkit-scrollbar{display:none}#trg-v3-input::placeholder{color:rgba(245,241,235,.3);font-style:italic}#trg-v3-search-active{transition:none}.trg-mob-ctas{padding:1rem 1.25rem;display:flex;flex-direction:column;gap:.5rem}.trg-mob-cta-primary{display:flex;align-items:center;justify-content:center;min-height:48px;padding:.7rem 1rem;background:rgba(196,86,42,.12);border:1px solid rgba(196,86,42,.35);border-radius:3px;font-family:"DM Sans",sans-serif;font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#c4562a;text-decoration:none}.trg-mob-cta-secondary{display:flex;align-items:center;justify-content:center;min-height:44px;padding:.6rem 1rem;background:rgba(255,255,255,.03);border:1px solid rgba(245,241,235,.1);border-radius:3px;font-family:"DM Sans",sans-serif;font-size:.68rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:rgba(245,241,235,.55);text-decoration:none}';
+s.textContent='.trg-mob-chips{display:none!important}.trg-mob-fam-inner>.trg-mob-lbl:first-child{display:none!important}#trg-v3-chips::-webkit-scrollbar{display:none}#trg-v3-search::placeholder{color:rgba(245,241,235,.3);font-style:italic}.trg-mob-ctas{padding:1rem 1.25rem;display:flex;flex-direction:column;gap:.5rem}.trg-mob-cta-primary{display:flex;align-items:center;justify-content:center;min-height:48px;padding:.7rem 1rem;background:rgba(196,86,42,.12);border:1px solid rgba(196,86,42,.35);border-radius:3px;font-family:"DM Sans",sans-serif;font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#c4562a;text-decoration:none}.trg-mob-cta-secondary{display:flex;align-items:center;justify-content:center;min-height:44px;padding:.6rem 1rem;background:rgba(255,255,255,.03);border:1px solid rgba(245,241,235,.1);border-radius:3px;font-family:"DM Sans",sans-serif;font-size:.68rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:rgba(245,241,235,.55);text-decoration:none}';
 document.head.appendChild(s);
 
 if(document.readyState==='complete')setTimeout(boot,200);
