@@ -8,7 +8,7 @@
 {{ 'trg-brand-directory.css' | asset_url | stylesheet_tag }}
 <script src="{{ 'trg-brand-directory.js' | asset_url }}" defer></script>
 <section class="section section--full-width trg-bdir" data-id="{{ section.id }}">
-  <script type="application/json" data-brands-json data-total-brands="{{ total_brand_count }}">
+  <script type="application/json" data-brands-json>
     [
       {%- assign brand_output_count = 0 -%}
       {%- paginate shop.metaobjects.brand.values by 250 -%}
@@ -84,10 +84,15 @@
           {%- assign brand_output_count = brand_output_count | plus: 1 -%}
         {%- endfor -%}
       {%- endpaginate -%}
-        {%- assign total_brand_count = shop.metaobjects.brand.values.size -%}
+      {%- comment -%}Count total brands via separate lightweight loop{%- endcomment -%}
+      {%- assign total_brand_count = 0 -%}
+      {%- for b in shop.metaobjects.brand.values -%}
+        {%- assign total_brand_count = total_brand_count | plus: 1 -%}
+      {%- endfor -%}
+        
     ]
   </script>
-  <span id="trg-total-brands" data-total="{{ shop.metaobjects.brand.values.size }}" hidden></span>
+  <span id="trg-total-brands" data-total="{{ total_brand_count }}" hidden></span>
   
   <script>
     /* Fix 39 brands where handleize differs from actual page handle */
