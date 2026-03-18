@@ -1,0 +1,35 @@
+{{ 'trg-colour-guide.css' | asset_url | stylesheet_tag }}
+
+<div class="cg-hero">
+  <div class="cg-ey">Style Tool</div>
+  <h1 class="cg-title">The Colour Guide</h1>
+  <p class="cg-sub">Build colour-coordinated outfits from 468+ brands — powered by Sanzo Wada's <em>Dictionary of Colour Combinations.</em></p>
+</div>
+
+<div class="cg-tabs">
+  <button class="cg-tab active" data-panel="panel-builder">Outfit Builder</button>
+  <button class="cg-tab" data-panel="panel-matcher">Colour Matcher</button>
+</div>
+
+<div class="cg-panel active" id="panel-builder">
+  <div class="ob-wrap" id="cg-outfit-builder"></div>
+</div>
+
+<div class="cg-panel" id="panel-matcher">
+  <div class="em-wrap" id="cg-editorial-matcher"></div>
+</div>
+
+<div class="cg-credit">
+  Colour combinations sourced from Sanzo Wada's <em>Dictionary of Colour Combinations</em> (1933) — <a href="https://sanzo-wada.dmbk.io" target="_blank" rel="noopener">sanzo-wada.dmbk.io</a>
+</div>
+
+<script src="{{ 'trg-colour-guide.js' | asset_url }}" defer></script>
+
+{% schema %}
+{
+  "name": "Colour Guide",
+  "tag": "section",
+  "class": "trg-colour-guide",
+  "settings": []
+}
+{% endschema %}
