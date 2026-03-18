@@ -8,11 +8,11 @@
 {{ 'trg-brand-directory.css' | asset_url | stylesheet_tag }}
 <script src="{{ 'trg-brand-directory.js' | asset_url }}" defer></script>
 <section class="section section--full-width trg-bdir" data-id="{{ section.id }}">
-  <script type="application/json" data-brands-json data-total-brands="{{ total_brand_count }}">
+  <script type="application/json" data-brands-json data-total-brands="{{ total_brand_count }}" data-paginate-pages="{{ paginate.pages }}" data-paginate-items="{{ paginate.items }}">
     [
       {%- assign brand_output_count = 0 -%}
       {%- paginate shop.metaobjects.brand.values by 250 -%}
-        {%- assign total_brand_count = paginate.collection_size -%}
+        {%- assign total_brand_count = paginate.items -%}
         {%- for brand in shop.metaobjects.brand.values -%}
           {%- assign name = brand.name.value | default: brand.name | default: brand.handle -%}
           {%- if name == blank -%}{%- continue -%}{%- endif -%}
