@@ -384,11 +384,7 @@
       "settings": {
         "color_scheme": "scheme-header-ink",
         "eyebrow": "Brand spotlight",
-        "brand_name": "",
-        "description": "<p>Use this strip for brand context, affiliate transparency, and shipping notes that matter before checkout.</p>",
-        "tags": "Mid-range, Affiliate, Ships to Canada",
-        "button_label": "View brand profile",
-        "button_link": "shopify://collections/all"
+        "button_label": "View Brand"
       }
     },
     "product_recommendations_xmXAhw": {
