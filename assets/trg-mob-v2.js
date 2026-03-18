@@ -527,15 +527,11 @@ function boot(){
   wrapper.id='trg-v3-controls';
   wrapper.innerHTML=
     '<div id="trg-v3-search-wrap" style="padding:.85rem 1.25rem;background:#1a1917;border-bottom:1px solid rgba(245,241,235,.08);position:sticky;top:0;z-index:30">'
-    +'<button id="trg-v3-search-btn" type="button" style="display:flex;align-items:center;gap:.6rem;width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:.65rem .75rem;cursor:text;text-align:left;-webkit-tap-highlight-color:transparent">'
-    +'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(245,241,235,.3)" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>'
-    +'<span style="font-family:DM Sans,sans-serif;font-size:.82rem;color:rgba(245,241,235,.3);font-style:italic">Search 468 brands\u2026</span>'
-    +'</button>'
-    +'<div id="trg-v3-search-active" style="display:none;align-items:center;gap:.6rem;background:rgba(255,255,255,.07);border:1px solid rgba(196,86,42,.5);border-radius:4px;padding:0 .75rem">'
-    +'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(196,86,42,.7)" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>'
-    +'<input id="trg-v3-input" type="search" autocomplete="off" autocorrect="off" inputmode="search" spellcheck="false" style="flex:1;background:transparent;border:none;outline:none;font-family:DM Sans,sans-serif;font-size:.82rem;color:rgba(245,241,235,.92);padding:.65rem 0;-webkit-appearance:none;appearance:none">'
-    +'<button id="trg-v3-cancel" type="button" style="background:none;border:none;cursor:pointer;font-family:DM Sans,sans-serif;font-size:.72rem;color:rgba(196,86,42,.8);padding:.25rem;white-space:nowrap">Cancel</button>'
-    +'</div>'
+    +'<label style="display:flex;align-items:center;gap:.6rem;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:0 .75rem;cursor:text">'
+    +'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(245,241,235,.3)" stroke-width="2" stroke-linecap="round" style="flex-shrink:0"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>'
+    +'<input id="trg-v3-input" type="search" placeholder="Search 468 brands\u2026" autocomplete="off" autocorrect="off" inputmode="search" spellcheck="false" style="flex:1;background:transparent;border:none;outline:none;font-family:DM Sans,sans-serif;font-size:16px;color:rgba(245,241,235,.92);padding:.65rem 0;-webkit-appearance:none;appearance:none;min-height:44px">'
+    +'<button id="trg-v3-clear" type="button" style="background:none;border:none;cursor:pointer;font-size:.75rem;color:rgba(245,241,235,.4);padding:.35rem;display:none;flex-shrink:0">\u2715</button>'
+    +'</label>'
     +'</div>'
     +'<div id="trg-v3-chips" style="display:flex;gap:.35rem;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:.6rem 1.25rem .4rem"></div>'
     +'<div id="trg-v3-count" style="font-size:.62rem;color:rgba(245,241,235,.3);letter-spacing:.03em;padding:.5rem 1.25rem .6rem;border-bottom:1px solid rgba(245,241,235,.08)"></div>';
@@ -563,35 +559,22 @@ function boot(){
     chipBox.appendChild(btn);
   });
 
-  /* Bind search — tap-to-activate pattern */
-  var sBtn=document.getElementById('trg-v3-search-btn');
-  var sActive=document.getElementById('trg-v3-search-active');
+  /* Bind search — always-visible input inside <label> */
   var sInput=document.getElementById('trg-v3-input');
-  var sCancel=document.getElementById('trg-v3-cancel');
-  
-  sBtn.addEventListener('click',function(e){
-    e.preventDefault();e.stopPropagation();
-    sBtn.style.display='none';
-    sActive.style.display='flex';
-    /* Focus SYNCHRONOUSLY — required for mobile keyboard to open */
-    sInput.focus();
-  });
+  var sClear=document.getElementById('trg-v3-clear');
   
   sInput.addEventListener('input',function(){
     mQ=sInput.value.trim().toLowerCase();
+    sClear.style.display=mQ?'block':'none';
     dr();
   });
   
-  sCancel.addEventListener('click',function(e){
+  sClear.addEventListener('click',function(e){
     e.preventDefault();e.stopPropagation();
-    sInput.value='';
-    mQ='';
-    sActive.style.display='none';
-    sBtn.style.display='flex';
-    dr();
+    sInput.value='';sInput.focus();
+    sClear.style.display='none';
+    mQ='';dr();
   });
-  
-  /* blur-to-close removed — Cancel button only */
 
   /* Accordion */
   document.addEventListener('click',function(e){
