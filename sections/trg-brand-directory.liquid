@@ -7,7 +7,7 @@
 %}
 {{ 'trg-brand-directory.css' | asset_url | stylesheet_tag }}
 <script src="{{ 'trg-brand-directory.js' | asset_url }}" defer></script>
-<section class="section section--full-width trg-bdir" data-id="{{ section.id }}">
+<section class="section section--full-width trg-bdir" data-id="{{ section.id }}" data-overflow="{{ 'brands-overflow.json' | asset_url }}">
   <script type="application/json" data-brands-json>
     [
       {%- assign brand_output_count = 0 -%}
@@ -87,7 +87,6 @@
         
     ]
   </script>
-  <input type="hidden" id="trg-overflow-url" value="{{ 'brands-overflow.json' | asset_url }}">
   
   </template>
   
