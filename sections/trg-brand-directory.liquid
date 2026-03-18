@@ -87,87 +87,86 @@
         
     ]
   </script>
-  <template data-brands-page2><script type="application/json">
-    [
-      {%- assign p2_count = 0 -%}
-      {%- for brand in shop.metaobjects.brand.values offset: 250 -%}
-        {%- assign name = brand.name.value | default: brand.name | default: brand.handle -%}
-        {%- if name == blank -%}{%- continue -%}{%- endif -%}
-        {%- if p2_count > 0 -%},{%- endif -%}
-        {%- liquid
-          assign country = brand.country.value | default: brand.country | strip
-          assign made_in = brand.made_in.value | default: brand.made_in | strip
-          assign raw_cat = brand.primary_category.value | default: brand.primary_category | strip
-          assign src = raw_cat | downcase
-          assign cat = 'Other'
-          if src contains 'footwear'
-            assign cat = 'Footwear'
-          elsif src contains 'outerwear'
-            assign cat = 'Outerwear'
-          elsif src contains 'formalwear' or src contains 'tailoring'
-            assign cat = 'Formalwear & Tailoring'
-          elsif src contains 'knitwear'
-            assign cat = 'Knitwear'
-          elsif src contains 'denim'
-            assign cat = 'Denim'
-          elsif src contains 'shirting' or src contains 'shirt'
-            assign cat = 'Shirting'
-          elsif src contains 'basics'
-            assign cat = 'Basics'
-          elsif src contains 'workwear'
-            assign cat = 'Workwear'
-          elsif src contains 'smart casual'
-            assign cat = 'Smart Casual'
-          elsif src contains 'streetwear'
-            assign cat = 'Streetwear'
-          elsif src contains 'accessories'
-            assign cat = 'Accessories'
-          elsif src contains 'activewear'
-            assign cat = 'Activewear'
-          elsif src contains 'casualwear' or src contains 'contemporary'
-            assign cat = 'Casualwear'
-          endif
-          assign pos = brand.brand_positioning.value | default: brand.brand_positioning | default: '' | replace: ';', ',' | replace: '/', ',' | replace: '|', ',' | split: ','
-          assign tags = brand.tags.value | default: brand.tags | default: '' | replace: ';', ',' | replace: '/', ',' | replace: '|', ',' | split: ','
-          assign desc = brand.description.value | default: brand.description | default: '' | strip_html | strip
-          assign aff = brand.affiliate_program.value | default: brand.affiliate_program | downcase | strip
-          assign ships = brand.ships_to_canada.value | default: brand.ships_to_canada | downcase | strip
-          assign ddp = brand.ddp_duties.value | default: brand.ddp_duties | downcase | strip
-          assign nat = brand.natural_materials.value | default: brand.natural_materials | downcase | strip
-          assign ca = brand.canadian_brand.value | default: brand.canadian_brand | downcase | strip
-          assign made_src = made_in | downcase
-          if made_src == blank
-            assign made_src = country | downcase
-          endif
-          assign made_group = 'Other'
-          if made_src contains 'usa' or made_src contains 'united states'
-            assign made_group = 'USA'
-          elsif made_src contains 'canada'
-            assign made_group = 'Canada'
-          elsif made_src contains 'japan'
-            assign made_group = 'Japan'
-          elsif made_src contains 'uk' or made_src contains 'united kingdom' or made_src contains 'england' or made_src contains 'scotland'
-            assign made_group = 'United Kingdom'
-          elsif made_src contains 'sweden' or made_src contains 'denmark' or made_src contains 'norway' or made_src contains 'scandinavia'
-            assign made_group = 'Scandinavia'
-          elsif made_src contains 'italy' or made_src contains 'france' or made_src contains 'spain' or made_src contains 'portugal' or made_src contains 'germany' or made_src contains 'belgium' or made_src contains 'netherlands' or made_src contains 'hungary' or made_src contains 'poland' or made_src contains 'europe'
-            assign made_group = 'Europe'
-          endif
-          assign logo = brand.logo.value | default: brand.logo
-          if logo != blank and logo.preview_image != blank
-            assign logo = logo.preview_image
-          endif
-          assign logo_url = ''
-          if logo != blank
-            assign logo_url = logo | image_url: width: 400
-          endif
-        -%}
-        {"handle":{{ name | handleize | json }},"name":{{ name | json }},"url":{{ name | handleize | prepend: "/pages/" | json }},"country":{{ country | json }},"madeIn":{{ made_in | json }},"madeInGroup":{{ made_group | json }},"primaryCategoryRaw":{{ raw_cat | json }},"category":{{ cat | json }},"priceRange":{{ brand.price_range.value | default: brand.price_range | json }},"buyPath":{{ brand.buy_path.value | default: brand.buy_path | json }},"bestRetailerNa":{{ brand.best_retailer_na.value | default: brand.best_retailer_na | json }},"bestRetailerCa":{{ brand.best_retailer_ca.value | default: brand.best_retailer_ca | json }},"affiliateProgram":{% if aff == 'yes' or aff == 'true' %}true{% else %}false{% endif %},"affiliateNetwork":{{ brand.affiliate_network.value | default: brand.affiliate_network | json }},"commission":{{ brand.commission.value | default: brand.commission | json }},"shipsToCanada":{% if ships == 'yes' or ships == 'true' %}true{% else %}false{% endif %},"ddpDuties":{% if ddp == 'yes' or ddp == 'true' %}true{% else %}false{% endif %},"naturalMaterials":{% if nat == 'yes' or nat == 'true' %}true{% else %}false{% endif %},"canadianBrand":{% if ca == 'yes' or ca == 'true' %}true{% else %}false{% endif %},"brandPositioning":{{ pos | json }},"tags":{{ tags | json }},"description":{{ desc | truncate: 120 | json }},"logoUrl":{{ logo_url | json }},"priority":{{ brand.priority.value | default: brand.priority | json }}}
-        {%- assign p2_count = p2_count | plus: 1 -%}
-        {%- assign total_brand_count = total_brand_count | plus: 1 -%}
-      {%- endfor -%}
-    ]
-  </script></template></template>
+  <div id="trg-brands-p2" hidden style="display:none">[
+    {%- assign p2_count = 0 -%}
+    {%- for brand in shop.metaobjects.brand.values offset: 250 -%}
+      {%- assign name = brand.name.value | default: brand.name | default: brand.handle -%}
+      {%- if name == blank -%}{%- continue -%}{%- endif -%}
+      {%- if p2_count > 0 -%},{%- endif -%}
+      {%- liquid
+        assign country = brand.country.value | default: brand.country | strip
+        assign made_in = brand.made_in.value | default: brand.made_in | strip
+        assign raw_cat = brand.primary_category.value | default: brand.primary_category | strip
+        assign src = raw_cat | downcase
+        assign cat = 'Other'
+        if src contains 'footwear'
+          assign cat = 'Footwear'
+        elsif src contains 'outerwear'
+          assign cat = 'Outerwear'
+        elsif src contains 'formalwear' or src contains 'tailoring'
+          assign cat = 'Formalwear & Tailoring'
+        elsif src contains 'knitwear'
+          assign cat = 'Knitwear'
+        elsif src contains 'denim'
+          assign cat = 'Denim'
+        elsif src contains 'shirting' or src contains 'shirt'
+          assign cat = 'Shirting'
+        elsif src contains 'basics'
+          assign cat = 'Basics'
+        elsif src contains 'workwear'
+          assign cat = 'Workwear'
+        elsif src contains 'smart casual'
+          assign cat = 'Smart Casual'
+        elsif src contains 'streetwear'
+          assign cat = 'Streetwear'
+        elsif src contains 'accessories'
+          assign cat = 'Accessories'
+        elsif src contains 'activewear'
+          assign cat = 'Activewear'
+        elsif src contains 'casualwear' or src contains 'contemporary'
+          assign cat = 'Casualwear'
+        endif
+        assign pos = brand.brand_positioning.value | default: brand.brand_positioning | default: '' | replace: ';', ',' | replace: '/', ',' | replace: '|', ',' | split: ','
+        assign tags = brand.tags.value | default: brand.tags | default: '' | replace: ';', ',' | replace: '/', ',' | replace: '|', ',' | split: ','
+        assign desc = brand.description.value | default: brand.description | default: '' | strip_html | strip
+        assign aff = brand.affiliate_program.value | default: brand.affiliate_program | downcase | strip
+        assign ships = brand.ships_to_canada.value | default: brand.ships_to_canada | downcase | strip
+        assign ddp = brand.ddp_duties.value | default: brand.ddp_duties | downcase | strip
+        assign nat = brand.natural_materials.value | default: brand.natural_materials | downcase | strip
+        assign ca = brand.canadian_brand.value | default: brand.canadian_brand | downcase | strip
+        assign made_src = made_in | downcase
+        if made_src == blank
+          assign made_src = country | downcase
+        endif
+        assign made_group = 'Other'
+        if made_src contains 'usa' or made_src contains 'united states'
+          assign made_group = 'USA'
+        elsif made_src contains 'canada'
+          assign made_group = 'Canada'
+        elsif made_src contains 'japan'
+          assign made_group = 'Japan'
+        elsif made_src contains 'uk' or made_src contains 'united kingdom' or made_src contains 'england' or made_src contains 'scotland'
+          assign made_group = 'United Kingdom'
+        elsif made_src contains 'sweden' or made_src contains 'denmark' or made_src contains 'norway' or made_src contains 'scandinavia'
+          assign made_group = 'Scandinavia'
+        elsif made_src contains 'italy' or made_src contains 'france' or made_src contains 'spain' or made_src contains 'portugal' or made_src contains 'germany' or made_src contains 'belgium' or made_src contains 'netherlands' or made_src contains 'hungary' or made_src contains 'poland' or made_src contains 'europe'
+          assign made_group = 'Europe'
+        endif
+        assign logo = brand.logo.value | default: brand.logo
+        if logo != blank and logo.preview_image != blank
+          assign logo = logo.preview_image
+        endif
+        assign logo_url = ''
+        if logo != blank
+          assign logo_url = logo | image_url: width: 400
+        endif
+      -%}
+      {"handle":{{ name | handleize | json }},"name":{{ name | json }},"url":{{ name | handleize | prepend: "/pages/" | json }},"country":{{ country | json }},"madeIn":{{ made_in | json }},"madeInGroup":{{ made_group | json }},"primaryCategoryRaw":{{ raw_cat | json }},"category":{{ cat | json }},"priceRange":{{ brand.price_range.value | default: brand.price_range | json }},"buyPath":{{ brand.buy_path.value | default: brand.buy_path | json }},"bestRetailerNa":{{ brand.best_retailer_na.value | default: brand.best_retailer_na | json }},"bestRetailerCa":{{ brand.best_retailer_ca.value | default: brand.best_retailer_ca | json }},"affiliateProgram":{% if aff == 'yes' or aff == 'true' %}true{% else %}false{% endif %},"affiliateNetwork":{{ brand.affiliate_network.value | default: brand.affiliate_network | json }},"commission":{{ brand.commission.value | default: brand.commission | json }},"shipsToCanada":{% if ships == 'yes' or ships == 'true' %}true{% else %}false{% endif %},"ddpDuties":{% if ddp == 'yes' or ddp == 'true' %}true{% else %}false{% endif %},"naturalMaterials":{% if nat == 'yes' or nat == 'true' %}true{% else %}false{% endif %},"canadianBrand":{% if ca == 'yes' or ca == 'true' %}true{% else %}false{% endif %},"brandPositioning":{{ pos | json }},"tags":{{ tags | json }},"description":{{ desc | truncate: 120 | json }},"logoUrl":{{ logo_url | json }},"priority":{{ brand.priority.value | default: brand.priority | json }}}
+      {%- assign p2_count = p2_count | plus: 1 -%}
+      {%- assign total_brand_count = total_brand_count | plus: 1 -%}
+    {%- endfor -%}
+  ]</div>
+  </template>
   
   <script>
     /* Fix 39 brands where handleize differs from actual page handle */

@@ -1,5 +1,5 @@
 <!-- trg-mm-ver:1773801441 -->
-{% comment %}trg-mm-v4.0{% endcomment %}
+{% comment %}trg-mm-v4.1-dynamic-counts{% endcomment %}
 {%- liquid
   assign bd = shop.metaobjects['brand']
   assign has_mo = false
@@ -27,12 +27,11 @@
               assign ft = 'Untitled'
             endif
           -%}
-          {%- assign sc = 0 -%}{%- assign ctg = false -%}
-          {%- for b in section.blocks -%}
-            {%- if b.id == block.id -%}{%- assign ctg = true -%}{%- continue -%}{%- endif -%}
-            {%- if ctg -%}{%- if b.type == 'family' -%}{%- break -%}{%- elsif b.type == 'subcategory' -%}{%- assign sc = sc | plus: 1 -%}{%- endif -%}{%- endif -%}
-          {%- endfor -%}
-          <button class="trg-mm-t{% if fi == 0 %} on{% endif %}" data-tab="shop-{{ ft | handleize }}" type="button" {{ block.shopify_attributes }}>{{ ft }}{%- if sc > 0 %}<span class="trg-mm-tc">{{ sc }}</span>{%- endif -%}</button>
+          {%- assign tab_pc = 0 -%}
+          {%- if block.settings.collection != blank -%}
+            {%- assign tab_pc = block.settings.collection.products_count -%}
+          {%- endif -%}
+          <button class="trg-mm-t{% if fi == 0 %} on{% endif %}" data-tab="shop-{{ ft | handleize }}" type="button" {{ block.shopify_attributes }}>{{ ft }}{%- if tab_pc > 0 %}<span class="trg-mm-tc">{{ tab_pc }}</span>{%- endif -%}</button>
           {%- assign fi = fi | plus: 1 -%}
         {%- endif -%}
       {%- endfor -%}
@@ -65,7 +64,7 @@
             assign ao = false
           -%}
           <div class="trg-mm-pn{% if fi == 0 %} on{% endif %}" id="trg-mm-pn-shop-{{ ft | handleize }}" {{ block.shopify_attributes }}>
-            <div class="trg-mm-ph"><span class="trg-mm-pt">{{ ft }}</span>{%- if block.settings.subtitle != blank -%}<span class="trg-mm-ps">{{ block.settings.subtitle }}</span>{%- endif -%}</div>
+            <div class="trg-mm-ph"><span class="trg-mm-pt">{{ ft }}</span>{%- if block.settings.collection != blank and block.settings.collection.products_count > 0 -%}<span class="trg-mm-ps">{{ block.settings.collection.products_count }} products</span>{%- endif -%}</div>
           {%- if block.settings.chips != blank -%}
             <div class="trg-mm-ar"><span class="trg-mm-al">Style Aesthetic</span>
               <div class="trg-mm-acs">
@@ -96,7 +95,7 @@
               assign su = block.settings.collection.url
             endif
           -%}
-          <a href="{{ su }}" class="trg-mm-st" {{ block.shopify_attributes }}><span class="trg-mm-sn">{{ st }}</span>{%- if block.settings.count != blank -%}<span class="trg-mm-sc">{{ block.settings.count }}</span>{%- endif -%}</a>
+          <a href="{{ su }}" class="trg-mm-st" {{ block.shopify_attributes }}><span class="trg-mm-sn">{{ st }}</span>{%- if block.settings.collection != blank and block.settings.collection.products_count > 0 -%}<span class="trg-mm-sc">{{ block.settings.collection.products_count }}</span>{%- endif -%}</a>
         {%- endif -%}
       {%- endfor -%}
       {%- if ao -%}</div></div>{%- endif -%}
@@ -219,7 +218,7 @@
               <button class="trg-mob-fam-hdr" type="button">
                 <div class="trg-mob-fam-left">
                   <span class="trg-mob-fam-name">{{ mft }}</span>
-                  {%- if block.settings.subtitle != blank -%}<span class="trg-mob-fam-count">{{ block.settings.subtitle }}</span>{%- endif -%}
+                  {%- if block.settings.collection != blank and block.settings.collection.products_count > 0 -%}<span class="trg-mob-fam-count">{{ block.settings.collection.products_count }} products</span>{%- endif -%}
                 </div>
                 <svg class="trg-mob-chv" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
               </button>
@@ -257,7 +256,7 @@
             -%}
             <a href="{{ msu }}" class="trg-mob-sub">
               <span class="trg-mob-sub-name">{{ mst }}</span>
-              {%- if block.settings.count != blank -%}<span class="trg-mob-sub-count">{{ block.settings.count }}</span>{%- endif -%}
+              {%- if block.settings.collection != blank and block.settings.collection.products_count > 0 -%}<span class="trg-mob-sub-count">{{ block.settings.collection.products_count }}</span>{%- endif -%}
             </a>
           {%- endif -%}
         {%- endfor -%}
@@ -384,3 +383,4 @@
   "presets":[{"name":"Mega Menu"}]
 }
 {% endschema %}
+
