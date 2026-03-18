@@ -105,8 +105,10 @@
   {%- if brand.description != blank -%}{%- assign has_description = true -%}{%- endif -%}
   {%- if brand.known_for_materials != blank or brand.known_for_best_for != blank -%}{%- assign has_known_for = true -%}{%- endif -%}
   {%- if brand.price_range != blank or brand.made_in != blank or brand.primary_category != blank or brand.returns_window != blank -%}{%- assign has_facts = true -%}{%- endif -%}
+  {%- comment -%}DEBUG: desc={{ brand.description | size }}, mat={{ brand.known_for_materials | size }}, price={{ brand.price_range | size }}{%- endcomment -%}
 
-  {%- if has_description or has_known_for or has_facts -%}
+
+  {%- comment -%} Always render context wrappers — inner ifs guard individual blocks {%- endcomment -%}{%- if true -%}
 
   {%- comment -%} Desktop: visible strip {%- endcomment -%}
   <div class="trg-bch-context trg-bch-reveal-1 trg-bch-context--desktop">
