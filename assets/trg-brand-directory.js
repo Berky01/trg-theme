@@ -151,6 +151,7 @@
         } catch(e) {}
       });
       const key = 'trg_saved_brands';
+      const _acct = window.TRG_ACCOUNT;
       const q = (selector) => section.querySelector(selector);
       const qa = (selector) => bySel(section, selector);
       const inp = q('[data-search]');
@@ -179,16 +180,24 @@
       };
 
       try {
-        JSON.parse(localStorage.getItem(key) || '[]').forEach((value) => state.saved.add(value));
+        /* Prefer TRG_ACCOUNT followed_brands over localStorage */
+        const acctBrands = _acct ? _acct.getFollowedBrands() : null;
+        if (acctBrands && acctBrands.length) {
+          acctBrands.forEach((value) => state.saved.add(value));
+        } else {
+          JSON.parse(localStorage.getItem(key) || '[]').forEach((value) => state.saved.add(value));
+        }
       } catch (error) {
-        // Ignore localStorage parse failures.
+        // Ignore parse failures.
       }
 
       const save = () => {
         try {
           localStorage.setItem(key, JSON.stringify(Array.from(state.saved)));
-        } catch (error) {
-          // Ignore localStorage write failures.
+        } catch (error) {}
+        /* Sync to TRG_ACCOUNT metafield if logged in */
+        if (_acct && _acct.isLoggedIn()) {
+          _acct.saveMetafield('followed_brands', Array.from(state.saved));
         }
       };
 
@@ -418,6 +427,10 @@
         else state.saved.add(handle);
         button.classList.toggle('is-saved', state.saved.has(handle));
         save();
+        if (_acct) {
+          _acct.showToast(state.saved.has(handle) ? 'Brand followed' : 'Brand unfollowed');
+          _acct.updateNavCounts();
+        }
       });
 
       if (topb) topb.addEventListener('click', () => window.scrollTo({top: 0, behavior: 'smooth'}));
