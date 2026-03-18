@@ -1,4 +1,4 @@
-/* TRG Mobile v2.3 — fixes search focus + chip clicks */
+/* TRG Mobile v3 — replaces search + chips entirely with new DOM */
 (function(){
 'use strict';
 var AB=
@@ -507,65 +507,74 @@ function render(){
 }
 
 var rt=null;
-function dr(){clearTimeout(rt);rt=setTimeout(render,60)}
+function dr(){clearTimeout(rt);rt=setTimeout(render,50)}
 
 function boot(){
   if(booted)return;booted=true;
+  var tc=document.getElementById('trg-mob-tc-brands');
+  if(!tc)return;
 
-  /* ── NUKE OLD HANDLERS: replace the input and chips with fresh clones ── */
-  
-  /* 1. Search input — completely replace to kill ALL old event listeners */
-  var oldInput=document.getElementById('trg-mob-bi');
-  if(oldInput){
-    var newInput=document.createElement('input');
-    newInput.type='text';
-    newInput.id='trg-mob-bi';
-    newInput.className='trg-mob-bin';
-    newInput.placeholder='Search 468 brands\u2026';
-    newInput.autocomplete='off';
-    newInput.setAttribute('autocorrect','off');
-    newInput.setAttribute('spellcheck','false');
-    newInput.style.cssText='flex:1;background:transparent;border:none;outline:none;font-family:DM Sans,sans-serif;font-size:.82rem;color:rgba(245,241,235,.92);padding:.7rem 0;touch-action:auto;-webkit-user-select:text;user-select:text;-webkit-appearance:none;appearance:none';
-    oldInput.parentNode.replaceChild(newInput,oldInput);
-    newInput.addEventListener('input',function(){mQ=newInput.value.trim().toLowerCase();dr()});
-  }
-  
-  /* 2. Clear button — replace */
-  var oldX=document.getElementById('trg-mob-bsx');
-  if(oldX){
-    var newX=oldX.cloneNode(true);
-    oldX.parentNode.replaceChild(newX,oldX);
-    newX.addEventListener('click',function(e){
+  /* ── NUKE: Hide ALL old search/chips/count elements ── */
+  var oldSearch=document.getElementById('trg-mob-bsearch');
+  if(oldSearch)oldSearch.style.display='none';
+  var oldChips=document.getElementById('trg-mob-bchips');
+  if(oldChips)oldChips.style.display='none';
+  var oldCount=document.getElementById('trg-mob-bcount');
+  if(oldCount)oldCount.style.display='none';
+
+  /* ── BUILD: Create entirely new search + chips + count from scratch ── */
+  var wrapper=document.createElement('div');
+  wrapper.id='trg-v3-controls';
+  wrapper.innerHTML=
+    '<div style="padding:.85rem 1.25rem;background:#1a1917;border-bottom:1px solid rgba(245,241,235,.08);position:sticky;top:0;z-index:30">'
+    +'<div style="display:flex;align-items:center;gap:.6rem;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:0 .75rem">'
+    +'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(245,241,235,.3)" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>'
+    +'<input id="trg-v3-search" type="text" placeholder="Search 468 brands\u2026" autocomplete="off" autocorrect="off" spellcheck="false" style="flex:1;background:transparent;border:none;outline:none;font-family:DM Sans,sans-serif;font-size:.82rem;color:rgba(245,241,235,.92);padding:.7rem 0;-webkit-appearance:none;appearance:none">'
+    +'<button id="trg-v3-clear" type="button" style="background:none;border:none;cursor:pointer;font-size:.7rem;color:rgba(245,241,235,.3);padding:.25rem;display:none">\u2715</button>'
+    +'</div>'
+    +'</div>'
+    +'<div id="trg-v3-chips" style="display:flex;gap:.35rem;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:.6rem 1.25rem .4rem"></div>'
+    +'<div id="trg-v3-count" style="font-size:.62rem;color:rgba(245,241,235,.3);letter-spacing:.03em;padding:.5rem 1.25rem .6rem;border-bottom:1px solid rgba(245,241,235,.08)"></div>';
+
+  /* Insert at the top of the brands tab content */
+  tc.insertBefore(wrapper,tc.firstChild);
+
+  /* Build chip buttons */
+  var chipData=[{l:'All',v:'all'},{l:'Casualwear',v:'casualwear'},{l:'Footwear',v:'footwear'},{l:'Formalwear',v:'formalwear'},{l:'Outerwear',v:'outerwear'},{l:'Denim',v:'denim'},{l:'Knitwear',v:'knitwear'},{l:'Basics',v:'basics'},{l:'Workwear',v:'workwear'}];
+  var chipBox=document.getElementById('trg-v3-chips');
+  chipData.forEach(function(cd){
+    var btn=document.createElement('button');
+    btn.type='button';
+    btn.textContent=cd.l;
+    btn.dataset.cat=cd.v;
+    btn.style.cssText='font-family:DM Sans,sans-serif;font-size:.62rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;padding:.3rem .7rem;border:1px solid rgba(255,255,255,.1);border-radius:20px;color:rgba(245,241,235,.55);background:none;cursor:pointer;white-space:nowrap;flex-shrink:0;-webkit-tap-highlight-color:transparent';
+    if(cd.v==='all'){btn.style.background='rgba(196,86,42,.15)';btn.style.borderColor='rgba(196,86,42,.45)';btn.style.color='rgba(245,241,235,.92)';btn.dataset.active='1'}
+    btn.addEventListener('click',function(e){
       e.preventDefault();e.stopPropagation();
-      var inp=document.getElementById('trg-mob-bi');
-      if(inp){inp.value='';inp.focus()}
-      mQ='';dr();
+      chipBox.querySelectorAll('button').forEach(function(b){b.style.background='none';b.style.borderColor='rgba(255,255,255,.1)';b.style.color='rgba(245,241,235,.55)';b.dataset.active=''});
+      btn.style.background='rgba(196,86,42,.15)';btn.style.borderColor='rgba(196,86,42,.45)';btn.style.color='rgba(245,241,235,.92)';btn.dataset.active='1';
+      mCat=cd.v;dr();
+      var body=document.getElementById('trg-mob-body');if(body)body.scrollTop=0;
     });
-  }
+    chipBox.appendChild(btn);
+  });
 
-  /* 3. Chips — remove data-swipe, then replace each chip to kill swipe drag handlers */
-  var cc=document.getElementById('trg-mob-bchips');
-  if(cc){
-    cc.removeAttribute('data-swipe');
-    cc.style.cssText='display:flex;gap:.35rem;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:.6rem 1.25rem .15rem;cursor:default;user-select:none;-webkit-user-select:none';
-    /* Replace all chips */
-    var oldChips=cc.querySelectorAll('.trg-mob-chip');
-    oldChips.forEach(function(old){
-      var nc=old.cloneNode(true);
-      old.parentNode.replaceChild(nc,old);
-      nc.addEventListener('click',function(e){
-        e.preventDefault();e.stopPropagation();
-        cc.querySelectorAll('.trg-mob-chip').forEach(function(c){c.classList.remove('on')});
-        nc.classList.add('on');
-        mCat=nc.dataset.bcat||'all';
-        dr();
-        var body=document.getElementById('trg-mob-body');
-        if(body)body.scrollTop=0;
-      });
-    });
-  }
+  /* Bind search */
+  var si=document.getElementById('trg-v3-search');
+  var sx=document.getElementById('trg-v3-clear');
+  si.addEventListener('input',function(){
+    mQ=si.value.trim().toLowerCase();
+    sx.style.display=mQ?'block':'none';
+    dr();
+  });
+  sx.addEventListener('click',function(e){
+    e.preventDefault();
+    si.value='';si.focus();
+    sx.style.display='none';
+    mQ='';dr();
+  });
 
-  /* 4. Accordion — capture phase on document */
+  /* Accordion */
   document.addEventListener('click',function(e){
     var hdr=e.target.closest('.trg-mob-fam-hdr');
     if(!hdr)return;
@@ -582,22 +591,31 @@ function boot(){
     }
   },true);
 
-  /* Initial render */
+  /* Write count to our NEW element */
+  var origCount=document.getElementById('trg-mob-bcount');
+  /* Redirect count writes to our new element */
+  var newCount=document.getElementById('trg-v3-count');
+  Object.defineProperty(window,'_trgCount',{get:function(){return newCount}});
+  /* Override getElementById for bcount to return our element */
+  var origById=document.getElementById.bind(document);
+  document.getElementById=function(id){
+    if(id==='trg-mob-bcount')return newCount;
+    return origById(id);
+  };
+
   render();
 
-  /* Re-render on tab/drawer open to overwrite old JS */
-  var btc=document.getElementById('trg-mob-tc-brands');
-  if(btc)new MutationObserver(function(){if(btc.classList.contains('on'))dr()}).observe(btc,{attributes:true,attributeFilter:['class']});
+  /* Re-render on tab/drawer visibility */
+  new MutationObserver(function(){if(tc.classList.contains('on'))dr()}).observe(tc,{attributes:true,attributeFilter:['class']});
   var mob=document.getElementById('trg-mob');
   if(mob)new MutationObserver(function(){if(mob.classList.contains('on'))setTimeout(render,150)}).observe(mob,{attributes:true,attributeFilter:['class']});
 }
 
-/* CSS — aggressive overrides */
+/* CSS */
 var s=document.createElement('style');
-s.textContent='.trg-mob-chips{display:none!important}.trg-mob-fam-inner>.trg-mob-lbl:first-child{display:none!important}.trg-mob-bchips{padding:.6rem 1.25rem .15rem!important;cursor:default!important}.trg-mob-bin,.trg-mob-bsf input,.trg-mob-bsearch input{background:transparent!important;color:rgba(245,241,235,.92)!important;touch-action:auto!important;-webkit-user-select:text!important;user-select:text!important;pointer-events:auto!important;-webkit-appearance:none!important;appearance:none!important;opacity:1!important}.trg-mob-bsf{pointer-events:auto!important;position:relative!important;z-index:20!important}.trg-mob-bsearch{pointer-events:auto!important}.trg-mob-ctas{padding:1rem 1.25rem;display:flex;flex-direction:column;gap:.5rem}.trg-mob-cta-primary{display:flex;align-items:center;justify-content:center;min-height:48px;padding:.7rem 1rem;background:rgba(196,86,42,.12);border:1px solid rgba(196,86,42,.35);border-radius:3px;font-family:"DM Sans",sans-serif;font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#c4562a;text-decoration:none}.trg-mob-cta-secondary{display:flex;align-items:center;justify-content:center;min-height:44px;padding:.6rem 1rem;background:rgba(255,255,255,.03);border:1px solid rgba(245,241,235,.1);border-radius:3px;font-family:"DM Sans",sans-serif;font-size:.68rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:rgba(245,241,235,.55);text-decoration:none}';
+s.textContent='.trg-mob-chips{display:none!important}.trg-mob-fam-inner>.trg-mob-lbl:first-child{display:none!important}#trg-v3-chips::-webkit-scrollbar{display:none}#trg-v3-search::placeholder{color:rgba(245,241,235,.3);font-style:italic}.trg-mob-ctas{padding:1rem 1.25rem;display:flex;flex-direction:column;gap:.5rem}.trg-mob-cta-primary{display:flex;align-items:center;justify-content:center;min-height:48px;padding:.7rem 1rem;background:rgba(196,86,42,.12);border:1px solid rgba(196,86,42,.35);border-radius:3px;font-family:"DM Sans",sans-serif;font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#c4562a;text-decoration:none}.trg-mob-cta-secondary{display:flex;align-items:center;justify-content:center;min-height:44px;padding:.6rem 1rem;background:rgba(255,255,255,.03);border:1px solid rgba(245,241,235,.1);border-radius:3px;font-family:"DM Sans",sans-serif;font-size:.68rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:rgba(245,241,235,.55);text-decoration:none}';
 document.head.appendChild(s);
 
-/* Boot AFTER old JS has finished — use setTimeout to ensure we run last */
 if(document.readyState==='complete')setTimeout(boot,200);
 else window.addEventListener('load',function(){setTimeout(boot,300)});
 })();
