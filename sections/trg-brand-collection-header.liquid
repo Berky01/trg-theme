@@ -1,7 +1,7 @@
 {% comment %}
   TRG Brand Collection Header
-  Reads brand data from collection.metafields.trg.brand (metaobject reference).
-  Mobile: context strip collapses into accordion to keep products above fold.
+  Desktop: full brand bar + context strip (description, known-for, facts)
+  Mobile: compact brand bar with inline description, context strip hidden
 {% endcomment %}
 
 {% liquid
@@ -15,28 +15,18 @@
 
 <div class="trg-bch">
 
-  {%- comment -%} ════ BRAND IDENTITY BAR ════ {%- endcomment -%}
+  {%- comment -%} ════ BRAND BAR ════ {%- endcomment -%}
   <div class="trg-bch-bar trg-bch-reveal">
     <div class="trg-bch-bar__inner">
 
-      {%- comment -%} Logo {%- endcomment -%}
       <div class="trg-bch-logo">
         {%- if brand.logo != blank -%}
-          <img
-            src="{{ brand.logo | image_url: width: 144 }}"
-            alt="{{ brand.name | escape }} logo"
-            width="72"
-            height="72"
-            loading="eager"
-          >
+          <img src="{{ brand.logo | image_url: width: 144 }}" alt="{{ brand.name | escape }} logo" width="72" height="72" loading="eager">
         {%- else -%}
-          <span class="trg-bch-logo__fallback">
-            {{- brand.name | truncate: 2, '' | upcase -}}
-          </span>
+          <span class="trg-bch-logo__fallback">{{ brand.name | truncate: 2, '' | upcase }}</span>
         {%- endif -%}
       </div>
 
-      {%- comment -%} Meta {%- endcomment -%}
       <div class="trg-bch-meta">
         <div class="trg-bch-badges">
           {%- if brand.made_in != blank -%}
@@ -49,17 +39,17 @@
             <span class="trg-bch-badge trg-bch-badge--ddp">DDP — Duties Included</span>
           {%- endif -%}
         </div>
-
         <h1 class="trg-bch-name">{{ collection.title }}</h1>
-
-        {%- if collection.description != blank -%}
-          <p class="trg-bch-tagline">{{ collection.description | strip_html | truncate: 120 }}</p>
-        {%- elsif brand.country != blank -%}
-          <p class="trg-bch-tagline">{{ brand.primary_category | default: 'Menswear' }} · {{ brand.country }}</p>
-        {%- endif -%}
+        <p class="trg-bch-tagline">
+          {{- brand.primary_category | default: 'Menswear' }} · {{ brand.country -}}
+        </p>
       </div>
 
-      {%- comment -%} CTA — buy_path logic {%- endcomment -%}
+      {%- comment -%} Mobile-only description (hidden on desktop via CSS) {%- endcomment -%}
+      {%- if brand.description != blank -%}
+        <p class="trg-bch-desc-mobile">{{ brand.description }}</p>
+      {%- endif -%}
+
       <div class="trg-bch-cta">
         {%- assign buy_path = brand.buy_path | strip | downcase -%}
 
@@ -98,24 +88,20 @@
     </div>
   </div>
 
-  {%- comment -%} ════ CONTEXT STRIP — desktop visible, mobile accordion ════ {%- endcomment -%}
-  {%- assign has_description = false -%}
-  {%- assign has_known_for = false -%}
-  {%- assign has_facts = false -%}
-  {%- if brand.description != blank -%}{%- assign has_description = true -%}{%- endif -%}
-  {%- if brand.known_for_materials != blank or brand.known_for_best_for != blank -%}{%- assign has_known_for = true -%}{%- endif -%}
-  {%- if brand.price_range != blank or brand.made_in != blank or brand.primary_category != blank or brand.returns_window != blank -%}{%- assign has_facts = true -%}{%- endif -%}
+  {%- comment -%} ════ CONTEXT STRIP (desktop only — hidden on mobile via CSS) ════ {%- endcomment -%}
+  {%- assign has_content = false -%}
+  {%- if brand.description != blank or brand.known_for_materials != blank or brand.known_for_best_for != blank or brand.price_range != blank or brand.made_in != blank -%}
+    {%- assign has_content = true -%}
+  {%- endif -%}
 
-  {%- if true -%}
-
-  {%- comment -%} Desktop: visible strip {%- endcomment -%}
-  <div class="trg-bch-context trg-bch-reveal-1 trg-bch-context--desktop">
+  {%- if has_content -%}
+  <div class="trg-bch-context trg-bch-reveal-1">
     <div class="trg-bch-context__inner">
       <div class="trg-bch-editorial">
-        {%- if has_description -%}
+        {%- if brand.description != blank -%}
           <p class="trg-bch-description">{{ brand.description }}</p>
         {%- endif -%}
-        {%- if has_known_for -%}
+        {%- if brand.known_for_materials != blank or brand.known_for_best_for != blank -%}
           <div class="trg-bch-known">
             <span class="trg-bch-known__label">Known for</span>
             {%- if brand.known_for_materials != blank -%}
@@ -133,7 +119,6 @@
           </div>
         {%- endif -%}
       </div>
-      {%- if has_facts -%}
       <div class="trg-bch-facts">
         {%- if brand.price_range != blank -%}
           <div class="trg-bch-fact"><span class="trg-bch-fact__label">Price Range</span><span class="trg-bch-fact__value">{{ brand.price_range }}</span></div>
@@ -148,76 +133,21 @@
           <div class="trg-bch-fact"><span class="trg-bch-fact__label">Returns</span><span class="trg-bch-fact__value trg-bch-fact__value--green">{{ brand.returns_window }}</span></div>
         {%- endif -%}
       </div>
-      {%- endif -%}
-    </div>
-  </div>
-
-  {%- comment -%} Mobile: collapsed accordion {%- endcomment -%}
-  <div class="trg-bch-context-mobile">
-    <button class="trg-bch-context-mobile__toggle" aria-expanded="false"
-      onclick="this.setAttribute('aria-expanded',this.getAttribute('aria-expanded')==='true'?'false':'true');this.nextElementSibling.classList.toggle('is-open');">
-      <span class="trg-bch-context-mobile__toggle-text">
-        About {{ brand.name }}
-        {%- if brand.price_range != blank %} · {{ brand.price_range }}{%- endif -%}
-      </span>
-      <svg class="trg-bch-context-mobile__chevron" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
-    </button>
-    <div class="trg-bch-context-mobile__body">
-      {%- if has_description -%}
-        <p class="trg-bch-description">{{ brand.description }}</p>
-      {%- endif -%}
-      {%- if has_known_for -%}
-        <div class="trg-bch-known">
-          <span class="trg-bch-known__label">Known for</span>
-          {%- if brand.known_for_materials != blank -%}
-            {%- assign materials = brand.known_for_materials | split: ',' -%}
-            {%- for mat in materials -%}
-              <span class="trg-bch-known__tag trg-bch-known__tag--material">{{ mat | strip }}</span>
-            {%- endfor -%}
-          {%- endif -%}
-          {%- if brand.known_for_best_for != blank -%}
-            {%- assign best_for = brand.known_for_best_for | split: ',' -%}
-            {%- for item in best_for -%}
-              <span class="trg-bch-known__tag">{{ item | strip }}</span>
-            {%- endfor -%}
-          {%- endif -%}
-        </div>
-      {%- endif -%}
-      {%- if has_facts -%}
-      <div class="trg-bch-facts trg-bch-facts--mobile">
-        {%- if brand.price_range != blank -%}
-          <div class="trg-bch-fact"><span class="trg-bch-fact__label">Price Range</span><span class="trg-bch-fact__value">{{ brand.price_range }}</span></div>
-        {%- endif -%}
-        {%- if brand.made_in != blank -%}
-          <div class="trg-bch-fact"><span class="trg-bch-fact__label">Made In</span><span class="trg-bch-fact__value">{{ brand.made_in }}</span></div>
-        {%- endif -%}
-        {%- if brand.primary_category != blank -%}
-          <div class="trg-bch-fact"><span class="trg-bch-fact__label">Category</span><span class="trg-bch-fact__value">{{ brand.primary_category }}</span></div>
-        {%- endif -%}
-        {%- if brand.returns_window != blank -%}
-          <div class="trg-bch-fact"><span class="trg-bch-fact__label">Returns</span><span class="trg-bch-fact__value trg-bch-fact__value--green">{{ brand.returns_window }}</span></div>
-        {%- endif -%}
-      </div>
-      {%- endif -%}
     </div>
   </div>
   {%- endif -%}
 
-  {%- comment -%} ════ CANADA ACCORDION (geo-aware) ════ {%- endcomment -%}
+  {%- comment -%} ════ CANADA ACCORDION ════ {%- endcomment -%}
   {%- if brand.ships_to_canada == 'Yes' -%}
   <div class="trg-bch-canada">
     <div class="trg-bch-canada__inner">
-      <button
-        class="trg-bch-canada__toggle"
-        aria-expanded="false"
-        onclick="this.setAttribute('aria-expanded',this.getAttribute('aria-expanded')==='true'?'false':'true');this.nextElementSibling.classList.toggle('is-open');"
-      >
+      <button class="trg-bch-canada__toggle" aria-expanded="false"
+        onclick="this.setAttribute('aria-expanded',this.getAttribute('aria-expanded')==='true'?'false':'true');this.nextElementSibling.classList.toggle('is-open');">
         <div class="trg-bch-canada__toggle-left">
           <span class="trg-bch-canada__flag">🍁</span>
           <span class="trg-bch-canada__toggle-label">Shipping to Canada</span>
           <span class="trg-bch-canada__toggle-summary">
-            —
-            {%- if brand.ddp_duties == 'Yes' %} Duties included{%- endif -%}
+            —{%- if brand.ddp_duties == 'Yes' %} Duties included{%- endif -%}
             {%- if brand.free_shipping_ca_threshold != blank %} · Free over {{ brand.free_shipping_ca_threshold }}{%- endif -%}
           </span>
         </div>
