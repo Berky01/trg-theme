@@ -25,13 +25,8 @@
     el.textContent = JSON.stringify(brands);
 
     /* Check if more brands exist (Shopify caps metaobjects at 250/page) */
-    /* Read total from script tag attribute or span */
-    var total = parseInt(el.getAttribute('data-total-brands') || '0', 10);
-    if (!total) {
-      var totalEl = document.getElementById('trg-total-brands');
-      total = totalEl ? parseInt(totalEl.getAttribute('data-total') || '0', 10) : 0;
-    }
-    if (total > brands.length) {
+    /* If we got exactly 250 brands, Shopify paginated — fetch page 2 */
+    if (brands.length >= 250) {
       /* Fetch page 2 via full page request (section_id doesn't paginate for metaobjects) */
       var bp = window.location.pathname;
       fetch(bp + '?page=2')
@@ -50,6 +45,8 @@
             if (unique.length) {
               brands = brands.concat(unique);
               el.textContent = JSON.stringify(brands);
+              /* Update total count attribute for the main app */
+              el.setAttribute('data-total-brands', String(brands.length));
               document.dispatchEvent(new CustomEvent('trg:brands-updated'));
             }
           } catch(e) {}
@@ -154,6 +151,10 @@
           }));
           data.length = 0;
           data.push(...fresh);
+          /* Re-read total from data attribute (updated by pagination) */
+          var newTotal = parseInt(dataNode.getAttribute('data-total-brands') || '0', 10);
+          if (newTotal > totalBrandsCount) totalBrandsCount = newTotal;
+          if (totalBrandsCount < data.length) totalBrandsCount = data.length;
           state.page = 1;
           apply();
         } catch(e) {}
@@ -294,12 +295,13 @@
       const render = () => {
         try {
           const total = state.filtered.length;
+          const displayTotal = (state.browse === 'All Brands' && !vals('category').length && !vals('aesthetic').length && !vals('price').length && !vals('made').length && !state.tog.ships && !state.tog.direct && !(inp.value || '').trim()) ? totalBrandsCount : total;
           const pages = Math.max(1, Math.ceil(total / PAGE));
           const visible = state.filtered.slice(0, state.page * PAGE);
 
           if (grid) { grid.innerHTML = visible.map(card).join(''); grid.hidden = !total; }
           if (empty) empty.hidden = !!total;
-          if (res) res.textContent = String(total);
+          if (res) res.textContent = String(displayTotal);
           if (ttl) ttl.textContent = state.browse === 'All Brands' ? 'All Brands' : state.browse;
           if (sub) sub.textContent = total === 1 ? '1 brand' : `${total} brands`;
           if (pc) pc.textContent = `Showing ${visible.length} of ${total} brands`;

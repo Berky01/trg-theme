@@ -84,15 +84,10 @@
           {%- assign brand_output_count = brand_output_count | plus: 1 -%}
         {%- endfor -%}
       {%- endpaginate -%}
-      {%- comment -%}Count total brands via separate lightweight loop{%- endcomment -%}
-      {%- assign total_brand_count = 0 -%}
-      {%- for b in shop.metaobjects.brand.values -%}
-        {%- assign total_brand_count = total_brand_count | plus: 1 -%}
-      {%- endfor -%}
+      {%- assign total_brand_count = brand_output_count -%}
         
     ]
   </script>
-  <span id="trg-total-brands" data-total="{{ total_brand_count }}" hidden></span>
   
   <script>
     /* Fix 39 brands where handleize differs from actual page handle */
