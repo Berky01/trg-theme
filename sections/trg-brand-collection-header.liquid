@@ -1,0 +1,227 @@
+{% comment %}
+  TRG Brand Collection Header
+  Renders brand editorial content as the collection header.
+  Reads brand data from collection.metafields.trg.brand (metaobject reference).
+{% endcomment %}
+
+{% liquid
+  assign brand = collection.metafields.trg.brand.value
+  unless brand
+    break
+  endunless
+%}
+
+{{ 'trg-brand-collection-header.css' | asset_url | stylesheet_tag }}
+
+<div class="trg-bch">
+
+  {%- comment -%} ════ BRAND IDENTITY BAR ════ {%- endcomment -%}
+  <div class="trg-bch-bar trg-bch-reveal">
+    <div class="trg-bch-bar__inner">
+
+      {%- comment -%} Logo {%- endcomment -%}
+      <div class="trg-bch-logo">
+        {%- if brand.logo != blank -%}
+          <img
+            src="{{ brand.logo | image_url: width: 144 }}"
+            alt="{{ brand.name | escape }} logo"
+            width="72"
+            height="72"
+            loading="eager"
+          >
+        {%- else -%}
+          <span class="trg-bch-logo__fallback">
+            {{- brand.name | truncate: 2, '' | upcase -}}
+          </span>
+        {%- endif -%}
+      </div>
+
+      {%- comment -%} Meta {%- endcomment -%}
+      <div class="trg-bch-meta">
+        <div class="trg-bch-badges">
+          {%- if brand.made_in != blank -%}
+            <span class="trg-bch-badge trg-bch-badge--made">Made in {{ brand.made_in }}</span>
+          {%- endif -%}
+          {%- if brand.ships_to_canada == 'Yes' -%}
+            <span class="trg-bch-badge trg-bch-badge--ca">🍁 Ships to Canada</span>
+          {%- endif -%}
+          {%- if brand.ddp_duties == 'Yes' -%}
+            <span class="trg-bch-badge trg-bch-badge--ddp">DDP — Duties Included</span>
+          {%- endif -%}
+        </div>
+
+        <h1 class="trg-bch-name">{{ collection.title }}</h1>
+
+        {%- if collection.description != blank -%}
+          <p class="trg-bch-tagline">{{ collection.description | strip_html | truncate: 120 }}</p>
+        {%- elsif brand.country != blank -%}
+          <p class="trg-bch-tagline">{{ brand.primary_category | default: 'Menswear' }} · {{ brand.country }}</p>
+        {%- endif -%}
+      </div>
+
+      {%- comment -%} CTA — buy_path logic {%- endcomment -%}
+      <div class="trg-bch-cta">
+        {%- assign buy_path = brand.buy_path | strip | downcase -%}
+
+        {%- if buy_path == 'direct' or buy_path == 'both' -%}
+          {%- assign shop_url = brand.affiliate_link | default: brand.website -%}
+          {%- if shop_url != blank -%}
+            <a href="{{ shop_url }}" target="_blank" rel="nofollow noopener" class="trg-bch-cta__primary">
+              Shop {{ brand.name | truncate: 20, '' }}
+              <svg class="trg-bch-icon-ext" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
+          {%- endif -%}
+        {%- endif -%}
+
+        {%- if buy_path == 'both' or buy_path == 'reseller only' -%}
+          {%- assign retailer_name = brand.best_retailer_na -%}
+          {%- assign retailer_url = brand.retailer_url_na | default: '#' -%}
+          {%- if retailer_name != blank -%}
+            <a href="{{ retailer_url }}" target="_blank" rel="nofollow noopener" class="trg-bch-cta__secondary{% if buy_path == 'reseller only' %} trg-bch-cta__primary{% endif %}">
+              {%- if buy_path == 'both' -%}
+                Also at {{ retailer_name | truncate: 18, '' }}
+              {%- else -%}
+                Shop at {{ retailer_name | truncate: 18, '' }}
+              {%- endif -%}
+              <svg class="trg-bch-icon-ext" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
+          {%- endif -%}
+        {%- endif -%}
+
+        {%- if brand.affiliate_program == 'Yes' or brand.affiliate_link != blank -%}
+          <span class="trg-bch-cta__note">
+            Affiliate link · <a href="/pages/affiliate-disclosure">Disclosure</a>
+          </span>
+        {%- endif -%}
+      </div>
+
+    </div>
+  </div>
+
+  {%- comment -%} ════ BRAND CONTEXT STRIP ════ {%- endcomment -%}
+  {%- assign has_description = false -%}
+  {%- assign has_known_for = false -%}
+  {%- assign has_facts = false -%}
+  {%- if brand.description != blank -%}{%- assign has_description = true -%}{%- endif -%}
+  {%- if brand.known_for_materials != blank or brand.known_for_best_for != blank -%}{%- assign has_known_for = true -%}{%- endif -%}
+  {%- if brand.price_range != blank or brand.made_in != blank or brand.primary_category != blank or brand.returns_window != blank -%}{%- assign has_facts = true -%}{%- endif -%}
+
+  {%- if has_description or has_known_for or has_facts -%}
+  <div class="trg-bch-context trg-bch-reveal-1">
+    <div class="trg-bch-context__inner">
+
+      {%- comment -%} Left: Description + Known For {%- endcomment -%}
+      <div class="trg-bch-editorial">
+        {%- if has_description -%}
+          <p class="trg-bch-description">{{ brand.description }}</p>
+        {%- endif -%}
+
+        {%- if has_known_for -%}
+          <div class="trg-bch-known">
+            <span class="trg-bch-known__label">Known for</span>
+            {%- if brand.known_for_materials != blank -%}
+              {%- assign materials = brand.known_for_materials | split: ',' -%}
+              {%- for mat in materials -%}
+                <span class="trg-bch-known__tag trg-bch-known__tag--material">{{ mat | strip }}</span>
+              {%- endfor -%}
+            {%- endif -%}
+            {%- if brand.known_for_best_for != blank -%}
+              {%- assign best_for = brand.known_for_best_for | split: ',' -%}
+              {%- for item in best_for -%}
+                <span class="trg-bch-known__tag">{{ item | strip }}</span>
+              {%- endfor -%}
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+      {%- comment -%} Right: Quick Facts {%- endcomment -%}
+      {%- if has_facts -%}
+      <div class="trg-bch-facts">
+        {%- if brand.price_range != blank -%}
+          <div class="trg-bch-fact">
+            <span class="trg-bch-fact__label">Price Range</span>
+            <span class="trg-bch-fact__value">{{ brand.price_range }}</span>
+          </div>
+        {%- endif -%}
+        {%- if brand.made_in != blank -%}
+          <div class="trg-bch-fact">
+            <span class="trg-bch-fact__label">Made In</span>
+            <span class="trg-bch-fact__value">{{ brand.made_in }}</span>
+          </div>
+        {%- endif -%}
+        {%- if brand.primary_category != blank -%}
+          <div class="trg-bch-fact">
+            <span class="trg-bch-fact__label">Category</span>
+            <span class="trg-bch-fact__value">{{ brand.primary_category }}</span>
+          </div>
+        {%- endif -%}
+        {%- if brand.returns_window != blank -%}
+          <div class="trg-bch-fact">
+            <span class="trg-bch-fact__label">Returns</span>
+            <span class="trg-bch-fact__value trg-bch-fact__value--green">{{ brand.returns_window }}</span>
+          </div>
+        {%- endif -%}
+      </div>
+      {%- endif -%}
+
+    </div>
+  </div>
+  {%- endif -%}
+
+  {%- comment -%} ════ CANADA ACCORDION (geo-aware) ════ {%- endcomment -%}
+  {%- if brand.ships_to_canada == 'Yes' -%}
+  <div class="trg-bch-canada">
+    <div class="trg-bch-canada__inner">
+      <button
+        class="trg-bch-canada__toggle"
+        aria-expanded="false"
+        onclick="this.setAttribute('aria-expanded',this.getAttribute('aria-expanded')==='true'?'false':'true');this.nextElementSibling.classList.toggle('is-open');"
+      >
+        <div class="trg-bch-canada__toggle-left">
+          <span class="trg-bch-canada__flag">🍁</span>
+          <span class="trg-bch-canada__toggle-label">Shipping to Canada</span>
+          <span class="trg-bch-canada__toggle-summary">
+            —
+            {%- if brand.ddp_duties == 'Yes' %} Duties included{%- endif -%}
+            {%- if brand.free_shipping_ca_threshold != blank %} · Free over {{ brand.free_shipping_ca_threshold }}{%- endif -%}
+          </span>
+        </div>
+        <svg class="trg-bch-canada__chevron" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <div class="trg-bch-canada__body">
+        <div class="trg-bch-canada__grid">
+          <div>
+            <div class="trg-bch-canada__item-label">Duties & Taxes</div>
+            <div class="trg-bch-canada__item-value{% if brand.ddp_duties == 'Yes' %} trg-bch-canada__item-value--good{% endif %}">
+              {%- if brand.ddp_duties == 'Yes' -%}Included (DDP){%- else -%}Buyer pays at border{%- endif -%}
+            </div>
+          </div>
+          {%- if brand.free_shipping_ca_threshold != blank -%}
+          <div>
+            <div class="trg-bch-canada__item-label">Free Shipping</div>
+            <div class="trg-bch-canada__item-value">Over {{ brand.free_shipping_ca_threshold }}</div>
+          </div>
+          {%- endif -%}
+          {%- if brand.best_retailer_ca != blank -%}
+          <div>
+            <div class="trg-bch-canada__item-label">Best CA Retailer</div>
+            <div class="trg-bch-canada__item-value">{{ brand.best_retailer_ca }}</div>
+          </div>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+  {%- endif -%}
+
+</div>
+
+{% schema %}
+{
+  "name": "Brand Collection Header",
+  "tag": "section",
+  "class": "trg-bch-section",
+  "settings": []
+}
+{% endschema %}
