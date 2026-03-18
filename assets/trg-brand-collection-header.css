@@ -497,3 +497,18 @@ body[data-region="CA"] .trg-bch-badge--ddp { display: inline-flex; }
   .trg-bch-similar { padding: 1.5rem 1rem 2rem; }
   .trg-bch-similar__grid { grid-template-columns: 1fr 1fr; gap: 0.75rem; }
 }
+
+/* ─── SECTION ORDER FIX ───
+   Shopify caches template section order per-collection.
+   Use CSS flexbox to visually reorder: search bar → brand header → grid.
+   ─────────────────────────── */
+main[data-template="collection.brand"] {
+  display: flex;
+  flex-direction: column;
+}
+main[data-template="collection.brand"] > .trg-search-bar-wrapper {
+  order: -2;
+}
+main[data-template="collection.brand"] > .trg-bch-section {
+  order: -1;
+}
