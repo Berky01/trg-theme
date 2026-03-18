@@ -517,9 +517,7 @@ function boot(){
   /* ── NUKE: Hide ALL old search/chips/count elements ── */
   var oldSearch=document.getElementById('trg-mob-bsearch');
   if(oldSearch)oldSearch.style.display='none';
-  /* Remove any JS-created search wrapper */
-  var v3wrap=document.getElementById('trg-v3-search-wrap');
-  if(v3wrap)v3wrap.remove();
+
   var oldChips=document.getElementById('trg-mob-bchips');
   if(oldChips)oldChips.style.display='none';
   var oldCount=document.getElementById('trg-mob-bcount');
@@ -529,7 +527,8 @@ function boot(){
   var wrapper=document.createElement('div');
   wrapper.id='trg-v3-controls';
   wrapper.innerHTML=
-    '<div id="trg-v3-chips" style="display:flex;gap:.35rem;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:.6rem 1.25rem .4rem"></div>'
+    '<div style="padding:.75rem 1.25rem .25rem"><button id="trg-v3-search-tap" type="button" style="display:flex;align-items:center;gap:.6rem;width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:.6rem .75rem;cursor:pointer;-webkit-tap-highlight-color:transparent"><svg width="16" height="16" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"rgba(245,241,235,.3)\" stroke-width=\"2\" stroke-linecap=\"round\"><circle cx=\"11\" cy=\"11\" r=\"7\"/><line x1=\"16.5\" y1=\"16.5\" x2=\"21\" y2=\"21\"/></svg><span style=\"font-family:DM Sans,sans-serif;font-size:.82rem;color:rgba(245,241,235,.3);font-style:italic\">Search 468 brands\u2026</span></button></div>'
+    +'<div id="trg-v3-chips" style="display:flex;gap:.35rem;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:.6rem 1.25rem .4rem"></div>'
     +'<div id="trg-v3-count" style="font-size:.62rem;color:rgba(245,241,235,.3);letter-spacing:.03em;padding:.5rem 1.25rem .6rem;border-bottom:1px solid rgba(245,241,235,.08)"></div>';
 
   /* Insert at the top of the brands tab content */
@@ -555,36 +554,79 @@ function boot(){
     chipBox.appendChild(btn);
   });
 
-  /* Bind fixed search input (lives OUTSIDE scroll container in Liquid HTML) */
-  var fixedSearch=document.getElementById('trg-mob-fixed-search');
-  var sInput=document.getElementById('trg-mob-fixed-input');
-  var sClear=document.getElementById('trg-mob-fixed-clear');
-  
-  /* Show fixed search when brands tab is active */
-  function updateFixedSearch(){
-    var brandsOn=document.getElementById('trg-mob-tc-brands');
-    if(fixedSearch)fixedSearch.style.display=(brandsOn&&brandsOn.classList.contains('on'))?'block':'none';
+  /* Search float panel — lives OUTSIDE .trg-mob-drawer (no transform) */
+  var floatPanel=document.getElementById('trg-mob-search-float');
+  var floatInput=document.getElementById('trg-mob-search-input');
+  var floatClear=document.getElementById('trg-mob-search-clear');
+  var floatBack=document.getElementById('trg-mob-search-back');
+  var floatResults=document.getElementById('trg-mob-search-results');
+
+  function openSearch(){
+    if(!floatPanel)return;
+    floatPanel.style.display='flex';
+    floatPanel.style.flexDirection='column';
+    floatPanel.style.position='fixed';
+    floatPanel.style.inset='0';
+    if(floatInput)floatInput.focus();
   }
-  updateFixedSearch();
-  
-  /* Watch for tab switches */
-  document.querySelectorAll('.trg-mob-tab').forEach(function(tab){
-    tab.addEventListener('click',function(){setTimeout(updateFixedSearch,50)});
-  });
-  
-  if(sInput){
-    sInput.addEventListener('input',function(){
-      mQ=sInput.value.trim().toLowerCase();
-      if(sClear)sClear.style.display=mQ?'block':'none';
+  function closeSearch(){
+    if(!floatPanel)return;
+    floatPanel.style.display='none';
+    if(floatInput)floatInput.blur();
+  }
+  function renderSearchResults(){
+    if(!floatResults)return;
+    var q=floatInput?floatInput.value.trim().toLowerCase():'';
+    mQ=q;
+    if(!q){floatResults.innerHTML='<div style="padding:1.5rem 1.25rem;font-size:.78rem;color:rgba(245,241,235,.3);font-style:italic">Type to search brands…</div>';dr();return}
+    var matches=AB.filter(function(b){return b.n.toLowerCase().indexOf(q)!==-1});
+    matches.sort(function(a,b){return a.n.replace(/^[^a-zA-Z0-9]+/,'').localeCompare(b.n.replace(/^[^a-zA-Z0-9]+/,''),'en',{sensitivity:'base'})});
+    if(!matches.length){floatResults.innerHTML='<div style="padding:2rem 1.25rem;text-align:center;font-size:.8rem;color:rgba(245,241,235,.3);font-style:italic">No brands matching “'+esc(floatInput.value.trim())+'”</div>';dr();return}
+    var h='<div style="padding:.5rem 1.25rem .3rem;font-size:.62rem;color:rgba(245,241,235,.3)"><strong style="color:rgba(196,86,42,.8)">'+matches.length+'</strong> result'+(matches.length!==1?'s':'')+'</div><div style="padding:0 1.25rem">';
+    matches.forEach(function(b){
+      var isPick=b.p==='h';
+      h+='<a href="/pages/brands/'+b.s+'" style="display:flex;align-items:center;justify-content:space-between;min-height:44px;padding:.35rem 0;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.04)">';
+      h+='<span style="font-size:.8rem;color:rgba(245,241,235,.92)">'+hl(b.n,q)+'</span>';
+      if(isPick)h+='<span style="width:5px;height:5px;border-radius:50%;background:#c4562a;opacity:.6;flex-shrink:0"></span>';
+      h+='</a>';
+    });
+    h+='</div>';
+    floatResults.innerHTML=h;
+    dr();
+  }
+
+  if(floatInput){
+    floatInput.addEventListener('input',renderSearchResults);
+  }
+  if(floatClear){
+    floatClear.addEventListener('click',function(e){
+      e.preventDefault();
+      if(floatInput){floatInput.value='';floatInput.focus()}
+      floatClear.style.display='none';
+      renderSearchResults();
+    });
+  }
+  if(floatInput){
+    floatInput.addEventListener('input',function(){
+      if(floatClear)floatClear.style.display=floatInput.value?'block':'none';
+    });
+  }
+  if(floatBack){
+    floatBack.addEventListener('click',function(e){
+      e.preventDefault();
+      /* Apply search to main brands list too */
+      mQ=floatInput?floatInput.value.trim().toLowerCase():'';
+      closeSearch();
       dr();
     });
   }
-  if(sClear){
-    sClear.addEventListener('click',function(e){
+
+  /* Search tap target → opens float panel */
+  var searchTap=document.getElementById('trg-v3-search-tap');
+  if(searchTap){
+    searchTap.addEventListener('click',function(e){
       e.preventDefault();e.stopPropagation();
-      if(sInput){sInput.value='';sInput.focus()}
-      sClear.style.display='none';
-      mQ='';dr();
+      openSearch();
     });
   }
 
