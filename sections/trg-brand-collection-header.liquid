@@ -46,7 +46,7 @@
           </div>
 
           {%- if brand.description != blank -%}
-            <p class="trg-bch-description">{{ brand.description }}</p>
+            <p class="trg-bch-description">{{ brand.description | truncate: 300 }}</p>
           {%- endif -%}
 
           {%- if brand.known_for_materials != blank or brand.known_for_best_for != blank -%}

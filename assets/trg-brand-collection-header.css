@@ -89,8 +89,7 @@ body[data-region="CA"] .trg-bch-badge--ddp { display: inline-flex; }
 
 .trg-bch-description {
   font-size: 0.85rem; font-weight: 300; color: var(--bch-ink);
-  line-height: 1.65; max-width: 580px;
-  margin: 0 0 0.85rem; opacity: 0.75;
+  line-height: 1.65; margin: 0 0 0.85rem; opacity: 0.75;
 }
 
 .trg-bch-known {
