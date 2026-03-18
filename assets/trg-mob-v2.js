@@ -573,6 +573,31 @@ function boot(){
     sx.style.display='none';
     mQ='';dr();
   });
+  /* Force focus: tap anywhere on the search bar area focuses the input */
+  var searchWrap=si.closest('div').parentNode;
+  searchWrap.addEventListener('touchend',function(e){
+    e.preventDefault();e.stopPropagation();
+    si.focus();
+    /* Ensure keyboard opens on iOS */
+    si.click();
+  });
+  searchWrap.addEventListener('click',function(e){
+    e.stopPropagation();
+    si.focus();
+  });
+  /* Prevent anything from stealing focus back */
+  si.addEventListener('touchstart',function(e){e.stopPropagation()},{capture:true});
+  si.addEventListener('touchend',function(e){e.stopPropagation()},{capture:true});
+  si.addEventListener('mousedown',function(e){e.stopPropagation()},{capture:true});
+  si.addEventListener('click',function(e){e.stopPropagation();si.focus()},{capture:true});
+  si.addEventListener('focus',function(){
+    searchWrap.querySelector('div').style.borderColor='rgba(196,86,42,.5)';
+    searchWrap.querySelector('svg').setAttribute('stroke','rgba(196,86,42,.7)');
+  });
+  si.addEventListener('blur',function(){
+    searchWrap.querySelector('div').style.borderColor='rgba(255,255,255,.1)';
+    searchWrap.querySelector('svg').setAttribute('stroke','rgba(245,241,235,.3)');
+  });
 
   /* Accordion */
   document.addEventListener('click',function(e){
