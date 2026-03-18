@@ -11,7 +11,7 @@
   <script type="application/json" data-brands-json>
     [
       {%- assign brand_output_count = 0 -%}
-      {%- paginate shop.metaobjects.brand.values by 500 -%}
+      {%- paginate shop.metaobjects.brand.values by 250 -%}
         {%- for brand in shop.metaobjects.brand.values -%}
           {%- assign name = brand.name.value | default: brand.name | default: brand.handle -%}
           {%- if name == blank -%}{%- continue -%}{%- endif -%}
