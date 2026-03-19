@@ -1,6 +1,6 @@
-/* TRG PDP overrides — v2 */
+/* TRG PDP overrides — v3 scoped */
 
-/* Price container: border separator */
+/* Price container: border separator — SCOPED to PDP only */
 .product-information .product-details product-price {
   display: block !important;
   padding-bottom: 1.25rem !important;
@@ -8,42 +8,24 @@
   margin-bottom: 0.75rem !important;
 }
 
-/* Price text: Playfair — override Dwell h6 type preset */
-/* Dwell uses type_preset: h6 on product-price which sets --font-h6--family: DM Sans */
-.product-information .product-details product-price.h6,
-.product-information .product-details product-price.h6 .price,
-.product-information .product-details product-price .price,
-.product-information .product-details product-price span.price,
-.product-information .product-details .text-block.h6 .price,
-.product-information .product-details .text-block.h6 span,
-product-price.h6 .price,
-product-price.h6 span.price {
-  font-family: 'Playfair Display', serif !important;
-  font-size: 1.5rem !important;
-  font-weight: 600 !important;
-  color: #1a1a18 !important;
-  text-transform: none !important;
-  letter-spacing: 0.01em !important;
-}
-
-/* Override the CSS custom property that h6 preset uses */
-.product-information .product-details product-price {
-  --font-h6--family: 'Playfair Display', serif !important;
-  --font-h6--size: 1.5rem !important;
-  --font-h6--weight: 600 !important;
-  --font-h6--case: none !important;
-  --font-size--h6: 1.5rem !important;
-  font-family: 'Playfair Display', serif !important;
-  font-size: 1.5rem !important;
-}
-
-/* Also override the type-preset mixin output */
+/* Price text: Playfair — SCOPED to PDP only */
 .product-information .product-details product-price,
 .product-information .product-details product-price * {
   font-family: 'Playfair Display', serif !important;
   font-size: 1.5rem !important;
   font-weight: 600 !important;
   text-transform: none !important;
+  letter-spacing: 0.01em !important;
+  color: #1a1a18 !important;
+}
+
+/* Override Dwell CSS variables on the PDP price only */
+.product-information .product-details product-price {
+  --font-h6--family: 'Playfair Display', serif !important;
+  --font-h6--size: 1.5rem !important;
+  --font-h6--weight: 600 !important;
+  --font-h6--case: none !important;
+  --font-size--h6: 1.5rem !important;
 }
 
 /* Column gap */
@@ -57,6 +39,6 @@ product-price.h6 span.price {
 }
 
 /* No image border */
-.product-information__media {
+.product-information .product-information__media {
   border: none !important;
 }
