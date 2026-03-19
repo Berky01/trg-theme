@@ -1,43 +1,19 @@
-/* TRG PDP overrides — v5 (compactness pass) */
+/* TRG PDP overrides — v6 */
 
 /* Price border separator */
 .product-information .product-details product-price {
   border-bottom: 1px solid #ddd8cf !important;
-  padding-bottom: 1rem !important;
-  margin-bottom: 0.25rem !important;
+  padding-bottom: 0.75rem !important;
+  margin-bottom: 0 !important;
 }
 
-/* Size chips — smaller, tighter to match mockup */
+/* Size chips — match mockup: smaller, 2px radius */
 .product-information .variant-option__button-label {
-  min-width: 40px !important;
-  min-height: 40px !important;
-  padding: 0.35rem 0.5rem !important;
-  font-size: 0.8rem !important;
+  min-width: 38px !important;
+  min-height: 38px !important;
+  padding: 0.3rem 0.5rem !important;
+  font-size: 0.82rem !important;
   border-radius: 2px !important;
-}
-
-/* Meta grid — tighter spacing */
-.product-information .product-details [class*="trg-product-meta"],
-.product-information .product-details .trg-meta-grid {
-  padding-block: 0.75rem !important;
-  gap: 0.5rem 0.75rem !important;
-}
-
-/* Accordion — compact headers */
-.product-information .product-details accordion-component summary,
-.product-information .product-details .accordion-trigger,
-.product-information .product-details details summary {
-  padding-block: 0.75rem !important;
-}
-
-/* Column gap between image and info */
-@media screen and (min-width: 750px) {
-  .product-information .product-information__grid > .product-information__media {
-    padding-inline-end: 1rem !important;
-  }
-  .product-information .product-information__grid > .product-details {
-    padding-inline-start: 1rem !important;
-  }
 }
 
 /* No image border */
