@@ -1,22 +1,36 @@
-/* TRG PDP overrides — v6 */
+/* TRG PDP overrides — v7 CLEAN (works with Dwell subgrid) */
 
-/* Price border separator */
+/* ── Gap between image and info columns ── */
+/* Dwell --half grid has 4 cols: margin|50%|50%|margin with 0 column-gap */
+/* Override column-gap on the 4-col grid. Dwell margins absorb the adjustment. */
+@media screen and (min-width: 750px) {
+  .product-information__grid.product-information__grid--half {
+    column-gap: 2rem !important;
+  }
+}
+
+/* ── Constrain page width so image isn't massive ── */
+.product-information.section {
+  --normal-page-width: 82rem !important;
+}
+
+/* ── Price: Playfair + border separator ── */
 .product-information .product-details product-price {
   border-bottom: 1px solid #ddd8cf !important;
   padding-bottom: 0.75rem !important;
   margin-bottom: 0 !important;
 }
 
-/* Size chips — match mockup: smaller, 2px radius */
+/* ── No image border ── */
+.product-information .product-information__media {
+  border: none !important;
+}
+
+/* ── Size chips: smaller ── */
 .product-information .variant-option__button-label {
   min-width: 38px !important;
   min-height: 38px !important;
   padding: 0.3rem 0.5rem !important;
   font-size: 0.82rem !important;
   border-radius: 2px !important;
-}
-
-/* No image border */
-.product-information .product-information__media {
-  border: none !important;
 }
