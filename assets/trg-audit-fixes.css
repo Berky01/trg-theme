@@ -586,17 +586,7 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
 }
 
 
-/* ─── PDP: Visual gap between image and info columns ─── */
-/* Dwell grid uses column-gap: 0. We add padding to create a 32px visual gap. */
-@media screen and (min-width: 750px) {
-  .product-information .product-information__grid > .product-information__media {
-    padding-inline-end: 1rem !important;
-  }
-  
-  .product-information .product-information__grid > .product-details {
-    padding-inline-start: 1rem !important;
-  }
-}
+/* ─── PDP: Column gap handled by Dwell grid natively ─── */
 
 /* ─── PDP: Space between product section and brand strip ─── */
 .product-information.section-page-width {
