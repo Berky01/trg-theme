@@ -1,8 +1,33 @@
-/* TRG PDP overrides — v4 (blocks handle fonts, CSS handles borders/spacing) */
+/* TRG PDP overrides — v5 (compactness pass) */
 
-/* Price border separator — can't do this via block settings */
+/* Price border separator */
 .product-information .product-details product-price {
   border-bottom: 1px solid #ddd8cf !important;
+  padding-bottom: 1rem !important;
+  margin-bottom: 0.25rem !important;
+}
+
+/* Size chips — smaller, tighter to match mockup */
+.product-information .variant-option__button-label {
+  min-width: 40px !important;
+  min-height: 40px !important;
+  padding: 0.35rem 0.5rem !important;
+  font-size: 0.8rem !important;
+  border-radius: 2px !important;
+}
+
+/* Meta grid — tighter spacing */
+.product-information .product-details [class*="trg-product-meta"],
+.product-information .product-details .trg-meta-grid {
+  padding-block: 0.75rem !important;
+  gap: 0.5rem 0.75rem !important;
+}
+
+/* Accordion — compact headers */
+.product-information .product-details accordion-component summary,
+.product-information .product-details .accordion-trigger,
+.product-information .product-details details summary {
+  padding-block: 0.75rem !important;
 }
 
 /* Column gap between image and info */
