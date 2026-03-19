@@ -90,7 +90,7 @@
   <div
     class="{{ product_grid_class }}"
     data-product-grid-content
-    {% if settings.equal_columns %}style="display: grid !important; grid-template-columns: 55fr 45fr !important; grid-column: 2 !important; column-gap: 2rem !important;"{% endif %}
+    style="grid-template-columns: 55fr 45fr; column-gap: 2rem;"
   >
     {% assign render_order_array = render_order | split: ',' %}
     {% capture media %}
