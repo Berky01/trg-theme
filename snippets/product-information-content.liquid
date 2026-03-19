@@ -90,7 +90,7 @@
   <div
     class="{{ product_grid_class }}"
     data-product-grid-content
-    style="grid-template-columns: 1fr 1fr; column-gap: 2rem;"
+    style="grid-template-columns: 1fr 1fr; column-gap: 2rem; max-width: 1100px; margin: 0 auto;"
   >
     {% assign render_order_array = render_order | split: ',' %}
     {% capture media %}
