@@ -1,0 +1,1027 @@
+{%- liquid
+  comment
+    ═══════════════════════════════════════════════════════════════════
+    TRG PRODUCT PDP — Self-contained section (v3)
+    Replaces Dwell's product-information section for full design control
+    ═══════════════════════════════════════════════════════════════════
+  endcomment
+
+  assign p = product
+
+  if request.visual_preview_mode and p == blank
+    assign p = collections.all.products.first
+  endif
+
+  assign vendor_name = p.vendor | default: 'Brand'
+  assign brand_handle = vendor_name | handleize
+  assign brand_meta = shop.metaobjects.brand[brand_handle]
+  if brand_meta == blank
+    assign alt_name = vendor_name | replace: '&', 'and'
+    assign alt_handle = alt_name | handleize
+    assign brand_meta = shop.metaobjects.brand[alt_handle]
+    if brand_meta != blank
+      assign brand_handle = alt_handle
+    endif
+  endif
+  assign brand_url = '/collections/' | append: brand_handle
+
+  assign buy_path = p.metafields.trg.buy_path.value | default: p.metafields.trg.buy_path | default: 'Direct' | strip
+  assign buy_path_normalized = buy_path | downcase
+
+  assign buy_url_us = p.metafields.trg.buy_url.value | default: p.metafields.trg.buy_url
+  assign buy_url_us = buy_url_us | default: p.metafields.trg.affiliate_link.value | default: p.metafields.trg.affiliate_link
+  assign buy_url_ca = p.metafields.trg.buy_url_ca.value | default: p.metafields.trg.buy_url_ca | default: buy_url_us
+
+  assign retailer_name_us = p.metafields.trg.retailer_name_us.value | default: p.metafields.trg.retailer_name_us
+  assign retailer_url_us  = p.metafields.trg.retailer_url_us.value  | default: p.metafields.trg.retailer_url_us
+  assign retailer_name_ca = p.metafields.trg.retailer_name_ca.value | default: p.metafields.trg.retailer_name_ca
+  assign retailer_url_ca  = p.metafields.trg.retailer_url_ca.value  | default: p.metafields.trg.retailer_url_ca
+
+  assign eff_retailer_name_ca = retailer_name_ca
+  assign eff_retailer_url_ca  = retailer_url_ca
+  if eff_retailer_url_ca == blank
+    assign eff_retailer_name_ca = retailer_name_us
+    assign eff_retailer_url_ca  = retailer_url_us
+  endif
+
+  assign is_direct   = false
+  assign is_both     = false
+  assign is_reseller = false
+  if buy_path_normalized == 'both'
+    assign is_both = true
+  elsif buy_path_normalized contains 'reseller'
+    assign is_reseller = true
+  else
+    assign is_direct = true
+  endif
+
+  assign material   = p.metafields.trg.material_type
+  assign made_in    = p.metafields.trg.made_in_country
+  assign style_aes  = p.metafields.trg.style_aesthetic
+  assign season     = p.metafields.trg.season
+  assign price_rng  = p.metafields.trg.price_range
+
+  assign made_in_str = made_in | downcase
+  assign is_na = false
+  if made_in_str contains 'usa' or made_in_str contains 'united states' or made_in_str contains 'canada' or made_in_str contains 'mexico'
+    assign is_na = true
+  endif
+
+  assign ships_raw = p.metafields.trg.ships_to_canada.value | default: p.metafields.trg.ships_to_canada
+  assign ships_to_ca = false
+  if ships_raw == 'Yes' or ships_raw == 'yes' or ships_raw == true
+    assign ships_to_ca = true
+  endif
+  assign duties_raw = p.metafields.trg.ca_duties_apply.value | default: p.metafields.trg.ca_duties_apply
+  assign duties_apply = false
+  if duties_raw == 'Yes' or duties_raw == 'yes' or duties_raw == true
+    assign duties_apply = true
+  endif
+  assign returns_window = p.metafields.trg.returns_window.value | default: p.metafields.trg.returns_window
+
+  assign price_cents = p.price
+  assign price_dollars = price_cents | divided_by: 100
+  assign price_remainder = price_cents | modulo: 100
+
+  assign bc_collection = nil
+  for col in p.collections
+    if col.handle != 'all' and col.handle != 'frontpage'
+      assign bc_collection = col
+      break
+    endif
+  endfor
+-%}
+
+{% if p != blank %}
+{%- comment -%} ═══ BREADCRUMB ═══ {%- endcomment -%}
+<nav class="trg-pdp-bc" aria-label="Breadcrumb">
+  <div class="trg-pdp-bc__inner">
+    <a href="/">Home</a>
+    <span class="trg-pdp-bc__sep" aria-hidden="true">›</span>
+    <a href="/collections/all">Products</a>
+    {%- if bc_collection -%}
+      <span class="trg-pdp-bc__sep" aria-hidden="true">›</span>
+      <a href="{{ bc_collection.url }}">{{ bc_collection.title }}</a>
+    {%- endif -%}
+    <span class="trg-pdp-bc__sep" aria-hidden="true">›</span>
+    <span class="trg-pdp-bc__current">{{ p.title }}</span>
+  </div>
+</nav>
+
+{%- comment -%} ═══ MAIN 55/45 GRID ═══ {%- endcomment -%}
+<div class="trg-pdp" {{ section.shopify_attributes }}>
+
+  {%- comment -%} ── GALLERY ── {%- endcomment -%}
+  <div class="trg-pdp__gallery">
+    <div class="trg-pdp__gallery-main" id="trg-gallery-main">
+      {%- if p.featured_media -%}
+        <img
+          src="{{ p.featured_media | image_url: width: 900 }}"
+          alt="{{ p.featured_media.alt | default: p.title | escape }}"
+          width="{{ p.featured_media.width }}"
+          height="{{ p.featured_media.height }}"
+          loading="eager"
+          id="trg-gallery-img"
+        >
+      {%- else -%}
+        <div class="trg-pdp__gallery-placeholder" id="trg-gallery-img">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="m3 9 5-5 4 4 3-3 6 6"/><circle cx="8.5" cy="8.5" r="1.5"/></svg>
+          <span>Product Image</span>
+        </div>
+      {%- endif -%}
+    </div>
+    {%- if p.media.size > 1 -%}
+      <div class="trg-pdp__thumbs">
+        {%- for media in p.media -%}
+          <button
+            class="trg-pdp__thumb{% if forloop.first %} active{% endif %}"
+            data-src="{{ media | image_url: width: 900 }}"
+            data-alt="{{ media.alt | default: p.title | escape }}"
+            type="button"
+          >
+            <img src="{{ media | image_url: width: 160 }}" alt="" loading="lazy">
+          </button>
+        {%- endfor -%}
+      </div>
+    {%- else -%}
+      <div class="trg-pdp__thumbs">
+        <div class="trg-pdp__thumb active"><div class="trg-pdp__thumb-ph">Front</div></div>
+        <div class="trg-pdp__thumb"><div class="trg-pdp__thumb-ph">Back</div></div>
+        <div class="trg-pdp__thumb"><div class="trg-pdp__thumb-ph">Detail</div></div>
+        <div class="trg-pdp__thumb"><div class="trg-pdp__thumb-ph">On Model</div></div>
+      </div>
+    {%- endif -%}
+  </div>
+
+  {%- comment -%} ── INFO COLUMN ── {%- endcomment -%}
+  <div class="trg-pdp__info">
+
+    {%- comment -%} Brand link with arrow {%- endcomment -%}
+    <a class="trg-pdp__brand-link" href="{{ brand_url }}">
+      {{ vendor_name | escape }}
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+    </a>
+
+    {%- comment -%} Title {%- endcomment -%}
+    <h1 class="trg-pdp__title">{{ p.title }}</h1>
+
+    {%- comment -%} Price {%- endcomment -%}
+    <div class="trg-pdp__price-row">
+      <span class="trg-pdp__price">${{ price_dollars }}{%- if price_remainder > 0 -%}.{{ price_remainder | prepend: '00' | slice: -2, 2 }}{%- endif -%}</span>
+      <span class="trg-pdp__price-ca">~CA${{ price_dollars | times: 137 | divided_by: 100 }}</span>
+      <span class="trg-pdp__price-ca-badge">CA Estimate</span>
+    </div>
+
+    {%- comment -%} Variant picker (size chips) {%- endcomment -%}
+    {%- if p.has_only_default_variant == false -%}
+      {%- for option in p.options_with_values -%}
+        <div class="trg-pdp__selector">
+          <div class="trg-pdp__selector-label">{{ option.name }}</div>
+          <div class="trg-pdp__chips">
+            {%- for val in option.values -%}
+              <button
+                class="trg-pdp__chip{% if forloop.first %} active{% endif %}"
+                type="button"
+                data-option-index="{{ forloop.parentloop.index0 }}"
+                data-value="{{ val | escape }}"
+              >{{ val }}</button>
+            {%- endfor -%}
+          </div>
+        </div>
+      {%- endfor -%}
+    {%- endif -%}
+
+    {%- comment -%} ═══ CTA SECTION ═══ {%- endcomment -%}
+    <div class="trg-pdp__cta-section">
+
+      {%- comment -%} ── US MARKET ── {%- endcomment -%}
+      <div class="trg-pdp__market trg-pdp__market--us">
+
+        {%- if is_direct and buy_url_us != blank -%}
+          <a href="{{ buy_url_us }}" target="_blank" rel="noopener sponsored" class="trg-pdp__btn-primary">
+            Buy at {{ vendor_name | escape }}
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </a>
+        {%- endif -%}
+
+        {%- if is_both -%}
+          {%- if buy_url_us != blank -%}
+            <a href="{{ buy_url_us }}" target="_blank" rel="noopener sponsored" class="trg-pdp__btn-primary">
+              Buy at {{ vendor_name | escape }}
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
+          {%- endif -%}
+          {%- if retailer_name_us != blank and retailer_url_us != blank -%}
+            <div class="trg-pdp__cta-divider">Also sold at</div>
+            <a href="{{ retailer_url_us }}" target="_blank" rel="noopener sponsored" class="trg-pdp__btn-secondary">
+              Buy at {{ retailer_name_us | escape }}
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
+          {%- endif -%}
+        {%- endif -%}
+
+        {%- if is_reseller and retailer_name_us != blank and retailer_url_us != blank -%}
+          <a href="{{ retailer_url_us }}" target="_blank" rel="noopener sponsored" class="trg-pdp__btn-primary" style="background:#1a1a18;">
+            Buy at {{ retailer_name_us | escape }}
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </a>
+        {%- endif -%}
+
+        {%- comment -%} Fallback if no URL at all {%- endcomment -%}
+        {%- if is_direct and buy_url_us == blank -%}
+          {%- if is_both == false and is_reseller == false -%}
+            <p class="trg-pdp__no-link">No direct link available — search <strong>{{ p.title | escape }}</strong> at your preferred retailer.</p>
+          {%- endif -%}
+        {%- endif -%}
+      </div>
+
+      {%- comment -%} ── CA MARKET ── {%- endcomment -%}
+      <div class="trg-pdp__market trg-pdp__market--ca">
+
+        {%- if is_direct and buy_url_ca != blank -%}
+          <a href="{{ buy_url_ca }}" target="_blank" rel="noopener sponsored" class="trg-pdp__btn-primary">
+            Buy at {{ vendor_name | escape }}
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </a>
+          <p class="trg-pdp__ca-note">Ships directly to Canada. Duties may apply at checkout.</p>
+        {%- endif -%}
+
+        {%- if is_both -%}
+          {%- if buy_url_ca != blank -%}
+            <a href="{{ buy_url_ca }}" target="_blank" rel="noopener sponsored" class="trg-pdp__btn-primary">
+              Buy at {{ vendor_name | escape }}
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
+          {%- endif -%}
+          {%- if eff_retailer_url_ca != blank -%}
+            <div class="trg-pdp__cta-divider">Also sold at</div>
+            <a href="{{ eff_retailer_url_ca }}" target="_blank" rel="noopener sponsored" class="trg-pdp__btn-secondary">
+              Buy at {{ eff_retailer_name_ca | escape }}
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
+          {%- endif -%}
+          <p class="trg-pdp__ca-note">Ships to Canada via retailer. Duties may apply at delivery.</p>
+        {%- endif -%}
+
+        {%- if is_reseller and eff_retailer_url_ca != blank -%}
+          <a href="{{ eff_retailer_url_ca }}" target="_blank" rel="noopener sponsored" class="trg-pdp__btn-primary" style="background:#1a1a18;">
+            Buy at {{ eff_retailer_name_ca | escape }}
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </a>
+          <p class="trg-pdp__ca-note">Ships to Canada via {{ eff_retailer_name_ca | escape }}. Duties may apply at delivery.</p>
+        {%- endif -%}
+      </div>
+
+    </div>
+
+    <p class="trg-pdp__disclosure">Affiliate link — TRG may earn a commission at no extra cost to you</p>
+
+    {%- comment -%} Wishlist {%- endcomment -%}
+    <button
+      class="trg-pdp__wishlist"
+      id="trg-pdp-wishlist"
+      type="button"
+      data-product="{{ p.handle }}"
+      onclick="window.trgToggleWishlist && window.trgToggleWishlist(this)"
+    >
+      <svg class="trg-pdp__wishlist-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      <span class="trg-pdp__wishlist-text">Save to Wishlist</span>
+    </button>
+
+    {%- comment -%} ═══ CANADA STRIP ═══ (hidden default, body[data-region=CA] shows) {%- endcomment -%}
+    <div class="trg-pdp__canada" id="trg-canada-strip">
+      <button class="trg-pdp__canada-header" type="button" onclick="this.closest('.trg-pdp__canada').classList.toggle('open')">
+        <span class="trg-pdp__canada-title">
+          <span aria-hidden="true">🍁</span> Canadian Buyers
+        </span>
+        <svg class="trg-pdp__canada-chevron" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 15l-6-6-6 6"/></svg>
+      </button>
+      <div class="trg-pdp__canada-body">
+        {%- if ships_to_ca -%}
+          <div class="trg-pdp__canada-fact">
+            <svg class="trg-pdp__canada-icon--ok" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            <span><strong>Ships to Canada</strong> — direct from brand</span>
+          </div>
+        {%- else -%}
+          <div class="trg-pdp__canada-fact">
+            <svg class="trg-pdp__canada-icon--warn" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            <span><strong>Shipping to Canada</strong> — check retailer</span>
+          </div>
+        {%- endif -%}
+        {%- if duties_apply -%}
+          <div class="trg-pdp__canada-fact">
+            <svg class="trg-pdp__canada-icon--warn" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            <span><strong>Duties not prepaid</strong> — may apply at delivery</span>
+          </div>
+        {%- else -%}
+          <div class="trg-pdp__canada-fact">
+            <svg class="trg-pdp__canada-icon--ok" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            <span><strong>No duties</strong> — DDP, price is final</span>
+          </div>
+        {%- endif -%}
+        {%- if returns_window != blank -%}
+          <div class="trg-pdp__canada-fact">
+            <svg class="trg-pdp__canada-icon--ok" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            <span><strong>Returns:</strong> {{ returns_window }}</span>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+
+    {%- comment -%} ═══ META GRID ═══ {%- endcomment -%}
+    <div class="trg-pdp__meta">
+      {%- if material != blank -%}
+        <div class="trg-pdp__meta-item">
+          <span class="trg-pdp__meta-key">Material</span>
+          <span class="trg-pdp__meta-val">{{ material }}</span>
+        </div>
+      {%- endif -%}
+      {%- if made_in != blank -%}
+        <div class="trg-pdp__meta-item">
+          <span class="trg-pdp__meta-key">Made In</span>
+          <span class="trg-pdp__meta-val{% if is_na %} trg-pdp__meta-val--na{% endif %}">{{ made_in }}</span>
+        </div>
+      {%- endif -%}
+      {%- if style_aes != blank -%}
+        <div class="trg-pdp__meta-item">
+          <span class="trg-pdp__meta-key">Style</span>
+          <span class="trg-pdp__meta-val trg-pdp__meta-val--tag">{{ style_aes }}</span>
+        </div>
+      {%- endif -%}
+      {%- if season != blank -%}
+        <div class="trg-pdp__meta-item">
+          <span class="trg-pdp__meta-key">Season</span>
+          <span class="trg-pdp__meta-val">{{ season }}</span>
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} ═══ ACCORDION ═══ {%- endcomment -%}
+    <div class="trg-pdp__accordion">
+
+      <div class="trg-pdp__acc-item open">
+        <button class="trg-pdp__acc-trigger" type="button" onclick="this.closest('.trg-pdp__acc-item').classList.toggle('open')">
+          <span class="trg-pdp__acc-label">Details</span>
+          <svg class="trg-pdp__acc-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
+        </button>
+        <div class="trg-pdp__acc-body">
+          <ul>
+            {%- if style_aes != blank -%}<li>Style: {{ style_aes }}</li>{%- endif -%}
+            {%- if material != blank -%}<li>Material: {{ material }}</li>{%- endif -%}
+            {%- if made_in != blank -%}<li>Made in: {{ made_in }}</li>{%- endif -%}
+            {%- if season != blank -%}<li>Season: {{ season }}</li>{%- endif -%}
+          </ul>
+          {%- if p.description != blank -%}
+            <div class="trg-pdp__acc-desc">{{ p.description }}</div>
+          {%- endif -%}
+        </div>
+      </div>
+
+      <div class="trg-pdp__acc-item">
+        <button class="trg-pdp__acc-trigger" type="button" onclick="this.closest('.trg-pdp__acc-item').classList.toggle('open')">
+          <span class="trg-pdp__acc-label">Materials + Care</span>
+          <svg class="trg-pdp__acc-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
+        </button>
+        <div class="trg-pdp__acc-body">
+          Care instructions vary by product — check the brand's site for details.
+        </div>
+      </div>
+
+      <div class="trg-pdp__acc-item">
+        <button class="trg-pdp__acc-trigger" type="button" onclick="this.closest('.trg-pdp__acc-item').classList.toggle('open')">
+          <span class="trg-pdp__acc-label">Shipping + Returns</span>
+          <svg class="trg-pdp__acc-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
+        </button>
+        <div class="trg-pdp__acc-body">
+          Shipping policies vary by brand and retailer. Visit the brand's site for current rates and delivery times.
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{%- comment -%} ═══ INLINE JS ═══ {%- endcomment -%}
+<script>
+  /* Thumbnail switching */
+  document.querySelectorAll('.trg-pdp__thumb[data-src]').forEach(function(thumb) {
+    thumb.addEventListener('click', function() {
+      document.querySelectorAll('.trg-pdp__thumb').forEach(function(t) { t.classList.remove('active'); });
+      thumb.classList.add('active');
+      var img = document.getElementById('trg-gallery-img');
+      if (img && img.tagName === 'IMG') {
+        img.src = thumb.dataset.src;
+        img.alt = thumb.dataset.alt || '';
+      }
+    });
+  });
+
+  /* Size chip selection */
+  document.querySelectorAll('.trg-pdp__chip').forEach(function(chip) {
+    chip.addEventListener('click', function() {
+      var parent = chip.closest('.trg-pdp__chips');
+      parent.querySelectorAll('.trg-pdp__chip').forEach(function(c) { c.classList.remove('active'); });
+      chip.classList.add('active');
+    });
+  });
+</script>
+{% endif %}
+
+{% stylesheet %}
+  /* ═══════════════════════════════════════════════════════
+     TRG PDP v3 — Complete styles
+     ═══════════════════════════════════════════════════════ */
+
+  /* ── BREADCRUMB ── */
+  .trg-pdp-bc {
+    padding: 0.75rem 2rem;
+    border-bottom: 1px solid #ddd8cf;
+    background: #faf8f4;
+  }
+  .trg-pdp-bc__inner {
+    max-width: 1320px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.72rem;
+    color: #8a8478;
+  }
+  .trg-pdp-bc a {
+    color: #8a8478;
+    text-decoration: none;
+  }
+  .trg-pdp-bc a:hover {
+    color: #1a1a18;
+  }
+  .trg-pdp-bc__sep {
+    opacity: 0.4;
+  }
+  .trg-pdp-bc__current {
+    color: #1a1a18;
+    font-weight: 500;
+  }
+
+  /* ── MAIN LAYOUT — 55/45 split ── */
+  .trg-pdp {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 2rem 2rem 2.5rem;
+    display: grid;
+    grid-template-columns: 55fr 45fr;
+    gap: 2rem;
+  }
+
+  /* ── GALLERY ── */
+  .trg-pdp__gallery {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .trg-pdp__gallery-main {
+    aspect-ratio: 4/5;
+    background: #e8e3db;
+    border-radius: 3px;
+    overflow: hidden;
+    position: relative;
+  }
+  .trg-pdp__gallery-main img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .trg-pdp__gallery-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    color: #8a8478;
+  }
+  .trg-pdp__gallery-placeholder svg {
+    opacity: 0.3;
+  }
+  .trg-pdp__gallery-placeholder span {
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    opacity: 0.5;
+  }
+  .trg-pdp__thumbs {
+    display: flex;
+    gap: 0.5rem;
+  }
+  .trg-pdp__thumb {
+    width: 72px;
+    height: 90px;
+    background: #e8e3db;
+    border-radius: 2px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color 0.15s;
+    flex-shrink: 0;
+    padding: 0;
+  }
+  .trg-pdp__thumb.active {
+    border-color: #1a1a18;
+  }
+  .trg-pdp__thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .trg-pdp__thumb-ph {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #8a8478;
+    font-size: 0.55rem;
+    opacity: 0.4;
+    text-align: center;
+  }
+
+  /* ── INFO COLUMN ── */
+  .trg-pdp__info {
+    display: flex;
+    flex-direction: column;
+    padding-top: 0.25rem;
+  }
+
+  /* Brand link */
+  .trg-pdp__brand-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #c4562a;
+    text-decoration: none;
+    margin-bottom: 0.6rem;
+  }
+  .trg-pdp__brand-link:hover {
+    opacity: 0.75;
+  }
+  .trg-pdp__brand-link svg {
+    width: 10px;
+    height: 10px;
+  }
+
+  /* Title */
+  .trg-pdp__title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.75rem;
+    font-weight: 600;
+    line-height: 1.2;
+    color: #1a1a18;
+    margin: 0 0 0.5rem;
+  }
+
+  /* Price row */
+  .trg-pdp__price-row {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid #ddd8cf;
+  }
+  .trg-pdp__price {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1a1a18;
+  }
+  .trg-pdp__price-ca {
+    font-size: 0.8rem;
+    color: #8a8478;
+    font-weight: 400;
+    display: none;
+  }
+  body[data-region='CA'] .trg-pdp__price-ca,
+  body[data-region='ca'] .trg-pdp__price-ca {
+    display: inline;
+  }
+  .trg-pdp__price-ca-badge {
+    display: none;
+    align-items: center;
+    gap: 0.3rem;
+    background: rgba(212,41,26,0.06);
+    border: 1px solid rgba(212,41,26,0.15);
+    color: #d4291a;
+    border-radius: 2px;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.5rem;
+  }
+  body[data-region='CA'] .trg-pdp__price-ca-badge,
+  body[data-region='ca'] .trg-pdp__price-ca-badge {
+    display: flex;
+  }
+
+  /* Selector / size chips */
+  .trg-pdp__selector {
+    margin-bottom: 1.25rem;
+  }
+  .trg-pdp__selector-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #8a8478;
+    margin-bottom: 0.6rem;
+  }
+  .trg-pdp__chips {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+  }
+  .trg-pdp__chip {
+    min-width: 44px;
+    padding: 0.4rem 0.6rem;
+    text-align: center;
+    border: 1px solid #ddd8cf;
+    border-radius: 2px;
+    font-size: 0.78rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+    background: #ffffff;
+    color: #1a1a18;
+    font-family: inherit;
+  }
+  .trg-pdp__chip:hover {
+    border-color: #1a1a18;
+  }
+  .trg-pdp__chip.active {
+    background: #1a1a18;
+    color: #f5f1eb;
+    border-color: #1a1a18;
+  }
+
+  /* ── CTA SECTION ── */
+  .trg-pdp__cta-section {
+    margin-bottom: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  .trg-pdp__market {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  .trg-pdp__market--ca {
+    display: none;
+  }
+  body[data-region='CA'] .trg-pdp__market--us,
+  body[data-region='ca'] .trg-pdp__market--us {
+    display: none;
+  }
+  body[data-region='CA'] .trg-pdp__market--ca,
+  body[data-region='ca'] .trg-pdp__market--ca {
+    display: flex;
+  }
+
+  .trg-pdp__btn-primary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background: #c4562a;
+    color: #ffffff;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.95rem 1.5rem;
+    border-radius: 2px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s;
+    width: 100%;
+  }
+  .trg-pdp__btn-primary:hover {
+    background: #b34d24;
+    color: #ffffff;
+  }
+  .trg-pdp__btn-primary svg {
+    flex-shrink: 0;
+  }
+
+  .trg-pdp__btn-secondary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background: #ffffff;
+    color: #1a1a18;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.85rem 1.5rem;
+    border-radius: 2px;
+    cursor: pointer;
+    text-decoration: none;
+    border: 1px solid #ddd8cf;
+    transition: border-color 0.2s;
+    width: 100%;
+  }
+  .trg-pdp__btn-secondary:hover {
+    border-color: #1a1a18;
+    color: #1a1a18;
+  }
+
+  .trg-pdp__cta-divider {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.65rem;
+    color: #8a8478;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .trg-pdp__cta-divider::before,
+  .trg-pdp__cta-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #ddd8cf;
+  }
+
+  .trg-pdp__disclosure {
+    font-size: 0.7rem;
+    color: #8a8478;
+    font-weight: 300;
+    letter-spacing: 0.02em;
+    margin-bottom: 0.4rem;
+  }
+
+  .trg-pdp__ca-note {
+    font-size: 0.72rem;
+    color: #8a8478;
+    line-height: 1.4;
+    padding: 0.6rem 0.75rem;
+    background: rgba(212,41,26,0.04);
+    border: 1px solid rgba(212,41,26,0.1);
+    border-radius: 2px;
+  }
+
+  .trg-pdp__no-link {
+    font-size: 0.82rem;
+    color: #8a8478;
+    font-weight: 300;
+    font-style: italic;
+    padding: 0.75rem 0;
+  }
+
+  /* Wishlist */
+  .trg-pdp__wishlist {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    width: 100%;
+    padding: 0.7rem 1rem;
+    background: transparent;
+    border: 1px solid #ddd8cf;
+    border-radius: 3px;
+    color: #8a8478;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-bottom: 1rem;
+  }
+  .trg-pdp__wishlist:hover {
+    border-color: #1a1a18;
+    color: #1a1a18;
+  }
+  .trg-pdp__wishlist.trg-wishlist--saved {
+    color: #c4562a;
+    border-color: #c4562a;
+  }
+  .trg-pdp__wishlist.trg-wishlist--saved .trg-pdp__wishlist-icon {
+    fill: currentColor;
+  }
+
+  /* ── CANADA STRIP ── */
+  .trg-pdp__canada {
+    display: none;
+    background: rgba(212,41,26,0.04);
+    border: 1px solid rgba(212,41,26,0.15);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+  }
+  body[data-region='CA'] .trg-pdp__canada,
+  body[data-region='ca'] .trg-pdp__canada {
+    display: block;
+  }
+  .trg-pdp__canada-header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    font-family: inherit;
+  }
+  .trg-pdp__canada-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #d4291a;
+  }
+  .trg-pdp__canada-chevron {
+    color: #d4291a;
+    transition: transform 0.2s;
+  }
+  .trg-pdp__canada.open .trg-pdp__canada-chevron {
+    transform: rotate(180deg);
+  }
+  .trg-pdp__canada-body {
+    display: none;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0 1rem 0.85rem;
+  }
+  .trg-pdp__canada.open .trg-pdp__canada-body {
+    display: flex;
+  }
+  .trg-pdp__canada-fact {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    font-size: 0.78rem;
+    color: #1a1a18;
+    line-height: 1.4;
+  }
+  .trg-pdp__canada-fact svg {
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .trg-pdp__canada-icon--ok {
+    color: #3d8c5e;
+  }
+  .trg-pdp__canada-icon--warn {
+    color: #c47a28;
+  }
+
+  /* ── META GRID ── */
+  .trg-pdp__meta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem 1rem;
+    padding: 1.25rem 0;
+    border-top: 1px solid #ddd8cf;
+    border-bottom: 1px solid #ddd8cf;
+    margin-bottom: 1rem;
+  }
+  .trg-pdp__meta-key {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #8a8478;
+    margin-bottom: 0.2rem;
+  }
+  .trg-pdp__meta-val {
+    font-size: 0.82rem;
+    color: #1a1a18;
+    font-weight: 500;
+  }
+  .trg-pdp__meta-val--tag {
+    display: inline-block;
+    background: #ede8e0;
+    padding: 0.15rem 0.5rem;
+    border-radius: 2px;
+    font-size: 0.72rem;
+  }
+  .trg-pdp__meta-val--na {
+    color: #3d8c5e;
+  }
+
+  /* ── ACCORDION ── */
+  .trg-pdp__accordion {
+    border-top: 1px solid #ddd8cf;
+  }
+  .trg-pdp__acc-item {
+    border-bottom: 1px solid #ddd8cf;
+  }
+  .trg-pdp__acc-trigger {
+    width: 100%;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 0;
+    text-align: left;
+    font-family: inherit;
+  }
+  .trg-pdp__acc-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #1a1a18;
+  }
+  .trg-pdp__acc-chevron {
+    color: #8a8478;
+    transition: transform 0.2s;
+  }
+  .trg-pdp__acc-item.open .trg-pdp__acc-chevron {
+    transform: rotate(180deg);
+  }
+  .trg-pdp__acc-body {
+    display: none;
+    padding-bottom: 1rem;
+    font-size: 0.85rem;
+    color: #8a8478;
+    line-height: 1.65;
+  }
+  .trg-pdp__acc-item.open .trg-pdp__acc-body {
+    display: block;
+  }
+  .trg-pdp__acc-body ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: 0;
+    margin: 0;
+  }
+  .trg-pdp__acc-body ul li::before {
+    content: '\2014\00a0\00a0';
+    opacity: 0.5;
+  }
+  .trg-pdp__acc-desc {
+    margin-top: 0.75rem;
+    font-size: 0.82rem;
+    line-height: 1.6;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 990px) {
+    .trg-pdp {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+  @media (max-width: 749px) {
+    .trg-pdp {
+      padding: 1rem 1rem 2rem;
+    }
+    .trg-pdp-bc {
+      padding: 0.6rem 1rem;
+    }
+    .trg-pdp__title {
+      font-size: 1.6rem;
+    }
+    .trg-pdp-bc__inner {
+      flex-wrap: wrap;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "TRG Product PDP",
+  "tag": "section",
+  "class": "trg-pdp-section",
+  "enabled_on": {
+    "templates": ["product"]
+  },
+  "settings": [],
+  "presets": [
+    {
+      "name": "TRG Product PDP"
+    }
+  ]
+}
+{% endschema %}
