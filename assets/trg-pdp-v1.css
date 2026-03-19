@@ -1,34 +1,11 @@
-/* TRG PDP overrides — v3 scoped */
+/* TRG PDP overrides — v4 (blocks handle fonts, CSS handles borders/spacing) */
 
-/* Price container: border separator — SCOPED to PDP only */
+/* Price border separator — can't do this via block settings */
 .product-information .product-details product-price {
-  display: block !important;
-  padding-bottom: 1.25rem !important;
   border-bottom: 1px solid #ddd8cf !important;
-  margin-bottom: 0.75rem !important;
 }
 
-/* Price text: Playfair — SCOPED to PDP only */
-.product-information .product-details product-price,
-.product-information .product-details product-price * {
-  font-family: 'Playfair Display', serif !important;
-  font-size: 1.5rem !important;
-  font-weight: 600 !important;
-  text-transform: none !important;
-  letter-spacing: 0.01em !important;
-  color: #1a1a18 !important;
-}
-
-/* Override Dwell CSS variables on the PDP price only */
-.product-information .product-details product-price {
-  --font-h6--family: 'Playfair Display', serif !important;
-  --font-h6--size: 1.5rem !important;
-  --font-h6--weight: 600 !important;
-  --font-h6--case: none !important;
-  --font-size--h6: 1.5rem !important;
-}
-
-/* Column gap */
+/* Column gap between image and info */
 @media screen and (min-width: 750px) {
   .product-information .product-information__grid > .product-information__media {
     padding-inline-end: 1rem !important;
