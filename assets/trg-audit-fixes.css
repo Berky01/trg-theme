@@ -332,6 +332,17 @@ input:focus-visible {
     width: 100%;
     text-align: center;
   }
+
+  /* Fix account button wrapping on mobile */
+  .header__icon--account {
+    padding: .25rem .55rem !important;
+    white-space: nowrap;
+  }
+  .header__icon--account .account-button__text,
+  .header__icon--account .header-actions__text-style {
+    font-size: .6rem !important;
+    letter-spacing: .04em !important;
+  }
 }
 
 /* ─── 19. PRINT STYLES ─── */
@@ -592,3 +603,4 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
 .product-information.section-page-width {
   padding-block-end: 2rem !important;
 }
+
