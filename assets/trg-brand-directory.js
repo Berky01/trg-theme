@@ -7,7 +7,7 @@
     brandsArray.forEach(function(b) {
       if (CORRECTIONS[b.name]) {
         b.handle = CORRECTIONS[b.name];
-        b.url = '/pages/' + CORRECTIONS[b.name];
+        b.url = '/collections/' + CORRECTIONS[b.name];
       }
     });
   }
@@ -448,3 +448,4 @@
     });
   });
 })();
+
