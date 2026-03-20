@@ -1,7 +1,7 @@
 /* TRG Mobile v4 — clean, no monkey-patches, prompt search */
 (function(){
 'use strict';
-var AB=
+var AB=[
 {n:"032C",s:"032c",c:"shirts-tops",p:"m"},
 {n:"100 Hands",s:"100-hands",c:"shirts-tops",p:"h"},
 {n:"3.Paradis",s:"3-paradis",c:"shirts-tops",p:"h"},
@@ -468,7 +468,7 @@ var AB=
 {n:"Yuketen",s:"yuketen",c:"footwear",p:"m"},
 {n:"Yves Saint Laurent",s:"yves-saint-laurent",c:"shirts-tops",p:"h"},
 {n:"Zanone",s:"zanone",c:"knitwear",p:"m"},
-{n:"Zegna",s:"zegna",c:"tailoring",p:"m"};
+{n:"Zegna",s:"zegna",c:"tailoring",p:"m"}];
 var mCat='all',mQ='',booted=false;
 function esc(s){var d=document.createElement('div');d.textContent=s;return d.innerHTML}
 function hl(n,q){if(!q)return esc(n);var i=n.toLowerCase().indexOf(q);if(i<0)return esc(n);return esc(n.slice(0,i))+'<mark style="background:rgba(196,86,42,.25);color:rgba(245,241,235,.92);border-radius:2px;padding:0 1px">'+esc(n.slice(i,i+q.length))+'</mark>'+esc(n.slice(i+q.length))}
