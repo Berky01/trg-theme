@@ -46,6 +46,7 @@ document.addEventListener('focusin',function(e){
       {%- render 'theme-editor' -%}
     {% endif %}
 
+    {% if template == 'page.brands-directory' %}<link href="{{ 'trg-brand-directory.css' | asset_url }}" as="style" rel="preload">{% endif %}
     {{ content_for_header }}
     {{ 'trg-audit-fixes.css' | asset_url | stylesheet_tag }}
     {{ 'trg-pdp-v1.css' | asset_url | stylesheet_tag }}
