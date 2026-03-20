@@ -114,7 +114,6 @@
   .ob-wrap{padding:1.5rem 1rem 2.5rem}
   .ob-strip{overflow-x:auto;-webkit-overflow-scrolling:touch}
   .ob-s{min-width:55px}
-  .ob-cc{width:38px;height:38px}
   .ob-harm{flex-direction:column;text-align:center;gap:1rem;padding:1.25rem}
   .ob-shop{flex-direction:column;text-align:center}
   .ob-links{justify-content:center}
@@ -124,4 +123,11 @@
   .em-swatch{width:100%;height:180px}
   .em-pair-grid{grid-template-columns:1fr}
   .cg-title{font-size:1.5rem}
+  /* ── Mobile ribbon palette ── */
+  .ob-pal-g{position:relative}
+  .ob-pal-r{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:18px;scroll-snap-type:x proximity;gap:8px;scrollbar-width:none}
+  .ob-pal-r::-webkit-scrollbar{display:none}
+  .ob-cc{width:44px;height:44px;scroll-snap-align:start;flex-shrink:0}
+  .ob-pal-g::after{content:'';position:absolute;right:0;bottom:18px;width:32px;height:44px;background:linear-gradient(90deg,transparent,var(--paper,#f5f1eb));pointer-events:none}
 }
+
