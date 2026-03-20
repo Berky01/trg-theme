@@ -239,10 +239,10 @@
   .ob-pal-gc{font-size:.42rem}
   .ob-pal-g{margin-bottom:.55rem;padding-bottom:.55rem;position:relative}
   .ob-pal-gh{margin-bottom:.25rem}
-  .ob-pal-r{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:18px;scroll-snap-type:x proximity;gap:7px;scrollbar-width:none}
-  .ob-pal-r::-webkit-scrollbar{display:none}
-  .ob-cc{width:44px;height:44px;scroll-snap-align:start;flex-shrink:0}
-  .ob-pal-g::after{content:'';position:absolute;right:0;bottom:18px;width:28px;height:44px;background:linear-gradient(90deg,transparent,var(--paper,#f5f1eb));pointer-events:none}
+  /* Wrap chips into rows instead of horizontal scroll */
+  .ob-pal-r{flex-wrap:wrap;gap:7px;padding-bottom:0}
+  .ob-cc{width:40px;height:40px;flex-shrink:0}
+  .ob-pal-g::after{display:none}
 
   /* ── Links: these replace shop bar on mobile ── */
   .ob-links{justify-content:center;flex-wrap:wrap;gap:.3rem;margin-top:.5rem}
