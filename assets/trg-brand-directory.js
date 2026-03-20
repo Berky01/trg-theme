@@ -28,7 +28,7 @@
     if (cssLink) {
       overflowUrl = cssLink.href.replace(/trg-brand-directory\.css[^"]*/, 'brands-overflow.json');
     }
-    if (overflowUrl && brands.length >= 250) {
+    if (overflowUrl && brands.length >= 1) {
       fetch(overflowUrl)
         .then(function(r) { return r.json(); })
         .then(function(more) {
