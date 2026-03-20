@@ -798,12 +798,6 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
     font-size: 0.85rem !important;
     padding: 0.6rem 0.75rem !important;
   }
-  .trg-footer .trg-footer__col {
-    padding-bottom: 0.75rem;
-  }
-  .trg-footer__col-title {
-    font-size: 0.65rem !important;
-  }
 }
 
 /* ─── #23 MEDIUM: Newsletter — overflow-wrap on labels ─── */
