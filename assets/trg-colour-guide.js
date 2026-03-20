@@ -186,7 +186,7 @@ function obInit(){
 <div class="ob-presets-wrap"><div class="ob-presets-label">Start with a classic combination</div><div class="ob-presets-row" id="ob-presets"></div></div>
 <div class="ob-grid">
   <div class="ob-left">
-    <div class="ob-sec-label">Outfit Builder</div>
+    <div class="ob-sec-head"><div class="ob-sec-label">Outfit Builder</div><button class="ob-reset hidden" id="ob-reset">Reset</button></div>
     <div class="ob-slots" id="ob-slots"></div>
     <div class="ob-gc empty" id="ob-gc">
       <div class="ob-gauge"><svg viewBox="0 0 88 88"><circle class="ob-gauge-bg" cx="44" cy="44" r="36"/><circle class="ob-gauge-fill" id="ob-gf" cx="44" cy="44" r="36"/></svg><div class="ob-gauge-pct emp" id="ob-gp">Build<br>to score</div></div>
@@ -204,6 +204,7 @@ function obInit(){
 </div>`;
   obRSlots();obRPal();obRPresets();
   document.getElementById('ob-undo').addEventListener('click',obUndo);
+  document.getElementById('ob-reset').addEventListener('click',obReset);
 }
 
 function obRSlots(){
@@ -212,30 +213,29 @@ function obRSlots(){
     const isLight=f&&sL(col.h)[0]>55;const cls='ob-slot'+(f?' filled':'')+(f&&isLight?' light-bg':'')+(a?' on':'')+(sk?' skip':'');
     const bg=f?`background:${col.h}`:'';
     return`<div class="${cls}" style="${bg}" data-g="${g.id}">
+  ${f?`<span class="ob-sl-rm" data-a="rm">\u00d7</span>`:''}
   <div class="ob-slot-main">
     <span class="ob-sl-ic">${IC[g.id]}</span>
     <span class="ob-sl-body">
-      <span class="ob-sl-name">${g.l}</span>
-      ${f?`<span class="ob-sl-col">${col.n}</span>`:`<span class="ob-sl-hint">+ add</span>`}
+      ${f?`<span class="ob-sl-top"><span class="ob-sl-name">${g.l}</span><span class="ob-sl-sep">\u2014</span><span class="ob-sl-col">${col.n}</span></span><a class="ob-sl-shop" href="/collections/${g.co}">Shop ${col.n.toLowerCase()} ${g.l.toLowerCase()} \u2192</a>`:`<span class="ob-sl-name">${g.l}</span><span class="ob-sl-hint">+ add</span>`}
     </span>
-    ${f?`<span class="ob-sl-rm" data-a="rm">\u00d7</span>`:''}
   </div>
-  ${f?`<div class="ob-sl-shop"><a href="/collections/${g.co}">Shop ${col.n} ${g.l} \u2192</a></div>`:''}
   ${!f&&!sk?`<span class="ob-sl-skip" data-a="skip">skip</span>`:''}
 </div>`;
   }).join('');
   document.querySelectorAll('#ob-slots .ob-slot').forEach(sl=>{
     const gid=sl.dataset.g;
     sl.querySelector('.ob-slot-main').addEventListener('click',e=>{
-      const a=e.target.closest('[data-a]');
-      if(a&&a.dataset.a==='rm'){obRm(gid);return}
       if(ob.o[gid]){obRm(gid);return}
       if(ob.skipped[gid])return;
       obPG(gid);
     });
+    const rm=sl.querySelector('.ob-sl-rm');
+    if(rm)rm.addEventListener('click',e=>{e.stopPropagation();obRm(gid)});
     const sk=sl.querySelector('.ob-sl-skip');
     if(sk)sk.addEventListener('click',e=>{e.stopPropagation();obSkip(gid)});
   });
+  obUpdateReset();
 }
 
 function obPG(id){
@@ -334,6 +334,19 @@ function obUShop(){
   document.getElementById('ob-sas').textContent=entries.map(([gid,c])=>c.n+' '+G.find(x=>x.id===gid).l).join(' \u00b7 ');
   lk.innerHTML=entries.map(([gid,col])=>{const g=G.find(x=>x.id===gid);return`<a class="ob-link" href="/collections/${g.co}"><span class="ob-link-d" style="background:${col.h}${col.n==='White'?';border:1px solid #ddd':''}"></span>${col.n} ${g.l} \u2192</a>`}).join('');
 }
+
+function obReset(){
+  ob={o:{},act:null,hist:[],skipped:{}};
+  document.getElementById('ob-pr').style.display='none';clrChips();
+  obRSlots();obUHarm();obUShop();
+  document.getElementById('ob-undo').classList.remove('vis');
+}
+function obUpdateReset(){
+  const btn=document.getElementById('ob-reset');if(!btn)return;
+  const hasFilled=Object.keys(ob.o).length>0||Object.keys(ob.skipped).length>0;
+  btn.classList.toggle('hidden',!hasFilled);
+}
+window._obReset=obReset;
 
 // ─── PRESET PALETTES ───
 const PRESETS=[
