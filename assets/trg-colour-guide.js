@@ -20,12 +20,17 @@ const C=[
   {n:"Stone",h:"#a09080",cb:[47,55,69,95,113,122,129,160,175,212],g:"Sand & Khaki"},
   {n:"Mushroom",h:"#a89888",cb:[47,55,69,95,113,122,129,160,175],g:"Sand & Khaki"},
   {n:"Taupe",h:"#8a7e70",cb:[47,55,69,95,113,160,175,212,219],g:"Sand & Khaki"},
+  {n:"Mustard",h:"#c8a030",cb:[23,41,56,79,116,134,199,232,291],g:"Sand & Khaki"},
+  {n:"Ochre",h:"#b89028",cb:[3,13,33,70,86,130,131,182,247],g:"Sand & Khaki"},
+  {n:"Amber",h:"#d09030",cb:[23,41,56,79,116,134,199,232,234,291],g:"Sand & Khaki"},
   {n:"Copper",h:"#b06828",cb:[3,13,33,70,86,130,131,182,243,247],g:"Browns"},
   {n:"Raw Sienna",h:"#b86000",cb:[3,13,33,70,86,130,131,182,243,247,252,255,268,269,279,293,298,319,327],g:"Browns"},
   {n:"Terracotta",h:"#c06848",cb:[40,85,198,242,244,263,285,286],g:"Browns"},
   {n:"Rust",h:"#a05030",cb:[40,85,198,242,244,263,285,286,297],g:"Browns"},
+  {n:"Burnt Orange",h:"#c85028",cb:[40,85,198,242,244,263,285,286],g:"Browns"},
   {n:"Tobacco",h:"#7a5028",cb:[110,121,145,161,198,242,263,285,286],g:"Browns"},
   {n:"Saddle Brown",h:"#8b6834",cb:[110,121,145,161,198,242],g:"Browns"},
+  {n:"Cognac",h:"#9a5a28",cb:[110,121,145,161,198,242,263,285],g:"Browns"},
   {n:"Chocolate",h:"#5c2c10",cb:[110,121,145,161],g:"Browns"},
   {n:"Espresso",h:"#3c2010",cb:[110,121,145,161,198,242],g:"Browns"},
   {n:"Mint",h:"#a0c8a0",cb:[4,36,46,87,106,137,173,194,220,253,264,274],g:"Greens"},
@@ -37,13 +42,19 @@ const C=[
   {n:"Forest",h:"#1c4028",cb:[23,50,56,77,91,104,190,206,234,255,293,294,303,315,340],g:"Greens"},
   {n:"Bottle Green",h:"#1a3828",cb:[23,50,56,77,91,104,190,206,234],g:"Greens"},
   {n:"Emerald",h:"#40a860",cb:[2,60,85,114,136,188,209,225,248,290,313],g:"Greens"},
+  {n:"Jade",h:"#48a078",cb:[14,30,42,102,132,140,176,211],g:"Greens"},
+  {n:"Turquoise",h:"#388888",cb:[14,30,42,102,132,140,144,176,211],g:"Greens"},
+  {n:"Sky Blue",h:"#a0c4d8",cb:[24,72,135,148,182,196,222],g:"Blues"},
   {n:"Powder Blue",h:"#b0c8e0",cb:[24,72,135,148,182,196,222],g:"Blues"},
   {n:"Chambray",h:"#7898b8",cb:[24,72,135,148,182,196,222,233],g:"Blues"},
+  {n:"Mid Blue",h:"#5a90b8",cb:[7,57,66,116,154,174,179,208,232],g:"Blues"},
   {n:"Steel Blue",h:"#587890",cb:[7,57,66,116,154,174,179,208,232],g:"Blues"},
   {n:"Denim",h:"#486888",cb:[7,57,66,116,154,174,179,208,232,260],g:"Blues"},
   {n:"Cerulean",h:"#4880c0",cb:[17,39,69,109,155,210,272,302,325],g:"Blues"},
   {n:"Blue",h:"#3464a8",cb:[7,57,66,116,154,174,179,208,232,260,291,292,303],g:"Blues"},
   {n:"Cobalt",h:"#2860a0",cb:[10,55,82,94,152,198,242,252,280,298,336],g:"Blues"},
+  {n:"Royal Blue",h:"#2a50b0",cb:[10,55,82,94,152,198,242,252,280,298],g:"Blues"},
+  {n:"French Blue",h:"#4070b8",cb:[17,39,69,109,155,210,272,302],g:"Blues"},
   {n:"Navy",h:"#1a3060",cb:[3,25,30,68,84,115,117,121,136,153,162,181,197,205,223,261,276,289,306,307,318,340],g:"Blues"},
   {n:"Dark Navy",h:"#101e40",cb:[33,40,73,80,110,126,133,178,213,214,218,236,257,266,270,281],g:"Blues"},
   {n:"Indigo",h:"#282858",cb:[33,40,73,80,110,126,133,178,213],g:"Blues"},
@@ -57,13 +68,17 @@ const C=[
   {n:"Graphite",h:"#303028",cb:[6,11,27,31,37,43,45,46,52,59,63,70,71,86],g:"Greys"},
   {n:"Black",h:"#181818",cb:[6,11,27,31,37,43,45,46,52,59,63,70,71,86,90,100,103,108,112,120,123,124,127,131,138,139,141,142],g:"Greys"},
   {n:"Dusty Rose",h:"#c09080",cb:[35,68,185,191,223,239,244,268,285],g:"Reds & Burgundy"},
+  {n:"Salmon",h:"#d48870",cb:[35,68,185,191,223,239,244,268,285],g:"Reds & Burgundy"},
+  {n:"Rose",h:"#c07878",cb:[35,68,185,191,223,239,244,268],g:"Reds & Burgundy"},
   {n:"Brick",h:"#8b3828",cb:[37,108,198,242,246,263,285,322,328],g:"Reds & Burgundy"},
   {n:"Carmine",h:"#a01028",cb:[35,51,104,130,181,200,221,228,233,237,245],g:"Reds & Burgundy"},
   {n:"Burgundy",h:"#6c1020",cb:[124,171,177,205,217,258,269,283],g:"Reds & Burgundy"},
   {n:"Oxblood",h:"#601018",cb:[58,82,95,152,186,231,249,304,314,336,345],g:"Reds & Burgundy"},
   {n:"Wine",h:"#501828",cb:[124,171,177,205,217,258,269],g:"Reds & Burgundy"},
   {n:"Fawn",h:"#c8a8a8",cb:[18,125,308],g:"Mauves"},
+  {n:"Soft Pink",h:"#d4a8a0",cb:[18,125,308,35,68,185],g:"Mauves"},
   {n:"Mauve",h:"#a08090",cb:[35,68,185,191,223,239,244,268,285,321],g:"Mauves"},
+  {n:"Lavender",h:"#9898b8",cb:[35,68,185,191,223,239,244],g:"Mauves"},
   {n:"Lilac Grey",h:"#9890a0",cb:[35,68,185,191,223,239,244],g:"Mauves"},
   {n:"Plum",h:"#502840",cb:[63,91,165,226,290,337],g:"Mauves"},
 ];
@@ -102,7 +117,8 @@ const G=[
   {id:'coat',l:'Coat',co:'outerwear'},
   {id:'shoes',l:'Shoes',co:'footwear'}
 ];
-const GORDER=['Whites & Creams','Sand & Khaki','Browns','Greens','Blues','Greys','Reds & Burgundy','Mauves'];
+const GORDER=['Blues','Greys','Greens','Sand & Khaki','Browns','Whites & Creams','Reds & Burgundy','Mauves'];
+const GNAMES={'Blues':'The <em>Navies</em> & Blues','Greys':'The <em>Greys</em>','Greens':'The <em>Greens</em>','Sand & Khaki':'The <em>Earths</em>','Browns':'The <em>Browns</em>','Whites & Creams':'The <em>Whites</em>','Reds & Burgundy':'The <em>Reds</em>','Mauves':'The <em>Pinks</em> & Mauves'};
 
 // ─── TEXTURE TIPS (grounded in Flusser, MasterClass, Articles of Style) ───
 // Rules: 1) Contrast smooth with rough  2) Max two textured pieces  3) Texture sets formality  4) Texture changes how colour reads
@@ -257,7 +273,8 @@ function obRPal(){
   const groups={};C.forEach((c,ci)=>{(groups[c.g]=groups[c.g]||[]).push({...c,ci})});
   const el=document.getElementById('ob-pal');el.innerHTML='';
   GORDER.forEach(gn=>{if(!groups[gn])return;const d=document.createElement('div');d.className='ob-pal-g';
-    d.innerHTML=`<div class="ob-pal-gn">${gn}</div><div class="ob-pal-r">${groups[gn].map(c=>`<div class="ob-cc" style="background:${c.h}" data-ci="${c.ci}"><span class="ob-tip">${c.n}</span><span class="ob-sc"></span></div>`).join('')}</div>`;
+    const eName=GNAMES[gn]||gn;
+    d.innerHTML=`<div class="ob-pal-gh"><span class="ob-pal-gn">${eName}</span><span class="ob-pal-gc">${groups[gn].length} colours</span></div><div class="ob-pal-r">${groups[gn].map(c=>`<div class="ob-cc" style="background:${c.h}" data-ci="${c.ci}"><span class="ob-tip">${c.n}</span><span class="ob-sc"></span></div>`).join('')}</div>`;
     el.appendChild(d);
   });
   el.querySelectorAll('.ob-cc').forEach(ch=>{ch.addEventListener('click',()=>{
@@ -367,4 +384,5 @@ document.addEventListener('DOMContentLoaded',()=>{
 });
 
 })();
+
 

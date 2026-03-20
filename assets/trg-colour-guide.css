@@ -63,8 +63,11 @@
 
 /* Palette — always visible, bigger chips */
 .ob-pal{margin-bottom:1.5rem;margin-top:1rem}
-.ob-pal-g{margin-bottom:1rem}.ob-pal-g:last-child{margin-bottom:0}
-.ob-pal-gn{font-size:0.6rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--mid);margin-bottom:0.25rem}
+.ob-pal-g{margin-bottom:1.1rem;padding-bottom:1.1rem;border-bottom:1px solid rgba(221,216,207,0.4)}.ob-pal-g:last-child{margin-bottom:0;padding-bottom:0;border-bottom:0}
+.ob-pal-gh{display:flex;align-items:baseline;gap:0.45rem;margin-bottom:0.4rem}
+.ob-pal-gn{font-family:'Playfair Display',serif;font-size:0.92rem;font-weight:400;color:var(--ink)}
+.ob-pal-gn em{font-style:italic;color:var(--accent)}
+.ob-pal-gc{font-size:0.5rem;font-weight:400;color:rgba(138,132,120,0.5)}
 .ob-pal-r{display:flex;flex-wrap:wrap;gap:5px}
 .ob-cc{width:34px;height:34px;border-radius:2px;cursor:pointer;border:1.5px solid transparent;transition:all 0.12s;position:relative}
 .ob-cc:hover{transform:scale(1.2);z-index:2;border-color:var(--ink)}
@@ -122,7 +125,7 @@
 
 /* ─── RESPONSIVE ─── */
 @media(max-width:749px){
-  .ob-wrap{padding:1.5rem 1rem 2.5rem}
+  .ob-wrap{padding:1rem .75rem 2rem}
   .ob-strip{overflow-x:auto;-webkit-overflow-scrolling:touch}
   .ob-s{min-width:55px}
   .ob-harm{flex-direction:column;text-align:center;gap:1rem;padding:1.25rem}
@@ -135,6 +138,10 @@
   .em-swatch{width:100%;height:180px}
   .em-pair-grid{grid-template-columns:1fr}
   .cg-title{font-size:1.5rem}
+  /* ── Mobile editorial family names ── */
+  .ob-pal-gn{font-size:0.8rem}
+  .ob-pal-gc{font-size:0.44rem}
+  .ob-pal-g{margin-bottom:0.85rem;padding-bottom:0.85rem}
   /* ── Mobile ribbon palette ── */
   .ob-pal-g{position:relative}
   .ob-pal-r{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:18px;scroll-snap-type:x proximity;gap:8px;scrollbar-width:none}
@@ -142,4 +149,5 @@
   .ob-cc{width:44px;height:44px;scroll-snap-align:start;flex-shrink:0}
   .ob-pal-g::after{content:'';position:absolute;right:0;bottom:18px;width:32px;height:44px;background:linear-gradient(90deg,transparent,var(--paper,#f5f1eb));pointer-events:none}
 }
+
 
