@@ -720,13 +720,16 @@ body:not(.filters-hidden) .trg-bdir .trg-bdir__show {
   /* Header bar: compact, show title, hide eyebrow */
   .trg-bdir .trg-bdir__head {
     display: flex !important;
-    min-height: 48px;
+    min-height: 44px;
     padding: 0;
   }
+  .trg-bdir .trg-bdir__shell {
+    padding-inline: 1rem !important;
+  }
   .trg-bdir .trg-bdir__headin {
-    min-height: 48px;
+    min-height: 44px;
     padding: 0;
-    gap: 0;
+    gap: 0.75rem;
   }
   .trg-bdir .trg-bdir__eye {
     display: none;
@@ -759,23 +762,12 @@ body:not(.filters-hidden) .trg-bdir .trg-bdir__show {
     padding: 0.7rem 0 !important;
   }
   .trg-bdir .trg-bdir__go {
-    padding: 0 0.65rem;
-    min-height: 32px;
-    font-size: 0;
-    width: 36px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .trg-bdir .trg-bdir__go::after {
-    content: "";
-    display: block;
-    width: 12px;
-    height: 12px;
-    border-right: 2px solid #fff;
-    border-top: 2px solid #fff;
-    transform: rotate(45deg);
-    margin-left: -3px;
+    padding: 0 0.75rem;
+    min-height: 34px;
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    border-radius: 2px;
+    flex-shrink: 0;
   }
 
   /* Sort row: single row — Filters | count | sort */
