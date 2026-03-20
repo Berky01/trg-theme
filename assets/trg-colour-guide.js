@@ -177,84 +177,101 @@ const STORIES={
 // ═══════════════════════════════════════
 let ob={o:{},act:null,hist:[],skipped:{}};
 
+function clrChips(){document.querySelectorAll('#ob-pal .ob-cc').forEach(ch=>{ch.classList.remove('perfect','good','atg');ch.querySelector('.ob-sc').style.display='none'})}
+
 function obInit(){
   const el=document.getElementById('cg-outfit-builder');if(!el)return;
   ob={o:{},act:null,hist:[],skipped:{}};
   el.innerHTML=`
-    <div class="ob-harm empty" id="ob-harm">
-      <div class="ob-gauge"><svg viewBox="0 0 88 88"><circle class="ob-gauge-bg" cx="44" cy="44" r="40"/><circle class="ob-gauge-fill" id="ob-gf" cx="44" cy="44" r="40"/></svg><div class="ob-gauge-text empty-st" id="ob-gt">Build<br>to score</div></div>
-      <div class="ob-harm-meta"><div class="ob-harm-title" id="ob-ht">Pick your first piece</div><div class="ob-harm-desc" id="ob-hd">Tap a garment in the strip below, then pick a colour. The harmony score updates as you build.</div></div>
+<div class="ob-grid">
+  <div class="ob-left">
+    <div class="ob-sec-label">Outfit Builder</div>
+    <div class="ob-slots" id="ob-slots"></div>
+    <div class="ob-gc empty" id="ob-gc">
+      <div class="ob-gauge"><svg viewBox="0 0 88 88"><circle class="ob-gauge-bg" cx="44" cy="44" r="36"/><circle class="ob-gauge-fill" id="ob-gf" cx="44" cy="44" r="36"/></svg><div class="ob-gauge-pct emp" id="ob-gp">Build<br>to score</div></div>
+      <div class="ob-gm"><div class="ob-gl" id="ob-gl">Pick your first piece</div><div class="ob-gd" id="ob-gd">Tap a garment, then choose a colour.</div><div class="ob-gt hidden" id="ob-gt"></div></div>
     </div>
-    <div class="ob-texture-tip hidden" id="ob-tt"><div class="ob-tt-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div><div class="ob-tt-body" id="ob-ttb"></div></div>
-    <div class="ob-strip" id="ob-strip"></div>
-    <button class="ob-undo" id="ob-undo" onclick="window._obUndo()"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 119 9"/><path d="M3 3v9h9"/></svg> Undo</button>
+    <div class="ob-texture-tip hidden" id="ob-tt"><div class="ob-tt-label">Texture tip</div><div class="ob-tt-body" id="ob-ttb"></div></div>
+    <div class="ob-shop" id="ob-sa"><div class="ob-shop-dots" id="ob-sad"></div><a class="ob-shop-btn" href="#">Shop entire look \u2192</a><div class="ob-shop-su" id="ob-sas"></div></div>
+  </div>
+  <div class="ob-right">
+    <button class="ob-undo" id="ob-undo"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 119 9"/><path d="M3 3v9h9"/></svg> Undo</button>
     <div class="ob-prompt" id="ob-pr"></div>
     <div class="ob-pal" id="ob-pal"></div>
-    <div class="ob-shop" id="ob-sa"><div class="ob-shop-dots" id="ob-sad"></div><div class="ob-shop-tx"><div class="ob-shop-ti" id="ob-sat"></div><div class="ob-shop-su" id="ob-sas"></div></div><a class="ob-shop-btn" href="#">Shop entire look →</a></div>
     <div class="ob-links" id="ob-lks"></div>
-  `;
-  obRStrip();obRPal();
+  </div>
+</div>`;
+  obRSlots();obRPal();
+  document.getElementById('ob-undo').addEventListener('click',obUndo);
 }
 
-function obRStrip(){
-  document.getElementById('ob-strip').innerHTML=G.map(g=>{
-    const col=ob.o[g.id],isFilled=!!col,isAct=ob.act===g.id,isSk=ob.skipped[g.id];
-    const cls='ob-s'+(isFilled?' filled':'')+(isAct?' active':'')+(isSk?' skipped':'');
-    const bg=col?`background:${col.h};`:'';
-    let click='';
-    if(!isFilled&&!isSk)click=` onclick="window._obPG('${g.id}')"`;
-    if(isFilled)click=` onclick="window._obRm('${g.id}')"`;
-    return`<div class="${cls}" style="${bg}"${click}>
-      <span class="ob-s-ic">${IC[g.id]}</span><span class="ob-s-lb">${g.l}</span>
-      ${isFilled?`<span class="ob-s-rm" onclick="event.stopPropagation();window._obRm('${g.id}')">×</span>`:''}
-      ${!isFilled&&!isSk?`<span class="ob-s-skip" onclick="event.stopPropagation();window._obSkip('${g.id}')">skip</span>`:''}
-    </div>`;
+function obRSlots(){
+  document.getElementById('ob-slots').innerHTML=G.map(g=>{
+    const col=ob.o[g.id],f=!!col,a=ob.act===g.id,sk=ob.skipped[g.id];
+    const cls='ob-slot'+(f?' filled':'')+(a?' on':'')+(sk?' skip':'');
+    const bg=f?`background:${col.h}`:'';
+    return`<div class="${cls}" style="${bg}" data-g="${g.id}">
+  <div class="ob-slot-main">
+    <span class="ob-sl-ic">${IC[g.id]}</span>
+    <span class="ob-sl-body">
+      <span class="ob-sl-name">${g.l}</span>
+      ${f?`<span class="ob-sl-col">${col.n}</span>`:`<span class="ob-sl-hint">+ add</span>`}
+    </span>
+    ${f?`<span class="ob-sl-rm" data-a="rm">\u00d7</span>`:''}
+  </div>
+  ${f?`<div class="ob-sl-shop"><a href="/collections/${g.co}">Shop ${col.n} ${g.l} \u2192</a></div>`:''}
+  ${!f&&!sk?`<span class="ob-sl-skip" data-a="skip">skip</span>`:''}
+</div>`;
   }).join('');
+  document.querySelectorAll('#ob-slots .ob-slot').forEach(sl=>{
+    const gid=sl.dataset.g;
+    sl.querySelector('.ob-slot-main').addEventListener('click',e=>{
+      const a=e.target.closest('[data-a]');
+      if(a&&a.dataset.a==='rm'){obRm(gid);return}
+      if(ob.o[gid]){obRm(gid);return}
+      if(ob.skipped[gid])return;
+      obPG(gid);
+    });
+    const sk=sl.querySelector('.ob-sl-skip');
+    if(sk)sk.addEventListener('click',e=>{e.stopPropagation();obSkip(gid)});
+  });
 }
 
 function obPG(id){
   if(ob.o[id]||ob.skipped[id])return;
-  ob.act=id;obRStrip();
-  const g=G.find(x=>x.id===id);
-  const pr=document.getElementById('ob-pr');pr.style.display='block';
+  ob.act=id;obRSlots();
+  const g=G.find(x=>x.id===id),pr=document.getElementById('ob-pr');
+  pr.style.display='block';
+  pr.innerHTML=`Pick a colour for <strong>${g.l}</strong>:`;
   const locked=Object.values(ob.o);
-  if(locked.length>0){
-    pr.innerHTML=`Pick a colour for <strong>${g.l}</strong>:`;
-    const ref=locked[locked.length-1];
-    document.querySelectorAll('#ob-pal .ob-cc').forEach(ch=>{
-      ch.classList.remove('perfect','good','atg');ch.querySelector('.ob-sc').style.display='none';
-      const cObj=C[parseInt(ch.dataset.ci)];if(!cObj)return;
+  document.querySelectorAll('#ob-pal .ob-cc').forEach(ch=>{
+    ch.classList.remove('perfect','good','atg');ch.querySelector('.ob-sc').style.display='none';
+    if(locked.length>0){
+      const ref=locked[locked.length-1],cObj=C[parseInt(ch.dataset.ci)];if(!cObj)return;
       const s=sc(ref,cObj);
-      if(s.tier==='perfect'){ch.classList.add('perfect');ch.querySelector('.ob-sc').textContent=s.pct+'%';ch.querySelector('.ob-sc').style.display='block'}
-      else if(s.tier==='good'){ch.classList.add('good');ch.querySelector('.ob-sc').textContent=s.pct+'%';ch.querySelector('.ob-sc').style.display='block'}
-      else{ch.classList.add('atg');ch.querySelector('.ob-sc').textContent=s.pct+'%';ch.querySelector('.ob-sc').style.display='block'}
-    });
-  }else{
-    pr.innerHTML=`Pick a colour for <strong>${g.l}</strong>:`;
-    document.querySelectorAll('#ob-pal .ob-cc').forEach(ch=>{ch.classList.remove('perfect','good','atg');ch.querySelector('.ob-sc').style.display='none'});
-  }
+      ch.classList.add(s.tier);ch.querySelector('.ob-sc').textContent=s.pct+'%';ch.querySelector('.ob-sc').style.display='block';
+    }
+  });
 }
 
 function obPCol(col){
   if(!ob.act)return;
   ob.hist.push({g:ob.act,col:ob.o[ob.act]||null,type:'pick'});
   ob.o[ob.act]=col;ob.act=null;
-  document.getElementById('ob-pr').style.display='none';
-  document.querySelectorAll('#ob-pal .ob-cc').forEach(ch=>{ch.classList.remove('perfect','good','atg');ch.querySelector('.ob-sc').style.display='none'});
-  obRStrip();obUHarm();obUShop();
+  document.getElementById('ob-pr').style.display='none';clrChips();
+  obRSlots();obUHarm();obUShop();
   document.getElementById('ob-undo').classList.add('vis');
 }
 
 function obSkip(id){
-  ob.hist.push({g:id,col:null,type:'skip'});
-  ob.skipped[id]=true;
-  if(ob.act===id){ob.act=null;document.getElementById('ob-pr').style.display='none';document.querySelectorAll('#ob-pal .ob-cc').forEach(ch=>{ch.classList.remove('perfect','good','atg');ch.querySelector('.ob-sc').style.display='none'})}
-  obRStrip();document.getElementById('ob-undo').classList.add('vis');
+  ob.hist.push({g:id,col:null,type:'skip'});ob.skipped[id]=true;
+  if(ob.act===id){ob.act=null;document.getElementById('ob-pr').style.display='none';clrChips()}
+  obRSlots();document.getElementById('ob-undo').classList.add('vis');
 }
 
 function obRm(id){
   delete ob.o[id];delete ob.skipped[id];ob.act=null;
-  obRStrip();obUHarm();obUShop();obPG(id);
+  obRSlots();obUHarm();obUShop();obPG(id);
 }
 
 function obUndo(){
@@ -262,10 +279,8 @@ function obUndo(){
   const last=ob.hist.pop();
   if(last.type==='skip')delete ob.skipped[last.g];
   else{if(last.col)ob.o[last.g]=last.col;else delete ob.o[last.g]}
-  ob.act=null;
-  document.getElementById('ob-pr').style.display='none';
-  document.querySelectorAll('#ob-pal .ob-cc').forEach(ch=>{ch.classList.remove('perfect','good','atg');ch.querySelector('.ob-sc').style.display='none'});
-  obRStrip();obUHarm();obUShop();
+  ob.act=null;document.getElementById('ob-pr').style.display='none';clrChips();
+  obRSlots();obUHarm();obUShop();
   if(!ob.hist.length)document.getElementById('ob-undo').classList.remove('vis');
 }
 
@@ -278,37 +293,35 @@ function obRPal(){
     el.appendChild(d);
   });
   el.querySelectorAll('.ob-cc').forEach(ch=>{ch.addEventListener('click',()=>{
-    if(!ob.act)return;
-    const cObj=C[parseInt(ch.dataset.ci)];if(cObj)obPCol(cObj);
+    if(!ob.act)return;const cObj=C[parseInt(ch.dataset.ci)];if(cObj)obPCol(cObj);
   })});
 }
 
 function obUHarm(){
-  const cols=Object.values(ob.o),hero=document.getElementById('ob-harm'),tip=document.getElementById('ob-tt'),tipBody=document.getElementById('ob-ttb');
+  const cols=Object.values(ob.o),gc=document.getElementById('ob-gc'),tip=document.getElementById('ob-tt'),tipB=document.getElementById('ob-ttb'),gt=document.getElementById('ob-gt');
   if(cols.length<2){
-    hero.classList.add('empty');hero.style.borderRadius='2px';hero.style.marginBottom='2rem';
-    tip.classList.add('hidden');
-    document.getElementById('ob-gt').className='ob-gauge-text empty-st';
-    document.getElementById('ob-gt').innerHTML=cols.length===1?'Add<br>more':'Build<br>to score';
-    document.getElementById('ob-gf').style.strokeDashoffset=251.3;
-    document.getElementById('ob-ht').textContent=cols.length===1?'One piece selected':'Pick your first piece';
-    document.getElementById('ob-ht').style.color='';
-    document.getElementById('ob-hd').textContent='Tap a garment in the strip, then pick a colour.';
+    gc.classList.add('empty');tip.classList.add('hidden');gt.classList.add('hidden');
+    document.getElementById('ob-gp').className='ob-gauge-pct emp';
+    document.getElementById('ob-gp').innerHTML=cols.length===1?'Add<br>more':'Build<br>to score';
+    document.getElementById('ob-gf').style.strokeDashoffset=226.2;
+    document.getElementById('ob-gl').textContent=cols.length===1?'One piece selected':'Pick your first piece';
+    document.getElementById('ob-gl').style.color='';
+    document.getElementById('ob-gd').textContent='Tap a garment, then choose a colour.';
     return;
   }
-  hero.classList.remove('empty');hero.style.borderRadius='2px 2px 0 0';hero.style.marginBottom='0';
+  gc.classList.remove('empty');
   let t=0,p=0;for(let a=0;a<cols.length;a++)for(let b=a+1;b<cols.length;b++){t+=sc(cols[a],cols[b]).pct;p++}
   const avg=Math.round(t/p);
-  document.getElementById('ob-gf').style.strokeDashoffset=251.3-(251.3*avg/100);
-  document.getElementById('ob-gt').className='ob-gauge-text';
-  document.getElementById('ob-gt').textContent=avg+'%';
-  const ht=document.getElementById('ob-ht'),hd=document.getElementById('ob-hd');
-  if(avg>=85){ht.textContent='Excellent harmony';ht.style.color='';hd.textContent='These colours appear together across multiple documented Wada palettes. A considered, editorial combination.';}
-  else if(avg>=65){ht.textContent='Good harmony';ht.style.color='';hd.textContent='A cohesive combination with documented pairings. Confident without being safe.';}
-  else{ht.textContent='Against the Grain';ht.style.color='var(--accent)';hd.textContent='This combination defies Wada\u2019s documented indices. An unconventional palette that makes its own rules \u2014 deliberate, not accidental.';}
+  document.getElementById('ob-gf').style.strokeDashoffset=226.2-(226.2*avg/100);
+  document.getElementById('ob-gp').className='ob-gauge-pct';
+  document.getElementById('ob-gp').textContent=avg+'%';
+  const gl=document.getElementById('ob-gl'),gd=document.getElementById('ob-gd');
+  gt.classList.remove('hidden','ob-gt-p','ob-gt-g','ob-gt-a');
+  if(avg>=85){gl.textContent='Excellent harmony';gl.style.color='';gd.textContent='';gt.className='ob-gt ob-gt-p';gt.textContent='Documented Wada palettes. Editorial.';}
+  else if(avg>=65){gl.textContent='Good harmony';gl.style.color='';gd.textContent='';gt.className='ob-gt ob-gt-g';gt.textContent='Cohesive. Confident without being safe.';}
+  else{gl.textContent='Against the Grain';gl.style.color='var(--accent)';gd.textContent='';gt.className='ob-gt ob-gt-a';gt.textContent='Defies Wada\u2019s indices. Own rules.';}
   const lastG=Object.keys(ob.o).pop(),lvl=avg>=65?'hi':'lo';
-  const td=(TTIPS[lastG]&&TTIPS[lastG][lvl])||TTIP_DEFAULT[lvl];
-  tipBody.innerHTML='<strong>Texture tip:</strong> '+td;
+  tipB.textContent=(TTIPS[lastG]&&TTIPS[lastG][lvl])||TTIP_DEFAULT[lvl];
   tip.classList.remove('hidden');
 }
 
@@ -316,14 +329,12 @@ function obUShop(){
   const entries=Object.entries(ob.o),sa=document.getElementById('ob-sa'),lk=document.getElementById('ob-lks');
   if(entries.length<1){sa.classList.remove('vis');lk.innerHTML='';return}
   sa.classList.add('vis');
-  const all=Object.values(ob.o);
-  document.getElementById('ob-sad').innerHTML=all.map(c=>`<div class="ob-shop-dot" style="background:${c.h}"></div>`).join('');
-  document.getElementById('ob-sat').textContent=all.length+' pieces';
-  document.getElementById('ob-sas').textContent=entries.map(([gid,c])=>c.n+' '+G.find(x=>x.id===gid).l).join(' · ');
-  lk.innerHTML=entries.map(([gid,col])=>{const g=G.find(x=>x.id===gid);return`<a class="ob-link" href="/collections/${g.co}"><span class="ob-link-d" style="background:${col.h}"></span>${col.n} ${g.l} →</a>`}).join('');
+  document.getElementById('ob-sad').innerHTML=Object.values(ob.o).map(c=>`<div class="ob-shop-dot" style="background:${c.h}${c.n==='White'?';border:1px solid rgba(255,255,255,.2)':''}"></div>`).join('');
+  document.getElementById('ob-sas').textContent=entries.map(([gid,c])=>c.n+' '+G.find(x=>x.id===gid).l).join(' \u00b7 ');
+  lk.innerHTML=entries.map(([gid,col])=>{const g=G.find(x=>x.id===gid);return`<a class="ob-link" href="/collections/${g.co}"><span class="ob-link-d" style="background:${col.h}${col.n==='White'?';border:1px solid #ddd':''}"></span>${col.n} ${g.l} \u2192</a>`}).join('');
 }
 
-// Expose to onclick handlers
+// Expose
 window._obPG=obPG;window._obRm=obRm;window._obSkip=obSkip;window._obUndo=obUndo;
 
 // ═══════════════════════════════════════
