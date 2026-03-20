@@ -103,12 +103,12 @@ function render(cat,q){
   f.sort(function(a,b){return a.name.replace(/^[^a-zA-Z]+/,'').localeCompare(b.name.replace(/^[^a-zA-Z]+/,''),'en',{sensitivity:'base'})});
   g.classList.remove('sr','ct');
   if(!f.length){g.innerHTML='<div class="trg-mm-empty">No brands found'+(ql?' for \u201c'+esc(q)+'\u201d':'')+'</div>';return}
-  if(ql){g.classList.add('sr');g.innerHTML=f.map(function(b){var i=b.name.toLowerCase().indexOf(ql);return'<a href="/pages/'+b.slug+'" class="trg-mm-bl">'+b.name.slice(0,i)+'<mark>'+b.name.slice(i,i+ql.length)+'</mark>'+b.name.slice(i+ql.length)+'</a>'}).join('');return}
-  if(cat&&cat!=='all'){g.classList.add('ct');g.innerHTML=f.map(function(b){return'<a href="/pages/'+b.slug+'" class="trg-mm-bl">'+esc(b.name)+'</a>'}).join('');return}
+  if(ql){g.classList.add('sr');g.innerHTML=f.map(function(b){var i=b.name.toLowerCase().indexOf(ql);return'<a href="/collections/'+b.slug+'" class="trg-mm-bl">'+b.name.slice(0,i)+'<mark>'+b.name.slice(i,i+ql.length)+'</mark>'+b.name.slice(i+ql.length)+'</a>'}).join('');return}
+  if(cat&&cat!=='all'){g.classList.add('ct');g.innerHTML=f.map(function(b){return'<a href="/collections/'+b.slug+'" class="trg-mm-bl">'+esc(b.name)+'</a>'}).join('');return}
   var gr={};f.forEach(function(b){var l=b.name.replace(/^[^a-zA-Z]+/,'').charAt(0).toUpperCase()||'#';if(!gr[l])gr[l]=[];gr[l].push(b)});
   var ls=Object.keys(gr).sort(),pc=Math.ceil(ls.length/5),cs=[];
   for(var i=0;i<5;i++)cs.push(ls.slice(i*pc,(i+1)*pc));
-  g.innerHTML=cs.map(function(cl){if(!cl.length)return'';return'<div class="trg-mm-col">'+cl.map(function(l){return'<div class="trg-mm-lt">'+l+'</div>'+gr[l].map(function(b){return'<a href="/pages/'+b.slug+'" class="trg-mm-bl">'+esc(b.name)+'</a>'}).join('')}).join('')+'</div>'}).join('');
+  g.innerHTML=cs.map(function(cl){if(!cl.length)return'';return'<div class="trg-mm-col">'+cl.map(function(l){return'<div class="trg-mm-lt">'+l+'</div>'+gr[l].map(function(b){return'<a href="/collections/'+b.slug+'" class="trg-mm-bl">'+esc(b.name)+'</a>'}).join('')}).join('')+'</div>'}).join('');
 }
 
 function bindSearch(){
@@ -272,7 +272,7 @@ function getMobBrands(){
   if(links.length>0){
     return Array.from(links).map(function(a){
       var h=a.getAttribute('href')||'';
-      var slug=h.replace('/pages/','');
+      var slug=h.replace('/collections/','');
       return{name:a.textContent,slug:slug,category:''};
     });
   }
@@ -332,7 +332,7 @@ function renderMobBrands(){
       var ph='<div class="trg-mob-bpicks-lbl">Our Picks</div>';
       ph+=picks.map(function(b){
         var d=hl(b.name,q);
-        return'<a href="/pages/brands/'+b.slug+'" class="trg-mob-bpick"><span class="trg-mob-bpick-name">'+d+'</span><span class="trg-mob-bpick-dot"></span></a>';
+        return'<a href="/collections/'+b.slug+'" class="trg-mob-bpick"><span class="trg-mob-bpick-name">'+d+'</span><span class="trg-mob-bpick-dot"></span></a>';
       }).join('');
       picksEl.innerHTML=ph;
     }else{picksEl.innerHTML=''}
@@ -346,7 +346,7 @@ function renderMobBrands(){
       rest.forEach(function(b){var l=b.name.replace(/^[^a-zA-Z]+/,'').charAt(0).toUpperCase()||'#';if(!gr[l])gr[l]=[];gr[l].push(b)});
       Object.keys(gr).sort().forEach(function(l){
         rh+='<div class="trg-mob-lt">'+l+'</div>';
-        gr[l].forEach(function(b){rh+='<a href="/pages/brands/'+b.slug+'" class="trg-mob-bl">'+hl(b.name,q)+'</a>'});
+        gr[l].forEach(function(b){rh+='<a href="/collections/'+b.slug+'" class="trg-mob-bl">'+hl(b.name,q)+'</a>'});
       });
       rh+='</div>';
       restEl.innerHTML=rh;
