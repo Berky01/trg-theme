@@ -106,9 +106,8 @@ function render(cat,q){
   if(ql){g.classList.add('sr');g.innerHTML=f.map(function(b){var i=b.name.toLowerCase().indexOf(ql);return'<a href="/collections/'+b.slug+'" class="trg-mm-bl">'+b.name.slice(0,i)+'<mark>'+b.name.slice(i,i+ql.length)+'</mark>'+b.name.slice(i+ql.length)+'</a>'}).join('');return}
   if(cat&&cat!=='all'){g.classList.add('ct');g.innerHTML=f.map(function(b){return'<a href="/collections/'+b.slug+'" class="trg-mm-bl">'+esc(b.name)+'</a>'}).join('');return}
   var gr={};f.forEach(function(b){var l=b.name.replace(/^[^a-zA-Z]+/,'').charAt(0).toUpperCase()||'#';if(!gr[l])gr[l]=[];gr[l].push(b)});
-  var ls=Object.keys(gr).sort(),pc=Math.ceil(ls.length/5),cs=[];
-  for(var i=0;i<5;i++)cs.push(ls.slice(i*pc,(i+1)*pc));
-  g.innerHTML=cs.map(function(cl){if(!cl.length)return'';return'<div class="trg-mm-col">'+cl.map(function(l){return'<div class="trg-mm-lt">'+l+'</div>'+gr[l].map(function(b){return'<a href="/collections/'+b.slug+'" class="trg-mm-bl">'+esc(b.name)+'</a>'}).join('')}).join('')+'</div>'}).join('');
+  var ls=Object.keys(gr).sort();
+  g.innerHTML=ls.map(function(l){return'<div class="trg-mm-lg"><div class="trg-mm-lt">'+l+'</div>'+gr[l].map(function(b){return'<a href="/collections/'+b.slug+'" class="trg-mm-bl">'+esc(b.name)+'</a>'}).join('')+'</div>'}).join('');
 }
 
 function bindSearch(){
