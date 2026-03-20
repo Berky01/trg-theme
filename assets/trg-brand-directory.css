@@ -952,8 +952,8 @@ body:not(.filters-hidden) .trg-bdir .trg-bdir__show {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding-bottom: 1rem;
-    margin-bottom: 1rem;
-    border-bottom: 1px solid var(--bd);
+    padding-bottom: 0.75rem;
+    margin-bottom: 0;
+    border-bottom: none;
   }
 }
