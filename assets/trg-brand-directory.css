@@ -780,7 +780,7 @@ body:not(.filters-hidden) .trg-bdir .trg-bdir__show {
     padding-top: 0.75rem;
     margin-bottom: 0.75rem;
   }
-  .trg-bdir .trg-bdir__show {
+  .trg-bdir .trg-bdir__sort .trg-bdir__show {
     display: inline-flex !important;
     order: 0;
     min-height: 36px !important;
