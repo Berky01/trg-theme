@@ -333,9 +333,19 @@ input:focus-visible {
     text-align: center;
   }
 
-  /* Fix account button wrapping on mobile */
+  /* Fix account button + search overlap on mobile */
+  /* Dwell mobile grid: leftA(44) leftB(44) center(1fr) rightA(44) rightB(44) */
+  /* Search goes to leftB, account spans rightA+rightB = 88px total */
+  .header__columns .search-action {
+    grid-area: leftB !important;
+  }
+  .header__columns header-actions {
+    grid-column: 4 / 6 !important;
+    grid-row: 1 !important;
+    justify-self: end;
+  }
   .header__icon--account {
-    padding: .25rem .55rem !important;
+    padding: .3rem .6rem !important;
     white-space: nowrap;
   }
   .header__icon--account .account-button__text,
