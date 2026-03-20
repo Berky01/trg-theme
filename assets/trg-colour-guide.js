@@ -183,6 +183,7 @@ function obInit(){
   const el=document.getElementById('cg-outfit-builder');if(!el)return;
   ob={o:{},act:null,hist:[],skipped:{}};
   el.innerHTML=`
+<div class="ob-presets-wrap"><div class="ob-presets-label">Start with a classic combination</div><div class="ob-presets-row" id="ob-presets"></div></div>
 <div class="ob-grid">
   <div class="ob-left">
     <div class="ob-sec-label">Outfit Builder</div>
@@ -201,14 +202,14 @@ function obInit(){
     <div class="ob-links" id="ob-lks"></div>
   </div>
 </div>`;
-  obRSlots();obRPal();
+  obRSlots();obRPal();obRPresets();
   document.getElementById('ob-undo').addEventListener('click',obUndo);
 }
 
 function obRSlots(){
   document.getElementById('ob-slots').innerHTML=G.map(g=>{
     const col=ob.o[g.id],f=!!col,a=ob.act===g.id,sk=ob.skipped[g.id];
-    const cls='ob-slot'+(f?' filled':'')+(a?' on':'')+(sk?' skip':'');
+    const isLight=f&&sL(col.h)[0]>55;const cls='ob-slot'+(f?' filled':'')+(f&&isLight?' light-bg':'')+(a?' on':'')+(sk?' skip':'');
     const bg=f?`background:${col.h}`:'';
     return`<div class="${cls}" style="${bg}" data-g="${g.id}">
   <div class="ob-slot-main">
@@ -332,6 +333,38 @@ function obUShop(){
   document.getElementById('ob-sad').innerHTML=Object.values(ob.o).map(c=>`<div class="ob-shop-dot" style="background:${c.h}${c.n==='White'?';border:1px solid rgba(255,255,255,.2)':''}"></div>`).join('');
   document.getElementById('ob-sas').textContent=entries.map(([gid,c])=>c.n+' '+G.find(x=>x.id===gid).l).join(' \u00b7 ');
   lk.innerHTML=entries.map(([gid,col])=>{const g=G.find(x=>x.id===gid);return`<a class="ob-link" href="/collections/${g.co}"><span class="ob-link-d" style="background:${col.h}${col.n==='White'?';border:1px solid #ddd':''}"></span>${col.n} ${g.l} \u2192</a>`}).join('');
+}
+
+// ─── PRESET PALETTES ───
+const PRESETS=[
+  {name:'The Business Classic',desc:'Navy blazer, white shirt, charcoal trousers, cognac shoes.',picks:{shirt:'White',trousers:'Charcoal',jacket:'Navy',shoes:'Cognac'}},
+  {name:'The Weekend',desc:'Olive over cream, rust knitwear, denim below.',picks:{shirt:'Cream',knitwear:'Rust',jacket:'Olive',trousers:'Denim'}},
+  {name:'The Italianate',desc:'Camel coat, burgundy knit, cream base, chocolate leather.',picks:{shirt:'Cream',knitwear:'Burgundy',coat:'Camel',shoes:'Chocolate'}},
+  {name:'Tonal Grey',desc:'Four shades of grey, head to toe. Monochrome done right.',picks:{shirt:'Silver',knitwear:'Smoke',jacket:'Charcoal',trousers:'Slate'}},
+  {name:'Country Walk',desc:'Forest green, mustard knit, stone chinos, espresso boots.',picks:{jacket:'Forest',knitwear:'Mustard',trousers:'Stone',shoes:'Espresso'}},
+];
+function obLoadPreset(idx){
+  const p=PRESETS[idx];if(!p)return;
+  ob={o:{},act:null,hist:[],skipped:{}};
+  Object.entries(p.picks).forEach(([gid,cName])=>{
+    const c=C.find(x=>x.n===cName);if(c)ob.o[gid]=c;
+  });
+  // Skip unfilled garments
+  G.forEach(g=>{if(!ob.o[g.id])ob.skipped[g.id]=true});
+  obRSlots();obUHarm();obUShop();
+  document.getElementById('ob-undo').classList.add('vis');
+  // Scroll to builder
+  document.getElementById('cg-outfit-builder').scrollIntoView({behavior:'smooth',block:'start'});
+}
+window._obLP=obLoadPreset;
+
+// Render preset cards
+function obRPresets(){
+  const el=document.getElementById('ob-presets');if(!el)return;
+  el.innerHTML=PRESETS.map((p,i)=>{
+    const cols=Object.values(p.picks).map(cName=>{const c=C.find(x=>x.n===cName);return c?c.h:'#ccc'});
+    return`<div class="ob-preset" onclick="window._obLP(${i})"><div class="ob-preset-colours">${cols.map(h=>`<span style="background:${h}"></span>`).join('')}</div><div class="ob-preset-body"><div class="ob-preset-name">${p.name}</div><div class="ob-preset-desc">${p.desc}</div><div class="ob-preset-cta">Try this palette \u2192</div></div></div>`;
+  }).join('');
 }
 
 // Expose
