@@ -479,3 +479,57 @@
   .trg-acct__wish-grid { grid-template-columns: repeat(4, 1fr); gap: 1.25rem; }
   .trg-toast { left: auto; right: 2rem; bottom: 2rem; width: auto; max-width: 320px; }
 }
+
+/* ─── MOBILE TOUCH TARGETS (44px min) ─── */
+@media (max-width: 989px) {
+  /* 1. Tab buttons */
+  .trg-acct__tab { min-height: 44px; }
+
+  /* 2. Brand card unfollow — expand hit area, keep icon centred */
+  .trg-acct__brand-unfollow {
+    width: 44px; height: 44px;
+    top: 0; right: 0;
+  }
+
+  /* 3. Wishlist card remove */
+  .trg-acct__wish-remove {
+    width: 44px; height: 44px;
+    top: 0.25rem; right: 0.25rem;
+  }
+
+  /* 4. Notification toggles — enlarge tap zone */
+  .trg-acct__toggle {
+    width: 44px; height: 24px;
+    border-radius: 12px;
+  }
+  .trg-acct__toggle::after {
+    width: 20px; height: 20px;
+    top: 2px; left: 2px;
+  }
+  .trg-acct__toggle.on::after { transform: translateX(20px); }
+
+  /* 5. Wishlist card CTA */
+  .trg-acct__wish-cta { min-height: 44px; }
+
+  /* 6. Sort dropdown */
+  .trg-acct__sort { min-height: 44px; }
+
+  /* 7. Settings inputs & selects */
+  .trg-acct__field input,
+  .trg-acct__field select { min-height: 44px; }
+
+  /* 8. Manage Account / danger button */
+  .trg-acct__btn-danger { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
+
+  /* 9. Save button */
+  .trg-acct__btn-save { min-height: 44px; }
+
+  /* 10. Empty-state CTA */
+  .trg-acct__btn-cta { min-height: 44px; }
+
+  /* 11. Wishlist heart (product cards + PDP) */
+  .trg-wishlist-btn { width: 44px; height: 44px; }
+
+  /* 12. Follow button (brand PDP) */
+  .trg-follow-btn { min-height: 44px; }
+}
