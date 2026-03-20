@@ -236,6 +236,11 @@ function obRSlots(){
     if(sk)sk.addEventListener('click',e=>{e.stopPropagation();obSkip(gid)});
   });
   obUpdateReset();
+  // Collapse presets on mobile when building
+  const pw=document.querySelector('.ob-presets-wrap');
+  if(pw){const hasPicks=Object.keys(ob.o).length>0||Object.keys(ob.skipped).length>0;
+    pw.classList.toggle('collapsed',hasPicks&&window.innerWidth<750);
+  }
 }
 
 function obPG(id){
@@ -340,6 +345,7 @@ function obReset(){
   document.getElementById('ob-pr').style.display='none';clrChips();
   obRSlots();obUHarm();obUShop();
   document.getElementById('ob-undo').classList.remove('vis');
+  const pw=document.querySelector('.ob-presets-wrap');if(pw)pw.classList.remove('collapsed');
 }
 function obUpdateReset(){
   const btn=document.getElementById('ob-reset');if(!btn)return;
