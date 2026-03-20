@@ -20,9 +20,12 @@ function init(){
 }
 
 function loadBrands(){
-  var el=$('trg-mm-bd');
-  if(el){try{var d=JSON.parse(el.textContent);if(Array.isArray(d)&&d.length>0){br=d;return}}catch(e){}}
   br=FB;
+  var el=$('trg-mm-bd');
+  if(el){try{var d=JSON.parse(el.textContent);if(Array.isArray(d)&&d.length>100){br=d;return}}catch(e){}}
+  var cs=document.querySelector('link[href*="trg-mega-menu"]');
+  if(cs){var base=cs.href.split('/assets/')[0]+'/assets/brands-menu.json';
+    fetch(base).then(function(r){return r.json()}).then(function(d){if(Array.isArray(d)&&d.length>0){br=d;render(ac,'')}}).catch(function(){})}
 }
 
 function bindNav(){
