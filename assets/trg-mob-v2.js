@@ -488,7 +488,7 @@ function render(){
   if(pEl){
     if(picks.length){
       var ph='<div style="font-size:.52rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#c4562a;padding:.75rem 1.25rem .35rem;display:flex;align-items:center;gap:.5rem">Our picks<span style="flex:1;height:1px;background:rgba(196,86,42,.2)"></span></div><div style="padding:0 1.25rem">';
-      picks.forEach(function(b){ph+='<a href="/pages/brands/'+b.s+'" style="display:flex;align-items:center;justify-content:space-between;min-height:42px;padding:.3rem 0;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.04)"><span style="font-size:.78rem;color:rgba(245,241,235,.92)">'+hl(b.n,mQ)+'</span><span style="width:5px;height:5px;border-radius:50%;background:#c4562a;opacity:.6;flex-shrink:0"></span></a>'});
+      picks.forEach(function(b){ph+='<a href="/collections/'+b.s+'" style="display:flex;align-items:center;justify-content:space-between;min-height:42px;padding:.3rem 0;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.04)"><span style="font-size:.78rem;color:rgba(245,241,235,.92)">'+hl(b.n,mQ)+'</span><span style="width:5px;height:5px;border-radius:50%;background:#c4562a;opacity:.6;flex-shrink:0"></span></a>'});
       ph+='</div>';pEl.innerHTML=ph;
     }else pEl.innerHTML='';
   }
@@ -496,7 +496,7 @@ function render(){
     if(rest.length){
       var rh='<div style="font-size:.52rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(245,241,235,.3);padding:.6rem 1.25rem .35rem;display:flex;align-items:center;gap:.5rem">All brands<span style="flex:1;height:1px;background:rgba(245,241,235,.08)"></span></div><div style="padding:0 1.25rem 2rem">';
       var gr={};rest.forEach(function(b){var l=b.n.replace(/^[^a-zA-Z]+/,'').charAt(0).toUpperCase()||'#';if(!gr[l])gr[l]=[];gr[l].push(b)});
-      Object.keys(gr).sort().forEach(function(l){rh+='<div style="font-size:.52rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#c4562a;padding:.7rem 0 .25rem;border-bottom:1px solid rgba(196,86,42,.2);margin-top:.4rem">'+l+'</div>';gr[l].forEach(function(b){rh+='<a href="/pages/brands/'+b.s+'" style="display:flex;align-items:center;min-height:40px;padding:.25rem 0;font-size:.76rem;color:rgba(245,241,235,.55);text-decoration:none;border-bottom:1px solid rgba(255,255,255,.03)">'+hl(b.n,mQ)+'</a>'})});
+      Object.keys(gr).sort().forEach(function(l){rh+='<div style="font-size:.52rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#c4562a;padding:.7rem 0 .25rem;border-bottom:1px solid rgba(196,86,42,.2);margin-top:.4rem">'+l+'</div>';gr[l].forEach(function(b){rh+='<a href="/collections/'+b.s+'" style="display:flex;align-items:center;min-height:40px;padding:.25rem 0;font-size:.76rem;color:rgba(245,241,235,.55);text-decoration:none;border-bottom:1px solid rgba(255,255,255,.03)">'+hl(b.n,mQ)+'</a>'})});
       rh+='</div>';rEl.innerHTML=rh;
     }else rEl.innerHTML='';
   }
