@@ -475,9 +475,12 @@ body:not(.filters-hidden) .trg-bdir .trg-bdir__show {
   }
 
   .trg-bdir .trg-bdir__res {
+    position: static;
+    transform: none;
     order: 2;
     margin-left: auto;
     flex: 0 0 auto;
+    white-space: normal;
   }
 
   .trg-bdir .trg-bdir__sortlbl {
@@ -788,3 +791,37 @@ body:not(.filters-hidden) .trg-bdir .trg-bdir__show {
 }
 
 /* cache-bust-mobile-v2: 2026-03-20 */
+
+@media screen and (max-width: 480px) {
+  .trg-bdir .trg-bdir__cta {
+    position: absolute !important;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    min-height: 36px;
+  }
+  .trg-bdir .trg-bdir__card {
+    position: relative;
+    padding-bottom: 36px;
+  }
+  .trg-bdir .trg-bdir__badgef {
+    top: .4rem;
+    left: .4rem;
+    font-size: .5rem;
+    padding: .12rem .35rem;
+    min-height: auto;
+  }
+  .trg-bdir .trg-bdir__wish {
+    top: .35rem;
+    right: .35rem;
+    width: 32px;
+    height: 32px;
+  }
+  .trg-bdir .trg-bdir__wish svg {
+    width: 14px;
+    height: 14px;
+  }
+  .trg-bdir .trg-bdir__sort {
+    padding-top: .75rem;
+  }
+}
