@@ -522,50 +522,7 @@ body:not(.filters-hidden) .trg-bdir .trg-bdir__show {
   }
 }
 
-@media screen and (max-width: 480px) {
-  .trg-bdir .trg-bdir__grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.5rem;
-  }
 
-  .trg-bdir .trg-bdir__body2 {
-    min-height: 0;
-    padding: 0.65rem 0.65rem 0.75rem;
-  }
-
-  .trg-bdir .trg-bdir__toprow h3 {
-    font-size: 0.82rem;
-  }
-
-  .trg-bdir .trg-bdir__origin {
-    font-size: 0.6rem;
-  }
-
-  .trg-bdir .trg-bdir__copy {
-    font-size: 0.7rem;
-    -webkit-line-clamp: 2;
-    margin-top: 0.35rem;
-  }
-
-  .trg-bdir .trg-bdir__tags {
-    margin-top: 0.4rem;
-  }
-
-  .trg-bdir .trg-bdir__tag {
-    font-size: 0.58rem;
-    min-height: 1.2rem;
-    padding: 0 0.38rem;
-  }
-
-  .trg-bdir .trg-bdir__mini span {
-    font-size: 0.52rem;
-    padding: 0 0.35rem;
-  }
-
-  .trg-bdir .trg-bdir__body2 {
-    min-height: 0;
-  }
-}
 
 /* Card body — taller with 3-line description */
 .trg-bdir .trg-bdir__carda {
@@ -599,28 +556,133 @@ body:not(.filters-hidden) .trg-bdir .trg-bdir__show {
 /* cache-bust: 2026-03-15 */
 
 /* ═══════════════════════════════════════════════════════
-   MOBILE UX FIXES — 2026-03-20
-   Critical: grid, tap targets, hover→visible, sticky header
+   MOBILE UX FIXES v2 — 2026-03-20
+   Comprehensive: grid, card layout, tap targets, CTA, wish
    ═══════════════════════════════════════════════════════ */
 
-/* ── 1. Single-column grid below 480px ── */
+/* ── 1. Grid: 2-col → 1-col at 480px ── */
 @media screen and (max-width: 480px) {
   .trg-bdir .trg-bdir__grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr !important;
     gap: 0.75rem;
   }
 }
 
-/* ── 2. Tap targets: filter drawer (below 989px = drawer mode) ── */
+/* ── 2. Card goes horizontal (landscape) at 1-col ── */
+@media screen and (max-width: 480px) {
+  .trg-bdir .trg-bdir__carda {
+    flex-direction: row;
+    align-items: stretch;
+  }
+
+  .trg-bdir .trg-bdir__media {
+    aspect-ratio: 1 / 1;
+    width: 110px;
+    min-width: 110px;
+    flex-shrink: 0;
+    border-right: 1px solid var(--bd);
+  }
+
+  .trg-bdir .trg-bdir__body2 {
+    flex: 1;
+    min-height: 0;
+    padding: 0.65rem 0.75rem 0.65rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .trg-bdir .trg-bdir__toprow h3 {
+    font-size: 0.88rem;
+  }
+
+  .trg-bdir .trg-bdir__origin {
+    font-size: 0.62rem;
+  }
+
+  .trg-bdir .trg-bdir__copy {
+    font-size: 0.72rem;
+    -webkit-line-clamp: 2;
+    margin-top: 0.3rem;
+  }
+
+  .trg-bdir .trg-bdir__tags {
+    margin-top: 0.4rem;
+  }
+
+  .trg-bdir .trg-bdir__tag {
+    font-size: 0.6rem;
+    min-height: 1.35rem;
+    padding: 0 0.42rem;
+  }
+
+  .trg-bdir .trg-bdir__mini span {
+    font-size: 0.55rem;
+    padding: 0 0.38rem;
+  }
+
+  /* CTA becomes inline bottom bar spanning full card width */
+  .trg-bdir .trg-bdir__cta {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  /* Pad bottom of body to not overlap CTA */
+  .trg-bdir .trg-bdir__card {
+    position: relative;
+    padding-bottom: 44px;
+  }
+
+  /* Wishlist repositions to body area instead of media */
+  .trg-bdir .trg-bdir__wish {
+    top: 0.5rem;
+    right: 0.5rem;
+  }
+
+  /* Featured badge repositions */
+  .trg-bdir .trg-bdir__badgef {
+    font-size: 0.55rem;
+    padding: 0.15rem 0.45rem;
+  }
+}
+
+/* ── 3. CTA: 44px tap target on ALL mobile ── */
 @media screen and (max-width: 989px) {
-  /* Checkbox rows: 44px minimum tap area */
+  .trg-bdir .trg-bdir__cta {
+    opacity: 1;
+    transform: translateY(0);
+    position: relative;
+    min-height: 44px;
+    font-size: 0.68rem;
+    padding: 0.6rem 1rem;
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+/* ── 4. Wishlist: 44px tap target on mobile ── */
+@media screen and (max-width: 989px) {
+  .trg-bdir .trg-bdir__wish {
+    opacity: 1;
+    width: 44px;
+    height: 44px;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .trg-bdir .trg-bdir__wish svg {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+/* ── 5. Filter drawer: all tap targets 44px ── */
+@media screen and (max-width: 989px) {
   .trg-bdir .trg-bdir__check {
     min-height: 44px;
     gap: 0.85rem;
     padding: 0.2rem 0;
   }
 
-  /* Checkbox visual stays 15px but wrapper gets 44px hit area */
   .trg-bdir .trg-bdir__boxwrap {
     width: 44px;
     height: 44px;
@@ -629,44 +691,38 @@ body:not(.filters-hidden) .trg-bdir .trg-bdir__show {
     justify-content: center;
   }
 
-  /* Switch toggle rows */
   .trg-bdir .trg-bdir__switchrow {
     min-height: 44px;
     padding: 0.25rem 0;
   }
 
-  /* Browse category buttons */
   .trg-bdir .trg-bdir__browsebtn {
     min-height: 44px;
     font-size: 0.88rem;
   }
 
-  /* Filter group toggle */
   .trg-bdir .trg-bdir__gt {
     min-height: 44px;
   }
 
-  /* Clear / apply buttons */
   .trg-bdir .trg-bdir__btn,
   .trg-bdir .trg-bdir__clear,
   .trg-bdir .trg-bdir__go {
     min-height: 44px;
   }
 
-  /* Sort select */
   .trg-bdir .trg-bdir__sortlbl select {
     min-height: 44px;
     padding: 0 0.85rem;
   }
 
-  /* Show filters button */
   .trg-bdir .trg-bdir__show {
     min-height: 44px;
     padding: 0 1rem;
   }
 }
 
-/* ── 3. Search bar chips: tappable on mobile ── */
+/* ── 6. Search bar chips: tappable ── */
 @media screen and (max-width: 748px) {
   .trg-bdir .trg-bdir__chip {
     min-height: 2.25rem;
@@ -680,39 +736,18 @@ body:not(.filters-hidden) .trg-bdir .trg-bdir__show {
   }
 }
 
-/* ── 4. Card CTA always visible on touch (no hover) ── */
-@media screen and (max-width: 989px) {
-  .trg-bdir .trg-bdir__cta {
-    opacity: 1;
-    transform: translateY(0);
-    position: relative;
-    min-height: 2.6rem;
-  }
-}
-
-/* ── 5. Wishlist heart always visible on touch ── */
-@media screen and (max-width: 989px) {
-  .trg-bdir .trg-bdir__wish {
-    opacity: 1;
-    width: 36px;
-    height: 36px;
-  }
-}
-
-/* ── 6. Sticky header: hide title row below 748px, keep search bar only ── */
+/* ── 7. Header: scrolls away on phones, search stays ── */
 @media screen and (max-width: 748px) {
   .trg-bdir .trg-bdir__head {
     position: relative;
-    /* Not sticky — scrolls away */
   }
 
   .trg-bdir .trg-bdir__searchbar {
     top: var(--nav);
-    /* Search bar sticks right below nav, no header gap */
   }
 }
 
-/* ── 7. Back-to-top button: larger on mobile ── */
+/* ── 8. Back-to-top: 44px ── */
 @media screen and (max-width: 989px) {
   .trg-bdir .trg-bdir__top {
     width: 44px;
@@ -722,7 +757,7 @@ body:not(.filters-hidden) .trg-bdir .trg-bdir__show {
   }
 }
 
-/* ── 8. Featured brand card: full-width on narrow ── */
+/* ── 9. Featured card: full-width narrow ── */
 @media screen and (max-width: 480px) {
   .trg-bdir .trg-bdir__feat {
     margin-top: 0.5rem;
@@ -734,5 +769,22 @@ body:not(.filters-hidden) .trg-bdir .trg-bdir__show {
   }
 }
 
-/* cache-bust-mobile: 2026-03-20 */
+/* ── 10. Load More button: 44px ── */
+@media screen and (max-width: 989px) {
+  .trg-bdir .trg-bdir__load .trg-bdir__btn {
+    min-height: 44px;
+    width: 100%;
+    justify-content: center;
+  }
+}
 
+/* ── 11. Progress bar text: readable on narrow ── */
+@media screen and (max-width: 480px) {
+  .trg-bdir .trg-bdir__progmeta {
+    flex-direction: column;
+    gap: 0.25rem;
+    font-size: 0.72rem;
+  }
+}
+
+/* cache-bust-mobile-v2: 2026-03-20 */
