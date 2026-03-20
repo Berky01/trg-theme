@@ -342,6 +342,7 @@ input:focus-visible {
     grid-column: 4 / 6 !important;
     grid-row: 1 !important;
     justify-self: end;
+    margin-right: 0.5rem;
   }
   /* Hide wishlist heart on mobile — accessible from account page */
   .trg-nav-wishlist {
