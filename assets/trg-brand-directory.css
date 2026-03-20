@@ -906,3 +906,9 @@ body:not(.filters-hidden) .trg-bdir .trg-bdir__show {
     font-size: 1.15rem;
   }
 }
+
+@media screen and (max-width: 989px) {
+  body:not(.filters-hidden) .trg-bdir .trg-bdir__sort .trg-bdir__show {
+    display: inline-flex !important;
+  }
+}
