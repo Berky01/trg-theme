@@ -162,78 +162,101 @@
 
 /* ─── RESPONSIVE ─── */
 @media(max-width:749px){
-  .ob-wrap{padding:1rem .75rem 2rem;max-width:100%}
-  .ob-grid{grid-template-columns:1fr;gap:.75rem}
+  .ob-wrap{padding:.75rem .75rem 2rem;max-width:100%}
+  .ob-grid{grid-template-columns:1fr;gap:.5rem}
   .ob-left{position:static}
-  .ob-sec-head{margin-bottom:.35rem}
+
+  /* ── Compact hero — tighter ── */
+  .cg-hero{padding:1.25rem 1rem 1rem}
+  .cg-title{font-size:1.35rem}
+  .cg-sub{font-size:.68rem;max-width:280px}
+  .cg-ey{font-size:.48rem;margin-bottom:.35rem}
+  .cg-tabs .cg-tab{padding:.6rem 1.2rem;font-size:.6rem}
+
+  /* ── Section head ── */
+  .ob-sec-head{margin-bottom:.3rem}
   .ob-sec-label{font-size:.55rem}
-  .ob-reset{font-size:.44rem;padding:.15rem .4rem}
+  .ob-reset{font-size:.46rem;padding:.18rem .45rem}
+
+  /* ── Presets: narrower cards, peek third ── */
+  .ob-presets-wrap{margin-bottom:.75rem}
+  .ob-presets-label{font-size:.5rem;margin-bottom:.35rem}
+  .ob-presets-row{gap:.4rem;padding-right:2rem}
+  .ob-preset{flex:none;min-width:140px;width:140px}
+  .ob-preset-colours{height:28px}
+  .ob-preset-body{padding:.35rem .5rem}
+  .ob-preset-name{font-size:.62rem}
+  .ob-preset-desc{font-size:.42rem;-webkit-line-clamp:1}
+  .ob-preset-cta{font-size:.4rem;margin-top:.15rem}
+
   /* ── Slots: horizontal compact strip ── */
-  .ob-slots{flex-direction:row;overflow-x:auto;-webkit-overflow-scrolling:touch;gap:0;border-radius:6px;margin-bottom:.5rem;scrollbar-width:none}
+  .ob-slots{flex-direction:row;overflow-x:auto;-webkit-overflow-scrolling:touch;gap:0;border-radius:6px;margin-bottom:.35rem;scrollbar-width:none}
   .ob-slots::-webkit-scrollbar{display:none}
   .ob-slot{border-bottom:0;border-right:1px solid var(--border);min-height:0;flex-shrink:0}
   .ob-slot:last-child{border-right:0}
-  .ob-slot-main{flex-direction:column;gap:1px;padding:.4rem .35rem;text-align:center;border-left:0;min-width:60px;border-bottom:2.5px solid transparent;padding-right:.35rem}
-  .ob-slot.filled .ob-slot-main{padding-right:.35rem}
+  .ob-slot-main{flex-direction:column;gap:1px;padding:.35rem .3rem;text-align:center;border-left:0;min-width:58px;border-bottom:2.5px solid transparent;padding-right:.3rem}
+  .ob-slot.filled .ob-slot-main{padding-right:.3rem;border-left:0;border-bottom:2.5px solid rgba(255,255,255,.15)}
   .ob-slot.on .ob-slot-main{border-left:0;border-bottom-color:var(--accent)}
-  .ob-slot.filled .ob-slot-main{border-left:0;border-bottom:2.5px solid rgba(255,255,255,.15)}
-  .ob-slot .ob-sl-ic svg{width:18px;height:18px}
+  .ob-slot .ob-sl-ic svg{width:16px;height:16px}
   .ob-slot .ob-sl-body{text-align:center}
-  .ob-slot .ob-sl-top{justify-content:center;gap:.15rem}
-  .ob-slot .ob-sl-name{font-size:.48rem}
-  .ob-slot .ob-sl-sep{font-size:.4rem}
-  .ob-slot .ob-sl-col{font-size:.42rem}
+  .ob-slot .ob-sl-top{justify-content:center;gap:.1rem}
+  .ob-slot .ob-sl-name{font-size:.44rem}
+  .ob-slot .ob-sl-sep{display:none}
+  .ob-slot .ob-sl-col{font-size:.38rem}
   .ob-slot .ob-sl-hint{display:none}
-  .ob-slot .ob-sl-rm{position:absolute;top:3px;right:3px;width:16px;height:16px;border-radius:50%;border-left:0;font-size:.45rem;opacity:1;background:rgba(0,0,0,.25)}
+  .ob-slot .ob-sl-rm{position:absolute;top:2px;right:2px;width:14px;height:14px;border-radius:50%;border-left:0;font-size:.4rem;opacity:1;background:rgba(0,0,0,.25)}
   .ob-slot .ob-sl-skip{display:none !important}
   .ob-slot .ob-sl-shop{display:none !important}
-  /* ── Gauge: compact ── */
-  .ob-gc{padding:.55rem .65rem;gap:.6rem;border-radius:6px;margin-bottom:.4rem;min-height:0}
-  .ob-gauge{width:48px;height:48px}
-  .ob-gauge-pct{font-size:.95rem}
-  .ob-gauge-pct.emp{font-size:.36rem}
-  .ob-gl{font-size:.68rem}
-  .ob-gd{font-size:.48rem}
-  .ob-gt{font-size:.4rem;padding:.12rem .3rem}
-  /* ── Tip ── */
-  .ob-texture-tip{padding:.4rem .6rem;margin-bottom:.4rem}
-  .ob-tt-label{font-size:.38rem}
-  .ob-tt-body{font-size:.5rem}
-  /* ── Shop bar: stack vertically, constrain width ── */
-  .ob-shop{border-radius:6px;padding:.6rem .75rem;margin-bottom:.5rem;text-align:center}
-  .ob-shop-dots{justify-content:center;margin-bottom:.35rem}
-  .ob-shop-dot{width:14px;height:14px}
-  .ob-shop-btn{font-size:.56rem;padding:.5rem .75rem;border-radius:4px}
-  .ob-shop-su{font-size:.46rem;margin-top:.25rem;line-height:1.35}
+
+  /* ── Gauge: HIDDEN when empty, compact when active ── */
+  .ob-gc.empty{display:none}
+  .ob-gc{padding:.45rem .55rem;gap:.5rem;border-radius:6px;margin-bottom:.35rem;min-height:0;border:1px solid var(--border)}
+  .ob-gauge{width:40px;height:40px}
+  .ob-gauge-pct{font-size:.82rem}
+  .ob-gauge-pct.emp{font-size:.3rem}
+  .ob-gl{font-size:.62rem}
+  .ob-gd{font-size:.42rem}
+  .ob-gt{font-size:.38rem;padding:.1rem .25rem;margin-top:.15rem}
+
+  /* ── Tip: very compact ── */
+  .ob-texture-tip{padding:.35rem .5rem;margin-bottom:.35rem}
+  .ob-tt-label{font-size:.36rem;margin-bottom:.08rem}
+  .ob-tt-body{font-size:.46rem;line-height:1.4}
+
+  /* ── Shop bar ── */
+  .ob-shop{border-radius:6px;padding:.5rem .65rem;margin-bottom:.4rem;text-align:center}
+  .ob-shop-dots{justify-content:center;margin-bottom:.25rem}
+  .ob-shop-dot{width:12px;height:12px}
+  .ob-shop-btn{font-size:.52rem;padding:.45rem .65rem;border-radius:4px}
+  .ob-shop-su{font-size:.42rem;margin-top:.2rem;line-height:1.3}
+
   /* ── Prompt + Undo ── */
-  .ob-prompt{font-size:.78rem;margin-bottom:.35rem}
-  .ob-undo{font-size:.48rem;margin-bottom:.2rem}
-  /* ── Presets: horizontal scroll ── */
-  .ob-presets-wrap{margin-bottom:1rem}
-  .ob-presets-row{gap:0.5rem}
-  .ob-preset{flex:none;min-width:160px;width:160px}
-  .ob-preset-colours{height:32px}
-  .ob-preset-body{padding:0.45rem 0.6rem}
-  .ob-preset-name{font-size:0.68rem}
-  .ob-preset-desc{font-size:0.46rem;-webkit-line-clamp:1}
-  .ob-preset-cta{font-size:0.42rem;margin-top:0.2rem}
+  .ob-prompt{font-size:.78rem;margin-bottom:.3rem}
+  .ob-undo{font-size:.46rem;margin-bottom:.15rem}
+
   /* ── Palette families ── */
-  .ob-pal-gn{font-size:.8rem}
-  .ob-pal-gc{font-size:.44rem}
-  .ob-pal-g{margin-bottom:.75rem;padding-bottom:.75rem;position:relative}
-  .ob-pal-r{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:18px;scroll-snap-type:x proximity;gap:8px;scrollbar-width:none}
+  .ob-pal{margin-bottom:1rem}
+  .ob-pal-gn{font-size:.78rem}
+  .ob-pal-gc{font-size:.42rem}
+  .ob-pal-g{margin-bottom:.65rem;padding-bottom:.65rem;position:relative}
+  .ob-pal-gh{margin-bottom:.3rem}
+  .ob-pal-r{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:18px;scroll-snap-type:x proximity;gap:7px;scrollbar-width:none}
   .ob-pal-r::-webkit-scrollbar{display:none}
   .ob-cc{width:44px;height:44px;scroll-snap-align:start;flex-shrink:0}
-  .ob-pal-g::after{content:'';position:absolute;right:0;bottom:18px;width:32px;height:44px;background:linear-gradient(90deg,transparent,var(--paper,#f5f1eb));pointer-events:none}
+  .ob-pal-g::after{content:'';position:absolute;right:0;bottom:18px;width:28px;height:44px;background:linear-gradient(90deg,transparent,var(--paper,#f5f1eb));pointer-events:none}
+
   /* ── Links ── */
-  .ob-links{justify-content:center;flex-wrap:wrap}
-  .ob-link{font-size:.52rem;padding:.3rem .5rem}
+  .ob-links{justify-content:center;flex-wrap:wrap;gap:.25rem;margin-top:.5rem}
+  .ob-link{font-size:.5rem;padding:.25rem .45rem}
+
   /* ── Editorial matcher ── */
-  .em-wrap{padding:1.5rem 1rem}
+  .em-wrap{padding:1.25rem .75rem}
   .em-picker{flex-direction:column}
-  .em-swatch{width:100%;height:180px}
+  .em-swatch{width:100%;height:160px}
   .em-pair-grid{grid-template-columns:1fr}
-  .cg-title{font-size:1.5rem}
+
+  /* ── Credit ── */
+  .cg-credit{font-size:.52rem;padding:.75rem 1rem}
 }
 
 
