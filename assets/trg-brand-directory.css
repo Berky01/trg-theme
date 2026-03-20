@@ -597,3 +597,142 @@ body:not(.filters-hidden) .trg-bdir .trg-bdir__show {
 }
 
 /* cache-bust: 2026-03-15 */
+
+/* ═══════════════════════════════════════════════════════
+   MOBILE UX FIXES — 2026-03-20
+   Critical: grid, tap targets, hover→visible, sticky header
+   ═══════════════════════════════════════════════════════ */
+
+/* ── 1. Single-column grid below 480px ── */
+@media screen and (max-width: 480px) {
+  .trg-bdir .trg-bdir__grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+}
+
+/* ── 2. Tap targets: filter drawer (below 989px = drawer mode) ── */
+@media screen and (max-width: 989px) {
+  /* Checkbox rows: 44px minimum tap area */
+  .trg-bdir .trg-bdir__check {
+    min-height: 44px;
+    gap: 0.85rem;
+    padding: 0.2rem 0;
+  }
+
+  /* Checkbox visual stays 15px but wrapper gets 44px hit area */
+  .trg-bdir .trg-bdir__boxwrap {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Switch toggle rows */
+  .trg-bdir .trg-bdir__switchrow {
+    min-height: 44px;
+    padding: 0.25rem 0;
+  }
+
+  /* Browse category buttons */
+  .trg-bdir .trg-bdir__browsebtn {
+    min-height: 44px;
+    font-size: 0.88rem;
+  }
+
+  /* Filter group toggle */
+  .trg-bdir .trg-bdir__gt {
+    min-height: 44px;
+  }
+
+  /* Clear / apply buttons */
+  .trg-bdir .trg-bdir__btn,
+  .trg-bdir .trg-bdir__clear,
+  .trg-bdir .trg-bdir__go {
+    min-height: 44px;
+  }
+
+  /* Sort select */
+  .trg-bdir .trg-bdir__sortlbl select {
+    min-height: 44px;
+    padding: 0 0.85rem;
+  }
+
+  /* Show filters button */
+  .trg-bdir .trg-bdir__show {
+    min-height: 44px;
+    padding: 0 1rem;
+  }
+}
+
+/* ── 3. Search bar chips: tappable on mobile ── */
+@media screen and (max-width: 748px) {
+  .trg-bdir .trg-bdir__chip {
+    min-height: 2.25rem;
+    padding: 0 0.75rem;
+    font-size: 0.72rem;
+  }
+
+  .trg-bdir .trg-bdir__pill {
+    min-height: 2.25rem;
+    padding: 0 0.8rem;
+  }
+}
+
+/* ── 4. Card CTA always visible on touch (no hover) ── */
+@media screen and (max-width: 989px) {
+  .trg-bdir .trg-bdir__cta {
+    opacity: 1;
+    transform: translateY(0);
+    position: relative;
+    min-height: 2.6rem;
+  }
+}
+
+/* ── 5. Wishlist heart always visible on touch ── */
+@media screen and (max-width: 989px) {
+  .trg-bdir .trg-bdir__wish {
+    opacity: 1;
+    width: 36px;
+    height: 36px;
+  }
+}
+
+/* ── 6. Sticky header: hide title row below 748px, keep search bar only ── */
+@media screen and (max-width: 748px) {
+  .trg-bdir .trg-bdir__head {
+    position: relative;
+    /* Not sticky — scrolls away */
+  }
+
+  .trg-bdir .trg-bdir__searchbar {
+    top: var(--nav);
+    /* Search bar sticks right below nav, no header gap */
+  }
+}
+
+/* ── 7. Back-to-top button: larger on mobile ── */
+@media screen and (max-width: 989px) {
+  .trg-bdir .trg-bdir__top {
+    width: 44px;
+    height: 44px;
+    right: 1rem;
+    bottom: 1rem;
+  }
+}
+
+/* ── 8. Featured brand card: full-width on narrow ── */
+@media screen and (max-width: 480px) {
+  .trg-bdir .trg-bdir__feat {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .trg-bdir .trg-bdir__featbody h3 {
+    font-size: 1.2rem;
+  }
+}
+
+/* cache-bust-mobile: 2026-03-20 */
+
