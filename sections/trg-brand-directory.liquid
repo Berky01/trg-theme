@@ -5,7 +5,7 @@
   assign price_filters = 'Budget,Mid-range,Premium,Luxury' | split: ','
   assign made_filters = 'USA,Canada,Japan,United Kingdom,Europe,Scandinavia' | split: ','
 %}
-{{ 'trg-brand-directory.css' | asset_url | stylesheet_tag }}
+{% comment %}CSS loaded in theme.liquid head{% endcomment %}
 <script src="{{ 'trg-brand-directory.js' | asset_url }}" defer></script>
 <section class="section section--full-width trg-bdir" data-id="{{ section.id }}">
   <script type="application/json" data-brands-json>
