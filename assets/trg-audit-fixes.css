@@ -335,7 +335,6 @@ input:focus-visible {
 
   /* Fix account button + search overlap on mobile */
   /* Dwell mobile grid: leftA(44) leftB(44) center(1fr) rightA(44) rightB(44) */
-  /* Search goes to leftB, account spans rightA+rightB = 88px total */
   .header__columns .search-action {
     grid-area: leftB !important;
   }
@@ -343,6 +342,10 @@ input:focus-visible {
     grid-column: 4 / 6 !important;
     grid-row: 1 !important;
     justify-self: end;
+  }
+  /* Hide wishlist heart on mobile — accessible from account page */
+  .trg-nav-wishlist {
+    display: none !important;
   }
   .header__icon--account {
     padding: .3rem .6rem !important;
