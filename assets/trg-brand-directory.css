@@ -661,7 +661,7 @@ body:not(.filters-hidden) .trg-bdir .trg-bdir__show {
 /* ── 7. Header: scrolls away on phones, search stays ── */
 @media screen and (max-width: 748px) {
   .trg-bdir .trg-bdir__head {
-    position: relative;
+    display: none;
   }
 
   .trg-bdir .trg-bdir__searchbar {
