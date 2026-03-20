@@ -116,7 +116,7 @@
     <div class="trg-pdp__gallery-main" id="trg-gallery-main">
       {%- if p.featured_media -%}
         <img
-          src="{{ p.featured_media | image_url: width: 900 }}"
+          src="{{ p.featured_media | image_url: width: 900 }}" srcset="{{ p.featured_media | image_url: width: 450 }} 450w, {{ p.featured_media | image_url: width: 900 }} 900w, {{ p.featured_media | image_url: width: 1200 }} 1200w" sizes="(min-width: 990px) 45vw, (min-width: 750px) 50vw, calc(100vw - 2rem)"
           alt="{{ p.featured_media.alt | default: p.title | escape }}"
           width="{{ p.featured_media.width }}"
           height="{{ p.featured_media.height }}"
@@ -139,7 +139,7 @@
             data-alt="{{ media.alt | default: p.title | escape }}"
             type="button"
           >
-            <img src="{{ media | image_url: width: 160 }}" alt="" loading="lazy">
+            <img src="{{ media | image_url: width: 160 }}" srcset="{{ media | image_url: width: 80 }} 1x, {{ media | image_url: width: 160 }} 2x" alt="" loading="lazy">
           </button>
         {%- endfor -%}
       </div>

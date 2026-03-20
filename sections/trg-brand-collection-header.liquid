@@ -23,7 +23,7 @@
           <div class="trg-bch-identity">
             <div class="trg-bch-logo">
               {%- if brand.logo != blank -%}
-                <img src="{{ brand.logo | image_url: width: 104 }}" alt="{{ brand.name | escape }} logo" width="52" height="52" loading="eager">
+                <img src="{{ brand.logo | image_url: width: 104 }}" srcset="{{ brand.logo | image_url: width: 104 }} 1x, {{ brand.logo | image_url: width: 208 }} 2x" alt="{{ brand.name | escape }} logo" width="52" height="52" loading="eager">
               {%- else -%}
                 <span class="trg-bch-logo__fallback">{{ brand.name | truncate: 2, '' | upcase }}</span>
               {%- endif -%}
