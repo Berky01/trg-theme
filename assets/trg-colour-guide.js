@@ -81,7 +81,7 @@ function sc(a,b){
   const s=a.cb.filter(c=>b.cb.includes(c)).length;
   if(s>=3)return{pct:Math.min(97,82+s*4),tier:'perfect'};
   if(s>=1)return{pct:62+s*10,tier:'good'};
-  return{pct:Math.max(18,Math.round(52-(dE(a.h,b.h)/120)*30)),tier:'works'};
+  return{pct:Math.max(18,Math.round(52-(dE(a.h,b.h)/120)*30)),tier:'atg'};
 }
 function near(hex){let b=null,bd=Infinity;C.forEach(c=>{const d=dE(hex,c.h);if(d<bd){bd=d;b=c}});return b}
 
@@ -103,6 +103,39 @@ const G=[
   {id:'shoes',l:'Shoes',co:'footwear'}
 ];
 const GORDER=['Whites & Creams','Sand & Khaki','Browns','Greens','Blues','Greys','Reds & Burgundy','Mauves'];
+
+// ─── TEXTURE TIPS (grounded in Flusser, MasterClass, Articles of Style) ───
+// Rules: 1) Contrast smooth with rough  2) Max two textured pieces  3) Texture sets formality  4) Texture changes how colour reads
+const TTIPS={
+  shirt:{
+    hi:'A smooth broadcloth or poplin makes colours read cleaner — the fabric reflects light evenly. If the layers above are textured, that contrast does the heavy lifting.',
+    lo:'A rough-textured shirt — brushed flannel, heavy linen — absorbs light and softens bold colour. When the palette is unconventional, that muting effect helps everything sit together.'
+  },
+  trousers:{
+    hi:'Smooth worsted or sateen reads dressier, heavy cotton drill reads casual — same colour, different message. Either way, contrast the texture with whatever\u2019s happening on top.',
+    lo:'Wide-wale corduroy or heavy moleskin absorbs light and tones down colour. When the palette pushes boundaries, a textured trouser grounds the whole outfit.'
+  },
+  knitwear:{
+    hi:'Knitwear is where you introduce texture between a smooth shirt and a structured jacket. A Shetland or lambswool creates visual separation between layers without adding pattern.',
+    lo:'A nubby knit mutes whatever colour it carries — rough surfaces scatter light. An unconventional colour reads quieter in a chunky wool than it would in a smooth merino.'
+  },
+  jacket:{
+    hi:'A textured jacket — hopsack, tweed, herringbone — over smoother layers is the classic formula. Flusser\u2019s rule: highly textured fabrics pair more naturally with less formal clothing.',
+    lo:'One textured jacket can anchor an unconventional palette. Rough fabric absorbs light and softens the visual impact of unexpected colour — it\u2019s doing the diplomacy for you.'
+  },
+  coat:{
+    hi:'The coat frames everything underneath. A heavier cloth — casentino, melton, boucl\u00e9 — creates a tactile contrast with finer layers below. Limit bold textures to two pieces total.',
+    lo:'A heavy, light-absorbing fabric like boucl\u00e9 or casentino will visually mute whatever colour it carries. Bold palette plus textured coat — the fabric does the softening.'
+  },
+  shoes:{
+    hi:'Shoe texture sets the formality of the entire outfit. Suede grounds warm palettes and reads relaxed. Polished leather sharpens cool palettes and reads formal.',
+    lo:'Grainy leather, roughout suede, or a moc-stitched shoe carries more visual weight. When everything above is unconventional, shoes with character keep it from looking accidental.'
+  }
+};
+const TTIP_DEFAULT={
+  hi:'Contrast smooth with rough across your layers. A nubby jacket over a fine broadcloth shirt is more interesting than matching everything smooth \u2014 texture adds depth without adding pattern.',
+  lo:'When the palette runs bold, lean on texture to ground it. Rough surfaces absorb light and mute colour \u2014 one or two textured pieces can make an unexpected combination feel deliberate.'
+};
 
 // ─── COLOUR STORIES ───
 const STORIES={
@@ -136,6 +169,7 @@ function obInit(){
       <div class="ob-gauge"><svg viewBox="0 0 88 88"><circle class="ob-gauge-bg" cx="44" cy="44" r="40"/><circle class="ob-gauge-fill" id="ob-gf" cx="44" cy="44" r="40"/></svg><div class="ob-gauge-text empty-st" id="ob-gt">Build<br>to score</div></div>
       <div class="ob-harm-meta"><div class="ob-harm-title" id="ob-ht">Pick your first piece</div><div class="ob-harm-desc" id="ob-hd">Tap a garment in the strip below, then pick a colour. The harmony score updates as you build.</div></div>
     </div>
+    <div class="ob-texture-tip hidden" id="ob-tt"><div class="ob-tt-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div><div class="ob-tt-body" id="ob-ttb"></div></div>
     <div class="ob-strip" id="ob-strip"></div>
     <button class="ob-undo" id="ob-undo" onclick="window._obUndo()"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 119 9"/><path d="M3 3v9h9"/></svg> Undo</button>
     <div class="ob-prompt" id="ob-pr"></div>
@@ -172,15 +206,16 @@ function obPG(id){
     pr.innerHTML=`Pick a colour for <strong>${g.l}</strong>:`;
     const ref=locked[locked.length-1];
     document.querySelectorAll('#ob-pal .ob-cc').forEach(ch=>{
-      ch.classList.remove('perfect','good');ch.querySelector('.ob-sc').style.display='none';
+      ch.classList.remove('perfect','good','atg');ch.querySelector('.ob-sc').style.display='none';
       const cObj=C[parseInt(ch.dataset.ci)];if(!cObj)return;
       const s=sc(ref,cObj);
       if(s.tier==='perfect'){ch.classList.add('perfect');ch.querySelector('.ob-sc').textContent=s.pct+'%';ch.querySelector('.ob-sc').style.display='block'}
       else if(s.tier==='good'){ch.classList.add('good');ch.querySelector('.ob-sc').textContent=s.pct+'%';ch.querySelector('.ob-sc').style.display='block'}
+      else{ch.classList.add('atg');ch.querySelector('.ob-sc').textContent=s.pct+'%';ch.querySelector('.ob-sc').style.display='block'}
     });
   }else{
     pr.innerHTML=`Pick a colour for <strong>${g.l}</strong>:`;
-    document.querySelectorAll('#ob-pal .ob-cc').forEach(ch=>{ch.classList.remove('perfect','good');ch.querySelector('.ob-sc').style.display='none'});
+    document.querySelectorAll('#ob-pal .ob-cc').forEach(ch=>{ch.classList.remove('perfect','good','atg');ch.querySelector('.ob-sc').style.display='none'});
   }
 }
 
@@ -189,7 +224,7 @@ function obPCol(col){
   ob.hist.push({g:ob.act,col:ob.o[ob.act]||null,type:'pick'});
   ob.o[ob.act]=col;ob.act=null;
   document.getElementById('ob-pr').style.display='none';
-  document.querySelectorAll('#ob-pal .ob-cc').forEach(ch=>{ch.classList.remove('perfect','good');ch.querySelector('.ob-sc').style.display='none'});
+  document.querySelectorAll('#ob-pal .ob-cc').forEach(ch=>{ch.classList.remove('perfect','good','atg');ch.querySelector('.ob-sc').style.display='none'});
   obRStrip();obUHarm();obUShop();
   document.getElementById('ob-undo').classList.add('vis');
 }
@@ -197,7 +232,7 @@ function obPCol(col){
 function obSkip(id){
   ob.hist.push({g:id,col:null,type:'skip'});
   ob.skipped[id]=true;
-  if(ob.act===id){ob.act=null;document.getElementById('ob-pr').style.display='none';document.querySelectorAll('#ob-pal .ob-cc').forEach(ch=>{ch.classList.remove('perfect','good');ch.querySelector('.ob-sc').style.display='none'})}
+  if(ob.act===id){ob.act=null;document.getElementById('ob-pr').style.display='none';document.querySelectorAll('#ob-pal .ob-cc').forEach(ch=>{ch.classList.remove('perfect','good','atg');ch.querySelector('.ob-sc').style.display='none'})}
   obRStrip();document.getElementById('ob-undo').classList.add('vis');
 }
 
@@ -213,7 +248,7 @@ function obUndo(){
   else{if(last.col)ob.o[last.g]=last.col;else delete ob.o[last.g]}
   ob.act=null;
   document.getElementById('ob-pr').style.display='none';
-  document.querySelectorAll('#ob-pal .ob-cc').forEach(ch=>{ch.classList.remove('perfect','good');ch.querySelector('.ob-sc').style.display='none'});
+  document.querySelectorAll('#ob-pal .ob-cc').forEach(ch=>{ch.classList.remove('perfect','good','atg');ch.querySelector('.ob-sc').style.display='none'});
   obRStrip();obUHarm();obUShop();
   if(!ob.hist.length)document.getElementById('ob-undo').classList.remove('vis');
 }
@@ -232,24 +267,32 @@ function obRPal(){
 }
 
 function obUHarm(){
-  const cols=Object.values(ob.o),hero=document.getElementById('ob-harm');
+  const cols=Object.values(ob.o),hero=document.getElementById('ob-harm'),tip=document.getElementById('ob-tt'),tipBody=document.getElementById('ob-ttb');
   if(cols.length<2){
-    hero.classList.add('empty');
+    hero.classList.add('empty');hero.style.borderRadius='2px';hero.style.marginBottom='2rem';
+    tip.classList.add('hidden');
     document.getElementById('ob-gt').className='ob-gauge-text empty-st';
     document.getElementById('ob-gt').innerHTML=cols.length===1?'Add<br>more':'Build<br>to score';
     document.getElementById('ob-gf').style.strokeDashoffset=251.3;
     document.getElementById('ob-ht').textContent=cols.length===1?'One piece selected':'Pick your first piece';
+    document.getElementById('ob-ht').style.color='';
     document.getElementById('ob-hd').textContent='Tap a garment in the strip, then pick a colour.';
     return;
   }
-  hero.classList.remove('empty');
+  hero.classList.remove('empty');hero.style.borderRadius='2px 2px 0 0';hero.style.marginBottom='0';
   let t=0,p=0;for(let a=0;a<cols.length;a++)for(let b=a+1;b<cols.length;b++){t+=sc(cols[a],cols[b]).pct;p++}
   const avg=Math.round(t/p);
   document.getElementById('ob-gf').style.strokeDashoffset=251.3-(251.3*avg/100);
   document.getElementById('ob-gt').className='ob-gauge-text';
   document.getElementById('ob-gt').textContent=avg+'%';
-  document.getElementById('ob-ht').textContent=avg>=85?'Excellent harmony':avg>=65?'Good harmony':'Bold contrast';
-  document.getElementById('ob-hd').textContent=avg>=85?'These colours appear together across multiple documented Wada palettes. A considered, editorial combination.':avg>=65?'A cohesive combination with documented pairings. Confident without being safe.':'An unconventional pairing that creates visual tension. Deliberate, not accidental.';
+  const ht=document.getElementById('ob-ht'),hd=document.getElementById('ob-hd');
+  if(avg>=85){ht.textContent='Excellent harmony';ht.style.color='';hd.textContent='These colours appear together across multiple documented Wada palettes. A considered, editorial combination.';}
+  else if(avg>=65){ht.textContent='Good harmony';ht.style.color='';hd.textContent='A cohesive combination with documented pairings. Confident without being safe.';}
+  else{ht.textContent='Against the Grain';ht.style.color='var(--accent)';hd.textContent='This combination defies Wada\u2019s documented indices. An unconventional palette that makes its own rules \u2014 deliberate, not accidental.';}
+  const lastG=Object.keys(ob.o).pop(),lvl=avg>=65?'hi':'lo';
+  const td=(TTIPS[lastG]&&TTIPS[lastG][lvl])||TTIP_DEFAULT[lvl];
+  tipBody.innerHTML='<strong>Texture tip:</strong> '+td;
+  tip.classList.remove('hidden');
 }
 
 function obUShop(){
@@ -300,7 +343,7 @@ function emSelect(col){
   document.getElementById('em-sb').textContent=story.b;
   const scored=C.filter(c=>c.n!==col.n).map(c=>({...c,...sc(col,c)})).sort((a,b)=>b.pct-a.pct).slice(0,6);
   const notes=['A natural jacket-over-shirt pairing.','Try this as a trouser-shirt combination.','Best as a knitwear accent.','Strong as outerwear contrast.','Works in accessories — scarf, pocket square.','A subtle complement in tailoring.'];
-  document.getElementById('em-pg').innerHTML=scored.map((m,i)=>`<div class="em-pair-card" onclick="window._emSel(${C.indexOf(C.find(x=>x.n===m.n))})"><div class="em-pair-swatches"><div class="em-pair-sw-l" style="background:${col.h}"></div><div class="em-pair-sw-r" style="background:${m.h}"></div></div><div class="em-pair-body"><div class="em-pair-name">${m.n}</div><div class="em-pair-tier ${m.tier}">${m.tier==='perfect'?'Perfect match':'Good match'} · ${m.pct}%</div><div class="em-pair-note">${notes[i]||''}</div></div></div>`).join('');
+  document.getElementById('em-pg').innerHTML=scored.map((m,i)=>`<div class="em-pair-card" onclick="window._emSel(${C.indexOf(C.find(x=>x.n===m.n))})"><div class="em-pair-swatches"><div class="em-pair-sw-l" style="background:${col.h}"></div><div class="em-pair-sw-r" style="background:${m.h}"></div></div><div class="em-pair-body"><div class="em-pair-name">${m.n}</div><div class="em-pair-tier ${m.tier}">${m.tier==='perfect'?'Perfect match':m.tier==='good'?'Good match':'Against the grain'} · ${m.pct}%</div><div class="em-pair-note">${notes[i]||''}</div></div></div>`).join('');
   document.querySelectorAll('.em-mini').forEach(m=>m.classList.remove('active'));
   const mini=[...document.querySelectorAll('.em-mini')].find(m=>m.title===col.n);if(mini)mini.classList.add('active');
 }
@@ -324,3 +367,4 @@ document.addEventListener('DOMContentLoaded',()=>{
 });
 
 })();
+
