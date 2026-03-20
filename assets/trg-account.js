@@ -149,7 +149,7 @@
             </div>
             <div class="trg-acct__empty-title">No brands followed yet</div>
             <div class="trg-acct__empty-desc">Follow brands to get updates when they add new products or run promotions.</div>
-            <a href="/pages/brands-directory" class="trg-acct__btn-cta">Browse Brands</a>
+            <a href="/pages/brands" class="trg-acct__btn-cta">Browse Brands</a>
           </div>`;
         return;
       }
@@ -159,7 +159,7 @@
         const initials = handle.split('-').map(w => w[0] || '').slice(0, 2).join('').toUpperCase();
         const name = handle.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
         return `
-          <a href="/pages/brands/${handle}" class="trg-acct__brand-card">
+          <a href="/collections/${handle}" class="trg-acct__brand-card">
             <button class="trg-acct__brand-unfollow" data-brand="${handle}" title="Unfollow" onclick="event.preventDefault(); event.stopPropagation(); TRG_ACCOUNT.toggleFollow('${handle}');">
               <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
             </button>
