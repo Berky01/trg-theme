@@ -194,11 +194,11 @@
   .ob-preset-cta{font-size:.4rem;margin-top:.15rem}
 
   /* ── Slots ── */
-  .ob-slots{flex-direction:row;overflow-x:auto;-webkit-overflow-scrolling:touch;gap:0;border-radius:6px;margin-bottom:.3rem;scrollbar-width:none}
-  .ob-slots::-webkit-scrollbar{display:none}
-  .ob-slot{border-bottom:0;border-right:1px solid var(--border);min-height:0;flex-shrink:0}
+  /* Slots: equal-width grid, no scroll */
+  .ob-slots{display:grid;grid-template-columns:repeat(6,1fr);gap:0;border-radius:6px;margin-bottom:.3rem;overflow:hidden}
+  .ob-slot{border-bottom:0;border-right:1px solid var(--border);min-height:0}
   .ob-slot:last-child{border-right:0}
-  .ob-slot-main{flex-direction:column;gap:1px;padding:.35rem .3rem;text-align:center;border-left:0;min-width:58px;border-bottom:2.5px solid transparent;padding-right:.3rem}
+  .ob-slot-main{flex-direction:column;gap:1px;padding:.35rem .2rem;text-align:center;border-left:0;min-width:0;border-bottom:2.5px solid transparent}
   .ob-slot.filled .ob-slot-main{padding-right:.3rem;border-left:0;border-bottom:2.5px solid rgba(255,255,255,.15)}
   .ob-slot.on .ob-slot-main{border-left:0;border-bottom-color:var(--accent)}
   .ob-slot .ob-sl-ic svg{width:16px;height:16px}
