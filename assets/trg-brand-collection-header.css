@@ -219,34 +219,53 @@ main[data-template="collection.brand"] > .trg-bch-section { order: -1; }
   }
   .trg-bch-known__tag { font-size: 0.6rem; padding: 0.18rem 0.42rem; }
 
-  /* Sidebar becomes bottom section */
+  /* Sidebar stacks vertically on mobile — no side-by-side */
   .trg-bch-sidebar {
     border-left: none;
     border-top: 1px solid var(--bch-border);
     padding: 1rem;
-    flex-direction: row;
-    flex-wrap: wrap;
+    flex-direction: column;
     gap: 0.75rem;
   }
+
+  /* CTAs: side-by-side, 44px min tap target */
   .trg-bch-ctas {
-    flex: 1; min-width: 200px;
-    flex-direction: row; gap: 0.35rem;
+    flex-direction: row; gap: 0.5rem;
+    width: 100%;
   }
-  .trg-bch-cta__primary { flex: 1; font-size: 0.62rem; padding: 0.5rem 0.6rem; }
-  .trg-bch-cta__secondary { flex: 1; font-size: 0.6rem; padding: 0.45rem 0.6rem; }
+  .trg-bch-cta__primary {
+    flex: 1; font-size: 0.7rem;
+    padding: 0.75rem 0.6rem;
+    min-height: 44px;
+  }
+  .trg-bch-cta__secondary {
+    flex: 1; font-size: 0.68rem;
+    padding: 0.72rem 0.6rem;
+    min-height: 44px;
+  }
   .trg-bch-cta__note { display: none; }
+
+  /* Facts: vertical stack, full width */
   .trg-bch-facts {
-    flex: 1; min-width: 200px;
-    flex-direction: row; gap: 0; flex-wrap: wrap;
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0;
   }
   .trg-bch-fact {
-    flex: 1 1 45%; border-bottom: none;
+    flex: 1 1 45%;
+    border-bottom: none;
     border-right: 1px solid var(--bch-border);
-    padding: 0.3rem 0.6rem;
+    padding: 0.4rem 0.6rem;
+    min-height: 44px;
+    align-items: center;
   }
   .trg-bch-fact:last-child { border-right: none; }
+  .trg-bch-fact__label { font-size: 0.6rem; }
+  .trg-bch-fact__value { font-size: 0.68rem; }
 
   /* Canada */
   .trg-bch-canada__inner { padding: 0 1rem; }
+  .trg-bch-canada__toggle { min-height: 44px; }
   .trg-bch-canada__grid { grid-template-columns: 1fr 1fr; }
 }
