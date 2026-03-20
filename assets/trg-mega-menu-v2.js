@@ -111,7 +111,7 @@ function render(cat,q){
   var tot=items.reduce(function(s,i){return s+i.n},0);
   var nc=window.innerWidth<=1199?3:4;
   var cols=[[]],cc=0,ci=0;
-  items.forEach(function(it){var bp=Math.round(tot*(ci+1)/nc);if(cc>0&&cc+it.n>bp&&cols.length<nc){cols.push([]);ci++;cc=0}cols[cols.length-1].push(it);cc+=it.n});
+  items.forEach(function(it){var bp=Math.round(tot*(ci+1)/nc);if(cc>0&&cc+it.n>bp&&cols.length<nc){cols.push([]);ci++}cols[cols.length-1].push(it);cc+=it.n});
   while(cols.length<nc)cols.push([]);
   g.innerHTML=cols.map(function(col){return'<div class="trg-mm-col">'+col.map(function(it){return'<div class="trg-mm-lt">'+it.l+'</div>'+it.b.map(function(b){return'<a href="/collections/'+b.slug+'" class="trg-mm-bl">'+esc(b.name)+'</a>'}).join('')}).join('')+'</div>'}).join('');
 }
