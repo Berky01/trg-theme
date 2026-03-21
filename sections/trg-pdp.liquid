@@ -359,23 +359,17 @@
     {%- comment -%} ═══ ACCORDION ═══ {%- endcomment -%}
     <div class="trg-pdp__accordion">
 
+      {%- if p.description != blank -%}
       <div class="trg-pdp__acc-item open">
         <button class="trg-pdp__acc-trigger" type="button" onclick="this.closest('.trg-pdp__acc-item').classList.toggle('open')">
           <span class="trg-pdp__acc-label">Details</span>
           <svg class="trg-pdp__acc-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
         </button>
         <div class="trg-pdp__acc-body">
-          <ul>
-            {%- if style_aes != blank -%}<li>Style: {{ style_aes }}</li>{%- endif -%}
-            {%- if material != blank -%}<li>Material: {{ material }}</li>{%- endif -%}
-            {%- if made_in != blank -%}<li>Made in: {{ made_in }}</li>{%- endif -%}
-            {%- if season != blank -%}<li>Season: {{ season }}</li>{%- endif -%}
-          </ul>
-          {%- if p.description != blank -%}
-            <div class="trg-pdp__acc-desc">{{ p.description }}</div>
-          {%- endif -%}
+          <div class="trg-pdp__acc-desc">{{ p.description }}</div>
         </div>
       </div>
+      {%- endif -%}
 
       <div class="trg-pdp__acc-item">
         <button class="trg-pdp__acc-trigger" type="button" onclick="this.closest('.trg-pdp__acc-item').classList.toggle('open')">
