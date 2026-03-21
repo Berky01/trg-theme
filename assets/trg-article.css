@@ -44,6 +44,11 @@
 
 /* ━━━ BODY (article.content rich text) ━━━ */
 .trg-art-body{font-size:17px;line-height:1.85;font-weight:300;}
+/* Prevent horizontal overflow from embedded content */
+.trg-art-body{overflow-x:hidden;overflow-wrap:break-word;word-break:break-word;}
+.trg-art-body svg,.trg-art-body img,.trg-art-body iframe,.trg-art-body video{max-width:100%;height:auto;}
+.trg-art-body div{max-width:100%;overflow-x:hidden;}
+
 .trg-art-body p{margin-bottom:1.5rem;}
 .trg-art-body strong,.trg-art-body b{font-weight:500;}
 .trg-art-body h2{font-family:'Playfair Display',serif;font-size:clamp(20px,2.5vw,26px);font-weight:400;margin:2.5rem 0 1rem;line-height:1.25;}
