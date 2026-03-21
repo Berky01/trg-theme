@@ -863,3 +863,45 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
     height: auto;
   }
 }
+
+/* ═══ #20 CRITICAL: Brand Directory mobile — gap + scrollbar fix ═══ */
+.trg-brand-directory-section {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+.section.trg-bdir {
+  row-gap: 0 !important;
+  gap: 0 !important;
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+@media screen and (max-width: 989px) {
+  .section.trg-bdir {
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  .trg-bdir .trg-bdir__card,
+  .trg-bdir .trg-bdir__carda,
+  .trg-bdir .trg-bdir__body2,
+  .trg-bdir .trg-bdir__media,
+  .trg-bdir .trg-bdir__grid {
+    overflow: hidden !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+  }
+  .trg-bdir .trg-bdir__card::-webkit-scrollbar,
+  .trg-bdir .trg-bdir__carda::-webkit-scrollbar,
+  .trg-bdir .trg-bdir__body2::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
+  .trg-bdir .trg-bdir__cta {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+  }
+}
