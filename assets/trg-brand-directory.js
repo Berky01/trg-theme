@@ -234,7 +234,7 @@
               <div class="trg-bdir__tags">${tagsHtml(brand)}</div>
               ${brand.buyPath === 'Reseller Only' && brand.bestRetailerNa ? `<div class="trg-bdir__ret">Available via ${esc(brand.bestRetailerNa)}</div>` : ''}
             </div>
-            <div class="trg-bdir__cta"><span>View Brand Profile</span><span>→</span></div>
+            ${window.innerWidth > 989 ? '<div class="trg-bdir__cta"><span>View Brand Profile</span><span>\u2192</span></div>' : ''}
           </a>
         </article>
       `;
