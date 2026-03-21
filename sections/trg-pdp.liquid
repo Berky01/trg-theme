@@ -418,6 +418,12 @@
       assign ctl_colour = title_parts.last | strip
     endif
   endif
+  if ctl_colour == blank
+    assign title_parts = p.title | split: ' — '
+    if title_parts.size > 1
+      assign ctl_colour = title_parts.last | strip
+    endif
+  endif
 
   assign pt_lower = p.type | downcase
   assign ctl_garment = 'shirt'
