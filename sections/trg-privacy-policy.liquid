@@ -1,0 +1,488 @@
+<style>
+  /* ─── TRG Privacy Policy ─── */
+  .trg-pp { --ink: #1a1a18; --paper: #f5f1eb; --warm-white: #faf8f4; --mid: #8a8478; --accent: #c4562a; --canada: #d4291a; --tag-bg: #ede8e0; --card-bg: #ffffff; --border: #ddd8cf; }
+
+  .trg-pp-header {
+    background: var(--warm-white);
+    border-bottom: 1px solid var(--border);
+    padding: 3rem 2rem 2.5rem;
+  }
+  .trg-pp-header-inner { max-width: 760px; margin: 0 auto; }
+  .trg-pp-eyebrow {
+    font-size: 0.65rem; font-weight: 500; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 0.75rem;
+  }
+  .trg-pp-title {
+    font-family: 'Playfair Display', serif; font-size: 2.4rem; font-weight: 400;
+    color: var(--ink); line-height: 1.15; margin-bottom: 0.75rem;
+  }
+  .trg-pp-subtitle {
+    font-size: 0.88rem; font-weight: 300; color: var(--mid); line-height: 1.6;
+  }
+  .trg-pp-updated {
+    margin-top: 1rem; font-size: 0.72rem; color: var(--mid); letter-spacing: 0.03em;
+  }
+
+  /* TOC */
+  .trg-pp-toc {
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: 3px; padding: 1.25rem 1.5rem; margin-bottom: 3rem;
+  }
+  .trg-pp-toc-label {
+    font-size: 0.65rem; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 0.75rem;
+  }
+  .trg-pp-toc-list {
+    list-style: none; padding: 0; margin: 0;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0.35rem 2rem;
+  }
+  .trg-pp-toc-list a {
+    font-size: 0.82rem; font-weight: 400; color: var(--ink); text-decoration: none;
+    display: flex; align-items: center; gap: 0.5rem; padding: 0.25rem 0; transition: color 0.2s;
+  }
+  .trg-pp-toc-list a:hover { color: var(--accent); }
+  .trg-pp-toc-num {
+    font-size: 0.68rem; font-weight: 500; color: var(--mid); min-width: 1.2rem;
+  }
+
+  /* Content wrap */
+  .trg-pp-wrap { max-width: 760px; margin: 0 auto; padding: 3.5rem 2rem 5rem; }
+
+  /* Summary box */
+  .trg-pp-summary {
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-left: 3px solid var(--accent); border-radius: 3px;
+    padding: 1.25rem 1.5rem; margin-bottom: 3rem;
+  }
+  .trg-pp-summary-label {
+    font-size: 0.65rem; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 0.5rem;
+  }
+  .trg-pp-summary-text {
+    font-size: 0.9rem; font-weight: 400; color: var(--ink); line-height: 1.7;
+  }
+
+  /* Sections */
+  .trg-pp-section { margin-bottom: 2.5rem; }
+  .trg-pp-section:last-of-type { margin-bottom: 0; }
+  .trg-pp-h2 {
+    font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 400;
+    color: var(--ink); margin-bottom: 0.85rem; padding-bottom: 0.65rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .trg-pp-body {
+    font-size: 0.88rem; font-weight: 300; color: var(--ink); line-height: 1.85;
+  }
+  .trg-pp-body p + p { margin-top: 0.9em; }
+  .trg-pp-body a { color: var(--accent); text-decoration: none; }
+  .trg-pp-body a:hover { text-decoration: underline; }
+  .trg-pp-body strong { font-weight: 500; color: var(--ink); }
+  .trg-pp-body ul { margin: 0.8em 0; padding-left: 1.4rem; }
+  .trg-pp-body li { margin-bottom: 0.5em; line-height: 1.75; }
+  .trg-pp-body li::marker { color: var(--mid); }
+
+  /* Data tables */
+  .trg-pp-table {
+    width: 100%; border-collapse: collapse; margin-top: 1.25rem; font-size: 0.83rem;
+  }
+  .trg-pp-table th {
+    text-align: left; padding: 0.6rem 0.85rem; font-size: 0.65rem; font-weight: 500;
+    text-transform: uppercase; letter-spacing: 0.08em; color: var(--mid);
+    background: var(--tag-bg); border: 1px solid var(--border);
+  }
+  .trg-pp-table td {
+    padding: 0.7rem 0.85rem; border: 1px solid var(--border); color: var(--ink);
+    font-weight: 300; background: var(--card-bg); vertical-align: top;
+  }
+  .trg-pp-table tr:hover td { background: var(--warm-white); }
+
+  /* Jurisdiction cards */
+  .trg-pp-juris {
+    background: var(--card-bg); border: 1px solid var(--border); border-radius: 3px;
+    padding: 1.1rem 1.3rem; margin-top: 1.25rem; margin-bottom: 0.75rem;
+  }
+  .trg-pp-juris + .trg-pp-juris { margin-top: 0.75rem; }
+  .trg-pp-juris-flag {
+    font-size: 0.65rem; font-weight: 500; letter-spacing: 0.08em;
+    text-transform: uppercase; margin-bottom: 0.45rem;
+    display: flex; align-items: center; gap: 0.4rem;
+  }
+  .trg-pp-juris-flag.ca { color: var(--canada); }
+  .trg-pp-juris-flag.us { color: #2563eb; }
+  .trg-pp-juris p {
+    font-size: 0.84rem; font-weight: 300; color: var(--ink); line-height: 1.75;
+  }
+  .trg-pp-juris ul {
+    margin: 0.5em 0 0; padding-left: 1.3rem;
+    font-size: 0.84rem; font-weight: 300; color: var(--ink); line-height: 1.75;
+  }
+  .trg-pp-juris li { margin-bottom: 0.3em; }
+  .trg-pp-juris li::marker { color: var(--mid); }
+
+  /* Contact strip */
+  .trg-pp-contact {
+    background: var(--tag-bg); border: 1px solid var(--border); border-radius: 3px;
+    padding: 1.1rem 1.5rem; display: flex; align-items: center;
+    justify-content: space-between; gap: 1rem; margin-top: 3rem;
+  }
+  .trg-pp-contact-text { font-size: 0.82rem; font-weight: 300; color: var(--mid); }
+  .trg-pp-contact-text strong { color: var(--ink); font-weight: 500; }
+  .trg-pp-contact-btn {
+    font-family: 'DM Sans', sans-serif; font-size: 0.75rem; font-weight: 500;
+    letter-spacing: 0.06em; text-transform: uppercase; padding: 0.5rem 1.1rem;
+    border-radius: 2px; background: var(--accent); color: white;
+    text-decoration: none; white-space: nowrap; transition: opacity 0.2s;
+  }
+  .trg-pp-contact-btn:hover { opacity: 0.88; }
+
+  /* ─── MOBILE (≤ 749px, Dwell breakpoint) ─── */
+  @media (max-width: 749px) {
+    .trg-pp-header { padding: 2rem 1rem 1.75rem; }
+    .trg-pp-title { font-size: 1.75rem; margin-bottom: 0.6rem; }
+    .trg-pp-subtitle { font-size: 0.84rem; }
+    .trg-pp-eyebrow { margin-bottom: 0.5rem; }
+
+    .trg-pp-wrap { padding: 2rem 1rem 3rem; }
+
+    .trg-pp-summary { padding: 1rem 1.15rem; margin-bottom: 2rem; }
+    .trg-pp-summary-text { font-size: 0.86rem; line-height: 1.65; }
+
+    .trg-pp-toc { padding: 1rem 1.15rem; margin-bottom: 2rem; }
+    .trg-pp-toc-list { grid-template-columns: 1fr; gap: 0; }
+    .trg-pp-toc-list a {
+      padding: 0.5rem 0; min-height: 44px;
+      display: flex; align-items: center;
+      border-bottom: 1px solid var(--border);
+    }
+    .trg-pp-toc-list li:last-child a { border-bottom: none; }
+
+    .trg-pp-section { margin-bottom: 2rem; }
+    .trg-pp-h2 { font-size: 1.15rem; margin-bottom: 0.7rem; padding-bottom: 0.55rem; }
+    .trg-pp-body { font-size: 0.84rem; line-height: 1.8; }
+    .trg-pp-body ul { padding-left: 1.15rem; }
+
+    /* Tables → stacked cards */
+    .trg-pp-table thead { display: none; }
+    .trg-pp-table, .trg-pp-table tbody { display: block; width: 100%; }
+    .trg-pp-table tr {
+      display: block; background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: 3px; padding: 0.85rem 1rem; margin-bottom: 0.6rem;
+    }
+    .trg-pp-table tr:hover td { background: transparent; }
+    .trg-pp-table td {
+      display: block; border: none; padding: 0; background: transparent;
+      font-size: 0.82rem; line-height: 1.6;
+    }
+    .trg-pp-table td + td { margin-top: 0.4rem; }
+    .trg-pp-table td::before {
+      content: attr(data-label); display: block;
+      font-size: 0.62rem; font-weight: 500; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--mid); margin-bottom: 0.1rem;
+    }
+    .trg-pp-table td:first-child::before { display: none; }
+    .trg-pp-table td:first-child {
+      font-size: 0.86rem; padding-bottom: 0.35rem; margin-bottom: 0.35rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .trg-pp-juris { padding: 0.9rem 1rem; }
+    .trg-pp-juris p { font-size: 0.82rem; }
+    .trg-pp-juris ul { font-size: 0.82rem; padding-left: 1.1rem; }
+
+    .trg-pp-contact {
+      flex-direction: column; text-align: center; padding: 1rem; margin-top: 2rem;
+    }
+    .trg-pp-contact-btn { width: 100%; text-align: center; padding: 0.65rem 1rem; }
+  }
+
+  /* ─── SMALL PHONE (≤ 374px) ─── */
+  @media (max-width: 374px) {
+    .trg-pp-title { font-size: 1.5rem; }
+    .trg-pp-header { padding: 1.5rem 0.85rem 1.5rem; }
+    .trg-pp-wrap { padding: 1.5rem 0.85rem 2.5rem; }
+    .trg-pp-summary { padding: 0.85rem 1rem; }
+    .trg-pp-toc { padding: 0.85rem 1rem; }
+    .trg-pp-table tr { padding: 0.75rem 0.85rem; }
+    .trg-pp-juris { padding: 0.75rem 0.85rem; }
+  }
+</style>
+
+<div class="trg-pp">
+  <!-- PAGE HEADER -->
+  <div class="trg-pp-header">
+    <div class="trg-pp-header-inner">
+      <div class="trg-pp-eyebrow">Legal</div>
+      <h1 class="trg-pp-title">Privacy Policy</h1>
+      <p class="trg-pp-subtitle">How we collect, use, and protect your information. We're a menswear directory, not a store. We don't process payments or ship anything. That keeps this short.</p>
+      <p class="trg-pp-updated">Last updated March 21, 2026</p>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="trg-pp-wrap">
+
+    <!-- SUMMARY -->
+    <div class="trg-pp-summary">
+      <div class="trg-pp-summary-label">The short version</div>
+      <div class="trg-pp-summary-text">
+        The Right Garment is a menswear brand directory. We don't sell products, take payments, or handle shipping. When you click a "Shop" link, you leave our site and buy directly from the brand or retailer. We collect only what's needed to run the directory, your account, and our newsletter. That's it.
+      </div>
+    </div>
+
+    <!-- TOC -->
+    <div class="trg-pp-toc">
+      <div class="trg-pp-toc-label">On this page</div>
+      <ol class="trg-pp-toc-list">
+        <li><a href="#pp-what-we-collect"><span class="trg-pp-toc-num">1</span> What we collect</a></li>
+        <li><a href="#pp-how-we-use"><span class="trg-pp-toc-num">2</span> How we use it</a></li>
+        <li><a href="#pp-affiliate-links"><span class="trg-pp-toc-num">3</span> Affiliate links &amp; redirects</a></li>
+        <li><a href="#pp-cookies"><span class="trg-pp-toc-num">4</span> Cookies &amp; tracking</a></li>
+        <li><a href="#pp-newsletter"><span class="trg-pp-toc-num">5</span> Newsletter</a></li>
+        <li><a href="#pp-third-parties"><span class="trg-pp-toc-num">6</span> Third-party services</a></li>
+        <li><a href="#pp-your-rights"><span class="trg-pp-toc-num">7</span> Your rights</a></li>
+        <li><a href="#pp-children"><span class="trg-pp-toc-num">8</span> Children</a></li>
+        <li><a href="#pp-changes"><span class="trg-pp-toc-num">9</span> Changes to this policy</a></li>
+        <li><a href="#pp-contact"><span class="trg-pp-toc-num">10</span> Contact</a></li>
+      </ol>
+    </div>
+
+    <!-- 1. WHAT WE COLLECT -->
+    <div class="trg-pp-section" id="pp-what-we-collect">
+      <h2 class="trg-pp-h2">1. What we collect</h2>
+      <div class="trg-pp-body">
+        <p>We're a directory, not a store, so the personal information we collect is pretty limited. Here's what we may pick up depending on how you use the site:</p>
+        <table class="trg-pp-table">
+          <thead>
+            <tr><th>Data type</th><th>When collected</th><th>Examples</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td data-label="Data type"><strong>Account information</strong></td>
+              <td data-label="When collected">When you create an account</td>
+              <td data-label="Examples">Email address, name, preferences (followed brands, wishlists, region, size)</td>
+            </tr>
+            <tr>
+              <td data-label="Data type"><strong>Browsing data</strong></td>
+              <td data-label="When collected">Automatically when you visit</td>
+              <td data-label="Examples">IP address, browser type, device, pages viewed, referring URL</td>
+            </tr>
+            <tr>
+              <td data-label="Data type"><strong>Newsletter sign-up</strong></td>
+              <td data-label="When collected">When you subscribe</td>
+              <td data-label="Examples">Email address, consent timestamp</td>
+            </tr>
+            <tr>
+              <td data-label="Data type"><strong>Communications</strong></td>
+              <td data-label="When collected">When you contact us</td>
+              <td data-label="Examples">Email address, message content</td>
+            </tr>
+            <tr>
+              <td data-label="Data type"><strong>Location (approximate)</strong></td>
+              <td data-label="When collected">Automatically via IP lookup</td>
+              <td data-label="Examples">Country-level only (used to show relevant shipping and duty info)</td>
+            </tr>
+          </tbody>
+        </table>
+        <p style="margin-top: 1.1em;"><strong>What we don't collect:</strong> Credit card numbers, payment details, shipping addresses, social insurance or social security numbers. Every purchase happens on the brand's or retailer's own site, not ours.</p>
+      </div>
+    </div>
+
+    <!-- 2. HOW WE USE IT -->
+    <div class="trg-pp-section" id="pp-how-we-use">
+      <h2 class="trg-pp-h2">2. How we use your information</h2>
+      <div class="trg-pp-body">
+        <p>Here's what we actually do with it:</p>
+        <ul>
+          <li><strong>Running the directory:</strong> Showing brand listings, product pages, and search results.</li>
+          <li><strong>Your account:</strong> Keeping track of followed brands, wishlists, preferences, and notification settings.</li>
+          <li><strong>Newsletter:</strong> Sending you new brands, restocks, and editorial content you signed up for.</li>
+          <li><strong>Regional features:</strong> Showing shipping and duty information based on your approximate location.</li>
+          <li><strong>Analytics:</strong> Understanding how people use the site so we can make it better (aggregate, not individual).</li>
+          <li><strong>Legal compliance:</strong> Responding to legal requests when required by law.</li>
+        </ul>
+        <p>We don't sell your personal information. We don't share it with advertisers. We don't build profiles for targeted ads on other sites.</p>
+      </div>
+    </div>
+
+    <!-- 3. AFFILIATE LINKS -->
+    <div class="trg-pp-section" id="pp-affiliate-links">
+      <h2 class="trg-pp-h2">3. Affiliate links &amp; redirects</h2>
+      <div class="trg-pp-body">
+        <p>When you click a "Shop" button on a brand or product page, you leave The Right Garment and land on the brand's or retailer's website. That redirect goes through an affiliate network (Rakuten, Awin, ShareASale, or Impact), which may place a cookie on your browser to credit us for the referral.</p>
+        <p><strong>Once you leave our site, their privacy policy applies, not ours.</strong> We have no control over what those third parties collect. Worth reading their policies before you buy.</p>
+        <p>For more on how our affiliate setup works, see our <a href="/pages/affiliate-disclosure">Affiliate Disclosure</a>.</p>
+      </div>
+    </div>
+
+    <!-- 4. COOKIES -->
+    <div class="trg-pp-section" id="pp-cookies">
+      <h2 class="trg-pp-h2">4. Cookies &amp; tracking</h2>
+      <div class="trg-pp-body">
+        <p>We keep cookies to a minimum. Here's what's on the site:</p>
+        <table class="trg-pp-table">
+          <thead>
+            <tr><th>Cookie type</th><th>Purpose</th><th>Duration</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td data-label="Cookie type"><strong>Essential</strong></td>
+              <td data-label="Purpose">Session management, authentication, region detection</td>
+              <td data-label="Duration">Session / 24 hours</td>
+            </tr>
+            <tr>
+              <td data-label="Cookie type"><strong>Analytics</strong></td>
+              <td data-label="Purpose">Aggregate traffic data (Shopify Analytics)</td>
+              <td data-label="Duration">Up to 2 years</td>
+            </tr>
+            <tr>
+              <td data-label="Cookie type"><strong>Affiliate (third-party)</strong></td>
+              <td data-label="Purpose">Set by affiliate networks when you click an outbound link</td>
+              <td data-label="Duration">Varies by network (typically 30 days)</td>
+            </tr>
+          </tbody>
+        </table>
+        <p style="margin-top: 1.1em;">No advertising cookies. No retargeting pixels. You can manage or delete cookies in your browser settings whenever you like.</p>
+      </div>
+    </div>
+
+    <!-- 5. NEWSLETTER -->
+    <div class="trg-pp-section" id="pp-newsletter">
+      <h2 class="trg-pp-h2">5. Newsletter</h2>
+      <div class="trg-pp-body">
+        <p>Our newsletter runs on Beehiiv. When you subscribe, Beehiiv stores your email and uses it only to send you what you signed up for. Every email has an unsubscribe link and we always honour those requests.</p>
+        <p>We follow Canada's Anti-Spam Legislation (CASL) and the U.S. CAN-SPAM Act. Every marketing email identifies The Right Garment as the sender, includes our mailing address, and gives you a clear way to opt out.</p>
+      </div>
+    </div>
+
+    <!-- 6. THIRD PARTIES -->
+    <div class="trg-pp-section" id="pp-third-parties">
+      <h2 class="trg-pp-h2">6. Third-party services</h2>
+      <div class="trg-pp-body">
+        <p>A handful of third-party services keep the site running. Each handles data under its own privacy policy:</p>
+        <table class="trg-pp-table">
+          <thead>
+            <tr><th>Service</th><th>What it does</th><th>Privacy policy</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td data-label="Service"><strong>Shopify</strong></td>
+              <td data-label="What it does">Hosts the site, manages accounts, processes analytics</td>
+              <td data-label="Privacy policy"><a href="https://www.shopify.com/legal/privacy" target="_blank" rel="noopener">shopify.com/legal/privacy</a></td>
+            </tr>
+            <tr>
+              <td data-label="Service"><strong>Beehiiv</strong></td>
+              <td data-label="What it does">Newsletter delivery and subscriber management</td>
+              <td data-label="Privacy policy"><a href="https://www.beehiiv.com/privacy" target="_blank" rel="noopener">beehiiv.com/privacy</a></td>
+            </tr>
+            <tr>
+              <td data-label="Service"><strong>Rakuten</strong></td>
+              <td data-label="What it does">Affiliate link tracking</td>
+              <td data-label="Privacy policy"><a href="https://rakutenadvertising.com/legal-notices/services-privacy-policy/" target="_blank" rel="noopener">rakutenadvertising.com/privacy</a></td>
+            </tr>
+            <tr>
+              <td data-label="Service"><strong>Awin</strong></td>
+              <td data-label="What it does">Affiliate link tracking</td>
+              <td data-label="Privacy policy"><a href="https://www.awin.com/us/legal/privacy-policy-awin" target="_blank" rel="noopener">awin.com/privacy</a></td>
+            </tr>
+            <tr>
+              <td data-label="Service"><strong>ShareASale</strong></td>
+              <td data-label="What it does">Affiliate link tracking</td>
+              <td data-label="Privacy policy"><a href="https://www.shareasale.com/PrivacyPolicy.pdf" target="_blank" rel="noopener">shareasale.com/privacy</a></td>
+            </tr>
+            <tr>
+              <td data-label="Service"><strong>Impact</strong></td>
+              <td data-label="What it does">Affiliate link tracking</td>
+              <td data-label="Privacy policy"><a href="https://impact.com/privacy-policy/" target="_blank" rel="noopener">impact.com/privacy</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 7. YOUR RIGHTS -->
+    <div class="trg-pp-section" id="pp-your-rights">
+      <h2 class="trg-pp-h2">7. Your rights</h2>
+      <div class="trg-pp-body">
+        <p>Your rights over your personal information depend on where you live. Here's what applies in our two main markets.</p>
+
+        <div class="trg-pp-juris">
+          <div class="trg-pp-juris-flag ca">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Canada · PIPEDA
+          </div>
+          <p>Under PIPEDA (Personal Information Protection and Electronic Documents Act), you can:</p>
+          <ul>
+            <li>See what personal information we hold about you</li>
+            <li>Ask us to correct anything that's wrong</li>
+            <li>Withdraw your consent for how we collect, use, or share your information</li>
+            <li>File a complaint with the Office of the Privacy Commissioner of Canada</li>
+          </ul>
+        </div>
+
+        <div class="trg-pp-juris">
+          <div class="trg-pp-juris-flag us">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            United States · State privacy laws
+          </div>
+          <p>If you live in California (CCPA/CPRA), Virginia, Colorado, Connecticut, or another state with privacy legislation, you may be able to:</p>
+          <ul>
+            <li>Find out what personal information we collect and how we use it</li>
+            <li>Ask us to delete your personal information</li>
+            <li>Opt out of the sale or sharing of personal information (we don't sell your data, but the right still applies)</li>
+            <li>Use these rights without facing any penalty or discrimination from us</li>
+          </ul>
+        </div>
+
+        <p style="margin-top: 1.1em;">To use any of these rights, get in touch at the address below. We'll respond within 30 days (or faster where the law requires it). We may need to verify your identity before we act on the request.</p>
+        <p>If you have a Shopify account with us, you can also manage rights related to data Shopify processes through the <a href="https://privacy.shopify.com/en" target="_blank" rel="noopener">Shopify Privacy Portal</a>.</p>
+      </div>
+    </div>
+
+    <!-- 8. CHILDREN -->
+    <div class="trg-pp-section" id="pp-children">
+      <h2 class="trg-pp-h2">8. Children</h2>
+      <div class="trg-pp-body">
+        <p>This site isn't built for anyone under 16. We don't knowingly collect personal information from children. If you think a child has given us their information, let us know and we'll delete it.</p>
+      </div>
+    </div>
+
+    <!-- 9. CHANGES -->
+    <div class="trg-pp-section" id="pp-changes">
+      <h2 class="trg-pp-h2">9. Changes to this policy</h2>
+      <div class="trg-pp-body">
+        <p>We may update this policy occasionally. When we do, we'll change the "last updated" date at the top. For anything major, we'll post a notice on the site or email you if you have an account.</p>
+      </div>
+    </div>
+
+    <!-- 10. CONTACT -->
+    <div class="trg-pp-section" id="pp-contact">
+      <h2 class="trg-pp-h2">10. Contact</h2>
+      <div class="trg-pp-body">
+        <p>Questions about this policy or your data? Get in touch:</p>
+        <p style="margin-top: 0.5em;">
+          <strong>The Right Garment</strong><br>
+          Email: <a href="mailto:privacy@therightgarment.com">privacy@therightgarment.com</a><br>
+          4604 rue Adam, Montréal, QC  H1V 1V2, Canada
+        </p>
+      </div>
+    </div>
+
+    <!-- CONTACT STRIP -->
+    <div class="trg-pp-contact">
+      <div class="trg-pp-contact-text">
+        <strong>Something not clear?</strong> Drop us a line.
+      </div>
+      <a href="mailto:privacy@therightgarment.com" class="trg-pp-contact-btn">Contact Us</a>
+    </div>
+
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "TRG Privacy Policy",
+  "tag": "section",
+  "class": "trg-privacy-policy-section",
+  "settings": []
+}
+{% endschema %}
