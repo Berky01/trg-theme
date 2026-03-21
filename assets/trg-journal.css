@@ -182,3 +182,9 @@
   .trg-jrn-sidebar .trg-jrn-sidebar-block:first-child{display:none;}
   .trg-jrn-list-section-lbl{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--trg-muted-color, #8a8780);padding:1.25rem 0 0.75rem;}
 }
+
+/* 2026-03-21: Hide mobile topic block + inline NL (footer NL suffices) */
+.trg-jrn-topic-block-mobile{display:none!important;}
+@media screen and (max-width:989px){
+  .trg-jrn-nl{display:none!important;}
+}
