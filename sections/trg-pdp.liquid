@@ -997,14 +997,57 @@
     .trg-pdp {
       padding: 1rem 1rem 2rem;
     }
-    .trg-pdp-bc {
-      padding: 0.6rem 1rem;
-    }
     .trg-pdp__title {
       font-size: 1.6rem;
     }
+
+    /* ── BREADCRUMB mobile ── */
+    .trg-pdp-bc {
+      padding: 0.5rem 1rem;
+      overflow: hidden;
+    }
     .trg-pdp-bc__inner {
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      gap: 0.35rem;
+      font-size: 0.68rem;
+    }
+    .trg-pdp-bc__inner::-webkit-scrollbar {
+      display: none;
+    }
+    .trg-pdp-bc__inner a,
+    .trg-pdp-bc__inner span {
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .trg-pdp-bc__current {
+      flex-shrink: 1 !important;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 52vw;
+    }
+
+    /* ── META GRID mobile ── */
+    .trg-pdp__meta {
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+      padding: 1rem 0;
+    }
+    .trg-pdp__meta-item {
+      background: #f5f1eb;
+      padding: 0.6rem 0.75rem;
+      border-radius: 4px;
+      border-left: 2px solid #ddd8cf;
+    }
+    .trg-pdp__meta-key {
+      font-size: 0.6rem;
+      margin-bottom: 0.15rem;
+    }
+    .trg-pdp__meta-val {
+      font-size: 0.78rem;
     }
   }
 {% endstylesheet %}
@@ -1025,3 +1068,4 @@
   ]
 }
 {% endschema %}
+
