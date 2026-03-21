@@ -1,7 +1,7 @@
 
-/* Mobile overflow fix — prevent horizontal scroll on article pages */
-html,body{overflow-x:hidden;max-width:100vw;}
-.trg-art-page{overflow-x:hidden;max-width:100vw;}
+/* Mobile overflow safety */
+.trg-art-page{max-width:100%;overflow-x:hidden;box-sizing:border-box;}
+.trg-art-main,.trg-art-body,.trg-art-sidebar{min-width:0;max-width:100%;overflow-wrap:break-word;word-break:break-word;}
 /* ═══════════════════════════════════════
    TRG Article — trg-article.css
    Journal long-form template
@@ -48,16 +48,6 @@ html,body{overflow-x:hidden;max-width:100vw;}
 
 /* ━━━ BODY (article.content rich text) ━━━ */
 .trg-art-body{font-size:17px;line-height:1.85;font-weight:300;}
-/* Prevent horizontal overflow from embedded content */
-.trg-art-body{overflow-x:hidden;overflow-wrap:break-word;word-break:break-word;}
-.trg-art-body svg,.trg-art-body img,.trg-art-body iframe,.trg-art-body video{max-width:100%;height:auto;}
-.trg-art-body div{max-width:100%;overflow-x:hidden;}
-
-/* Prevent horizontal overflow from embedded content */
-.trg-art-body{overflow-x:hidden;overflow-wrap:break-word;word-break:break-word;}
-.trg-art-body svg,.trg-art-body img,.trg-art-body iframe,.trg-art-body video{max-width:100%;height:auto;}
-.trg-art-body div{max-width:100%;overflow-x:hidden;}
-
 .trg-art-body p{margin-bottom:1.5rem;}
 .trg-art-body strong,.trg-art-body b{font-weight:500;}
 .trg-art-body h2{font-family:'Playfair Display',serif;font-size:clamp(20px,2.5vw,26px);font-weight:400;margin:2.5rem 0 1rem;line-height:1.25;}
@@ -177,7 +167,7 @@ html,body{overflow-x:hidden;max-width:100vw;}
 @media(max-width:749px){
   .trg-art-page{padding:0 1rem 6rem;}
   .trg-art-bc{padding:1rem 0;font-size:10px;}
-  .trg-art-layout{grid-template-columns:1fr;gap:0;padding-top:1.5rem;}
+  .trg-art-layout{grid-template-columns:minmax(0,1fr);gap:0;padding-top:1.5rem;}
 
   .trg-art-cat{margin-bottom:0.75rem;}
   .trg-art-title{margin-bottom:1rem;}
@@ -293,7 +283,7 @@ html,body{overflow-x:hidden;max-width:100vw;}
 
 /* ━━━ TABLET 750–989 ━━━ */
 @media(min-width:750px) and (max-width:989px){
-  .trg-art-layout{grid-template-columns:1fr;gap:0;}
+  .trg-art-layout{grid-template-columns:minmax(0,1fr);gap:0;}
   .trg-art-sidebar{margin-top:3rem;}
   .trg-art-sticky{position:static;display:grid;grid-template-columns:1fr 1fr;gap:2rem;}
   .trg-art-toc{margin-bottom:0;}
