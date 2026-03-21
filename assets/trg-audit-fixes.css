@@ -905,3 +905,22 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
     overflow: hidden !important;
   }
 }
+
+/* ═══ #21 CRITICAL: Mega-menu shell gap on mobile ═══ */
+@media screen and (max-width: 989px) {
+  .trg-mega-menu-shell {
+    height: 0 !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    line-height: 0 !important;
+    font-size: 0 !important;
+  }
+}
+
+/* ═══ #22: Brand PLP grid padding below search bar ═══ */
+@media screen and (max-width: 989px) {
+  .trg-bdir .trg-bdir__body--outer {
+    padding-top: 0.75rem !important;
+  }
+}
