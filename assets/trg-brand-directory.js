@@ -1,29 +1,27 @@
-/* TRG Fix v5 */
+/* TRG Fix v6 — root cause: empty nav-bar-row visible on mobile */
 (function(){
   var s=document.createElement('style');
   s.id='trg-bdir-nuclear';
   s.textContent=[
     '@media(max-width:989px){',
-      /* Nuke header-group bottom spacing */
-      '#header-group{margin-bottom:0!important;padding-bottom:0!important;border-bottom:none!important}',
-      /* Nuke ALL non-header children in header-group */
-      '#header-group>*:not(.header-section){height:0!important;overflow:hidden!important;margin:0!important;padding:0!important;border:none!important;line-height:0!important;font-size:0!important}',
-      /* Nuke main padding */
-      '.content-for-layout{padding-top:0!important;margin-top:0!important}',
-      /* Nuke shopify-section wrapper */
+      /* ROOT CAUSE: Dwell navigation-bar-row is display:block on mobile but empty */
+      '.header__navigation-bar-row{display:none!important}',
+      /* Mega-menu shell collapse */
+      '#header-group>*:not(.header-section){height:0!important;overflow:hidden!important;margin:0!important;padding:0!important}',
+      /* Section spacing */
       '.trg-brand-directory-section{margin:0!important;padding:0!important}',
-      /* Nuke section grid */
       '.section.trg-bdir{display:block!important;row-gap:0!important;gap:0!important;margin:0!important;padding:0!important}',
+      '.content-for-layout{padding-top:0!important;margin-top:0!important}',
+      /* Grid spacing below search bar */
+      '.trg-bdir .trg-bdir__body--outer{padding-top:0.75rem!important}',
     '}',
-    /* Grid spacing below search bar */
-    '@media(max-width:989px){.trg-bdir .trg-bdir__body--outer{padding-top:0.75rem!important}}',
     /* Scrollbar kill */
     '.trg-bdir *{scrollbar-width:none!important;-ms-overflow-style:none!important}',
     '.trg-bdir *::-webkit-scrollbar{display:none!important;width:0!important;height:0!important;background:transparent!important}',
     '.trg-bdir *::-webkit-scrollbar-thumb,.trg-bdir *::-webkit-scrollbar-track{display:none!important;background:transparent!important}',
     /* Card overflow */
     '.trg-bdir .trg-bdir__carda,.trg-bdir .trg-bdir__card,.trg-bdir .trg-bdir__body2{overflow:hidden!important}',
-    /* CTA kill */
+    /* CTA kill on mobile */
     '@media(max-width:989px){.trg-bdir .trg-bdir__cta{display:none!important;height:0!important;min-height:0!important;visibility:hidden!important;overflow:hidden!important;position:absolute!important;width:0!important}}'
   ].join('');
   (document.head||document.documentElement).appendChild(s);

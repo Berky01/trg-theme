@@ -946,3 +946,10 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
     margin-top: 0 !important;
   }
 }
+
+/* ═══ #24 ROOT CAUSE: Empty Dwell nav-bar-row visible on mobile ═══ */
+@media screen and (max-width: 989px) {
+  .header__navigation-bar-row {
+    display: none !important;
+  }
+}
