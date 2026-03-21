@@ -1,31 +1,23 @@
-/* TRG Fix v7 — section internal gap */
+/* TRG Fix v8 — minimal, clean */
 (function(){
   var s=document.createElement('style');
-  s.id='trg-bdir-nuclear';
+  s.id='trg-bdir-fix';
   s.textContent=[
+    /* 1. Make the section gap invisible — match header bg on mobile */
     '@media(max-width:989px){',
-      /* Kill nav-bar-row + mega-menu shell */
-      '.header__navigation-bar-row{display:none!important;height:0!important}',
-      '#header-group>*:not(.header-section){height:0!important;overflow:hidden!important;margin:0!important;padding:0!important}',
-      /* Section wrapper */
-      '.trg-brand-directory-section{margin:0!important;padding:0!important}',
-      /* Section itself — match header bg so any residual gap is invisible */
-      '.section.trg-bdir{display:block!important;row-gap:0!important;gap:0!important;margin:0!important;padding:0!important;background:var(--ink,#1a1a18)!important}',
-      /* Head + searchbar: NOT sticky on mobile, just normal flow */
-      '.trg-bdir .trg-bdir__head{position:relative!important;top:auto!important}',
-      '.trg-bdir .trg-bdir__searchbar{position:relative!important;top:auto!important}',
-      /* Body reverts to paper background */
-      '.trg-bdir .trg-bdir__body--outer{background:var(--paper,#f5f1eb)!important;padding-top:0.75rem!important}',
-      '.content-for-layout{padding:0!important;margin:0!important}',
+      '.section.trg-bdir{background:#1a1a18!important}',
+      '.trg-bdir .trg-bdir__body--outer{background:#f5f1eb!important;padding-top:0.75rem!important}',
+      /* Hide empty Dwell nav row */
+      '.header__navigation-bar-row{display:none!important}',
     '}',
-    /* Scrollbar kill */
+    /* 2. Scrollbar kill */
     '.trg-bdir *{scrollbar-width:none!important;-ms-overflow-style:none!important}',
     '.trg-bdir *::-webkit-scrollbar{display:none!important;width:0!important;height:0!important;background:transparent!important}',
     '.trg-bdir *::-webkit-scrollbar-thumb,.trg-bdir *::-webkit-scrollbar-track{display:none!important;background:transparent!important}',
-    /* Card overflow */
+    /* 3. Card overflow */
     '.trg-bdir .trg-bdir__carda,.trg-bdir .trg-bdir__card,.trg-bdir .trg-bdir__body2{overflow:hidden!important}',
-    /* CTA kill */
-    '@media(max-width:989px){.trg-bdir .trg-bdir__cta{display:none!important;height:0!important;min-height:0!important;visibility:hidden!important;position:absolute!important;width:0!important}}'
+    /* 4. CTA kill on mobile */
+    '@media(max-width:989px){.trg-bdir .trg-bdir__cta{display:none!important;height:0!important;min-height:0!important;visibility:hidden!important;overflow:hidden!important}}'
   ].join('');
   (document.head||document.documentElement).appendChild(s);
 })();
