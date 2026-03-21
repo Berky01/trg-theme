@@ -1,4 +1,18 @@
 
+/* TRG: Inject critical mobile fixes via JS (bypasses CDN cache) */
+(function(){
+  if(window.innerWidth>989)return;
+  var s=document.createElement('style');
+  s.textContent=
+    '.trg-brand-directory-section{margin:0!important;padding:0!important}'+
+    '.section.trg-bdir{display:block!important;row-gap:0!important;gap:0!important;margin:0!important;padding:0!important}'+
+    '.trg-bdir .trg-bdir__card,.trg-bdir .trg-bdir__carda,.trg-bdir .trg-bdir__body2,.trg-bdir .trg-bdir__media,.trg-bdir .trg-bdir__grid{overflow:hidden!important;scrollbar-width:none!important;-ms-overflow-style:none!important}'+
+    '.trg-bdir .trg-bdir__card::-webkit-scrollbar,.trg-bdir .trg-bdir__carda::-webkit-scrollbar,.trg-bdir .trg-bdir__body2::-webkit-scrollbar,.trg-bdir .trg-bdir__grid::-webkit-scrollbar{display:none!important;width:0!important;height:0!important}'+
+    '.trg-bdir .trg-bdir__cta{display:none!important;height:0!important;min-height:0!important;visibility:hidden!important;overflow:hidden!important}';
+  document.head.appendChild(s);
+})();
+
+
 /* === TRG: Handle Corrections + Overflow Fetch === */
 (function() {
   var CORRECTIONS = {"Arc'teryx": "arcteryx", "Berg & Berg": "berg-and-berg", "Bryceland's": "brycelands", "Buzz Rickson's": "buzz-ricksons", "Cad & The Dandy": "cad-and-the-dandy", "Church's": "churchs", "Colhay's": "colhays", "Crockett & Jones": "crockett-and-jones", "Ede & Ravenscroft": "ede-and-ravenscroft", "Gaziano & Girling": "gaziano-and-girling", "Hawes & Curtis": "hawes-and-curtis", "Hilditch & Key": "hilditch-and-key", "L'Estrange London": "lestrange-london", "Levi's Vintage Clothing": "levis-vintage-clothing", "Mott & Bow": "mott-and-bow", "Naked & Famous": "naked-and-famous", "Outstanding & Co.": "outstanding-and-co", "Petru & Claymoor": "petru-and-claymoor", "Rancourt & Co": "rancourt-and-co", "Saint Crispin's": "saint-crispins", "Sanders & Sanders": "sanders-and-sanders", "Spier & Mackay": "spier-and-mackay", "Studio D'Artisan": "studio-dartisan", "The Real McCoy's": "the-real-mccoys", "Toad&Co": "toad-and-co", "Tricker's": "trickers", "Turnbull & Asser": "turnbull-and-asser", "White's Boots": "whites-boots", "Warehouse & Co.": "warehouse-and-co", "Mason's": "masons", "Paul & Shark": "paul-and-shark", "A Day's March": "a-days-march", "Begg & Co": "begg-and-co", "Rodd & Gunn": "rodd-and-gunn", "Abaga": "abagavelli", "Roberto Collima": "roberto-collina", "georgecleverley": "george-cleverley", "Ascotchang": "ascot-chang", "Pringlescotland": "pringle-of-scotland"};
