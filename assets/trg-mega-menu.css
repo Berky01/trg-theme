@@ -256,3 +256,37 @@ header-drawer .menu-drawer__inner-container{display:none!important}
 
 /* trg-recompile-1773790615 */
 
+
+
+/* ═══ Brand PLP gap fix — loads first in <head> for zero FOUC ═══ */
+@media screen and (max-width: 989px) {
+  /* ROOT CAUSE: empty Dwell nav row visible on mobile */
+  .header__navigation-bar-row {
+    display: none !important;
+    height: 0 !important;
+    overflow: hidden !important;
+  }
+  /* Mega-menu shell collapse */
+  .trg-mega-menu-shell {
+    height: 0 !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  /* Section spacing */
+  .trg-brand-directory-section {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  .section.trg-bdir {
+    display: block !important;
+    row-gap: 0 !important;
+    gap: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  /* Grid padding below search */
+  .trg-bdir .trg-bdir__body--outer {
+    padding-top: 0.75rem !important;
+  }
+}
