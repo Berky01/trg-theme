@@ -1,15 +1,24 @@
-
-/* TRG: Inject critical mobile fixes via JS (bypasses CDN cache) */
+/* TRG Nuclear Fix v3 — gap + scrollbar */
 (function(){
-  if(window.innerWidth>989)return;
   var s=document.createElement('style');
-  s.textContent=
-    '.trg-brand-directory-section{margin:0!important;padding:0!important}'+
-    '.section.trg-bdir{display:block!important;row-gap:0!important;gap:0!important;margin:0!important;padding:0!important}'+
-    '.trg-bdir .trg-bdir__card,.trg-bdir .trg-bdir__carda,.trg-bdir .trg-bdir__body2,.trg-bdir .trg-bdir__media,.trg-bdir .trg-bdir__grid{overflow:hidden!important;scrollbar-width:none!important;-ms-overflow-style:none!important}'+
-    '.trg-bdir .trg-bdir__card::-webkit-scrollbar,.trg-bdir .trg-bdir__carda::-webkit-scrollbar,.trg-bdir .trg-bdir__body2::-webkit-scrollbar,.trg-bdir .trg-bdir__grid::-webkit-scrollbar{display:none!important;width:0!important;height:0!important}'+
-    '.trg-bdir .trg-bdir__cta{display:none!important;height:0!important;min-height:0!important;visibility:hidden!important;overflow:hidden!important}';
-  document.head.appendChild(s);
+  s.id='trg-bdir-nuclear';
+  s.textContent=[
+    /* 1. Kill gap: zero out everything between header and brand dir */
+    '.trg-brand-directory-section{margin:0!important;padding:0!important}',
+    '.section.trg-bdir{display:block!important;row-gap:0!important;gap:0!important;margin:0!important;padding:0!important}',
+    '.content-for-layout>.shopify-section.trg-brand-directory-section{margin-top:0!important;padding-top:0!important}',
+    /* 2. Nuclear scrollbar kill — wildcard inside brand dir */
+    '.trg-bdir *{scrollbar-width:none!important;-ms-overflow-style:none!important}',
+    '.trg-bdir *::-webkit-scrollbar{display:none!important;width:0!important;height:0!important;background:transparent!important}',
+    '.trg-bdir *::-webkit-scrollbar-thumb,.trg-bdir *::-webkit-scrollbar-track{display:none!important;background:transparent!important}',
+    /* 3. Override overflow:visible on carda */
+    '.trg-bdir .trg-bdir__carda{overflow:hidden!important}',
+    '.trg-bdir .trg-bdir__card{overflow:hidden!important}',
+    '.trg-bdir .trg-bdir__body2{overflow:hidden!important}',
+    /* 4. Kill CTA completely on mobile */
+    '@media(max-width:989px){.trg-bdir .trg-bdir__cta{display:none!important;height:0!important;min-height:0!important;visibility:hidden!important;overflow:hidden!important;position:absolute!important;width:0!important}}'
+  ].join('');
+  (document.head||document.documentElement).appendChild(s);
 })();
 
 
