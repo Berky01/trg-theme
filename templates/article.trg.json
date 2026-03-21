@@ -1,0 +1,25 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "trg-article": {
+      "type": "trg-article",
+      "settings": {
+        "strip_label": "Our picks",
+        "edit_subtitle": "Every piece in this article",
+        "nl_eyebrow": "The TRG Dispatch",
+        "nl_heading": "New brands and one good read, every two weeks."
+      }
+    }
+  },
+  "order": [
+    "trg-article"
+  ]
+}
