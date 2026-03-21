@@ -924,3 +924,25 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
     padding-top: 0.75rem !important;
   }
 }
+
+/* ═══ #23 NUCLEAR: Brand PLP mobile gap kill ═══ */
+@media screen and (max-width: 989px) {
+  #header-group {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+    border-bottom: none !important;
+  }
+  #header-group > *:not(.header-section) {
+    height: 0 !important;
+    overflow: hidden !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    line-height: 0 !important;
+    font-size: 0 !important;
+  }
+  .content-for-layout {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+  }
+}
