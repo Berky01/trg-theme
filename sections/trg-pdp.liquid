@@ -395,6 +395,82 @@
   </div>
 </div>
 
+
+{%- comment -%} ═══ COMPLETE THE LOOK — COLOUR GUIDE ═══ {%- endcomment -%}
+{%- liquid
+  assign ctl_colour = ''
+  for option in p.options_with_values
+    assign opt_lower = option.name | downcase
+    if opt_lower == 'color' or opt_lower == 'colour'
+      assign ctl_colour = option.values.first
+      break
+    endif
+  endfor
+  if ctl_colour == blank
+    assign title_parts = p.title | split: ' - '
+    if title_parts.size > 1
+      assign ctl_colour = title_parts.last | strip
+    endif
+  endif
+  if ctl_colour == blank
+    assign title_parts = p.title | split: ' in '
+    if title_parts.size > 1
+      assign ctl_colour = title_parts.last | strip
+    endif
+  endif
+
+  assign pt_lower = p.type | downcase
+  assign ctl_garment = 'shirt'
+  if pt_lower contains 'pant' or pt_lower contains 'chino' or pt_lower contains 'jean' or pt_lower contains 'trouser'
+    assign ctl_garment = 'trousers'
+  elsif pt_lower contains 'knit' or pt_lower contains 'sweater' or pt_lower contains 'hoodie' or pt_lower contains 'sweatshirt' or pt_lower contains 'fleece'
+    assign ctl_garment = 'knitwear'
+  elsif pt_lower contains 'jacket' or pt_lower contains 'blazer' or pt_lower contains 'suit'
+    assign ctl_garment = 'jacket'
+  elsif pt_lower contains 'coat' or pt_lower contains 'outerwear' or pt_lower contains 'parka'
+    assign ctl_garment = 'coat'
+  elsif pt_lower contains 'boot' or pt_lower contains 'shoe' or pt_lower contains 'sneaker' or pt_lower contains 'footwear'
+    assign ctl_garment = 'shoes'
+  endif
+-%}
+
+{%- if ctl_colour != blank -%}
+{{ 'trg-colour-pdp.css' | asset_url | stylesheet_tag }}
+<div class="trg-ctl" id="trg-ctl" data-colour="{{ ctl_colour | escape }}" data-garment="{{ ctl_garment }}">
+  <div class="trg-ctl__inner">
+    <div class="trg-ctl__head">
+      <h3 class="trg-ctl__title">Complete the <em>look</em></h3>
+      <a class="trg-ctl__link" href="/pages/colour-guide">Full Colour Guide &rarr;</a>
+    </div>
+    <p class="trg-ctl__sub">Build an outfit around your <strong>{{ ctl_colour | escape }}</strong> {{ ctl_garment }}.</p>
+
+    <div class="trg-ctl__strip"></div>
+
+    <div class="trg-ctl__palette-wrap">
+      <div class="trg-ctl__palette-head">
+        <span class="trg-ctl__palette-prompt">Choose a colour</span>
+        <button class="trg-ctl__undo" type="button">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 119 9"/><path d="M3 3v9h9"/></svg> Undo
+        </button>
+      </div>
+      <div class="trg-ctl__chips-area"></div>
+    </div>
+
+    <div class="trg-ctl__bottom">
+      <div class="trg-ctl__gauge">
+        <svg viewBox="0 0 56 56"><circle class="trg-ctl__gauge-bg" cx="28" cy="28" r="24"/><circle class="trg-ctl__gauge-fill" cx="28" cy="28" r="24"/></svg>
+        <div class="trg-ctl__gauge-pct empty">&hellip;</div>
+      </div>
+      <div class="trg-ctl__dots"></div>
+      <div class="trg-ctl__shop"></div>
+      <button class="trg-ctl__reset" type="button">Reset</button>
+      <a class="trg-ctl__shop-all" href="/pages/colour-guide">Full Colour Guide &rarr;</a>
+    </div>
+  </div>
+</div>
+<script src="{{ 'trg-colour-pdp.js' | asset_url }}" defer></script>
+{%- endif -%}
+
 {%- comment -%} ═══ INLINE JS ═══ {%- endcomment -%}
 <script>
   /* Thumbnail switching */
