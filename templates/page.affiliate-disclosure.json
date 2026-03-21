@@ -1,87 +1,30 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero": {
       "type": "trg-page-hero",
       "settings": {
         "color_scheme": "scheme-1",
-        "hero_style": "light",
-        "alignment": "left",
-        "show_pattern": false,
-        "eyebrow": "Legal",
-        "title": "<p>Affiliate Disclosure</p>",
-        "body": "<p>How The Right Garment earns revenue and what that means for readers.</p>",
-        "meta_text": "Last updated: March 11, 2026"
+        "hero_style": "dark",
+        "alignment": "center",
+        "show_pattern": true,
+        "eyebrow": "Transparency",
+        "title": "<p>Affiliate <em>Disclosure</em></p>",
+        "body": "<p>How The Right Garment earns revenue, and why it will never compromise what we recommend.</p>",
+        "meta_text": "Last updated March 2026"
       }
     },
     "content": {
       "type": "trg-affiliate-disclosure",
-      "blocks": {
-        "sec_1": {
-          "type": "doc_section",
-          "settings": {
-            "title": "What is an affiliate link?",
-            "body": "<p>Some outbound links include tracking parameters. If a purchase follows, we may earn a commission at no added cost.</p>"
-          }
-        },
-        "sec_2": {
-          "type": "doc_section",
-          "settings": {
-            "title": "Which links are affiliate links?",
-            "body": "<p>Affiliate relationships are disclosed in-page where relevant. Not every external link is monetized.</p>"
-          }
-        },
-        "sec_3": {
-          "type": "doc_section",
-          "settings": {
-            "title": "Does this affect editorial decisions?",
-            "body": "<p>No. Inclusion and ranking are editorial decisions based on quality and relevance.</p>"
-          }
-        },
-        "row_1": {
-          "type": "network_row",
-          "settings": {
-            "col_1": "Impact",
-            "col_2": "Brand direct programs",
-            "col_3": "Disclosed where used"
-          }
-        },
-        "row_2": {
-          "type": "network_row",
-          "settings": {
-            "col_1": "Awin",
-            "col_2": "Retail partners",
-            "col_3": "Disclosed where used"
-          }
-        },
-        "row_3": {
-          "type": "network_row",
-          "settings": {
-            "col_1": "ShareASale",
-            "col_2": "Specialty merchants",
-            "col_3": "Disclosed where used"
-          }
-        }
-      },
-      "block_order": [
-        "sec_1",
-        "sec_2",
-        "sec_3",
-        "row_1",
-        "row_2",
-        "row_3"
-      ],
-      "settings": {
-        "color_scheme": "scheme-1",
-        "summary_label": "Plain-language summary",
-        "summary": "<p>Some links on The Right Garment are affiliate links. If you click and purchase, we may earn a commission at no additional cost. Affiliate relationships do not determine inclusion or editorial language.</p>",
-        "table_heading": "Affiliate networks we work with",
-        "table_col_1": "Network",
-        "table_col_2": "Use case",
-        "table_col_3": "Disclosure",
-        "cta_text": "<p><strong>Questions about this disclosure?</strong> We are happy to clarify any relationship.</p>",
-        "cta_button_label": "Contact us",
-        "cta_button_link": "shopify://pages/contact"
-      }
+      "settings": {}
     }
   },
   "order": [
