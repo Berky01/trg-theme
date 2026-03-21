@@ -3,6 +3,7 @@
 
 .trg-bdir {
   position: static;
+  display: block !important;
   --card: var(--warm);
 }
 
