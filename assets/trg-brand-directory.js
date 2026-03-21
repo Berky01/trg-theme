@@ -1,21 +1,30 @@
-/* TRG Nuclear Fix v3 — gap + scrollbar */
+/* TRG Nuclear Fix v4 */
 (function(){
   var s=document.createElement('style');
   s.id='trg-bdir-nuclear';
   s.textContent=[
-    /* 1. Kill gap: zero out everything between header and brand dir */
+    /* 1. Kill gap: collapse mega-menu shell on mobile (all content is position:fixed anyway) */
+    '@media(max-width:989px){',
+      '.trg-mega-menu-shell{height:0!important;overflow:hidden!important;padding:0!important;margin:0!important;line-height:0!important;font-size:0!important}',
+    '}',
+    /* 2. Section wrapper zero spacing */
     '.trg-brand-directory-section{margin:0!important;padding:0!important}',
     '.section.trg-bdir{display:block!important;row-gap:0!important;gap:0!important;margin:0!important;padding:0!important}',
     '.content-for-layout>.shopify-section.trg-brand-directory-section{margin-top:0!important;padding-top:0!important}',
-    /* 2. Nuclear scrollbar kill — wildcard inside brand dir */
+    /* 3. Add back padding between search bar and grid */
+    '@media(max-width:989px){',
+      '.trg-bdir .trg-bdir__body--outer{padding-top:0.75rem!important}',
+      '.trg-bdir .trg-bdir__sort{margin-top:0!important}',
+    '}',
+    /* 4. Nuclear scrollbar kill */
     '.trg-bdir *{scrollbar-width:none!important;-ms-overflow-style:none!important}',
     '.trg-bdir *::-webkit-scrollbar{display:none!important;width:0!important;height:0!important;background:transparent!important}',
     '.trg-bdir *::-webkit-scrollbar-thumb,.trg-bdir *::-webkit-scrollbar-track{display:none!important;background:transparent!important}',
-    /* 3. Override overflow:visible on carda */
+    /* 5. Override overflow:visible on card link */
     '.trg-bdir .trg-bdir__carda{overflow:hidden!important}',
     '.trg-bdir .trg-bdir__card{overflow:hidden!important}',
     '.trg-bdir .trg-bdir__body2{overflow:hidden!important}',
-    /* 4. Kill CTA completely on mobile */
+    /* 6. Kill CTA on mobile */
     '@media(max-width:989px){.trg-bdir .trg-bdir__cta{display:none!important;height:0!important;min-height:0!important;visibility:hidden!important;overflow:hidden!important;position:absolute!important;width:0!important}}'
   ].join('');
   (document.head||document.documentElement).appendChild(s);
