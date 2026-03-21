@@ -482,7 +482,7 @@ body[data-region="CA"] .trg-sb-section--ca { display: block; }
   .trg-sb-hero { padding: 3rem 1.5rem 2.5rem; }
   .trg-sb-title { font-size: 2.2rem; }
   .trg-sb-wrap {
-    grid-template-columns: 1fr;
+    grid-template-columns:minmax(0,1fr);
     padding: 2rem 1.5rem 3.5rem;
     gap: 2.5rem;
   }
@@ -499,7 +499,7 @@ body[data-region="CA"] .trg-sb-section--ca { display: block; }
   .trg-sb-lead { font-size: 0.82rem; }
   .trg-sb-stat { margin-top: 1rem; font-size: 0.68rem; }
   .trg-sb-wrap { padding: 1.5rem 1rem 3rem; gap: 2rem; }
-  .trg-sb-row { grid-template-columns: 1fr; gap: 0; }
+  .trg-sb-row { grid-template-columns:minmax(0,1fr); gap: 0; }
   .trg-sb-note { flex-direction: column; gap: 0.5rem; }
   .trg-sb-section__head { font-size: 0.65rem; }
 

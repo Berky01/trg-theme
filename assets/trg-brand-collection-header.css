@@ -200,7 +200,7 @@ main[data-template="collection.brand"] > .trg-bch-section { order: -1; }
 
   /* Card stacks vertically */
   .trg-bch-card {
-    grid-template-columns: 1fr;
+    grid-template-columns:minmax(0,1fr);
   }
 
   .trg-bch-main { padding: 1rem; }

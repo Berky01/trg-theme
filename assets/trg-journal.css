@@ -86,10 +86,10 @@
   .trg-jrn-topics::-webkit-scrollbar{display:none;}
   .trg-jrn-pill{white-space:nowrap;flex-shrink:0;padding:6px 14px;}
 
-  .trg-jrn-main{grid-template-columns:1fr;gap:0;}
+  .trg-jrn-main{grid-template-columns:minmax(0,1fr);gap:0;}
 
   /* Lead card stacks vertically */
-  .trg-jrn-lead{grid-template-columns:1fr;gap:1rem;padding-bottom:1.25rem;margin-bottom:0;}
+  .trg-jrn-lead{grid-template-columns:minmax(0,1fr);gap:1rem;padding-bottom:1.25rem;margin-bottom:0;}
   .trg-jrn-lead-img{aspect-ratio:16/9;}
 
   /* List items with thumbnail */

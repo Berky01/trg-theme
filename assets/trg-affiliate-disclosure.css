@@ -314,7 +314,7 @@
   .trg-ad__summary-text { font-size: 0.82rem; }
 
   .trg-ad__wrap {
-    grid-template-columns: 1fr;
+    grid-template-columns:minmax(0,1fr);
     gap: 0;
     padding: 2rem 1.25rem 3.5rem;
   }
@@ -322,7 +322,7 @@
 
   .trg-ad__hiw { margin-bottom: 2.5rem; padding-bottom: 2rem; }
   .trg-ad__hiw-steps {
-    grid-template-columns: 1fr;
+    grid-template-columns:minmax(0,1fr);
     gap: 1.25rem;
   }
   .trg-ad__hiw-step {
@@ -341,7 +341,7 @@
   }
   .trg-ad__hiw-body { text-align: left; }
 
-  .trg-ad__networks { grid-template-columns: 1fr; }
+  .trg-ad__networks { grid-template-columns:minmax(0,1fr); }
 
   .trg-ad__pullquote { padding: 1.5rem; }
   .trg-ad__pullquote-text { font-size: 0.95rem; }
