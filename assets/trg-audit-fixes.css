@@ -847,3 +847,19 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
   }
 }
 
+
+/* ── Global mobile overflow safety (2026-03-21) ── */
+@media (max-width: 989px) {
+  html { overflow-x: hidden; }
+  .content-for-layout,
+  .shopify-section,
+  .section,
+  [class*="trg-"] {
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+  img, svg, video, iframe, table {
+    max-width: 100%;
+    height: auto;
+  }
+}
