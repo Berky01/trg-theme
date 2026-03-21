@@ -1,0 +1,348 @@
+{{ 'trg-journal.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign all_articles = blog.articles
+  assign total = blog.articles_count
+  assign now = 'now' | date: '%B %Y'
+
+  comment
+    Collect unique tags and counts
+  endcomment
+  assign tag_list = ''
+  for article in all_articles
+    for tag in article.tags
+      assign tag_handle = tag | handleize
+      unless tag_list contains tag_handle
+        if tag_list == ''
+          assign tag_list = tag_handle
+        else
+          assign tag_list = tag_list | append: ',' | append: tag_handle
+        endif
+      endunless
+    endfor
+  endfor
+  assign tag_arr = tag_list | split: ','
+
+  comment
+    Recount properly
+  endcomment
+  assign tag_count_json = ''
+  for t in tag_arr
+    assign ct = 0
+    for article in all_articles
+      for atag in article.tags
+        assign atag_h = atag | handleize
+        if atag_h == t
+          assign ct = ct | plus: 1
+        endif
+      endfor
+    endfor
+    if tag_count_json == ''
+      assign tag_count_json = t | append: ':' | append: ct
+    else
+      assign tag_count_json = tag_count_json | append: ',' | append: t | append: ':' | append: ct
+    endif
+  endfor
+  assign tag_count_pairs = tag_count_json | split: ','
+
+  comment
+    Find max count for bar widths
+  endcomment
+  assign max_count = 1
+  for pair in tag_count_pairs
+    assign parts = pair | split: ':'
+    assign c = parts[1] | plus: 0
+    if c > max_count
+      assign max_count = c
+    endif
+  endfor
+
+  comment
+    Lead article: first article tagged editors-pick, or just first article
+  endcomment
+  assign lead_article = nil
+  assign lead_index = -1
+  for article in all_articles
+    for tag in article.tags
+      if tag == 'editors-pick' or tag == "Editor's Pick"
+        assign lead_article = article
+        assign lead_index = forloop.parentloop.index0
+        break
+      endif
+    endfor
+    if lead_article
+      break
+    endif
+  endfor
+  if lead_article == nil and all_articles.size > 0
+    assign lead_article = all_articles.first
+    assign lead_index = 0
+  endif
+-%}
+
+<div class="trg-jrn-wrap">
+  {%- comment -%} MASTHEAD {%- endcomment -%}
+  <div class="trg-jrn-masthead">
+    <div>
+      <div class="trg-jrn-kicker">{{ shop.name }}</div>
+      <div class="trg-jrn-wordmark">The<br><em>Journal</em></div>
+    </div>
+    <div class="trg-jrn-mast-right">
+      <div class="trg-jrn-date">{{ now }}</div>
+      <div class="trg-jrn-count">{{ total }}</div>
+      <div class="trg-jrn-count-lbl">Articles</div>
+    </div>
+  </div>
+
+  {%- comment -%} TOPIC PILLS {%- endcomment -%}
+  <div class="trg-jrn-topics">
+    <button class="trg-jrn-pill on" data-tag="">All</button>
+    {%- for pair in tag_count_pairs -%}
+      {%- assign parts = pair | split: ':' -%}
+      {%- assign tag_handle = parts[0] -%}
+      {%- comment -%} Find original-case tag name {%- endcomment -%}
+      {%- assign tag_display = tag_handle | replace: '-', ' ' | capitalize -%}
+      {%- for article in all_articles -%}
+        {%- for tag in article.tags -%}
+          {%- assign th = tag | handleize -%}
+          {%- if th == tag_handle -%}
+            {%- assign tag_display = tag -%}
+            {%- break -%}
+          {%- endif -%}
+        {%- endfor -%}
+        {%- if tag_display != tag_handle -%}{%- break -%}{%- endif -%}
+      {%- endfor -%}
+      {%- unless tag_handle == 'editors-pick' -%}
+        <button class="trg-jrn-pill" data-tag="{{ tag_handle }}">{{ tag_display }}</button>
+      {%- endunless -%}
+    {%- endfor -%}
+  </div>
+
+  {%- if total == 0 -%}
+    {%- comment -%} EMPTY STATE {%- endcomment -%}
+    <div class="trg-jrn-empty">
+      <div class="trg-jrn-empty-h">Coming soon</div>
+      <div class="trg-jrn-empty-p">We're working on our first stories. Subscribe below to get notified.</div>
+    </div>
+  {%- else -%}
+
+  <div class="trg-jrn-main">
+    {%- comment -%} LEFT COLUMN {%- endcomment -%}
+    <div>
+      {%- comment -%} LEAD CARD {%- endcomment -%}
+      {%- if lead_article -%}
+        {%- liquid
+          assign lead_words = lead_article.content | strip_html | split: ' ' | size
+          assign lead_read = lead_words | divided_by: 238
+          if lead_read < 1
+            assign lead_read = 1
+          endif
+          assign lead_tags_str = ''
+          for tag in lead_article.tags
+            assign th = tag | handleize
+            if lead_tags_str == ''
+              assign lead_tags_str = th
+            else
+              assign lead_tags_str = lead_tags_str | append: ',' | append: th
+            endif
+          endfor
+          assign lead_cat = lead_article.tags.first
+          for tag in lead_article.tags
+            unless tag == 'editors-pick' or tag == "Editor's Pick"
+              assign lead_cat = tag
+              break
+            endunless
+          endfor
+        -%}
+        <div class="trg-jrn-lead" data-tags="{{ lead_tags_str }}">
+          <a href="{{ lead_article.url }}" class="trg-jrn-lead-img">
+            {%- if lead_article.image -%}
+              <img src="{{ lead_article.image | image_url: width: 600 }}" alt="{{ lead_article.image.alt | escape }}" loading="lazy" width="600" height="600">
+            {%- endif -%}
+          </a>
+          <div class="trg-jrn-lead-info">
+            <div>
+              {%- for tag in lead_article.tags -%}
+                {%- if tag == 'editors-pick' or tag == "Editor's Pick" -%}
+                  <span class="trg-jrn-badge">Editor's Pick</span>
+                  {%- break -%}
+                {%- endif -%}
+              {%- endfor -%}
+              <a href="{{ lead_article.url }}">
+                <h2 class="trg-jrn-lead-headline">{{ lead_article.title }}</h2>
+              </a>
+              <p class="trg-jrn-lead-deck">{{ lead_article.excerpt_or_content | strip_html | truncate: 200 }}</p>
+            </div>
+            <div class="trg-jrn-lead-foot">
+              <span>{{ lead_cat }}</span>
+              <span>{{ lead_read }} min read · {{ lead_article.published_at | date: '%b %-d' }}</span>
+            </div>
+          </div>
+        </div>
+      {%- endif -%}
+
+      {%- comment -%} NUMBERED LIST {%- endcomment -%}
+      <div class="trg-jrn-list-section-lbl">Latest</div>
+      {%- assign list_num = 0 -%}
+      {%- for article in all_articles -%}
+        {%- if forloop.index0 == lead_index -%}{%- continue -%}{%- endif -%}
+        {%- assign list_num = list_num | plus: 1 -%}
+        {%- if list_num > 12 -%}{%- break -%}{%- endif -%}
+        {%- liquid
+          assign words = article.content | strip_html | split: ' ' | size
+          assign read_time = words | divided_by: 238
+          if read_time < 1
+            assign read_time = 1
+          endif
+          assign item_tags_str = ''
+          for tag in article.tags
+            assign th = tag | handleize
+            if item_tags_str == ''
+              assign item_tags_str = th
+            else
+              assign item_tags_str = item_tags_str | append: ',' | append: th
+            endif
+          endfor
+          assign item_cat = article.tags.first
+          for tag in article.tags
+            unless tag == 'editors-pick' or tag == "Editor's Pick"
+              assign item_cat = tag
+              break
+            endunless
+          endfor
+        -%}
+        <div class="trg-jrn-list-item" data-tags="{{ item_tags_str }}">
+          {%- comment -%} Mobile thumbnail {%- endcomment -%}
+          <a href="{{ article.url }}" class="trg-jrn-li-thumb">
+            {%- if article.image -%}
+              <img src="{{ article.image | image_url: width: 144 }}" alt="{{ article.image.alt | escape }}" loading="lazy" width="72" height="54">
+            {%- endif -%}
+          </a>
+          <div>
+            <div class="trg-jrn-li-cat">{{ item_cat }}</div>
+            <a href="{{ article.url }}"><div class="trg-jrn-li-title">{{ article.title }}</div></a>
+            <div class="trg-jrn-li-meta">{{ read_time }} min read · {{ article.published_at | date: '%b %-d' }}</div>
+          </div>
+          <div class="trg-jrn-li-num">{{ list_num | prepend: '00' | slice: -2, 2 }}</div>
+        </div>
+      {%- endfor -%}
+
+      {%- comment -%} MOBILE: Topic block + Recent + NL (inside left col on mobile) {%- endcomment -%}
+      <div class="trg-jrn-topic-block-mobile">
+        <div class="trg-jrn-topic-lbl-mobile">Topics</div>
+        {%- for pair in tag_count_pairs -%}
+          {%- assign parts = pair | split: ':' -%}
+          {%- assign tag_handle = parts[0] -%}
+          {%- assign ct = parts[1] | plus: 0 -%}
+          {%- assign bar_pct = ct | times: 100 | divided_by: max_count -%}
+          {%- assign tag_display = tag_handle | replace: '-', ' ' | capitalize -%}
+          {%- for article in all_articles -%}
+            {%- for tag in article.tags -%}
+              {%- assign th = tag | handleize -%}
+              {%- if th == tag_handle -%}
+                {%- assign tag_display = tag -%}
+                {%- break -%}
+              {%- endif -%}
+            {%- endfor -%}
+            {%- if tag_display != tag_handle -%}{%- break -%}{%- endif -%}
+          {%- endfor -%}
+          {%- unless tag_handle == 'editors-pick' -%}
+          <div class="trg-jrn-topic-card">
+            <div class="trg-jrn-topic-inline">
+              <div class="trg-jrn-tc-name">{{ tag_display }}</div>
+              <div class="trg-jrn-tc-bar"><div class="trg-jrn-tc-fill" style="width:{{ bar_pct }}%"></div></div>
+              <div class="trg-jrn-tc-count-inline">{{ ct }}</div>
+            </div>
+          </div>
+          {%- endunless -%}
+        {%- endfor -%}
+      </div>
+    </div>
+
+    {%- comment -%} SIDEBAR (desktop) {%- endcomment -%}
+    <div class="trg-jrn-sidebar">
+      {%- comment -%} Topics {%- endcomment -%}
+      <div class="trg-jrn-sidebar-block">
+        <div class="trg-jrn-sidebar-label">Topics</div>
+        {%- for pair in tag_count_pairs -%}
+          {%- assign parts = pair | split: ':' -%}
+          {%- assign tag_handle = parts[0] -%}
+          {%- assign ct = parts[1] | plus: 0 -%}
+          {%- assign bar_pct = ct | times: 100 | divided_by: max_count -%}
+          {%- assign tag_display = tag_handle | replace: '-', ' ' | capitalize -%}
+          {%- for article in all_articles -%}
+            {%- for tag in article.tags -%}
+              {%- assign th = tag | handleize -%}
+              {%- if th == tag_handle -%}
+                {%- assign tag_display = tag -%}
+                {%- break -%}
+              {%- endif -%}
+            {%- endfor -%}
+            {%- if tag_display != tag_handle -%}{%- break -%}{%- endif -%}
+          {%- endfor -%}
+          {%- unless tag_handle == 'editors-pick' -%}
+          <div class="trg-jrn-topic-card">
+            <div class="trg-jrn-tc-name">{{ tag_display }}</div>
+            <div class="trg-jrn-tc-count">{{ ct }} {{ ct | pluralize: 'article', 'articles' }}</div>
+            <div class="trg-jrn-tc-bar"><div class="trg-jrn-tc-fill" style="width:{{ bar_pct }}%"></div></div>
+          </div>
+          {%- endunless -%}
+        {%- endfor -%}
+      </div>
+
+      {%- comment -%} Recently Added {%- endcomment -%}
+      <div class="trg-jrn-sidebar-block">
+        <div class="trg-jrn-sidebar-label">Recently Added</div>
+        {%- for article in all_articles limit: 3 -%}
+          <div class="trg-jrn-recent-item">
+            <a href="{{ article.url }}" class="trg-jrn-ri-thumb">
+              {%- if article.image -%}
+                <img src="{{ article.image | image_url: width: 112 }}" alt="{{ article.image.alt | escape }}" loading="lazy" width="56" height="42">
+              {%- endif -%}
+            </a>
+            <a href="{{ article.url }}">
+              {%- assign ri_cat = article.tags.first -%}
+              {%- for tag in article.tags -%}
+                {%- unless tag == 'editors-pick' or tag == "Editor's Pick" -%}
+                  {%- assign ri_cat = tag -%}
+                  {%- break -%}
+                {%- endunless -%}
+              {%- endfor -%}
+              <div class="trg-jrn-ri-cat">{{ ri_cat }}</div>
+              <div class="trg-jrn-ri-title">{{ article.title }}</div>
+              <div class="trg-jrn-ri-date">{{ article.published_at | date: '%B %-d' }}</div>
+            </a>
+          </div>
+        {%- endfor -%}
+      </div>
+
+      {%- comment -%} Newsletter {%- endcomment -%}
+      <div class="trg-jrn-nl">
+        <div class="trg-jrn-nl-ey">The TRG Dispatch</div>
+        <div class="trg-jrn-nl-h">New brands and one good read, every two weeks.</div>
+        <input class="trg-jrn-nl-inp" type="email" placeholder="your@email.com" />
+        <button class="trg-jrn-nl-btn" onclick="window.open('https://therightgarment.beehiiv.com/subscribe','_blank')">Subscribe</button>
+      </div>
+    </div>
+  </div>
+
+  {%- endif -%}
+</div>
+
+<script src="{{ 'trg-journal.js' | asset_url }}" defer></script>
+
+{% schema %}
+{
+  "name": "TRG Journal Index",
+  "tag": "section",
+  "class": "trg-jrn-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "newsletter_url",
+      "label": "Newsletter subscribe URL",
+      "default": "https://therightgarment.beehiiv.com/subscribe"
+    }
+  ]
+}
+{% endschema %}
