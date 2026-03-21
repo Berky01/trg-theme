@@ -11,7 +11,10 @@
   "sections": {
     "trg_privacy_policy": {
       "type": "trg-privacy-policy",
-      "settings": {}
+      "settings": {},
+      "custom_css": [
+        ""
+      ]
     }
   },
   "order": [
