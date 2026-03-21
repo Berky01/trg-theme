@@ -182,6 +182,7 @@
       {%- endif -%}
 
       {%- comment -%} NUMBERED LIST {%- endcomment -%}
+      {%- if all_articles.size > 1 -%}
       <div class="trg-jrn-list-section-lbl">Latest</div>
       {%- assign list_num = 0 -%}
       {%- for article in all_articles -%}
@@ -226,6 +227,7 @@
           <div class="trg-jrn-li-num">{{ list_num | prepend: '00' | slice: -2, 2 }}</div>
         </div>
       {%- endfor -%}
+      {%- endif -%}
 
       {%- comment -%} MOBILE: Topic block + Recent + NL (inside left col on mobile) {%- endcomment -%}
       <div class="trg-jrn-topic-block-mobile">
@@ -346,3 +348,4 @@
   ]
 }
 {% endschema %}
+
