@@ -255,21 +255,3 @@ header-drawer .menu-drawer__inner-container{display:none!important}
 }
 
 /* trg-recompile-1773790615 */
-
-
-
-
-
-/* ═══ Brand PLP mobile fix — bg color match ═══ */
-@media screen and (max-width: 989px) {
-  .header__navigation-bar-row {
-    display: none !important;
-  }
-  .section.trg-bdir {
-    background: #1a1a18 !important;
-  }
-  .trg-bdir .trg-bdir__body--outer {
-    background: #f5f1eb !important;
-    padding-top: 0.75rem !important;
-  }
-}

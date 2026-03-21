@@ -1,27 +1,3 @@
-/* TRG Fix v8 — minimal, clean */
-(function(){
-  var s=document.createElement('style');
-  s.id='trg-bdir-fix';
-  s.textContent=[
-    /* 1. Make the section gap invisible — match header bg on mobile */
-    '@media(max-width:989px){',
-      '.section.trg-bdir{background:#1a1a18!important}',
-      '.trg-bdir .trg-bdir__body--outer{background:#f5f1eb!important;padding-top:0.75rem!important}',
-      /* Hide empty Dwell nav row */
-      '.header__navigation-bar-row{display:none!important}',
-    '}',
-    /* 2. Scrollbar kill */
-    '.trg-bdir *{scrollbar-width:none!important;-ms-overflow-style:none!important}',
-    '.trg-bdir *::-webkit-scrollbar{display:none!important;width:0!important;height:0!important;background:transparent!important}',
-    '.trg-bdir *::-webkit-scrollbar-thumb,.trg-bdir *::-webkit-scrollbar-track{display:none!important;background:transparent!important}',
-    /* 3. Card overflow */
-    '.trg-bdir .trg-bdir__carda,.trg-bdir .trg-bdir__card,.trg-bdir .trg-bdir__body2{overflow:hidden!important}',
-    /* 4. CTA kill on mobile */
-    '@media(max-width:989px){.trg-bdir .trg-bdir__cta{display:none!important;height:0!important;min-height:0!important;visibility:hidden!important;overflow:hidden!important}}'
-  ].join('');
-  (document.head||document.documentElement).appendChild(s);
-})();
-
 
 /* === TRG: Handle Corrections + Overflow Fetch === */
 (function() {
