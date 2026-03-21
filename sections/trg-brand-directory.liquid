@@ -1,4 +1,35 @@
-{% comment %}TRG-TS:1773801742{% endcomment %}
+{% comment %}TRG-TS:1774125200{% endcomment %}
+<style>
+/* TRG INLINE MOBILE FIXES — bypass CDN cache */
+/* 1. Kill gap between header and brand dir */
+.trg-brand-directory-section{margin:0!important;padding:0!important}
+.section.trg-bdir{row-gap:0!important;gap:0!important;margin-top:0!important;padding-top:0!important}
+@media(max-width:989px){
+  .section.trg-bdir{display:block!important;margin:0!important;padding:0!important}
+}
+/* 2. Kill grey scrollbar on cards */
+@media(max-width:989px){
+  .trg-bdir .trg-bdir__card,
+  .trg-bdir .trg-bdir__carda,
+  .trg-bdir .trg-bdir__body2,
+  .trg-bdir .trg-bdir__media,
+  .trg-bdir .trg-bdir__grid{
+    overflow:hidden!important;
+    scrollbar-width:none!important;
+    -ms-overflow-style:none!important
+  }
+  .trg-bdir .trg-bdir__card::-webkit-scrollbar,
+  .trg-bdir .trg-bdir__carda::-webkit-scrollbar,
+  .trg-bdir .trg-bdir__body2::-webkit-scrollbar{
+    display:none!important;width:0!important;height:0!important
+  }
+  /* 3. Nuke CTA bar completely */
+  .trg-bdir .trg-bdir__cta{
+    display:none!important;visibility:hidden!important;height:0!important;min-height:0!important;overflow:hidden!important
+  }
+}
+</style>
+
 {% liquid
   assign cat_filters = 'Shirts & Tops,Outerwear & Jackets,Trousers & Bottoms,Footwear,Knitwear,Denim,Suits & Tailoring,Accessories' | split: ','
   assign aest_filters = 'Heritage,Workwear,Minimalist,Smart Casual,Japanese,Technical,Coastal' | split: ','
@@ -87,8 +118,6 @@
         
     ]
   </script>
-  
-  </template>
   
   <script>
     /* Fix 39 brands where handleize differs from actual page handle */
