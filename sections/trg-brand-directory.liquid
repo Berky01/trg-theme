@@ -8,6 +8,7 @@
 {% comment %}CSS loaded in theme.liquid head{% endcomment %}
 <script src="{{ 'trg-brand-directory.js' | asset_url }}" defer></script>
 <section class="section section--full-width trg-bdir" data-id="{{ section.id }}">
+<div class="trg-bdir__wrap">
   <script type="application/json" data-brands-json>
     [
       {%- assign brand_output_count = 0 -%}
@@ -207,6 +208,7 @@
     </div>
   </div>
   <button type="button" class="trg-bdir__top" data-top aria-label="Back to top">↑</button>
+</div>
 </section>
 {% schema %}
 {
