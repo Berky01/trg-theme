@@ -371,5 +371,34 @@
     return d.innerHTML;
   }
 
+
+  /* ── Also Available At (dedup surfacing) ── */
+  (function renderAlsoAvailable() {
+    var container = document.querySelector('.trg-pdp__also-at');
+    if (!container) return;
+    var raw = container.getAttribute('data-alts');
+    if (!raw) return;
+    try {
+      var alts = JSON.parse(raw);
+      if (!Array.isArray(alts) || alts.length === 0) return;
+      var linksEl = container.querySelector('.trg-pdp__also-at__links');
+      if (!linksEl) return;
+      var extIcon = '<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>';
+      for (var i = 0; i < alts.length; i++) {
+        var alt = alts[i];
+        if (!alt.url || !alt.name) continue;
+        var a = document.createElement('a');
+        a.href = alt.url;
+        a.target = '_blank';
+        a.rel = 'noopener sponsored';
+        a.className = 'trg-pdp__also-at__link';
+        a.innerHTML = alt.name + ' ' + extIcon;
+        linksEl.appendChild(a);
+      }
+    } catch (e) {
+      console.warn('[TRG] Also-available parse error:', e);
+    }
+  })();
+
 })();
 
