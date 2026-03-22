@@ -1,0 +1,296 @@
+<section class="section section--full-width color-{{ section.settings.color_scheme }} trg-section trg-colour-teaser">
+  <div class="trg-shell trg-colour-teaser__grid">
+    <div class="trg-colour-teaser__text" data-trg-reveal>
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="trg-eyebrow">{{ section.settings.eyebrow | escape }}</p>
+      {%- endif -%}
+      {%- if section.settings.title != blank -%}
+        <div class="trg-heading">{{ section.settings.title }}</div>
+      {%- endif -%}
+      {%- if section.settings.body != blank -%}
+        <div class="trg-lead">{{ section.settings.body }}</div>
+      {%- endif -%}
+      {%- if section.settings.cta_label != blank and section.settings.cta_link != blank -%}
+        <a class="trg-colour-teaser__cta" href="{{ section.settings.cta_link }}">
+          {{ section.settings.cta_label | escape }} <span aria-hidden="true">&rarr;</span>
+        </a>
+      {%- endif -%}
+    </div>
+
+    <div class="trg-colour-teaser__families" data-trg-reveal>
+      {%- for block in section.blocks -%}
+        <a class="trg-colour-teaser__family"
+           href="{{ section.settings.cta_link | default: '/pages/colour-guide' }}#{{ block.settings.label | handleize }}"
+           {{ block.shopify_attributes }}>
+          <div class="trg-colour-teaser__swatch"
+               style="--cg-c1: {{ block.settings.colour_1 }};
+                      --cg-c2: {{ block.settings.colour_2 }};
+                      --cg-c3: {{ block.settings.colour_3 }};">
+            <span class="trg-colour-teaser__ring trg-colour-teaser__ring--1"></span>
+            <span class="trg-colour-teaser__ring trg-colour-teaser__ring--2"></span>
+            <span class="trg-colour-teaser__ring trg-colour-teaser__ring--3"></span>
+          </div>
+          <span class="trg-colour-teaser__label">{{ block.settings.label | escape }}</span>
+          <span class="trg-colour-teaser__count">{{ block.settings.count | escape }}</span>
+        </a>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  /* ── TRG Colour Teaser ────────────────────── */
+
+  .trg-colour-teaser {
+    padding-block: clamp(40px, 5vw, 64px);
+    border-top: 1px solid var(--trg-border-color, #ddd8cf);
+    border-bottom: 1px solid var(--trg-border-color, #ddd8cf);
+  }
+
+  .trg-colour-teaser__grid {
+    display: grid;
+    gap: clamp(28px, 4vw, 48px);
+    align-items: center;
+  }
+
+  @media screen and (min-width: 990px) {
+    .trg-colour-teaser__grid {
+      grid-template-columns: minmax(240px, 320px) minmax(0, 1fr);
+      gap: clamp(40px, 5vw, 72px);
+    }
+  }
+
+  /* ── Text block ── */
+
+  .trg-colour-teaser__text .trg-heading {
+    font-size: clamp(1.5rem, 2.5vw, 1.9rem);
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+  }
+
+  .trg-colour-teaser__text .trg-lead,
+  .trg-colour-teaser__text .trg-lead > * {
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: var(--trg-muted-color);
+  }
+
+  .trg-colour-teaser__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 1rem;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--trg-accent-color);
+    text-decoration: none;
+    transition: opacity 0.15s;
+  }
+
+  .trg-colour-teaser__cta:hover {
+    opacity: 0.7;
+  }
+
+  /* ── Family swatches ── */
+
+  .trg-colour-teaser__families {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: clamp(12px, 2vw, 20px);
+  }
+
+  @media screen and (max-width: 989px) {
+    .trg-colour-teaser__families {
+      display: flex;
+      gap: 0;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      margin-inline: -16px;
+      padding-inline: 16px;
+    }
+    .trg-colour-teaser__families::-webkit-scrollbar { display: none; }
+
+    .trg-colour-teaser__family {
+      flex: 0 0 auto;
+      width: 86px;
+      scroll-snap-align: start;
+    }
+  }
+
+  @media screen and (min-width: 990px) {
+    .trg-colour-teaser__families {
+      grid-template-columns: repeat(8, minmax(0, 1fr));
+    }
+  }
+
+  .trg-colour-teaser__family {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.15s ease;
+  }
+
+  .trg-colour-teaser__family:hover {
+    transform: translateY(-2px);
+  }
+
+  /* ── Swatch (3-ring concentric) ── */
+
+  .trg-colour-teaser__swatch {
+    position: relative;
+    width: clamp(52px, 5vw, 64px);
+    height: clamp(52px, 5vw, 64px);
+  }
+
+  .trg-colour-teaser__ring {
+    position: absolute;
+    border-radius: 50%;
+    transition: transform 0.2s ease;
+  }
+
+  .trg-colour-teaser__ring--1 {
+    inset: 0;
+    background: var(--cg-c3);
+  }
+
+  .trg-colour-teaser__ring--2 {
+    inset: 18%;
+    background: var(--cg-c2);
+  }
+
+  .trg-colour-teaser__ring--3 {
+    inset: 36%;
+    background: var(--cg-c1);
+  }
+
+  .trg-colour-teaser__family:hover .trg-colour-teaser__ring--2 {
+    transform: scale(1.08);
+  }
+
+  .trg-colour-teaser__family:hover .trg-colour-teaser__ring--3 {
+    transform: scale(1.12);
+  }
+
+  .trg-colour-teaser__label {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: var(--trg-heading-color);
+    text-align: center;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+
+  .trg-colour-teaser__count {
+    font-size: 0.64rem;
+    color: var(--trg-muted-color);
+    text-align: center;
+    white-space: nowrap;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "TRG Colour Teaser",
+  "tag": "section",
+  "class": "trg-colour-teaser-wrapper",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Colour Guide"
+    },
+    {
+      "type": "richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "<p>Not sure what <em>suits you?</em></p>"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Body",
+      "default": "<p>75 menswear colours across 8 families. Find what works for your wardrobe.</p>"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "CTA label",
+      "default": "Open the Colour Guide"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "CTA link"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "family",
+      "name": "Colour Family",
+      "limit": 10,
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Family name",
+          "default": "Blues"
+        },
+        {
+          "type": "text",
+          "id": "count",
+          "label": "Count label",
+          "default": "14 colours"
+        },
+        {
+          "type": "color",
+          "id": "colour_1",
+          "label": "Inner colour (lightest)",
+          "default": "#a0c4d8"
+        },
+        {
+          "type": "color",
+          "id": "colour_2",
+          "label": "Middle colour",
+          "default": "#3464a8"
+        },
+        {
+          "type": "color",
+          "id": "colour_3",
+          "label": "Outer colour (darkest)",
+          "default": "#282858"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "TRG Colour Teaser",
+      "blocks": [
+        { "type": "family", "settings": { "label": "Whites & Creams", "count": "6 colours", "colour_1": "#f8f6f3", "colour_2": "#eae4d8", "colour_3": "#f0e8d0" } },
+        { "type": "family", "settings": { "label": "Sand & Khaki", "count": "11 colours", "colour_1": "#d09030", "colour_2": "#c8b88a", "colour_3": "#a09080" } },
+        { "type": "family", "settings": { "label": "Browns", "count": "10 colours", "colour_1": "#b06828", "colour_2": "#7a5028", "colour_3": "#3c2010" } },
+        { "type": "family", "settings": { "label": "Greens", "count": "11 colours", "colour_1": "#a0c8a0", "colour_2": "#305838", "colour_3": "#388888" } },
+        { "type": "family", "settings": { "label": "Blues", "count": "14 colours", "colour_1": "#a0c4d8", "colour_2": "#3464a8", "colour_3": "#282858" } },
+        { "type": "family", "settings": { "label": "Greys", "count": "9 colours", "colour_1": "#ccc8c0", "colour_2": "#808078", "colour_3": "#181818" } },
+        { "type": "family", "settings": { "label": "Reds & Burgundy", "count": "8 colours", "colour_1": "#c09080", "colour_2": "#a01028", "colour_3": "#501828" } },
+        { "type": "family", "settings": { "label": "Mauves", "count": "6 colours", "colour_1": "#c8a8a8", "colour_2": "#9898b8", "colour_3": "#502840" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
