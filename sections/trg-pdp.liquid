@@ -80,6 +80,7 @@
     assign duties_apply = true
   endif
   assign returns_window = p.metafields.trg.returns_window.value | default: p.metafields.trg.returns_window
+  assign also_available_raw = p.metafields.trg.also_available.value | default: p.metafields.trg.also_available | default: ''
 
   assign has_affiliate = false
   assign brand_aff_program = brand_meta.affiliate_program.value | default: ''
@@ -284,6 +285,14 @@
       </div>
 
     </div>
+
+    {%- comment -%} ═══ ALSO AVAILABLE AT (dedup surfacing) ═══ {%- endcomment -%}
+    {%- if also_available_raw != blank and also_available_raw != '[]' -%}
+      <div class="trg-pdp__also-at" data-alts="{{ also_available_raw | escape }}">
+        <div class="trg-pdp__also-at__label">Also available at</div>
+        <div class="trg-pdp__also-at__links" id="trg-pdp-also-links"></div>
+      </div>
+    {%- endif -%}
 
     {%- if has_affiliate -%}
     <p class="trg-pdp__disclosure">Affiliate link — TRG may earn a commission at no extra cost to you</p>
@@ -817,6 +826,47 @@
   .trg-pdp__btn-secondary:hover {
     border-color: #1a1a18;
     color: #1a1a18;
+  }
+
+  /* ── Also Available At (dedup) ── */
+  .trg-pdp__also-at {
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--trg-border);
+  }
+  .trg-pdp__also-at__label {
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--trg-mid);
+    margin-bottom: 0.4rem;
+  }
+  .trg-pdp__also-at__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  .trg-pdp__also-at__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--trg-ink);
+    padding: 0.35rem 0.65rem;
+    border: 1px solid var(--trg-border);
+    border-radius: 4px;
+    text-decoration: none;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .trg-pdp__also-at__link:hover {
+    border-color: var(--trg-ink);
+    background: rgba(26,26,24,0.03);
+  }
+  .trg-pdp__also-at__link svg {
+    opacity: 0.5;
+    flex-shrink: 0;
   }
 
   .trg-pdp__cta-divider {
