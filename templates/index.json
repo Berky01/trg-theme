@@ -238,14 +238,17 @@
           "settings": {
             "metaobject_handle": "",
             "logo_text": "VB",
-            "badge_1": "Canadian",
+            "badge_1": "",
             "badge_2": "",
             "title": "Viberg",
             "origin": "Footwear \u00b7 Victoria, BC",
             "body": "Heirloom-quality boots handcrafted in Canada with exceptional build integrity.",
             "price_tag": "Luxury",
             "cta_label": "View",
-            "link": "/collections/viberg"
+            "link": "/collections/viberg",
+            "positioning": "Heritage Footwear",
+            "gradient_start": "#3b1d0f",
+            "gradient_end": "#6b3518"
           }
         },
         "brand_2": {
@@ -253,14 +256,17 @@
           "settings": {
             "metaobject_handle": "",
             "logo_text": "TS",
-            "badge_1": "Affiliate",
+            "badge_1": "",
             "badge_2": "",
             "title": "Taylor Stitch",
             "origin": "Workwear \u00b7 San Francisco",
             "body": "Workshop-grade essentials with sturdy materials and classic silhouettes.",
             "price_tag": "Mid-range",
             "cta_label": "View",
-            "link": "/collections/taylor-stitch"
+            "link": "/collections/taylor-stitch",
+            "positioning": "Workshop Essentials",
+            "gradient_start": "#3f5274",
+            "gradient_end": "#1f2f50"
           }
         },
         "brand_3": {
@@ -268,14 +274,17 @@
           "settings": {
             "metaobject_handle": "",
             "logo_text": "RC",
-            "badge_1": "Canadian",
+            "badge_1": "",
             "badge_2": "",
             "title": "Reigning Champ",
             "origin": "Casualwear \u00b7 Vancouver",
             "body": "Quiet premium basics and fleece with reliable quality control.",
             "price_tag": "Premium",
             "cta_label": "View",
-            "link": "/collections/reigning-champ"
+            "link": "/collections/reigning-champ",
+            "positioning": "Premium Basics",
+            "gradient_start": "#2b3348",
+            "gradient_end": "#121722"
           }
         },
         "brand_4": {
@@ -284,13 +293,16 @@
             "metaobject_handle": "",
             "logo_text": "SM",
             "badge_1": "",
-            "badge_2": "Affiliate",
+            "badge_2": "",
             "title": "Spier & Mackay",
             "origin": "Formalwear \u00b7 Toronto",
             "body": "Strong tailoring value with thoughtful fabric and fit options.",
             "price_tag": "Mid-range",
             "cta_label": "View",
-            "link": "/collections/spier-and-mackay"
+            "link": "/collections/spier-and-mackay",
+            "positioning": "Modern Tailoring",
+            "gradient_start": "#282858",
+            "gradient_end": "#484878"
           }
         },
         "brand_5": {
@@ -305,7 +317,10 @@
             "body": "Modern essentials with clean lines and durable fabrics.",
             "price_tag": "Premium",
             "cta_label": "View",
-            "link": "/collections/norse-projects"
+            "link": "/collections/norse-projects",
+            "positioning": "Scandinavian Minimalism",
+            "gradient_start": "#526850",
+            "gradient_end": "#1e3a2f"
           }
         },
         "brand_6": {
@@ -320,7 +335,10 @@
             "body": "Refined basics and staple layers with practical everyday fit.",
             "price_tag": "Mid-range",
             "cta_label": "View",
-            "link": "/collections/buck-mason"
+            "link": "/collections/buck-mason",
+            "positioning": "Everyday Staples",
+            "gradient_start": "#9f8468",
+            "gradient_end": "#c5a783"
           }
         }
       },
@@ -336,7 +354,7 @@
         "color_scheme": "scheme-1",
         "eyebrow": "Featured",
         "title": "<p>Featured <em>Brands</em></p>",
-        "body": "<p>Handpicked brands, verified affiliate programs, and real shipping context.</p>",
+        "body": "<p>Six brands we\\u0027d start with.</p>",
         "link_label": "All brands",
         "link_url": "/pages/brands",
         "columns_desktop": 3,
@@ -363,89 +381,89 @@
         "cat_1": {
           "type": "category",
           "settings": {
-            "icon": "\ud83e\udde5",
-            "collection": "",
-            "name": "Outerwear",
-            "count": "18 brands",
-            "count_override": "",
-            "link": "/collections/outerwear"
+            "name": "Shirts & Tops",
+            "count": "82 brands",
+            "colour_tint": "#3464a8",
+            "link": "/collections/shirts-tops",
+            "icon": "",
+            "count_override": ""
           }
         },
         "cat_2": {
           "type": "category",
           "settings": {
-            "icon": "\ud83d\udc55",
-            "collection": "",
-            "name": "Casualwear",
-            "count": "82 brands",
-            "count_override": "",
-            "link": "/collections/casualwear"
+            "name": "Outerwear & Jackets",
+            "count": "46 brands",
+            "colour_tint": "#7a5028",
+            "link": "/collections/outerwear-jackets",
+            "icon": "",
+            "count_override": ""
           }
         },
         "cat_3": {
           "type": "category",
           "settings": {
-            "icon": "\ud83d\udc54",
-            "collection": "",
-            "name": "Shirting",
-            "count": "19 brands",
-            "count_override": "",
-            "link": "/collections/shirting"
+            "name": "Trousers & Bottoms",
+            "count": "38 brands",
+            "colour_tint": "#5c4020",
+            "link": "/collections/trousers-bottoms",
+            "icon": "",
+            "count_override": ""
           }
         },
         "cat_4": {
           "type": "category",
           "settings": {
-            "icon": "\ud83d\udc5e",
-            "collection": "",
             "name": "Footwear",
             "count": "14 brands",
-            "count_override": "",
-            "link": "/collections/footwear"
+            "colour_tint": "#8b6834",
+            "link": "/collections/footwear",
+            "icon": "",
+            "count_override": ""
           }
         },
         "cat_5": {
           "type": "category",
           "settings": {
-            "icon": "\ud83d\udee0",
-            "collection": "",
-            "name": "Workwear",
-            "count": "24 brands",
-            "count_override": "",
-            "link": "/collections/workwear"
+            "name": "Knitwear",
+            "count": "31 brands",
+            "colour_tint": "#305838",
+            "link": "/collections/knitwear",
+            "icon": "",
+            "count_override": ""
           }
         },
         "cat_6": {
           "type": "category",
           "settings": {
-            "icon": "\u25fb",
-            "collection": "",
-            "name": "Basics",
-            "count": "31 brands",
-            "count_override": "",
-            "link": "/collections/basics"
+            "name": "Denim",
+            "count": "19 brands",
+            "colour_tint": "#2c3e6b",
+            "link": "/collections/denim",
+            "icon": "",
+            "count_override": ""
           }
         },
         "cat_7": {
           "type": "category",
           "settings": {
-            "icon": "\ud83c\udfa9",
-            "collection": "",
-            "name": "Formalwear",
+            "name": "Suits & Tailoring",
             "count": "9 brands",
-            "count_override": "",
-            "link": "/collections/formalwear"
+            "colour_tint": "#282858",
+            "link": "/collections/suits-tailoring",
+            "icon": "",
+            "count_override": ""
           }
         },
         "cat_8": {
           "type": "category",
           "settings": {
-            "icon": "\u2699",
-            "collection": "",
-            "name": "Technical",
-            "count": "17 brands",
-            "count_override": "",
-            "link": "/collections/activewear"
+            "name": "Accessories",
+            "count": "22 brands",
+            "colour_tint": "#808078",
+            "link": "/collections/accessories",
+            "icon": "",
+            "count_override": ""
           }
         }
       },
@@ -467,8 +485,8 @@
         "link_label": "",
         "link_url": "",
         "columns_desktop": 4,
-        "source_mode": "collection_blocks",
-        "collection_count_mode": "products",
+        "source_mode": "manual_blocks",
+        "collection_count_mode": "manual",
         "collection_count_suffix": "products",
         "collection_icon_mode": "text"
       }
