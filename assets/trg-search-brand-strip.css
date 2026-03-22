@@ -1,0 +1,111 @@
+/* ═══ TRG Search Brand Match Strip ═══ */
+.trg-bms {
+  background: var(--trg-warm-white, #faf8f4);
+  border-bottom: 1px solid var(--trg-border, #ddd8cf);
+  padding: 0.75rem 2rem;
+}
+.trg-bms__inner {
+  max-width: 1320px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+.trg-bms__label {
+  font-family: var(--trg-sans, 'DM Sans', sans-serif);
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--trg-mid, #8a8478);
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+.trg-bms__cards {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.trg-bms__cards::-webkit-scrollbar { display: none; }
+.trg-bms__card {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #fff;
+  border: 1px solid var(--trg-border, #ddd8cf);
+  border-radius: 2px;
+  padding: 0.35rem 0.75rem 0.35rem 0.45rem;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  flex-shrink: 0;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.trg-bms__card:hover {
+  border-color: var(--trg-accent, #c4562a);
+  box-shadow: 0 2px 8px rgba(196,86,42,0.08);
+}
+.trg-bms__logo {
+  width: 26px; height: 26px;
+  border-radius: 2px;
+  background: var(--trg-ink, #1a1a18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+  position: relative;
+  font-family: var(--trg-sans, 'DM Sans', sans-serif);
+  font-size: 0.52rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--trg-paper, #f5f1eb);
+  text-transform: uppercase;
+}
+.trg-bms__logo img {
+  width: 100%; height: 100%;
+  object-fit: contain;
+  position: absolute;
+  top: 0; left: 0;
+  background: #fff;
+}
+.trg-bms__info {
+  display: flex;
+  flex-direction: column;
+}
+.trg-bms__name {
+  font-family: var(--trg-sans, 'DM Sans', sans-serif);
+  font-size: 0.74rem;
+  font-weight: 500;
+  color: var(--trg-ink, #1a1a18);
+  white-space: nowrap;
+  line-height: 1.2;
+}
+.trg-bms__cat {
+  font-family: var(--trg-sans, 'DM Sans', sans-serif);
+  font-size: 0.58rem;
+  color: var(--trg-mid, #8a8478);
+  white-space: nowrap;
+}
+.trg-bms__arrow {
+  color: var(--trg-border, #ddd8cf);
+  margin-left: 0.1rem;
+  transition: color 0.15s;
+  flex-shrink: 0;
+}
+.trg-bms__card:hover .trg-bms__arrow {
+  color: var(--trg-accent, #c4562a);
+}
+
+/* Mobile */
+@media (max-width: 749px) {
+  .trg-bms { padding: 0.65rem 1rem; }
+  .trg-bms__inner { gap: 0.5rem; }
+  .trg-bms__label { font-size: 0.54rem; }
+  .trg-bms__card { padding: 0.3rem 0.6rem 0.3rem 0.35rem; }
+  .trg-bms__logo { width: 22px; height: 22px; font-size: 0.48rem; }
+  .trg-bms__name { font-size: 0.68rem; }
+  .trg-bms__cat { font-size: 0.52rem; }
+}

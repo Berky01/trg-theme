@@ -1,0 +1,71 @@
+{{ 'trg-search-brand-strip.css' | asset_url | stylesheet_tag }}
+{{ 'trg-search-page.css' | asset_url | stylesheet_tag }}
+
+{% comment %}
+  TRG Search Brand Match Strip
+  Queries brand metaobjects matching the search term and renders cards.
+{% endcomment %}
+
+{%- if search.terms != blank -%}
+{%- assign search_term = search.terms | downcase -%}
+{%- assign match_count = 0 -%}
+{%- assign matched_ids = "" -%}
+
+{%- comment -%}First pass: count matches{%- endcomment -%}
+{%- for brand in shop.metaobjects.brand.values -%}
+  {%- assign bn = brand.name | downcase -%}
+  {%- assign bc = brand.primary_category | downcase -%}
+  {%- assign bk = brand.known_for_best_for | default: "" | downcase -%}
+  {%- if bn contains search_term or bc contains search_term or bk contains search_term or search_term contains bn -%}
+    {%- if match_count < 5 -%}
+      {%- assign match_count = match_count | plus: 1 -%}
+    {%- endif -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{%- if match_count > 0 -%}
+<div class="trg-bms">
+  <div class="trg-bms__inner">
+    <span class="trg-bms__label">Brands matching &ldquo;{{ search.terms }}&rdquo;</span>
+    <div class="trg-bms__cards">
+      {%- assign rendered = 0 -%}
+      {%- for brand in shop.metaobjects.brand.values -%}
+        {%- if rendered >= 5 -%}{%- break -%}{%- endif -%}
+        {%- assign bn = brand.name | downcase -%}
+        {%- assign bc = brand.primary_category | downcase -%}
+        {%- assign bk = brand.known_for_best_for | default: "" | downcase -%}
+        {%- if bn contains search_term or bc contains search_term or bk contains search_term or search_term contains bn -%}
+          <a href="/collections/{{ brand.slug }}" class="trg-bms__card">
+            <span class="trg-bms__logo">
+              {{ brand.name | slice: 0, 2 | upcase }}
+              {%- if brand.logo != blank -%}
+                <img src="{{ brand.logo | image_url: width: 60 }}" alt="" loading="lazy"
+                     onerror="this.style.display='none'">
+              {%- endif -%}
+            </span>
+            <span class="trg-bms__info">
+              <span class="trg-bms__name">{{ brand.name }}</span>
+              <span class="trg-bms__cat">
+                {{ brand.primary_category }}
+                {%- if brand.made_in != blank %} &middot; Made in {{ brand.made_in }}{%- endif -%}
+              </span>
+            </span>
+            <svg class="trg-bms__arrow" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+          </a>
+          {%- assign rendered = rendered | plus: 1 -%}
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+{%- endif -%}
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Search Brand Strip",
+  "tag": "section",
+  "class": "trg-search-brand-strip-section",
+  "settings": []
+}
+{% endschema %}

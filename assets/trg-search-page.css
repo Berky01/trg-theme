@@ -1,0 +1,41 @@
+/* ═══ TRG Search Page Overrides ═══ */
+/* Applied via search.json template on the search page only */
+
+/* Hide Dwell's search-header section (we use trg-search-bar instead) */
+.shopify-section-group-header-group + .shopify-section .section--search-header,
+section.section--search-header,
+.search-header-section {
+  display: none !important;
+}
+
+/* Center result count in toolbar */
+.search-results-section .facets__product-count,
+.search-results-section [class*="product-count"] {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+.search-results-section .facets__header,
+.search-results-section [class*="facets-header"],
+.search-results-section [class*="facets__header"] {
+  position: relative;
+}
+
+/* Hide "Sort" label on mobile */
+@media (max-width: 749px) {
+  .search-results-section .facets__sort-label,
+  .search-results-section label[for*="SortBy"] {
+    display: none !important;
+  }
+  /* Result count: static on mobile, centered */
+  .search-results-section .facets__product-count,
+  .search-results-section [class*="product-count"] {
+    position: static;
+    transform: none;
+    text-align: center;
+    flex: 1;
+  }
+}
+
+/* Ensure brand match strip CSS is loaded */
