@@ -864,32 +864,28 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
   }
 }
 
-/* ═══ #20 Brand PLP mobile: gap + layout fix ═══ */
+/* ═══ #20 Brand PLP mobile: layout + gap ═══ */
 @media screen and (max-width: 989px) {
-  /* Kill Dwell grid layout on our section */
   .section.trg-bdir {
     display: block !important;
     margin-top: 0 !important;
     padding-top: 0 !important;
+    background: #1a1a18 !important;
   }
-  /* Zero spacing on every wrapper between header and our content */
+  .trg-bdir .trg-bdir__body--outer {
+    background: #f5f1eb !important;
+  }
+  .header__navigation-bar-row,
+  .trg-mega-menu-shell {
+    display: none !important;
+  }
   .content-for-layout {
-    padding-top: 0 !important;
     margin-top: 0 !important;
+    padding-top: 0 !important;
   }
   .trg-brand-directory-section {
     margin-top: 0 !important;
     padding-top: 0 !important;
-    margin-bottom: 0 !important;
-  }
-  /* First element in section — no top margin */
-  .trg-bdir .trg-bdir__head {
-    margin-top: 0 !important;
-  }
-  /* Hide empty Dwell elements in header area */
-  .header__navigation-bar-row,
-  .trg-mega-menu-shell {
-    display: none !important;
   }
 }
 
