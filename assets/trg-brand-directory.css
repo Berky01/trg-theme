@@ -710,9 +710,23 @@ body:not(.filters-hidden) .trg-bdir .trg-bdir__show {
 /* ── ≤989px: tablet + mobile shared ── */
 @media screen and (max-width: 989px) {
   /* Header bar: compact, show title, hide eyebrow */
-  /* #25 Hide dark title band on mobile — matches desktop where it integrates naturally */
+  /* #25+#26 Hide dark title band + close all gaps on mobile */
   .trg-bdir .trg-bdir__head {
     display: none !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    overflow: hidden !important;
+  }
+  .section.section--full-width.trg-bdir {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+  }
+  .trg-bdir .trg-bdir__searchbar {
+    margin-top: 0 !important;
+    border-top: none !important;
   }
   .trg-bdir .trg-bdir__shell {
     padding-inline: 1rem !important;

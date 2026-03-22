@@ -866,9 +866,9 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
 
 /* ═══ #20 Brand PLP mobile: gap fix ═══ */
 @media screen and (max-width: 989px) {
-  /* TARGET THE BODY — the gap is body bg showing between flex children */
+  /* TARGET THE BODY — paper bg, dark title band removed on mobile */
   body:has([data-template="page.brands-directory"]) {
-    background: #1a1a18 !important;
+    background: #f5f1eb !important;
   }
   /* Restore paper bg on footer */
   body:has([data-template="page.brands-directory"]) footer,
