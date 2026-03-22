@@ -1,7 +1,7 @@
 {% liquid
   assign product = closest.product
 %}
-
+<!-- TRG-BRAND-DEBUG product={{ product }} vendor={{ product.vendor }} -->
 {% if product != blank and product.vendor != blank %}
   <p class="trg-plp-card-brand" {{ block.shopify_attributes }}>
     {{ product.vendor | escape }}
