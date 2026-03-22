@@ -864,28 +864,29 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
   }
 }
 
-/* ═══ #20 Brand PLP mobile: gap + layout ═══ */
+/* ═══ #20 Brand PLP mobile: gap fix ═══ */
 @media screen and (max-width: 989px) {
+  /* TARGET THE BODY — the gap is body bg showing between flex children */
+  body:has([data-template="page.brands-directory"]) {
+    background: #1a1a18 !important;
+  }
+  /* Restore paper bg on footer */
+  body:has([data-template="page.brands-directory"]) footer,
+  body:has([data-template="page.brands-directory"]) .footer {
+    background: #f5f1eb !important;
+  }
   /* Fix grid layout */
   .section.trg-bdir {
     display: block !important;
+  }
+  /* Card area gets paper bg */
+  .trg-bdir .trg-bdir__body--outer {
+    background: #f5f1eb !important;
   }
   /* Hide empty Dwell elements */
   .header__navigation-bar-row,
   .trg-mega-menu-shell {
     display: none !important;
-  }
-  /* Dark bg on EVERY layer between header and cards — kills the gap visually */
-  main[data-template="page.brands-directory"],
-  .trg-brand-directory-section,
-  .section.trg-bdir {
-    background: #1a1a18 !important;
-    margin-top: 0 !important;
-    padding-top: 0 !important;
-  }
-  /* Restore paper bg for the card grid only */
-  .trg-bdir .trg-bdir__body--outer {
-    background: #f5f1eb !important;
   }
 }
 
