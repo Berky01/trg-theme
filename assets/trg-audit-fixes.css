@@ -864,25 +864,16 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
   }
 }
 
-/* ═══ #20 Brand PLP mobile: header gap + scrollbar ═══ */
+/* ═══ #20 Brand PLP mobile: gap fix ═══ */
 @media screen and (max-width: 989px) {
-  .header__navigation-bar-row {
-    display: none !important;
+  /* Kill Dwell grid on the brand directory section */
+  .section.trg-bdir {
+    display: block !important;
   }
+  /* Hide empty Dwell nav row + mega-menu shell */
+  .header__navigation-bar-row,
   .trg-mega-menu-shell {
     display: none !important;
-  }
-  .content-for-layout {
-    margin-top: 0 !important;
-    padding-top: 0 !important;
-  }
-  /* Make section bg match header — hides the gap */
-  .section.trg-bdir {
-    background: #1a1a18 !important;
-  }
-  /* Restore paper bg for the card grid area */
-  .trg-bdir .trg-bdir__body--outer {
-    background: #f5f1eb !important;
   }
 }
 
