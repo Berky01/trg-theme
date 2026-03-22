@@ -116,8 +116,8 @@
           "blocks": {
             "card-gallery": {
               "type": "_product-card-gallery",
-                "settings": {
-                  "image_ratio": "square",
+              "settings": {
+                "image_ratio": "portrait",
                 "border": "none",
                 "border_width": 1,
                 "border_opacity": 100,
@@ -230,7 +230,7 @@
                 "trg_product_card_cta": {
                   "type": "trg-product-card-cta",
                   "settings": {
-                  "label": "via"
+                    "label": "via"
                   },
                   "blocks": {}
                 },
