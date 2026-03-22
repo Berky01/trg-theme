@@ -864,10 +864,20 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
   }
 }
 
-/* ═══ #20 Brand PLP mobile: nav-bar-row + scrollbar ═══ */
+/* ═══ #20 Brand PLP mobile: header gap + scrollbar ═══ */
 @media screen and (max-width: 989px) {
+  /* Empty Dwell nav row */
   .header__navigation-bar-row {
     display: none !important;
+  }
+  /* Mega-menu shell — children are all hidden/fixed, collapse the wrapper */
+  .trg-mega-menu-shell {
+    display: none !important;
+  }
+  /* Zero spacing on main content */
+  .content-for-layout {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
   }
 }
 .trg-bdir .trg-bdir__carda,
