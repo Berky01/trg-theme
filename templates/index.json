@@ -236,7 +236,7 @@
         "brand_1": {
           "type": "brand",
           "settings": {
-            "metaobject_handle": "",
+            "metaobject_handle": "viberg",
             "logo_text": "VB",
             "badge_1": "",
             "badge_2": "",
@@ -254,7 +254,7 @@
         "brand_2": {
           "type": "brand",
           "settings": {
-            "metaobject_handle": "",
+            "metaobject_handle": "taylor-stitch",
             "logo_text": "TS",
             "badge_1": "",
             "badge_2": "",
@@ -272,7 +272,7 @@
         "brand_3": {
           "type": "brand",
           "settings": {
-            "metaobject_handle": "",
+            "metaobject_handle": "reigning-champ",
             "logo_text": "RC",
             "badge_1": "",
             "badge_2": "",
@@ -290,7 +290,7 @@
         "brand_4": {
           "type": "brand",
           "settings": {
-            "metaobject_handle": "",
+            "metaobject_handle": "spier-and-mackay",
             "logo_text": "SM",
             "badge_1": "",
             "badge_2": "",
@@ -308,7 +308,7 @@
         "brand_5": {
           "type": "brand",
           "settings": {
-            "metaobject_handle": "",
+            "metaobject_handle": "norse-projects",
             "logo_text": "NP",
             "badge_1": "",
             "badge_2": "",
@@ -326,7 +326,7 @@
         "brand_6": {
           "type": "brand",
           "settings": {
-            "metaobject_handle": "",
+            "metaobject_handle": "buck-mason",
             "logo_text": "BM",
             "badge_1": "",
             "badge_2": "",
@@ -358,7 +358,7 @@
         "link_label": "All brands",
         "link_url": "/pages/brands",
         "columns_desktop": 3,
-        "source_mode": "manual_blocks",
+        "source_mode": "curated_metaobjects",
         "metaobject_type": "brand",
         "auto_limit": 6,
         "metaobject_cta_label": "View",
