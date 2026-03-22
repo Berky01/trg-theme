@@ -86,12 +86,12 @@ var C=[
 
 /* ─── GARMENT CONFIG ─── */
 var G=[
-{id:'shirt',l:'Shirt',co:'shirts',ic:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M6 2l-4 4 3 2V18h10V8l3-2-4-4"/><path d="M6 2c0 2 2 3 4 3s4-1 4-3"/></svg>'},
-{id:'trousers',l:'Trousers',co:'trousers',ic:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M5 2h10v3l-1 13H11l-1-9-1 9H6L5 5z"/><line x1="5" y1="5" x2="15" y2="5"/></svg>'},
-{id:'knitwear',l:'Knitwear',co:'knitwear',ic:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M5 5h10v12H5z"/><path d="M5 8h10"/><path d="M2 5h3v6H2"/><path d="M15 5h3v6h-3"/><path d="M7 3h6v2H7z"/></svg>'},
-{id:'jacket',l:'Jacket',co:'jackets',ic:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M5 3h10l1.5 5V17H3.5V8z"/><path d="M8 3l2 4 2-4"/><line x1="10" y1="7" x2="10" y2="17"/></svg>'},
-{id:'coat',l:'Coat',co:'outerwear',ic:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M6 2h8l2 6v10H4V8z"/><path d="M9 2l1 4 1-4"/><line x1="10" y1="6" x2="10" y2="18"/></svg>'},
-{id:'shoes',l:'Shoes',co:'footwear',ic:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M2 14h16v2a1 1 0 01-1 1H3a1 1 0 01-1-1v-2z"/><path d="M4 14V9a3 3 0 013-3h0a3 3 0 013 3v1l8 4"/></svg>'}
+{id:'shirt',l:'Shirt',ls:'Shirt',co:'shirts',ic:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M6 2l-4 4 3 2V18h10V8l3-2-4-4"/><path d="M6 2c0 2 2 3 4 3s4-1 4-3"/></svg>'},
+{id:'trousers',l:'Trousers',ls:'Pants',co:'trousers',ic:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M5 2h10v3l-1 13H11l-1-9-1 9H6L5 5z"/><line x1="5" y1="5" x2="15" y2="5"/></svg>'},
+{id:'knitwear',l:'Knitwear',ls:'Knit',co:'knitwear',ic:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M5 5h10v12H5z"/><path d="M5 8h10"/><path d="M2 5h3v6H2"/><path d="M15 5h3v6h-3"/><path d="M7 3h6v2H7z"/></svg>'},
+{id:'jacket',l:'Jacket',ls:'Jacket',co:'jackets',ic:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M5 3h10l1.5 5V17H3.5V8z"/><path d="M8 3l2 4 2-4"/><line x1="10" y1="7" x2="10" y2="17"/></svg>'},
+{id:'coat',l:'Coat',ls:'Coat',co:'outerwear',ic:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M6 2h8l2 6v10H4V8z"/><path d="M9 2l1 4 1-4"/><line x1="10" y1="6" x2="10" y2="18"/></svg>'},
+{id:'shoes',l:'Shoes',ls:'Shoes',co:'footwear',ic:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M2 14h16v2a1 1 0 01-1 1H3a1 1 0 01-1-1v-2z"/><path d="M4 14V9a3 3 0 013-3h0a3 3 0 013 3v1l8 4"/></svg>'}
 ];
 var GORD=['Blues','Greys','Greens','Sand & Khaki','Browns','Whites & Creams','Reds & Burgundy','Mauves'];
 
@@ -211,7 +211,7 @@ var CTL={
       if(isActive)cls+=' active';
       html+='<div class="'+cls+'" data-gid="'+g.id+'">';
       html+='<span class="trg-ctl__slot-icon">'+g.ic+'</span>';
-      html+='<span class="trg-ctl__slot-label">'+g.l+'</span>';
+      var mob=window.innerWidth<=749;html+='<span class="trg-ctl__slot-label">'+(mob&&g.ls?g.ls:g.l)+'</span>';
       if(col){
         html+='<span class="trg-ctl__slot-dot" style="background:'+col.h+(col.n==='White'?';border-color:rgba(0,0,0,0.15)':'')+'"></span>';
         if(!isLocked){
