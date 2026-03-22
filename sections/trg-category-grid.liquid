@@ -66,7 +66,7 @@
                   alt: card_name
               }}
             {% else %}
-              {%- assign cat_slug = card_name | downcase | replace: ' ', '-' | replace: '&', '' | replace: '  ', '-' -%}
+              {%- assign cat_slug = card_name | downcase | replace: '&', '' | replace: '  ', ' ' | handleize -%}
               {%- render 'trg-category-icon', type: cat_slug -%}
             {% endif %}
           </div>
