@@ -2082,6 +2082,11 @@
       gap: 2px;
     }
 
+    dialog-component#filters-drawer .facets__item:has([name*="availability"]),
+    dialog-component#filters-drawer .facets__item:has([id*="availability"]) {
+      display: none !important;
+    }
+
     dialog-component#filters-drawer .trg-plp-toggle-option {
       display: flex;
       align-items: center;
