@@ -117,8 +117,13 @@
   .trg-ctl__gauge{width:48px;height:48px}
   .trg-ctl__shop{flex-direction:column;gap:0.4rem}
   .trg-ctl__shop-all{margin-left:0;width:100%;text-align:center;justify-content:center}
-  .trg-ctl__strip{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.4rem}
-  .trg-ctl__slot{padding:0.45rem 0.5rem;justify-content:center}
-  .trg-ctl__slot-label{font-size:0.6rem}
-  .trg-ctl__skip{grid-column:1/-1}
+  .trg-ctl__strip{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}
+  .trg-ctl__slot{padding:0.4rem 0.35rem;justify-content:center;min-width:0}
+  .trg-ctl__slot-icon{display:none}
+  .trg-ctl__slot-label{font-size:0.62rem;overflow:hidden;text-overflow:ellipsis}
+  .trg-ctl__slot-dot{width:12px;height:12px}
+  .trg-ctl__slot-pct{font-size:0.52rem;margin-left:0.2rem}
+  .trg-ctl__slot-lock{font-size:0.42rem}
+  .trg-ctl__slot-rm{width:14px;height:14px;font-size:8px;line-height:14px;top:-5px;right:-5px}
+  .trg-ctl__skip{grid-column:1/-1;padding:0.4rem}
 }
