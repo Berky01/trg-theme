@@ -1,41 +1,60 @@
 /* ═══ TRG Search Page Overrides ═══ */
-/* Applied via search.json template on the search page only */
+/* Loaded via trg-search-brand-strip section on search pages only */
 
-/* Hide Dwell's search-header section (we use trg-search-bar instead) */
-.shopify-section-group-header-group + .shopify-section .section--search-header,
-section.section--search-header,
-.search-header-section {
+/* 1. Hide "Search" label from trg-search-bar on the search page
+      (on other pages it serves as breadcrumb context, but here it's redundant) */
+.trg-search-bar__label {
   display: none !important;
 }
 
-/* Center result count in toolbar */
-.search-results-section .facets__product-count,
-.search-results-section [class*="product-count"] {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  white-space: nowrap;
+/* 2. Force product grid to 4 columns desktop, 2 mobile
+      Dwell's search-results grid doesn't enforce column count well */
+.product-grid--grid {
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr) !important;
+  gap: 1.25rem !important;
 }
-.search-results-section .facets__header,
-.search-results-section [class*="facets-header"],
-.search-results-section [class*="facets__header"] {
+
+/* Cap individual card width so single results don't blow up */
+.product-grid__item {
+  max-width: 100% !important;
+  width: 100% !important;
+}
+
+/* Product card image: enforce 3:4 portrait ratio */
+.product-grid__item .product-card .media-gallery,
+.product-grid__item .product-card .product-card__gallery {
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+}
+
+/* 3. Reduce top padding on search results section */
+.product-grid-container {
+  --padding-block-start: 12px !important;
+}
+
+/* 4. Style the filter bar to match TRG aesthetic */
+.product-grid-container .facets__header {
   position: relative;
 }
 
-/* Hide "Sort" label on mobile */
+/* 5. Mobile: 2 columns */
 @media (max-width: 749px) {
-  .search-results-section .facets__sort-label,
-  .search-results-section label[for*="SortBy"] {
-    display: none !important;
+  .product-grid--grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.75rem !important;
   }
-  /* Result count: static on mobile, centered */
-  .search-results-section .facets__product-count,
-  .search-results-section [class*="product-count"] {
-    position: static;
-    transform: none;
-    text-align: center;
-    flex: 1;
+
+  /* Hide Sort label on mobile */
+  .facets__sort-label,
+  label[for*="SortBy"] {
+    display: none !important;
   }
 }
 
-/* Ensure brand match strip CSS is loaded */
+/* 6. 3 columns for medium screens */
+@media (min-width: 750px) and (max-width: 989px) {
+  .product-grid--grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+}
