@@ -594,6 +594,109 @@
         "feature_button_label": "View brand",
         "feature_button_link": "/collections/viberg"
       }
+    },
+    "trg_colour_teaser": {
+      "type": "trg-colour-teaser",
+      "blocks": {
+        "fam_1": {
+          "type": "family",
+          "settings": {
+            "label": "Whites & Creams",
+            "count": "6 colours",
+            "colour_1": "#f8f6f3",
+            "colour_2": "#eae4d8",
+            "colour_3": "#f0e8d0"
+          }
+        },
+        "fam_2": {
+          "type": "family",
+          "settings": {
+            "label": "Sand & Khaki",
+            "count": "11 colours",
+            "colour_1": "#d09030",
+            "colour_2": "#c8b88a",
+            "colour_3": "#a09080"
+          }
+        },
+        "fam_3": {
+          "type": "family",
+          "settings": {
+            "label": "Browns",
+            "count": "10 colours",
+            "colour_1": "#b06828",
+            "colour_2": "#7a5028",
+            "colour_3": "#3c2010"
+          }
+        },
+        "fam_4": {
+          "type": "family",
+          "settings": {
+            "label": "Greens",
+            "count": "11 colours",
+            "colour_1": "#a0c8a0",
+            "colour_2": "#305838",
+            "colour_3": "#388888"
+          }
+        },
+        "fam_5": {
+          "type": "family",
+          "settings": {
+            "label": "Blues",
+            "count": "14 colours",
+            "colour_1": "#a0c4d8",
+            "colour_2": "#3464a8",
+            "colour_3": "#282858"
+          }
+        },
+        "fam_6": {
+          "type": "family",
+          "settings": {
+            "label": "Greys",
+            "count": "9 colours",
+            "colour_1": "#ccc8c0",
+            "colour_2": "#808078",
+            "colour_3": "#181818"
+          }
+        },
+        "fam_7": {
+          "type": "family",
+          "settings": {
+            "label": "Reds & Burgundy",
+            "count": "8 colours",
+            "colour_1": "#c09080",
+            "colour_2": "#a01028",
+            "colour_3": "#501828"
+          }
+        },
+        "fam_8": {
+          "type": "family",
+          "settings": {
+            "label": "Mauves",
+            "count": "6 colours",
+            "colour_1": "#c8a8a8",
+            "colour_2": "#9898b8",
+            "colour_3": "#502840"
+          }
+        }
+      },
+      "block_order": [
+        "fam_1",
+        "fam_2",
+        "fam_3",
+        "fam_4",
+        "fam_5",
+        "fam_6",
+        "fam_7",
+        "fam_8"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "eyebrow": "Colour Guide",
+        "title": "<p>Not sure what <em>suits you?</em></p>",
+        "body": "<p>75 menswear colours across 8 families. Find what works for your wardrobe.</p>",
+        "cta_label": "Open the Colour Guide",
+        "cta_link": "/pages/colour-guide"
+      }
     }
   },
   "order": [
@@ -602,6 +705,7 @@
     "trg_strip",
     "trg_featured_brands",
     "trg_categories",
+    "trg_colour_teaser",
     "trg_steps",
     "trg_editorial"
   ]
