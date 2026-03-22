@@ -870,16 +870,39 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
   .header__navigation-bar-row {
     display: none !important;
   }
-  /* Mega-menu shell — children are all hidden/fixed, collapse the wrapper */
+  /* Mega-menu shell */
   .trg-mega-menu-shell {
     display: none !important;
   }
-  /* Zero spacing on main content */
+  /* Header section wrapper — no bottom spacing */
+  .header-section {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+    border-bottom: none !important;
+  }
+  /* Header-group children (non-header) */
+  .shopify-section-group-header-group:not(.header-section) {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  /* Main content — no top spacing */
   .content-for-layout {
     margin-top: 0 !important;
     padding-top: 0 !important;
   }
+  /* Shopify section wrapper — no top spacing */
+  .trg-brand-directory-section {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+  /* Inner section — no top spacing */
+  .section.trg-bdir {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
 }
+
 .trg-bdir .trg-bdir__carda,
 .trg-bdir .trg-bdir__card,
 .trg-bdir .trg-bdir__body2 {
