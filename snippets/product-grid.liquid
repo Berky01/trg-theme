@@ -24,7 +24,7 @@
   @media screen and (min-width: 750px) {
     {% case section.settings.layout_type %}
       {% when 'grid' %}
-        {% if section.settings.trg_plp_desktop_columns != 'auto' %}
+        {% if trg_plp_mode and section.settings.trg_plp_desktop_columns != 'auto' %}
           .product-grid--{{ section.id }}:is(.product-grid--grid) {
             --product-grid-columns-desktop: repeat({{ section.settings.trg_plp_desktop_columns }}, minmax(0, 1fr));
           }
