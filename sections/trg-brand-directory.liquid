@@ -1,7 +1,11 @@
-{% comment %} #27+#28 Mobile gap fix — inline to bypass CDN cache {% endcomment %}
+{% comment %} #29 Mobile: remove dark title band, close all gaps — inline bypasses CDN {% endcomment %}
 {% style %}
   @media screen and (max-width: 989px) {
-    .header__navigation-bar-row {
+    /* Kill Dwell empty nav-bar-row and mega menu shell */
+    .header__navigation-bar-row,
+    .shopify-section.trg-mega-menu-shell,
+    .shopify-section-group-header-group.trg-mega-menu-shell,
+    #header-group > .shopify-section:not(.header-section) {
       display: none !important;
       height: 0 !important;
       min-height: 0 !important;
@@ -10,27 +14,29 @@
       border: none !important;
       overflow: hidden !important;
     }
-    .shopify-section.trg-mega-menu-shell,
-    .shopify-section-group-header-group.trg-mega-menu-shell {
-      display: none !important;
-      height: 0 !important;
-      min-height: 0 !important;
-      padding: 0 !important;
-      margin: 0 !important;
-    }
-    #header-group > .shopify-section:not(.header-section) {
-      display: none !important;
-      height: 0 !important;
-    }
+
+    /* Zero out every wrapper between header and searchbar */
     .content-for-layout {
       margin-top: 0 !important;
       padding-top: 0 !important;
     }
-    /* #28 Body bg = paper on mobile (dark title band removed) */
+    .shopify-section.trg-brand-directory-section {
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+    .section.section--full-width.trg-bdir {
+      display: block !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      min-height: 0 !important;
+    }
+
+    /* Body bg = paper (dark band gone) */
     body:has([data-template="page.brands-directory"]) {
       background: #f5f1eb !important;
     }
-    /* Hide dark title band, zero height */
+
+    /* Dark title band: completely gone */
     .trg-bdir__head {
       display: none !important;
       height: 0 !important;
@@ -39,18 +45,20 @@
       padding: 0 !important;
       border: none !important;
     }
-    /* Search bar flush — no gap */
+
+    /* Searchbar: flush against header, dark bg, sticky */
     .trg-bdir__searchbar {
-      margin-top: 0 !important;
+      position: sticky !important;
+      top: var(--header-group-height, 56px) !important;
+      z-index: 18 !important;
+      margin: 0 !important;
+      padding: 0 !important;
       border-top: none !important;
-    }
-    .section.section--full-width.trg-bdir {
-      padding-top: 0 !important;
-      margin-top: 0 !important;
+      background: #1a1a18 !important;
     }
   }
 {% endstyle %}
-{% comment %}TRG-TS:1774141146{% endcomment %}
+{% comment %}TRG-TS:1774141610{% endcomment %}
 {% liquid
   assign cat_filters = 'Shirts & Tops,Outerwear & Jackets,Trousers & Bottoms,Footwear,Knitwear,Denim,Suits & Tailoring,Accessories' | split: ','
   assign aest_filters = 'Heritage,Workwear,Minimalist,Smart Casual,Japanese,Technical,Coastal' | split: ','
