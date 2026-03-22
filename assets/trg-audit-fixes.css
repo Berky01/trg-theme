@@ -924,3 +924,13 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
     visibility: hidden !important;
   }
 }
+
+/* TRG DEBUG — gap coloring v2 */
+@media screen and (max-width: 989px) {
+  .header-section { background: red !important; outline: 3px solid red !important; }
+  .content-for-layout { background: lime !important; }
+  .trg-brand-directory-section { background: blue !important; }
+  .section.trg-bdir { background: orange !important; }
+  header-component { outline: 3px solid cyan !important; }
+  #header-group { background: magenta !important; }
+}
