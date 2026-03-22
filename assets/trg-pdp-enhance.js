@@ -22,13 +22,65 @@
     });
   });
 
+  /* All images (unfiltered) — used by color gallery filter */
+  var allImages = images.slice();
+  var allThumbs = Array.prototype.slice.call(thumbs);
+  var activeColorFilter = null; /* null = show all */
+
   document.querySelectorAll('.trg-pdp__chip').forEach(function (chip) {
     chip.addEventListener('click', function () {
       var parent = chip.closest('.trg-pdp__chips');
       parent.querySelectorAll('.trg-pdp__chip').forEach(function (c) { c.classList.remove('active'); });
       chip.classList.add('active');
+
+      /* ── Color gallery filter ──
+         When a Color chip is clicked, filter gallery to that color's images.
+         Images are tagged with alt = color name by the push pipeline. */
+      var optIdx = parseInt(chip.dataset.optionIndex, 10);
+      if (optIdx === 0 && allImages.length > 1) {
+        var colorVal = chip.dataset.value || chip.textContent.trim();
+        filterGalleryByColor(colorVal);
+      }
     });
   });
+
+  /**
+   * Filter gallery thumbnails + images array by color alt text.
+   * Hides non-matching thumbs, rebuilds `images` array, jumps to first match.
+   */
+  function filterGalleryByColor(color) {
+    if (!color || allImages.length <= 1) return;
+
+    var hasColorTags = allImages.some(function (img) { return img.alt && img.alt !== ''; });
+    if (!hasColorTags) return; /* No alt tags set — skip filtering */
+
+    activeColorFilter = color;
+    var filtered = [];
+    var filteredThumbEls = [];
+
+    allThumbs.forEach(function (thumb, i) {
+      var imgAlt = (allImages[i] && allImages[i].alt) || '';
+      var match = imgAlt.toLowerCase() === color.toLowerCase();
+      thumb.style.display = match ? '' : 'none';
+      if (match) {
+        filtered.push(allImages[i]);
+        filteredThumbEls.push(thumb);
+      }
+    });
+
+    /* If no images match this color (no alt tags for it), show all */
+    if (filtered.length === 0) {
+      allThumbs.forEach(function (t) { t.style.display = ''; });
+      images = allImages.slice();
+      thumbs = allThumbs.slice();
+      goToImage(0);
+      return;
+    }
+
+    images = filtered;
+    thumbs = filteredThumbEls;
+    goToImage(0);
+  }
 
   function goToImage(idx) {
     if (!images.length) return;
@@ -37,8 +89,13 @@
       galleryImg.src = images[currentIndex].src;
       galleryImg.alt = images[currentIndex].alt;
     }
+    /* Highlight active thumb among visible thumbs only */
     thumbs.forEach(function (t, i) {
       t.classList.toggle('active', i === currentIndex);
+    });
+    /* De-activate hidden thumbs too */
+    allThumbs.forEach(function (t) {
+      if (t.style.display === 'none') t.classList.remove('active');
     });
   }
 
@@ -314,3 +371,4 @@
   }
 
 })();
+
