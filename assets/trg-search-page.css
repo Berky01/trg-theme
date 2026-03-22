@@ -1,36 +1,82 @@
-/* ═══ TRG Search Page Overrides ═══ */
+/* ═══ TRG Search Page Layout ═══ */
+/* Replicates main-collection's .trg-plp-body layout rules          */
+/* for the search-results section, which lacks the trg-plp-body class. */
+/* ROOT CAUSE: search-results.liquid doesn't add .trg-plp-body to   */
+/* <body>, so the 2-column sidebar+grid layout doesn't apply.        */
 
-/* 1. Hide "Search" label from trg-search-bar on search page */
+/* ── Desktop: 2-column layout (sidebar + grid) ── */
+@media screen and (min-width: 990px) {
+  .product-grid-container .collection-wrapper {
+    display: grid !important;
+    grid-template-columns: minmax(220px, 240px) minmax(0, 1fr) !important;
+    column-gap: 2rem;
+    align-items: start;
+    grid-template-areas: none;
+  }
+
+  /* Sort/count toolbar → column 2, row 1 */
+  .product-grid-container .collection-wrapper > .trg-collection-controls {
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+  }
+
+  /* Vertical sidebar → column 1, row 1+2 (sticky) */
+  .product-grid-container .collection-wrapper > .facets-block-wrapper--vertical:not(.hidden):not(dialog-component) {
+    grid-column: 1 !important;
+    grid-row: 1 / span 2 !important;
+    align-self: start;
+    height: fit-content;
+  }
+
+  /* Make the vertical facets sticky */
+  .product-grid-container .facets--vertical:not(.facets--drawer) {
+    position: sticky;
+    top: 120px;
+  }
+
+  /* Product grid → column 2, row 2 */
+  .product-grid-container .collection-wrapper > .main-collection-grid {
+    grid-column: 2 !important;
+    grid-row: 2 !important;
+    min-width: 0;
+  }
+
+  /* Hide the mobile filter drawer toggle on desktop */
+  .product-grid-container .collection-wrapper > .facets-toggle {
+    display: none !important;
+  }
+
+  /* Hide drawer version of filters on desktop */
+  .product-grid-container .collection-wrapper > dialog-component#filters-drawer {
+    display: none !important;
+  }
+}
+
+/* ── Mobile: stack vertically, hide sidebar, show drawer toggle ── */
+@media screen and (max-width: 989px) {
+  .product-grid-container .collection-wrapper {
+    display: block !important;
+  }
+}
+
+/* ── General fixes ── */
+
+/* Hide "Search" label from trg-search-bar on search page */
 .trg-search-bar__label {
   display: none !important;
 }
 
-/* 2. Kill card borders — Dwell applies accent color borders */
+/* Kill Dwell's accent-colored card borders */
 .product-card,
 .product-card__link,
 .product-card__content,
 .product-card__gallery,
 .product-card .media-gallery,
 .product-grid__card {
-  border: none !important;
-  outline: none !important;
-  box-shadow: none !important;
+  border-color: transparent !important;
 }
 
-/* 3. Hide the mobile filter toggle on desktop
-      (Dwell renders it outside the sidebar when vertical) */
-@media (min-width: 750px) {
-  .facets--filters-title {
-    display: none !important;
-  }
-}
-
-/* 4. Reduce top padding on grid section */
-.product-grid-container {
-  --padding-block-start: 12px !important;
-}
-
-/* 5. Hide "Sort" label on mobile */
+/* Hide "Sort" label on mobile */
 @media (max-width: 749px) {
   .facets__sort-label,
   label[for*="SortBy"] {
