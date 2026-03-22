@@ -3,7 +3,7 @@
 
 .trg-bdir {
   position: static;
-  display: block !important;
+  display: block;
   --card: var(--warm);
 }
 
@@ -954,8 +954,7 @@ body:not(.filters-hidden) .trg-bdir .trg-bdir__show {
     z-index: 199;
   }
   .trg-bdir.is-open .trg-bdir__scrim {
-    display: block !important;
-  }
+    }
   .trg-bdir .trg-bdir__side .trg-bdir__row {
     display: flex;
     align-items: center;
