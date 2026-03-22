@@ -51,26 +51,26 @@
 .trg-ctl__undo:hover{color:#c4562a}
 
 /* Colour group headers */
-.trg-ctl__grp-label{font-size:0.55rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:#8a8478;margin:0.75rem 0 0.3rem;opacity:0.6}
+.trg-ctl__grp-label{font-size:0.55rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:#8a8478;margin:0.6rem 0 0.25rem;opacity:0.6}
 .trg-ctl__grp-label:first-child{margin-top:0}
 
 /* Colour chips */
-.trg-ctl__chips{display:flex;flex-wrap:wrap;gap:6px}
+.trg-ctl__chips{display:flex;flex-wrap:wrap;gap:8px;padding:4px}
 .trg-ctl__chip{width:30px;height:30px;border-radius:50%;cursor:pointer;border:2px solid transparent;box-shadow:0 0 0 1px rgba(0,0,0,0.08);transition:all 0.15s;position:relative;flex-shrink:0}
 .trg-ctl__chip:hover{transform:scale(1.15);z-index:1}
 .trg-ctl__chip.perfect{box-shadow:0 0 0 2px #c4562a}
 .trg-ctl__chip.good{box-shadow:0 0 0 2px #3d8c5e}
 .trg-ctl__chip.atg{box-shadow:0 0 0 1px rgba(0,0,0,0.08)}
-.trg-ctl__chip-score{position:absolute;bottom:-13px;left:50%;transform:translateX(-50%);font-size:0.48rem;font-weight:700;white-space:nowrap;display:none}
-.trg-ctl__chip.perfect .trg-ctl__chip-score,.trg-ctl__chip.good .trg-ctl__chip-score{display:block}
-.trg-ctl__chip.perfect .trg-ctl__chip-score{color:#c4562a}
-.trg-ctl__chip.good .trg-ctl__chip-score{color:#3d8c5e}
+.trg-ctl__chip-score{position:absolute;bottom:-14px;left:50%;transform:translateX(-50%);font-size:0.48rem;font-weight:700;white-space:nowrap;display:none}
+/* Score hidden — % shown in strip slot instead */
+.trg-ctl__chip-score{display:none !important}
 
 /* Tooltip */
 .trg-ctl__tip{position:fixed;pointer-events:none;background:#1a1a18;color:#f5f1eb;font-size:0.6rem;font-weight:500;padding:0.25rem 0.5rem;border-radius:3px;white-space:nowrap;z-index:999;display:none;letter-spacing:0.02em}
 
 /* ─── BOTTOM BAR — gauge + shop links ─── */
 .trg-ctl__bottom{display:flex;align-items:center;gap:1.5rem;padding-top:1.25rem;border-top:1px solid #ddd8cf}
+.trg-ctl__bottom.empty{display:none}
 
 /* Mini gauge */
 .trg-ctl__gauge{width:56px;height:56px;flex-shrink:0;position:relative}
@@ -112,7 +112,8 @@
   .trg-ctl{padding:1.5rem 1rem 2rem}
   .trg-ctl__title{font-size:1.15rem}
   .trg-ctl__head{flex-direction:column;gap:0.2rem;align-items:flex-start}
-  .trg-ctl__chip{width:28px;height:28px}
+  .trg-ctl__chip{width:32px;height:32px}
+  .trg-ctl__chips{gap:8px;padding:4px 2px}
   .trg-ctl__bottom{flex-wrap:wrap;gap:1rem}
   .trg-ctl__gauge{width:48px;height:48px}
   .trg-ctl__shop{flex-direction:column;gap:0.4rem}
