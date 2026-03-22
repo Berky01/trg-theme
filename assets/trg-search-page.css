@@ -1,56 +1,39 @@
 /* ═══ TRG Search Page Overrides ═══ */
 
-/* 1. Hide "Search" label */
+/* 1. Hide "Search" label from trg-search-bar on search page */
 .trg-search-bar__label {
   display: none !important;
 }
 
-/* 2. Force 4-col grid */
-.product-grid--grid {
-  display: grid !important;
-  grid-template-columns: repeat(4, 1fr) !important;
-  gap: 1.25rem !important;
-}
-
-.product-grid__item {
-  max-width: 100% !important;
-}
-
-/* 3. Kill ALL card borders — Dwell variant hover borders are accent colored */
-.product-grid__item .product-card,
-.product-grid__item .product-card *,
+/* 2. Kill card borders — Dwell applies accent color borders */
+.product-card,
+.product-card__link,
+.product-card__content,
 .product-card__gallery,
-.product-card .media-gallery {
-  border-color: transparent !important;
+.product-card .media-gallery,
+.product-grid__card {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
 }
 
-/* But keep the image 3:4 ratio */
-.product-grid__item .product-card .media-gallery,
-.product-grid__item .product-card .product-card__gallery {
-  aspect-ratio: 3 / 4;
-  overflow: hidden;
-}
-
-/* 4. Reduce top padding */
-.product-grid-container {
-  --padding-block-start: 12px !important;
-}
-
-/* 5. Mobile: 2 columns */
-@media (max-width: 749px) {
-  .product-grid--grid {
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 0.75rem !important;
-  }
-  .facets__sort-label,
-  label[for*="SortBy"] {
+/* 3. Hide the mobile filter toggle on desktop
+      (Dwell renders it outside the sidebar when vertical) */
+@media (min-width: 750px) {
+  .facets--filters-title {
     display: none !important;
   }
 }
 
-/* 6. Tablet: 3 columns */
-@media (min-width: 750px) and (max-width: 989px) {
-  .product-grid--grid {
-    grid-template-columns: repeat(3, 1fr) !important;
+/* 4. Reduce top padding on grid section */
+.product-grid-container {
+  --padding-block-start: 12px !important;
+}
+
+/* 5. Hide "Sort" label on mobile */
+@media (max-width: 749px) {
+  .facets__sort-label,
+  label[for*="SortBy"] {
+    display: none !important;
   }
 }
