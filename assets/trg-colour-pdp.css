@@ -105,8 +105,7 @@
 
 /* ─── RESPONSIVE ─── */
 @media(max-width:990px){
-  .trg-ctl__strip{overflow-x:auto;flex-wrap:nowrap;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:0.25rem}
-  .trg-ctl__strip::-webkit-scrollbar{display:none}
+  .trg-ctl__strip{flex-wrap:wrap}
 }
 @media(max-width:749px){
   .trg-ctl{padding:1.5rem 1rem 2rem}
@@ -118,6 +117,8 @@
   .trg-ctl__gauge{width:48px;height:48px}
   .trg-ctl__shop{flex-direction:column;gap:0.4rem}
   .trg-ctl__shop-all{margin-left:0;width:100%;text-align:center;justify-content:center}
-  .trg-ctl__slot{padding:0.4rem 0.65rem}
-  .trg-ctl__slot-label{font-size:0.62rem}
+  .trg-ctl__strip{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.4rem}
+  .trg-ctl__slot{padding:0.45rem 0.5rem;justify-content:center}
+  .trg-ctl__slot-label{font-size:0.6rem}
+  .trg-ctl__skip{grid-column:1/-1}
 }
