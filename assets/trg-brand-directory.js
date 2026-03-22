@@ -1,25 +1,3 @@
-/* #30 Mobile brand PLP: kill gaps — searchbar uses --header-height not --header-group-height */
-(function(){
-  if(window.innerWidth > 989) return;
-  var s = document.createElement('style');
-  s.textContent = [
-    '@media screen and (max-width:989px) {',
-    '  body:has([data-template="page.brands-directory"]) { background:#f5f1eb !important; }',
-    '  .trg-bdir__head { display:none !important; height:0 !important; margin:0 !important; padding:0 !important; border:none !important; }',
-    '  .trg-bdir__searchbar { position:sticky !important; top:var(--header-height,56px) !important; margin:0 !important; border-top:none !important; z-index:18 !important; }',
-    '  .section.section--full-width.trg-bdir { display:block !important; margin:0 !important; padding:0 !important; }',
-    '  .shopify-section.trg-brand-directory-section { margin:0 !important; padding:0 !important; }',
-    '  .content-for-layout { margin-top:0 !important; padding-top:0 !important; }',
-    '  .header__navigation-bar-row { display:none !important; height:0 !important; }',
-    '  .shopify-section.trg-mega-menu-shell, .shopify-section-group-header-group.trg-mega-menu-shell { display:none !important; height:0 !important; }',
-    '  #header-group > .shopify-section:not(.header-section) { display:none !important; height:0 !important; }',
-    '}'
-  ].join('\n');
-  document.head.appendChild(s);
-  /* Recalculate --header-group-height after hiding mega-menu shell */
-  var hdr = document.querySelector('header-component');
-  if(hdr) document.body.style.setProperty('--header-group-height', hdr.offsetHeight + 'px');
-})();
 /* === TRG: Handle Corrections + Overflow Fetch === */
 (function() {
   var CORRECTIONS = {"Arc'teryx": "arcteryx", "Berg & Berg": "berg-and-berg", "Bryceland's": "brycelands", "Buzz Rickson's": "buzz-ricksons", "Cad & The Dandy": "cad-and-the-dandy", "Church's": "churchs", "Colhay's": "colhays", "Crockett & Jones": "crockett-and-jones", "Ede & Ravenscroft": "ede-and-ravenscroft", "Gaziano & Girling": "gaziano-and-girling", "Hawes & Curtis": "hawes-and-curtis", "Hilditch & Key": "hilditch-and-key", "L'Estrange London": "lestrange-london", "Levi's Vintage Clothing": "levis-vintage-clothing", "Mott & Bow": "mott-and-bow", "Naked & Famous": "naked-and-famous", "Outstanding & Co.": "outstanding-and-co", "Petru & Claymoor": "petru-and-claymoor", "Rancourt & Co": "rancourt-and-co", "Saint Crispin's": "saint-crispins", "Sanders & Sanders": "sanders-and-sanders", "Spier & Mackay": "spier-and-mackay", "Studio D'Artisan": "studio-dartisan", "The Real McCoy's": "the-real-mccoys", "Toad&Co": "toad-and-co", "Tricker's": "trickers", "Turnbull & Asser": "turnbull-and-asser", "White's Boots": "whites-boots", "Warehouse & Co.": "warehouse-and-co", "Mason's": "masons", "Paul & Shark": "paul-and-shark", "A Day's March": "a-days-march", "Begg & Co": "begg-and-co", "Rodd & Gunn": "rodd-and-gunn", "Abaga": "abagavelli", "Roberto Collima": "roberto-collina", "georgecleverley": "george-cleverley", "Ascotchang": "ascot-chang", "Pringlescotland": "pringle-of-scotland"};
