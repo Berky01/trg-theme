@@ -899,7 +899,23 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
   }
 }
 @media screen and (max-width: 989px) {
-  .trg-bdir .trg-bdir__cta {
+  /* Kill vertical line artifact on mobile cards */
+  .trg-bdir .trg-bdir__card {
+    overflow: hidden !important;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+  .trg-bdir .trg-bdir__carda {
+    overflow: hidden !important;
+  }
+  .trg-bdir .trg-bdir__body2 {
+    overflow: hidden !important;
+    position: relative;
+  }
+  .trg-bdir .trg-bdir__side {
+    border: none !important;
+  }
+    .trg-bdir .trg-bdir__cta {
     display: none !important;
     height: 0 !important;
     min-height: 0 !important;
