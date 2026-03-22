@@ -864,9 +864,8 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
   }
 }
 
-/* ═══ #20+#30 Brand PLP mobile: nuclear gap fix (loaded in <head> = before render) ═══ */
+/* ═══ #20 Brand PLP mobile: clean fix ═══ */
 @media screen and (max-width: 989px) {
-  /* Body bg = paper, dark title band gone */
   body:has([data-template="page.brands-directory"]) {
     background: #f5f1eb !important;
   }
@@ -874,61 +873,12 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
   body:has([data-template="page.brands-directory"]) .footer {
     background: #f5f1eb !important;
   }
-
-  /* Kill Dwell mega-menu shell + empty nav-bar-row BEFORE Dwell calculates header height */
-  body:has([data-template="page.brands-directory"]) .header__navigation-bar-row,
-  body:has([data-template="page.brands-directory"]) .shopify-section.trg-mega-menu-shell,
-  body:has([data-template="page.brands-directory"]) .shopify-section-group-header-group.trg-mega-menu-shell,
-  body:has([data-template="page.brands-directory"]) #header-group > .shopify-section:not(.header-section) {
+  body:has([data-template="page.brands-directory"]) .header__navigation-bar-row {
     display: none !important;
     height: 0 !important;
-    min-height: 0 !important;
-    padding: 0 !important;
-    margin: 0 !important;
-  }
-
-  /* Zero out all wrappers */
-  body:has([data-template="page.brands-directory"]) .content-for-layout {
-    margin-top: 0 !important;
-    padding-top: 0 !important;
-  }
-  body:has([data-template="page.brands-directory"]) .shopify-section.trg-brand-directory-section {
-    margin: 0 !important;
-    padding: 0 !important;
-  }
-
-  /* Section: block layout, no grid, no spacing */
-  body:has([data-template="page.brands-directory"]) .section.section--full-width.trg-bdir {
-    display: block !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    min-height: 0 !important;
-  }
-
-  /* Dark title band: gone */
-  body:has([data-template="page.brands-directory"]) .trg-bdir__head {
-    display: none !important;
-    height: 0 !important;
-    min-height: 0 !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    border: none !important;
-  }
-
-  /* Searchbar: sticky to header-height, not header-group-height */
-  body:has([data-template="page.brands-directory"]) .trg-bdir__searchbar {
-    position: sticky !important;
-    top: var(--header-height, 56px) !important;
-    z-index: 18 !important;
-    margin: 0 !important;
-    border-top: none !important;
-  }
-
-  /* Card area gets paper bg */
-  body:has([data-template="page.brands-directory"]) .trg-bdir__body--outer {
-    background: #f5f1eb !important;
   }
 }
+
 .trg-bdir .trg-bdir__carda,
 .trg-bdir .trg-bdir__card,
 .trg-bdir .trg-bdir__body2 {
