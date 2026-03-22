@@ -437,10 +437,10 @@
 
   .trg-brand-card__logo {
     position: absolute;
-    bottom: -22px; left: 20px;
-    width: 52px; height: 52px;
-    border-radius: 8px;
-    border: 2.5px solid rgb(var(--color-background-rgb));
+    bottom: -28px; left: 20px;
+    width: 64px; height: 64px;
+    border-radius: 10px;
+    border: 3px solid rgb(var(--color-background-rgb));
     background: rgb(var(--color-background-rgb));
     display: grid; place-items: center;
     box-shadow: 0 1px 6px rgba(26,26,24,0.1);
@@ -448,12 +448,12 @@
   }
   .trg-brand-card__logo img {
     width: 100%; height: 100%;
-    object-fit: contain; padding: 6px;
-    filter: grayscale(80%); opacity: 0.75;
-    transition: filter 0.2s, opacity 0.2s;
+    object-fit: contain; padding: 4px;
+    filter: none; opacity: 1;
+    transition: transform 0.2s;
   }
   .trg-brand-card:hover .trg-brand-card__logo img {
-    filter: grayscale(0%); opacity: 1;
+    transform: scale(1.05);
   }
   .trg-brand-card__logo span {
     font-family: var(--font-heading--family);
@@ -462,7 +462,7 @@
   }
 
   .trg-brand-card__body {
-    padding: 30px 20px 16px;
+    padding: 36px 20px 16px;
     display: flex; flex-direction: column; flex: 1;
   }
   .trg-brand-card__positioning {
@@ -521,11 +521,11 @@
   @media screen and (max-width: 749px) {
     .trg-brand-card__hero { height: 64px; }
     .trg-brand-card__logo {
-      bottom: -18px; left: 12px;
-      width: 40px; height: 40px; border-radius: 6px;
+      bottom: -22px; left: 12px;
+      width: 52px; height: 52px; border-radius: 8px;
     }
-    .trg-brand-card__logo img { padding: 5px; }
-    .trg-brand-card__body { padding: 22px 12px 10px; }
+    .trg-brand-card__logo img { padding: 4px; }
+    .trg-brand-card__body { padding: 28px 12px 10px; }
     .trg-brand-card__positioning { font-size: 0.52rem; margin-bottom: 3px; }
     .trg-brand-name { font-size: 0.92rem; }
     .trg-brand-origin { font-size: 0.67rem; margin-bottom: 6px; }
