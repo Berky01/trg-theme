@@ -750,7 +750,7 @@ body:not(.filters-hidden) .trg-bdir .trg-bdir__show {
   /* Search bar: sticky below 44px head */
   /* Search bar sticks right below site header (no title band on mobile) */
   .trg-bdir .trg-bdir__searchbar {
-    top: var(--header-group-height, 56px) !important;
+    top: var(--header-height, 56px) !important;
   }
 
   /* Search bar: input visible, pills hidden, compact submit */

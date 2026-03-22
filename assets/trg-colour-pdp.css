@@ -126,4 +126,8 @@
   .trg-ctl__slot-lock{font-size:0.42rem}
   .trg-ctl__slot-rm{width:14px;height:14px;font-size:8px;line-height:14px;top:-5px;right:-5px}
   .trg-ctl__skip{grid-column:1/-1;padding:0.4rem}
+  .trg-ctl__slot-pct{display:none !important}
+  .trg-ctl__slot-lock{display:none !important}
+  .trg-ctl__slot.locked{border-style:dashed;border-color:#8a8478}
+  .trg-ctl__slot-dot{width:14px;height:14px}
 }
