@@ -343,6 +343,9 @@
                 card_body: block.settings.body,
                 card_price_tag: block.settings.price_tag,
                 card_cta_label: block.settings.cta_label,
+                card_positioning: block.settings.positioning,
+                card_gradient_start: block.settings.gradient_start,
+                card_gradient_end: block.settings.gradient_end,
                 shopify_attributes: block.shopify_attributes
               %}
               {% assign rendered_cards = rendered_cards | plus: 1 %}
@@ -364,6 +367,9 @@
               card_body: block.settings.body,
               card_price_tag: block.settings.price_tag,
               card_cta_label: block.settings.cta_label,
+              card_positioning: block.settings.positioning,
+              card_gradient_start: block.settings.gradient_start,
+              card_gradient_end: block.settings.gradient_end,
               shopify_attributes: block.shopify_attributes
             %}
             {% assign rendered_cards = rendered_cards | plus: 1 %}
@@ -381,33 +387,22 @@
 </section>
 
 {% stylesheet %}
-  .trg-featured-brands .trg-section-header {
-    align-items: start;
-  }
-
-  .trg-featured-brands .trg-section-header__content {
-    gap: 8px;
-  }
-
-  .trg-featured-brands .trg-section-header .trg-heading {
-    font-size: clamp(1.7rem, 2.6vw, 2.25rem);
-  }
-
-  .trg-featured-brands .trg-section-header .trg-lead {
-    color: var(--trg-muted-color);
-    font-size: 0.86rem;
-    line-height: 1.7;
-  }
+  .trg-featured-brands .trg-section-header { align-items: start; }
+  .trg-featured-brands .trg-section-header__content { gap: 8px; }
+  .trg-featured-brands .trg-section-header .trg-heading { font-size: clamp(1.7rem, 2.6vw, 2.25rem); }
+  .trg-featured-brands .trg-section-header .trg-lead { color: var(--trg-muted-color); font-size: 0.86rem; line-height: 1.7; }
 
   .trg-brand-grid {
     display: grid;
-    gap: 1px;
-    background: var(--trg-border-color);
-    border: 1px solid var(--trg-border-color);
+    gap: clamp(14px, 2vw, 20px);
     grid-template-columns: 1fr;
   }
-
   @media screen and (min-width: 750px) {
+    .trg-brand-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media screen and (min-width: 990px) {
     .trg-brand-grid {
       grid-template-columns: repeat(var(--trg-brand-columns-desktop, 3), minmax(0, 1fr));
     }
@@ -417,126 +412,131 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    min-height: 100%;
-    padding: 1.4rem;
+    border: 1px solid var(--trg-border-color);
+    border-radius: var(--trg-card-radius);
     background: rgb(var(--color-background-rgb));
+    overflow: hidden;
     text-decoration: none;
     color: inherit;
-    transition: background 0.15s ease;
+    transition: border-color 0.2s, box-shadow 0.2s;
   }
-
   .trg-brand-card:hover {
-    background: rgb(var(--color-foreground-rgb) / 0.02);
+    border-color: rgb(var(--color-foreground-rgb) / 0.18);
+    box-shadow: 0 2px 16px rgba(26,26,24,0.06);
   }
 
-  .trg-brand-card__badges {
+  .trg-brand-card__hero {
+    position: relative;
+    height: 96px;
+    overflow: hidden;
+  }
+  .trg-brand-card__gradient {
+    position: absolute; inset: 0; opacity: 0.14;
+    background: linear-gradient(135deg, var(--bc-g1, #8a8478), var(--bc-g2, #b0a89c));
+  }
+  .trg-brand-card__pattern {
+    position: absolute; inset: 0; opacity: 0.035;
+    background: repeating-linear-gradient(135deg, transparent, transparent 8px, rgba(26,26,24,0.35) 8px, rgba(26,26,24,0.35) 9px);
+  }
+
+  .trg-brand-card__logo {
     position: absolute;
-    inset: 1rem 1rem auto auto;
-    display: flex;
-    flex-direction: column;
-    align-items: end;
-    gap: 0.3rem;
+    bottom: -22px; left: 20px;
+    width: 52px; height: 52px;
+    border-radius: 8px;
+    border: 2.5px solid rgb(var(--color-background-rgb));
+    background: rgb(var(--color-background-rgb));
+    display: grid; place-items: center;
+    box-shadow: 0 1px 6px rgba(26,26,24,0.1);
+    z-index: 2; overflow: hidden;
   }
-
-  .trg-brand-badge {
-    font-size: 0.6rem;
-    font-weight: 500;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    padding: 0.18rem 0.45rem;
-    border-radius: 2px;
+  .trg-brand-card__logo img {
+    width: 100%; height: 100%;
+    object-fit: contain; padding: 6px;
+    filter: grayscale(80%); opacity: 0.75;
+    transition: filter 0.2s, opacity 0.2s;
   }
-
-  .trg-brand-badge--canada {
-    background: rgb(var(--color-primary-rgb) / 0.12);
-    color: var(--color-primary);
+  .trg-brand-card:hover .trg-brand-card__logo img {
+    filter: grayscale(0%); opacity: 1;
   }
-
-  .trg-brand-badge--affiliate {
-    background: rgb(var(--color-primary-rgb) / 0.1);
-    color: var(--color-primary);
-  }
-
-  .trg-brand-logo {
-    width: 44px;
-    height: 44px;
-    margin-bottom: 1rem;
-    border-radius: 4px;
-    background: rgb(var(--color-foreground-rgb) / 0.06);
-    color: var(--trg-muted-color);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .trg-brand-card__logo span {
     font-family: var(--font-heading--family);
-    font-size: 1rem;
-    font-weight: 600;
-    line-height: 1;
+    font-size: 0.85rem; font-weight: 600;
+    color: var(--trg-muted-color);
+  }
+
+  .trg-brand-card__body {
+    padding: 30px 20px 16px;
+    display: flex; flex-direction: column; flex: 1;
+  }
+  .trg-brand-card__positioning {
+    font-size: 0.6rem; font-weight: 500;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--trg-accent-color); margin-bottom: 6px;
+  }
+  .trg-brand-name {
+    margin: 0 0 3px;
+    color: var(--trg-heading-color);
+    font-family: var(--font-heading--family);
+    font-size: 1.1rem; line-height: 1.25;
+  }
+  .trg-brand-origin {
+    margin: 0 0 10px;
+    color: var(--trg-muted-color);
+    font-size: 0.74rem; line-height: 1.4;
+  }
+  .trg-brand-body {
+    margin: 0;
+    color: var(--trg-body-color);
+    font-size: 0.8rem; line-height: 1.6;
+    flex: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
     overflow: hidden;
   }
 
-  .trg-brand-logo img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .trg-brand-name {
-    margin: 0 0 0.2rem;
-    color: var(--trg-heading-color);
-    font-family: var(--font-heading--family);
-    font-size: 1.05rem;
-    line-height: 1.2;
-  }
-
-  .trg-brand-origin {
-    margin: 0 0 0.6rem;
-    color: var(--trg-muted-color);
-    font-size: 0.75rem;
-    line-height: 1.4;
-  }
-
-  .trg-brand-body {
-    margin: 0 0 0.9rem;
-    color: var(--trg-body-color);
-    font-size: 0.8rem;
-    line-height: 1.55;
-    flex: 1 1 auto;
-  }
-
   .trg-brand-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
+    display: flex; align-items: center;
+    justify-content: space-between; gap: 12px;
     margin-top: auto;
-    padding-top: 0.75rem;
-    border-top: 1px solid rgb(var(--color-border-rgb) / 0.65);
+    padding: 13px 20px;
+    border-top: 1px solid rgb(var(--color-border-rgb) / 0.5);
   }
-
   .trg-brand-price {
-    font-size: 0.68rem;
-    font-weight: 500;
-    letter-spacing: 0.04em;
-    color: var(--trg-heading-color);
+    font-size: 0.6rem; font-weight: 500;
+    letter-spacing: 0.03em; text-transform: uppercase;
     border: 1px solid var(--trg-border-color);
-    border-radius: 2px;
-    padding: 0.15rem 0.45rem;
-    text-transform: uppercase;
-  }
-
-  .trg-brand-cta {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
+    border-radius: 2px; padding: 3px 8px;
     color: var(--trg-heading-color);
-    font-size: 0.72rem;
-    font-weight: 500;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
   }
-
+  .trg-brand-cta {
+    display: inline-flex; align-items: center; gap: 0.3rem;
+    color: var(--trg-heading-color);
+    font-size: 0.72rem; font-weight: 500;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    transition: color 0.15s;
+  }
   .trg-brand-card:hover .trg-brand-cta {
     color: var(--trg-accent-color, var(--color-primary));
+  }
+
+  /* Mobile 2-col */
+  @media screen and (max-width: 749px) {
+    .trg-brand-card__hero { height: 64px; }
+    .trg-brand-card__logo {
+      bottom: -18px; left: 12px;
+      width: 40px; height: 40px; border-radius: 6px;
+    }
+    .trg-brand-card__logo img { padding: 5px; }
+    .trg-brand-card__body { padding: 22px 12px 10px; }
+    .trg-brand-card__positioning { font-size: 0.52rem; margin-bottom: 3px; }
+    .trg-brand-name { font-size: 0.92rem; }
+    .trg-brand-origin { font-size: 0.67rem; margin-bottom: 6px; }
+    .trg-brand-body { font-size: 0.72rem; }
+    .trg-brand-footer { padding: 10px 12px; }
+    .trg-brand-price { font-size: 0.56rem; }
+    .trg-brand-cta { font-size: 0.66rem; }
   }
 
   .trg-brand-grid__note {
@@ -774,6 +774,24 @@
           "id": "cta_label",
           "label": "CTA label",
           "default": "View"
+        },
+        {
+          "type": "text",
+          "id": "positioning",
+          "label": "Positioning tag",
+          "info": "e.g. Heritage Footwear, Workshop Essentials"
+        },
+        {
+          "type": "color",
+          "id": "gradient_start",
+          "label": "Hero gradient start",
+          "default": "#8a8478"
+        },
+        {
+          "type": "color",
+          "id": "gradient_end",
+          "label": "Hero gradient end",
+          "default": "#b0a89c"
         },
         {
           "type": "url",

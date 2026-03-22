@@ -24,6 +24,7 @@
           assign card_count = block.settings.count
           assign card_link = block.settings.link
           assign card_icon = block.settings.icon
+          assign card_tint = block.settings.colour_tint
           assign card_icon_image = blank
 
           if use_collection_data
@@ -49,7 +50,10 @@
           endif
         %}
 
-        <a class="trg-category-card" href="{{ card_link | default: '#' }}" data-trg-reveal {{ block.shopify_attributes }}>
+        <a class="trg-category-card"
+           href="{{ card_link | default: '#' }}"
+           {% if card_tint != blank %}style="--cat-tint: {{ card_tint }};"{% endif %}
+           data-trg-reveal {{ block.shopify_attributes }}>
           <div class="trg-category-icon">
             {% if card_icon_image != blank %}
               {{
@@ -62,15 +66,19 @@
                   alt: card_name
               }}
             {% else %}
-              {%- assign cat_slug = card_name | downcase | replace: ' ', '-' | replace: '&', '' -%}
-                {%- render 'trg-category-icon', type: cat_slug -%}
+              {%- assign cat_slug = card_name | downcase | replace: ' ', '-' | replace: '&', '' | replace: '  ', '-' -%}
+              {%- render 'trg-category-icon', type: cat_slug -%}
             {% endif %}
           </div>
-          <h3 class="trg-category-name">{{ card_name | escape }}</h3>
-          {% if card_count != blank %}
-            <p class="trg-category-count">{{ card_count | escape }}</p>
-          {% endif %}
-          <span class="trg-category-arrow" aria-hidden="true">→</span>
+          <div class="trg-category-bottom">
+            <h3 class="trg-category-name">{{ card_name | escape }}</h3>
+            <div class="trg-category-meta">
+              {% if card_count != blank %}
+                <span class="trg-category-count">{{ card_count | escape }}</span>
+              {% endif %}
+              <span class="trg-category-arrow" aria-hidden="true">→</span>
+            </div>
+          </div>
         </a>
       {% endfor %}
     </div>
@@ -82,29 +90,19 @@
     border-top: 1px solid var(--trg-border-color);
     border-bottom: 1px solid var(--trg-border-color);
   }
-
-  .trg-category-grid-section .trg-section-header {
-    align-items: start;
-  }
-
+  .trg-category-grid-section .trg-section-header { align-items: start; }
   .trg-category-grid-section .trg-section-header .trg-heading {
     font-size: clamp(1.7rem, 2.6vw, 2.25rem);
   }
-
   .trg-category-grid-section .trg-section-header .trg-lead {
-    color: var(--trg-muted-color);
-    font-size: 0.86rem;
-    line-height: 1.7;
+    color: var(--trg-muted-color); font-size: 0.86rem; line-height: 1.7;
   }
 
   .trg-category-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1px;
-    background: var(--trg-border-color);
-    border: 1px solid var(--trg-border-color);
+    gap: clamp(10px, 1.5vw, 16px);
   }
-
   @media screen and (min-width: 990px) {
     .trg-category-grid {
       grid-template-columns: repeat(var(--trg-category-columns-desktop, 4), minmax(0, 1fr));
@@ -112,69 +110,111 @@
   }
 
   .trg-category-card {
+    position: relative;
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
-    min-height: 180px;
-    padding: 2rem 1.5rem;
+    min-height: 168px;
+    padding: clamp(16px, 2.5vw, 26px);
+    border-radius: var(--trg-card-radius);
+    border: 1px solid var(--trg-border-color);
     background: rgb(var(--color-background-rgb));
     text-decoration: none;
     color: inherit;
-    transition: background 0.15s ease;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .trg-category-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(26,26,24,0.07);
   }
 
-  .trg-category-card:hover {
-    background: rgb(var(--color-foreground-rgb) / 0.02);
+  /* Colour tint overlay */
+  .trg-category-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.07;
+    border-radius: inherit;
+    background: linear-gradient(135deg, var(--cat-tint, #8a8478), var(--cat-tint, #8a8478));
+    transition: opacity 0.2s;
+    pointer-events: none;
   }
+  .trg-category-card:hover::before { opacity: 0.12; }
 
   .trg-category-icon {
-    width: 40px;
-    height: 40px;
-    border: 1px solid var(--trg-border-color);
-    border-radius: 3px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgb(var(--color-background-rgb));
+    border: 1px solid rgb(var(--color-foreground-rgb) / 0.06);
     display: grid;
     place-items: center;
-    color: var(--trg-muted-color);
-    font-size: 1rem;
-    transition: color 0.15s ease, border-color 0.15s ease;
+    margin-bottom: auto;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 1px 3px rgba(26,26,24,0.04);
+    transition: transform 0.2s, box-shadow 0.2s;
   }
+  .trg-category-card:hover .trg-category-icon {
+    transform: scale(1.06);
+    box-shadow: 0 2px 8px rgba(26,26,24,0.08);
+  }
+  .trg-category-icon svg {
+    width: 22px;
+    height: 22px;
+    fill: none;
+    stroke: rgb(var(--color-foreground-rgb));
+    stroke-width: 1.3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    opacity: 0.55;
+    transition: opacity 0.15s;
+  }
+  .trg-category-card:hover .trg-category-icon svg { opacity: 0.8; }
 
   .trg-category-icon img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    width: 100%; height: 100%; object-fit: cover;
   }
 
+  .trg-category-bottom {
+    position: relative;
+    z-index: 1;
+    margin-top: auto;
+  }
   .trg-category-name {
-    margin: 0;
+    margin: 0 0 4px;
     color: var(--trg-heading-color);
     font-family: var(--font-heading--family);
     font-size: 1rem;
     line-height: 1.2;
   }
-
+  .trg-category-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
   .trg-category-count {
     margin: 0;
     color: var(--trg-muted-color);
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     line-height: 1.4;
   }
-
   .trg-category-arrow {
-    margin-top: auto;
-    color: rgb(var(--color-border-rgb));
-    font-size: 0.9rem;
-    transition: color 0.15s ease, transform 0.2s ease;
+    color: var(--trg-border-color);
+    font-size: 0.8rem;
+    transition: color 0.15s ease, transform 0.15s ease;
   }
-
-  .trg-category-card:hover .trg-category-icon {
-    color: var(--color-primary);
-    border-color: var(--color-primary);
-  }
-
   .trg-category-card:hover .trg-category-arrow {
-    color: var(--color-primary);
-    transform: translateX(4px);
+    color: var(--trg-accent-color, var(--color-primary));
+    transform: translateX(3px);
+  }
+
+  /* Mobile */
+  @media screen and (max-width: 749px) {
+    .trg-category-card { min-height: 118px; }
+    .trg-category-icon { width: 40px; height: 40px; }
+    .trg-category-icon svg { width: 19px; height: 19px; }
+    .trg-category-name { font-size: 0.88rem; }
   }
 {% endstylesheet %}
 
@@ -235,14 +275,8 @@
       "id": "source_mode",
       "label": "Card source",
       "options": [
-        {
-          "value": "manual_blocks",
-          "label": "Manual block text"
-        },
-        {
-          "value": "collection_blocks",
-          "label": "Collection from each block"
-        }
+        { "value": "manual_blocks", "label": "Manual block text" },
+        { "value": "collection_blocks", "label": "Collection from each block" }
       ],
       "default": "manual_blocks"
     },
@@ -251,18 +285,9 @@
       "id": "collection_count_mode",
       "label": "Collection count source",
       "options": [
-        {
-          "value": "manual",
-          "label": "Use block count text"
-        },
-        {
-          "value": "products",
-          "label": "Use collection product count"
-        },
-        {
-          "value": "hide",
-          "label": "Hide count"
-        }
+        { "value": "manual", "label": "Use block count text" },
+        { "value": "products", "label": "Use collection product count" },
+        { "value": "hide", "label": "Hide count" }
       ],
       "default": "manual"
     },
@@ -277,14 +302,8 @@
       "id": "collection_icon_mode",
       "label": "Collection icon source",
       "options": [
-        {
-          "value": "text",
-          "label": "Use block icon text"
-        },
-        {
-          "value": "image",
-          "label": "Use collection image"
-        }
+        { "value": "text", "label": "Use block icon text" },
+        { "value": "image", "label": "Use collection image" }
       ],
       "default": "text"
     }
@@ -298,8 +317,7 @@
         {
           "type": "text",
           "id": "icon",
-          "label": "Icon",
-          "default": "✦"
+          "label": "Icon (legacy, SVG auto-detected from name)"
         },
         {
           "type": "collection",
@@ -324,6 +342,12 @@
           "label": "Count override (optional)"
         },
         {
+          "type": "color",
+          "id": "colour_tint",
+          "label": "Background colour tint",
+          "default": "#8a8478"
+        },
+        {
           "type": "url",
           "id": "link",
           "label": "Link"
@@ -335,30 +359,14 @@
     {
       "name": "TRG Category Grid",
       "blocks": [
-        {
-          "type": "category"
-        },
-        {
-          "type": "category"
-        },
-        {
-          "type": "category"
-        },
-        {
-          "type": "category"
-        },
-        {
-          "type": "category"
-        },
-        {
-          "type": "category"
-        },
-        {
-          "type": "category"
-        },
-        {
-          "type": "category"
-        }
+        { "type": "category" },
+        { "type": "category" },
+        { "type": "category" },
+        { "type": "category" },
+        { "type": "category" },
+        { "type": "category" },
+        { "type": "category" },
+        { "type": "category" }
       ]
     }
   ]
