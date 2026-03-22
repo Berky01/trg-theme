@@ -1,41 +1,39 @@
 /* ═══ TRG Search Page Overrides ═══ */
-/* Loaded via trg-search-brand-strip section on search pages only */
 
-/* 1. Hide "Search" label from trg-search-bar on the search page
-      (on other pages it serves as breadcrumb context, but here it's redundant) */
+/* 1. Hide "Search" label */
 .trg-search-bar__label {
   display: none !important;
 }
 
-/* 2. Force product grid to 4 columns desktop, 2 mobile
-      Dwell's search-results grid doesn't enforce column count well */
+/* 2. Force 4-col grid */
 .product-grid--grid {
   display: grid !important;
   grid-template-columns: repeat(4, 1fr) !important;
   gap: 1.25rem !important;
 }
 
-/* Cap individual card width so single results don't blow up */
 .product-grid__item {
   max-width: 100% !important;
-  width: 100% !important;
 }
 
-/* Product card image: enforce 3:4 portrait ratio */
+/* 3. Kill ALL card borders — Dwell variant hover borders are accent colored */
+.product-grid__item .product-card,
+.product-grid__item .product-card *,
+.product-card__gallery,
+.product-card .media-gallery {
+  border-color: transparent !important;
+}
+
+/* But keep the image 3:4 ratio */
 .product-grid__item .product-card .media-gallery,
 .product-grid__item .product-card .product-card__gallery {
   aspect-ratio: 3 / 4;
   overflow: hidden;
 }
 
-/* 3. Reduce top padding on search results section */
+/* 4. Reduce top padding */
 .product-grid-container {
   --padding-block-start: 12px !important;
-}
-
-/* 4. Style the filter bar to match TRG aesthetic */
-.product-grid-container .facets__header {
-  position: relative;
 }
 
 /* 5. Mobile: 2 columns */
@@ -44,15 +42,13 @@
     grid-template-columns: repeat(2, 1fr) !important;
     gap: 0.75rem !important;
   }
-
-  /* Hide Sort label on mobile */
   .facets__sort-label,
   label[for*="SortBy"] {
     display: none !important;
   }
 }
 
-/* 6. 3 columns for medium screens */
+/* 6. Tablet: 3 columns */
 @media (min-width: 750px) and (max-width: 989px) {
   .product-grid--grid {
     grid-template-columns: repeat(3, 1fr) !important;
