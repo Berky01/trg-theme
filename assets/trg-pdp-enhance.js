@@ -86,6 +86,7 @@
     if (!images.length) return;
     currentIndex = ((idx % images.length) + images.length) % images.length;
     if (galleryImg && galleryImg.tagName === 'IMG') {
+      galleryImg.removeAttribute('srcset');
       galleryImg.src = images[currentIndex].src;
       galleryImg.alt = images[currentIndex].alt;
     }
