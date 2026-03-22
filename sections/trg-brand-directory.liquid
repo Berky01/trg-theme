@@ -1,3 +1,33 @@
+{% comment %} #27 Mobile gap fix — inline to bypass CDN cache {% endcomment %}
+{% style %}
+  @media screen and (max-width: 989px) {
+    .header__navigation-bar-row {
+      display: none !important;
+      height: 0 !important;
+      min-height: 0 !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      border: none !important;
+      overflow: hidden !important;
+    }
+    .shopify-section.trg-mega-menu-shell,
+    .shopify-section-group-header-group.trg-mega-menu-shell {
+      display: none !important;
+      height: 0 !important;
+      min-height: 0 !important;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+    #header-group > .shopify-section:not(.header-section) {
+      display: none !important;
+      height: 0 !important;
+    }
+    .content-for-layout {
+      margin-top: 0 !important;
+      padding-top: 0 !important;
+    }
+  }
+{% endstyle %}
 {% comment %}TRG-TS:1774126300{% endcomment %}
 {% liquid
   assign cat_filters = 'Shirts & Tops,Outerwear & Jackets,Trousers & Bottoms,Footwear,Knitwear,Denim,Suits & Tailoring,Accessories' | split: ','
