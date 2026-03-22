@@ -866,40 +866,23 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
 
 /* ═══ #20 Brand PLP mobile: header gap + scrollbar ═══ */
 @media screen and (max-width: 989px) {
-  /* Empty Dwell nav row */
   .header__navigation-bar-row {
     display: none !important;
   }
-  /* Mega-menu shell */
   .trg-mega-menu-shell {
     display: none !important;
   }
-  /* Header section wrapper — no bottom spacing */
-  .header-section {
-    margin-bottom: 0 !important;
-    padding-bottom: 0 !important;
-    border-bottom: none !important;
-  }
-  /* Header-group children (non-header) */
-  .shopify-section-group-header-group:not(.header-section) {
-    margin: 0 !important;
-    padding: 0 !important;
-  }
-  /* Main content — no top spacing */
   .content-for-layout {
     margin-top: 0 !important;
     padding-top: 0 !important;
   }
-  /* Shopify section wrapper — no top spacing */
-  .trg-brand-directory-section {
-    margin-top: 0 !important;
-    padding-top: 0 !important;
-    margin-bottom: 0 !important;
-  }
-  /* Inner section — no top spacing */
+  /* Make section bg match header — hides the gap */
   .section.trg-bdir {
-    margin-top: 0 !important;
-    padding-top: 0 !important;
+    background: #1a1a18 !important;
+  }
+  /* Restore paper bg for the card grid area */
+  .trg-bdir .trg-bdir__body--outer {
+    background: #f5f1eb !important;
   }
 }
 
@@ -923,14 +906,4 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
     min-height: 0 !important;
     visibility: hidden !important;
   }
-}
-
-/* TRG DEBUG — gap coloring v2 */
-@media screen and (max-width: 989px) {
-  .header-section { background: red !important; outline: 3px solid red !important; }
-  .content-for-layout { background: lime !important; }
-  .trg-brand-directory-section { background: blue !important; }
-  .section.trg-bdir { background: orange !important; }
-  header-component { outline: 3px solid cyan !important; }
-  #header-group { background: magenta !important; }
 }
