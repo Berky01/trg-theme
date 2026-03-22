@@ -124,11 +124,18 @@
   var metaMatItem = document.getElementById('trg-meta-material');
   var metaMatVal = document.getElementById('trg-meta-material-val');
 
-  if (descEl) {
-    parseAndDistribute();
+  // Skip parsing if metafields already populated the accordions server-side.
+  // Detect by checking if Materials accordion does NOT contain the placeholder text.
+  var matPlaceholder = 'Care instructions vary by product';
+  var shipPlaceholder = 'Shipping policies vary by brand';
+  var matAlreadySet = matBody && matBody.textContent.indexOf(matPlaceholder) === -1;
+  var shipAlreadySet = shipBody && shipBody.textContent.indexOf(shipPlaceholder) === -1;
+
+  if (descEl && !(matAlreadySet && shipAlreadySet)) {
+    parseAndDistribute(matAlreadySet, shipAlreadySet);
   }
 
-  function parseAndDistribute() {
+  function parseAndDistribute(skipMat, skipShip) {
     // Get text, strip any HTML tags
     var raw = descEl.textContent.trim();
     if (!raw || raw.length < 20) return;
@@ -190,8 +197,8 @@
       descEl.appendChild(ul);
     }
 
-    // — Render Materials + Care —
-    if (matBody && (sections.material.length || sections.care.length)) {
+    // — Render Materials + Care (skip if metafields already set server-side) —
+    if (!skipMat && matBody && (sections.material.length || sections.care.length)) {
       var html = '';
       if (sections.material.length) {
         html += '<p style="margin:0 0 0.4rem;font-weight:500;color:#1a1a18;">' + escHtml(sections.material.join(' \u00B7 ')) + '</p>';
@@ -202,8 +209,8 @@
       matBody.innerHTML = html;
     }
 
-    // — Render Shipping —
-    if (shipBody && sections.shipping) {
+    // — Render Shipping (skip if metafields already set server-side) —
+    if (!skipShip && shipBody && sections.shipping) {
       shipBody.textContent = sections.shipping;
     }
 
