@@ -1,3 +1,19 @@
+/* #29 Mobile: hide dark title band + close gaps — injected via JS to bypass CDN cache */
+(function(){
+  if(window.innerWidth > 989) return;
+  var s = document.createElement('style');
+  s.textContent = [
+    'body:has([data-template="page.brands-directory"]) { background: #f5f1eb !important; }',
+    '.trg-bdir__head { display: none !important; height: 0 !important; margin: 0 !important; padding: 0 !important; border: none !important; }',
+    '.trg-bdir__searchbar { margin-top: 0 !important; border-top: none !important; }',
+    '.section.section--full-width.trg-bdir { display: block !important; margin: 0 !important; padding: 0 !important; }',
+    '.shopify-section.trg-brand-directory-section { margin: 0 !important; padding: 0 !important; }',
+    '.content-for-layout { margin-top: 0 !important; padding-top: 0 !important; }',
+    '.header__navigation-bar-row { display: none !important; height: 0 !important; }',
+    '.trg-bdir__wrap { margin: 0 !important; padding: 0 !important; }'
+  ].join('\n');
+  document.head.appendChild(s);
+})();
 
 /* === TRG: Handle Corrections + Overflow Fetch === */
 (function() {
