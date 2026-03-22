@@ -898,3 +898,38 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
     visibility: hidden !important;
   }
 }
+
+/* ═══ #27 Brand PLP mobile: close black gap between header and content ═══ */
+@media screen and (max-width: 989px) {
+  /* Collapse navigation-bar-row completely */
+  .header__navigation-bar-row {
+    display: none !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+  }
+  /* Collapse mega-menu shell section wrapper completely */
+  .shopify-section-group-header-group.trg-mega-menu-shell,
+  .shopify-section.trg-mega-menu-shell {
+    display: none !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  /* Kill any header-group gap — only the header-component should have height */
+  #header-group > .shopify-section:not(.header-section) {
+    display: none !important;
+    height: 0 !important;
+    min-height: 0 !important;
+  }
+  /* Content-for-layout: no top gap */
+  .content-for-layout {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+}
