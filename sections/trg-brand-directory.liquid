@@ -1,4 +1,4 @@
-{% comment %} #27 Mobile gap fix — inline to bypass CDN cache {% endcomment %}
+{% comment %} #27+#28 Mobile gap fix — inline to bypass CDN cache {% endcomment %}
 {% style %}
   @media screen and (max-width: 989px) {
     .header__navigation-bar-row {
@@ -26,9 +26,31 @@
       margin-top: 0 !important;
       padding-top: 0 !important;
     }
+    /* #28 Body bg = paper on mobile (dark title band removed) */
+    body:has([data-template="page.brands-directory"]) {
+      background: #f5f1eb !important;
+    }
+    /* Hide dark title band, zero height */
+    .trg-bdir__head {
+      display: none !important;
+      height: 0 !important;
+      min-height: 0 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      border: none !important;
+    }
+    /* Search bar flush — no gap */
+    .trg-bdir__searchbar {
+      margin-top: 0 !important;
+      border-top: none !important;
+    }
+    .section.section--full-width.trg-bdir {
+      padding-top: 0 !important;
+      margin-top: 0 !important;
+    }
   }
 {% endstyle %}
-{% comment %}TRG-TS:1774126300{% endcomment %}
+{% comment %}TRG-TS:1774141146{% endcomment %}
 {% liquid
   assign cat_filters = 'Shirts & Tops,Outerwear & Jackets,Trousers & Bottoms,Footwear,Knitwear,Denim,Suits & Tailoring,Accessories' | split: ','
   assign aest_filters = 'Heritage,Workwear,Minimalist,Smart Casual,Japanese,Technical,Coastal' | split: ','
