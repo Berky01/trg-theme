@@ -56,6 +56,8 @@
   endif
 
   assign material   = p.metafields.trg.material_type
+  assign care_inst  = p.metafields.trg.care_instructions
+  assign ship_info  = p.metafields.trg.shipping_info
   assign made_in    = p.metafields.trg.made_in_country
   assign style_aes  = p.metafields.trg.style_aesthetic
   assign season     = p.metafields.trg.season
@@ -78,6 +80,15 @@
     assign duties_apply = true
   endif
   assign returns_window = p.metafields.trg.returns_window.value | default: p.metafields.trg.returns_window
+
+  assign has_affiliate = false
+  assign brand_aff_program = brand_meta.affiliate_program.value | default: ''
+  assign brand_aff_network = brand_meta.affiliate_network.value | default: ''
+  if brand_aff_program == 'Yes'
+    assign has_affiliate = true
+  elsif brand_aff_network != blank and brand_aff_network != 'No' and brand_aff_network != 'no'
+    assign has_affiliate = true
+  endif
 
   assign price_cents = p.price
   assign price_dollars = price_cents | divided_by: 100
@@ -274,7 +285,9 @@
 
     </div>
 
+    {%- if has_affiliate -%}
     <p class="trg-pdp__disclosure">Affiliate link — TRG may earn a commission at no extra cost to you</p>
+    {%- endif -%}
 
     {%- comment -%} Wishlist {%- endcomment -%}
     <button
@@ -330,12 +343,10 @@
 
     {%- comment -%} ═══ META GRID ═══ {%- endcomment -%}
     <div class="trg-pdp__meta">
-      {%- if material != blank -%}
-        <div class="trg-pdp__meta-item">
+      <div class="trg-pdp__meta-item{% if material == blank %} trg-pdp__meta-item--hidden{% endif %}" id="trg-meta-material">
           <span class="trg-pdp__meta-key">Material</span>
-          <span class="trg-pdp__meta-val">{{ material }}</span>
+          <span class="trg-pdp__meta-val" id="trg-meta-material-val">{{ material }}</span>
         </div>
-      {%- endif -%}
       {%- if made_in != blank -%}
         <div class="trg-pdp__meta-item">
           <span class="trg-pdp__meta-key">Made In</span>
@@ -376,8 +387,13 @@
           <span class="trg-pdp__acc-label">Materials + Care</span>
           <svg class="trg-pdp__acc-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
         </button>
-        <div class="trg-pdp__acc-body">
-          Care instructions vary by product — check the brand's site for details.
+        <div class="trg-pdp__acc-body" id="trg-acc-materials">
+          {%- if material != blank or care_inst != blank -%}
+            {%- if material != blank -%}<p style="margin:0 0 0.4rem;font-weight:500;color:#1a1a18;">{{ material }}</p>{%- endif -%}
+            {%- if care_inst != blank -%}<p style="margin:0;">{{ care_inst }}</p>{%- endif -%}
+          {%- else -%}
+            Care instructions vary by product — check the brand's site for details.
+          {%- endif -%}
         </div>
       </div>
 
@@ -386,8 +402,12 @@
           <span class="trg-pdp__acc-label">Shipping + Returns</span>
           <svg class="trg-pdp__acc-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
         </button>
-        <div class="trg-pdp__acc-body">
-          Shipping policies vary by brand and retailer. Visit the brand's site for current rates and delivery times.
+        <div class="trg-pdp__acc-body" id="trg-acc-shipping">
+          {%- if ship_info != blank -%}
+            {{ ship_info }}
+          {%- else -%}
+            Shipping policies vary by brand and retailer. Visit the brand's site for current rates and delivery times.
+          {%- endif -%}
         </div>
       </div>
     </div>
@@ -477,30 +497,8 @@
 <script src="{{ 'trg-colour-pdp.js' | asset_url }}" defer></script>
 {%- endif -%}
 
-{%- comment -%} ═══ INLINE JS ═══ {%- endcomment -%}
-<script>
-  /* Thumbnail switching */
-  document.querySelectorAll('.trg-pdp__thumb[data-src]').forEach(function(thumb) {
-    thumb.addEventListener('click', function() {
-      document.querySelectorAll('.trg-pdp__thumb').forEach(function(t) { t.classList.remove('active'); });
-      thumb.classList.add('active');
-      var img = document.getElementById('trg-gallery-img');
-      if (img && img.tagName === 'IMG') {
-        img.src = thumb.dataset.src;
-        img.alt = thumb.dataset.alt || '';
-      }
-    });
-  });
-
-  /* Size chip selection */
-  document.querySelectorAll('.trg-pdp__chip').forEach(function(chip) {
-    chip.addEventListener('click', function() {
-      var parent = chip.closest('.trg-pdp__chips');
-      parent.querySelectorAll('.trg-pdp__chip').forEach(function(c) { c.classList.remove('active'); });
-      chip.classList.add('active');
-    });
-  });
-</script>
+{%- comment -%} ═══ PDP ENHANCEMENTS JS ═══ {%- endcomment -%}
+<script src="{{ 'trg-pdp-enhance.js' | asset_url }}" defer></script>
 {% endif %}
 
 {% stylesheet %}
@@ -1062,6 +1060,56 @@
     line-height: 1.6;
   }
 
+  /* ── GALLERY ARROWS + COUNTER ── */
+  .trg-pdp__gallery-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.88);
+    border: 1px solid #ddd8cf;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s;
+    z-index: 2;
+    color: #1a1a18;
+    padding: 0;
+  }
+  .trg-pdp__gallery-main:hover .trg-pdp__gallery-arrow {
+    opacity: 1;
+  }
+  .trg-pdp__gallery-arrow:hover {
+    background: #ffffff;
+    border-color: #1a1a18;
+  }
+  .trg-pdp__gallery-arrow--prev { left: 0.75rem; }
+  .trg-pdp__gallery-arrow--next { right: 0.75rem; }
+
+  .trg-pdp__gallery-counter {
+    position: absolute;
+    bottom: 0.75rem;
+    right: 0.75rem;
+    background: rgba(26,26,24,0.65);
+    color: #fff;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.62rem;
+    font-weight: 500;
+    padding: 0.2rem 0.55rem;
+    border-radius: 10px;
+    letter-spacing: 0.06em;
+    z-index: 2;
+  }
+
+  /* Hidden meta item (JS reveals when parsed from description) */
+  .trg-pdp__meta-item--hidden {
+    display: none;
+  }
+
   /* ── RESPONSIVE ── */
   @media (max-width: 990px) {
     .trg-pdp {
@@ -1133,6 +1181,20 @@
       background: none;
       padding: 0;
       font-size: 0.8rem;
+    }
+
+    /* Gallery arrows: always visible on touch */
+    .trg-pdp__gallery-arrow {
+      opacity: 1;
+      width: 32px;
+      height: 32px;
+      background: rgba(255,255,255,0.92);
+    }
+    .trg-pdp__gallery-arrow--prev { left: 0.5rem; }
+    .trg-pdp__gallery-arrow--next { right: 0.5rem; }
+    .trg-pdp__gallery-counter {
+      bottom: 0.5rem;
+      right: 0.5rem;
     }
   }
 {% endstylesheet %}
