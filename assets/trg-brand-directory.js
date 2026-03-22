@@ -410,9 +410,12 @@
       }));
 
       if (scrim) scrim.addEventListener('click', () => section.classList.remove('is-open'));
-      if (more) more.addEventListener('click', () => {
-        state.page += 1;
-        render();
+      /* Load More — use event delegation (morph-proof, survives Dwell hydration) */
+      section.addEventListener('click', (e) => {
+        if (e.target.closest('[data-more]')) {
+          state.page += 1;
+          render();
+        }
       });
       if (sort) sort.addEventListener('change', () => {
         state.sort = sort.value;
