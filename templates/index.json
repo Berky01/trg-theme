@@ -80,17 +80,17 @@
         "stat_2": {
           "type": "stat",
           "settings": {
-            "value": "107",
-            "suffix": "+",
-            "label": "With affiliate programs"
+            "value": "100",
+            "suffix": "%",
+            "label": "Independent reviews"
           }
         },
         "stat_3": {
           "type": "stat",
           "settings": {
-            "value": "8",
-            "suffix": "+",
-            "label": "Style categories"
+            "value": "0",
+            "suffix": "",
+            "label": "Paid placements"
           }
         },
         "mosaic_1": {
@@ -102,7 +102,7 @@
             "gradient_start": "#3b1d0f",
             "gradient_end": "#552915",
             "height": "normal",
-            "link": "/pages/viberg"
+            "link": "/collections/viberg"
           }
         },
         "mosaic_2": {
@@ -114,7 +114,7 @@
             "gradient_start": "#3f5274",
             "gradient_end": "#1f2f50",
             "height": "normal",
-            "link": "/pages/taylor-stitch"
+            "link": "/collections/taylor-stitch"
           }
         },
         "mosaic_3": {
@@ -126,7 +126,7 @@
             "gradient_start": "#526850",
             "gradient_end": "#1e3a2f",
             "height": "tall",
-            "link": "/pages/norse-projects"
+            "link": "/collections/norse-projects"
           }
         },
         "mosaic_4": {
@@ -138,7 +138,7 @@
             "gradient_start": "#2b3348",
             "gradient_end": "#121722",
             "height": "normal",
-            "link": "/pages/reigning-champ"
+            "link": "/collections/reigning-champ"
           }
         },
         "mosaic_5": {
@@ -150,7 +150,7 @@
             "gradient_start": "#9f8468",
             "gradient_end": "#c5a783",
             "height": "normal",
-            "link": "/pages/buck-mason"
+            "link": "/collections/buck-mason"
           }
         }
       },
@@ -245,7 +245,7 @@
             "body": "Heirloom-quality boots handcrafted in Canada with exceptional build integrity.",
             "price_tag": "Luxury",
             "cta_label": "View",
-            "link": "/pages/viberg"
+            "link": "/collections/viberg"
           }
         },
         "brand_2": {
@@ -260,7 +260,7 @@
             "body": "Workshop-grade essentials with sturdy materials and classic silhouettes.",
             "price_tag": "Mid-range",
             "cta_label": "View",
-            "link": "/pages/taylor-stitch"
+            "link": "/collections/taylor-stitch"
           }
         },
         "brand_3": {
@@ -275,7 +275,7 @@
             "body": "Quiet premium basics and fleece with reliable quality control.",
             "price_tag": "Premium",
             "cta_label": "View",
-            "link": "/pages/reigning-champ"
+            "link": "/collections/reigning-champ"
           }
         },
         "brand_4": {
@@ -290,7 +290,7 @@
             "body": "Strong tailoring value with thoughtful fabric and fit options.",
             "price_tag": "Mid-range",
             "cta_label": "View",
-            "link": "/pages/spier-and-mackay"
+            "link": "/collections/spier-and-mackay"
           }
         },
         "brand_5": {
@@ -305,7 +305,7 @@
             "body": "Modern essentials with clean lines and durable fabrics.",
             "price_tag": "Premium",
             "cta_label": "View",
-            "link": "/pages/norse-projects"
+            "link": "/collections/norse-projects"
           }
         },
         "brand_6": {
@@ -320,7 +320,7 @@
             "body": "Refined basics and staple layers with practical everyday fit.",
             "price_tag": "Mid-range",
             "cta_label": "View",
-            "link": "/pages/buck-mason"
+            "link": "/collections/buck-mason"
           }
         }
       },
@@ -592,7 +592,7 @@
         "feature_meta": "Brand of the Month \u00b7 Heritage Footwear",
         "feature_logo_text": "VB",
         "feature_button_label": "View brand",
-        "feature_button_link": "/pages/viberg"
+        "feature_button_link": "/collections/viberg"
       }
     }
   },
