@@ -97,7 +97,7 @@
           "type": "mosaic_card",
           "settings": {
             "title": "Viberg",
-            "meta": "Footwear \u00b7 Victoria, BC",
+            "meta": "Footwear · Victoria, BC",
             "badge": "CA",
             "gradient_start": "#3b1d0f",
             "gradient_end": "#552915",
@@ -109,7 +109,7 @@
           "type": "mosaic_card",
           "settings": {
             "title": "Taylor Stitch",
-            "meta": "Workwear \u00b7 San Francisco",
+            "meta": "Workwear · San Francisco",
             "badge": "New",
             "gradient_start": "#3f5274",
             "gradient_end": "#1f2f50",
@@ -121,7 +121,7 @@
           "type": "mosaic_card",
           "settings": {
             "title": "Norse Projects",
-            "meta": "Minimalist \u00b7 Copenhagen",
+            "meta": "Minimalist · Copenhagen",
             "badge": "",
             "gradient_start": "#526850",
             "gradient_end": "#1e3a2f",
@@ -133,7 +133,7 @@
           "type": "mosaic_card",
           "settings": {
             "title": "Reigning Champ",
-            "meta": "Casualwear \u00b7 Vancouver",
+            "meta": "Casualwear · Vancouver",
             "badge": "CA",
             "gradient_start": "#2b3348",
             "gradient_end": "#121722",
@@ -145,7 +145,7 @@
           "type": "mosaic_card",
           "settings": {
             "title": "Buck Mason",
-            "meta": "Basics \u00b7 Los Angeles",
+            "meta": "Basics · Los Angeles",
             "badge": "",
             "gradient_start": "#9f8468",
             "gradient_end": "#c5a783",
@@ -191,28 +191,28 @@
         "item_1": {
           "type": "item",
           "settings": {
-            "icon": "\u2316",
+            "icon": "⌖",
             "text": "465+ brands tracked"
           }
         },
         "item_2": {
           "type": "item",
           "settings": {
-            "icon": "\u2713",
+            "icon": "✓",
             "text": "Editorially reviewed"
           }
         },
         "item_3": {
           "type": "item",
           "settings": {
-            "icon": "\u2197",
+            "icon": "↗",
             "text": "Affiliate transparency"
           }
         },
         "item_4": {
           "type": "item",
           "settings": {
-            "icon": "\u25ce",
+            "icon": "◎",
             "text": "No paid placements"
           }
         }
@@ -241,7 +241,7 @@
             "badge_1": "",
             "badge_2": "",
             "title": "Viberg",
-            "origin": "Footwear \u00b7 Victoria, BC",
+            "origin": "Footwear · Victoria, BC",
             "body": "Heirloom-quality boots handcrafted in Canada with exceptional build integrity.",
             "price_tag": "Luxury",
             "cta_label": "View",
@@ -259,7 +259,7 @@
             "badge_1": "",
             "badge_2": "",
             "title": "Taylor Stitch",
-            "origin": "Workwear \u00b7 San Francisco",
+            "origin": "Workwear · San Francisco",
             "body": "Workshop-grade essentials with sturdy materials and classic silhouettes.",
             "price_tag": "Mid-range",
             "cta_label": "View",
@@ -277,7 +277,7 @@
             "badge_1": "",
             "badge_2": "",
             "title": "Reigning Champ",
-            "origin": "Casualwear \u00b7 Vancouver",
+            "origin": "Casualwear · Vancouver",
             "body": "Quiet premium basics and fleece with reliable quality control.",
             "price_tag": "Premium",
             "cta_label": "View",
@@ -295,7 +295,7 @@
             "badge_1": "",
             "badge_2": "",
             "title": "Spier & Mackay",
-            "origin": "Formalwear \u00b7 Toronto",
+            "origin": "Formalwear · Toronto",
             "body": "Strong tailoring value with thoughtful fabric and fit options.",
             "price_tag": "Mid-range",
             "cta_label": "View",
@@ -313,7 +313,7 @@
             "badge_1": "",
             "badge_2": "",
             "title": "Norse Projects",
-            "origin": "Minimalist \u00b7 Copenhagen",
+            "origin": "Minimalist · Copenhagen",
             "body": "Modern essentials with clean lines and durable fabrics.",
             "price_tag": "Premium",
             "cta_label": "View",
@@ -331,7 +331,7 @@
             "badge_1": "",
             "badge_2": "",
             "title": "Buck Mason",
-            "origin": "Basics \u00b7 Los Angeles",
+            "origin": "Basics · Los Angeles",
             "body": "Refined basics and staple layers with practical everyday fit.",
             "price_tag": "Mid-range",
             "cta_label": "View",
@@ -354,7 +354,7 @@
         "color_scheme": "scheme-1",
         "eyebrow": "Featured",
         "title": "<p>Featured <em>Brands</em></p>",
-        "body": "<p>Six brands we\\u0027d start with.</p>",
+        "body": "<p>Six brands we'd start with.</p>",
         "link_label": "All brands",
         "link_url": "/pages/brands",
         "columns_desktop": 3,
@@ -498,7 +498,7 @@
           "type": "step",
           "settings": {
             "custom_number": "",
-            "icon": "\u2315",
+            "icon": "⌕",
             "title": "We do the research",
             "body": "Every brand is manually evaluated for quality signals and long-term value."
           }
@@ -507,7 +507,7 @@
           "type": "step",
           "settings": {
             "custom_number": "",
-            "icon": "\u21c4",
+            "icon": "⇄",
             "title": "You filter with intent",
             "body": "Use style, price, origin, and shipping behavior to shortlist quickly."
           }
@@ -516,7 +516,7 @@
           "type": "step",
           "settings": {
             "custom_number": "",
-            "icon": "\u2713",
+            "icon": "✓",
             "title": "Buy with confidence",
             "body": "Shop direct or through trusted retailers with practical buying context."
           }
@@ -541,7 +541,7 @@
         "pillar_1": {
           "type": "pillar",
           "settings": {
-            "icon": "\u2316",
+            "icon": "⌖",
             "title": "Practical buying intelligence",
             "body": "Shipping context, retailer routing, and price transparency for every brand."
           }
@@ -549,7 +549,7 @@
         "pillar_2": {
           "type": "pillar",
           "settings": {
-            "icon": "\u25ef",
+            "icon": "◯",
             "title": "No fast fashion, no filler",
             "body": "Every brand passes an editorial quality bar with a strict scope."
           }
@@ -557,7 +557,7 @@
         "pillar_3": {
           "type": "pillar",
           "settings": {
-            "icon": "\u2691",
+            "icon": "⚑",
             "title": "Real data, not affiliate fluff",
             "body": "Commission networks, return terms, and practical signals surfaced clearly."
           }
@@ -607,7 +607,7 @@
         "quote": "The best wardrobe isn't the biggest one. It's the one where everything fits, everything works, and nothing was a mistake.",
         "quote_source": "The Right Garment editorial principle",
         "feature_title": "Viberg",
-        "feature_meta": "Brand of the Month \u00b7 Heritage Footwear",
+        "feature_meta": "Brand of the Month · Heritage Footwear",
         "feature_logo_text": "VB",
         "feature_button_label": "View brand",
         "feature_button_link": "/collections/viberg"

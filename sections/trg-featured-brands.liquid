@@ -395,13 +395,9 @@
   .trg-brand-grid {
     display: grid;
     gap: clamp(14px, 2vw, 20px);
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-  @media screen and (min-width: 750px) {
-    .trg-brand-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-  }
+
   @media screen and (min-width: 990px) {
     .trg-brand-grid {
       grid-template-columns: repeat(var(--trg-brand-columns-desktop, 3), minmax(0, 1fr));
