@@ -391,13 +391,16 @@ var CTL={
   updateGauge:function(){
     var entries=[];for(var k in this.outfit)entries.push(this.outfit[k]);
     var el=this.el.querySelector('.trg-ctl__gauge');if(!el)return;
+    var bottomBar=this.el.querySelector('.trg-ctl__bottom');
     var pctEl=el.querySelector('.trg-ctl__gauge-pct');
     var fillEl=el.querySelector('.trg-ctl__gauge-fill');
     if(entries.length<2){
+      if(bottomBar)bottomBar.classList.add('empty');
       if(pctEl){pctEl.className='trg-ctl__gauge-pct empty';pctEl.textContent='\u2026'}
       if(fillEl)fillEl.style.strokeDashoffset='150.8';
       return;
     }
+    if(bottomBar)bottomBar.classList.remove('empty');
     // Average pairwise scores
     var total=0,count=0;
     for(var i=0;i<entries.length;i++){
