@@ -879,18 +879,24 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
   }
 }
 
-.trg-bdir .trg-bdir__carda,
-.trg-bdir .trg-bdir__card,
-.trg-bdir .trg-bdir__body2 {
-  overflow: hidden !important;
-  scrollbar-width: none !important;
-}
-.trg-bdir .trg-bdir__carda::-webkit-scrollbar,
-.trg-bdir .trg-bdir__card::-webkit-scrollbar,
-.trg-bdir .trg-bdir__body2::-webkit-scrollbar {
-  display: none !important;
-  width: 0 !important;
-  height: 0 !important;
+/* Kill ALL scrollbar artifacts inside brand directory on mobile */
+@media screen and (max-width: 989px) {
+  .trg-bdir *,
+  .trg-bdir *::before,
+  .trg-bdir *::after {
+    scrollbar-width: none !important;
+  }
+  .trg-bdir *::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
+  .trg-bdir .trg-bdir__card,
+  .trg-bdir .trg-bdir__carda,
+  .trg-bdir .trg-bdir__body2,
+  .trg-bdir .trg-bdir__media {
+    overflow: hidden !important;
+  }
 }
 @media screen and (max-width: 989px) {
   .trg-bdir .trg-bdir__cta {
