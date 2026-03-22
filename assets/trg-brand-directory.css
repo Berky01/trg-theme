@@ -710,10 +710,9 @@ body:not(.filters-hidden) .trg-bdir .trg-bdir__show {
 /* ── ≤989px: tablet + mobile shared ── */
 @media screen and (max-width: 989px) {
   /* Header bar: compact, show title, hide eyebrow */
+  /* #25 Hide dark title band on mobile — matches desktop where it integrates naturally */
   .trg-bdir .trg-bdir__head {
-    display: flex !important;
-    min-height: 44px;
-    padding: 0;
+    display: none !important;
   }
   .trg-bdir .trg-bdir__shell {
     padding-inline: 1rem !important;
@@ -735,8 +734,9 @@ body:not(.filters-hidden) .trg-bdir .trg-bdir__show {
   }
 
   /* Search bar: sticky below 44px head */
+  /* Search bar sticks right below site header (no title band on mobile) */
   .trg-bdir .trg-bdir__searchbar {
-    top: calc(var(--header-group-height, 56px) + 44px) !important;
+    top: var(--header-group-height, 56px) !important;
   }
 
   /* Search bar: input visible, pills hidden, compact submit */
