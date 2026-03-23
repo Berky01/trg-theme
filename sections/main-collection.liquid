@@ -374,7 +374,7 @@
               .join(' ');
             return `<button type="button" class="button-unstyled trg-search-bar__active-tag" data-trg-active-tag ${attrs}>${escapeHtml(
               chip.label
-            )}<span>�o.</span></button>`;
+            )}<span>✕</span></button>`;
           })
           .join('');
       }
@@ -550,41 +550,46 @@
 >
   {% render 'skip-to-content-link', href: '#ResultsList', text: 'accessibility.skip_to_results_list' %}
 
-  {% capture filters_markup %}
-    {% content_for 'block',
-      type: 'filters',
-      id: 'filters',
-      results: collection,
-      results_size: collection.products_count
-    %}
-  {% endcapture %}
-
+  {% assign filters_block_id = 'filters' %}
   {% assign use_trg_split_layout = false %}
-  {% assign desktop_controls = '' %}
-  {% assign sidebar_markup = '' %}
-  {% assign drawer_markup = '' %}
-  {% if filters_markup contains '<trg-plp-desktop-controls>' %}
-    {% assign use_trg_split_layout = true %}
-    {% assign desktop_controls = filters_markup | split: '<trg-plp-desktop-controls>' | last | split: '</trg-plp-desktop-controls>' | first %}
-    {% if filters_markup contains '<trg-plp-sidebar>' %}
-      {% assign sidebar_markup = filters_markup | split: '<trg-plp-sidebar>' | last | split: '</trg-plp-sidebar>' | first %}
+  {% for section_block in section.blocks %}
+    {% if section_block.type == 'filters' %}
+      {% assign filters_block_id = section_block.id %}
+      {% if section.settings.trg_plp_shell_max_width != blank and section_block.settings.filter_style == 'vertical' %}
+        {% assign use_trg_split_layout = true %}
+      {% endif %}
+      {% break %}
     {% endif %}
-    {% if filters_markup contains '<trg-plp-drawer>' %}
-      {% assign drawer_markup = filters_markup | split: '<trg-plp-drawer>' | last | split: '</trg-plp-drawer>' | first %}
-    {% endif %}
-  {% endif %}
+  {% endfor %}
 
   <div
     class="collection-wrapper gap-style{% if section.settings.product_grid_width == 'full-width' %} collection-wrapper--grid-full-width{% endif %}"
   >
     {% if use_trg_split_layout %}
       <div class="trg-plp-sidebar-column">
-        {{ sidebar_markup }}
+        {% content_for 'block',
+          type: 'filters',
+          id: 'filters',
+          results: collection,
+          results_size: collection.products_count,
+          trg_render_mode: 'sidebar'
+        %}
       </div>
       <div class="trg-plp-main-column">
-        {{ desktop_controls }}
+        {% content_for 'block',
+          type: 'filters',
+          id: 'filters',
+          results: collection,
+          results_size: collection.products_count,
+          trg_render_mode: 'desktop_controls'
+        %}
     {% else %}
-      {{ filters_markup }}
+      {% content_for 'block',
+        type: 'filters',
+        id: 'filters',
+        results: collection,
+        results_size: collection.products_count
+      %}
     {% endif %}
 
     {% assign products_per_page = 24 %}
@@ -702,7 +707,13 @@
 
     {% if use_trg_split_layout %}
       </div>
-      {{ drawer_markup }}
+      {% content_for 'block',
+        type: 'filters',
+        id: 'filters',
+        results: collection,
+        results_size: collection.products_count,
+        trg_render_mode: 'drawer'
+      %}
     {% endif %}
   </div>
 </results-list>

@@ -7,24 +7,34 @@
   @param {object} [filters] - The filters object
 {%- enddoc -%}
 
-<script
-  src="{{ 'facets.js' | asset_url }}"
-  type="module"
-  fetchpriority="low"
-></script>
-
-<script
-  src="{{ 'scrolling.js' | asset_url }}"
-  type="module"
-  fetchpriority="low"
-></script>
-
 {%- liquid
   assign block_settings = block.settings
   assign products_count = results_size
   assign sort_by = results.sort_by | default: results.default_sort_by
   assign filters = filters | default: results.filters
   assign total_active_values = 0
+  assign trg_render_mode = trg_render_mode | default: 'full'
+  assign render_assets = false
+  assign render_desktop_controls = false
+  assign render_sidebar_panel = false
+  assign render_mobile_toggle = false
+  assign render_drawer = false
+
+  case trg_render_mode
+    when 'desktop_controls'
+      assign render_assets = true
+      assign render_desktop_controls = true
+    when 'sidebar'
+      assign render_sidebar_panel = true
+    when 'drawer'
+      assign render_drawer = true
+    else
+      assign render_assets = true
+      assign render_desktop_controls = true
+      assign render_sidebar_panel = true
+      assign render_mobile_toggle = true
+      assign render_drawer = true
+  endcase
 
   # Calculate facets margin style
   capture facets_margin_style
@@ -72,10 +82,23 @@
   endif
 -%}
 
+{% if render_assets %}
+  <script
+    src="{{ 'facets.js' | asset_url }}"
+    type="module"
+    fetchpriority="low"
+  ></script>
+
+  <script
+    src="{{ 'scrolling.js' | asset_url }}"
+    type="module"
+    fetchpriority="low"
+  ></script>
+{% endif %}
+
 {% if block_settings.enable_filtering or block_settings.enable_sorting or block_settings.enable_grid_density %}
-  {% if block_settings.filter_style == 'vertical' %}
+  {% if block_settings.filter_style == 'vertical' and render_desktop_controls %}
     {% # These elements are always rendered in the horizontal bar that's why we apply the .facets--horizontal class %}
-    <trg-plp-desktop-controls>
     <div
       class="facets facets--horizontal facets-controls-wrapper spacing-style trg-collection-controls"
       style="{% render 'spacing-style', settings: block_settings %}{% if block_settings.text_label_case == 'uppercase' %} --facet-label-transform: uppercase;{% endif %}"
@@ -139,33 +162,32 @@
         {% render 'grid-density-controls', viewport: 'desktop' %}
       {% endif %}
     </div>
-    </trg-plp-desktop-controls>
   {% endif %}
 
-  <trg-plp-sidebar>
-  <div
-    class="
-      {% if should_show_pane == false %}
-        hidden
-      {% endif %}
-      facets-block-wrapper
-      facets-block-wrapper--{{ block_settings.filter_style }}
-      {%- if block_settings.inherit_color_scheme == false %} color-{{ block_settings.color_scheme }}{% endif %}
-      {%- if block_settings.filter_width == 'full-width' %} facets-block-wrapper--full-width{% endif %}
-    "
-    style="
-      --grid-column--desktop:
-        {%- if block_settings.filter_style == 'horizontal' -%}
-          var(--{{ block_settings.filter_width }})
-        {%- else -%}
-          2 / var(--facets-vertical-col-width)
-        {%- endif -%};
-      {{ facets_margin_style }}
-      --facets-inner-padding-block: {{ block_settings.padding-block-start }}px {{ block_settings.padding-block-end }}px;
-      --facets-inner-padding-inline: var(--padding-lg);
-    "
-    {{ block.shopify_attributes }}
-  >
+  {% if render_sidebar_panel %}
+    <div
+      class="
+        {% if should_show_pane == false %}
+          hidden
+        {% endif %}
+        facets-block-wrapper
+        facets-block-wrapper--{{ block_settings.filter_style }}
+        {%- if block_settings.inherit_color_scheme == false %} color-{{ block_settings.color_scheme }}{% endif %}
+        {%- if block_settings.filter_width == 'full-width' %} facets-block-wrapper--full-width{% endif %}
+      "
+      style="
+        --grid-column--desktop:
+          {%- if block_settings.filter_style == 'horizontal' -%}
+            var(--{{ block_settings.filter_width }})
+          {%- else -%}
+            2 / var(--facets-vertical-col-width)
+          {%- endif -%};
+        {{ facets_margin_style }}
+        --facets-inner-padding-block: {{ block_settings.padding-block-start }}px {{ block_settings.padding-block-end }}px;
+        --facets-inner-padding-inline: var(--padding-lg);
+      "
+      {{ block.shopify_attributes }}
+    >
     <div
       class="facets facets--{{ block_settings.filter_style }} spacing-style"
       style="{% render 'spacing-style', settings: block_settings %}{% if block_settings.text_label_case == 'uppercase' %} --facet-label-transform: uppercase;{% endif %}"
@@ -386,93 +408,94 @@
         </form>
       </facets-form-component>
     </div>
-  </div>
-
-  <div
-    class="facets-toggle{% if block_settings.enable_filtering == false %} facets-toggle--no-filters{% endif %}{% if block_settings.filter_style == 'horizontal' and block_settings.inherit_color_scheme == false %} color-{{ block_settings.color_scheme }}{% endif %}"
-    style="
-      --facets-inner-padding-block: {{ block_settings.padding-block-start }}px {{ block_settings.padding-block-end }}px; --facets-inner-padding-inline: var(--padding-lg);
-      {{ facets_margin_style }}
-    "
-  >
-    {% if block_settings.enable_filtering %}
-      <div class="facets-toggle__wrapper">
-        <button
-          class="button facets-toggle__button button-unstyled button-unstyled--with-icon"
-          on:click="#filters-drawer/showDialog"
-          type="button"
-        >
-          <span class="svg-wrapper">
-            {{ 'icon-filter.svg' | inline_asset_content }}
-          </span>
-
-          {{ 'actions.show_filters' | t }}
-
-          {% if total_active_values > 0 %}
-            <div
-              id="filter-count-bubble-toggle"
-              class="filter-count-bubble"
-              aria-label="{{ 'accessibility.filter_count' | t: count: total_active_values }}"
-            >
-              <span class="filter-count-bubble__background"></span>
-
-              <span
-                ref="cartBubbleText"
-                class="filter-count-bubble__text"
-                aria-hidden="true"
-              >
-                {{ total_active_values }}
-              </span>
-            </div>
-          {% endif %}
-        </button>
-      </div>
-    {% endif %}
-
-    {% liquid
-      assign child_count = 0
-      if block_settings.enable_filtering == false and block_settings.enable_sorting
-        assign child_count = child_count | plus: 1
-      endif
-      if block_settings.enable_grid_density
-        assign child_count = child_count | plus: 1
-      endif
-    %}
-
-    <div class="facets-mobile-wrapper facets-controls-wrapper{% if child_count > 1 %} facets-mobile-wrapper--multiple-controls{% endif %}">
-      {% if block_settings.enable_filtering == false and block_settings.enable_sorting %}
-        <facets-form-component
-          section-id="{{ section.id }}"
-          id="FacetFiltersForm--{{ section.id }}-mobile-sorting-only"
-        >
-          <form
-            action="{{ results_url }}"
-            id="FacetFiltersForm--{{ section.id }}-mobile-sorting-only"
-            ref="facetsForm"
-          >
-            {% render 'sorting',
-              results: results,
-              sort_by: sort_by,
-              filter_style: block_settings.filter_style,
-              sort_position: 'mobile',
-              should_use_select_on_mobile: should_use_select_on_mobile,
-              section_id: section.id
-            %}
-          </form>
-        </facets-form-component>
-      {% endif %}
-      {% if block_settings.enable_grid_density %}
-        {% render 'grid-density-controls', viewport: 'mobile' %}
-      {% endif %}
     </div>
-  </div>
-  </trg-plp-sidebar>
-{% else %}
+  {% endif %}
+
+  {% if render_mobile_toggle %}
+    <div
+      class="facets-toggle{% if block_settings.enable_filtering == false %} facets-toggle--no-filters{% endif %}{% if block_settings.filter_style == 'horizontal' and block_settings.inherit_color_scheme == false %} color-{{ block_settings.color_scheme }}{% endif %}"
+      style="
+        --facets-inner-padding-block: {{ block_settings.padding-block-start }}px {{ block_settings.padding-block-end }}px; --facets-inner-padding-inline: var(--padding-lg);
+        {{ facets_margin_style }}
+      "
+    >
+      {% if block_settings.enable_filtering %}
+        <div class="facets-toggle__wrapper">
+          <button
+            class="button facets-toggle__button button-unstyled button-unstyled--with-icon"
+            on:click="#filters-drawer/showDialog"
+            type="button"
+          >
+            <span class="svg-wrapper">
+              {{ 'icon-filter.svg' | inline_asset_content }}
+            </span>
+
+            {{ 'actions.show_filters' | t }}
+
+            {% if total_active_values > 0 %}
+              <div
+                id="filter-count-bubble-toggle"
+                class="filter-count-bubble"
+                aria-label="{{ 'accessibility.filter_count' | t: count: total_active_values }}"
+              >
+                <span class="filter-count-bubble__background"></span>
+
+                <span
+                  ref="cartBubbleText"
+                  class="filter-count-bubble__text"
+                  aria-hidden="true"
+                >
+                  {{ total_active_values }}
+                </span>
+              </div>
+            {% endif %}
+          </button>
+        </div>
+      {% endif %}
+
+      {% liquid
+        assign child_count = 0
+        if block_settings.enable_filtering == false and block_settings.enable_sorting
+          assign child_count = child_count | plus: 1
+        endif
+        if block_settings.enable_grid_density
+          assign child_count = child_count | plus: 1
+        endif
+      %}
+
+      <div class="facets-mobile-wrapper facets-controls-wrapper{% if child_count > 1 %} facets-mobile-wrapper--multiple-controls{% endif %}">
+        {% if block_settings.enable_filtering == false and block_settings.enable_sorting %}
+          <facets-form-component
+            section-id="{{ section.id }}"
+            id="FacetFiltersForm--{{ section.id }}-mobile-sorting-only"
+          >
+            <form
+              action="{{ results_url }}"
+              id="FacetFiltersForm--{{ section.id }}-mobile-sorting-only"
+              ref="facetsForm"
+            >
+              {% render 'sorting',
+                results: results,
+                sort_by: sort_by,
+                filter_style: block_settings.filter_style,
+                sort_position: 'mobile',
+                should_use_select_on_mobile: should_use_select_on_mobile,
+                section_id: section.id
+              %}
+            </form>
+          </facets-form-component>
+        {% endif %}
+        {% if block_settings.enable_grid_density %}
+          {% render 'grid-density-controls', viewport: 'mobile' %}
+        {% endif %}
+      </div>
+    </div>
+  {% endif %}
+{% elsif trg_render_mode == 'full' %}
   <div></div>
 {% endif %}
 
-{% if block_settings.enable_filtering %}
-  <trg-plp-drawer>
+{% if block_settings.enable_filtering and render_drawer %}
   <dialog-component
     id="filters-drawer"
     class="facets-block-wrapper facets-block-wrapper--vertical color-{{ settings.drawer_color_scheme }}"
@@ -617,7 +640,6 @@
       </div>
     </dialog>
   </dialog-component>
-  </trg-plp-drawer>
 {% endif %}
 
 {% stylesheet %}
