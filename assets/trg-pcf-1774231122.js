@@ -1,10 +1,8 @@
-// TRG PLP Card Fix v5 — grid + card + green bar + toolbar + sidebar — 2026-03-23
+// TRG PLP v6 — removes stale section style, injects fresh
 (function(){
-  if(document.getElementById('trg-pcf'))return;
-  var s=document.createElement('style');
-  s.id='trg-pcf';
-  s.textContent=
-
+  var old=document.getElementById('trg-pcf');if(old)old.remove();
+  if(document.getElementById('trg-pcf-v2'))return;
+  var s=document.createElement('style');s.id='trg-pcf-v2';s.textContent=
   /* === GRID LAYOUT === */
   '@media screen and (min-width:990px){'+
     '.trg-plp-body .collection-wrapper{display:grid!important;grid-template-columns:var(--trg-plp-sidebar-width,220px) minmax(0,1fr)!important;column-gap:var(--trg-plp-layout-gap,26px)!important;align-items:start;padding:0 var(--page-margin)!important}'+
@@ -92,6 +90,5 @@
   '.trg-plp-body product-card,.trg-plp-body .product-card,.trg-plp-body .product-card__content,.trg-plp-body .product-grid__card{height:100%}'+
   '.trg-plp-body .product-grid{--product-grid-gap:1.25rem!important}'+
   '.trg-plp-body .main-collection-grid{display:block!important;padding:0!important}';
-
   document.head.appendChild(s);
 })();
