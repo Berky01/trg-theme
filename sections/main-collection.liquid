@@ -689,10 +689,26 @@
 
 
   /* ═══════════════════════════════════════════════════════
-     TRG SIDEBAR — v19 lockdown (matches mockup exactly)
+     TRG SIDEBAR — v19.1 (Dwell checkbox compat)
      ═══════════════════════════════════════════════════════ */
 
-  /* Container: transparent, no box, sits on --paper */
+  /* Sidebar wrapper: pin to grid col 1 */
+  .trg-plp-body .collection-wrapper > div.facets-block-wrapper--vertical,
+  .trg-plp-body .collection-wrapper > div.facets-block-wrapper--vertical:not(.hidden) {
+    grid-column: 1 !important;
+    grid-row: 1 / -1 !important;
+    width: var(--trg-plp-sidebar-width);
+    overflow: hidden;
+    opacity: 1;
+    transition: width 0.25s ease, opacity 0.2s ease;
+  }
+  body.filters-hidden .trg-plp-body .collection-wrapper > div.facets-block-wrapper--vertical:not(.hidden) {
+    width: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* Container: transparent, no box */
   .trg-plp-body .facets--vertical:not(.facets--drawer) {
     background: transparent;
     border: none;
@@ -703,10 +719,10 @@
     overflow-y: auto;
     overflow-x: hidden;
     scrollbar-width: thin;
-    scrollbar-color: var(--trg-plp-border-color) transparent;
+    scrollbar-color: #ddd8cf transparent;
   }
 
-  /* Kill Dwell ::before pseudo borders (cause double lines) */
+  /* Kill Dwell ::before pseudo borders on facets items */
   .trg-plp-body .facets__item::before,
   .trg-plp-body .sorting-filter::before {
     content: none !important;
@@ -729,7 +745,7 @@
     min-height: auto;
     padding: 0;
     gap: 0.75rem;
-    color: var(--trg-plp-muted-color, #8a8478);
+    color: #8a8478;
     font-size: 0.7rem;
     font-weight: 500;
     letter-spacing: 0.1em;
@@ -740,17 +756,14 @@
   }
   .trg-plp-body .facets--vertical:not(.facets--drawer) .facets__summary:hover {
     background: transparent;
+    color: #1a1a18;
   }
-
-  /* Facet label (Sort label) hidden */
-  .trg-plp-body .sorting-filter .facets__label {
-    position: absolute;
-    width: 1px; height: 1px;
-    padding: 0; margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
+  .trg-plp-body .facets--vertical:not(.facets--drawer) .facets__label {
+    font-size: inherit;
+    color: inherit;
+    font-weight: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
   }
 
   /* Panel content — flat, no border/shadow */
@@ -767,84 +780,89 @@
     min-width: 0;
   }
 
-  /* Checkbox options — matching mockup row layout */
+  /* Checkbox list wrapper */
   .trg-plp-body .facets--vertical:not(.facets--drawer) .facets__inputs-wrapper {
     display: flex;
     flex-direction: column;
     gap: 0.15rem;
   }
 
-  /* Individual checkbox row */
+  /* Dwell checkbox row — style the label, icon, and text */
   .trg-plp-body .facets--vertical:not(.facets--drawer) .checkbox {
     display: flex;
     align-items: center;
-    gap: 0.6rem;
     padding: 0.35rem 0.5rem;
     border-radius: 3px;
     cursor: pointer;
     transition: background 0.15s;
-    font-size: 0.85rem;
-    color: var(--trg-plp-text-color, #1a1a18);
   }
   .trg-plp-body .facets--vertical:not(.facets--drawer) .checkbox:hover {
     background: #e8e3db;
   }
+  .trg-plp-body .facets--vertical:not(.facets--drawer) .checkbox__label {
+    font-size: 0.85rem;
+    color: #1a1a18;
+    gap: 0.6rem;
+    width: 100%;
+    display: flex;
+    align-items: center;
+  }
+  .trg-plp-body .facets--vertical:not(.facets--drawer) .checkbox__label-text {
+    flex: 1;
+    font-size: 0.85rem;
+    color: #1a1a18;
+  }
 
-  /* Custom checkbox appearance */
-  .trg-plp-body .facets--vertical:not(.facets--drawer) .checkbox input[type="checkbox"] {
-    appearance: none;
-    -webkit-appearance: none;
+  /* Dwell icon-checkmark — the custom checkbox square */
+  .trg-plp-body .facets--vertical:not(.facets--drawer) .checkbox .icon-checkmark {
     width: 15px;
     height: 15px;
     border: 1.5px solid #ddd8cf;
     border-radius: 2px;
     background: #faf8f4;
     flex-shrink: 0;
-    cursor: pointer;
-    position: relative;
-    margin: 0;
   }
-  .trg-plp-body .facets--vertical:not(.facets--drawer) .checkbox input[type="checkbox"]:checked {
+  .trg-plp-body .facets--vertical:not(.facets--drawer) .checkbox__input:checked + .checkbox__label .icon-checkmark {
     background: #1a1a18;
     border-color: #1a1a18;
   }
-  .trg-plp-body .facets--vertical:not(.facets--drawer) .checkbox input[type="checkbox"]:checked::after {
-    content: '';
-    display: block;
-    width: 8px;
-    height: 5px;
-    border-left: 1.5px solid white;
-    border-bottom: 1.5px solid white;
-    transform: rotate(-45deg);
-    position: absolute;
-    top: 3px;
-    left: 2px;
-  }
 
   /* Filter count numbers */
-  .trg-plp-body .facets--vertical:not(.facets--drawer) .checkbox .facets__label-count {
+  .trg-plp-body .facets--vertical:not(.facets--drawer) .facets__label-count,
+  .trg-plp-body .facets--vertical:not(.facets--drawer) .trg-facet-count {
     font-size: 0.72rem;
     color: #8a8478;
     margin-left: auto;
+    flex-shrink: 0;
+  }
+
+  /* Status wrapper (active count in summary) */
+  .trg-plp-body .facets--vertical:not(.facets--drawer) .facets__status-wrapper {
+    gap: 0.25rem;
+  }
+  .trg-plp-body .facets--vertical:not(.facets--drawer) .facets__status {
+    font-size: 0.65rem;
+    color: #c4562a;
   }
 
   /* ── Price range inputs ── */
-  .trg-plp-body .facets--vertical:not(.facets--drawer) .price-range {
+  .trg-plp-body .facets--vertical:not(.facets--drawer) .price-facet {
     display: flex;
     flex-direction: column;
-    gap: 0;
   }
-  .trg-plp-body .facets--vertical:not(.facets--drawer) .price-range__inputs {
-    display: grid;
+  .trg-plp-body .facets--vertical:not(.facets--drawer) .price-facet__inputs-wrapper {
+    display: grid !important;
     grid-template-columns: 1fr auto 1fr;
     align-items: center;
     gap: 0.6rem;
   }
+  .trg-plp-body .facets--vertical:not(.facets--drawer) .price-facet__field,
   .trg-plp-body .facets--vertical:not(.facets--drawer) .field {
     position: relative;
+    min-width: 0;
   }
-  .trg-plp-body .facets--vertical:not(.facets--drawer) .field input[type="number"],
-  .trg-plp-body .facets--vertical:not(.facets--drawer) .field input[type="text"] {
+  .trg-plp-body .facets--vertical:not(.facets--drawer) .field__input,
+  .trg-plp-body .facets--vertical:not(.facets--drawer) .price-facet__input {
     width: 100%;
     padding: 0.55rem 0.5rem 0.55rem 1.5rem;
     border: 1px solid #ddd8cf;
@@ -855,51 +873,43 @@
     color: #1a1a18;
     outline: none;
     -moz-appearance: textfield;
+    box-shadow: none;
   }
-  .trg-plp-body .facets--vertical:not(.facets--drawer) .field input::-webkit-inner-spin-button,
-  .trg-plp-body .facets--vertical:not(.facets--drawer) .field input::-webkit-outer-spin-button {
+  .trg-plp-body .facets--vertical:not(.facets--drawer) .field__input:focus,
+  .trg-plp-body .facets--vertical:not(.facets--drawer) .price-facet__input:focus {
+    border-color: #1a1a18;
+    box-shadow: none;
+  }
+  .trg-plp-body .facets--vertical:not(.facets--drawer) .field__input::-webkit-inner-spin-button,
+  .trg-plp-body .facets--vertical:not(.facets--drawer) .field__input::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
   }
-  .trg-plp-body .facets--vertical:not(.facets--drawer) .field input:focus {
-    border-color: #1a1a18;
-  }
   .trg-plp-body .facets--vertical:not(.facets--drawer) .field__label,
-  .trg-plp-body .facets--vertical:not(.facets--drawer) .price-range__label {
+  .trg-plp-body .facets--vertical:not(.facets--drawer) .price-facet__label {
     font-size: 0.72rem;
     color: #8a8478;
   }
-  .trg-plp-body .facets--vertical:not(.facets--drawer) .price-range__separator {
+  .trg-plp-body .facets--vertical:not(.facets--drawer) .price-facet__separator {
     font-size: 0.78rem;
     color: #8a8478;
   }
-  .trg-plp-body .facets--vertical:not(.facets--drawer) .price-range__hint,
-  .trg-plp-body .facets--vertical:not(.facets--drawer) .price-range .field__suffix {
+  .trg-plp-body .facets--vertical:not(.facets--drawer) .price-facet__highest-price {
     font-size: 0.72rem;
     color: #8a8478;
+    margin-top: 0.5rem;
+    line-height: 1.4;
   }
 
-  /* Sort dropdown */
-  .trg-plp-body .sorting-filter .facets__panel {
-    padding: 0;
+  /* Hide Sort label in sidebar */
+  .trg-plp-body .sorting-filter .facets__label {
+    position: absolute;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
     border: 0;
-  }
-  .trg-plp-body .sorting-filter .facets__summary {
-    min-height: 34px;
-    padding: 0 11px;
-    gap: 8px;
-    border: 1px solid #ddd8cf;
-    background: #faf8f4;
-    color: #8a8478;
-    align-items: center;
-  }
-  .trg-plp-body .sorting-filter .facets__summary:hover {
-    background: #faf8f4;
-  }
-  .trg-plp-body .sorting-filter__options {
-    border: 1px solid #ddd8cf;
-    background: #faf8f4;
-    box-shadow: none;
   }
 
   /* Hide Availability filter */
@@ -919,7 +929,6 @@
     margin-top: 0.25rem;
     border-top: 1px solid #e8e3db;
   }
-
   .trg-plp-body .trg-plp-toggle-option {
     display: flex;
     align-items: center;
@@ -937,7 +946,6 @@
   .trg-plp-body .trg-plp-toggle-option:hover {
     background: #e8e3db;
   }
-
   .trg-plp-body .trg-plp-toggle-label {
     display: flex;
     align-items: center;
@@ -945,7 +953,6 @@
     font-size: 0.85rem;
     color: #8a8478;
   }
-
   .trg-plp-body .trg-plp-canada-dot {
     width: 8px;
     height: 8px;
@@ -953,7 +960,6 @@
     border-radius: 50%;
     display: inline-block;
   }
-
   .trg-plp-body .trg-plp-toggle-switch {
     width: 34px;
     height: 19px;
@@ -988,7 +994,12 @@
     color: #1a1a18;
   }
 
-  /* Facets toggle spacing */
+  /* Kill Dwell facets toggle button */
+  .trg-plp-body .facets-toggle,
+  .trg-plp-body .collection-wrapper > .facets-toggle {
+    display: none;
+  }
+
   .trg-plp-body .facets-toggle {
     display: none;
   }
@@ -1367,7 +1378,7 @@
   .trg-plp-body .card-gallery img,
   .trg-plp-body .card-gallery video,
   .trg-plp-body .card-gallery .media {
-    object-position: var(--trg-plp-image-position, top center);
+    object-position: var(--trg-plp-image-position, center center);
   }
 
   /* Card height fill */
