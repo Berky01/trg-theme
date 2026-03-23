@@ -75,7 +75,7 @@
 {% if block_settings.enable_filtering or block_settings.enable_sorting or block_settings.enable_grid_density %}
   {% if block_settings.filter_style == 'vertical' %}
     {% # These elements are always rendered in the horizontal bar that's why we apply the .facets--horizontal class %}
-    <!-- TRG_FILTERS_DESKTOP_CONTROLS_START -->
+    <trg-plp-desktop-controls>
     <div
       class="facets facets--horizontal facets-controls-wrapper spacing-style trg-collection-controls"
       style="{% render 'spacing-style', settings: block_settings %}{% if block_settings.text_label_case == 'uppercase' %} --facet-label-transform: uppercase;{% endif %}"
@@ -139,10 +139,10 @@
         {% render 'grid-density-controls', viewport: 'desktop' %}
       {% endif %}
     </div>
-    <!-- TRG_FILTERS_DESKTOP_CONTROLS_END -->
+    </trg-plp-desktop-controls>
   {% endif %}
 
-  <!-- TRG_FILTERS_SIDEBAR_START -->
+  <trg-plp-sidebar>
   <div
     class="
       {% if should_show_pane == false %}
@@ -466,13 +466,13 @@
       {% endif %}
     </div>
   </div>
-  <!-- TRG_FILTERS_SIDEBAR_END -->
+  </trg-plp-sidebar>
 {% else %}
   <div></div>
 {% endif %}
 
 {% if block_settings.enable_filtering %}
-  <!-- TRG_FILTERS_DRAWER_START -->
+  <trg-plp-drawer>
   <dialog-component
     id="filters-drawer"
     class="facets-block-wrapper facets-block-wrapper--vertical color-{{ settings.drawer_color_scheme }}"
@@ -617,7 +617,7 @@
       </div>
     </dialog>
   </dialog-component>
-  <!-- TRG_FILTERS_DRAWER_END -->
+  </trg-plp-drawer>
 {% endif %}
 
 {% stylesheet %}
