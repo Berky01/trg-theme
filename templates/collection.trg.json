@@ -9,6 +9,11 @@
  */
 {
   "sections": {
+    "trg_plp_fix": {
+      "type": "trg-plp-fix",
+      "custom_css": [],
+      "settings": {}
+    },
     "intro": {
       "type": "trg-collection-intro",
       "settings": {
@@ -295,10 +300,6 @@
         "trg_plp_cta_text": "#f5f1eb",
         "trg_plp_cta_hover": "#c4562a"
       }
-    },
-    "trg_plp_fix": {
-      "type": "trg-plp-fix",
-      "settings": {}
     }
   },
   "order": [
