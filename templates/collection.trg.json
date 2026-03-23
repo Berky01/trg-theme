@@ -295,9 +295,14 @@
         "trg_plp_cta_text": "#f5f1eb",
         "trg_plp_cta_hover": "#c4562a"
       }
+    },
+    "trg_plp_fix": {
+      "type": "trg-plp-fix",
+      "settings": {}
     }
   },
   "order": [
+    "trg_plp_fix",
     "intro",
     "trg_search_bar",
     "main"
