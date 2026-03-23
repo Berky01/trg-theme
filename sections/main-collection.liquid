@@ -1369,8 +1369,9 @@
 
   .trg-plp-body .card-gallery {
     aspect-ratio: var(--trg-plp-image-ratio, 3 / 4) !important;
+    --gallery-aspect-ratio: 0.75 !important;
     min-height: 0 !important;
-    flex: 1 1 auto;
+    flex: 0 0 auto;
     overflow: hidden;
     background: var(--trg-plp-card-background);
   }
@@ -1378,7 +1379,15 @@
   .trg-plp-body .card-gallery img,
   .trg-plp-body .card-gallery video,
   .trg-plp-body .card-gallery .media {
-    object-position: var(--trg-plp-image-position, center center);
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: var(--trg-plp-image-position, top center);
+  }
+
+  .trg-plp-body .card-gallery .product-media {
+    width: 100%;
+    height: 100%;
   }
 
   /* Card height fill */
@@ -1575,7 +1584,12 @@
   }
 
   .trg-plp-body .trg-plp-card-brand {
-    font-size: 0.68rem;
+    font-size: 0.6rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--trg-plp-muted-color);
+    margin-bottom: 0.2rem;
     order: 1;
   }
 
@@ -1585,12 +1599,25 @@
 
   .trg-plp-body .trg-plp-card-material {
     order: 3;
+    margin-top: 0.2rem;
+    font-size: 0.67rem;
+    font-weight: 300;
+    color: var(--trg-plp-muted-color);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .trg-plp-body .group-block-content > product-price {
     order: 4;
     margin-top: auto !important;
     padding-top: 0.5rem;
+  }
+
+  .trg-plp-body .group-block-content > product-price .price {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--trg-plp-text-color);
   }
 
   .trg-plp-body .trg-plp-card-cta-block {
@@ -1600,14 +1627,12 @@
   .trg-plp-body .group-block-content > a.contents.user-select-text .text-block p {
     font-family: var(--font-heading--family);
     font-size: 0.95rem;
-    font-weight: 400;
+    font-weight: 600;
     line-height: 1.2;
+    color: var(--trg-plp-text-color);
   }
 
-  .trg-plp-body .trg-plp-card-material {
-    margin-top: 0.3rem;
-    font-size: 0.82rem;
-  }
+
 
 
 
@@ -2315,3 +2340,4 @@
   "presets": []
 }
 {% endschema %}
+
