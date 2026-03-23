@@ -1,20 +1,13 @@
-{%- comment -%} recompile: 1774226561 {%- endcomment -%}
-
-{% liquid
-  assign is_trg_plp = false
-  if section.settings.trg_plp_shell_max_width != blank
-    assign is_trg_plp = true
-  endif
-%}
+{%- comment -%} TRG PLP card enhancements — brand, material, CTA {%- endcomment -%}
 
 {% capture children %}
-  {% if is_trg_plp and closest.product != blank and closest.product.vendor != blank %}
+  {% if closest.product != blank and closest.product.vendor != blank %}
     <p class="trg-plp-card-brand">{{ closest.product.vendor | escape }}</p>
   {% endif %}
 
   {% content_for 'blocks', closest.product: closest.product %}
 
-  {% if is_trg_plp and closest.product != blank %}
+  {% if closest.product != blank %}
     {% liquid
       assign _p = closest.product
       assign _material = _p.metafields.custom.material.value | default: _p.metafields.custom.material
@@ -78,7 +71,7 @@
     {% endif %}
   {% endif %}
 
-  {% if is_trg_plp and closest.product != blank %}
+  {% if closest.product != blank %}
     {% liquid
       assign _p2 = closest.product
       assign _brand_label = _p2.vendor | default: 'Brand'
@@ -444,3 +437,4 @@
   ]
 }
 {% endschema %}
+
