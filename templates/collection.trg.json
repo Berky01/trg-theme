@@ -9,11 +9,6 @@
  */
 {
   "sections": {
-    "trg_plp_fix": {
-      "type": "trg-plp-fix",
-      "custom_css": [],
-      "settings": {}
-    },
     "intro": {
       "type": "trg-collection-intro",
       "settings": {
@@ -72,14 +67,6 @@
         "button_label": "Search",
         "empty_message": "No pieces match this search.",
         "max_width": 1320,
-        "content_padding_inline": 32,
-        "top_border_opacity": 8,
-        "bottom_border_width": 1,
-        "divider_opacity": 10,
-        "pill_border_opacity": 15,
-        "input_padding_y": 18,
-        "button_padding_y": 8,
-        "button_padding_x": 18,
         "padding_block_start": 0,
         "padding_block_end": 0
       }
@@ -129,8 +116,8 @@
           "blocks": {
             "card-gallery": {
               "type": "_product-card-gallery",
-              "settings": {
-                "image_ratio": "square",
+                "settings": {
+                  "image_ratio": "portrait",
                 "border": "none",
                 "border_width": 1,
                 "border_opacity": 100,
@@ -180,6 +167,11 @@
                 "padding-inline-end": 12
               },
               "blocks": {
+                "trg_product_card_brand": {
+                  "type": "trg-product-card-brand",
+                  "settings": {},
+                  "blocks": {}
+                },
                 "product_title_anJjPJ": {
                   "type": "product-title",
                   "name": "t:names.product_title",
@@ -205,6 +197,14 @@
                   },
                   "blocks": {}
                 },
+                "trg_product_card_material": {
+                  "type": "trg-product-card-material",
+                  "settings": {
+                    "show_color": true,
+                    "fallback_to_tags": true
+                  },
+                  "blocks": {}
+                },
                 "price": {
                   "type": "price",
                   "settings": {
@@ -227,6 +227,13 @@
                   },
                   "blocks": {}
                 },
+                "trg_product_card_cta": {
+                  "type": "trg-product-card-cta",
+                  "settings": {
+                    "label": "via"
+                  },
+                  "blocks": {}
+                },
                 "swatches": {
                   "type": "swatches",
                   "disabled": true,
@@ -243,8 +250,11 @@
                 }
               },
               "block_order": [
+                "trg_product_card_brand",
                 "product_title_anJjPJ",
+                "trg_product_card_material",
                 "price",
+                "trg_product_card_cta",
                 "swatches"
               ]
             }
@@ -259,10 +269,10 @@
         "layout_type": "grid",
         "product_card_size": "medium",
         "mobile_product_card_size": "small",
-        "enable_infinite_scroll": true,
+        "enable_infinite_scroll": false,
         "products_per_page": 24,
         "product_grid_width": "full-width",
-        "full_width_on_mobile": true,
+        "full_width_on_mobile": false,
         "columns_gap_horizontal": 20,
         "columns_gap_vertical": 20,
         "padding-inline-start": 0,
@@ -303,7 +313,6 @@
     }
   },
   "order": [
-    "trg_plp_fix",
     "intro",
     "trg_search_bar",
     "main"
