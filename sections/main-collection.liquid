@@ -374,7 +374,7 @@
               .join(' ');
             return `<button type="button" class="button-unstyled trg-search-bar__active-tag" data-trg-active-tag ${attrs}>${escapeHtml(
               chip.label
-            )}<span>✕</span></button>`;
+            )}<span>�o.</span></button>`;
           })
           .join('');
       }
@@ -560,11 +560,18 @@
   {% endcapture %}
 
   {% assign use_trg_split_layout = false %}
-  {% if filters_markup contains 'TRG_FILTERS_DESKTOP_CONTROLS_START' %}
+  {% assign desktop_controls = '' %}
+  {% assign sidebar_markup = '' %}
+  {% assign drawer_markup = '' %}
+  {% if filters_markup contains '<trg-plp-desktop-controls>' %}
     {% assign use_trg_split_layout = true %}
-    {% assign desktop_controls = filters_markup | split: '<!-- TRG_FILTERS_DESKTOP_CONTROLS_START -->' | last | split: '<!-- TRG_FILTERS_DESKTOP_CONTROLS_END -->' | first %}
-    {% assign sidebar_markup = filters_markup | split: '<!-- TRG_FILTERS_SIDEBAR_START -->' | last | split: '<!-- TRG_FILTERS_SIDEBAR_END -->' | first %}
-    {% assign drawer_markup = filters_markup | split: '<!-- TRG_FILTERS_DRAWER_START -->' | last | split: '<!-- TRG_FILTERS_DRAWER_END -->' | first %}
+    {% assign desktop_controls = filters_markup | split: '<trg-plp-desktop-controls>' | last | split: '</trg-plp-desktop-controls>' | first %}
+    {% if filters_markup contains '<trg-plp-sidebar>' %}
+      {% assign sidebar_markup = filters_markup | split: '<trg-plp-sidebar>' | last | split: '</trg-plp-sidebar>' | first %}
+    {% endif %}
+    {% if filters_markup contains '<trg-plp-drawer>' %}
+      {% assign drawer_markup = filters_markup | split: '<trg-plp-drawer>' | last | split: '</trg-plp-drawer>' | first %}
+    {% endif %}
   {% endif %}
 
   <div
