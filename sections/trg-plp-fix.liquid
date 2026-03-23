@@ -1,22 +1,5 @@
-{% comment %} recompile: 1774298903 {% endcomment %}
-{{ 'trg-plp-v1774298903.css' | asset_url | stylesheet_tag }}
-<script>
-// JS bypass: inject same CSS to guarantee it loads even if CDN serves stale section
-(function(){
-  if(document.getElementById('trg-plp-m'))return;
-  var l=document.createElement('link');
-  l.id='trg-plp-m';l.rel='stylesheet';
-  l.href='trg-plp-v1774298903.css'.replace(/^/,'') ? document.querySelector('link[href*="trg-plp"]')?.href.replace(/trg-plp[^?]+/,'trg-plp-v1774298903.css') || '/trg-plp-v1774298903.css' : '/trg-plp-v1774298903.css';
-  // Simpler: just find any TRG css and derive the CDN path
-  var existing=document.querySelector('link[href*="trg-"]');
-  if(existing){
-    var base=existing.href.replace(/\/assets\/trg-[^?]+/,'/assets/trg-plp-v1774298903.css');
-    l.href=base;
-  }
-  document.head.appendChild(l);
-})();
-</script>
-
+{% comment %} recompile: 1774299235 {% endcomment %}
+{% comment %} All PLP styles now in trg-pcf JS — this section is intentionally empty {% endcomment %}
 {% schema %}
 {
   "name": "TRG PLP Fix",
