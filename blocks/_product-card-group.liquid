@@ -1,6 +1,7 @@
 {%- comment -%} TRG PLP card enhancements — brand, material, CTA {%- endcomment -%}
 
 {% capture children %}
+  <!-- pcg-debug: closest.product={{ closest.product.id | default: 'nil' }} vendor={{ closest.product.vendor | default: 'nil' }} -->
   {% if closest.product != blank and closest.product.vendor != blank %}
     <p class="trg-plp-card-brand">{{ closest.product.vendor | escape }}</p>
   {% endif %}
