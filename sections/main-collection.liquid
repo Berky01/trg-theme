@@ -1270,7 +1270,10 @@
     letter-spacing: 0.14em;
   }
 
+  .trg-plp-body .collection-wrapper > div.facets-block-wrapper--vertical,
   .trg-plp-body .collection-wrapper > div.facets-block-wrapper--vertical:not(.hidden) {
+    grid-column: 1 !important;
+    grid-row: 1 / -1 !important;
     width: var(--trg-plp-sidebar-width);
     overflow: hidden;
     opacity: 1;
