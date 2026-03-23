@@ -77,22 +77,6 @@
             "label": "Brands tracked"
           }
         },
-        "stat_2": {
-          "type": "stat",
-          "settings": {
-            "value": "100",
-            "suffix": "%",
-            "label": "Independent reviews"
-          }
-        },
-        "stat_3": {
-          "type": "stat",
-          "settings": {
-            "value": "0",
-            "suffix": "",
-            "label": "Paid placements"
-          }
-        },
         "mosaic_1": {
           "type": "mosaic_card",
           "settings": {
@@ -156,8 +140,6 @@
       },
       "block_order": [
         "stat_1",
-        "stat_2",
-        "stat_3",
         "mosaic_1",
         "mosaic_2",
         "mosaic_3",
@@ -208,20 +190,12 @@
             "icon": "↗",
             "text": "Affiliate transparency"
           }
-        },
-        "item_4": {
-          "type": "item",
-          "settings": {
-            "icon": "◎",
-            "text": "No paid placements"
-          }
         }
       },
       "block_order": [
         "item_1",
         "item_2",
-        "item_3",
-        "item_4"
+        "item_3"
       ],
       "settings": {
         "color_scheme": "scheme-1",
