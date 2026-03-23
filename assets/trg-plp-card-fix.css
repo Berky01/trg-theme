@@ -99,3 +99,12 @@
 .trg-plp-body .product-card,
 .trg-plp-body .product-card__content,
 .trg-plp-body .product-grid__card { height: 100%; }
+
+/* === DEBUG: Remove after confirming CSS loads === */
+.trg-plp-body .card-gallery {
+  outline: 3px solid red !important;
+}
+.trg-plp-body .group-block {
+  outline: 3px solid lime !important;
+  min-height: 80px !important;
+}
