@@ -957,3 +957,160 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
     padding-top: 0 !important;
   }
 }
+
+
+/* ═══ #25 PLP Card Fix — gallery flex + caption + image styling ═══ */
+
+/* ROOT CAUSE: Dwell card-gallery has flex:1 1 auto which makes the image
+   grow to fill the entire card height, squishing the info caption to nothing.
+   Fix: flex:0 0 auto so gallery respects its aspect-ratio, info gets remaining space. */
+.trg-plp-body .card-gallery {
+  flex: 0 0 auto !important;
+  aspect-ratio: var(--trg-plp-image-ratio, 3 / 4) !important;
+  --gallery-aspect-ratio: 0.75 !important;
+  min-height: 0 !important;
+}
+
+/* Images fill gallery with cover */
+.trg-plp-body .card-gallery img,
+.trg-plp-body .card-gallery video {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: var(--trg-plp-image-position, top center) !important;
+}
+.trg-plp-body .card-gallery .product-media {
+  width: 100%;
+  height: 100%;
+}
+
+/* Group block (caption area) — flex column, styled background, border-top */
+.trg-plp-body .group-block {
+  flex: 1 0 auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  padding: 0 !important;
+  position: relative;
+  overflow: hidden;
+  background: var(--trg-plp-caption-background, #faf8f4);
+  border-top: 1px solid var(--trg-plp-border-color, #d8d3ca);
+}
+
+/* Caption inner content */
+.trg-plp-body .group-block-content {
+  flex: 1 1 auto;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important;
+  padding: var(--trg-plp-caption-padding, 12px) var(--trg-plp-caption-padding, 12px) 40px !important;
+  background: var(--trg-plp-caption-background, #faf8f4);
+  gap: 0 !important;
+}
+
+/* Brand label */
+.trg-plp-body .trg-plp-card-brand {
+  font-size: 0.6rem !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+  color: var(--trg-plp-muted-color, #8e877d) !important;
+  margin-bottom: 0.2rem !important;
+  order: 1;
+}
+
+/* Product title */
+.trg-plp-body .group-block-content > a.contents.user-select-text {
+  order: 2;
+}
+.trg-plp-body .group-block-content > a.contents.user-select-text .text-block p {
+  font-family: var(--font-heading--family) !important;
+  font-size: 0.95rem !important;
+  font-weight: 600 !important;
+  line-height: 1.2 !important;
+  color: var(--trg-plp-text-color, #2f2b27) !important;
+}
+
+/* Material line */
+.trg-plp-body .trg-plp-card-material {
+  order: 3;
+  margin-top: 0.2rem !important;
+  font-size: 0.67rem !important;
+  font-weight: 300 !important;
+  color: var(--trg-plp-muted-color, #8e877d) !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Price — push to bottom */
+.trg-plp-body .group-block-content > product-price {
+  order: 4;
+  margin-top: auto !important;
+  padding-top: 0.5rem !important;
+}
+.trg-plp-body .group-block-content > product-price .price {
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+  color: var(--trg-plp-text-color, #2f2b27) !important;
+}
+
+/* CTA block */
+.trg-plp-body .trg-plp-card-cta-block {
+  order: 5;
+  display: contents;
+}
+
+/* Hover CTA overlay */
+.trg-plp-body .trg-plp-card-shop-cta {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  margin: 0;
+  padding: 10px var(--trg-plp-caption-padding, 12px);
+  background: var(--trg-plp-cta-background, #1a1a18);
+  color: var(--trg-plp-cta-text, #f5f1eb);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  line-height: 1.2;
+  text-decoration: none;
+  text-transform: uppercase;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(4px);
+  transition: opacity 0.16s ease, transform 0.16s ease, color 0.16s ease;
+}
+.trg-plp-body .product-grid__item:hover .trg-plp-card-shop-cta,
+.trg-plp-body .product-grid__item:focus-within .trg-plp-card-shop-cta {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+.trg-plp-body .trg-plp-card-shop-cta:hover {
+  background: transparent;
+  color: var(--trg-plp-cta-hover, #c4562a);
+}
+
+/* Hide Dwell media wrapper inside group-block */
+.trg-plp-body .group-block__media-wrapper {
+  display: none !important;
+}
+
+/* Card container layout — column, full height */
+.trg-plp-body .product-card__content.layout-panel-flex--column {
+  justify-content: flex-start !important;
+  --vertical-alignment: flex-start !important;
+}
+.trg-plp-body product-card,
+.trg-plp-body .product-card,
+.trg-plp-body .product-card__content,
+.trg-plp-body .product-grid__card {
+  height: 100%;
+}
+
