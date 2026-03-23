@@ -9,6 +9,10 @@
  */
 {
   "sections": {
+    "trg_plp_fix": {
+      "type": "trg-plp-fix",
+      "settings": {}
+    },
     "trg_search_bar": {
       "type": "trg-search-bar",
       "blocks": {
@@ -53,6 +57,14 @@
         "button_label": "Search",
         "empty_message": "No products match this search.",
         "max_width": 1320,
+        "content_padding_inline": 32,
+        "top_border_opacity": 8,
+        "bottom_border_width": 1,
+        "divider_opacity": 10,
+        "pill_border_opacity": 15,
+        "input_padding_y": 18,
+        "button_padding_y": 8,
+        "button_padding_x": 18,
         "padding_block_start": 0,
         "padding_block_end": 0
       }
@@ -277,10 +289,6 @@
         "trg_plp_cta_text": "#f5f1eb",
         "trg_plp_cta_hover": "#c4562a"
       }
-    },
-    "trg_plp_fix": {
-      "type": "trg-plp-fix",
-      "settings": {}
     }
   },
   "order": [
