@@ -75,6 +75,7 @@
 {% if block_settings.enable_filtering or block_settings.enable_sorting or block_settings.enable_grid_density %}
   {% if block_settings.filter_style == 'vertical' %}
     {% # These elements are always rendered in the horizontal bar that's why we apply the .facets--horizontal class %}
+    <!-- TRG_FILTERS_DESKTOP_CONTROLS_START -->
     <div
       class="facets facets--horizontal facets-controls-wrapper spacing-style trg-collection-controls"
       style="{% render 'spacing-style', settings: block_settings %}{% if block_settings.text_label_case == 'uppercase' %} --facet-label-transform: uppercase;{% endif %}"
@@ -138,8 +139,10 @@
         {% render 'grid-density-controls', viewport: 'desktop' %}
       {% endif %}
     </div>
+    <!-- TRG_FILTERS_DESKTOP_CONTROLS_END -->
   {% endif %}
 
+  <!-- TRG_FILTERS_SIDEBAR_START -->
   <div
     class="
       {% if should_show_pane == false %}
@@ -218,6 +221,50 @@
                 </div>
               </div>
 
+              {% if section.settings.trg_plp_shell_max_width != blank and section.settings.trg_plp_show_toggles %}
+                <div class="trg-plp-toggle-filters">
+                  {% if section.settings.trg_plp_toggle_ships_ca %}
+                    <button
+                      type="button"
+                      class="trg-plp-toggle-option"
+                      data-trg-toggle="ships-ca"
+                      aria-pressed="false"
+                    >
+                      <span class="trg-plp-toggle-label">
+                        <span class="trg-plp-canada-dot" aria-hidden="true"></span>
+                        {{ section.settings.trg_plp_toggle_ships_ca_label | default: 'Ships to Canada' | escape }}
+                      </span>
+                      <span class="trg-plp-toggle-switch" aria-hidden="true"></span>
+                    </button>
+                  {% endif %}
+                  {% if section.settings.trg_plp_toggle_on_sale %}
+                    <button
+                      type="button"
+                      class="trg-plp-toggle-option"
+                      data-trg-toggle="on-sale"
+                      aria-pressed="false"
+                    >
+                      <span class="trg-plp-toggle-label">
+                        {{ section.settings.trg_plp_toggle_on_sale_label | default: 'On Sale' | escape }}
+                      </span>
+                      <span class="trg-plp-toggle-switch" aria-hidden="true"></span>
+                    </button>
+                  {% endif %}
+                  {% if section.settings.trg_plp_toggle_new %}
+                    <button
+                      type="button"
+                      class="trg-plp-toggle-option"
+                      data-trg-toggle="new-arrivals"
+                      aria-pressed="false"
+                    >
+                      <span class="trg-plp-toggle-label">
+                        {{ section.settings.trg_plp_toggle_new_label | default: 'New Arrivals' | escape }}
+                      </span>
+                      <span class="trg-plp-toggle-switch" aria-hidden="true"></span>
+                    </button>
+                  {% endif %}
+                </div>
+              {% endif %}
             {% else %}
               {% render 'filter-remove-buttons',
                 filters: filters,
@@ -336,51 +383,6 @@
               {% endif %}
             {% endif %}
           {% endif %}
-
-              {% if section.settings.trg_plp_shell_max_width != blank and section.settings.trg_plp_show_toggles %}
-                <div class="trg-plp-toggle-filters">
-                  {% if section.settings.trg_plp_toggle_ships_ca %}
-                    <button
-                      type="button"
-                      class="trg-plp-toggle-option"
-                      data-trg-toggle="ships-ca"
-                      aria-pressed="false"
-                    >
-                      <span class="trg-plp-toggle-label">
-                        <span class="trg-plp-canada-dot" aria-hidden="true"></span>
-                        {{ section.settings.trg_plp_toggle_ships_ca_label | default: 'Ships to Canada' | escape }}
-                      </span>
-                      <span class="trg-plp-toggle-switch" aria-hidden="true"></span>
-                    </button>
-                  {% endif %}
-                  {% if section.settings.trg_plp_toggle_on_sale %}
-                    <button
-                      type="button"
-                      class="trg-plp-toggle-option"
-                      data-trg-toggle="on-sale"
-                      aria-pressed="false"
-                    >
-                      <span class="trg-plp-toggle-label">
-                        {{ section.settings.trg_plp_toggle_on_sale_label | default: 'On Sale' | escape }}
-                      </span>
-                      <span class="trg-plp-toggle-switch" aria-hidden="true"></span>
-                    </button>
-                  {% endif %}
-                  {% if section.settings.trg_plp_toggle_new %}
-                    <button
-                      type="button"
-                      class="trg-plp-toggle-option"
-                      data-trg-toggle="new-arrivals"
-                      aria-pressed="false"
-                    >
-                      <span class="trg-plp-toggle-label">
-                        {{ section.settings.trg_plp_toggle_new_label | default: 'New Arrivals' | escape }}
-                      </span>
-                      <span class="trg-plp-toggle-switch" aria-hidden="true"></span>
-                    </button>
-                  {% endif %}
-                </div>
-              {% endif %}
         </form>
       </facets-form-component>
     </div>
@@ -464,11 +466,13 @@
       {% endif %}
     </div>
   </div>
+  <!-- TRG_FILTERS_SIDEBAR_END -->
 {% else %}
   <div></div>
 {% endif %}
 
 {% if block_settings.enable_filtering %}
+  <!-- TRG_FILTERS_DRAWER_START -->
   <dialog-component
     id="filters-drawer"
     class="facets-block-wrapper facets-block-wrapper--vertical color-{{ settings.drawer_color_scheme }}"
@@ -613,6 +617,7 @@
       </div>
     </dialog>
   </dialog-component>
+  <!-- TRG_FILTERS_DRAWER_END -->
 {% endif %}
 
 {% stylesheet %}
@@ -2080,11 +2085,6 @@
       display: flex;
       flex-direction: column;
       gap: 2px;
-    }
-
-    dialog-component#filters-drawer .facets__item:has([name*="availability"]),
-    dialog-component#filters-drawer .facets__item:has([id*="availability"]) {
-      display: none !important;
     }
 
     dialog-component#filters-drawer .trg-plp-toggle-option {
