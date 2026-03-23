@@ -167,11 +167,6 @@
                 "padding-inline-end": 12
               },
               "blocks": {
-                "trg_product_card_brand": {
-                  "type": "trg-product-card-brand",
-                  "settings": {},
-                  "blocks": {}
-                },
                 "product_title_anJjPJ": {
                   "type": "product-title",
                   "name": "t:names.product_title",
@@ -197,14 +192,6 @@
                   },
                   "blocks": {}
                 },
-                "trg_product_card_material": {
-                  "type": "trg-product-card-material",
-                  "settings": {
-                    "show_color": true,
-                    "fallback_to_tags": true
-                  },
-                  "blocks": {}
-                },
                 "price": {
                   "type": "price",
                   "settings": {
@@ -227,13 +214,6 @@
                   },
                   "blocks": {}
                 },
-                "trg_product_card_cta": {
-                  "type": "trg-product-card-cta",
-                  "settings": {
-                    "label": "via"
-                  },
-                  "blocks": {}
-                },
                 "swatches": {
                   "type": "swatches",
                   "disabled": true,
@@ -250,11 +230,8 @@
                 }
               },
               "block_order": [
-                "trg_product_card_brand",
                 "product_title_anJjPJ",
-                "trg_product_card_material",
                 "price",
-                "trg_product_card_cta",
                 "swatches"
               ]
             }
