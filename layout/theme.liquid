@@ -73,6 +73,8 @@ document.addEventListener('focusin',function(e){
   {{ 'trg-plp-card-fix.css' | asset_url | stylesheet_tag }}
   <script src="{{ 'trg-pcf-1774231122.js' | asset_url }}" defer></script>
 <!-- recompile: 1774297611 -->
+
+{{ 'trg-plp-v7.js' | asset_url | script_tag }}
 </head>
 
   <body class="page-width-{{ settings.page_width }} card-hover-effect-{{ settings.card_hover_effect }} trg-card-style-{{ settings.trg_card_style | default: 'outlined' }} trg-reveal-enabled-{{ settings.trg_enable_reveal | default: true }}">
