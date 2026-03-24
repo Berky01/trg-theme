@@ -255,6 +255,17 @@
 
               {% capture rendered_filters %}
                 {%- for filter in filters -%}
+                  {%- liquid
+                    assign skip_vertical_sidebar_filter = false
+                    if block_settings.filter_style == 'vertical'
+                      if section.settings.trg_plp_shell_max_width != blank and filter.param_name == 'filter.v.availability' and filter.active_values.size == 0
+                        assign skip_vertical_sidebar_filter = true
+                      endif
+                    endif
+                  -%}
+                  {% if skip_vertical_sidebar_filter %}
+                    {% continue %}
+                  {% endif %}
                   {% case filter.type %}
                     {% when 'price_range' %}
                       {%- liquid
