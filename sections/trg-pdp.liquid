@@ -95,6 +95,35 @@
   assign price_dollars = price_cents | divided_by: 100
   assign price_remainder = price_cents | modulo: 100
 
+  assign product_currency = p.metafields.trg.currency | default: 'USD'
+  assign currency_sym = '$'
+  assign currency_label = ''
+  if product_currency == 'GBP'
+    assign currency_sym = '£'
+    assign currency_label = 'GBP'
+  elsif product_currency == 'EUR'
+    assign currency_sym = '€'
+    assign currency_label = 'EUR'
+  elsif product_currency == 'CAD'
+    assign currency_sym = 'CA$'
+    assign currency_label = 'CAD'
+  elsif product_currency == 'JPY'
+    assign currency_sym = '¥'
+    assign currency_label = 'JPY'
+  elsif product_currency == 'AUD'
+    assign currency_sym = 'A$'
+    assign currency_label = 'AUD'
+  elsif product_currency == 'SEK' or product_currency == 'DKK' or product_currency == 'NOK'
+    assign currency_sym = ''
+    assign currency_label = product_currency
+  elsif product_currency == 'CHF'
+    assign currency_sym = 'CHF '
+    assign currency_label = ''
+  elsif product_currency != 'USD'
+    assign currency_sym = ''
+    assign currency_label = product_currency
+  endif
+
   assign bc_collection = nil
   for col in p.collections
     if col.handle != 'all' and col.handle != 'frontpage'
@@ -179,9 +208,11 @@
 
     {%- comment -%} Price {%- endcomment -%}
     <div class="trg-pdp__price-row">
-      <span class="trg-pdp__price">${{ price_dollars }}{%- if price_remainder > 0 -%}.{{ price_remainder | prepend: '00' | slice: -2, 2 }}{%- endif -%}</span>
-      <span class="trg-pdp__price-ca">~CA${{ price_dollars | times: 137 | divided_by: 100 }}</span>
-      <span class="trg-pdp__price-ca-badge">CA Estimate</span>
+      <span class="trg-pdp__price">{{ currency_sym }}{{ price_dollars }}{%- if price_remainder > 0 -%}.{{ price_remainder | prepend: '00' | slice: -2, 2 }}{%- endif -%}{%- if currency_label != blank %} <span class="trg-pdp__price-code">{{ currency_label }}</span>{%- endif -%}</span>
+      {%- if product_currency == 'USD' -%}
+        <span class="trg-pdp__price-ca">~CA${{ price_dollars | times: 137 | divided_by: 100 }}</span>
+        <span class="trg-pdp__price-ca-badge">CA Estimate</span>
+      {%- endif -%}
     </div>
 
     {%- comment -%} Variant picker (size chips) {%- endcomment -%}
@@ -675,6 +706,13 @@
     margin-bottom: 1.25rem;
     padding-bottom: 1.25rem;
     border-bottom: 1px solid #ddd8cf;
+  }
+  .trg-pdp__price-code {
+    font-size: 0.65em;
+    font-weight: 400;
+    color: var(--mid);
+    letter-spacing: 0.03em;
+    vertical-align: baseline;
   }
   .trg-pdp__price {
     font-family: 'Playfair Display', serif;
@@ -1265,4 +1303,5 @@
   ]
 }
 {% endschema %}
+
 
