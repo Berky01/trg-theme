@@ -97,6 +97,20 @@
     syncSort(controls);
   }
 
+  function repairSidebar(cw) {
+    var sidebar = cw.querySelector(':scope > .trg-plp-sidebar-column .facets--vertical');
+    if (!(sidebar instanceof HTMLElement)) {
+      sidebar = cw.querySelector(':scope > .facets-block-wrapper--vertical .facets--vertical');
+    }
+    if (!(sidebar instanceof HTMLElement)) return;
+
+    var availabilityItem = sidebar.querySelector(".facets__item[data-filter-param-name='filter-v-availability']");
+    if (!(availabilityItem instanceof HTMLElement)) return;
+
+    var hasActiveAvailability = !!availabilityItem.querySelector('input:checked');
+    availabilityItem.style.display = hasActiveAvailability ? '' : 'none';
+  }
+
   function fix() {
     var cw = document.querySelector('.trg-plp-body .collection-wrapper');
     if (!cw) return;
@@ -108,6 +122,7 @@
     if (dialog) dialog.style.cssText = 'display:none!important';
 
     repairToolbar(cw);
+    repairSidebar(cw);
   }
 
   fix();
@@ -135,64 +150,4 @@
     },
     true
   );
-})();
-
-// TRG PLP Currency Fix — rewrite price display for non-USD products
-(function(){
-  var SYMBOLS = {
-    USD:'$', CAD:'CA$', GBP:'£', EUR:'€', JPY:'¥',
-    KRW:'₩', AUD:'A$', SEK:'kr ', DKK:'kr ', NOK:'kr ',
-    CHF:'CHF ', INR:'₹', COP:'COP '
-  };
-  var NO_DECIMALS = {JPY:1, KRW:1};
-
-  function fixCardPrices(root){
-    var brands = (root||document).querySelectorAll('.trg-plp-card-brand[data-trg-currency]');
-    for(var i=0;i<brands.length;i++){
-      var b = brands[i];
-      var cur = (b.getAttribute('data-trg-currency')||'USD').toUpperCase();
-      if(cur==='USD' || b.hasAttribute('data-trg-cfixed')) continue;
-
-      var priceCents = parseInt(b.getAttribute('data-trg-price')||'0',10);
-      if(!priceCents) continue;
-
-      var card = b.closest('.group-block-content') || b.parentElement;
-      if(!card) continue;
-      var priceEl = card.querySelector('product-price .price, .price');
-      if(!priceEl) continue;
-
-      var sym = SYMBOLS[cur] || (cur+' ');
-      var amount = priceCents / 100;
-      var formatted;
-      if(NO_DECIMALS[cur]){
-        formatted = sym + Math.round(amount).toLocaleString();
-      } else {
-        var dec = amount % 1;
-        formatted = dec > 0.001
-          ? sym + amount.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})
-          : sym + Math.round(amount).toLocaleString();
-      }
-      if(cur!=='USD'){
-        formatted += ' <span style="font-size:0.75em;font-weight:400;color:#8a8478;letter-spacing:0.02em;">'+cur+'</span>';
-      }
-      priceEl.innerHTML = formatted;
-      b.setAttribute('data-trg-cfixed','1');
-    }
-  }
-
-  if(document.readyState==='loading'){
-    document.addEventListener('DOMContentLoaded',function(){fixCardPrices();});
-  } else {
-    fixCardPrices();
-  }
-
-  var obs = new MutationObserver(function(muts){
-    for(var m=0;m<muts.length;m++){
-      if(muts[m].addedNodes.length>0) { fixCardPrices(); return; }
-    }
-  });
-  var target = document.querySelector('.product-grid, .main-collection-grid, .trg-card-grid, #SearchResultsProductGrid');
-  if(target) obs.observe(target, {childList:true, subtree:true});
-
-  document.addEventListener('shopify:section:load', function(){ setTimeout(fixCardPrices, 200); });
 })();
