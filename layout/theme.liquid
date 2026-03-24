@@ -234,15 +234,24 @@ document.addEventListener('focusin',function(e){
           align-items: center !important;
           justify-content: flex-end !important;
           gap: 0.75rem !important;
-          min-height: 24px !important;
+          width: 100% !important;
+          min-height: 34px !important;
           padding: 0 !important;
           margin: 0 0 0.625rem !important;
           position: relative;
           flex-wrap: nowrap !important;
+          border: 0 !important;
+          background: transparent !important;
+          box-shadow: none !important;
         }
 
         #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls .facets--filters-title,
         #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls .trg-collection-controls__active-filters {
+          display: none !important;
+        }
+
+        #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls > style[data-shopify],
+        #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls > .main-collection-grid {
           display: none !important;
         }
 
@@ -266,8 +275,13 @@ document.addEventListener('focusin',function(e){
           line-height: 1;
         }
 
+        #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls > .trg-plp-sort-shell,
+        #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls > .trg-plp-sort-shell-bridge,
         #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls .sorting-filter {
-          margin-left: auto;
+          margin: 0 0 0 auto !important;
+          display: flex !important;
+          align-items: center !important;
+          justify-content: flex-end !important;
           flex: 0 0 auto;
         }
 
@@ -286,7 +300,6 @@ document.addEventListener('focusin',function(e){
         }
 
         #MainContent[data-template*='collection'] .trg-plp-sort-shell-bridge {
-          margin-left: auto;
           display: flex;
           align-items: center;
           justify-content: flex-end;
@@ -314,7 +327,8 @@ document.addEventListener('focusin',function(e){
 
         #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls .trg-plp-show-filters-btn:not([hidden]) {
           display: inline-flex !important;
-          margin-right: auto;
+          margin: 0 auto 0 0 !important;
+          white-space: nowrap;
         }
 
         @media screen and (min-width: 750px) {
@@ -330,25 +344,49 @@ document.addEventListener('focusin',function(e){
         (() => {
           const selector = "#MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls";
 
+          const repairToolbarStructure = (controls) => {
+            if (!(controls instanceof HTMLElement)) return;
+
+            const mainColumn = controls.closest(".trg-plp-main-column");
+            if (!(mainColumn instanceof HTMLElement)) return;
+
+            const strayChildren = Array.from(controls.children).filter((child) => {
+              return child instanceof HTMLElement && child.matches("style[data-shopify], .main-collection-grid");
+            });
+
+            if (strayChildren.length === 0) return;
+
+            const fragment = document.createDocumentFragment();
+            for (const child of strayChildren) {
+              fragment.appendChild(child);
+            }
+
+            mainColumn.insertBefore(fragment, controls.nextSibling);
+            controls.dataset.trgStructureRepaired = "true";
+          };
+
           const syncCollectionToolbar = () => {
             const controls = document.querySelector(selector);
             if (!(controls instanceof HTMLElement)) return;
 
+            repairToolbarStructure(controls);
+
             const legacySort = controls.querySelector("sorting-filter-component.sorting-filter");
-            const nativeSort = controls.querySelector(".trg-plp-sort-select");
-            const legacyTitle = controls.querySelector(".facets--filters-title, .trg-collection-controls__active-filters");
+            const nativeSort = controls.querySelector(".trg-plp-sort-select, .trg-plp-sort-select-bridge");
             const showButton = controls.querySelector(".trg-plp-show-filters-btn");
             if (showButton instanceof HTMLButtonElement) {
               showButton.hidden = !document.body.classList.contains("filters-hidden");
             }
 
-            if (!legacySort && !legacyTitle && !nativeSort) return;
-
             controls.dataset.trgControlsBridged = "true";
             controls.querySelector(".facets--filters-title")?.remove();
             controls.querySelector(".trg-collection-controls__active-filters")?.remove();
+            if (legacySort instanceof HTMLElement) {
+              legacySort.hidden = true;
+              legacySort.setAttribute("aria-hidden", "true");
+            }
 
-            if (legacySort || nativeSort) return;
+            if (nativeSort) return;
 
             let sortShell = controls.querySelector(".trg-plp-sort-shell-bridge");
             let sortSelect = controls.querySelector(".trg-plp-sort-select-bridge");
@@ -436,3 +474,4 @@ document.addEventListener('focusin',function(e){
 
 {% comment %} trg-plp-cache-bust 2026-03-23T21:34:43-04:00 {% endcomment %}
 {% comment %} trg-plp-cache-bust 2026-03-23T21:38:11-04:00 {% endcomment %}
+<!-- trg-hidden-toolbar-structure-bust 2026-03-23T23:04:25-04:00 -->

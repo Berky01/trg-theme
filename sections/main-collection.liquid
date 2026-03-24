@@ -583,59 +583,13 @@
         %}
       </div>
       <div class="trg-plp-main-column">
-        <div class="facets facets--horizontal facets-controls-wrapper spacing-style trg-collection-controls">
-          <button
-            type="button"
-            class="button-unstyled trg-plp-show-filters-btn"
-            data-trg-plp-filter-toggle
-            aria-label="Show filters"
-            hidden
-          >
-            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">
-              <rect x="3" y="3" width="7" height="18" rx="1"></rect>
-              <line x1="14" y1="8" x2="21" y2="8"></line>
-              <line x1="14" y1="12" x2="21" y2="12"></line>
-              <line x1="14" y1="16" x2="21" y2="16"></line>
-            </svg>
-            Filters
-          </button>
-
-          <div
-            class="products-count-wrapper"
-            data-testid="products-count"
-          >
-            <span title="{{ 'content.product_count' | t }}">
-              {% if collection.products_count > 25000 %}
-                {{- 'content.item_count_cutoff' | t: count: 25000 -}}
-              {% else %}
-                {{- 'content.item_count' | t: count: collection.products_count -}}
-              {% endif %}
-            </span>
-          </div>
-
-          <div class="trg-plp-sort-shell">
-            <label class="visually-hidden" for="TrgPlpSort-{{ section.id }}">
-              {{- section.settings.trg_plp_sort_label | default: 'Sort' -}}
-            </label>
-            <select
-              id="TrgPlpSort-{{ section.id }}"
-              class="trg-plp-sort-select"
-              data-trg-plp-sort
-              aria-label="{{ section.settings.trg_plp_sort_label | default: 'Sort' | escape }}"
-            >
-              {% for option in collection.sort_options %}
-                <option
-                  value="{{ option.value }}"
-                  {% if option.value == current_sort %}
-                    selected
-                  {% endif %}
-                >
-                  {{ option.name }}
-                </option>
-              {% endfor %}
-            </select>
-          </div>
-        </div>
+        {% content_for 'block',
+          type: 'filters',
+          id: 'filters',
+          results: collection,
+          results_size: collection.products_count,
+          trg_render_mode: 'desktop_controls'
+        %}
     {% else %}
       {% content_for 'block',
         type: 'filters',
