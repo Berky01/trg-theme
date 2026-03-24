@@ -167,86 +167,86 @@ document.addEventListener('focusin',function(e){
     {% if template.name == 'collection' %}
       <style>
         #MainContent[data-template*='collection'] .trg-plp-body .facets--vertical:not(.facets--drawer) {
-          top: calc(var(--chrome) + 0.875rem);
-          max-height: calc(100vh - var(--chrome) - 1.75rem);
+          top: calc(var(--chrome) + 0.75rem);
+          max-height: calc(100vh - var(--chrome) - 1.5rem);
         }
 
         #MainContent[data-template*='collection'] .trg-plp-body .trg-facets-sidebar-header {
-          margin-bottom: 0.625rem;
-          padding-top: 0.25rem;
+          margin-bottom: 0.5rem;
+          padding-top: 0.125rem;
         }
 
         #MainContent[data-template*='collection'] .trg-plp-body .facets--vertical:not(.facets--drawer) .facets__item {
-          padding-top: 0.8rem;
+          padding-top: 0.65rem;
           padding-bottom: 0;
         }
 
         #MainContent[data-template*='collection'] .trg-plp-body .facets--vertical:not(.facets--drawer) .facets__panel-content {
-          padding-top: 0.45rem;
+          padding-top: 0.3rem;
         }
 
         #MainContent[data-template*='collection'] .trg-plp-body .facets--vertical:not(.facets--drawer) .checkbox__label {
-          gap: 0.45rem;
-          padding: 0.2rem 0.25rem;
-          font-size: 0.78rem;
-          line-height: 1.22;
+          gap: 0.4rem;
+          padding: 0.14rem 0.2rem;
+          font-size: 0.75rem;
+          line-height: 1.15;
         }
 
         #MainContent[data-template*='collection'] .trg-plp-body .trg-facet-count {
-          font-size: 0.64rem;
+          font-size: 0.6rem;
         }
 
         #MainContent[data-template*='collection'] .trg-plp-body .facets--vertical:not(.facets--drawer) .price-facet__inputs-wrapper {
-          grid-template-columns: minmax(66px, 1fr) auto minmax(66px, 1fr);
-          gap: 6px;
+          grid-template-columns: minmax(64px, 1fr) auto minmax(64px, 1fr);
+          gap: 5px;
         }
 
         #MainContent[data-template*='collection'] .trg-plp-body .facets--vertical:not(.facets--drawer) .price-facet__field .field__input {
-          min-height: 32px;
-          padding-left: 24px;
-          font-size: 0.76rem;
+          min-height: 30px;
+          padding-left: 23px;
+          font-size: 0.74rem;
         }
 
         #MainContent[data-template*='collection'] .trg-plp-body .facets--vertical:not(.facets--drawer) .price-facet__highest-price {
           max-width: none;
-          padding-top: 0.25rem;
-          font-size: 0.64rem;
-          line-height: 1.25;
+          padding-top: 0.2rem;
+          font-size: 0.6rem;
+          line-height: 1.2;
         }
 
         #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-toggle-filters {
           gap: 0.25rem;
-          padding-top: 0.75rem;
+          padding-top: 0.55rem;
         }
 
         #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-toggle-option {
-          padding: 0.18rem 0.25rem;
+          padding: 0.14rem 0.2rem;
         }
 
         #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-toggle-label {
-          gap: 0.35rem;
-          font-size: 0.78rem;
-          line-height: 1.2;
+          gap: 0.3rem;
+          font-size: 0.75rem;
+          line-height: 1.15;
         }
 
-        #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls[data-trg-controls-bridged='true'] {
+        #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls {
           display: flex !important;
           align-items: center !important;
           justify-content: flex-end !important;
           gap: 0.75rem !important;
-          min-height: 28px !important;
+          min-height: 24px !important;
           padding: 0 !important;
-          margin: 0 0 0.875rem !important;
+          margin: 0 0 0.625rem !important;
           position: relative;
+          flex-wrap: nowrap !important;
         }
 
-        #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls[data-trg-controls-bridged='true'] .facets--filters-title,
-        #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls[data-trg-controls-bridged='true'] .trg-collection-controls__active-filters,
-        #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls[data-trg-controls-bridged='true'] .sorting-filter {
+        #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls .facets--filters-title,
+        #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls .trg-collection-controls__active-filters {
           display: none !important;
         }
 
-        #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls[data-trg-controls-bridged='true'] .products-count-wrapper {
+        #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls .products-count-wrapper {
           position: absolute;
           top: 50%;
           left: 50%;
@@ -257,13 +257,32 @@ document.addEventListener('focusin',function(e){
           pointer-events: none;
         }
 
-        #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls[data-trg-controls-bridged='true'] .products-count-wrapper span {
+        #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls .products-count-wrapper span {
           display: block;
           color: #8c847b;
           font-size: 0.68rem;
           font-weight: 500;
           letter-spacing: 0.14em;
           line-height: 1;
+        }
+
+        #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls .sorting-filter {
+          margin-left: auto;
+          flex: 0 0 auto;
+        }
+
+        #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls .sorting-filter__container {
+          display: flex !important;
+          align-items: center !important;
+        }
+
+        #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls .sorting-filter .facets__label,
+        #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls .sorting-filter .icon-caret {
+          display: none !important;
+        }
+
+        #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls .sorting-filter__select-wrapper {
+          position: static;
         }
 
         #MainContent[data-template*='collection'] .trg-plp-sort-shell-bridge {
@@ -273,6 +292,7 @@ document.addEventListener('focusin',function(e){
           justify-content: flex-end;
         }
 
+        #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls .sorting-filter__select,
         #MainContent[data-template*='collection'] .trg-plp-sort-select-bridge {
           min-width: 118px;
           min-height: 32px;
@@ -288,13 +308,22 @@ document.addEventListener('focusin',function(e){
           appearance: auto;
         }
 
-        #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls[data-trg-controls-bridged='true'] .trg-plp-show-filters-btn[hidden] {
+        #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls .trg-plp-show-filters-btn[hidden] {
           display: none !important;
         }
 
-        #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls[data-trg-controls-bridged='true'] .trg-plp-show-filters-btn:not([hidden]) {
+        #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls .trg-plp-show-filters-btn:not([hidden]) {
           display: inline-flex !important;
           margin-right: auto;
+        }
+
+        @media screen and (min-width: 750px) {
+          #MainContent[data-template*='collection'] .sorting-filter__container.desktop\:hidden,
+          #MainContent[data-template*='collection'] .sorting-filter__container.desktop:hidden,
+          #MainContent[data-template*='collection'] .facets__floating-filter-controls.desktop\:hidden,
+          #MainContent[data-template*='collection'] .facets__floating-filter-controls.desktop:hidden {
+            display: none !important;
+          }
         }
       </style>
       <script>
@@ -306,17 +335,20 @@ document.addEventListener('focusin',function(e){
             if (!(controls instanceof HTMLElement)) return;
 
             const legacySort = controls.querySelector("sorting-filter-component.sorting-filter");
+            const nativeSort = controls.querySelector(".trg-plp-sort-select");
             const legacyTitle = controls.querySelector(".facets--filters-title, .trg-collection-controls__active-filters");
             const showButton = controls.querySelector(".trg-plp-show-filters-btn");
             if (showButton instanceof HTMLButtonElement) {
               showButton.hidden = !document.body.classList.contains("filters-hidden");
             }
 
-            if (!legacySort && !legacyTitle) return;
+            if (!legacySort && !legacyTitle && !nativeSort) return;
 
             controls.dataset.trgControlsBridged = "true";
             controls.querySelector(".facets--filters-title")?.remove();
             controls.querySelector(".trg-collection-controls__active-filters")?.remove();
+
+            if (legacySort || nativeSort) return;
 
             let sortShell = controls.querySelector(".trg-plp-sort-shell-bridge");
             let sortSelect = controls.querySelector(".trg-plp-sort-select-bridge");
@@ -404,9 +436,3 @@ document.addEventListener('focusin',function(e){
 
 {% comment %} trg-plp-cache-bust 2026-03-23T21:34:43-04:00 {% endcomment %}
 {% comment %} trg-plp-cache-bust 2026-03-23T21:38:11-04:00 {% endcomment %}
-
-<!-- trg-layout-bridge-bust 2026-03-23T22:18:35-04:00 -->
-<!-- trg-main-collection-close-bust 2026-03-23T22:23:55-04:00 -->
-<!-- trg-toolbar-hardening-bust 2026-03-23T22:28:33-04:00 -->
-<!-- trg-final-tighten-bust 2026-03-23T22:30:37-04:00 -->
-<!-- trg-mobile-controls-desktop-hide-bust 2026-03-23T22:33:46-04:00 -->
