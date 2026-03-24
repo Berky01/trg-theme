@@ -1,4 +1,3 @@
-{% comment %} trg-section-recompile-1774309682 {% endcomment %}
 
 
 <script
@@ -551,17 +550,10 @@
 >
   {% render 'skip-to-content-link', href: '#ResultsList', text: 'accessibility.skip_to_results_list' %}
 
-  {% assign filters_block_id = 'filters' %}
   {% assign use_trg_split_layout = false %}
-  {% for section_block in section.blocks %}
-    {% if section_block.type == 'filters' %}
-      {% assign filters_block_id = section_block.id %}
-      {% if section.settings.trg_plp_shell_max_width != blank and section_block.settings.filter_style == 'vertical' %}
-        {% assign use_trg_split_layout = true %}
-      {% endif %}
-      {% break %}
-    {% endif %}
-  {% endfor %}
+  {% if section.settings.trg_plp_shell_max_width != blank %}
+    {% assign use_trg_split_layout = true %}
+  {% endif %}
 
   <div
     class="collection-wrapper gap-style{% if section.settings.product_grid_width == 'full-width' %} collection-wrapper--grid-full-width{% endif %}"
@@ -1290,7 +1282,7 @@
   }
 
   .trg-plp-body .trg-facets-sidebar-header {
-    margin-bottom: 0.625rem;
+    margin-bottom: 1.25rem;
     padding-top: 0.625rem;
     padding-bottom: 0;
     border-bottom: 0;
@@ -1993,7 +1985,7 @@
     }
 
     .trg-plp-body .trg-plp-main-column > .trg-collection-controls.trg-collection-controls {
-      margin: 0 !important;
+      margin: 0 0 1.25rem !important;
     }
 
     .trg-plp-body .trg-plp-main-column > .main-collection-grid {
@@ -2015,33 +2007,7 @@
       top: auto;
       bottom: auto;
       align-self: start;
-      padding: 0.75rem 0 0.85rem;
-    }
-
-    .trg-plp-body .trg-plp-show-filters-btn {
-      display: inline-flex !important;
-      align-items: center;
-      gap: 0.45rem;
-      padding: 0.6rem 0.95rem;
-      border: 1px solid var(--trg-plp-border-color);
-      border-radius: 2px;
-      background: #ffffff;
-      color: var(--trg-plp-muted-color);
-      font-size: 0.72rem;
-      font-weight: 500;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    .trg-plp-body .trg-plp-show-filters-btn .svg-wrapper,
-    .trg-plp-body .trg-plp-show-filters-btn svg {
-      width: 14px;
-      height: 14px;
-      flex-shrink: 0;
-    }
-
-    .trg-plp-body .products-count-wrapper {
-      display: none !important;
+      padding: 0.625rem 0 0;
     }
   }
 
