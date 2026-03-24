@@ -57,7 +57,6 @@ document.addEventListener('focusin',function(e){
     {% if template == 'page.colour-guide' %}{{ 'trg-colour-guide.css' | asset_url | stylesheet_tag }}{% endif %}
     <script src="{{ 'trg-account.js' | asset_url }}" defer></script>
     <script src="{{ 'trg-plp.js' | asset_url }}" defer></script>
-{% comment %} CDN-BUST 2026-03-24 03:27:22 {% endcomment %}
 </head>
 
   <body class="page-width-{{ settings.page_width }} card-hover-effect-{{ settings.card_hover_effect }} trg-card-style-{{ settings.trg_card_style | default: 'outlined' }} trg-reveal-enabled-{{ settings.trg_enable_reveal | default: true }}">
@@ -479,4 +478,4 @@ document.addEventListener('focusin',function(e){
 
 {% comment %} trg-plp-cache-bust 2026-03-23T21:34:43-04:00 {% endcomment %}
 {% comment %} trg-plp-cache-bust 2026-03-23T21:38:11-04:00 {% endcomment %}
-<!-- trg-hidden-toolbar-assets-bust 2026-03-23T23:15:36-04:00 -->
+<!-- trg-sidebar-mockup-refresh 2026-03-23T23:33:33-04:00 -->
