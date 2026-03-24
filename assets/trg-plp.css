@@ -1,9 +1,9 @@
-/* TRG Product PLP — from scratch — 2026-03-23 */
-/* Targets Dwell DOM. No patches. Single source of truth. */
+/* TRG Product PLP — single source of truth — 2026-03-23 */
+/* :not(#_) boosts specificity to beat stale inline ghost styles */
 
 /* ════ LAYOUT ════ */
 @media (min-width:990px) {
-  .trg-plp-body .collection-wrapper {
+  .trg-plp-body .collection-wrapper:not(#_) {
     display: grid !important;
     grid-template-columns: 220px 1fr !important;
     gap: 2rem !important;
@@ -12,7 +12,7 @@
     position: relative;
   }
   /* Sidebar: col 1, row 1 */
-  .trg-plp-body .collection-wrapper > .facets-block-wrapper--vertical:not(dialog-component) {
+  .trg-plp-body .collection-wrapper:not(#_) > .facets-block-wrapper--vertical:not(dialog-component) {
     grid-column: 1 !important;
     grid-row: 1 !important;
     width: 220px !important;
@@ -26,7 +26,7 @@
     align-self: start;
   }
   /* Toolbar: absolutely positioned over the main column */
-  .trg-plp-body .collection-wrapper > .trg-collection-controls {
+  .trg-plp-body .collection-wrapper:not(#_) > .trg-collection-controls {
     position: absolute !important;
     inset-block-start: 0;
     inset-inline-end: var(--page-margin, 40px);
@@ -36,35 +36,35 @@
     grid-row: auto !important;
     margin: 0 !important;
   }
-  /* Grid: col 2, row 1 — shares the same row as sidebar */
-  .trg-plp-body .collection-wrapper > .main-collection-grid {
+  /* Grid: col 2, row 1 — shares same row as sidebar */
+  .trg-plp-body .collection-wrapper:not(#_) > .main-collection-grid {
     grid-column: 2 !important;
     grid-row: 1 !important;
     min-width: 0;
-    padding-top: 52px !important; /* space for the absolutely-positioned toolbar */
+    padding-top: 52px !important;
   }
   /* KILL phantom grid children */
-  .trg-plp-body .collection-wrapper > .facets-toggle,
-  .trg-plp-body .collection-wrapper > .facets-mobile-wrapper,
-  .trg-plp-body .collection-wrapper > dialog-component,
-  .trg-plp-body .collection-wrapper > script,
-  .trg-plp-body .collection-wrapper > style:not(#trg-plp-v9) {
+  .trg-plp-body .collection-wrapper:not(#_) > .facets-toggle,
+  .trg-plp-body .collection-wrapper:not(#_) > .facets-mobile-wrapper,
+  .trg-plp-body .collection-wrapper:not(#_) > dialog-component,
+  .trg-plp-body .collection-wrapper:not(#_) > script,
+  .trg-plp-body .collection-wrapper:not(#_) > style {
     display: none !important;
   }
 }
 
 /* Filters hidden state */
-body.filters-hidden .trg-plp-body .collection-wrapper {
+body.filters-hidden .trg-plp-body .collection-wrapper:not(#_) {
   grid-template-columns: 1fr !important;
 }
-body.filters-hidden .trg-plp-body .collection-wrapper > .facets-block-wrapper--vertical {
+body.filters-hidden .trg-plp-body .collection-wrapper:not(#_) > .facets-block-wrapper--vertical {
   width: 0 !important; opacity: 0 !important;
   pointer-events: none; overflow: hidden;
 }
-body.filters-hidden .trg-plp-body .collection-wrapper > .trg-collection-controls {
+body.filters-hidden .trg-plp-body .collection-wrapper:not(#_) > .trg-collection-controls {
   width: calc(100% - (var(--page-margin, 40px) * 2)) !important;
 }
-body.filters-hidden .trg-plp-body .collection-wrapper > .main-collection-grid {
+body.filters-hidden .trg-plp-body .collection-wrapper:not(#_) > .main-collection-grid {
   grid-column: 1 / -1 !important;
 }
 
@@ -86,7 +86,6 @@ body.filters-hidden .trg-plp-body .collection-wrapper > .main-collection-grid {
   border: none !important;
   min-height: auto !important;
 }
-/* Filters button — left */
 .trg-plp-body .trg-plp-show-filters-btn {
   display: flex !important;
   align-items: center !important;
@@ -104,13 +103,11 @@ body.filters-hidden .trg-plp-body .collection-wrapper > .main-collection-grid {
   flex-shrink: 0 !important;
 }
 .trg-plp-body .trg-plp-show-filters-btn:hover { color: #1a1a18 !important; }
-/* Hide Dwell's duplicate title + active filters + facets-remove */
 .trg-plp-body .trg-collection-controls h4.facets--filters-title,
 .trg-plp-body .trg-collection-controls .trg-collection-controls__active-filters,
 .trg-plp-body .trg-collection-controls .facets-remove {
   display: none !important;
 }
-/* Count — center */
 .trg-plp-body .products-count-wrapper {
   order: 2 !important;
   flex: 1 !important;
@@ -123,7 +120,6 @@ body.filters-hidden .trg-plp-body .collection-wrapper > .main-collection-grid {
   text-transform: uppercase !important;
   color: #8a8478 !important;
 }
-/* Sort — right */
 .trg-plp-body .trg-collection-controls .sorting-filter {
   order: 3 !important;
   flex-shrink: 0 !important;
@@ -157,7 +153,6 @@ body.filters-hidden .trg-plp-body .collection-wrapper > .main-collection-grid {
   box-shadow: none !important;
   padding: 0 !important;
 }
-/* Sidebar header — aligned with toolbar row */
 .trg-plp-body .trg-facets-sidebar-header {
   display: flex; align-items: center; justify-content: space-between;
   margin-bottom: 0.625rem; padding-top: 0.625rem; padding-bottom: 0;
@@ -176,12 +171,10 @@ body.filters-hidden .trg-plp-body .collection-wrapper > .main-collection-grid {
 .trg-plp-body .trg-facets-sidebar-clear--active .trg-facets-sidebar-clear-button { opacity: 1; }
 .trg-plp-body .trg-plp-sidebar-hide-btn { color: #8a8478 !important; padding: 2px !important; }
 .trg-plp-body .trg-plp-sidebar-hide-btn:hover { color: #1a1a18 !important; }
-/* Remove Dwell separators */
 .trg-plp-body .facets__item::before,
 .trg-plp-body .sorting-filter::before {
   content: none !important; display: none !important;
 }
-/* Filter groups — one divider between groups, none before first */
 .trg-plp-body .facets__item {
   margin-bottom: 0.25rem !important; padding: 0 !important;
   border: none !important;
@@ -204,7 +197,6 @@ body.filters-hidden .trg-plp-body .collection-wrapper > .main-collection-grid {
 .trg-plp-body .facets__summary .icon-caret svg {
   width: 10px !important; height: 10px !important; opacity: 0.5;
 }
-/* Checkbox rows */
 .trg-plp-body .facets__inputs-list {
   display: flex !important; flex-direction: column !important;
   gap: 0.1rem !important; padding: 0 !important; margin: 0 !important;
@@ -218,7 +210,6 @@ body.filters-hidden .trg-plp-body .collection-wrapper > .main-collection-grid {
 .trg-plp-body .facets__inputs-list-item .checkbox:hover {
   background: #e8e3db !important;
 }
-/* Custom checkmarks */
 .trg-plp-body .icon-checkmark {
   width: 15px !important; height: 15px !important;
   border: 1.5px solid #ddd8cf !important; border-radius: 2px !important;
@@ -239,7 +230,6 @@ body.filters-hidden .trg-plp-body .collection-wrapper > .main-collection-grid {
 .trg-plp-body .facets__status { font-size: 0.65rem !important; color: #8a8478 !important; }
 .trg-plp-body .facets__panel-content { padding: 0 0 0.5rem !important; }
 
-/* Toggle section — top divider only */
 .trg-plp-body .trg-plp-toggle-filters {
   border-top: 1px solid #ddd8cf !important;
   border-bottom: 0 !important;
@@ -266,7 +256,6 @@ body.filters-hidden .trg-plp-body .collection-wrapper > .main-collection-grid {
 .trg-plp-body .card-gallery .product-media-container {
   height: 100% !important; min-height: 100% !important;
 }
-/* Caption area */
 .trg-plp-body .group-block {
   flex: 0 0 auto !important; display: flex !important;
   flex-direction: column !important; padding: 0 !important;
@@ -304,7 +293,6 @@ body.filters-hidden .trg-plp-body .collection-wrapper > .main-collection-grid {
 .trg-plp-body .group-block-content > product-price .price {
   font-size: 0.875rem !important; font-weight: 500 !important; color: #2f2b27 !important;
 }
-/* Hover CTA */
 .trg-plp-body .trg-plp-card-cta-block { order: 5; display: contents; }
 .trg-plp-body .trg-plp-card-shop-cta {
   position: absolute; right: 0; bottom: 0; left: 0; z-index: 3;
@@ -323,7 +311,6 @@ body.filters-hidden .trg-plp-body .collection-wrapper > .main-collection-grid {
 .trg-plp-body .trg-plp-card-shop-cta:hover {
   background: transparent; color: #c4562a;
 }
-/* Structural */
 .trg-plp-body .product-card__content.layout-panel-flex--column {
   justify-content: flex-start !important;
 }
