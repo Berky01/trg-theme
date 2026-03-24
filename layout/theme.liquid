@@ -164,6 +164,235 @@ document.addEventListener('focusin',function(e){
     {% if settings.quick_add or settings.mobile_quick_add %}
       {% render 'quick-add-modal' %}
     {% endif %}
+    {% if template.name == 'collection' %}
+      <style>
+        #MainContent[data-template*='collection'] .trg-plp-body .facets--vertical:not(.facets--drawer) {
+          top: calc(var(--chrome) + 0.875rem);
+          max-height: calc(100vh - var(--chrome) - 1.75rem);
+        }
+
+        #MainContent[data-template*='collection'] .trg-plp-body .trg-facets-sidebar-header {
+          margin-bottom: 0.625rem;
+          padding-top: 0.25rem;
+        }
+
+        #MainContent[data-template*='collection'] .trg-plp-body .facets--vertical:not(.facets--drawer) .facets__item {
+          padding-top: 0.8rem;
+          padding-bottom: 0;
+        }
+
+        #MainContent[data-template*='collection'] .trg-plp-body .facets--vertical:not(.facets--drawer) .facets__panel-content {
+          padding-top: 0.45rem;
+        }
+
+        #MainContent[data-template*='collection'] .trg-plp-body .facets--vertical:not(.facets--drawer) .checkbox__label {
+          gap: 0.45rem;
+          padding: 0.2rem 0.25rem;
+          font-size: 0.78rem;
+          line-height: 1.22;
+        }
+
+        #MainContent[data-template*='collection'] .trg-plp-body .trg-facet-count {
+          font-size: 0.64rem;
+        }
+
+        #MainContent[data-template*='collection'] .trg-plp-body .facets--vertical:not(.facets--drawer) .price-facet__inputs-wrapper {
+          grid-template-columns: minmax(66px, 1fr) auto minmax(66px, 1fr);
+          gap: 6px;
+        }
+
+        #MainContent[data-template*='collection'] .trg-plp-body .facets--vertical:not(.facets--drawer) .price-facet__field .field__input {
+          min-height: 32px;
+          padding-left: 24px;
+          font-size: 0.76rem;
+        }
+
+        #MainContent[data-template*='collection'] .trg-plp-body .facets--vertical:not(.facets--drawer) .price-facet__highest-price {
+          max-width: none;
+          padding-top: 0.25rem;
+          font-size: 0.64rem;
+          line-height: 1.25;
+        }
+
+        #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-toggle-filters {
+          gap: 0.25rem;
+          padding-top: 0.75rem;
+        }
+
+        #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-toggle-option {
+          padding: 0.18rem 0.25rem;
+        }
+
+        #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-toggle-label {
+          gap: 0.35rem;
+          font-size: 0.78rem;
+          line-height: 1.2;
+        }
+
+        #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls[data-trg-controls-bridged='true'] {
+          display: flex !important;
+          align-items: center !important;
+          justify-content: flex-end !important;
+          gap: 0.75rem !important;
+          min-height: 28px !important;
+          padding: 0 !important;
+          margin: 0 0 0.875rem !important;
+          position: relative;
+        }
+
+        #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls[data-trg-controls-bridged='true'] .facets--filters-title,
+        #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls[data-trg-controls-bridged='true'] .trg-collection-controls__active-filters,
+        #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls[data-trg-controls-bridged='true'] .sorting-filter {
+          display: none !important;
+        }
+
+        #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls[data-trg-controls-bridged='true'] .products-count-wrapper {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          display: block !important;
+          height: auto !important;
+          margin: 0;
+          pointer-events: none;
+        }
+
+        #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls[data-trg-controls-bridged='true'] .products-count-wrapper span {
+          display: block;
+          color: #8c847b;
+          font-size: 0.68rem;
+          font-weight: 500;
+          letter-spacing: 0.14em;
+          line-height: 1;
+        }
+
+        #MainContent[data-template*='collection'] .trg-plp-sort-shell-bridge {
+          margin-left: auto;
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+        }
+
+        #MainContent[data-template*='collection'] .trg-plp-sort-select-bridge {
+          min-width: 118px;
+          min-height: 32px;
+          padding: 0.3rem 0.7rem;
+          border: 1px solid #d8d3ca;
+          border-radius: 2px;
+          background: #fff;
+          color: #2f2b27;
+          font: inherit;
+          font-size: 0.76rem;
+          line-height: 1.15;
+          cursor: pointer;
+          appearance: auto;
+        }
+
+        #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls[data-trg-controls-bridged='true'] .trg-plp-show-filters-btn[hidden] {
+          display: none !important;
+        }
+
+        #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls[data-trg-controls-bridged='true'] .trg-plp-show-filters-btn:not([hidden]) {
+          display: inline-flex !important;
+          margin-right: auto;
+        }
+      </style>
+      <script>
+        (() => {
+          const selector = "#MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls";
+
+          const syncCollectionToolbar = () => {
+            const controls = document.querySelector(selector);
+            if (!(controls instanceof HTMLElement)) return;
+
+            const legacySort = controls.querySelector("sorting-filter-component.sorting-filter");
+            const legacyTitle = controls.querySelector(".facets--filters-title, .trg-collection-controls__active-filters");
+            const showButton = controls.querySelector(".trg-plp-show-filters-btn");
+            if (showButton instanceof HTMLButtonElement) {
+              showButton.hidden = !document.body.classList.contains("filters-hidden");
+            }
+
+            if (!legacySort && !legacyTitle) return;
+
+            controls.dataset.trgControlsBridged = "true";
+            controls.querySelector(".facets--filters-title")?.remove();
+            controls.querySelector(".trg-collection-controls__active-filters")?.remove();
+
+            let sortShell = controls.querySelector(".trg-plp-sort-shell-bridge");
+            let sortSelect = controls.querySelector(".trg-plp-sort-select-bridge");
+            if (!(sortShell instanceof HTMLElement) || !(sortSelect instanceof HTMLSelectElement)) {
+              sortShell = document.createElement("div");
+              sortShell.className = "trg-plp-sort-shell-bridge";
+
+              const label = document.createElement("label");
+              label.className = "visually-hidden";
+              label.setAttribute("for", "TrgPlpSortBridge");
+              label.textContent = "Sort";
+
+              sortSelect = document.createElement("select");
+              sortSelect.id = "TrgPlpSortBridge";
+              sortSelect.className = "trg-plp-sort-select-bridge";
+              sortSelect.setAttribute("data-trg-plp-sort-bridge", "");
+              sortSelect.setAttribute("aria-label", "Sort");
+
+              sortShell.append(label, sortSelect);
+              controls.append(sortShell);
+            }
+
+            const sourceSelect =
+              controls.querySelector("select[name='sort_by']") || document.querySelector("select[name='sort_by']");
+            if (!(sourceSelect instanceof HTMLSelectElement)) return;
+
+            const currentSort = new URL(window.location.href).searchParams.get("sort_by") || sourceSelect.value;
+            const nextSignature = Array.from(sourceSelect.options)
+              .map((option) => `${option.value}:${option.textContent?.trim() || ""}`)
+              .join("|");
+
+            if (sortSelect.dataset.sourceSignature !== nextSignature) {
+              sortSelect.innerHTML = "";
+              for (const option of sourceSelect.options) {
+                sortSelect.append(new Option(option.textContent?.trim() || option.value, option.value, false, false));
+              }
+              sortSelect.dataset.sourceSignature = nextSignature;
+            }
+
+            sortSelect.value = currentSort;
+          };
+
+          const handleBridgeSortChange = (event) => {
+            const target = event.target;
+            if (!(target instanceof HTMLSelectElement) || !target.matches("[data-trg-plp-sort-bridge]")) return;
+
+            const nextUrl = new URL(window.location.href);
+            nextUrl.searchParams.delete("page");
+            if (target.value) {
+              nextUrl.searchParams.set("sort_by", target.value);
+            } else {
+              nextUrl.searchParams.delete("sort_by");
+            }
+            window.location.assign(nextUrl.toString());
+          };
+
+          const scheduleSync = () => window.requestAnimationFrame(() => window.requestAnimationFrame(syncCollectionToolbar));
+
+          document.addEventListener("change", handleBridgeSortChange, true);
+          document.addEventListener("click", (event) => {
+            if (event.target instanceof Element && event.target.closest("[data-trg-plp-filter-toggle]")) {
+              scheduleSync();
+            }
+          }, true);
+          document.addEventListener("shopify:section:load", scheduleSync);
+          window.addEventListener("trg:url-changed", scheduleSync);
+          window.addEventListener("pageshow", scheduleSync);
+
+          if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded", scheduleSync, { once: true });
+          } else {
+            scheduleSync();
+          }
+        })();
+      </script>
+    {% endif %}
     <script src="{{ 'trg-mega-menu-v2.js' | asset_url }}" defer></script>
     <script src="{{ 'trg-mob-v2.js' | asset_url }}" defer></script>
 <script src="{{ 'trg-brand-pdp.js' | asset_url }}" defer></script>
@@ -175,7 +404,3 @@ document.addEventListener('focusin',function(e){
 
 {% comment %} trg-plp-cache-bust 2026-03-23T21:34:43-04:00 {% endcomment %}
 {% comment %} trg-plp-cache-bust 2026-03-23T21:38:11-04:00 {% endcomment %}
-{% comment %} trg-plp-cache-bust 2026-03-23T22:00:24-04:00 {% endcomment %}
-{% comment %} trg-plp-cache-bust 2026-03-23T22:04:15-04:00 {% endcomment %}
-{% comment %} trg-plp-cache-bust 2026-03-23T22:06:35-04:00 {% endcomment %}
-{% comment %} trg-plp-cache-bust 2026-03-23T22:08:18-04:00 {% endcomment %}
