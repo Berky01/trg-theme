@@ -60,3 +60,71 @@
 
   document.head.appendChild(s);
 })();
+
+// TRG PLP Currency Fix — rewrite price display for non-USD products
+(function(){
+  var SYMBOLS = {
+    USD:'$', CAD:'CA$', GBP:'\u00a3', EUR:'\u20ac', JPY:'\u00a5',
+    KRW:'\u20a9', AUD:'A$', SEK:'kr ', DKK:'kr ', NOK:'kr ',
+    CHF:'CHF ', INR:'\u20b9', COP:'COP '
+  };
+  var NO_DECIMALS = {JPY:1, KRW:1};
+
+  function fixCardPrices(root){
+    var brands = (root||document).querySelectorAll('.trg-plp-card-brand[data-trg-currency]');
+    for(var i=0;i<brands.length;i++){
+      var b = brands[i];
+      var cur = (b.getAttribute('data-trg-currency')||'USD').toUpperCase();
+      if(cur==='USD' || b.hasAttribute('data-trg-cfixed')) continue;
+
+      var priceCents = parseInt(b.getAttribute('data-trg-price')||'0',10);
+      if(!priceCents) continue;
+
+      // Find the price span inside the same card
+      var card = b.closest('.group-block-content') || b.parentElement;
+      if(!card) continue;
+      var priceEl = card.querySelector('product-price .price, .price');
+      if(!priceEl) continue;
+
+      var sym = SYMBOLS[cur] || (cur+' ');
+      var amount = priceCents / 100;
+      var formatted;
+      if(NO_DECIMALS[cur]){
+        formatted = sym + Math.round(amount).toLocaleString();
+      } else {
+        // Only show decimals if not .00
+        var dec = amount % 1;
+        formatted = dec > 0.001
+          ? sym + amount.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})
+          : sym + Math.round(amount).toLocaleString();
+      }
+      // Add currency code for non-$-symbol currencies
+      if(cur!=='USD' && cur!=='GBP' && cur!=='EUR' && cur!=='JPY' && cur!=='KRW'){
+        formatted += ' <span style="font-size:0.75em;font-weight:400;color:#8a8478;letter-spacing:0.02em;">'+cur+'</span>';
+      } else if(cur==='GBP' || cur==='EUR' || cur==='JPY'){
+        formatted += ' <span style="font-size:0.75em;font-weight:400;color:#8a8478;letter-spacing:0.02em;">'+cur+'</span>';
+      }
+      priceEl.innerHTML = formatted;
+      b.setAttribute('data-trg-cfixed','1');
+    }
+  }
+
+  // Run on load
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',function(){fixCardPrices();});
+  } else {
+    fixCardPrices();
+  }
+
+  // Observe for lazy-loaded / paginated cards
+  var obs = new MutationObserver(function(muts){
+    for(var m=0;m<muts.length;m++){
+      if(muts[m].addedNodes.length>0) { fixCardPrices(); return; }
+    }
+  });
+  var grid = document.querySelector('.product-grid, .main-collection-grid, .trg-card-grid');
+  if(grid) obs.observe(grid, {childList:true, subtree:true});
+
+  // Also re-run after Dwell section hydration (morphdom can reset innerHTML)
+  document.addEventListener('shopify:section:load', function(){ setTimeout(fixCardPrices, 200); });
+})();
