@@ -454,12 +454,16 @@ document.addEventListener('focusin',function(e){
           document.addEventListener("shopify:section:load", scheduleSync);
           window.addEventListener("trg:url-changed", scheduleSync);
           window.addEventListener("pageshow", scheduleSync);
+          window.addEventListener("load", scheduleSync, { once: true });
 
           if (document.readyState === "loading") {
             document.addEventListener("DOMContentLoaded", scheduleSync, { once: true });
-          } else {
-            scheduleSync();
           }
+
+          scheduleSync();
+          window.setTimeout(scheduleSync, 0);
+          window.setTimeout(scheduleSync, 120);
+          window.setTimeout(scheduleSync, 600);
         })();
       </script>
     {% endif %}
@@ -474,4 +478,4 @@ document.addEventListener('focusin',function(e){
 
 {% comment %} trg-plp-cache-bust 2026-03-23T21:34:43-04:00 {% endcomment %}
 {% comment %} trg-plp-cache-bust 2026-03-23T21:38:11-04:00 {% endcomment %}
-<!-- trg-hidden-toolbar-structure-bust 2026-03-23T23:04:25-04:00 -->
+<!-- trg-hidden-toolbar-trigger-bust 2026-03-23T23:10:01-04:00 -->
