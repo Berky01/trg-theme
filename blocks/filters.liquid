@@ -108,6 +108,7 @@
         class="button-unstyled trg-plp-show-filters-btn"
         data-trg-plp-filter-toggle
         aria-label="Show filters"
+        hidden
       >
         <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">
           <rect x="3" y="3" width="7" height="18" rx="1"/>
@@ -117,21 +118,6 @@
         </svg>
         Filters
       </button>
-
-      {% if block_settings.enable_filtering %}
-        <h4 class="facets--filters-title">{{ 'content.filters' | t }}</h4>
-      {% endif %}
-
-      {% if block_settings.enable_filtering %}
-        <div class="trg-collection-controls__active-filters">
-          {% render 'filter-remove-buttons',
-            filters: filters,
-            results_url: results_url,
-            show_filter_label: false,
-            should_show_clear_all: false
-          %}
-        </div>
-      {% endif %}
 
       <div
         class="products-count-wrapper"
@@ -147,15 +133,27 @@
       </div>
 
       {% if block_settings.enable_sorting %}
-        {% render 'sorting',
-          results: results,
-          sort_by: sort_by,
-          filter_style: block_settings.filter_style,
-          suffix: 'desktop',
-          sort_position: 'desktop',
-          should_use_select_on_mobile: false,
-          section_id: section.id
-        %}
+        <div class="trg-plp-sort-shell">
+          <label class="visually-hidden" for="TrgPlpSort-{{ section.id }}">{{ 'actions.sort' | t }}</label>
+          <select
+            id="TrgPlpSort-{{ section.id }}"
+            class="trg-plp-sort-select"
+            data-trg-plp-sort
+            aria-label="{{ 'actions.sort' | t }}"
+          ></select>
+        </div>
+
+        <div class="trg-plp-sort-source" aria-hidden="true">
+          {% render 'sorting',
+            results: results,
+            sort_by: sort_by,
+            filter_style: block_settings.filter_style,
+            suffix: 'desktop',
+            sort_position: 'desktop',
+            should_use_select_on_mobile: false,
+            section_id: section.id
+          %}
+        </div>
       {% endif %}
 
       {% if block_settings.enable_grid_density %}
