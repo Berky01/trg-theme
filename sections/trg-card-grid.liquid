@@ -54,7 +54,8 @@
 
                 <div class="trg-card__content">
                   {% if section.settings.show_vendor and product.vendor != blank %}
-                    <p class="trg-card__meta">{{ product.vendor | escape }}</p>
+                    {%- assign trg_card_currency = product.metafields.trg.currency | default: 'USD' -%}
+                    <p class="trg-card__meta trg-plp-card-brand" data-trg-currency="{{ trg_card_currency }}" data-trg-price="{{ product.price }}">{{ product.vendor | escape }}</p>
                   {% endif %}
                   <h3 class="trg-card__title">{{ product.title | escape }}</h3>
                   {% if section.settings.show_price %}
@@ -240,4 +241,5 @@
   ]
 }
 {% endschema %}
+
 
