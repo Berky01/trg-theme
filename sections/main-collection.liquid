@@ -60,14 +60,6 @@
         window.addEventListener('trg:url-changed', this.handleUrlChange);
         document.addEventListener('shopify:section:load', this.handleUrlChange);
 
-        const searchInput = document.querySelector('[data-trg-search-input]');
-        if (searchInput?.form) {
-          searchInput.form.addEventListener('submit', (event) => {
-            event.preventDefault();
-            this.applySearch();
-          });
-        }
-
         this.syncSortSelect();
         this.syncDesktopFilterToggle();
         this.renderActiveTags();
@@ -177,7 +169,8 @@
           const searchInput = document.querySelector('[data-trg-search-input]');
           if (searchInput instanceof HTMLInputElement) {
             searchInput.value = searchPill.dataset.trgSearchPill || '';
-            this.applySearch();
+            searchInput.dispatchEvent(new Event('input', { bubbles: true }));
+            searchInput.focus();
           }
           return;
         }

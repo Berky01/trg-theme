@@ -4,6 +4,9 @@ const DROPDOWN_OPEN_CLASS = 'is-open';
 const SEARCH_REVEALED_CLASS = 'is-revealed';
 const FILTER_DELAY_MS = 180;
 const SCROLL_FOCUS_DELAY_MS = 220;
+const PREDICTIVE_SEARCH_MIN_LENGTH = 2;
+const PREDICTIVE_SEARCH_SECTION_ID = 'predictive-search';
+const PREDICTIVE_CLOSE_DELAY_MS = 140;
 
 function normalize(value = '') {
   return value
@@ -11,6 +14,25 @@ function normalize(value = '') {
     .replace(/\p{Diacritic}/gu, '')
     .toLowerCase()
     .trim();
+}
+
+function buildFormSearchUrl(form, query) {
+  const action = form.getAttribute('action') || Theme?.routes?.search_url || '/search';
+  const url = new URL(action, window.location.origin);
+  const formData = new FormData(form);
+
+  formData.set('q', query);
+
+  for (const [key, value] of formData.entries()) {
+    const normalizedValue = `${value}`.trim();
+    if (normalizedValue === '') {
+      continue;
+    }
+
+    url.searchParams.set(key, normalizedValue);
+  }
+
+  return url;
 }
 
 function getSharedSearchShell() {
@@ -216,14 +238,17 @@ function initSharedSearchBar() {
 
   const count = document.querySelector('[data-trg-result-count]');
   const emptyState = shell.querySelector('[data-trg-search-empty]');
+  const predictiveRoot = shell.querySelector('[data-trg-search-predictive]');
   const resultsRoot = document.querySelector('#ResultsList');
   const pillButtons = shell.querySelectorAll('[data-trg-search-pill]');
-  const submitButton = shell.querySelector('[data-trg-search-submit]');
   const field = form.querySelector('.trg-search-bar__field');
   const totalCount = count instanceof HTMLElement ? Number(count.dataset.trgTotalCount || '0') : 0;
+  const hasPredictiveSearch = predictiveRoot instanceof HTMLElement;
 
   const getItems = () => Array.from(document.querySelectorAll('[data-trg-search-item]'));
   const hasCollectionSearch = count instanceof HTMLElement && getItems().length > 0;
+  let predictiveAbortController = null;
+  let predictiveCloseTimer = 0;
 
   const applyCollectionFilter = () => {
     if (!hasCollectionSearch) {
@@ -260,14 +285,144 @@ function initSharedSearchBar() {
 
   const debouncedApplyFilter = debounce(applyCollectionFilter, FILTER_DELAY_MS);
 
+  const clearPredictiveCloseTimer = () => {
+    window.clearTimeout(predictiveCloseTimer);
+  };
+
+  const setPredictiveOpen = (isOpen) => {
+    if (!hasPredictiveSearch) {
+      return;
+    }
+
+    predictiveRoot.hidden = !isOpen;
+    shell.classList.toggle(DROPDOWN_OPEN_CLASS, isOpen);
+    input.setAttribute('aria-expanded', String(isOpen));
+  };
+
+  const closePredictiveSearch = () => {
+    if (!hasPredictiveSearch) {
+      return;
+    }
+
+    clearPredictiveCloseTimer();
+
+    if (predictiveAbortController) {
+      predictiveAbortController.abort();
+      predictiveAbortController = null;
+    }
+
+    predictiveRoot.innerHTML = '';
+    setPredictiveOpen(false);
+  };
+
+  const schedulePredictiveClose = () => {
+    if (!hasPredictiveSearch) {
+      return;
+    }
+
+    clearPredictiveCloseTimer();
+    predictiveCloseTimer = window.setTimeout(() => {
+      closePredictiveSearch();
+    }, PREDICTIVE_CLOSE_DELAY_MS);
+  };
+
+  const renderPredictiveSearch = (markup) => {
+    if (!hasPredictiveSearch) {
+      return;
+    }
+
+    const parsedMarkup = new DOMParser().parseFromString(markup, 'text/html');
+    const dropdown = parsedMarkup.querySelector('#predictive-search-results');
+
+    if (!(dropdown instanceof HTMLElement)) {
+      closePredictiveSearch();
+      return;
+    }
+
+    predictiveRoot.innerHTML = dropdown.outerHTML;
+
+    const liveDropdown = predictiveRoot.querySelector('.predictive-search-dropdown');
+    if (liveDropdown instanceof HTMLElement) {
+      const controlsId = `${input.id || 'TrgSearchBar'}-predictive-results`;
+      liveDropdown.id = controlsId;
+      input.setAttribute('aria-controls', controlsId);
+    }
+
+    setPredictiveOpen(true);
+  };
+
+  const debouncedFetchPredictiveSearch = debounce(async () => {
+    if (!hasPredictiveSearch) {
+      return;
+    }
+
+    const searchTerm = input.value.trim();
+
+    if (searchTerm.length < PREDICTIVE_SEARCH_MIN_LENGTH) {
+      closePredictiveSearch();
+      return;
+    }
+
+    const url = new URL(Theme?.routes?.predictive_search_url || '/search/suggest', window.location.origin);
+    url.searchParams.set('section_id', PREDICTIVE_SEARCH_SECTION_ID);
+    url.searchParams.set('q', searchTerm);
+    url.searchParams.set('resources[limit_scope]', 'each');
+    url.searchParams.set('resources[limit]', '4');
+
+    const controller = new AbortController();
+    if (predictiveAbortController) {
+      predictiveAbortController.abort();
+    }
+    predictiveAbortController = controller;
+
+    try {
+      const response = await fetch(url.toString(), {
+        signal: controller.signal,
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest'
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`Predictive search failed with status ${response.status}`);
+      }
+
+      const markup = await response.text();
+      if (controller.signal.aborted) {
+        return;
+      }
+
+      renderPredictiveSearch(markup);
+    } catch (error) {
+      if (controller.signal.aborted) {
+        return;
+      }
+
+      closePredictiveSearch();
+      // Predictive results are supplemental; fail quietly if the endpoint errors.
+      console.warn('TRG predictive search failed', error);
+    }
+  }, FILTER_DELAY_MS);
+
   form.addEventListener('submit', (event) => {
-    if (!hasCollectionSearch) {
+    const query = input.value.trim();
+
+    if (query === '') {
+      event.preventDefault();
+      closePredictiveSearch();
+
+      if (hasCollectionSearch) {
+        applyCollectionFilter();
+        input.focus();
+      }
+
       return;
     }
 
     event.preventDefault();
-    applyCollectionFilter();
-    input.focus();
+
+    closePredictiveSearch();
+    window.location.assign(buildFormSearchUrl(form, query).toString());
   });
 
   if (hasCollectionSearch) {
@@ -275,18 +430,56 @@ function initSharedSearchBar() {
     input.addEventListener('search', applyCollectionFilter);
   }
 
-  if (submitButton instanceof HTMLButtonElement && hasCollectionSearch) {
-    submitButton.addEventListener('click', (event) => {
-      event.preventDefault();
-      applyCollectionFilter();
-      input.focus();
+  if (hasPredictiveSearch) {
+    input.addEventListener('input', debouncedFetchPredictiveSearch);
+    input.addEventListener('focus', () => {
+      if (input.value.trim().length >= PREDICTIVE_SEARCH_MIN_LENGTH) {
+        debouncedFetchPredictiveSearch();
+      }
+    });
+    input.addEventListener('search', () => {
+      if (input.value.trim().length < PREDICTIVE_SEARCH_MIN_LENGTH) {
+        closePredictiveSearch();
+      }
+    });
+
+    shell.addEventListener('focusin', () => {
+      clearPredictiveCloseTimer();
+    });
+
+    shell.addEventListener('focusout', (event) => {
+      const nextTarget = event.relatedTarget;
+
+      if (nextTarget instanceof Node && shell.contains(nextTarget)) {
+        return;
+      }
+
+      schedulePredictiveClose();
+    });
+
+    predictiveRoot.addEventListener('pointerdown', () => {
+      clearPredictiveCloseTimer();
+    });
+
+    document.addEventListener('pointerdown', (event) => {
+      if (!(event.target instanceof Node) || shell.contains(event.target)) {
+        return;
+      }
+
+      closePredictiveSearch();
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        closePredictiveSearch();
+      }
     });
   }
 
   if (field instanceof HTMLElement) {
     const focusInputFromField = (event) => {
       const target = event.target instanceof Element ? event.target : null;
-      if (target?.closest('[data-trg-active-tags], [data-trg-search-submit]')) {
+      if (target?.closest('[data-trg-active-tags], [data-trg-search-submit], [data-trg-search-predictive]')) {
         return;
       }
 
@@ -312,11 +505,7 @@ function initSharedSearchBar() {
       event.preventDefault();
 
       input.value = pill.dataset.trgSearchPill ?? pill.textContent?.trim() ?? '';
-
-      if (hasCollectionSearch) {
-        applyCollectionFilter();
-      }
-
+      input.dispatchEvent(new Event('input', { bubbles: true }));
       input.focus();
     });
   });
@@ -331,6 +520,11 @@ function initSharedSearchBar() {
 
   if (hasCollectionSearch) {
     applyCollectionFilter();
+  }
+
+  if (hasPredictiveSearch) {
+    input.setAttribute('aria-autocomplete', 'list');
+    input.setAttribute('aria-expanded', 'false');
   }
 }
 

@@ -168,6 +168,8 @@
       {% endif %}
     </form>
 
+    <div class="trg-search-bar__predictive" hidden data-trg-search-predictive></div>
+
     <p class="trg-search-bar__empty" hidden data-trg-search-empty>
       {{ section.settings.empty_message | escape }}
     </p>
@@ -231,6 +233,7 @@
     width: min(calc(100% - 32px), var(--trg-search-max-width));
     margin-inline: auto;
     padding-inline: var(--trg-search-horizontal-padding);
+    position: relative;
   }
 
   .trg-search-bar__form {
@@ -460,6 +463,31 @@
     font-size: 0.82rem;
   }
 
+  .trg-search-bar__predictive {
+    position: absolute;
+    inset-inline: 0;
+    top: calc(100% + 0.35rem);
+    z-index: 92;
+  }
+
+  .trg-search-bar__predictive[hidden] {
+    display: none !important;
+  }
+
+  .trg-search-bar__predictive .predictive-search-dropdown {
+    position: static;
+    border: 1px solid rgb(var(--color-border-rgb) / 0.16);
+    border-radius: 2px;
+    background: rgb(var(--color-background-rgb));
+    box-shadow: 0 16px 40px rgb(var(--color-foreground-rgb) / 0.12);
+    overflow: hidden;
+  }
+
+  .trg-search-bar__predictive .predictive-search-results__inner {
+    max-height: min(70vh, 32rem);
+    overflow: auto;
+  }
+
   @media screen and (max-width: 900px) {
     .trg-search-bar-section--collection {
       overflow: visible;
@@ -537,6 +565,14 @@
     .trg-search-bar__input {
       font-size: 0.95rem;
       padding-block: 0.85rem;
+    }
+
+    .trg-search-bar__predictive {
+      top: calc(100% + 0.2rem);
+    }
+
+    .trg-search-bar__predictive .predictive-search-dropdown {
+      box-shadow: 0 12px 24px rgb(var(--color-foreground-rgb) / 0.12);
     }
   }
 
