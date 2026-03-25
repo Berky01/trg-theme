@@ -13,31 +13,31 @@
 }
 
 .trg-bch-wrap {
-  background: var(--bch-paper);
-  padding: 1.35rem 2rem 1rem;
+  background: transparent;
+  padding: 0 0 1.25rem 0;
 }
 
 .trg-bch-container {
-  max-width: 1320px;
-  margin: 0 auto;
+  max-width: none;
+  margin: 0;
 }
 
 /* ─── BRAND BANNER — 3-column ─── */
 .brand-banner {
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: 220px 1fr 220px;
   border: 1px solid var(--bch-border, #ddd8cf);
-  background: #faf8f4;
-  margin-bottom: 1.5rem;
+  background: transparent;
+  margin-bottom: 0;
 }
 
 .brand-banner--no-copy {
-  grid-template-columns: auto auto;
+  grid-template-columns: 220px 1fr 220px;
 }
 
 .brand-banner--sparse {
-  grid-template-columns: 237px minmax(360px, 520px) 229px;
-  justify-content: space-between;
+  grid-template-columns: 220px 1fr 220px;
+  justify-content: normal;
 }
 
 .brand-banner__identity {
@@ -46,8 +46,8 @@
   justify-content: center;
   padding: 1.5rem 2rem 1.5rem 1.75rem;
   border-right: 1px solid var(--bch-border, #ddd8cf);
-  min-width: 200px;
-  max-width: 240px;
+  min-width: 0;
+  max-width: none;
 }
 
 .brand-banner__logo {
@@ -146,32 +146,11 @@
   padding: 0.18rem 0.45rem;
 }
 
-.brand-banner--sparse .brand-banner__copy {
-  max-width: 520px;
-}
-
-.brand-banner--sparse .brand-banner__tags {
-  margin-top: 0.25rem;
-}
-
-.brand-banner:has(.brand-banner__copy:not(:has(.brand-banner__desc))) {
-  grid-template-columns: 237px minmax(360px, 520px) 229px;
-  justify-content: space-between;
-}
-
-.brand-banner:has(.brand-banner__copy:not(:has(.brand-banner__desc))) .brand-banner__copy {
-  max-width: 520px;
-}
-
-.brand-banner:has(.brand-banner__copy:not(:has(.brand-banner__desc))) .brand-banner__tags {
-  margin-top: 0.25rem;
-}
-
 .brand-banner__action {
   display: flex;
   flex-direction: column;
   border-left: 1px solid var(--bch-border, #ddd8cf);
-  min-width: 210px;
+  min-width: 0;
   flex-shrink: 0;
 }
 
@@ -375,24 +354,19 @@ main[data-template="collection.brand"] > .trg-bch-section {
 
 @media screen and (max-width: 990px) {
   .trg-bch-wrap {
-    padding: 1.25rem 1.5rem;
+    padding: 0 0 1.25rem 0;
   }
 
   .brand-banner {
-    grid-template-columns: auto minmax(0, 1fr) 240px;
+    grid-template-columns: 200px 1fr 220px;
   }
 
   .brand-banner--no-copy {
-    grid-template-columns: auto 240px;
+    grid-template-columns: 200px 1fr 220px;
   }
 
   .brand-banner--sparse {
-    grid-template-columns: 220px minmax(280px, 1fr) 240px;
-    justify-content: normal;
-  }
-
-  .brand-banner:has(.brand-banner__copy:not(:has(.brand-banner__desc))) {
-    grid-template-columns: 220px minmax(280px, 1fr) 240px;
+    grid-template-columns: 200px 1fr 220px;
     justify-content: normal;
   }
 
@@ -405,7 +379,7 @@ main[data-template="collection.brand"] > .trg-bch-section {
   }
 
   .brand-banner__action {
-    min-width: 240px;
+    min-width: 0;
   }
 
   .trg-bch-canada__grid {
@@ -415,7 +389,7 @@ main[data-template="collection.brand"] > .trg-bch-section {
 
 @media screen and (max-width: 749px) {
   .trg-bch-wrap {
-    padding: 1rem;
+    padding: 0 0 1rem 0;
   }
 
   .brand-banner {
