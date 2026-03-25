@@ -35,6 +35,11 @@
   grid-template-columns: auto auto;
 }
 
+.brand-banner--sparse {
+  grid-template-columns: 237px minmax(360px, 520px) 229px;
+  justify-content: space-between;
+}
+
 .brand-banner__identity {
   display: flex;
   flex-direction: column;
@@ -120,6 +125,11 @@
   overflow: hidden;
 }
 
+.brand-banner__desc--fallback {
+  max-width: 34rem;
+  color: rgba(26, 26, 24, 0.76);
+}
+
 .brand-banner__tags {
   display: flex;
   gap: 0.35rem;
@@ -134,6 +144,14 @@
   color: var(--bch-mid, #8a8478);
   background: #ede8e0;
   padding: 0.18rem 0.45rem;
+}
+
+.brand-banner--sparse .brand-banner__copy {
+  max-width: 520px;
+}
+
+.brand-banner--sparse .brand-banner__tags {
+  margin-top: 0.25rem;
 }
 
 .brand-banner__action {
@@ -355,6 +373,11 @@ main[data-template="collection.brand"] > .trg-bch-section {
     grid-template-columns: auto 240px;
   }
 
+  .brand-banner--sparse {
+    grid-template-columns: 220px minmax(280px, 1fr) 240px;
+    justify-content: normal;
+  }
+
   .brand-banner__identity {
     padding: 1.25rem 1.5rem;
   }
@@ -382,6 +405,10 @@ main[data-template="collection.brand"] > .trg-bch-section {
   }
 
   .brand-banner--no-copy {
+    grid-template-columns: 1fr;
+  }
+
+  .brand-banner--sparse {
     grid-template-columns: 1fr;
   }
 

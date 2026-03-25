@@ -16,7 +16,9 @@
   assign brand_price_range = brand.price_range.value | default: brand.price_range
   assign brand_ships_to_canada = brand.ships_to_canada.value | default: brand.ships_to_canada
   assign brand_made_in = brand.made_in.value | default: brand.made_in
+  assign brand_country = brand.country.value | default: brand.country | strip
   assign brand_primary_category = brand.primary_category.value | default: brand.primary_category
+  assign brand_primary_category_first = brand_primary_category | split: ',' | first | strip
   assign brand_shop_url = brand.retailer_url_na.value | default: brand.retailer_url_na
   if brand_shop_url == blank
     assign brand_shop_url = brand.affiliate_link | default: brand.website
@@ -24,8 +26,47 @@
   if brand_shop_url == blank
     assign brand_shop_url = brand.retailer_url_ca.value | default: brand.retailer_url_ca
   endif
+  assign editorial_description = brand_description
+  if editorial_description == blank
+    capture fallback_description
+      if brand_made_in != blank
+        echo 'Made in '
+        echo brand_made_in
+      endif
+      if brand_primary_category_first != blank
+        if brand_made_in != blank
+          echo '. '
+        endif
+        if brand_positioning != blank
+          echo brand_positioning
+          echo ' with a focus on '
+          echo brand_primary_category_first | downcase
+        else
+          echo 'Focus on '
+          echo brand_primary_category_first | downcase
+        endif
+      elsif brand_positioning != blank
+        if brand_made_in != blank
+          echo '. '
+        endif
+        echo brand_positioning
+      endif
+      if brand_price_range != blank
+        if brand_made_in != blank or brand_primary_category_first != blank or brand_positioning != blank
+          echo '. '
+        endif
+        echo brand_price_range
+        echo ' pricing'
+      endif
+    endcapture
+    assign editorial_description = fallback_description | strip
+  endif
+  assign use_sparse_banner = false
+  if brand_description == blank
+    assign use_sparse_banner = true
+  endif
   assign has_editorial_copy = false
-  if brand_positioning != blank or brand_description != blank or brand_primary_category != blank
+  if brand_positioning != blank or editorial_description != blank or brand_primary_category != blank or brand_price_range != blank or brand_country != blank
     assign has_editorial_copy = true
   endif
 %}
@@ -35,7 +76,7 @@
 <div class="trg-bch">
   <div class="trg-bch-wrap">
     <div class="trg-bch-container">
-      <div class="brand-banner{% unless has_editorial_copy %} brand-banner--no-copy{% endunless %} trg-bch-reveal">
+      <div class="brand-banner{% unless has_editorial_copy %} brand-banner--no-copy{% endunless %}{% if use_sparse_banner %} brand-banner--sparse{% endif %} trg-bch-reveal">
         <div class="brand-banner__identity">
           <div class="brand-banner__logo">
             {%- if brand.logo != blank -%}
@@ -61,15 +102,27 @@
             {%- if brand_positioning != blank -%}
               <div class="brand-banner__positioning">{{ brand_positioning }}</div>
             {%- endif -%}
-            {%- if brand_description != blank -%}
-              <p class="brand-banner__desc">{{ brand_description | truncate: 160 }}</p>
+            {%- if editorial_description != blank -%}
+              <p class="brand-banner__desc{% if brand_description == blank %} brand-banner__desc--fallback{% endif %}">{{ editorial_description | truncate: 160 }}</p>
             {%- endif -%}
-            {%- if brand_primary_category != blank -%}
+            {%- if brand_primary_category != blank or brand_price_range != blank or brand_country != blank -%}
               <div class="brand-banner__tags">
+                {%- assign rendered_tag_count = 0 -%}
                 {%- assign cats = brand_primary_category | split: ',' -%}
                 {%- for cat in cats limit: 3 -%}
-                  <span class="brand-banner__tag">{{ cat | strip }}</span>
+                  {%- assign clean_cat = cat | strip -%}
+                  {%- if clean_cat != blank -%}
+                    <span class="brand-banner__tag">{{ clean_cat }}</span>
+                    {%- assign rendered_tag_count = rendered_tag_count | plus: 1 -%}
+                  {%- endif -%}
                 {%- endfor -%}
+                {%- if rendered_tag_count < 3 and brand_price_range != blank -%}
+                  <span class="brand-banner__tag">{{ brand_price_range }}</span>
+                  {%- assign rendered_tag_count = rendered_tag_count | plus: 1 -%}
+                {%- endif -%}
+                {%- if rendered_tag_count < 3 and brand_country != blank and brand_country != brand_made_in -%}
+                  <span class="brand-banner__tag">{{ brand_country }}</span>
+                {%- endif -%}
               </div>
             {%- endif -%}
           </div>
@@ -92,7 +145,7 @@
             {%- if brand_primary_category != blank -%}
               <div class="brand-banner__meta-row">
                 <span class="brand-banner__meta-key">Category</span>
-                <span class="brand-banner__meta-val">{{ brand_primary_category | split: ',' | first | strip }}</span>
+                <span class="brand-banner__meta-val">{{ brand_primary_category_first }}</span>
               </div>
             {%- endif -%}
             {%- if brand_price_range != blank -%}
