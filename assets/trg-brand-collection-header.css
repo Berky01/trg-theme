@@ -14,7 +14,7 @@
 
 .trg-bch-wrap {
   background: transparent;
-  padding: 0 0 1.25rem 0;
+  padding: 1.25rem 0 1.25rem 0;
 }
 
 .trg-bch-container {
@@ -27,7 +27,7 @@
   display: grid;
   grid-template-columns: 220px 1fr 220px;
   border: 1px solid var(--bch-border, #ddd8cf);
-  background: transparent;
+  background: #faf8f4;
   margin-bottom: 0;
 }
 
@@ -338,23 +338,9 @@ body[data-region="CA"] .trg-bch-canada {
   animation: trg-bch-fadeUp 0.4s ease both;
 }
 
-/* ─── SECTION REORDER ─── */
-main[data-template="collection.brand"] {
-  display: flex;
-  flex-direction: column;
-}
-
-main[data-template="collection.brand"] > .trg-search-bar-wrapper {
-  order: -2;
-}
-
-main[data-template="collection.brand"] > .trg-bch-section {
-  order: -1;
-}
-
 @media screen and (max-width: 990px) {
   .trg-bch-wrap {
-    padding: 0 0 1.25rem 0;
+    padding: 1.25rem 0 1.25rem 0;
   }
 
   .brand-banner {
