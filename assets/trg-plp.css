@@ -272,15 +272,15 @@ body.filters-hidden .trg-plp-body .trg-plp-show-filters-btn { display: flex !imp
   padding: 0 !important; margin: 0 !important; border: none !important;
 }
 .trg-plp-body .facets__inputs-list-item .checkbox {
-  padding: 0.02rem 0.1rem !important; border-radius: 3px !important; gap: 0 !important;
+  padding: 0.06rem 0.1rem !important; border-radius: 3px !important; gap: 0 !important;
 }
 .trg-plp-body dialog-component#filters-drawer .checkbox__label {
   display: flex !important;
   align-items: center !important;
-  min-height: 0 !important;
+  min-height: 20px !important;
   width: 100% !important;
-  line-height: 1.05 !important;
-  padding: 0 !important;
+  line-height: 1.14 !important;
+  padding: 0.06rem 0 !important;
 }
 .trg-plp-body .facets__inputs-list-item .checkbox:hover {
   background: #e8e3db !important;
@@ -298,7 +298,7 @@ body.filters-hidden .trg-plp-body .trg-plp-show-filters-btn { display: flex !imp
 }
 .trg-plp-body .checkbox__label-text {
   font-size: 0.8rem !important; color: #1a1a18 !important; padding-left: 0.34rem !important;
-  font-weight: 400 !important; line-height: 1.08 !important;
+  font-weight: 400 !important; line-height: 1.14 !important;
 }
 .trg-plp-body .facets__inputs-list-item--disabled .checkbox__label-text {
   color: #8a8478 !important; opacity: 0.5;

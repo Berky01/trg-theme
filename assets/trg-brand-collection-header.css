@@ -225,9 +225,9 @@ main[data-template="collection.brand"] > .trg-bch-section { order: -1; }
   .trg-bch-sidebar {
     border-left: none;
     border-top: 1px solid var(--bch-border);
-    padding: 0.68rem 1rem 0.62rem;
+    padding: 0.72rem 1rem 0.68rem;
     flex-direction: column;
-    gap: 0.25rem;
+    gap: 0.3rem;
   }
 
   /* CTAs: side-by-side, 44px min tap target */
@@ -258,13 +258,13 @@ main[data-template="collection.brand"] > .trg-bch-section { order: -1; }
     flex: 1 1 45%;
     border-bottom: none;
     border-right: 1px solid var(--bch-border);
-    padding: 0.22rem 0.55rem;
-    min-height: 0;
+    padding: 0.26rem 0.55rem;
+    min-height: 24px;
     align-items: center;
   }
   .trg-bch-fact:last-child { border-right: none; }
-  .trg-bch-fact__label { font-size: 0.6rem; line-height: 1.05; }
-  .trg-bch-fact__value { font-size: 0.68rem; line-height: 1.12; }
+  .trg-bch-fact__label { font-size: 0.6rem; line-height: 1.1; }
+  .trg-bch-fact__value { font-size: 0.68rem; line-height: 1.16; }
 
   /* Canada */
   .trg-bch-canada__inner { padding: 0 1rem; }
