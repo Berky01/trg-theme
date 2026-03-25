@@ -175,6 +175,7 @@
       {% if trg_plp_mode and enable_infinite_scroll == false %}
         {% assign visible_count = paginate.current_offset | plus: products.size %}
         {% assign progress_percentage = visible_count | times: 100.0 | divided_by: paginate.items %}
+        {% if paginate.pages > 1 %}
         <div
           class="trg-plp-progress-zone"
           data-trg-load-more-zone
@@ -203,6 +204,7 @@
             </a>
           {% endif %}
         </div>
+        {% endif %}
       {% elsif enable_infinite_scroll != false %}
         <span ref="viewMoreNext"></span>
       {% else %}
