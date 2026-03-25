@@ -89,11 +89,11 @@ body[data-region="CA"] .trg-bch-badge--ddp { display: inline-flex; }
 
 .trg-bch-description {
   font-size: 0.85rem; font-weight: 300; color: var(--bch-ink);
-  line-height: 1.65; margin: 0 0 0.85rem; opacity: 0.75;
+  line-height: 1.65; margin: 0 0 0.85rem; opacity: 0.75; max-width: 560px;
 }
 
 .trg-bch-known {
-  display: flex; flex-wrap: wrap; gap: 0.3rem; align-items: center;
+  display: flex; flex-wrap: wrap; gap: 0.3rem; align-items: center; max-width: 560px;
 }
 .trg-bch-known__label {
   font-size: 0.62rem; font-weight: 500; letter-spacing: 0.08em;
@@ -150,7 +150,7 @@ body[data-region="CA"] .trg-bch-badge--ddp { display: inline-flex; }
 .trg-bch-facts { display: flex; flex-direction: column; }
 .trg-bch-fact {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 0.48rem 0; border-bottom: 1px solid var(--bch-border); gap: 0.75rem;
+  padding: 0.3rem 0; border-bottom: 1px solid var(--bch-border); gap: 0.75rem;
 }
 .trg-bch-fact:last-child { border-bottom: none; }
 .trg-bch-fact__label { font-size: 0.65rem; color: var(--bch-mid); font-weight: 400; white-space: nowrap; }
@@ -215,8 +215,10 @@ main[data-template="collection.brand"] > .trg-bch-section { order: -1; }
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    max-width: 100%;
     margin-bottom: 0.65rem;
   }
+  .trg-bch-known { max-width: 100%; }
   .trg-bch-known__tag { font-size: 0.6rem; padding: 0.18rem 0.42rem; }
 
   /* Sidebar stacks vertically on mobile — no side-by-side */
