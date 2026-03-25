@@ -69,10 +69,6 @@
         "padding_block_end": 0
       }
     },
-    "brand_header": {
-      "type": "trg-brand-collection-header",
-      "settings": {}
-    },
     "main": {
       "type": "main-collection",
       "blocks": {
@@ -294,7 +290,6 @@
   "order": [
     "trg_plp_fix",
     "trg_search_bar",
-    "brand_header",
     "main"
   ]
 }
