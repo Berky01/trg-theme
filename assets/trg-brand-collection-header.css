@@ -154,6 +154,19 @@
   margin-top: 0.25rem;
 }
 
+.brand-banner:has(.brand-banner__copy:not(:has(.brand-banner__desc))) {
+  grid-template-columns: 237px minmax(360px, 520px) 229px;
+  justify-content: space-between;
+}
+
+.brand-banner:has(.brand-banner__copy:not(:has(.brand-banner__desc))) .brand-banner__copy {
+  max-width: 520px;
+}
+
+.brand-banner:has(.brand-banner__copy:not(:has(.brand-banner__desc))) .brand-banner__tags {
+  margin-top: 0.25rem;
+}
+
 .brand-banner__action {
   display: flex;
   flex-direction: column;
@@ -374,6 +387,11 @@ main[data-template="collection.brand"] > .trg-bch-section {
   }
 
   .brand-banner--sparse {
+    grid-template-columns: 220px minmax(280px, 1fr) 240px;
+    justify-content: normal;
+  }
+
+  .brand-banner:has(.brand-banner__copy:not(:has(.brand-banner__desc))) {
     grid-template-columns: 220px minmax(280px, 1fr) 240px;
     justify-content: normal;
   }
