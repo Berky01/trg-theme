@@ -472,7 +472,7 @@
     }
 
     .trg-search-bar__shell {
-      width: min(calc(100% - 32px), var(--trg-search-max-width));
+      width: min(100%, var(--trg-search-max-width));
       padding-inline: 1rem;
     }
 
@@ -488,14 +488,14 @@
       display: none !important;
     }
 
-    .trg-search-bar__submit span:first-child {
-      display: none;
-    }
-
     .trg-search-bar__submit {
       padding-block: 0.5rem;
       padding-inline: 0.65rem;
       flex-shrink: 0;
+    }
+
+    .trg-search-bar-section--collection .trg-search-bar__submit span:first-child {
+      display: inline;
     }
 
     .trg-search-bar-section--collection .trg-search-bar__mobile-filter {
