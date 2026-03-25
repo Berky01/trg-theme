@@ -457,8 +457,8 @@ body.filters-hidden .trg-plp-body .trg-plp-show-filters-btn { display: flex !imp
     justify-content: space-between !important;
     gap: 0.5rem !important;
     min-height: 36px !important;
-    margin: 6px 0 !important;
-    padding: 0 !important;
+    margin: 0 0 0.875rem !important;
+    padding: 0.5rem 0 0.375rem !important;
     position: static !important;
   }
 
