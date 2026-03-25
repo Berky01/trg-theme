@@ -103,6 +103,14 @@
   width: fit-content;
 }
 
+.brand-banner__identity-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.3rem;
+  min-width: 0;
+}
+
 .brand-banner__copy {
   padding: 1.5rem 2rem;
   display: flex;
@@ -428,6 +436,8 @@ body[data-region="CA"] .trg-bch-canada {
   /* Action panel: no left border, CTA full width */
   .brand-banner__action {
     border-left: none;
+    display: flex;
+    flex-direction: column;
   }
 
   /* Hide meta rows on mobile — info already shown as tags in copy section */

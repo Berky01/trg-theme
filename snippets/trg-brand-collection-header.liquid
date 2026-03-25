@@ -91,10 +91,12 @@
               <span class="brand-banner__logo-initial">{{ brand_name | slice: 0 | upcase }}</span>
             {%- endif -%}
           </div>
-          <h1 class="brand-banner__name">{{ brand_name }}</h1>
-          {%- if brand_made_in != blank -%}
-            <span class="brand-banner__badge">Made in {{ brand_made_in }}</span>
-          {%- endif -%}
+          <div class="brand-banner__identity-text">
+            <h1 class="brand-banner__name">{{ brand_name }}</h1>
+            {%- if brand_made_in != blank -%}
+              <span class="brand-banner__badge">Made in {{ brand_made_in }}</span>
+            {%- endif -%}
+          </div>
         </div>
 
         {%- if has_editorial_copy -%}
