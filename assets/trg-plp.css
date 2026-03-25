@@ -274,6 +274,14 @@ body.filters-hidden .trg-plp-body .trg-plp-show-filters-btn { display: flex !imp
 .trg-plp-body .facets__inputs-list-item .checkbox {
   padding: 0.02rem 0.1rem !important; border-radius: 3px !important; gap: 0 !important;
 }
+.trg-plp-body dialog-component#filters-drawer .checkbox__label {
+  display: flex !important;
+  align-items: center !important;
+  min-height: 0 !important;
+  width: 100% !important;
+  line-height: 1.05 !important;
+  padding: 0 !important;
+}
 .trg-plp-body .facets__inputs-list-item .checkbox:hover {
   background: #e8e3db !important;
 }
