@@ -280,7 +280,7 @@ body.filters-hidden .trg-plp-body .trg-plp-show-filters-btn { display: flex !imp
   min-height: 20px !important;
   width: 100% !important;
   line-height: 1.14 !important;
-  padding: 0.06rem 0 !important;
+  padding: 0.06rem 0 0.06rem 22px !important;
 }
 .trg-plp-body .facets__inputs-list-item .checkbox:hover {
   background: #e8e3db !important;
