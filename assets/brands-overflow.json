@@ -423,7 +423,7 @@
     "priceRange": "Premium",
     "buyPath": "Direct",
     "bestRetailerNa": null,
-    "bestRetailerCa": "Aim\u00c3\u00a9 Leon Dore",
+    "bestRetailerCa": "AimÃƒÂ© Leon Dore",
     "affiliateProgram": false,
     "affiliateNetwork": "No",
     "commission": null,
@@ -711,40 +711,6 @@
     "priority": "High"
   },
   {
-    "handle": "amiri",
-    "name": "Amiri",
-    "url": "/collections/amiri",
-    "country": "USA",
-    "madeIn": "USA / Italy",
-    "madeInGroup": "USA",
-    "primaryCategoryRaw": "Shirts & Tops",
-    "category": "Shirts & Tops",
-    "priceRange": "Luxury",
-    "buyPath": "Both",
-    "bestRetailerNa": "SSENSE",
-    "bestRetailerCa": "SSENSE",
-    "affiliateProgram": false,
-    "affiliateNetwork": "No",
-    "commission": null,
-    "shipsToCanada": true,
-    "ddpDuties": false,
-    "naturalMaterials": false,
-    "canadianBrand": false,
-    "brandPositioning": [
-      "Luxury Designer"
-    ],
-    "tags": [
-      "luxury",
-      "LA",
-      "rock",
-      "designer",
-      "denim"
-    ],
-    "description": "",
-    "logoUrl": "",
-    "priority": "Low"
-  },
-  {
     "handle": "anderson-and-sheppard",
     "name": "Anderson and Sheppard",
     "url": "/collections/anderson-and-sheppard",
@@ -946,38 +912,6 @@
     "priority": "Low"
   },
   {
-    "handle": "arcteryx",
-    "name": "Arc'teryx",
-    "url": "/collections/arcteryx",
-    "country": "Canada",
-    "madeIn": "Canada",
-    "madeInGroup": "Canada",
-    "primaryCategoryRaw": "Outerwear & Jackets",
-    "category": "Outerwear & Jackets",
-    "priceRange": "Premium",
-    "buyPath": "Both",
-    "bestRetailerNa": "Nordstrom",
-    "bestRetailerCa": "MEC",
-    "affiliateProgram": true,
-    "affiliateNetwork": "Impact",
-    "commission": "8%",
-    "shipsToCanada": true,
-    "ddpDuties": false,
-    "naturalMaterials": false,
-    "canadianBrand": false,
-    "brandPositioning": [
-      "Outerwear"
-    ],
-    "tags": [
-      "technical",
-      "outdoor",
-      "canada"
-    ],
-    "description": "",
-    "logoUrl": "",
-    "priority": "High"
-  },
-  {
     "handle": "arpenteur",
     "name": "Arpenteur",
     "url": "/collections/arpenteur",
@@ -1046,40 +980,6 @@
     "description": "",
     "logoUrl": "",
     "priority": "Low"
-  },
-  {
-    "handle": "asics",
-    "name": "Asics",
-    "url": "/collections/asics",
-    "country": "Japan",
-    "madeIn": "Various",
-    "madeInGroup": "Other",
-    "primaryCategoryRaw": "Footwear",
-    "category": "Footwear",
-    "priceRange": "Mid-range",
-    "buyPath": "Both",
-    "bestRetailerNa": "Nordstrom",
-    "bestRetailerCa": "Sport Chek",
-    "affiliateProgram": true,
-    "affiliateNetwork": "Rakuten",
-    "commission": "7%",
-    "shipsToCanada": true,
-    "ddpDuties": false,
-    "naturalMaterials": false,
-    "canadianBrand": false,
-    "brandPositioning": [
-      "Athletic Footwear"
-    ],
-    "tags": [
-      "running",
-      "athletic",
-      "footwear",
-      "japan",
-      "gel"
-    ],
-    "description": "",
-    "logoUrl": "",
-    "priority": "Medium"
   },
   {
     "handle": "asket",
@@ -2213,40 +2113,6 @@
     "priority": "High"
   },
   {
-    "handle": "bode",
-    "name": "Bode",
-    "url": "/collections/bode",
-    "country": "USA",
-    "madeIn": "USA",
-    "madeInGroup": "USA",
-    "primaryCategoryRaw": "Shirts & Tops",
-    "category": "Shirts & Tops",
-    "priceRange": "Luxury",
-    "buyPath": "Both",
-    "bestRetailerNa": "SSENSE",
-    "bestRetailerCa": "SSENSE",
-    "affiliateProgram": false,
-    "affiliateNetwork": "No",
-    "commission": null,
-    "shipsToCanada": true,
-    "ddpDuties": false,
-    "naturalMaterials": false,
-    "canadianBrand": false,
-    "brandPositioning": [
-      "Luxury Designer"
-    ],
-    "tags": [
-      "vintage",
-      "handcraft",
-      "nyc",
-      "designer",
-      "unique"
-    ],
-    "description": "",
-    "logoUrl": "",
-    "priority": "Low"
-  },
-  {
     "handle": "boglioli",
     "name": "Boglioli",
     "url": "/collections/boglioli",
@@ -2550,43 +2416,6 @@
     "description": "",
     "logoUrl": "",
     "priority": "Medium"
-  },
-  {
-    "handle": "brioni",
-    "name": "Brioni",
-    "url": "/collections/brioni",
-    "country": "Italy",
-    "madeIn": "Italy",
-    "madeInGroup": "Europe",
-    "primaryCategoryRaw": "Suits & Tailoring",
-    "category": "Suits & Tailoring",
-    "priceRange": "Luxury",
-    "buyPath": "Both",
-    "bestRetailerNa": "MR PORTER",
-    "bestRetailerCa": "Harry Rosen",
-    "affiliateProgram": false,
-    "affiliateNetwork": null,
-    "commission": null,
-    "shipsToCanada": true,
-    "ddpDuties": false,
-    "naturalMaterials": false,
-    "canadianBrand": false,
-    "brandPositioning": [
-      "Formalwear"
-    ],
-    "tags": [
-      "roman",
-      "suits",
-      "tailoring",
-      "luxury",
-      "handmade",
-      "james bond",
-      "iconic",
-      "made in italy"
-    ],
-    "description": "",
-    "logoUrl": "",
-    "priority": "High"
   },
   {
     "handle": "bronson-mfg-co",
@@ -3181,42 +3010,6 @@
     "priority": "Low"
   },
   {
-    "handle": "cdlp",
-    "name": "CDLP",
-    "url": "/collections/cdlp",
-    "country": "Sweden",
-    "madeIn": "Europe",
-    "madeInGroup": "Europe",
-    "primaryCategoryRaw": "Accessories",
-    "category": "Accessories",
-    "priceRange": "Premium",
-    "buyPath": "Both",
-    "bestRetailerNa": "MR PORTER",
-    "bestRetailerCa": "Harry Rosen",
-    "affiliateProgram": true,
-    "affiliateNetwork": "Unknown",
-    "commission": "Unknown",
-    "shipsToCanada": true,
-    "ddpDuties": false,
-    "naturalMaterials": false,
-    "canadianBrand": false,
-    "brandPositioning": [
-      "Basics"
-    ],
-    "tags": [
-      "swedish",
-      "underwear",
-      "lyocell",
-      "luxury basics",
-      "quality",
-      "ships canada",
-      "harry rosen"
-    ],
-    "description": "",
-    "logoUrl": "",
-    "priority": "High"
-  },
-  {
     "handle": "cesare-attolini",
     "name": "Cesare Attolini",
     "url": "/collections/cesare-attolini",
@@ -3459,44 +3252,6 @@
     "priority": "Medium"
   },
   {
-    "handle": "ciele-athletics",
-    "name": "Ciele Athletics",
-    "url": "/collections/ciele-athletics",
-    "country": "Canada",
-    "madeIn": "Canada / Various",
-    "madeInGroup": "Canada",
-    "primaryCategoryRaw": "Shirts & Tops",
-    "category": "Shirts & Tops",
-    "priceRange": "Mid-range",
-    "buyPath": "Both",
-    "bestRetailerNa": null,
-    "bestRetailerCa": null,
-    "affiliateProgram": false,
-    "affiliateNetwork": null,
-    "commission": null,
-    "shipsToCanada": true,
-    "ddpDuties": false,
-    "naturalMaterials": false,
-    "canadianBrand": false,
-    "brandPositioning": [
-      "Casualwear"
-    ],
-    "tags": [
-      "canadian",
-      "montreal",
-      "running",
-      "caps",
-      "headwear",
-      "lifestyle",
-      "cult brand",
-      "premium",
-      "ships canada"
-    ],
-    "description": "",
-    "logoUrl": "",
-    "priority": "Medium"
-  },
-  {
     "handle": "cifonelli",
     "name": "Cifonelli",
     "url": "/collections/cifonelli",
@@ -3532,39 +3287,6 @@
     "description": "",
     "logoUrl": "",
     "priority": "Medium"
-  },
-  {
-    "handle": "clarks",
-    "name": "Clarks",
-    "url": "/collections/clarks",
-    "country": "UK",
-    "madeIn": "UK",
-    "madeInGroup": "United Kingdom",
-    "primaryCategoryRaw": "Footwear",
-    "category": "Footwear",
-    "priceRange": "Mid-range",
-    "buyPath": "Both",
-    "bestRetailerNa": "Nordstrom",
-    "bestRetailerCa": "Clarks",
-    "affiliateProgram": true,
-    "affiliateNetwork": "Rakuten",
-    "commission": "7%",
-    "shipsToCanada": true,
-    "ddpDuties": false,
-    "naturalMaterials": false,
-    "canadianBrand": false,
-    "brandPositioning": [
-      "Footwear"
-    ],
-    "tags": [
-      "heritage",
-      "uk",
-      "footwear",
-      "boots"
-    ],
-    "description": "",
-    "logoUrl": "",
-    "priority": "High"
   },
   {
     "handle": "closed",
@@ -3807,38 +3529,6 @@
     "priority": "Medium"
   },
   {
-    "handle": "corridor",
-    "name": "Corridor",
-    "url": "/collections/corridor",
-    "country": "USA",
-    "madeIn": "USA",
-    "madeInGroup": "USA",
-    "primaryCategoryRaw": "Shirts & Tops",
-    "category": "Shirts & Tops",
-    "priceRange": "Mid-range",
-    "buyPath": "Both",
-    "bestRetailerNa": "No Man Walks Alone",
-    "bestRetailerCa": "No Man Walks Alone",
-    "affiliateProgram": true,
-    "affiliateNetwork": "Impact",
-    "commission": "8%",
-    "shipsToCanada": true,
-    "ddpDuties": false,
-    "naturalMaterials": false,
-    "canadianBrand": false,
-    "brandPositioning": [
-      "Casualwear",
-      "Shirting"
-    ],
-    "tags": [
-      "casualwear",
-      "usa"
-    ],
-    "description": "",
-    "logoUrl": "",
-    "priority": "Medium"
-  },
-  {
     "handle": "corthay",
     "name": "Corthay",
     "url": "/collections/corthay",
@@ -3942,43 +3632,6 @@
     "description": "",
     "logoUrl": "",
     "priority": "High"
-  },
-  {
-    "handle": "cqp",
-    "name": "CQP",
-    "url": "/collections/cqp",
-    "country": "Sweden",
-    "madeIn": "Portugal",
-    "madeInGroup": "Europe",
-    "primaryCategoryRaw": "Footwear",
-    "category": "Footwear",
-    "priceRange": "Premium",
-    "buyPath": "Both",
-    "bestRetailerNa": "Trunk Clothiers",
-    "bestRetailerCa": "Trunk Clothiers",
-    "affiliateProgram": false,
-    "affiliateNetwork": null,
-    "commission": null,
-    "shipsToCanada": true,
-    "ddpDuties": false,
-    "naturalMaterials": false,
-    "canadianBrand": false,
-    "brandPositioning": [
-      "Footwear",
-      "Premium Casual"
-    ],
-    "tags": [
-      "swedish",
-      "sneakers",
-      "minimalist",
-      "quality",
-      "made in portugal",
-      "luxury sneakers",
-      "clean"
-    ],
-    "description": "",
-    "logoUrl": "",
-    "priority": "Medium"
   },
   {
     "handle": "crescent-down-works",
@@ -4300,41 +3953,6 @@
     "priority": "Medium"
   },
   {
-    "handle": "dickies",
-    "name": "Dickies",
-    "url": "/collections/dickies",
-    "country": "USA",
-    "madeIn": "USA",
-    "madeInGroup": "USA",
-    "primaryCategoryRaw": "Shirts & Tops",
-    "category": "Shirts & Tops",
-    "priceRange": "Budget",
-    "buyPath": "Both",
-    "bestRetailerNa": "Target",
-    "bestRetailerCa": "Amazon",
-    "affiliateProgram": true,
-    "affiliateNetwork": "Rakuten",
-    "commission": "7%",
-    "shipsToCanada": true,
-    "ddpDuties": false,
-    "naturalMaterials": false,
-    "canadianBrand": false,
-    "brandPositioning": [
-      "Basics",
-      "Workwear"
-    ],
-    "tags": [
-      "workwear",
-      "usa",
-      "heritage",
-      "basics",
-      "essentials"
-    ],
-    "description": "",
-    "logoUrl": "",
-    "priority": "Medium"
-  },
-  {
     "handle": "document",
     "name": "Document",
     "url": "/collections/document",
@@ -4473,7 +4091,7 @@
   },
   {
     "handle": "drole-de-monsieur",
-    "name": "Dr\u00c3\u00b4le de Monsieur",
+    "name": "DrÃƒÂ´le de Monsieur",
     "url": "/collections/drole-de-monsieur",
     "country": "France",
     "madeIn": "Portugal / various",
@@ -4506,39 +4124,6 @@
     "description": "",
     "logoUrl": "",
     "priority": "Medium"
-  },
-  {
-    "handle": "duckworth",
-    "name": "Duckworth",
-    "url": "/collections/duckworth",
-    "country": "USA",
-    "madeIn": "USA",
-    "madeInGroup": "USA",
-    "primaryCategoryRaw": "Knitwear",
-    "category": "Knitwear",
-    "priceRange": "Mid-range",
-    "buyPath": "Direct",
-    "bestRetailerNa": null,
-    "bestRetailerCa": "Duckworth",
-    "affiliateProgram": true,
-    "affiliateNetwork": "ShareASale",
-    "commission": "8%",
-    "shipsToCanada": true,
-    "ddpDuties": false,
-    "naturalMaterials": false,
-    "canadianBrand": false,
-    "brandPositioning": [
-      "Knitwear"
-    ],
-    "tags": [
-      "heritage",
-      "knitwear",
-      "usa",
-      "wool"
-    ],
-    "description": "",
-    "logoUrl": "",
-    "priority": "High"
   },
   {
     "handle": "e-marinella",
@@ -4778,43 +4363,6 @@
     "description": "",
     "logoUrl": "",
     "priority": "Medium"
-  },
-  {
-    "handle": "eleventy",
-    "name": "Eleventy",
-    "url": "/collections/eleventy",
-    "country": "Italy",
-    "madeIn": "Italy",
-    "madeInGroup": "Europe",
-    "primaryCategoryRaw": "Suits & Tailoring",
-    "category": "Suits & Tailoring",
-    "priceRange": "Luxury",
-    "buyPath": "Both",
-    "bestRetailerNa": "Harry Rosen",
-    "bestRetailerCa": "Harry Rosen",
-    "affiliateProgram": false,
-    "affiliateNetwork": null,
-    "commission": null,
-    "shipsToCanada": true,
-    "ddpDuties": false,
-    "naturalMaterials": false,
-    "canadianBrand": false,
-    "brandPositioning": [
-      "Formalwear",
-      "Premium Casual"
-    ],
-    "tags": [
-      "italian",
-      "smart casual",
-      "blazers",
-      "casual tailoring",
-      "luxury",
-      "made in italy",
-      "versatile"
-    ],
-    "description": "",
-    "logoUrl": "",
-    "priority": "High"
   },
   {
     "handle": "emma-willis",
@@ -5188,40 +4736,6 @@
     "priority": "Medium"
   },
   {
-    "handle": "feit",
-    "name": "Feit",
-    "url": "/collections/feit",
-    "country": "USA",
-    "madeIn": "USA",
-    "madeInGroup": "USA",
-    "primaryCategoryRaw": "Footwear",
-    "category": "Footwear",
-    "priceRange": "Luxury",
-    "buyPath": "Direct",
-    "bestRetailerNa": null,
-    "bestRetailerCa": "Feit",
-    "affiliateProgram": false,
-    "affiliateNetwork": null,
-    "commission": null,
-    "shipsToCanada": true,
-    "ddpDuties": false,
-    "naturalMaterials": false,
-    "canadianBrand": false,
-    "brandPositioning": [
-      "Footwear"
-    ],
-    "tags": [
-      "quiet luxury",
-      "usa",
-      "footwear",
-      "boots",
-      "luxury"
-    ],
-    "description": "",
-    "logoUrl": "",
-    "priority": "Medium"
-  },
-  {
     "handle": "filson",
     "name": "Filson",
     "url": "/collections/filson",
@@ -5390,7 +4904,7 @@
   },
   {
     "handle": "foret",
-    "name": "For\u00c3\u00a9t",
+    "name": "ForÃƒÂ©t",
     "url": "/collections/foret",
     "country": "Denmark",
     "madeIn": "Various (responsible)",
@@ -5789,39 +5303,6 @@
     "priority": "Low"
   },
   {
-    "handle": "ghiaia-cashmere",
-    "name": "Ghiaia Cashmere",
-    "url": "/collections/ghiaia-cashmere",
-    "country": "USA / Italy",
-    "madeIn": "USA / Italy",
-    "madeInGroup": "USA",
-    "primaryCategoryRaw": "Knitwear",
-    "category": "Knitwear",
-    "priceRange": "Premium",
-    "buyPath": "Both",
-    "bestRetailerNa": null,
-    "bestRetailerCa": null,
-    "affiliateProgram": false,
-    "affiliateNetwork": null,
-    "commission": null,
-    "shipsToCanada": false,
-    "ddpDuties": false,
-    "naturalMaterials": false,
-    "canadianBrand": false,
-    "brandPositioning": [
-      "Knitwear"
-    ],
-    "tags": [
-      "quiet luxury",
-      "knitwear",
-      "wool",
-      "luxury"
-    ],
-    "description": "",
-    "logoUrl": "",
-    "priority": "Medium"
-  },
-  {
     "handle": "gitman-vintage",
     "name": "Gitman Vintage",
     "url": "/collections/gitman-vintage",
@@ -5918,41 +5399,6 @@
       "made in italy",
       "relaxed fit",
       "garment dyed"
-    ],
-    "description": "",
-    "logoUrl": "",
-    "priority": "Medium"
-  },
-  {
-    "handle": "goldwin",
-    "name": "Goldwin",
-    "url": "/collections/goldwin",
-    "country": "Japan",
-    "madeIn": "Japan",
-    "madeInGroup": "Japan",
-    "primaryCategoryRaw": "Outerwear & Jackets",
-    "category": "Outerwear & Jackets",
-    "priceRange": "Luxury",
-    "buyPath": "Both",
-    "bestRetailerNa": "SSENSE",
-    "bestRetailerCa": "SSENSE",
-    "affiliateProgram": false,
-    "affiliateNetwork": null,
-    "commission": null,
-    "shipsToCanada": true,
-    "ddpDuties": false,
-    "naturalMaterials": false,
-    "canadianBrand": false,
-    "brandPositioning": [
-      "Outerwear"
-    ],
-    "tags": [
-      "japanese",
-      "technical",
-      "outerwear",
-      "minimalist",
-      "gorpcore",
-      "athletic-luxury"
     ],
     "description": "",
     "logoUrl": "",
@@ -6273,37 +5719,6 @@
     "description": "",
     "logoUrl": "",
     "priority": "Medium"
-  },
-  {
-    "handle": "harris-tweed-hebrides",
-    "name": "Harris Tweed Hebrides",
-    "url": "/collections/harris-tweed-hebrides",
-    "country": "UK / Scotland",
-    "madeIn": "UK / Scotland",
-    "madeInGroup": "United Kingdom",
-    "primaryCategoryRaw": "Accessories",
-    "category": "Accessories",
-    "priceRange": "Premium",
-    "buyPath": "Reseller Only",
-    "bestRetailerNa": "No Man Walks Alone",
-    "bestRetailerCa": "No Man Walks Alone",
-    "affiliateProgram": true,
-    "affiliateNetwork": null,
-    "commission": null,
-    "shipsToCanada": false,
-    "ddpDuties": false,
-    "naturalMaterials": false,
-    "canadianBrand": false,
-    "brandPositioning": [
-      "Textiles",
-      "Heritage"
-    ],
-    "tags": [
-      "heritage"
-    ],
-    "description": "",
-    "logoUrl": "",
-    "priority": "Low"
   },
   {
     "handle": "harris-wharf-london",
@@ -6794,40 +6209,6 @@
     "priority": "Medium"
   },
   {
-    "handle": "imogene-willie",
-    "name": "Imogene + Willie",
-    "url": "/collections/imogene-willie",
-    "country": "USA",
-    "madeIn": "USA",
-    "madeInGroup": "USA",
-    "primaryCategoryRaw": "Denim",
-    "category": "Denim",
-    "priceRange": "Mid-range",
-    "buyPath": "Direct",
-    "bestRetailerNa": null,
-    "bestRetailerCa": "Imogene + Willie",
-    "affiliateProgram": false,
-    "affiliateNetwork": null,
-    "commission": null,
-    "shipsToCanada": false,
-    "ddpDuties": false,
-    "naturalMaterials": false,
-    "canadianBrand": false,
-    "brandPositioning": [
-      "Workwear",
-      "Denim"
-    ],
-    "tags": [
-      "workwear",
-      "usa",
-      "denim",
-      "raw denim"
-    ],
-    "description": "",
-    "logoUrl": "",
-    "priority": "High"
-  },
-  {
     "handle": "incotex",
     "name": "Incotex",
     "url": "/collections/incotex",
@@ -6898,7 +6279,7 @@
   },
   {
     "handle": "inis-meain",
-    "name": "Inis Me\u00c3\u00a1in",
+    "name": "Inis MeÃƒÂ¡in",
     "url": "/collections/inis-meain",
     "country": "Ireland",
     "madeIn": "Ireland",
@@ -7165,7 +6546,7 @@
   },
   {
     "handle": "jacob-cohen",
-    "name": "Jacob Coh\u00c3\u00abn",
+    "name": "Jacob CohÃƒÂ«n",
     "url": "/collections/jacob-cohen",
     "country": "Italy",
     "madeIn": "Italy",
@@ -7368,38 +6749,6 @@
     "description": "",
     "logoUrl": "",
     "priority": "Medium"
-  },
-  {
-    "handle": "jl-al",
-    "name": "JL-AL",
-    "url": "/collections/jl-al",
-    "country": "France",
-    "madeIn": "France",
-    "madeInGroup": "Europe",
-    "primaryCategoryRaw": "Shirts & Tops",
-    "category": "Shirts & Tops",
-    "priceRange": "Luxury",
-    "buyPath": "Direct",
-    "bestRetailerNa": null,
-    "bestRetailerCa": null,
-    "affiliateProgram": false,
-    "affiliateNetwork": "No",
-    "commission": null,
-    "shipsToCanada": true,
-    "ddpDuties": false,
-    "naturalMaterials": false,
-    "canadianBrand": false,
-    "brandPositioning": [
-      "Contemporary Designer"
-    ],
-    "tags": [
-      "french",
-      "designer",
-      "contemporary"
-    ],
-    "description": "",
-    "logoUrl": "",
-    "priority": "Low"
   },
   {
     "handle": "john-lobb",
@@ -7608,41 +6957,6 @@
     "priority": "Medium"
   },
   {
-    "handle": "kamakura",
-    "name": "Kamakura",
-    "url": "/collections/kamakura",
-    "country": "Japan",
-    "madeIn": "Japan",
-    "madeInGroup": "Japan",
-    "primaryCategoryRaw": "Shirts & Tops",
-    "category": "Shirts & Tops",
-    "priceRange": "Mid-range",
-    "buyPath": "Direct",
-    "bestRetailerNa": null,
-    "bestRetailerCa": "No Man Walks Alone",
-    "affiliateProgram": false,
-    "affiliateNetwork": "No",
-    "commission": null,
-    "shipsToCanada": true,
-    "ddpDuties": false,
-    "naturalMaterials": false,
-    "canadianBrand": false,
-    "brandPositioning": [
-      "Smart Casual",
-      "Tailoring"
-    ],
-    "tags": [
-      "japanese",
-      "shirts",
-      "tailoring",
-      "quality",
-      "made in japan"
-    ],
-    "description": "",
-    "logoUrl": "",
-    "priority": "Medium"
-  },
-  {
     "handle": "kanata",
     "name": "Kanata",
     "url": "/collections/kanata",
@@ -7676,39 +6990,6 @@
     "priority": "High"
   },
   {
-    "handle": "kapital",
-    "name": "Kapital",
-    "url": "/collections/kapital",
-    "country": "Japan",
-    "madeIn": "Japan",
-    "madeInGroup": "Japan",
-    "primaryCategoryRaw": "Shirts & Tops",
-    "category": "Shirts & Tops",
-    "priceRange": "Premium",
-    "buyPath": "Both",
-    "bestRetailerNa": "Kapital NYC",
-    "bestRetailerCa": "Kapital NYC",
-    "affiliateProgram": false,
-    "affiliateNetwork": "No",
-    "commission": null,
-    "shipsToCanada": false,
-    "ddpDuties": false,
-    "naturalMaterials": false,
-    "canadianBrand": false,
-    "brandPositioning": [
-      "Casualwear",
-      "Premium Casual"
-    ],
-    "tags": [
-      "japanese",
-      "artisanal",
-      "japan"
-    ],
-    "description": "",
-    "logoUrl": "",
-    "priority": "Medium"
-  },
-  {
     "handle": "kaptain-sunshine",
     "name": "Kaptain Sunshine",
     "url": "/collections/kaptain-sunshine",
@@ -7736,37 +7017,6 @@
       "japanese",
       "artisanal",
       "japan"
-    ],
-    "description": "",
-    "logoUrl": "",
-    "priority": "Medium"
-  },
-  {
-    "handle": "kardo",
-    "name": "Kardo",
-    "url": "/collections/kardo",
-    "country": "India",
-    "madeIn": "India",
-    "madeInGroup": "Other",
-    "primaryCategoryRaw": "Shirts & Tops",
-    "category": "Shirts & Tops",
-    "priceRange": "Mid-range",
-    "buyPath": "Direct",
-    "bestRetailerNa": null,
-    "bestRetailerCa": "Kardo",
-    "affiliateProgram": false,
-    "affiliateNetwork": null,
-    "commission": null,
-    "shipsToCanada": true,
-    "ddpDuties": false,
-    "naturalMaterials": false,
-    "canadianBrand": false,
-    "brandPositioning": [
-      "Casualwear",
-      "Shirting"
-    ],
-    "tags": [
-      "casualwear"
     ],
     "description": "",
     "logoUrl": "",
@@ -7970,39 +7220,6 @@
       "handmade",
       "cashmere",
       "made in italy"
-    ],
-    "description": "",
-    "logoUrl": "",
-    "priority": "High"
-  },
-  {
-    "handle": "knickerbocker",
-    "name": "Knickerbocker",
-    "url": "/collections/knickerbocker",
-    "country": "USA",
-    "madeIn": "USA",
-    "madeInGroup": "USA",
-    "primaryCategoryRaw": "Shirts & Tops",
-    "category": "Shirts & Tops",
-    "priceRange": "Mid-range",
-    "buyPath": "Direct",
-    "bestRetailerNa": null,
-    "bestRetailerCa": "Knickerbocker",
-    "affiliateProgram": false,
-    "affiliateNetwork": null,
-    "commission": null,
-    "shipsToCanada": false,
-    "ddpDuties": false,
-    "naturalMaterials": false,
-    "canadianBrand": false,
-    "brandPositioning": [
-      "Basics"
-    ],
-    "tags": [
-      "heritage",
-      "usa",
-      "basics",
-      "essentials"
     ],
     "description": "",
     "logoUrl": "",
@@ -8860,43 +8077,6 @@
     "priority": "Low"
   },
   {
-    "handle": "manifattura-ceccarelli",
-    "name": "Manifattura Ceccarelli",
-    "url": "/collections/manifattura-ceccarelli",
-    "country": "Italy",
-    "madeIn": "Italy",
-    "madeInGroup": "Europe",
-    "primaryCategoryRaw": "Outerwear & Jackets",
-    "category": "Outerwear & Jackets",
-    "priceRange": "Luxury",
-    "buyPath": "Both",
-    "bestRetailerNa": null,
-    "bestRetailerCa": null,
-    "affiliateProgram": false,
-    "affiliateNetwork": null,
-    "commission": null,
-    "shipsToCanada": false,
-    "ddpDuties": false,
-    "naturalMaterials": false,
-    "canadianBrand": false,
-    "brandPositioning": [
-      "Outerwear",
-      "Workwear"
-    ],
-    "tags": [
-      "italian",
-      "outerwear",
-      "workwear",
-      "smock",
-      "anorak",
-      "quality",
-      "made in italy"
-    ],
-    "description": "",
-    "logoUrl": "",
-    "priority": "Medium"
-  },
-  {
     "handle": "margaret-howell",
     "name": "Margaret Howell",
     "url": "/collections/margaret-howell",
@@ -8923,40 +8103,6 @@
     "tags": [
       "minimalist",
       "uk"
-    ],
-    "description": "",
-    "logoUrl": "",
-    "priority": "Medium"
-  },
-  {
-    "handle": "marka",
-    "name": "Marka",
-    "url": "/collections/marka",
-    "country": "Japan",
-    "madeIn": "Japan",
-    "madeInGroup": "Japan",
-    "primaryCategoryRaw": "Shirts & Tops",
-    "category": "Shirts & Tops",
-    "priceRange": "Premium",
-    "buyPath": "Both",
-    "bestRetailerNa": "Blue Button Shop",
-    "bestRetailerCa": "Blue Button Shop",
-    "affiliateProgram": false,
-    "affiliateNetwork": null,
-    "commission": null,
-    "shipsToCanada": false,
-    "ddpDuties": false,
-    "naturalMaterials": false,
-    "canadianBrand": false,
-    "brandPositioning": [
-      "Casualwear",
-      "Premium Casual"
-    ],
-    "tags": [
-      "japanese",
-      "made in japan",
-      "premium basics",
-      "menswear"
     ],
     "description": "",
     "logoUrl": "",
@@ -9268,40 +8414,6 @@
     "tags": [
       "heritage",
       "usa"
-    ],
-    "description": "",
-    "logoUrl": "",
-    "priority": "High"
-  },
-  {
-    "handle": "momotaro",
-    "name": "Momotaro",
-    "url": "/collections/momotaro",
-    "country": "Japan",
-    "madeIn": "Japan",
-    "madeInGroup": "Japan",
-    "primaryCategoryRaw": "Denim",
-    "category": "Denim",
-    "priceRange": "Premium",
-    "buyPath": "Both",
-    "bestRetailerNa": "Self Edge",
-    "bestRetailerCa": "Self Edge",
-    "affiliateProgram": false,
-    "affiliateNetwork": null,
-    "commission": null,
-    "shipsToCanada": false,
-    "ddpDuties": false,
-    "naturalMaterials": false,
-    "canadianBrand": false,
-    "brandPositioning": [
-      "Denim"
-    ],
-    "tags": [
-      "japanese",
-      "artisanal",
-      "japan",
-      "denim",
-      "raw denim"
     ],
     "description": "",
     "logoUrl": "",
@@ -9644,38 +8756,6 @@
     "priority": "High"
   },
   {
-    "handle": "nanamica",
-    "name": "Nanamica",
-    "url": "/collections/nanamica",
-    "country": "Japan",
-    "madeIn": "Japan",
-    "madeInGroup": "Japan",
-    "primaryCategoryRaw": "Outerwear & Jackets",
-    "category": "Outerwear & Jackets",
-    "priceRange": "Premium",
-    "buyPath": "Both",
-    "bestRetailerNa": "HAVEN",
-    "bestRetailerCa": "HAVEN",
-    "affiliateProgram": false,
-    "affiliateNetwork": null,
-    "commission": null,
-    "shipsToCanada": true,
-    "ddpDuties": false,
-    "naturalMaterials": false,
-    "canadianBrand": false,
-    "brandPositioning": [
-      "Outerwear"
-    ],
-    "tags": [
-      "technical",
-      "outdoor",
-      "japan"
-    ],
-    "description": "",
-    "logoUrl": "",
-    "priority": "Medium"
-  },
-  {
     "handle": "natalino",
     "name": "Natalino",
     "url": "/collections/natalino",
@@ -9708,40 +8788,6 @@
     "description": "",
     "logoUrl": "",
     "priority": "Low"
-  },
-  {
-    "handle": "new-balance",
-    "name": "New Balance",
-    "url": "/collections/new-balance",
-    "country": "USA",
-    "madeIn": "USA",
-    "madeInGroup": "USA",
-    "primaryCategoryRaw": "Footwear",
-    "category": "Footwear",
-    "priceRange": "Mid-range",
-    "buyPath": "Both",
-    "bestRetailerNa": "Nordstrom",
-    "bestRetailerCa": "New Balance",
-    "affiliateProgram": true,
-    "affiliateNetwork": "Rakuten",
-    "commission": "7%",
-    "shipsToCanada": true,
-    "ddpDuties": false,
-    "naturalMaterials": false,
-    "canadianBrand": false,
-    "brandPositioning": [
-      "Footwear"
-    ],
-    "tags": [
-      "casualwear",
-      "usa",
-      "heritage",
-      "footwear",
-      "boots"
-    ],
-    "description": "",
-    "logoUrl": "",
-    "priority": "High"
   },
   {
     "handle": "nicks-boots",
@@ -10217,7 +9263,7 @@
   },
   {
     "handle": "octobre-editions",
-    "name": "Octobre \u00c3\u2030ditions",
+    "name": "Octobre Ãƒâ€°ditions",
     "url": "/collections/octobre-editions",
     "country": "France",
     "madeIn": "France",
@@ -10249,7 +9295,7 @@
   },
   {
     "handle": "officine-generale",
-    "name": "Officine G\u00c3\u00a9n\u00c3\u00a9rale",
+    "name": "Officine GÃƒÂ©nÃƒÂ©rale",
     "url": "/collections/officine-generale",
     "country": "France",
     "madeIn": "France",
@@ -10508,38 +9554,6 @@
       "canada",
       "basics",
       "essentials"
-    ],
-    "description": "",
-    "logoUrl": "",
-    "priority": "Medium"
-  },
-  {
-    "handle": "outerknown",
-    "name": "Outerknown",
-    "url": "/collections/outerknown",
-    "country": "USA",
-    "madeIn": "USA",
-    "madeInGroup": "USA",
-    "primaryCategoryRaw": "Shirts & Tops",
-    "category": "Shirts & Tops",
-    "priceRange": "Mid-range",
-    "buyPath": "Both",
-    "bestRetailerNa": null,
-    "bestRetailerCa": "Outerknown",
-    "affiliateProgram": true,
-    "affiliateNetwork": "Impact",
-    "commission": "8%",
-    "shipsToCanada": true,
-    "ddpDuties": false,
-    "naturalMaterials": false,
-    "canadianBrand": false,
-    "brandPositioning": [
-      "Casualwear"
-    ],
-    "tags": [
-      "casualwear",
-      "usa",
-      "sustainable"
     ],
     "description": "",
     "logoUrl": "",
@@ -11319,41 +10333,6 @@
     "priority": "High"
   },
   {
-    "handle": "pyrenex",
-    "name": "Pyrenex",
-    "url": "/collections/pyrenex",
-    "country": "France",
-    "madeIn": "France",
-    "madeInGroup": "Europe",
-    "primaryCategoryRaw": "Outerwear & Jackets",
-    "category": "Outerwear & Jackets",
-    "priceRange": "Premium",
-    "buyPath": "Both",
-    "bestRetailerNa": "Clark Street Mercantile",
-    "bestRetailerCa": "Clark Street Mercantile",
-    "affiliateProgram": false,
-    "affiliateNetwork": null,
-    "commission": null,
-    "shipsToCanada": true,
-    "ddpDuties": false,
-    "naturalMaterials": false,
-    "canadianBrand": false,
-    "brandPositioning": [
-      "Outerwear"
-    ],
-    "tags": [
-      "french",
-      "down",
-      "outerwear",
-      "heritage",
-      "luxury",
-      "warmth"
-    ],
-    "description": "",
-    "logoUrl": "",
-    "priority": "Medium"
-  },
-  {
     "handle": "rancourt-and-co",
     "name": "Rancourt & Co",
     "url": "/collections/rancourt-and-co",
@@ -11587,40 +10566,6 @@
     "description": "",
     "logoUrl": "",
     "priority": "Medium"
-  },
-  {
-    "handle": "rick-owens",
-    "name": "Rick Owens",
-    "url": "/collections/rick-owens",
-    "country": "France",
-    "madeIn": "Italy",
-    "madeInGroup": "Europe",
-    "primaryCategoryRaw": "Shirts & Tops",
-    "category": "Shirts & Tops",
-    "priceRange": "Luxury",
-    "buyPath": "Both",
-    "bestRetailerNa": "SSENSE",
-    "bestRetailerCa": "SSENSE",
-    "affiliateProgram": false,
-    "affiliateNetwork": "No",
-    "commission": null,
-    "shipsToCanada": true,
-    "ddpDuties": false,
-    "naturalMaterials": false,
-    "canadianBrand": false,
-    "brandPositioning": [
-      "Luxury Designer"
-    ],
-    "tags": [
-      "avant-garde",
-      "dark",
-      "luxury",
-      "paris",
-      "architectural"
-    ],
-    "description": "",
-    "logoUrl": "",
-    "priority": "Low"
   },
   {
     "handle": "ring-jacket",
@@ -12553,39 +11498,6 @@
     "priority": "Medium"
   },
   {
-    "handle": "satisfy-running",
-    "name": "Satisfy Running",
-    "url": "/collections/satisfy-running",
-    "country": "France",
-    "madeIn": "France",
-    "madeInGroup": "Europe",
-    "primaryCategoryRaw": "Shirts & Tops",
-    "category": "Shirts & Tops",
-    "priceRange": "Premium",
-    "buyPath": "Both",
-    "bestRetailerNa": "MR PORTER",
-    "bestRetailerCa": "MR PORTER",
-    "affiliateProgram": false,
-    "affiliateNetwork": null,
-    "commission": null,
-    "shipsToCanada": true,
-    "ddpDuties": false,
-    "naturalMaterials": false,
-    "canadianBrand": false,
-    "brandPositioning": [
-      "Activewear",
-      "Running"
-    ],
-    "tags": [
-      "technical",
-      "outdoor",
-      "france"
-    ],
-    "description": "",
-    "logoUrl": "",
-    "priority": "Medium"
-  },
-  {
     "handle": "saturdays-nyc",
     "name": "Saturdays NYC",
     "url": "/collections/saturdays-nyc",
@@ -12785,7 +11697,7 @@
   },
   {
     "handle": "septieme-largeur",
-    "name": "Septi\u00c3\u00a8me Largeur",
+    "name": "SeptiÃƒÂ¨me Largeur",
     "url": "/collections/septieme-largeur",
     "country": "France",
     "madeIn": "France",
@@ -12992,73 +11904,6 @@
     "priority": "Low"
   },
   {
-    "handle": "smr-days",
-    "name": "SMR Days",
-    "url": "/collections/smr-days",
-    "country": "UK",
-    "madeIn": "UK",
-    "madeInGroup": "United Kingdom",
-    "primaryCategoryRaw": "Shirts & Tops",
-    "category": "Shirts & Tops",
-    "priceRange": "Mid-range",
-    "buyPath": "Both",
-    "bestRetailerNa": null,
-    "bestRetailerCa": null,
-    "affiliateProgram": false,
-    "affiliateNetwork": null,
-    "commission": null,
-    "shipsToCanada": false,
-    "ddpDuties": false,
-    "naturalMaterials": false,
-    "canadianBrand": false,
-    "brandPositioning": [
-      "Casualwear"
-    ],
-    "tags": [
-      "casualwear",
-      "uk"
-    ],
-    "description": "",
-    "logoUrl": "",
-    "priority": "Low"
-  },
-  {
-    "handle": "snow-peak",
-    "name": "Snow Peak",
-    "url": "/collections/snow-peak",
-    "country": "Japan",
-    "madeIn": "Japan",
-    "madeInGroup": "Japan",
-    "primaryCategoryRaw": "Outerwear & Jackets",
-    "category": "Outerwear & Jackets",
-    "priceRange": "Premium",
-    "buyPath": "Both",
-    "bestRetailerNa": "Clark Street Mercantile",
-    "bestRetailerCa": "Clark Street Mercantile",
-    "affiliateProgram": false,
-    "affiliateNetwork": null,
-    "commission": null,
-    "shipsToCanada": true,
-    "ddpDuties": false,
-    "naturalMaterials": false,
-    "canadianBrand": false,
-    "brandPositioning": [
-      "Outerwear"
-    ],
-    "tags": [
-      "japanese",
-      "outdoor",
-      "technical",
-      "camping",
-      "gorpcore",
-      "minimalist",
-      "quality"
-    ],
-    "description": "",
-    "logoUrl": "",
-    "priority": "Medium"
-  },
-  {
     "handle": "solovair",
     "name": "Solovair",
     "url": "/collections/solovair",
@@ -13128,40 +11973,6 @@
     "description": "",
     "logoUrl": "",
     "priority": "High"
-  },
-  {
-    "handle": "soulland",
-    "name": "Soulland",
-    "url": "/collections/soulland",
-    "country": "Denmark",
-    "madeIn": "Portugal / various",
-    "madeInGroup": "Europe",
-    "primaryCategoryRaw": "Shirts & Tops",
-    "category": "Shirts & Tops",
-    "priceRange": "Premium",
-    "buyPath": "Both",
-    "bestRetailerNa": "END Clothing",
-    "bestRetailerCa": "END Clothing",
-    "affiliateProgram": false,
-    "affiliateNetwork": null,
-    "commission": null,
-    "shipsToCanada": true,
-    "ddpDuties": false,
-    "naturalMaterials": false,
-    "canadianBrand": false,
-    "brandPositioning": [
-      "Premium Casual"
-    ],
-    "tags": [
-      "danish",
-      "streetwear",
-      "contemporary",
-      "scandinavian",
-      "graphic"
-    ],
-    "description": "",
-    "logoUrl": "",
-    "priority": "Medium"
   },
   {
     "handle": "spencer-badu",
@@ -13471,43 +12282,6 @@
     "description": "",
     "logoUrl": "",
     "priority": "Medium"
-  },
-  {
-    "handle": "stone-island",
-    "name": "Stone Island",
-    "url": "/collections/stone-island",
-    "country": "Italy",
-    "madeIn": "Italy",
-    "madeInGroup": "Europe",
-    "primaryCategoryRaw": "Outerwear & Jackets",
-    "category": "Outerwear & Jackets",
-    "priceRange": "Premium",
-    "buyPath": "Both",
-    "bestRetailerNa": "SSENSE",
-    "bestRetailerCa": "SSENSE",
-    "affiliateProgram": false,
-    "affiliateNetwork": null,
-    "commission": null,
-    "shipsToCanada": true,
-    "ddpDuties": false,
-    "naturalMaterials": false,
-    "canadianBrand": false,
-    "brandPositioning": [
-      "Outerwear"
-    ],
-    "tags": [
-      "italian",
-      "outerwear",
-      "technical",
-      "dyeing",
-      "badge",
-      "military-inspired",
-      "functional",
-      "SSENSE"
-    ],
-    "description": "",
-    "logoUrl": "",
-    "priority": "High"
   },
   {
     "handle": "story-mfg",
@@ -13873,7 +12647,7 @@
   },
   {
     "handle": "sefr",
-    "name": "S\u00c3\u00a9fr",
+    "name": "SÃƒÂ©fr",
     "url": "/collections/sefr",
     "country": "Sweden",
     "madeIn": "Sweden",
@@ -13948,7 +12722,7 @@
     "madeInGroup": "USA",
     "primaryCategoryRaw": "Shirts & Tops",
     "category": "Shirts & Tops",
-    "priceRange": "$88 \u00e2\u20ac\u201c $498",
+    "priceRange": "$88 Ã¢â‚¬â€œ $498",
     "buyPath": "Both",
     "bestRetailerNa": null,
     "bestRetailerCa": "SSENSE",
@@ -14102,38 +12876,6 @@
       "technical",
       "outdoor",
       "italy"
-    ],
-    "description": "",
-    "logoUrl": "",
-    "priority": "Medium"
-  },
-  {
-    "handle": "ten-thousand",
-    "name": "Ten Thousand",
-    "url": "/collections/ten-thousand",
-    "country": "USA",
-    "madeIn": "USA",
-    "madeInGroup": "USA",
-    "primaryCategoryRaw": "Shirts & Tops",
-    "category": "Shirts & Tops",
-    "priceRange": "Mid-range",
-    "buyPath": "Direct",
-    "bestRetailerNa": null,
-    "bestRetailerCa": "Ten Thousand",
-    "affiliateProgram": true,
-    "affiliateNetwork": "Impact",
-    "commission": "8%",
-    "shipsToCanada": true,
-    "ddpDuties": false,
-    "naturalMaterials": false,
-    "canadianBrand": false,
-    "brandPositioning": [
-      "Activewear"
-    ],
-    "tags": [
-      "technical",
-      "outdoor",
-      "usa"
     ],
     "description": "",
     "logoUrl": "",
@@ -14446,41 +13188,6 @@
     "priority": "Low"
   },
   {
-    "handle": "thom-browne",
-    "name": "Thom Browne",
-    "url": "/collections/thom-browne",
-    "country": "USA",
-    "madeIn": "USA",
-    "madeInGroup": "USA",
-    "primaryCategoryRaw": "Suits & Tailoring",
-    "category": "Suits & Tailoring",
-    "priceRange": "Luxury",
-    "buyPath": "Both",
-    "bestRetailerNa": "MR PORTER",
-    "bestRetailerCa": "MR PORTER",
-    "affiliateProgram": false,
-    "affiliateNetwork": "No",
-    "commission": null,
-    "shipsToCanada": true,
-    "ddpDuties": false,
-    "naturalMaterials": false,
-    "canadianBrand": false,
-    "brandPositioning": [
-      "Formalwear",
-      "Premium Casual"
-    ],
-    "tags": [
-      "smart casual",
-      "tailored",
-      "usa",
-      "suits",
-      "tailoring"
-    ],
-    "description": "",
-    "logoUrl": "",
-    "priority": "Medium"
-  },
-  {
     "handle": "thursday-boot-co",
     "name": "Thursday Boot Co.",
     "url": "/collections/thursday-boot-co",
@@ -14643,37 +13350,6 @@
     "description": "",
     "logoUrl": "",
     "priority": "High"
-  },
-  {
-    "handle": "travismathew",
-    "name": "TravisMathew",
-    "url": "/collections/travismathew",
-    "country": "USA",
-    "madeIn": "USA",
-    "madeInGroup": "USA",
-    "primaryCategoryRaw": "Shirts & Tops",
-    "category": "Shirts & Tops",
-    "priceRange": "Mid-range",
-    "buyPath": "Both",
-    "bestRetailerNa": "Nordstrom",
-    "bestRetailerCa": "Golf Town",
-    "affiliateProgram": true,
-    "affiliateNetwork": "Rakuten",
-    "commission": "7%",
-    "shipsToCanada": true,
-    "ddpDuties": false,
-    "naturalMaterials": false,
-    "canadianBrand": false,
-    "brandPositioning": [
-      "Casualwear"
-    ],
-    "tags": [
-      "casualwear",
-      "usa"
-    ],
-    "description": "",
-    "logoUrl": "",
-    "priority": "Medium"
   },
   {
     "handle": "trickers",
@@ -14973,77 +13649,6 @@
     "priority": "High"
   },
   {
-    "handle": "vass",
-    "name": "Vass",
-    "url": "/collections/vass",
-    "country": "Hungary",
-    "madeIn": "Hungary",
-    "madeInGroup": "Europe",
-    "primaryCategoryRaw": "Footwear",
-    "category": "Footwear",
-    "priceRange": "Premium",
-    "buyPath": "Both",
-    "bestRetailerNa": null,
-    "bestRetailerCa": "Vass",
-    "affiliateProgram": false,
-    "affiliateNetwork": null,
-    "commission": null,
-    "shipsToCanada": true,
-    "ddpDuties": false,
-    "naturalMaterials": false,
-    "canadianBrand": false,
-    "brandPositioning": [
-      "Footwear"
-    ],
-    "tags": [
-      "casualwear",
-      "footwear",
-      "boots"
-    ],
-    "description": "",
-    "logoUrl": "",
-    "priority": "High"
-  },
-  {
-    "handle": "vass-shoes",
-    "name": "Vass Shoes",
-    "url": "/collections/vass-shoes",
-    "country": "Hungary",
-    "madeIn": "Hungary",
-    "madeInGroup": "Europe",
-    "primaryCategoryRaw": "Footwear",
-    "category": "Footwear",
-    "priceRange": "Premium",
-    "buyPath": "Both",
-    "bestRetailerNa": null,
-    "bestRetailerCa": "Vass",
-    "affiliateProgram": false,
-    "affiliateNetwork": null,
-    "commission": null,
-    "shipsToCanada": true,
-    "ddpDuties": false,
-    "naturalMaterials": false,
-    "canadianBrand": false,
-    "brandPositioning": [
-      "Formalwear",
-      "Footwear"
-    ],
-    "tags": [
-      "hungarian",
-      "budapest",
-      "handwelted",
-      "dress shoes",
-      "MTM",
-      "value",
-      "quality",
-      "bespoke-inspired",
-      "cordovan"
-    ],
-    "description": "",
-    "logoUrl": "",
-    "priority": "Medium"
-  },
-  {
     "handle": "velasca",
     "name": "Velasca",
     "url": "/collections/velasca",
@@ -15213,39 +13818,6 @@
     "priority": "High"
   },
   {
-    "handle": "wales-bonner",
-    "name": "Wales Bonner",
-    "url": "/collections/wales-bonner",
-    "country": "UK",
-    "madeIn": "Various",
-    "madeInGroup": "Other",
-    "primaryCategoryRaw": "Shirts & Tops",
-    "category": "Shirts & Tops",
-    "priceRange": "Luxury",
-    "buyPath": "Both",
-    "bestRetailerNa": "SSENSE",
-    "bestRetailerCa": "SSENSE",
-    "affiliateProgram": false,
-    "affiliateNetwork": "No",
-    "commission": null,
-    "shipsToCanada": true,
-    "ddpDuties": false,
-    "naturalMaterials": false,
-    "canadianBrand": false,
-    "brandPositioning": [
-      "Luxury Designer"
-    ],
-    "tags": [
-      "london",
-      "afro-atlantic",
-      "luxury",
-      "adidas collab"
-    ],
-    "description": "",
-    "logoUrl": "",
-    "priority": "Low"
-  },
-  {
     "handle": "walker-slater",
     "name": "Walker Slater",
     "url": "/collections/walker-slater",
@@ -15371,38 +13943,6 @@
     "tags": [
       "casualwear",
       "uk"
-    ],
-    "description": "",
-    "logoUrl": "",
-    "priority": "Medium"
-  },
-  {
-    "handle": "western-rise",
-    "name": "Western Rise",
-    "url": "/collections/western-rise",
-    "country": "USA",
-    "madeIn": "USA",
-    "madeInGroup": "USA",
-    "primaryCategoryRaw": "Shirts & Tops",
-    "category": "Shirts & Tops",
-    "priceRange": "Mid-range",
-    "buyPath": "Direct",
-    "bestRetailerNa": null,
-    "bestRetailerCa": "Western Rise",
-    "affiliateProgram": true,
-    "affiliateNetwork": "ShareASale",
-    "commission": "8%",
-    "shipsToCanada": true,
-    "ddpDuties": false,
-    "naturalMaterials": false,
-    "canadianBrand": false,
-    "brandPositioning": [
-      "Casualwear"
-    ],
-    "tags": [
-      "technical",
-      "outdoor",
-      "usa"
     ],
     "description": "",
     "logoUrl": "",
@@ -15678,37 +14218,6 @@
     "priority": "Low"
   },
   {
-    "handle": "wtaps",
-    "name": "WTAPS",
-    "url": "/collections/wtaps",
-    "country": "Japan",
-    "madeIn": "Japan",
-    "madeInGroup": "Japan",
-    "primaryCategoryRaw": "Shirts & Tops",
-    "category": "Shirts & Tops",
-    "priceRange": "Premium",
-    "buyPath": "Reseller Only",
-    "bestRetailerNa": "END Clothing",
-    "bestRetailerCa": "END Clothing",
-    "affiliateProgram": false,
-    "affiliateNetwork": "No",
-    "commission": null,
-    "shipsToCanada": false,
-    "ddpDuties": false,
-    "naturalMaterials": false,
-    "canadianBrand": false,
-    "brandPositioning": [
-      "Premium Casual"
-    ],
-    "tags": [
-      "streetwear",
-      "japan"
-    ],
-    "description": "",
-    "logoUrl": "",
-    "priority": "Medium"
-  },
-  {
     "handle": "wythe",
     "name": "Wythe",
     "url": "/collections/wythe",
@@ -15810,81 +14319,6 @@
     "description": "",
     "logoUrl": "",
     "priority": "Medium"
-  },
-  {
-    "handle": "yves-saint-laurent",
-    "name": "Yves Saint Laurent",
-    "url": "/collections/yves-saint-laurent",
-    "country": "France",
-    "madeIn": "France / Italy",
-    "madeInGroup": "Europe",
-    "primaryCategoryRaw": "Shirts & Tops",
-    "category": "Shirts & Tops",
-    "priceRange": "Luxury",
-    "buyPath": "Both",
-    "bestRetailerNa": "MR PORTER",
-    "bestRetailerCa": "MR PORTER",
-    "affiliateProgram": false,
-    "affiliateNetwork": "No",
-    "commission": null,
-    "shipsToCanada": true,
-    "ddpDuties": false,
-    "naturalMaterials": false,
-    "canadianBrand": false,
-    "brandPositioning": [
-      "Premium Casual"
-    ],
-    "tags": [
-      "french",
-      "luxury",
-      "designer",
-      "saint laurent",
-      "YSL",
-      "anthony vaccarello",
-      "tailoring",
-      "rock",
-      "kering"
-    ],
-    "description": "",
-    "logoUrl": "",
-    "priority": "High"
-  },
-  {
-    "handle": "zanone",
-    "name": "Zanone",
-    "url": "/collections/zanone",
-    "country": "Italy",
-    "madeIn": "Italy",
-    "madeInGroup": "Europe",
-    "primaryCategoryRaw": "Knitwear",
-    "category": "Knitwear",
-    "priceRange": "Premium",
-    "buyPath": "Both",
-    "bestRetailerNa": "Trunk Clothiers",
-    "bestRetailerCa": "No Man Walks Alone",
-    "affiliateProgram": false,
-    "affiliateNetwork": null,
-    "commission": null,
-    "shipsToCanada": false,
-    "ddpDuties": false,
-    "naturalMaterials": false,
-    "canadianBrand": false,
-    "brandPositioning": [
-      "Casualwear",
-      "Knitwear"
-    ],
-    "tags": [
-      "italian",
-      "knitwear",
-      "ice cotton",
-      "polo shirts",
-      "made in italy",
-      "warm weather knits",
-      "summer knit"
-    ],
-    "description": "",
-    "logoUrl": "",
-    "priority": "High"
   },
   {
     "handle": "zegna",

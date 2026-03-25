@@ -105,11 +105,6 @@
     "category": "shirts-tops"
   },
   {
-    "name": "Amiri",
-    "slug": "amiri",
-    "category": "shirts-tops"
-  },
-  {
     "name": "Anderson and Sheppard",
     "slug": "anderson-and-sheppard",
     "category": "suits-tailoring"
@@ -140,11 +135,6 @@
     "category": "knitwear"
   },
   {
-    "name": "Arc'teryx",
-    "slug": "arcteryx",
-    "category": "outerwear-jackets"
-  },
-  {
     "name": "Arpenteur",
     "slug": "arpenteur",
     "category": "shirts-tops"
@@ -153,11 +143,6 @@
     "name": "Ascotchang",
     "slug": "ascot-chang",
     "category": "shirts-tops"
-  },
-  {
-    "name": "Asics",
-    "slug": "asics",
-    "category": "footwear"
   },
   {
     "name": "Asket",
@@ -320,11 +305,6 @@
     "category": "footwear"
   },
   {
-    "name": "Bode",
-    "slug": "bode",
-    "category": "shirts-tops"
-  },
-  {
     "name": "Boglioli",
     "slug": "boglioli",
     "category": "suits-tailoring"
@@ -368,11 +348,6 @@
     "name": "Bridlen",
     "slug": "bridlen",
     "category": "footwear"
-  },
-  {
-    "name": "Brioni",
-    "slug": "brioni",
-    "category": "suits-tailoring"
   },
   {
     "name": "Bronson Mfg. Co.",
@@ -465,11 +440,6 @@
     "category": "suits-tailoring"
   },
   {
-    "name": "CDLP",
-    "slug": "cdlp",
-    "category": "accessories"
-  },
-  {
     "name": "Cesare Attolini",
     "slug": "cesare-attolini",
     "category": "suits-tailoring"
@@ -505,19 +475,9 @@
     "category": "footwear"
   },
   {
-    "name": "Ciele Athletics",
-    "slug": "ciele-athletics",
-    "category": "shirts-tops"
-  },
-  {
     "name": "Cifonelli",
     "slug": "cifonelli",
     "category": "suits-tailoring"
-  },
-  {
-    "name": "Clarks",
-    "slug": "clarks",
-    "category": "footwear"
   },
   {
     "name": "Closed",
@@ -555,11 +515,6 @@
     "category": "suits-tailoring"
   },
   {
-    "name": "Corridor",
-    "slug": "corridor",
-    "category": "shirts-tops"
-  },
-  {
     "name": "Corthay",
     "slug": "corthay",
     "category": "footwear"
@@ -573,11 +528,6 @@
     "name": "CP Company",
     "slug": "cp-company",
     "category": "outerwear-jackets"
-  },
-  {
-    "name": "CQP",
-    "slug": "cqp",
-    "category": "footwear"
   },
   {
     "name": "Crescent Down Works",
@@ -625,11 +575,6 @@
     "category": "shirts-tops"
   },
   {
-    "name": "Dickies",
-    "slug": "dickies",
-    "category": "shirts-tops"
-  },
-  {
     "name": "Document",
     "slug": "document",
     "category": "outerwear-jackets"
@@ -650,14 +595,9 @@
     "category": "knitwear"
   },
   {
-    "name": "Dr\u00c3\u00b4le de Monsieur",
+    "name": "DrÃƒÂ´le de Monsieur",
     "slug": "drole-de-monsieur",
     "category": "shirts-tops"
-  },
-  {
-    "name": "Duckworth",
-    "slug": "duckworth",
-    "category": "knitwear"
   },
   {
     "name": "E. Marinella",
@@ -693,11 +633,6 @@
     "name": "Edwin",
     "slug": "edwin",
     "category": "denim"
-  },
-  {
-    "name": "Eleventy",
-    "slug": "eleventy",
-    "category": "suits-tailoring"
   },
   {
     "name": "Emma Willis",
@@ -755,11 +690,6 @@
     "category": "knitwear"
   },
   {
-    "name": "Feit",
-    "slug": "feit",
-    "category": "footwear"
-  },
-  {
     "name": "Filson",
     "slug": "filson",
     "category": "outerwear-jackets"
@@ -785,7 +715,7 @@
     "category": "shirts-tops"
   },
   {
-    "name": "For\u00c3\u00a9t",
+    "name": "ForÃƒÂ©t",
     "slug": "foret",
     "category": "outerwear-jackets"
   },
@@ -845,11 +775,6 @@
     "category": "footwear"
   },
   {
-    "name": "Ghiaia Cashmere",
-    "slug": "ghiaia-cashmere",
-    "category": "knitwear"
-  },
-  {
     "name": "Gitman Vintage",
     "slug": "gitman-vintage",
     "category": "shirts-tops"
@@ -863,11 +788,6 @@
     "name": "Glanshirt",
     "slug": "glanshirt",
     "category": "shirts-tops"
-  },
-  {
-    "name": "Goldwin",
-    "slug": "goldwin",
-    "category": "outerwear-jackets"
   },
   {
     "name": "Good Man Brand",
@@ -985,11 +905,6 @@
     "category": "suits-tailoring"
   },
   {
-    "name": "Imogene + Willie",
-    "slug": "imogene-willie",
-    "category": "denim"
-  },
-  {
     "name": "Incotex",
     "slug": "incotex",
     "category": "suits-tailoring"
@@ -1000,7 +915,7 @@
     "category": "suits-tailoring"
   },
   {
-    "name": "Inis Me\u00c3\u00a1in",
+    "name": "Inis MeÃƒÂ¡in",
     "slug": "inis-meain",
     "category": "knitwear"
   },
@@ -1040,7 +955,7 @@
     "category": "footwear"
   },
   {
-    "name": "Jacob Coh\u00c3\u00abn",
+    "name": "Jacob CohÃƒÂ«n",
     "slug": "jacob-cohen",
     "category": "denim"
   },
@@ -1063,11 +978,6 @@
     "name": "Jim Green",
     "slug": "jim-green",
     "category": "footwear"
-  },
-  {
-    "name": "JL-AL",
-    "slug": "jl-al",
-    "category": "shirts-tops"
   },
   {
     "name": "John Lobb",
@@ -1100,28 +1010,13 @@
     "category": "footwear"
   },
   {
-    "name": "Kamakura",
-    "slug": "kamakura",
-    "category": "shirts-tops"
-  },
-  {
     "name": "Kanata",
     "slug": "kanata",
     "category": "knitwear"
   },
   {
-    "name": "Kapital",
-    "slug": "kapital",
-    "category": "shirts-tops"
-  },
-  {
     "name": "Kaptain Sunshine",
     "slug": "kaptain-sunshine",
-    "category": "shirts-tops"
-  },
-  {
-    "name": "Kardo",
-    "slug": "kardo",
     "category": "shirts-tops"
   },
   {
@@ -1153,11 +1048,6 @@
     "name": "Kiton",
     "slug": "kiton",
     "category": "suits-tailoring"
-  },
-  {
-    "name": "Knickerbocker",
-    "slug": "knickerbocker",
-    "category": "shirts-tops"
   },
   {
     "name": "Kotn",
@@ -1275,18 +1165,8 @@
     "category": "accessories"
   },
   {
-    "name": "Manifattura Ceccarelli",
-    "slug": "manifattura-ceccarelli",
-    "category": "outerwear-jackets"
-  },
-  {
     "name": "Margaret Howell",
     "slug": "margaret-howell",
-    "category": "shirts-tops"
-  },
-  {
-    "name": "Marka",
-    "slug": "marka",
     "category": "shirts-tops"
   },
   {
@@ -1333,11 +1213,6 @@
     "name": "Mister Freedom",
     "slug": "mister-freedom",
     "category": "shirts-tops"
-  },
-  {
-    "name": "Momotaro",
-    "slug": "momotaro",
-    "category": "denim"
   },
   {
     "name": "Monitaly",
@@ -1390,19 +1265,9 @@
     "category": "denim"
   },
   {
-    "name": "Nanamica",
-    "slug": "nanamica",
-    "category": "outerwear-jackets"
-  },
-  {
     "name": "Natalino",
     "slug": "natalino",
     "category": "suits-tailoring"
-  },
-  {
-    "name": "New Balance",
-    "slug": "new-balance",
-    "category": "footwear"
   },
   {
     "name": "Nicks Boots",
@@ -1475,12 +1340,12 @@
     "category": "accessories"
   },
   {
-    "name": "Octobre \u00c3\u2030ditions",
+    "name": "Octobre Ãƒâ€°ditions",
     "slug": "octobre-editions",
     "category": "shirts-tops"
   },
   {
-    "name": "Officine G\u00c3\u00a9n\u00c3\u00a9rale",
+    "name": "Officine GÃƒÂ©nÃƒÂ©rale",
     "slug": "officine-generale",
     "category": "suits-tailoring"
   },
@@ -1517,11 +1382,6 @@
   {
     "name": "Outclass",
     "slug": "outclass",
-    "category": "shirts-tops"
-  },
-  {
-    "name": "Outerknown",
-    "slug": "outerknown",
     "category": "shirts-tops"
   },
   {
@@ -1640,11 +1500,6 @@
     "category": "denim"
   },
   {
-    "name": "Pyrenex",
-    "slug": "pyrenex",
-    "category": "outerwear-jackets"
-  },
-  {
     "name": "Rancourt & Co",
     "slug": "rancourt-and-co",
     "category": "footwear"
@@ -1678,11 +1533,6 @@
     "name": "Resolute",
     "slug": "resolute",
     "category": "denim"
-  },
-  {
-    "name": "Rick Owens",
-    "slug": "rick-owens",
-    "category": "shirts-tops"
   },
   {
     "name": "Ring Jacket",
@@ -1815,11 +1665,6 @@
     "category": "shirts-tops"
   },
   {
-    "name": "Satisfy Running",
-    "slug": "satisfy-running",
-    "category": "shirts-tops"
-  },
-  {
     "name": "Saturdays NYC",
     "slug": "saturdays-nyc",
     "category": "shirts-tops"
@@ -1875,16 +1720,6 @@
     "category": "footwear"
   },
   {
-    "name": "SMR Days",
-    "slug": "smr-days",
-    "category": "shirts-tops"
-  },
-  {
-    "name": "Snow Peak",
-    "slug": "snow-peak",
-    "category": "outerwear-jackets"
-  },
-  {
     "name": "Solovair",
     "slug": "solovair",
     "category": "footwear"
@@ -1892,11 +1727,6 @@
   {
     "name": "Son of a Tailor",
     "slug": "son-of-a-tailor",
-    "category": "shirts-tops"
-  },
-  {
-    "name": "Soulland",
-    "slug": "soulland",
     "category": "shirts-tops"
   },
   {
@@ -1943,11 +1773,6 @@
     "name": "Stoffa",
     "slug": "stoffa",
     "category": "suits-tailoring"
-  },
-  {
-    "name": "Stone Island",
-    "slug": "stone-island",
-    "category": "outerwear-jackets"
   },
   {
     "name": "Story Mfg.",
@@ -2005,7 +1830,7 @@
     "category": "shirts-tops"
   },
   {
-    "name": "S\u00c3\u00a9fr",
+    "name": "SÃƒÂ©fr",
     "slug": "sefr",
     "category": "shirts-tops"
   },
@@ -2038,11 +1863,6 @@
     "name": "Ten C",
     "slug": "ten-c",
     "category": "outerwear-jackets"
-  },
-  {
-    "name": "Ten Thousand",
-    "slug": "ten-thousand",
-    "category": "shirts-tops"
   },
   {
     "name": "The Anthology",
@@ -2090,11 +1910,6 @@
     "category": "denim"
   },
   {
-    "name": "Thom Browne",
-    "slug": "thom-browne",
-    "category": "suits-tailoring"
-  },
-  {
     "name": "Thursday Boot Co.",
     "slug": "thursday-boot-co",
     "category": "footwear"
@@ -2117,11 +1932,6 @@
   {
     "name": "Todd Snyder",
     "slug": "todd-snyder",
-    "category": "shirts-tops"
-  },
-  {
-    "name": "TravisMathew",
-    "slug": "travismathew",
     "category": "shirts-tops"
   },
   {
@@ -2170,16 +1980,6 @@
     "category": "outerwear-jackets"
   },
   {
-    "name": "Vass",
-    "slug": "vass",
-    "category": "footwear"
-  },
-  {
-    "name": "Vass Shoes",
-    "slug": "vass-shoes",
-    "category": "footwear"
-  },
-  {
     "name": "Velasca",
     "slug": "velasca",
     "category": "footwear"
@@ -2205,11 +2005,6 @@
     "category": "shirts-tops"
   },
   {
-    "name": "Wales Bonner",
-    "slug": "wales-bonner",
-    "category": "shirts-tops"
-  },
-  {
     "name": "Walker Slater",
     "slug": "walker-slater",
     "category": "outerwear-jackets"
@@ -2227,11 +2022,6 @@
   {
     "name": "Wax London",
     "slug": "wax-london",
-    "category": "shirts-tops"
-  },
-  {
-    "name": "Western Rise",
-    "slug": "western-rise",
     "category": "shirts-tops"
   },
   {
@@ -2270,11 +2060,6 @@
     "category": "outerwear-jackets"
   },
   {
-    "name": "WTAPS",
-    "slug": "wtaps",
-    "category": "shirts-tops"
-  },
-  {
     "name": "Wythe",
     "slug": "wythe",
     "category": "shirts-tops"
@@ -2288,16 +2073,6 @@
     "name": "Yuketen",
     "slug": "yuketen",
     "category": "footwear"
-  },
-  {
-    "name": "Yves Saint Laurent",
-    "slug": "yves-saint-laurent",
-    "category": "shirts-tops"
-  },
-  {
-    "name": "Zanone",
-    "slug": "zanone",
-    "category": "knitwear"
   },
   {
     "name": "Zegna",
