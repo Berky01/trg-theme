@@ -9,9 +9,25 @@
   unless brand
     break
   endunless
+  assign brand_name = brand.name | default: collection.title
+  assign brand_slug = brand.slug.value | default: brand.slug | default: brand_name | handleize
   assign brand_description = brand.description | strip_html | strip
+  assign brand_positioning = brand.brand_positioning.value | default: brand.brand_positioning | strip_html | strip
   assign brand_price_range = brand.price_range.value | default: brand.price_range
   assign brand_ships_to_canada = brand.ships_to_canada.value | default: brand.ships_to_canada
+  assign brand_made_in = brand.made_in.value | default: brand.made_in
+  assign brand_primary_category = brand.primary_category.value | default: brand.primary_category
+  assign brand_shop_url = brand.retailer_url_na.value | default: brand.retailer_url_na
+  if brand_shop_url == blank
+    assign brand_shop_url = brand.affiliate_link | default: brand.website
+  endif
+  if brand_shop_url == blank
+    assign brand_shop_url = brand.retailer_url_ca.value | default: brand.retailer_url_ca
+  endif
+  assign has_editorial_copy = false
+  if brand_positioning != blank or brand_description != blank or brand_primary_category != blank
+    assign has_editorial_copy = true
+  endif
 %}
 
 {{ 'trg-brand-collection-header.css' | asset_url | stylesheet_tag }}
@@ -19,110 +35,78 @@
 <div class="trg-bch">
   <div class="trg-bch-wrap">
     <div class="trg-bch-container">
-      <div class="trg-bch-card trg-bch-reveal">
-
-        {%- comment -%} ═══ MAIN (left) ═══ {%- endcomment -%}
-        <div class="trg-bch-main">
-          <div class="trg-bch-identity">
-            <div class="trg-bch-logo">
-              {%- if brand.logo != blank -%}
-                <img src="{{ brand.logo | image_url: width: 128 }}" srcset="{{ brand.logo | image_url: width: 128 }} 1x, {{ brand.logo | image_url: width: 256 }} 2x" alt="{{ brand.name | escape }} logo" width="64" height="64" loading="eager">
-              {%- else -%}
-                <span class="trg-bch-logo__fallback">{{ brand.name | truncate: 2, '' | upcase }}</span>
-              {%- endif -%}
-            </div>
-            <div>
-              <div class="trg-bch-badges">
-                {%- if brand.made_in != blank -%}
-                  <span class="trg-bch-badge">Made in {{ brand.made_in }}</span>
-                {%- endif -%}
-                {%- if brand_ships_to_canada == 'Yes' or brand_ships_to_canada == true or brand_ships_to_canada == 'true' or brand_ships_to_canada == '1' -%}
-                  <span class="trg-bch-badge trg-bch-badge--ca">🍁 Ships to Canada</span>
-                {%- endif -%}
-                {%- if brand.ddp_duties == 'Yes' -%}
-                  <span class="trg-bch-badge trg-bch-badge--ddp">DDP Included</span>
-                {%- endif -%}
-              </div>
-              <h1 class="trg-bch-name">{{ collection.title }}</h1>
-            </div>
+      <div class="brand-banner{% unless has_editorial_copy %} brand-banner--no-copy{% endunless %} trg-bch-reveal">
+        <div class="brand-banner__identity">
+          <div class="brand-banner__logo">
+            {%- if brand.logo != blank -%}
+              <img
+                src="{{ brand.logo | image_url: width: 120, height: 120, crop: 'center' }}"
+                alt="{{ brand_name | escape }} logo"
+                loading="lazy"
+                width="64"
+                height="64"
+              >
+            {%- else -%}
+              <span class="brand-banner__logo-initial">{{ brand_name | slice: 0 | upcase }}</span>
+            {%- endif -%}
           </div>
-
-          {%- if brand_description != blank -%}
-            <p class="trg-bch-description">{{ brand_description | truncate: 120 }}</p>
-          {%- endif -%}
-
-          {%- if brand.known_for_materials != blank or brand.known_for_best_for != blank -%}
-            <div class="trg-bch-known">
-              <span class="trg-bch-known__label">Known for</span>
-              {%- if brand.known_for_materials != blank -%}
-                {%- assign materials = brand.known_for_materials | split: ',' -%}
-                {%- for mat in materials -%}
-                  <span class="trg-bch-known__tag trg-bch-known__tag--material">{{ mat | strip }}</span>
-                {%- endfor -%}
-              {%- endif -%}
-              {%- if brand.known_for_best_for != blank -%}
-                {%- assign best_for = brand.known_for_best_for | split: ',' -%}
-                {%- for item in best_for -%}
-                  <span class="trg-bch-known__tag">{{ item | strip }}</span>
-                {%- endfor -%}
-              {%- endif -%}
-            </div>
+          <h1 class="brand-banner__name">{{ brand_name }}</h1>
+          {%- if brand_made_in != blank -%}
+            <span class="brand-banner__badge">Made in {{ brand_made_in }}</span>
           {%- endif -%}
         </div>
 
-        {%- comment -%} ═══ SIDEBAR (right) ═══ {%- endcomment -%}
-        <div class="trg-bch-sidebar">
-          <div class="trg-bch-ctas">
-            {%- assign buy_path = brand.buy_path | strip | downcase -%}
-
-            {%- if buy_path == 'direct' or buy_path == 'both' -%}
-              {%- assign shop_url = brand.affiliate_link | default: brand.website -%}
-              {%- if shop_url != blank -%}
-                <a href="{{ shop_url }}" target="_blank" rel="nofollow noopener" class="trg-bch-cta__primary">
-                  Shop {{ brand.name | truncate: 20, '' }}
-                  <svg class="trg-bch-icon-ext" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-                </a>
-              {%- endif -%}
+        {%- if has_editorial_copy -%}
+          <div class="brand-banner__copy">
+            {%- if brand_positioning != blank -%}
+              <div class="brand-banner__positioning">{{ brand_positioning }}</div>
             {%- endif -%}
-
-            {%- if buy_path == 'both' or buy_path == 'reseller only' -%}
-              {%- assign retailer_name = brand.best_retailer_na -%}
-              {%- assign retailer_url = brand.retailer_url_na | default: '#' -%}
-              {%- if retailer_name != blank -%}
-                <a href="{{ retailer_url }}" target="_blank" rel="nofollow noopener" class="trg-bch-cta__{% if buy_path == 'reseller only' %}primary{% else %}secondary{% endif %}">
-                  {%- if buy_path == 'both' -%}Also at {% endif %}{{ retailer_name | truncate: 18, '' }}
-                  <svg class="trg-bch-icon-ext" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-                </a>
-              {%- endif -%}
+            {%- if brand_description != blank -%}
+              <p class="brand-banner__desc">{{ brand_description | truncate: 160 }}</p>
             {%- endif -%}
-
-            {%- if brand.affiliate_program == 'Yes' or brand.affiliate_link != blank -%}
-              <span class="trg-bch-cta__note">Affiliate link · <a href="/pages/affiliate-disclosure">Disclosure</a></span>
+            {%- if brand_primary_category != blank -%}
+              <div class="brand-banner__tags">
+                {%- assign cats = brand_primary_category | split: ',' -%}
+                {%- for cat in cats limit: 3 -%}
+                  <span class="brand-banner__tag">{{ cat | strip }}</span>
+                {%- endfor -%}
+              </div>
             {%- endif -%}
           </div>
+        {%- endif -%}
 
-          <div class="trg-bch-meta-pills">
-            {%- if brand_ships_to_canada == 'Yes' or brand_ships_to_canada == true or brand_ships_to_canada == 'true' or brand_ships_to_canada == '1' -%}
-              <span class="trg-bch-meta-pill trg-bch-meta-pill--ca">Ships to Canada</span>
+        <div class="brand-banner__action">
+          {%- if brand_shop_url != blank -%}
+            <a href="{{ brand_shop_url }}" class="brand-banner__cta" target="_blank" rel="nofollow noopener">
+              Shop {{ brand_name }}
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
+          {%- endif -%}
+          <div class="brand-banner__meta">
+            {%- if brand_made_in != blank -%}
+              <div class="brand-banner__meta-row">
+                <span class="brand-banner__meta-key">Made In</span>
+                <span class="brand-banner__meta-val">{{ brand_made_in }}</span>
+              </div>
             {%- endif -%}
-          </div>
-
-          <div class="trg-bch-facts">
-            {%- if brand.made_in != blank -%}
-              <div class="trg-bch-fact"><span class="trg-bch-fact__label">Made In</span><span class="trg-bch-fact__value">{{ brand.made_in }}</span></div>
-            {%- endif -%}
-            {%- if brand.primary_category != blank -%}
-              <div class="trg-bch-fact"><span class="trg-bch-fact__label">Category</span><span class="trg-bch-fact__value">{{ brand.primary_category }}</span></div>
+            {%- if brand_primary_category != blank -%}
+              <div class="brand-banner__meta-row">
+                <span class="brand-banner__meta-key">Category</span>
+                <span class="brand-banner__meta-val">{{ brand_primary_category | split: ',' | first | strip }}</span>
+              </div>
             {%- endif -%}
             {%- if brand_price_range != blank -%}
-              <div class="trg-bch-fact"><span class="trg-bch-fact__label">Price Range</span><span class="trg-bch-fact__value">{{ brand_price_range }}</span></div>
-            {%- endif -%}
-            {%- if brand.returns_window != blank -%}
-              <div class="trg-bch-fact"><span class="trg-bch-fact__label">Returns</span><span class="trg-bch-fact__value trg-bch-fact__value--green">{{ brand.returns_window }}</span></div>
+              <div class="brand-banner__meta-row">
+                <span class="brand-banner__meta-key">Price Range</span>
+                <span class="brand-banner__meta-val">{{ brand_price_range }}</span>
+              </div>
             {%- endif -%}
           </div>
+          <button class="brand-banner__follow" type="button" data-brand="{{ brand_slug }}" aria-label="Follow {{ brand_name }}">
+            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            Follow Brand
+          </button>
         </div>
-
       </div>
     </div>
   </div>
