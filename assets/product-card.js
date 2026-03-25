@@ -95,7 +95,7 @@ if (!customElements.get('product-card-link')) {
  * Extends ProductCardLink to inherit view transition functionality.
  *
  * @typedef {object} ProductCardRefs
- * @property {HTMLAnchorElement} productCardLink - The product card link element.
+ * @property {HTMLElement} productCardLink - The product card link element.
  * @property {import('slideshow').Slideshow} [slideshow] - The slideshow component.
  * @property {import('quick-add').QuickAddComponent} [quickAdd] - The quick add component.
  * @property {HTMLElement} [cardGallery] - The card gallery component.
@@ -106,7 +106,7 @@ export class ProductCard extends ProductCardLink {
   requiredRefs = ['productCardLink'];
 
   get productPageUrl() {
-    return this.refs.productCardLink.href;
+    return this.#getLinkUrl(this.refs.productCardLink);
   }
 
   /**
@@ -123,10 +123,54 @@ export class ProductCard extends ProductCardLink {
 
   /**
    * Gets the product card link element
-   * @returns {HTMLAnchorElement | null} The product card link or null
+   * @returns {HTMLElement | null} The product card link or null
    */
   getProductCardLink() {
     return this.refs.productCardLink || null;
+  }
+
+  /**
+   * Gets the current URL associated with the full-card link layer.
+   * @param {HTMLElement | null | undefined} linkElement
+   * @returns {string}
+   */
+  #getLinkUrl(linkElement) {
+    if (linkElement instanceof HTMLAnchorElement) {
+      return linkElement.href;
+    }
+
+    if (linkElement instanceof HTMLElement) {
+      return linkElement.dataset.url || linkElement.getAttribute('data-url') || '';
+    }
+
+    return '';
+  }
+
+  /**
+   * Keeps the full-card link layer in sync with the latest product URL.
+   * @param {HTMLElement | null | undefined} linkElement
+   * @param {string} url
+   */
+  #setLinkUrl(linkElement, url) {
+    if (!(linkElement instanceof HTMLElement) || !url) return;
+
+    if (linkElement instanceof HTMLAnchorElement) {
+      linkElement.href = url;
+      return;
+    }
+
+    linkElement.dataset.url = url;
+    linkElement.setAttribute('data-url', url);
+    linkElement.setAttribute('onclick', `location.href=${JSON.stringify(url)}`);
+    linkElement.setAttribute('onkeydown', `if(event.key==='Enter')location.href=${JSON.stringify(url)}`);
+  }
+
+  /**
+   * Public wrapper used by child components that need to update the card URL.
+   * @param {string} url
+   */
+  setProductPageUrl(url) {
+    this.#setLinkUrl(this.refs.productCardLink, url);
   }
 
   #fetchProductPageHandler = () => {
@@ -156,7 +200,7 @@ export class ProductCard extends ProductCardLink {
     super.connectedCallback();
 
     const link = this.refs.productCardLink;
-    if (!(link instanceof HTMLAnchorElement)) throw new Error('Product card link not found');
+    if (!(link instanceof HTMLElement)) throw new Error('Product card link not found');
     this.#handleQuickAdd();
 
     this.addEventListener(ThemeEvents.variantUpdate, this.#handleVariantUpdate);
@@ -278,7 +322,8 @@ export class ProductCard extends ProductCardLink {
    */
   #updateProductUrl(event) {
     const responseProductCard = event.detail.data.html?.querySelector('product-card');
-    const anchorElement = responseProductCard?.querySelector('a');
+    const responseLinkElement =
+      responseProductCard?.querySelector('[ref="productCardLink"]') || responseProductCard?.querySelector('a[href]');
     const featuredMediaUrl = responseProductCard?.getAttribute('data-featured-media-url');
 
     // Update the featured media URL for view transitions (inherited from ProductCardLink)
@@ -286,14 +331,11 @@ export class ProductCard extends ProductCardLink {
       this.setAttribute('data-featured-media-url', featuredMediaUrl);
     }
 
-    if (anchorElement instanceof HTMLAnchorElement) {
-      // If the href is empty, don't update the product URL eg: unavailable variant
-      if (anchorElement.getAttribute('href')?.trim() === '') return;
-
-      const productUrl = anchorElement.href;
+    const productUrl = this.#getLinkUrl(responseLinkElement);
+    if (productUrl.trim() !== '') {
       const { productCardLink, productTitleLink, cardGalleryLink } = this.refs;
 
-      productCardLink.href = productUrl;
+      this.#setLinkUrl(productCardLink, productUrl);
       if (cardGalleryLink instanceof HTMLAnchorElement) {
         cardGalleryLink.href = productUrl;
       }
@@ -487,11 +529,12 @@ export class ProductCard extends ProductCardLink {
       return;
     }
 
-    const link = this.refs.productCardLink;
-    if (!link.href) return;
-    const linkURL = new URL(link.href);
+    const productCardLink = this.getProductCardLink();
+    const productPageUrl = this.productPageUrl;
+    if (!productCardLink || !productPageUrl) return;
+    const linkURL = new URL(productPageUrl, window.location.origin);
 
-    const productCardAnchor = link.getAttribute('id');
+    const productCardAnchor = productCardLink.getAttribute('id');
     if (!productCardAnchor) return;
 
     const infiniteResultsList = this.closest('results-list[infinite-scroll="true"]');
@@ -509,6 +552,12 @@ export class ProductCard extends ProductCardLink {
     }
 
     const targetLink = event.target.closest('a');
+    const clickedCardLink = event.target.closest('.product-card__link');
+
+    if (clickedCardLink === productCardLink) {
+      return;
+    }
+
     // Let the native navigation handle the click if it was on a link.
     if (!targetLink) {
       this.#navigateToURL(event, linkURL);
@@ -549,9 +598,11 @@ class SwatchesVariantPickerComponent extends VariantPicker {
    */
   #handleCardVariantUrlUpdate() {
     if (this.pendingVariantId && this.parentProductCard instanceof ProductCard) {
-      const currentUrl = new URL(this.parentProductCard.refs.productCardLink.href);
+      const currentUrlValue = this.parentProductCard.productPageUrl;
+      if (!currentUrlValue) return;
+      const currentUrl = new URL(currentUrlValue, window.location.origin);
       currentUrl.searchParams.set('variant', this.pendingVariantId);
-      this.parentProductCard.refs.productCardLink.href = currentUrl.toString();
+      this.parentProductCard.setProductPageUrl(currentUrl.toString());
       this.pendingVariantId = null;
     }
   }

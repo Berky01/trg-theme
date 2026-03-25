@@ -69,10 +69,15 @@
     data-placeholder="true"
   {% endif %}
 >
-  <a
+  <div
     id="{{ product_card_id | md5 }}"
     {% unless onboarding %}
-      href="{{ variant_to_link.url }}"
+      data-url="{{ variant_to_link.url }}"
+      role="link"
+      tabindex="0"
+      aria-label="{{ product.title | escape }}"
+      onclick="location.href={{ variant_to_link.url | json }}"
+      onkeydown="if(event.key==='Enter')location.href={{ variant_to_link.url | json }}"
     {% endunless %}
     class="product-card__link"
     ref="productCardLink"
@@ -80,7 +85,7 @@
     <span class="visually-hidden">
       {{ product.title }}
     </span>
-  </a>
+  </div>
   <div
     class="
       product-card__content

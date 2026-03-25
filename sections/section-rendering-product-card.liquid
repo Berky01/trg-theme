@@ -40,9 +40,15 @@
     on:click="/handleViewTransition"
   {% endif %}
 >
-  <a
-    href="{{ url }}"
+  <div
     ref="productCardLink"
+    class="product-card__link"
+    data-url="{{ url }}"
+    role="link"
+    tabindex="0"
+    aria-label="{{ product.title | escape }}"
+    onclick="location.href={{ url | json }}"
+    onkeydown="if(event.key==='Enter')location.href={{ url | json }}"
   >
     <variant-picker>
       <script type="application/json">
@@ -61,7 +67,7 @@
     >
       {% render 'sku', product_resource: product %}
     </product-sku-component>
-  </a>
+  </div>
 </product-card>
 
 {% schema %}

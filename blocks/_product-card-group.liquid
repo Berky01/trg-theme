@@ -1,8 +1,13 @@
-{%- comment -%} TRG PLP card enhancements — brand, material, CTA {%- endcomment -%}
+{%- comment -%} TRG PLP card enhancements — brand and material {%- endcomment -%}
 
 {% capture children %}
   {% if closest.product != blank and closest.product.vendor != blank %}
-    <p class="trg-plp-card-brand">{{ closest.product.vendor | escape }}</p>
+    {% assign brand_collection_handle = closest.product.vendor | handleize %}
+    <p class="trg-plp-card-brand">
+      <a href="/collections/{{ brand_collection_handle }}" onclick="event.stopPropagation()">
+        {{ closest.product.vendor | escape }}
+      </a>
+    </p>
   {% endif %}
 
   {% content_for 'blocks', closest.product: closest.product %}
@@ -69,41 +74,6 @@
     {% if _meta_line != blank %}
       <p class="trg-plp-card-material">{{ _meta_line }}</p>
     {% endif %}
-  {% endif %}
-
-  {% if closest.product != blank %}
-    {% liquid
-      assign _p2 = closest.product
-      assign _brand_label = _p2.vendor | default: 'Brand'
-      assign _buy_path = _p2.metafields.custom.buy_path.value | default: _p2.metafields.custom.buy_path
-      if _buy_path == blank
-        assign _buy_path = 'direct'
-      endif
-      assign _retailer = _p2.metafields.custom.retailer_name.value | default: _p2.metafields.custom.retailer_name
-      if _retailer == blank
-        assign _retailer = _p2.metafields.custom.retailer.value | default: _p2.metafields.custom.retailer
-      endif
-      if _retailer == blank
-        assign _retailer = _brand_label
-      endif
-    %}
-    <div class="trg-plp-card-cta-block">
-      {% if _buy_path == 'reseller' and _retailer != blank %}
-        <p class="trg-plp-card-retailer">
-          via <strong>{{ _retailer | escape }}</strong>
-        </p>
-      {% endif %}
-      <a class="trg-plp-card-shop-cta" href="{{ _p2.selected_or_first_available_variant.url }}">
-        <span>
-          {% if _buy_path == 'reseller' %}
-            Buy at {{ _retailer | escape }}
-          {% else %}
-            Shop {{ _brand_label | escape }}
-          {% endif %}
-        </span>
-        <span aria-hidden="true">↗</span>
-      </a>
-    </div>
   {% endif %}
 {% endcapture %}
 

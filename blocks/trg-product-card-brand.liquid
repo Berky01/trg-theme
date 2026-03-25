@@ -1,11 +1,13 @@
 {% liquid
   assign product = closest.product
-  assign trg_currency = product.metafields.trg.currency | default: 'USD'
 %}
 
 {% if product != blank and product.vendor != blank %}
-  <p class="trg-plp-card-brand" data-trg-currency="{{ trg_currency }}" data-trg-price="{{ product.price }}" {{ block.shopify_attributes }}>
-    {{ product.vendor | escape }}
+  {% assign brand_collection_handle = product.vendor | handleize %}
+  <p class="trg-plp-card-brand" {{ block.shopify_attributes }}>
+    <a href="/collections/{{ brand_collection_handle }}" onclick="event.stopPropagation()">
+      {{ product.vendor | escape }}
+    </a>
   </p>
 {% endif %}
 
