@@ -332,6 +332,73 @@ document.addEventListener('focusin',function(e){
           white-space: nowrap;
         }
 
+        @media screen and (max-width: 989px) {
+          #MainContent[data-template*='collection'] .trg-plp-body .collection-wrapper {
+            padding-inline: 1rem !important;
+          }
+
+          #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls {
+            justify-content: space-between !important;
+            gap: 0.5rem !important;
+            min-height: 36px !important;
+            margin: 0 0 0.75rem !important;
+            padding: 0.5rem 0 0.75rem !important;
+          }
+
+          #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls .trg-plp-show-filters-btn,
+          #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls .trg-plp-show-filters-btn[hidden],
+          #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls .trg-plp-show-filters-btn:not([hidden]) {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 0.45rem !important;
+            margin: 0 !important;
+            padding: 0.5rem 0.85rem !important;
+            border: 1px solid #d8d3ca !important;
+            border-radius: 2px !important;
+            background: #fff !important;
+            color: #8c847b !important;
+            font-size: 0.72rem !important;
+            font-weight: 500 !important;
+            letter-spacing: 0.08em !important;
+            text-transform: uppercase !important;
+            white-space: nowrap !important;
+            flex: 0 0 auto !important;
+          }
+
+          #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls .trg-plp-show-filters-btn .svg-wrapper,
+          #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls .trg-plp-show-filters-btn svg {
+            width: 14px;
+            height: 14px;
+            flex-shrink: 0;
+          }
+
+          #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls .products-count-wrapper {
+            display: block !important;
+            flex: 1 1 auto !important;
+            text-align: center !important;
+          }
+
+          #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls .products-count-wrapper span {
+            font-size: 0.62rem;
+            letter-spacing: 0.14em;
+          }
+
+          #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls > .trg-plp-sort-shell,
+          #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls > .trg-plp-sort-shell-bridge,
+          #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls .sorting-filter {
+            margin-left: auto !important;
+          }
+
+          #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls .sorting-filter__select,
+          #MainContent[data-template*='collection'] .trg-plp-sort-select-bridge {
+            min-width: 0 !important;
+            max-width: 130px !important;
+            min-height: 36px !important;
+            padding: 0.5rem 1.9rem 0.5rem 0.75rem !important;
+            font-size: 0.75rem !important;
+          }
+        }
+
         @media screen and (min-width: 750px) {
           #MainContent[data-template*='collection'] .sorting-filter__container.desktop\:hidden,
           #MainContent[data-template*='collection'] .sorting-filter__container.desktop:hidden,
@@ -376,7 +443,10 @@ document.addEventListener('focusin',function(e){
             const nativeSort = controls.querySelector(".trg-plp-sort-select, .trg-plp-sort-select-bridge");
             const showButton = controls.querySelector(".trg-plp-show-filters-btn");
             if (showButton instanceof HTMLButtonElement) {
-              showButton.hidden = !document.body.classList.contains("filters-hidden");
+              const isMobile = window.matchMedia("(max-width: 989px)").matches;
+              const shouldShow = isMobile || document.body.classList.contains("filters-hidden");
+              showButton.hidden = !shouldShow;
+              showButton.setAttribute("aria-hidden", String(!shouldShow));
             }
 
             controls.dataset.trgControlsBridged = "true";
@@ -480,4 +550,4 @@ document.addEventListener('focusin',function(e){
 {% comment %} trg-plp-cache-bust 2026-03-23T21:34:43-04:00 {% endcomment %}
 {% comment %} trg-plp-cache-bust 2026-03-23T21:38:11-04:00 {% endcomment %}
 
-<!-- trg-plp-v23-bust-fix 2026-03-24T20:02:55-04:00 -->
+<!-- trg-plp-mobile-bust 2026-03-24T20:28:44-04:00 -->
