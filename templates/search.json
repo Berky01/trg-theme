@@ -158,11 +158,6 @@
                 "padding-inline-end": 0
               },
               "blocks": {
-                "trg_product_card_brand": {
-                  "type": "trg-product-card-brand",
-                  "settings": {},
-                  "blocks": {}
-                },
                 "product_title_7er8rU": {
                   "type": "product-title",
                   "name": "t:names.product_title",
@@ -234,7 +229,6 @@
                 }
               },
               "block_order": [
-                "trg_product_card_brand",
                 "product_title_7er8rU",
                 "trg_product_card_material",
                 "price",

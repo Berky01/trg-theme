@@ -17,7 +17,9 @@
 /* ─── CARD WRAPPER ─── */
 .trg-bch-wrap {
   background: var(--bch-paper);
-  padding: 1.5rem 2rem;
+  padding: 1.35rem 2rem 1rem;
+  position: relative;
+  overflow: hidden;
 }
 .trg-bch-container {
   max-width: 1320px;
@@ -218,6 +220,24 @@ main[data-template="collection.brand"] > .trg-search-bar-wrapper { order: -2; }
 main[data-template="collection.brand"] > .trg-bch-section { order: -1; }
 
 /* ═══ TABLET ═══ */
+@media (min-width: 991px) {
+  .trg-bch-wrap::before {
+    content: '';
+    position: absolute;
+    left: 40px;
+    right: 40px;
+    top: 50%;
+    border-top: 1px solid rgba(221, 216, 207, 0.82);
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+
+  .trg-bch-container {
+    position: relative;
+    z-index: 1;
+  }
+}
+
 @media (max-width: 990px) {
   .trg-bch-wrap { padding: 1.25rem 1.5rem; }
   .trg-bch-card { grid-template-columns: 1fr 240px; }

@@ -49,6 +49,8 @@
   .trg-search-plp[data-trg-visible-count='2'] .product-grid,
   .trg-search-plp[data-trg-visible-count='3'] .product-grid {
     justify-content: start !important;
+    margin-left: 0 !important;
+    margin-right: auto !important;
   }
 
   .trg-search-plp[data-trg-visible-count='1'] .product-grid {
