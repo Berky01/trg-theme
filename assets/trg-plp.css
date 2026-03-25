@@ -457,13 +457,11 @@ body.filters-hidden .trg-plp-body .trg-plp-show-filters-btn { display: flex !imp
     justify-content: space-between !important;
     gap: 0.5rem !important;
     min-height: 36px !important;
-    margin: 5px 0 !important;
+    margin: 6px 0 !important;
     padding: 0 !important;
     position: static !important;
   }
 
-  .trg-plp-body .trg-plp-show-filters-btn,
-  .trg-plp-body .trg-plp-show-filters-btn[hidden],
   .trg-plp-body .trg-plp-show-filters-btn:not([hidden]) {
     display: inline-flex !important;
     align-items: center !important;

@@ -219,6 +219,7 @@ function initSharedSearchBar() {
   const resultsRoot = document.querySelector('#ResultsList');
   const pillButtons = shell.querySelectorAll('[data-trg-search-pill]');
   const submitButton = shell.querySelector('[data-trg-search-submit]');
+  const field = form.querySelector('.trg-search-bar__field');
   const totalCount = count instanceof HTMLElement ? Number(count.dataset.trgTotalCount || '0') : 0;
 
   const getItems = () => Array.from(document.querySelectorAll('[data-trg-search-item]'));
@@ -280,6 +281,22 @@ function initSharedSearchBar() {
       applyCollectionFilter();
       input.focus();
     });
+  }
+
+  if (field instanceof HTMLElement) {
+    const focusInputFromField = (event) => {
+      const target = event.target instanceof Element ? event.target : null;
+      if (target?.closest('[data-trg-active-tags], [data-trg-search-submit]')) {
+        return;
+      }
+
+      if (document.activeElement !== input) {
+        window.requestAnimationFrame(() => input.focus());
+      }
+    };
+
+    field.addEventListener('pointerup', focusInputFromField);
+    field.addEventListener('click', focusInputFromField);
   }
 
   pillButtons.forEach((pill) => {

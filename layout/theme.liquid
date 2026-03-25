@@ -341,12 +341,10 @@ document.addEventListener('focusin',function(e){
             justify-content: space-between !important;
             gap: 0.5rem !important;
             min-height: 36px !important;
-            margin: 5px 0 !important;
+            margin: 6px 0 !important;
             padding: 0 !important;
           }
 
-          #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls .trg-plp-show-filters-btn,
-          #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls .trg-plp-show-filters-btn[hidden],
           #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls .trg-plp-show-filters-btn:not([hidden]) {
             display: inline-flex !important;
             align-items: center !important;
@@ -446,7 +444,11 @@ document.addEventListener('focusin',function(e){
               const isMobile = window.matchMedia("(max-width: 989px)").matches;
               const shouldShow = isMobile || document.body.classList.contains("filters-hidden");
               showButton.hidden = !shouldShow;
-              showButton.setAttribute("aria-hidden", String(!shouldShow));
+              if (shouldShow) {
+                showButton.removeAttribute("aria-hidden");
+              } else {
+                showButton.setAttribute("aria-hidden", "true");
+              }
             }
 
             controls.dataset.trgControlsBridged = "true";
@@ -549,5 +551,3 @@ document.addEventListener('focusin',function(e){
 
 {% comment %} trg-plp-cache-bust 2026-03-23T21:34:43-04:00 {% endcomment %}
 {% comment %} trg-plp-cache-bust 2026-03-23T21:38:11-04:00 {% endcomment %}
-
-<!-- trg-plp-mobile-toolbar-center-bust 2026-03-24T20:50:34-04:00 -->

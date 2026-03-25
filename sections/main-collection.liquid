@@ -264,7 +264,11 @@
         for (const button of this.root.querySelectorAll('.trg-plp-main-column .trg-plp-show-filters-btn')) {
           if (!(button instanceof HTMLButtonElement)) continue;
           button.hidden = !shouldShow;
-          button.setAttribute('aria-hidden', String(!shouldShow));
+          if (shouldShow) {
+            button.removeAttribute('aria-hidden');
+          } else {
+            button.setAttribute('aria-hidden', 'true');
+          }
           button.setAttribute('aria-label', isMobile ? 'Filters' : 'Show filters');
         }
       }
@@ -2034,7 +2038,7 @@
     }
 
     .trg-plp-body .trg-plp-main-column > .trg-collection-controls.trg-collection-controls {
-      margin: 5px 0 !important;
+      margin: 6px 0 !important;
     }
 
     .trg-plp-body .trg-plp-main-column > .main-collection-grid {
@@ -2061,8 +2065,6 @@
       position: static !important;
     }
 
-    .trg-plp-body .trg-plp-show-filters-btn,
-    .trg-plp-body .trg-plp-show-filters-btn[hidden],
     .trg-plp-body .trg-plp-show-filters-btn:not([hidden]) {
       display: inline-flex !important;
       align-items: center !important;

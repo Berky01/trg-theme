@@ -461,6 +461,10 @@
   }
 
   @media screen and (max-width: 900px) {
+    .trg-search-bar-section--collection {
+      overflow: visible;
+    }
+
     .trg-search-bar,
     [class*='search-bar'],
     section[id*='search'] {
@@ -478,6 +482,19 @@
 
     .trg-search-bar__form {
       gap: 0.6rem;
+    }
+
+    .trg-search-bar__field,
+    .trg-search-bar__input {
+      position: relative;
+      z-index: 1;
+    }
+
+    .trg-search-bar__input {
+      pointer-events: auto;
+      touch-action: manipulation;
+      -webkit-user-select: text;
+      user-select: text;
     }
 
     .trg-search-bar__label {

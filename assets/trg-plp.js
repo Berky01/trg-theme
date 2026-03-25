@@ -84,8 +84,15 @@
 
     var showButton = controls.querySelector(':scope > .trg-plp-show-filters-btn');
     if (showButton instanceof HTMLButtonElement) {
-      showButton.hidden = !document.body.classList.contains('filters-hidden');
-      showButton.setAttribute('aria-hidden', String(showButton.hidden));
+      var isMobile = window.matchMedia('(max-width: 989px)').matches;
+      var shouldShow = isMobile || document.body.classList.contains('filters-hidden');
+      showButton.hidden = !shouldShow;
+      if (shouldShow) {
+        showButton.removeAttribute('aria-hidden');
+      } else {
+        showButton.setAttribute('aria-hidden', 'true');
+      }
+      showButton.setAttribute('aria-label', isMobile ? 'Filters' : 'Show filters');
     }
 
     controls.querySelectorAll('.facets--filters-title, .trg-collection-controls__active-filters, .facets-remove').forEach(
@@ -115,11 +122,15 @@
     var cw = document.querySelector('.trg-plp-body .collection-wrapper');
     if (!cw) return;
 
+    var isMobile = window.matchMedia('(max-width: 989px)').matches;
+
     var facetsToggle = cw.querySelector(':scope > .facets-toggle');
-    if (facetsToggle) facetsToggle.remove();
+    if (facetsToggle && !isMobile) facetsToggle.remove();
 
     var dialog = cw.querySelector(':scope > dialog-component');
-    if (dialog) dialog.style.cssText = 'display:none!important';
+    if (dialog instanceof HTMLElement) {
+      dialog.style.removeProperty('display');
+    }
 
     repairToolbar(cw);
     repairSidebar(cw);
