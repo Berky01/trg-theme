@@ -1,85 +1,77 @@
-/* ═══ TRG Search Page Layout ═══ */
-/* Replicates main-collection's .trg-plp-body layout rules          */
-/* for the search-results section, which lacks the trg-plp-body class. */
-/* ROOT CAUSE: search-results.liquid doesn't add .trg-plp-body to   */
-/* <body>, so the 2-column sidebar+grid layout doesn't apply.        */
-
-/* ── Desktop: 2-column layout (sidebar + grid) ── */
-@media screen and (min-width: 990px) {
-  .product-grid-container .collection-wrapper {
-    display: grid !important;
-    grid-template-columns: minmax(220px, 240px) minmax(0, 1fr) !important;
-    column-gap: 2rem;
-    align-items: start;
-    grid-template-areas: none;
-  }
-
-  /* Sort/count toolbar → column 2, row 1 */
-  .product-grid-container .collection-wrapper > .trg-collection-controls {
-    grid-column: 2 !important;
-    grid-row: 1 !important;
-  }
-
-  /* Vertical sidebar → column 1, row 1+2 (sticky) */
-  .product-grid-container .collection-wrapper > .facets-block-wrapper--vertical:not(.hidden):not(dialog-component) {
-    grid-column: 1 !important;
-    grid-row: 1 / span 2 !important;
-    align-self: start;
-    height: fit-content;
-  }
-
-  /* Make the vertical facets sticky */
-  .product-grid-container .facets--vertical:not(.facets--drawer) {
-    position: sticky;
-    top: 120px;
-  }
-
-  /* Product grid → column 2, row 2 */
-  .product-grid-container .collection-wrapper > .main-collection-grid {
-    grid-column: 2 !important;
-    grid-row: 2 !important;
-    min-width: 0;
-  }
-
-  /* Hide the mobile filter drawer toggle on desktop */
-  .product-grid-container .collection-wrapper > .facets-toggle {
-    display: none !important;
-  }
-
-  /* Hide drawer version of filters on desktop */
-  .product-grid-container .collection-wrapper > dialog-component#filters-drawer {
-    display: none !important;
-  }
+.trg-search-plp {
+  background: #f5f1eb;
 }
 
-/* ── Mobile: stack vertically, hide sidebar, show drawer toggle ── */
-@media screen and (max-width: 989px) {
-  .product-grid-container .collection-wrapper {
-    display: block !important;
-  }
-}
-
-/* ── General fixes ── */
-
-/* Hide "Search" label from trg-search-bar on search page */
-.trg-search-bar__label {
+.trg-search-plp .product-grid__item[hidden] {
   display: none !important;
 }
 
-/* Kill Dwell's accent-colored card borders */
-.product-card,
-.product-card__link,
-.product-card__content,
-.product-card__gallery,
-.product-card .media-gallery,
-.product-grid__card {
-  border-color: transparent !important;
+.trg-search-plp .main-collection-grid__empty {
+  max-width: 28rem;
+  align-items: flex-start;
+  text-align: left;
+  padding: 2rem 0 1rem;
 }
 
-/* Hide "Sort" label on mobile */
-@media (max-width: 749px) {
-  .facets__sort-label,
-  label[for*="SortBy"] {
-    display: none !important;
+.trg-search-plp .main-collection-grid__empty-title {
+  font-family: var(--font-heading--family);
+  font-weight: 400;
+  color: #1a1a18;
+}
+
+.trg-search-plp .main-collection-grid__empty-link {
+  color: #c4562a;
+}
+
+.trg-search-sparse-note,
+.trg-search-local-empty {
+  margin: 1rem 0 0;
+  padding-top: 0.9rem;
+  border-top: 1px solid #ddd8cf;
+  color: #8a8478;
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+.trg-search-sparse-note a {
+  color: #1a1a18;
+  text-decoration: none;
+  border-bottom: 1px solid #ddd8cf;
+}
+
+.trg-search-sparse-note a:hover {
+  color: #c4562a;
+  border-bottom-color: #c4562a;
+}
+
+@media screen and (min-width: 990px) {
+  .trg-search-plp[data-trg-visible-count='1'] .product-grid,
+  .trg-search-plp[data-trg-visible-count='2'] .product-grid,
+  .trg-search-plp[data-trg-visible-count='3'] .product-grid {
+    justify-content: start !important;
+  }
+
+  .trg-search-plp[data-trg-visible-count='1'] .product-grid {
+    grid-template-columns: minmax(0, 320px) !important;
+    max-width: 320px;
+  }
+
+  .trg-search-plp[data-trg-visible-count='2'] .product-grid {
+    grid-template-columns: repeat(2, minmax(0, 320px)) !important;
+    max-width: 660px;
+  }
+
+  .trg-search-plp[data-trg-visible-count='3'] .product-grid {
+    grid-template-columns: repeat(3, minmax(0, 320px)) !important;
+    max-width: 1000px;
+  }
+}
+
+@media screen and (max-width: 989px) {
+  .trg-search-sparse-note,
+  .trg-search-local-empty {
+    margin-top: 0.85rem;
+    padding-top: 0.7rem;
+    font-size: 0.74rem;
   }
 }

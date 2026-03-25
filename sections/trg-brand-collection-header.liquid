@@ -9,6 +9,9 @@
   unless brand
     break
   endunless
+  assign brand_description = brand.description | strip_html | strip
+  assign brand_price_range = brand.price_range.value | default: brand.price_range
+  assign brand_ships_to_canada = brand.ships_to_canada.value | default: brand.ships_to_canada
 %}
 
 {{ 'trg-brand-collection-header.css' | asset_url | stylesheet_tag }}
@@ -23,7 +26,7 @@
           <div class="trg-bch-identity">
             <div class="trg-bch-logo">
               {%- if brand.logo != blank -%}
-                <img src="{{ brand.logo | image_url: width: 104 }}" srcset="{{ brand.logo | image_url: width: 104 }} 1x, {{ brand.logo | image_url: width: 208 }} 2x" alt="{{ brand.name | escape }} logo" width="52" height="52" loading="eager">
+                <img src="{{ brand.logo | image_url: width: 128 }}" srcset="{{ brand.logo | image_url: width: 128 }} 1x, {{ brand.logo | image_url: width: 256 }} 2x" alt="{{ brand.name | escape }} logo" width="64" height="64" loading="eager">
               {%- else -%}
                 <span class="trg-bch-logo__fallback">{{ brand.name | truncate: 2, '' | upcase }}</span>
               {%- endif -%}
@@ -33,7 +36,7 @@
                 {%- if brand.made_in != blank -%}
                   <span class="trg-bch-badge">Made in {{ brand.made_in }}</span>
                 {%- endif -%}
-                {%- if brand.ships_to_canada == 'Yes' -%}
+                {%- if brand_ships_to_canada == 'Yes' or brand_ships_to_canada == true or brand_ships_to_canada == 'true' or brand_ships_to_canada == '1' -%}
                   <span class="trg-bch-badge trg-bch-badge--ca">🍁 Ships to Canada</span>
                 {%- endif -%}
                 {%- if brand.ddp_duties == 'Yes' -%}
@@ -44,8 +47,8 @@
             </div>
           </div>
 
-          {%- if brand.description != blank -%}
-            <p class="trg-bch-description">{{ brand.description | truncate: 300 }}</p>
+          {%- if brand_description != blank -%}
+            <p class="trg-bch-description">{{ brand_description | truncate: 120 }}</p>
           {%- endif -%}
 
           {%- if brand.known_for_materials != blank or brand.known_for_best_for != blank -%}
@@ -98,12 +101,21 @@
             {%- endif -%}
           </div>
 
+          <div class="trg-bch-meta-pills">
+            {%- if brand_ships_to_canada == 'Yes' or brand_ships_to_canada == true or brand_ships_to_canada == 'true' or brand_ships_to_canada == '1' -%}
+              <span class="trg-bch-meta-pill trg-bch-meta-pill--ca">Ships to Canada</span>
+            {%- endif -%}
+          </div>
+
           <div class="trg-bch-facts">
             {%- if brand.made_in != blank -%}
               <div class="trg-bch-fact"><span class="trg-bch-fact__label">Made In</span><span class="trg-bch-fact__value">{{ brand.made_in }}</span></div>
             {%- endif -%}
             {%- if brand.primary_category != blank -%}
               <div class="trg-bch-fact"><span class="trg-bch-fact__label">Category</span><span class="trg-bch-fact__value">{{ brand.primary_category }}</span></div>
+            {%- endif -%}
+            {%- if brand_price_range != blank -%}
+              <div class="trg-bch-fact"><span class="trg-bch-fact__label">Price Range</span><span class="trg-bch-fact__value">{{ brand_price_range }}</span></div>
             {%- endif -%}
             {%- if brand.returns_window != blank -%}
               <div class="trg-bch-fact"><span class="trg-bch-fact__label">Returns</span><span class="trg-bch-fact__value trg-bch-fact__value--green">{{ brand.returns_window }}</span></div>
@@ -116,7 +128,7 @@
   </div>
 
   {%- comment -%} ═══ CANADA ACCORDION ═══ {%- endcomment -%}
-  {%- if brand.ships_to_canada == 'Yes' -%}
+  {%- if brand_ships_to_canada == 'Yes' or brand_ships_to_canada == true or brand_ships_to_canada == 'true' or brand_ships_to_canada == '1' -%}
   <div class="trg-bch-canada">
     <div class="trg-bch-canada__inner">
       <button class="trg-bch-canada__toggle" aria-expanded="false"
