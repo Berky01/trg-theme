@@ -8,7 +8,7 @@
 >
   <head>
 <script>
-/* TRG focus fix — must load before Dwell's focus.js to win capture phase */
+/* TRG focus fix - must load before Dwell's focus.js to win capture phase */
 document.addEventListener('focusin',function(e){
   if(e.target&&e.target.closest&&e.target.closest('#trg-mob,#trg-mob-search-float,#trg-body-search')){
     e.stopImmediatePropagation();
@@ -572,3 +572,5 @@ document.addEventListener('focusin',function(e){
 <!-- trg-search-submit-predictive-bust 2026-03-24T23:19:24-04:00 -->
 <!-- trg-brand-mobile-facts-bust 2026-03-24T23:29:28-04:00 -->
 <!-- trg-plp-unification-bust 2026-03-25T09:04:35-04:00 -->
+
+<!-- trg-plp-followup-bust 2026-03-25T09:26:51-04:00 -->
