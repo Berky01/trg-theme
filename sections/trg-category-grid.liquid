@@ -1,5 +1,5 @@
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
-<section class="section section--full-width color-{{ section.settings.color_scheme }} trg-section trg-catv2-section">
+<section class="section section--full-width color-{{ section.settings.color_scheme }} trg-section trg-category-grid-section">
   <div class="trg-shell">
     {% render 'trg-section-header',
       eyebrow: section.settings.eyebrow,
@@ -11,251 +11,208 @@
       reveal: true
     %}
 
-    <div class="trg-catv2-layout">
-
-      {%- comment -%}── Feature card (first block) ──{%- endcomment -%}
-      {%- assign feat = section.blocks.first -%}
-      {%- if feat -%}
-        {%- liquid
-          assign feat_name  = feat.settings.name
-          assign feat_count = feat.settings.count
-          assign feat_link  = feat.settings.link | default: '#'
-          if feat.settings.count_override != blank
-            assign feat_count = feat.settings.count_override
+    <div class="trg-category-grid" style="--trg-category-columns-desktop: {{ section.settings.columns_desktop }};">
+      {% for block in section.blocks %}
+        {% liquid
+          assign selected_collection = block.settings.collection
+          assign use_collection_data = false
+          if section.settings.source_mode == 'collection_blocks' and selected_collection != blank
+            assign use_collection_data = true
           endif
-          assign feat_slug = feat_name | downcase | replace: '&', '' | replace: '  ', ' ' | handleize
-        -%}
-        <a class="trg-catv2-feature" href="{{ feat_link }}" {{ feat.shopify_attributes }}>
-          <div class="trg-catv2-feature__icon">
-            {%- render 'trg-category-icon', type: feat_slug -%}
+
+          assign card_name = block.settings.name
+          assign card_count = block.settings.count
+          assign card_link = block.settings.link
+          assign card_icon = block.settings.icon
+          assign card_tint = block.settings.colour_tint
+          assign card_icon_image = blank
+
+          if use_collection_data
+            assign card_name = selected_collection.title
+            assign card_link = selected_collection.url
+
+            if section.settings.collection_count_mode == 'products'
+              assign card_count = selected_collection.products_count | append: ' ' | append: section.settings.collection_count_suffix
+            elsif section.settings.collection_count_mode == 'hide'
+              assign card_count = blank
+            endif
+
+            if section.settings.collection_icon_mode == 'image' and selected_collection.image != blank
+              assign card_icon_image = selected_collection.image
+            endif
+          endif
+
+          if block.settings.count_override != blank
+            assign card_count = block.settings.count_override
+          endif
+          if block.settings.link != blank
+            assign card_link = block.settings.link
+          endif
+        %}
+
+        <a class="trg-category-card"
+           href="{{ card_link | default: '#' }}"
+           {% if card_tint != blank %}style="--cat-tint: {{ card_tint }};"{% endif %}
+           data-trg-reveal {{ block.shopify_attributes }}>
+          <div class="trg-category-icon">
+            {% if card_icon_image != blank %}
+              {{
+                card_icon_image
+                | image_url: width: 80
+                | image_tag:
+                  loading: 'lazy',
+                  widths: '40, 60, 80',
+                  sizes: '40px',
+                  alt: card_name
+              }}
+            {% else %}
+              {%- assign cat_slug = card_name | downcase | replace: '&', '' | replace: '  ', ' ' | handleize -%}
+              {%- render 'trg-category-icon', type: cat_slug -%}
+            {% endif %}
           </div>
-          <div class="trg-catv2-feature__body">
-            <h3 class="trg-catv2-feature__name">{{ feat_name | escape }}</h3>
-            {%- if feat_count != blank -%}
-              <p class="trg-catv2-feature__count">{{ feat_count | escape }}</p>
-            {%- endif -%}
-            <span class="trg-catv2-feature__cta" aria-hidden="true">→</span>
+          <div class="trg-category-bottom">
+            <h3 class="trg-category-name">{{ card_name | escape }}</h3>
+            <div class="trg-category-meta">
+              {% if card_count != blank %}
+                <span class="trg-category-count">{{ card_count | escape }}</span>
+              {% endif %}
+              <span class="trg-category-arrow" aria-hidden="true">→</span>
+            </div>
           </div>
         </a>
-      {%- endif -%}
-
-      {%- comment -%}── Tile grid (blocks 2 onward) ──{%- endcomment -%}
-      <div class="trg-catv2-tiles">
-        {%- for block in section.blocks -%}
-          {%- if forloop.first -%}{%- continue -%}{%- endif -%}
-          {%- liquid
-            assign selected_collection = block.settings.collection
-            assign use_collection_data = false
-            if section.settings.source_mode == 'collection_blocks' and selected_collection != blank
-              assign use_collection_data = true
-            endif
-
-            assign card_name  = block.settings.name
-            assign card_count = block.settings.count
-            assign card_link  = block.settings.link
-
-            if use_collection_data
-              assign card_name  = selected_collection.title
-              assign card_link  = selected_collection.url
-              if section.settings.collection_count_mode == 'products'
-                assign card_count = selected_collection.products_count | append: ' ' | append: section.settings.collection_count_suffix
-              elsif section.settings.collection_count_mode == 'hide'
-                assign card_count = blank
-              endif
-            endif
-
-            if block.settings.count_override != blank
-              assign card_count = block.settings.count_override
-            endif
-            if block.settings.link != blank
-              assign card_link = block.settings.link
-            endif
-
-            assign card_slug = card_name | downcase | replace: '&', '' | replace: '  ', ' ' | handleize
-          -%}
-          <a class="trg-catv2-tile" href="{{ card_link | default: '#' }}" data-trg-reveal {{ block.shopify_attributes }}>
-            <div class="trg-catv2-tile__top">
-              {%- render 'trg-category-icon', type: card_slug -%}
-            </div>
-            <div class="trg-catv2-tile__bottom">
-              <span class="trg-catv2-tile__name">{{ card_name | escape }}</span>
-              {%- if card_count != blank -%}
-                <span class="trg-catv2-tile__count">{{ card_count | escape }}</span>
-              {%- endif -%}
-            </div>
-          </a>
-        {%- endfor -%}
-      </div>
-
+      {% endfor %}
     </div>
   </div>
 </section>
 
 {% stylesheet %}
-  /* ── Section ── */
-  .trg-catv2-section {
+  .trg-category-grid-section {
     border-top: 1px solid var(--trg-border-color);
     border-bottom: 1px solid var(--trg-border-color);
   }
-  .trg-catv2-section .trg-section-header { align-items: start; }
-  .trg-catv2-section .trg-section-header .trg-heading {
+  .trg-category-grid-section .trg-section-header { align-items: start; }
+  .trg-category-grid-section .trg-section-header .trg-heading {
     font-size: clamp(1.7rem, 2.6vw, 2.25rem);
   }
-  .trg-catv2-section .trg-section-header .trg-lead {
-    color: var(--trg-muted-color);
-    font-size: 0.86rem;
-    line-height: 1.7;
+  .trg-category-grid-section .trg-section-header .trg-lead {
+    color: var(--trg-muted-color); font-size: 0.86rem; line-height: 1.7;
   }
 
-  /* ── Outer layout ── */
-  .trg-catv2-layout {
-    display: flex;
-    gap: 10px;
-    align-items: stretch;
-  }
-
-  /* ── Feature card ── */
-  .trg-catv2-feature {
-    flex: 0 0 280px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-decoration: none;
-    background: #1a1a18;
-    border-radius: var(--trg-card-radius, 6px);
-    padding: 40px 32px;
-    overflow: hidden;
-    position: relative;
-    cursor: pointer;
-    transition: background 0.22s ease;
-  }
-  .trg-catv2-feature:hover { background: #252521; }
-
-  .trg-catv2-feature__icon {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .trg-catv2-feature__icon svg {
-    width: 96px !important;
-    height: 96px !important;
-    stroke: rgba(255,255,255,0.12) !important;
-    stroke-width: 1.1 !important;
-    fill: none !important;
-    opacity: 1 !important;
-  }
-
-  .trg-catv2-feature__body {
-    text-align: center;
-    width: 100%;
-  }
-  .trg-catv2-feature__name {
-    font-family: var(--font-heading--family);
-    font-size: 1.75rem;
-    font-weight: 400;
-    color: #f5f1eb;
-    line-height: 1.15;
-    margin: 0 0 6px;
-  }
-  .trg-catv2-feature__count {
-    font-size: 0.72rem;
-    color: rgba(255,255,255,0.38);
-    letter-spacing: 0.04em;
-    margin: 0 0 22px;
-  }
-  .trg-catv2-feature__cta {
-    display: inline-block;
-    font-size: 1.15rem;
-    color: rgba(196,86,42,0.65);
-    transition: color 0.2s ease, transform 0.2s ease;
-    line-height: 1;
-  }
-  .trg-catv2-feature:hover .trg-catv2-feature__cta {
-    color: #c4562a;
-    transform: translateX(4px);
-  }
-
-  /* ── Tile grid ── */
-  .trg-catv2-tiles {
-    flex: 1;
+  .trg-category-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(10px, 1.5vw, 16px);
+  }
+  @media screen and (min-width: 990px) {
+    .trg-category-grid {
+      grid-template-columns: repeat(var(--trg-category-columns-desktop, 4), minmax(0, 1fr));
+    }
   }
 
-  /* ── Small tile ── */
-  .trg-catv2-tile {
+  .trg-category-card {
+    position: relative;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    padding: 22px 20px;
-    background: #edeae4;
-    border-radius: var(--trg-card-radius, 6px);
-    border: 1px solid #ddd8cf;
-    border-left: 3px solid #c4562a;
+    min-height: 168px;
+    padding: clamp(16px, 2.5vw, 26px);
+    border-radius: var(--trg-card-radius);
+    border: 1px solid var(--trg-border-color);
+    background: rgb(var(--color-background-rgb));
     text-decoration: none;
-    cursor: pointer;
+    color: inherit;
     overflow: hidden;
-    min-height: 120px;
-    transition: background 0.22s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
-  .trg-catv2-tile:hover { background: #e5e1da; }
-  .trg-catv2-tile:hover .trg-catv2-tile__name { color: #c4562a; }
+  .trg-category-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(26,26,24,0.07);
+  }
 
-  .trg-catv2-tile__top { display: block; }
-  .trg-catv2-tile__top svg {
-    width: 42px !important;
-    height: 42px !important;
-    stroke: #c4562a !important;
-    fill: none !important;
-    stroke-width: 1.4 !important;
-    stroke-linecap: round !important;
-    stroke-linejoin: round !important;
-    opacity: 0.65;
-    transition: opacity 0.22s ease;
+  .trg-category-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.07;
+    border-radius: inherit;
+    background: linear-gradient(135deg, var(--cat-tint, #8a8478), var(--cat-tint, #8a8478));
+    transition: opacity 0.2s;
+    pointer-events: none;
   }
-  .trg-catv2-tile:hover .trg-catv2-tile__top svg { opacity: 1; }
+  .trg-category-card:hover::before { opacity: 0.12; }
 
-  .trg-catv2-tile__bottom {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 8px;
+  .trg-category-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgb(var(--color-background-rgb));
+    border: 1px solid rgb(var(--color-foreground-rgb) / 0.06);
+    display: grid;
+    place-items: center;
+    margin-bottom: auto;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 1px 3px rgba(26,26,24,0.04);
+    transition: transform 0.2s, box-shadow 0.2s;
   }
-  .trg-catv2-tile__name {
+  .trg-category-card:hover .trg-category-icon {
+    transform: scale(1.06);
+    box-shadow: 0 2px 8px rgba(26,26,24,0.08);
+  }
+  .trg-category-icon svg {
+    width: 22px;
+    height: 22px;
+    fill: none;
+    stroke: rgb(var(--color-foreground-rgb));
+    stroke-width: 1.3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    opacity: 0.55;
+    transition: opacity 0.15s;
+  }
+  .trg-category-card:hover .trg-category-icon svg { opacity: 0.8; }
+
+  .trg-category-icon img {
+    width: 100%; height: 100%; object-fit: cover;
+  }
+
+  .trg-category-bottom {
+    position: relative;
+    z-index: 1;
+    margin-top: auto;
+  }
+  .trg-category-name {
+    margin: 0 0 4px;
+    color: var(--trg-heading-color);
     font-family: var(--font-heading--family);
     font-size: 1rem;
-    font-weight: 400;
-    color: #1a1a18;
-    line-height: 1.3;
-    text-align: right;
-    flex: 1;
-    transition: color 0.22s ease;
+    line-height: 1.2;
   }
-  .trg-catv2-tile__count {
-    font-size: 0.65rem;
-    color: #8a8478;
-    letter-spacing: 0.04em;
-    white-space: nowrap;
-    padding-bottom: 2px;
+  .trg-category-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .trg-category-count {
+    margin: 0;
+    color: var(--trg-muted-color);
+    font-size: 0.72rem;
+    line-height: 1.4;
+  }
+  .trg-category-arrow {
+    color: var(--trg-border-color);
+    font-size: 0.8rem;
+    transition: color 0.15s ease, transform 0.15s ease;
+  }
+  .trg-category-card:hover .trg-category-arrow {
+    color: var(--trg-accent-color, var(--color-primary));
+    transform: translateX(3px);
   }
 
-  /* ── Mobile ── */
   @media screen and (max-width: 749px) {
-    .trg-catv2-layout { flex-direction: column; }
-    .trg-catv2-feature {
-      flex: 0 0 auto;
-      min-height: 180px;
-      padding: 32px 24px;
-    }
-    .trg-catv2-feature__icon svg {
-      width: 72px !important;
-      height: 72px !important;
-    }
-    .trg-catv2-feature__name { font-size: 1.5rem; }
-    .trg-catv2-tiles { grid-template-columns: repeat(2, 1fr); }
-    .trg-catv2-tile { min-height: 100px; }
+    .trg-category-card { min-height: 118px; }
+    .trg-category-icon { width: 40px; height: 40px; }
+    .trg-category-icon svg { width: 19px; height: 19px; }
+    .trg-category-name { font-size: 0.88rem; }
   }
 {% endstylesheet %}
 
@@ -358,7 +315,7 @@
         {
           "type": "text",
           "id": "icon",
-          "label": "Icon (legacy)"
+          "label": "Icon (legacy, SVG auto-detected from name)"
         },
         {
           "type": "collection",
