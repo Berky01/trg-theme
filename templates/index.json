@@ -702,112 +702,128 @@
     "trg_category_grid_v2_TKmTBQ": {
       "type": "trg-category-grid-v2",
       "blocks": {
-        "category_ayfbCN": {
+        "cat_1": {
           "type": "category",
           "settings": {
+            "name": "Shirts & Tops",
+            "count": "82 brands",
+            "link": "/collections/shirts-tops",
             "icon": "",
-            "collection": "",
-            "name": "Outerwear",
-            "count": "18 brands",
             "count_override": "",
-            "colour_tint": "#8a8478",
-            "link": ""
+            "colour_tint": "#8a8478"
           }
         },
-        "category_BKq8fc": {
+        "cat_2": {
           "type": "category",
           "settings": {
+            "name": "Outerwear & Jackets",
+            "count": "46 brands",
+            "link": "/collections/outerwear-jackets",
             "icon": "",
-            "collection": "",
-            "name": "Outerwear",
-            "count": "18 brands",
             "count_override": "",
-            "colour_tint": "#8a8478",
-            "link": ""
+            "colour_tint": "#8a8478"
           }
         },
-        "category_8pDQjr": {
+        "cat_3": {
           "type": "category",
           "settings": {
+            "name": "Trousers & Bottoms",
+            "count": "38 brands",
+            "link": "/collections/trousers-bottoms",
             "icon": "",
-            "collection": "",
-            "name": "Outerwear",
-            "count": "18 brands",
             "count_override": "",
-            "colour_tint": "#8a8478",
-            "link": ""
+            "colour_tint": "#8a8478"
           }
         },
-        "category_x8FGDE": {
+        "cat_4": {
           "type": "category",
           "settings": {
+            "name": "Knitwear",
+            "count": "31 brands",
+            "link": "/collections/knitwear",
             "icon": "",
-            "collection": "",
-            "name": "Outerwear",
-            "count": "18 brands",
             "count_override": "",
-            "colour_tint": "#8a8478",
-            "link": ""
+            "colour_tint": "#8a8478"
           }
         },
-        "category_cmMnnW": {
+        "cat_5": {
           "type": "category",
           "settings": {
+            "name": "Accessories",
+            "count": "22 brands",
+            "link": "/collections/accessories",
             "icon": "",
-            "collection": "",
-            "name": "Outerwear",
-            "count": "18 brands",
             "count_override": "",
-            "colour_tint": "#8a8478",
-            "link": ""
+            "colour_tint": "#8a8478"
           }
         },
-        "category_RBPPjx": {
+        "cat_6": {
           "type": "category",
           "settings": {
+            "name": "Denim",
+            "count": "19 brands",
+            "link": "/collections/denim",
             "icon": "",
-            "collection": "",
-            "name": "Outerwear",
-            "count": "18 brands",
             "count_override": "",
-            "colour_tint": "#8a8478",
-            "link": ""
+            "colour_tint": "#8a8478"
           }
         },
-        "category_9A6LtP": {
+        "cat_7": {
           "type": "category",
           "settings": {
+            "name": "Footwear",
+            "count": "14 brands",
+            "link": "/collections/footwear",
             "icon": "",
-            "collection": "",
-            "name": "Outerwear",
-            "count": "18 brands",
             "count_override": "",
-            "colour_tint": "#8a8478",
-            "link": ""
+            "colour_tint": "#8a8478"
           }
         },
-        "category_AHLjV3": {
+        "cat_8": {
           "type": "category",
           "settings": {
+            "name": "Suits & Tailoring",
+            "count": "9 brands",
+            "link": "/collections/suits-tailoring",
             "icon": "",
-            "collection": "",
-            "name": "Outerwear",
-            "count": "18 brands",
             "count_override": "",
-            "colour_tint": "#8a8478",
-            "link": ""
+            "colour_tint": "#8a8478"
+          }
+        },
+        "cat_9": {
+          "type": "category",
+          "settings": {
+            "name": "Watches",
+            "count": "8 brands",
+            "link": "/collections/watches",
+            "icon": "",
+            "count_override": "",
+            "colour_tint": "#8a8478"
+          }
+        },
+        "cat_10": {
+          "type": "category",
+          "settings": {
+            "name": "Grooming",
+            "count": "6 brands",
+            "link": "/collections/grooming",
+            "icon": "",
+            "count_override": "",
+            "colour_tint": "#8a8478"
           }
         }
       },
       "block_order": [
-        "category_ayfbCN",
-        "category_BKq8fc",
-        "category_8pDQjr",
-        "category_x8FGDE",
-        "category_cmMnnW",
-        "category_RBPPjx",
-        "category_9A6LtP",
-        "category_AHLjV3"
+        "cat_1",
+        "cat_2",
+        "cat_3",
+        "cat_4",
+        "cat_5",
+        "cat_6",
+        "cat_7",
+        "cat_8",
+        "cat_9",
+        "cat_10"
       ],
       "name": "TRG Category Grid",
       "settings": {

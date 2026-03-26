@@ -272,38 +272,6 @@
     "priority": "Medium"
   },
   {
-    "handle": "abagavelli",
-    "name": "Abaga",
-    "url": "/collections/abagavelli",
-    "country": "Italy",
-    "madeIn": "Italy",
-    "madeInGroup": "Europe",
-    "primaryCategoryRaw": "Shirts & Tops",
-    "category": "Shirts & Tops",
-    "priceRange": "Luxury",
-    "buyPath": "Direct",
-    "bestRetailerNa": null,
-    "bestRetailerCa": null,
-    "affiliateProgram": false,
-    "affiliateNetwork": "No",
-    "commission": null,
-    "shipsToCanada": true,
-    "ddpDuties": false,
-    "naturalMaterials": false,
-    "canadianBrand": false,
-    "brandPositioning": [
-      "Contemporary Designer"
-    ],
-    "tags": [
-      "italian",
-      "designer",
-      "luxury"
-    ],
-    "description": "",
-    "logoUrl": "",
-    "priority": "Low"
-  },
-  {
     "handle": "ace-marks",
     "name": "Ace Marks",
     "url": "/collections/ace-marks",
@@ -10602,39 +10570,6 @@
     "priority": "Medium"
   },
   {
-    "handle": "roberto-collina",
-    "name": "Roberto Collima",
-    "url": "/collections/roberto-collina",
-    "country": "Italy",
-    "madeIn": "Italy",
-    "madeInGroup": "Europe",
-    "primaryCategoryRaw": "Knitwear",
-    "category": "Knitwear",
-    "priceRange": "Premium",
-    "buyPath": "Both",
-    "bestRetailerNa": "MR PORTER",
-    "bestRetailerCa": "MR PORTER",
-    "affiliateProgram": false,
-    "affiliateNetwork": "No",
-    "commission": null,
-    "shipsToCanada": true,
-    "ddpDuties": false,
-    "naturalMaterials": false,
-    "canadianBrand": false,
-    "brandPositioning": [
-      "Luxury Knitwear"
-    ],
-    "tags": [
-      "italian",
-      "knitwear",
-      "luxury",
-      "cashmere"
-    ],
-    "description": "",
-    "logoUrl": "",
-    "priority": "Low"
-  },
-  {
     "handle": "rocky-mountain-featherbed",
     "name": "Rocky Mountain Featherbed",
     "url": "/collections/rocky-mountain-featherbed",
@@ -13281,38 +13216,6 @@
       "usa",
       "footwear",
       "boots"
-    ],
-    "description": "",
-    "logoUrl": "",
-    "priority": "Medium"
-  },
-  {
-    "handle": "toad-and-co",
-    "name": "Toad&Co",
-    "url": "/collections/toad-and-co",
-    "country": "USA",
-    "madeIn": "USA",
-    "madeInGroup": "USA",
-    "primaryCategoryRaw": "Shirts & Tops",
-    "category": "Shirts & Tops",
-    "priceRange": "Mid-range",
-    "buyPath": "Both",
-    "bestRetailerNa": "REI",
-    "bestRetailerCa": "REI",
-    "affiliateProgram": true,
-    "affiliateNetwork": "ShareASale",
-    "commission": "8%",
-    "shipsToCanada": true,
-    "ddpDuties": false,
-    "naturalMaterials": false,
-    "canadianBrand": false,
-    "brandPositioning": [
-      "Casualwear"
-    ],
-    "tags": [
-      "casualwear",
-      "usa",
-      "sustainable"
     ],
     "description": "",
     "logoUrl": "",

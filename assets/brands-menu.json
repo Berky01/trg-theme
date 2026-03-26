@@ -40,11 +40,6 @@
     "category": "shirts-tops"
   },
   {
-    "name": "Abaga",
-    "slug": "abagavelli",
-    "category": "shirts-tops"
-  },
-  {
     "name": "Ace Marks",
     "slug": "ace-marks",
     "category": "footwear"
@@ -1540,11 +1535,6 @@
     "category": "suits-tailoring"
   },
   {
-    "name": "Roberto Collima",
-    "slug": "roberto-collina",
-    "category": "knitwear"
-  },
-  {
     "name": "Rocky Mountain Featherbed",
     "slug": "rocky-mountain-featherbed",
     "category": "outerwear-jackets"
@@ -1923,11 +1913,6 @@
     "name": "To Boot New York",
     "slug": "to-boot-new-york",
     "category": "footwear"
-  },
-  {
-    "name": "Toad&Co",
-    "slug": "toad-and-co",
-    "category": "shirts-tops"
   },
   {
     "name": "Todd Snyder",
