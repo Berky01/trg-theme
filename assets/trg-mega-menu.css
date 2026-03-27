@@ -143,8 +143,9 @@
 @media(max-width:989px){
 /* Hide desktop panels on mobile */
 .trg-mm-bk,.trg-mm-p{display:none!important}
-/* Hide Dwell native drawer content */
+/* Hide Dwell native drawer -- replaced by TRG mobile */
 header-drawer .menu-drawer__inner-container{display:none!important}
+header-drawer details>:not(summary){display:none!important}
 /* Show mobile drawer */
 .trg-mob{display:block;position:fixed;inset:0;z-index:200;pointer-events:none;opacity:0;transition:opacity .3s}
 .trg-mob.on{pointer-events:all;opacity:1}
@@ -254,4 +255,4 @@ header-drawer .menu-drawer__inner-container{display:none!important}
 .trg-mob-bempty{padding:2rem 1.25rem;text-align:center;font-size:.8rem;color:rgba(245,241,235,.3);font-style:italic}
 }
 
-/* trg-recompile-1773790615 */
+/* trg-recompile-1774640515 */

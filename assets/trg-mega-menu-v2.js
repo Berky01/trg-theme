@@ -175,6 +175,7 @@ function openMob(){
      listeners by cloning document and replacing — but that's nuclear.
      Instead: add our own higher-priority focusin that stops propagation
      for elements inside #trg-mob. */
+  document.querySelectorAll('header-drawer details[open]').forEach(function(d){d.removeAttribute('open')});
   el.classList.add('on');el.setAttribute('aria-hidden','false');
   document.body.style.overflow='hidden';
   mobOpen=true;
@@ -192,16 +193,20 @@ function closeMob(){
 /* Intercept Dwell hamburger on mobile */
 function hookHamburger(){
   if(!isMob())return;
-  /* Dwell puts the hamburger in header-drawer or .header__icon--menu */
-  var btns=document.querySelectorAll('header-drawer button, .header__icon--menu, [aria-controls="menu-drawer"]');
+  var btns=document.querySelectorAll('header-drawer summary, header-drawer button, .header__icon--menu, [aria-controls="menu-drawer"]');
   btns.forEach(function(btn){
     if(btn._trgHooked)return;
     btn._trgHooked=true;
     btn.addEventListener('click',function(e){
       if(!isMob())return;
       e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();
+      var det=btn.closest('details');if(det&&det.open)det.removeAttribute('open');
       if(mobOpen)closeMob();else openMob();
-    },true);/* capture phase to beat Dwell */
+    },true);
+  });
+  document.querySelectorAll('header-drawer details').forEach(function(det){
+    if(det._trgObs)return;det._trgObs=true;
+    new MutationObserver(function(){if(isMob()&&det.open)det.removeAttribute('open')}).observe(det,{attributes:true,attributeFilter:['open']});
   });
 }
 
