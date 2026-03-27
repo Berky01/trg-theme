@@ -35,8 +35,7 @@ document.addEventListener('focusin',function(e){
 
     {%- render 'meta-tags' -%}
     {%- render 'stylesheets' -%}
-    <link rel="stylesheet" href="{{ 'trg-mega-menu.css' | asset_url }}" media="print" onload="this.media='all'">
-    <noscript>{{ 'trg-mega-menu.css' | asset_url | stylesheet_tag }}</noscript>
+    {{ 'trg-mega-menu.css' | asset_url | stylesheet_tag }}
     {%- render 'fonts' -%}
     {%- render 'scripts' -%}
     {%- render 'theme-styles-variables' -%}
@@ -613,3 +612,4 @@ document.addEventListener('focusin',function(e){
 <!-- trg-p3-a11y-copy-fixes 1774641406 -->
 <!-- trg-p4-jsonld-legal 1774641715 -->
 <!-- trg-mm-grid-fix 1774655524 -->
+<!-- trg-mm-layout-fix 1774655808 -->

@@ -42,7 +42,7 @@
 .trg-mm-t.on .trg-mm-tc{color:var(--trg-mm-faint)}
 
 /* Content area */
-.trg-mm-c{flex:1;padding:1.75rem 2rem;overflow-y:auto;overflow-x:hidden;min-width:0;-webkit-overflow-scrolling:touch;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.12) transparent}
+.trg-mm-c{flex:1;padding:1.75rem 2rem;overflow:hidden;min-width:0;position:relative;-webkit-overflow-scrolling:touch;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.12) transparent}
 .trg-mm-c::-webkit-scrollbar{width:3px}
 .trg-mm-c::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:2px}
 
@@ -90,7 +90,7 @@
 .trg-mm-sm strong{color:rgba(196,86,42,.8);font-weight:500}
 
 /* Brand grid */
-.trg-mm-bg{display:grid;grid-template-columns:repeat(4,1fr);gap:0 1.5rem}
+.trg-mm-bg{display:grid;grid-template-columns:repeat(4,1fr);gap:0 1.5rem;max-width:100%;box-sizing:border-box}
 .trg-mm-bg.sr{column-count:4}
 .trg-mm-bg.ct{column-count:3;column-gap:1.5rem}
 .trg-mm-bg.ct .trg-mm-bl{padding:.3rem 0;border-bottom:1px solid rgba(255,255,255,.04)}
@@ -101,7 +101,7 @@
 .trg-mm-bl mark{background:rgba(196,86,42,.25);color:var(--trg-mm-text);border-radius:2px;padding:0 2px;font-style:normal}
 
 /* Featured brand column */
-.trg-mm-ft{width:196px;flex-shrink:0;border-left:1px solid var(--trg-mm-border);padding:1.75rem 1.4rem;display:flex;flex-direction:column;gap:1.1rem}
+.trg-mm-ft{width:196px;flex-shrink:0;position:relative;z-index:2;border-left:1px solid var(--trg-mm-border);padding:1.75rem 1.4rem;display:flex;flex-direction:column;gap:1.1rem}
 .trg-mm-fl{font-family:'DM Sans',sans-serif;font-size:.57rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--trg-mm-ghost)}
 .trg-mm-fc{display:flex;flex-direction:column;border:1px solid rgba(255,255,255,.08);border-radius:3px;overflow:hidden;text-decoration:none;transition:border-color .15s}
 .trg-mm-fc:hover{border-color:var(--trg-mm-accent-bd)}
@@ -255,4 +255,4 @@ header-drawer details>:not(summary){display:none!important}
 .trg-mob-bempty{padding:2rem 1.25rem;text-align:center;font-size:.8rem;color:rgba(245,241,235,.3);font-style:italic}
 }
 
-/* trg-recompile-1774655524 */
+/* trg-recompile-1774655809 */
