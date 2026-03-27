@@ -113,9 +113,45 @@
   href="{{ canonical_url }}"
 >
 
-{% if page_description %}
-  <meta
-    name="description"
-    content="{{ page_description | escape }}"
-  >
-{% endif %}
+{%- liquid
+  assign meta_desc = page_description
+  if meta_desc == blank and request.page_type == 'collection' and collection.handle != blank
+    assign brand_mo = shop.metaobjects.brand[collection.handle]
+    if brand_mo != blank
+      assign b_name = brand_mo.name.value | default: collection.title
+      assign b_cat = brand_mo.primary_category.value
+      assign b_price = brand_mo.price_range.value
+      assign b_made = brand_mo.made_in.value
+      assign meta_parts = ''
+      if b_cat != blank
+        assign meta_parts = meta_parts | append: b_cat
+      endif
+      if b_price != blank
+        if meta_parts != ''
+          assign meta_parts = meta_parts | append: ' | '
+        endif
+        assign meta_parts = meta_parts | append: b_price
+      endif
+      if b_made != blank
+        if meta_parts != ''
+          assign meta_parts = meta_parts | append: ' | Made in '
+        else
+          assign meta_parts = meta_parts | append: 'Made in '
+        endif
+        assign meta_parts = meta_parts | append: b_made
+      endif
+      if meta_parts != ''
+        assign meta_desc = 'Shop ' | append: b_name | append: ' on The Right Garment. ' | append: meta_parts | append: '.'
+      else
+        assign meta_desc = 'Shop ' | append: b_name | append: ' on The Right Garment. Discover the full collection and find out where to buy.'
+      endif
+    endif
+  endif
+  if meta_desc == blank
+    assign meta_desc = shop.description | default: shop.name
+  endif
+-%}
+<meta
+  name="description"
+  content="{{ meta_desc | escape }}"
+>

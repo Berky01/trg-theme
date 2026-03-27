@@ -30,40 +30,6 @@
     assign brand_shop_url = 'https://' | append: brand_shop_url
   endunless
   assign editorial_description = brand_description
-  if editorial_description == blank
-    capture fallback_description
-      if brand_made_in != blank
-        echo 'Made in '
-        echo brand_made_in
-      endif
-      if brand_primary_category_first != blank
-        if brand_made_in != blank
-          echo '. '
-        endif
-        if brand_positioning != blank
-          echo brand_positioning
-          echo ' with a focus on '
-          echo brand_primary_category_first | downcase
-        else
-          echo 'Focus on '
-          echo brand_primary_category_first | downcase
-        endif
-      elsif brand_positioning != blank
-        if brand_made_in != blank
-          echo '. '
-        endif
-        echo brand_positioning
-      endif
-      if brand_price_range != blank
-        if brand_made_in != blank or brand_primary_category_first != blank or brand_positioning != blank
-          echo '. '
-        endif
-        echo brand_price_range
-        echo ' pricing'
-      endif
-    endcapture
-    assign editorial_description = fallback_description | strip
-  endif
   assign use_sparse_banner = false
   if brand_description == blank
     assign use_sparse_banner = true

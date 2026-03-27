@@ -35,7 +35,8 @@ document.addEventListener('focusin',function(e){
 
     {%- render 'meta-tags' -%}
     {%- render 'stylesheets' -%}
-    {{ 'trg-mega-menu.css' | asset_url | stylesheet_tag }}
+    <link rel="stylesheet" href="{{ 'trg-mega-menu.css' | asset_url }}" media="print" onload="this.media='all'">
+    <noscript>{{ 'trg-mega-menu.css' | asset_url | stylesheet_tag }}</noscript>
     {%- render 'fonts' -%}
     {%- render 'scripts' -%}
     {%- render 'theme-styles-variables' -%}
@@ -48,14 +49,14 @@ document.addEventListener('focusin',function(e){
     {% if template == 'page.brands-directory' %}<link href="{{ 'trg-brand-directory.css' | asset_url }}" as="style" rel="preload">{% endif %}
     {{ content_for_header }}
     {{ 'trg-audit-fixes.css' | asset_url | stylesheet_tag }}
-    {{ 'trg-pdp-v1.css' | asset_url | stylesheet_tag }}
-    {{ 'trg-account.css' | asset_url | stylesheet_tag }}
-    {{ 'trg-plp.css' | asset_url | stylesheet_tag }}
+    {%- if request.page_type == 'product' -%}{{ 'trg-pdp-v1.css' | asset_url | stylesheet_tag }}{%- endif -%}
+    {%- if customer or template == 'customers/account' or template == 'customers/login' -%}<link rel="stylesheet" href="{{ 'trg-account.css' | asset_url }}" media="print" onload="this.media='all'">{%- endif -%}
+    {%- if template.name == 'collection' or template.name == 'search' -%}{{ 'trg-plp.css' | asset_url | stylesheet_tag }}{%- endif -%}
     {% if template == 'page.brands-directory' %}{{ 'trg-brand-directory.css' | asset_url | stylesheet_tag }}{% endif %}
 
     {% if template == 'page.colour-guide' %}{{ 'trg-colour-guide.css' | asset_url | stylesheet_tag }}{% endif %}
-    <script src="{{ 'trg-account.js' | asset_url }}" defer></script>
-    <script src="{{ 'trg-plp.js' | asset_url }}" defer></script>
+    {%- if customer or template == 'customers/account' or template == 'customers/login' -%}<script src="{{ 'trg-account.js' | asset_url }}" defer></script>{%- endif -%}
+    {%- if template.name == 'collection' or template.name == 'search' -%}<script src="{{ 'trg-plp.js' | asset_url }}" defer></script>{%- endif -%}
 </head>
 
   <body class="page-width-{{ settings.page_width }} card-hover-effect-{{ settings.card_hover_effect }} trg-card-style-{{ settings.trg_card_style | default: 'outlined' }} trg-reveal-enabled-{{ settings.trg_enable_reveal | default: true }}">
@@ -608,3 +609,4 @@ document.addEventListener('focusin',function(e){
 <!-- trg-p0-audit-fix 1774640517 -->
 <!-- trg-p1-cta-fix 1774640792 -->
 <!-- trg-p1-geo-detect 1774640863 -->
+<!-- trg-p2-lcp-opt 1774641073 -->
