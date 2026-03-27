@@ -86,6 +86,7 @@ function bindTabs(){
       var sb=btn.closest('.trg-mm-sb');
       if(sb)sb.querySelectorAll('.trg-mm-t').forEach(function(t){t.classList.remove('on')});
       btn.classList.add('on');
+      var href=btn.dataset.href;if(href){window.location.href=href;return;}
       var pn=btn.closest('.trg-mm-p');
       if(pn){pn.querySelectorAll('.trg-mm-pn').forEach(function(p){p.classList.remove('on')});
         var pp=$('trg-mm-pn-'+tid);if(pp)pp.classList.add('on')}
