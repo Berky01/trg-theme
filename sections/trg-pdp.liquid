@@ -1,7 +1,7 @@
 {%- liquid
   comment
     ═══════════════════════════════════════════════════════════════════
-    TRG PRODUCT PDP — Self-contained section (v3)
+    TRG PRODUCT PDP  -  Self-contained section (v3)
     Replaces Dwell's product-information section for full design control
     ═══════════════════════════════════════════════════════════════════
   endcomment
@@ -172,10 +172,10 @@
       {%- endif -%}
     </div>
     {%- if p.media.size > 1 -%}
-      <div class="trg-pdp__thumbs">
+      <div aria-label="View product image" class="trg-pdp__thumbs">
         {%- for media in p.media -%}
           <button
-            class="trg-pdp__thumb{% if forloop.first %} active{% endif %}"
+            aria-label="View product image" class="trg-pdp__thumb{% if forloop.first %} active{% endif %}"
             data-src="{{ media | image_url: width: 900 }}"
             data-alt="{{ media.alt | default: p.title | escape }}"
             type="button"
@@ -185,11 +185,11 @@
         {%- endfor -%}
       </div>
     {%- else -%}
-      <div class="trg-pdp__thumbs">
-        <div class="trg-pdp__thumb active"><div class="trg-pdp__thumb-ph">Front</div></div>
-        <div class="trg-pdp__thumb"><div class="trg-pdp__thumb-ph">Back</div></div>
-        <div class="trg-pdp__thumb"><div class="trg-pdp__thumb-ph">Detail</div></div>
-        <div class="trg-pdp__thumb"><div class="trg-pdp__thumb-ph">On Model</div></div>
+      <div aria-label="View product image" class="trg-pdp__thumbs">
+        <div aria-label="View product image" class="trg-pdp__thumb active"><div aria-label="View product image" class="trg-pdp__thumb-ph">Front</div></div>
+        <div aria-label="View product image" class="trg-pdp__thumb"><div aria-label="View product image" class="trg-pdp__thumb-ph">Back</div></div>
+        <div aria-label="View product image" class="trg-pdp__thumb"><div aria-label="View product image" class="trg-pdp__thumb-ph">Detail</div></div>
+        <div aria-label="View product image" class="trg-pdp__thumb"><div aria-label="View product image" class="trg-pdp__thumb-ph">On Model</div></div>
       </div>
     {%- endif -%}
   </div>
@@ -273,7 +273,7 @@
         {%- comment -%} Fallback if no URL at all {%- endcomment -%}
         {%- if is_direct and buy_url_us == blank -%}
           {%- if is_both == false and is_reseller == false -%}
-            <p class="trg-pdp__no-link">No direct link available — search <strong>{{ p.title | escape }}</strong> at your preferred retailer.</p>
+            <p class="trg-pdp__no-link">No direct link available  -  search <strong>{{ p.title | escape }}</strong> at your preferred retailer.</p>
           {%- endif -%}
         {%- endif -%}
       </div>
@@ -326,7 +326,7 @@
     {%- endif -%}
 
     {%- if has_affiliate -%}
-    <p class="trg-pdp__disclosure">Affiliate link — TRG may earn a commission at no extra cost to you</p>
+    <p class="trg-pdp__disclosure">Affiliate link  -  TRG may earn a commission at no extra cost to you</p>
     {%- endif -%}
 
     {%- comment -%} Wishlist {%- endcomment -%}
@@ -353,23 +353,23 @@
         {%- if ships_to_ca -%}
           <div class="trg-pdp__canada-fact">
             <svg class="trg-pdp__canada-icon--ok" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-            <span><strong>Ships to Canada</strong> — direct from brand</span>
+            <span><strong>Ships to Canada</strong>  -  direct from brand</span>
           </div>
         {%- else -%}
           <div class="trg-pdp__canada-fact">
             <svg class="trg-pdp__canada-icon--warn" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-            <span><strong>Shipping to Canada</strong> — check retailer</span>
+            <span><strong>Shipping to Canada</strong>  -  check retailer</span>
           </div>
         {%- endif -%}
         {%- if duties_apply -%}
           <div class="trg-pdp__canada-fact">
             <svg class="trg-pdp__canada-icon--warn" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-            <span><strong>Duties not prepaid</strong> — may apply at delivery</span>
+            <span><strong>Duties not prepaid</strong>  -  may apply at delivery</span>
           </div>
         {%- else -%}
           <div class="trg-pdp__canada-fact">
             <svg class="trg-pdp__canada-icon--ok" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-            <span><strong>No duties</strong> — DDP, price is final</span>
+            <span><strong>No duties</strong>  -  DDP, price is final</span>
           </div>
         {%- endif -%}
         {%- if returns_window != blank -%}
@@ -432,7 +432,7 @@
             {%- if material != blank -%}<p style="margin:0 0 0.4rem;font-weight:500;color:#1a1a18;">{{ material }}</p>{%- endif -%}
             {%- if care_inst != blank -%}<p style="margin:0;">{{ care_inst }}</p>{%- endif -%}
           {%- else -%}
-            Care instructions vary by product — check the brand's site for details.
+            Care instructions vary by product  -  check the brand's site for details.
           {%- endif -%}
         </div>
       </div>
@@ -456,7 +456,7 @@
 </div>
 
 
-{%- comment -%} ═══ COMPLETE THE LOOK — COLOUR GUIDE ═══ {%- endcomment -%}
+{%- comment -%} ═══ COMPLETE THE LOOK  -  COLOUR GUIDE ═══ {%- endcomment -%}
 {%- liquid
   assign ctl_colour = ''
   for option in p.options_with_values
@@ -479,7 +479,7 @@
     endif
   endif
   if ctl_colour == blank
-    assign title_parts = p.title | split: ' — '
+    assign title_parts = p.title | split: '  -  '
     if title_parts.size > 1
       assign ctl_colour = title_parts.last | strip
     endif
@@ -543,7 +543,7 @@
 
 {% stylesheet %}
   /* ═══════════════════════════════════════════════════════
-     TRG PDP v3 — Complete styles
+     TRG PDP v3  -  Complete styles
      ═══════════════════════════════════════════════════════ */
 
   /* ── BREADCRUMB ── */
@@ -576,7 +576,7 @@
     font-weight: 500;
   }
 
-  /* ── MAIN LAYOUT — 55/45 split ── */
+  /* ── MAIN LAYOUT  -  55/45 split ── */
   .trg-pdp {
     max-width: 1320px;
     margin: 0 auto;
