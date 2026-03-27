@@ -59,6 +59,22 @@ document.addEventListener('focusin',function(e){
 </head>
 
   <body class="page-width-{{ settings.page_width }} card-hover-effect-{{ settings.card_hover_effect }} trg-card-style-{{ settings.trg_card_style | default: 'outlined' }} trg-reveal-enabled-{{ settings.trg_enable_reveal | default: true }}">
+<script>
+/* TRG geo-region detection — sets body[data-region=CA] for Canadian visitors */
+(function(){
+  var r=sessionStorage.getItem('trg_region');
+  if(r){if(r==='CA')document.body.dataset.region='CA';return}
+  fetch('/browsing_context_suggestions.json')
+    .then(function(res){return res.json()})
+    .then(function(d){
+      var c=d&&d.detected_values&&d.detected_values.country;
+      var code=c?(c.handle||'').toUpperCase():'';
+      sessionStorage.setItem('trg_region',code||'US');
+      if(code==='CA')document.body.dataset.region='CA';
+    })
+    .catch(function(){sessionStorage.setItem('trg_region','US')});
+})();
+</script>
   {%- comment -%}TRG Account: inject customer data for JS{%- endcomment -%}
   {% if customer %}
     <div data-trg-customer-id="{{ customer.id }}" style="display:none"></div>
@@ -591,3 +607,4 @@ document.addEventListener('focusin',function(e){
 <!-- trg-search-card-size-fix 2026-03-25 -->
 <!-- trg-p0-audit-fix 1774640517 -->
 <!-- trg-p1-cta-fix 1774640792 -->
+<!-- trg-p1-geo-detect 1774640863 -->
