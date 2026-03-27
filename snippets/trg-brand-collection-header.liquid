@@ -26,6 +26,9 @@
   if brand_shop_url == blank
     assign brand_shop_url = brand.retailer_url_ca.value | default: brand.retailer_url_ca
   endif
+  unless brand_shop_url == blank or brand_shop_url contains '://'
+    assign brand_shop_url = 'https://' | append: brand_shop_url
+  endunless
   assign editorial_description = brand_description
   if editorial_description == blank
     capture fallback_description
