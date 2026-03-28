@@ -91,7 +91,8 @@ function bindCC(){
 function bindX(){$$('.trg-mm-x').forEach(function(b){b.addEventListener('click',function(){close()})})}
 
 function bindTabs(){
-  /* Delegated binding — survives morphdom re-renders on homepage */
+  /* Delegated binding in capture phase — survives morphdom re-renders on homepage,
+     and fires before bindCC's bubble-phase stopPropagation on .trg-mm-p panels */
   document.addEventListener('click',function(e){
     var btn=e.target.closest('.trg-mm-t');
     if(!btn)return;
@@ -108,7 +109,7 @@ function bindTabs(){
       ac=bc||'all';
       var i=$('trg-mm-bi');render(ac,i?i.value.trim():'');
     }
-  });
+  },true);
 }
 
 function render(cat,q){
