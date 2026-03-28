@@ -266,6 +266,7 @@ function renderResult(){
           <p class="result-sub">${profileDeck(p)}</p>
           <div class="result-acts">
             <button class="btn-ghost" id="btn-scroll-grid">See rated colours &#8595;</button>
+            <button class="btn-ghost" id="btn-save-palette">Save my palette</button>
             <button class="btn-ghost-sm" onclick="window._cgResetAll()">Reset</button>
           </div>
         </div>
@@ -305,6 +306,20 @@ function renderResult(){
       </div>
     </div>`;
   document.getElementById('btn-scroll-grid')?.addEventListener('click',scrollToGrid);
+  // Save palette button
+  var saveBtn = document.getElementById('btn-save-palette');
+  if (saveBtn) {
+    var savedKey = localStorage.getItem('trg_colour_profile');
+    if (savedKey === key) {
+      saveBtn.classList.add('saved');
+      saveBtn.innerHTML = '&#10003; Palette saved';
+    }
+    saveBtn.addEventListener('click', function() {
+      localStorage.setItem('trg_colour_profile', key);
+      saveBtn.classList.add('saved');
+      saveBtn.innerHTML = '&#10003; Palette saved';
+    });
+  }
   applyMatchIndicators(p);
 }
 
