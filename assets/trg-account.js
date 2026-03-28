@@ -258,6 +258,72 @@
       });
     },
 
+    /* ─── COLOUR PROFILE CARD ─── */
+    renderPaletteCard() {
+      const body = document.getElementById('trg-palette-card-body');
+      if (!body) return;
+      const key = localStorage.getItem('trg_colour_profile');
+      if (!key) return; // Default "Take the Finder" CTA stays
+
+      const profilesUrl = document.querySelector('link[href*="trg-colour-profiles"]');
+      // Try to fetch profile data for display
+      const jsonUrl = Array.from(document.querySelectorAll('link[rel="stylesheet"]'))
+        .map(l => l.href).find(h => false); // won't match — use asset URL pattern instead
+
+      // Build the profiles URL from the pattern used by other assets
+      const anyAsset = document.querySelector('link[href*="trg-account.css"]');
+      if (!anyAsset) { this._renderPaletteSimple(body, key); return; }
+      const base = anyAsset.href.replace(/trg-account\.css.*$/, '');
+      const url = base + 'trg-colour-profiles.json';
+
+      fetch(url)
+        .then(r => r.json())
+        .then(data => {
+          const profile = data[key];
+          if (!profile) { this._renderPaletteSimple(body, key); return; }
+          const preview = [...(profile.core || []).slice(0, 3), ...(profile.best || []).slice(0, 5)];
+          // We need hex values — fetch colour data too
+          const colourUrl = base + 'trg-colour-data.json';
+          fetch(colourUrl)
+            .then(r => r.json())
+            .then(cd => {
+              const lookup = cd.lookup || {};
+              const chips = preview.map(n =>
+                `<div style="width:26px;height:26px;border-radius:5px;border:1px solid rgba(0,0,0,.06);background:${lookup[n] || '#ccc'}" title="${n}"></div>`
+              ).join('');
+              body.innerHTML = `
+                <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.6rem;">
+                  <div style="width:16px;height:16px;border-radius:50%;background:${profile.swatch};border:1px solid rgba(0,0,0,.08);flex-shrink:0;"></div>
+                  <span style="font-size:0.82rem;font-weight:500;color:#1a1a18;">${profile.name}</span>
+                  <span style="font-size:0.65rem;color:#8a8478;font-weight:400;">${profile.archetype}</span>
+                </div>
+                <div style="display:flex;gap:0.3rem;margin-bottom:0.7rem;">${chips}</div>
+                <div style="display:flex;gap:0.75rem;align-items:center;">
+                  <a href="/pages/colour-guide" style="font-size:0.68rem;color:#c4562a;text-decoration:none;font-weight:500;">View full palette</a>
+                  <button id="trg-palette-remove" style="font-size:0.62rem;color:#8a8478;background:0;border:0;cursor:pointer;text-decoration:underline;padding:0;">Remove</button>
+                </div>`;
+              document.getElementById('trg-palette-remove')?.addEventListener('click', () => {
+                localStorage.removeItem('trg_colour_profile');
+                body.innerHTML = `
+                  <div class="trg-acct__field-note">Find out which colours suit you best.</div>
+                  <a href="/pages/colour-guide" class="trg-acct__btn-cta" style="margin-top:0.5rem;">Take the Colour Finder</a>`;
+              });
+            })
+            .catch(() => this._renderPaletteSimple(body, key));
+        })
+        .catch(() => this._renderPaletteSimple(body, key));
+    },
+
+    _renderPaletteSimple(body, key) {
+      const label = key.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' + ');
+      body.innerHTML = `
+        <div style="font-size:0.82rem;color:#1a1a18;margin-bottom:0.5rem;">Your profile: <strong>${label}</strong></div>
+        <div style="display:flex;gap:0.75rem;align-items:center;">
+          <a href="/pages/colour-guide" style="font-size:0.68rem;color:#c4562a;text-decoration:none;font-weight:500;">View full palette</a>
+          <button onclick="localStorage.removeItem('trg_colour_profile');this.closest('#trg-palette-card-body').innerHTML='<div class=\\'trg-acct__field-note\\'>Profile removed.</div><a href=\\'/pages/colour-guide\\' class=\\'trg-acct__btn-cta\\' style=\\'margin-top:0.5rem;\\'>Retake the Finder</a>';" style="font-size:0.62rem;color:#8a8478;background:0;border:0;cursor:pointer;text-decoration:underline;padding:0;">Remove</button>
+        </div>`;
+    },
+
     /* ─── INIT ─── */
 
     /* ─── PDP WISHLIST BUTTON ─── */
@@ -286,6 +352,7 @@
       // Render account page tabs if on account page
       this.renderBrandsTab();
       this.renderWishlistTab();
+      this.renderPaletteCard();
 
       // Bind follow buttons (on brand PDP pages)
       document.querySelectorAll('.trg-follow-btn').forEach(btn => {
