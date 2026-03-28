@@ -469,7 +469,7 @@ var AB=[
 {n:"Yves Saint Laurent",s:"yves-saint-laurent",c:"shirts-tops",p:"h"},
 {n:"Zanone",s:"zanone",c:"knitwear",p:"m"},
 {n:"Zegna",s:"zegna",c:"tailoring",p:"m"}];
-var mCat='all',mQ='',booted=false;
+var mCat='all',mQ='',booted=false,v4CountEl=null;
 function esc(s){var d=document.createElement('div');d.textContent=s;return d.innerHTML}
 function hl(n,q){if(!q)return esc(n);var i=n.toLowerCase().indexOf(q);if(i<0)return esc(n);return esc(n.slice(0,i))+'<mark style="background:rgba(196,86,42,.25);color:rgba(245,241,235,.92);border-radius:2px;padding:0 1px">'+esc(n.slice(i,i+q.length))+'</mark>'+esc(n.slice(i+q.length))}
 function render(){
@@ -480,7 +480,7 @@ function render(){
   var picks=all.filter(function(b){return b.p==='h'});
   var rest=all.filter(function(b){return b.p!=='h'});
   var total=all.length;
-  var cEl=document.getElementById('trg-mob-bcount');
+  var cEl=v4CountEl||document.getElementById('trg-mob-bcount');
   if(cEl)cEl.innerHTML='<strong style="color:rgba(196,86,42,.8);font-weight:500">'+total+'</strong> brand'+(total!==1?'s':'');
   var pEl=document.getElementById('trg-mob-bpicks');
   var rEl=document.getElementById('trg-mob-brest');
@@ -518,8 +518,9 @@ function boot(){
   /* Build new UI */
   var w=document.createElement('div');
   w.id='trg-v4';
-  /* Search button (uses prompt — guaranteed to work) */
-  var searchHTML='<div style="padding:.75rem 1.25rem .25rem"><label style="display:flex;align-items:center;gap:.6rem;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:0 .75rem;cursor:text"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(245,241,235,.3)" stroke-width="2" stroke-linecap="round" style="flex-shrink:0"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg><input id="trg-v4-input" type="search" placeholder="Search 468 brands\u2026" autocomplete="off" inputmode="search" style="flex:1;background:transparent;border:none;outline:none;font-family:DM Sans,sans-serif;font-size:16px;color:rgba(245,241,235,.92);padding:.65rem 0;-webkit-appearance:none;min-height:44px"><button id="trg-v4-clear" type="button" style="background:none;border:none;cursor:pointer;font-size:.75rem;color:rgba(245,241,235,.4);padding:.35rem;display:none;flex-shrink:0">\u2715</button></label></div>';
+  w.style.cssText='position:sticky;top:0;z-index:5;background:#1a1917';
+  /* Search — type=text+inputmode=search avoids iOS/theme search-input resets */
+  var searchHTML='<div style="padding:.75rem 1.25rem .25rem"><label style="display:flex;align-items:center;gap:.6rem;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:0 .75rem;cursor:text"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(245,241,235,.3)" stroke-width="2" stroke-linecap="round" style="flex-shrink:0"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg><input id="trg-v4-input" type="text" inputmode="search" placeholder="Search 468 brands\u2026" autocomplete="off" style="flex:1;background:transparent !important;border:none !important;outline:none !important;font-family:DM Sans,sans-serif;font-size:16px;color:rgba(245,241,235,.92) !important;padding:.65rem 0;-webkit-appearance:none;min-height:44px;box-shadow:none !important"><button id="trg-v4-clear" type="button" style="background:none;border:none;cursor:pointer;font-size:.75rem;color:rgba(245,241,235,.4);padding:.35rem;display:none;flex-shrink:0">\u2715</button></label></div>';
   /* Chips */
   var chipData=[{l:'All',v:'all'},{l:'Shirts & Tops',v:'shirts-tops'},{l:'Outerwear',v:'outerwear'},{l:'Trousers',v:'trousers'},{l:'Footwear',v:'footwear'},{l:'Knitwear',v:'knitwear'},{l:'Denim',v:'denim'},{l:'Tailoring',v:'tailoring'},{l:'Accessories',v:'accessories'}];
   var chipsHTML='<div id="trg-v4-chips" style="display:flex;gap:.35rem;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:.6rem 1.25rem .4rem">';
@@ -559,10 +560,8 @@ function boot(){
     render();
     var body=document.getElementById('trg-mob-body');if(body)body.scrollTop=0;
   });
-  /* Redirect count to our element */
-  var origById=document.getElementById.bind(document);
-  var newCount=document.getElementById('trg-v4-count');
-  document.getElementById=function(id){if(id==='trg-mob-bcount')return newCount;return origById(id)};
+  /* Store count ref for render() */
+  v4CountEl=document.getElementById('trg-v4-count');
   /* Accordion (capture phase) */
   document.addEventListener('click',function(e){
     var hdr=e.target.closest('.trg-mob-fam-hdr');if(!hdr)return;

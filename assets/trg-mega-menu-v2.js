@@ -187,7 +187,8 @@ function closeMob(){
   el.classList.remove('on');el.setAttribute('aria-hidden','true');
   document.body.style.overflow='';
   mobOpen=false;
-
+  /* Ensure Dwell header-drawer state is clean */
+  document.querySelectorAll('header-drawer details').forEach(function(d){d.removeAttribute('open')});
 }
 
 /* Intercept Dwell hamburger on mobile */

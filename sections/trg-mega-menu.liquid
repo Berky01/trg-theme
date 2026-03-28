@@ -37,7 +37,7 @@
               assign tab_fu = block.settings.collection.url
             endif
           -%}
-          <button class="trg-mm-t{% if fi == 0 %} on{% endif %}" data-tab="shop-{{ ft | handleize }}" data-href="{{ tab_fu }}" type="button" {{ block.shopify_attributes }}>{{ ft }}{%- if tab_pc > 0 %}<span class="trg-mm-tc">{{ tab_pc }}</span>{%- endif -%}</button>
+          <button class="trg-mm-t{% if fi == 0 %} on{% endif %}" data-tab="shop-{{ ft | handleize }}" type="button" {{ block.shopify_attributes }}>{{ ft }}{%- if tab_pc > 0 %}<span class="trg-mm-tc">{{ tab_pc }}</span>{%- endif -%}</button>
           {%- assign fi = fi | plus: 1 -%}
         {%- endif -%}
       {%- endfor -%}
