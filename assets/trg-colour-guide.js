@@ -95,7 +95,8 @@ function rChips(names){return names.map(n=>{const hex=C[n];if(!hex)return '';ret
 function renderResult(){
   const key=`${selDepthGroup}-${undertone}`;const p=PROFILES[key];if(!p)return;
   activeProfile=p;
-  document.getElementById('result-wrap').innerHTML=`<div class="result-header"><div class="result-swatch" style="background:${p.swatch}"></div><div><p class="result-eyebrow">Your colour profile</p><h2 class="result-name">${p.name}</h2><p class="result-sub">${p.archetype}</p></div><div class="result-acts"><button class="btn-ghost" id="btn-scroll-grid">See rated colours &#8595;</button><button class="btn-ghost-sm" onclick="window._cgResetAll()">Reset</button></div></div><div class="result-note">${p.note}</div><div class="result-body"><div class="result-sec"><div class="result-sec-head"><span class="result-sec-lbl">Core neutrals \u2014 always safe</span></div><div class="chip-row">${rChips(p.core)}</div></div><div class="result-sec"><div class="result-sec-head"><span class="result-sec-lbl">Best colours \u2014 your strongest plays</span></div><div class="chip-row">${rChips(p.best)}</div></div><div class="result-sec caution-sec"><div class="result-sec-head"><span class="result-sec-lbl">Approach with care</span></div><div class="chip-row">${rChips(p.caution)}</div></div></div>`;
+  const archetypeClean = p.archetype.replace(' archetype','');
+  document.getElementById('result-wrap').innerHTML=`<div class="result-header"><div class="result-swatch" style="background:${p.swatch}"></div><div><p class="result-eyebrow">Your colour profile</p><h2 class="result-name">${archetypeClean}</h2><p class="result-sub">${p.name}</p></div><div class="result-acts"><button class="btn-ghost" id="btn-scroll-grid">See rated colours &#8595;</button><button class="btn-ghost-sm" onclick="window._cgResetAll()">Reset</button></div></div><div class="result-note">${p.note}</div><div class="result-body"><div class="result-sec"><div class="result-sec-head"><span class="result-sec-lbl">Core neutrals \u2014 always safe</span></div><div class="chip-row">${rChips(p.core)}</div></div><div class="result-sec"><div class="result-sec-head"><span class="result-sec-lbl">Best colours \u2014 your strongest plays</span></div><div class="chip-row">${rChips(p.best)}</div></div><div class="result-sec caution-sec"><div class="result-sec-head"><span class="result-sec-lbl">Approach with care</span></div><div class="chip-row">${rChips(p.caution)}</div></div></div>`;
   document.getElementById('btn-scroll-grid')?.addEventListener('click',scrollToGrid);
   applyMatchIndicators(p);
 }
@@ -259,16 +260,16 @@ document.querySelectorAll('.quiz-opt').forEach(opt=>{opt.setAttribute('role','bu
 // -- PRESETS --
 
 const PRESETS = [
-  { name:'The Business Classic', desc:'Navy blazer, white shirt, charcoal trousers, cognac shoes.', colors:['Navy','White','Charcoal','Cobalt','Cognac'] },
-  { name:'The Weekend', desc:'Olive over cream, rust knitwear, denim below.', colors:['Olive','Cream','Rust','Denim','Saddle Brown'] },
-  { name:'The Italianate', desc:'Camel coat, burgundy knit, cream base, chocolate leather.', colors:['Camel','Burgundy','Cream','Chocolate','Tan'] },
-  { name:'Tonal Grey', desc:'Four shades of grey, head to toe. Monochrome done right.', colors:['Light Grey','Pewter','Charcoal','Slate','Smoke'] },
-  { name:'Country Walk', desc:'Forest green, mustard knit, stone chinos, espresso boots.', colors:['Forest','Mustard','Stone','Espresso','Olive'] },
-  { name:'The Riviera', desc:'Sky blue linen, white tee, stone chinos, tan loafers.', colors:['Sky Blue','White','Stone','Tan','Chambray'] },
-  { name:'Nordic Minimal', desc:'Black, charcoal, cement. Stripped to nothing. Sharp.', colors:['Black','Charcoal','Cement','Graphite','Silver'] },
-  { name:'Rust Belt', desc:'Rust jacket, tobacco knit, raw denim, espresso leather.', colors:['Rust','Tobacco','Denim','Espresso','Copper'] },
-  { name:'The Academic', desc:'Burgundy knit, grey flannels, navy blazer, oxblood shoes.', colors:['Burgundy','Pewter','Navy','Oxblood','Cream'] },
-  { name:'Desert Palette', desc:'Sand, terracotta, olive. Earthy warmth, end to end.', colors:['Sand','Terracotta','Olive','Camel','Saddle Brown'] },
+  { name:'The Business Classic', desc:'Navy blazer, white shirt, charcoal trousers, cognac shoes.', colors:['Navy','White','Charcoal','Cobalt','Cognac'], slots:{shirt:'White',trousers:'Charcoal',jacket:'Navy',shoes:'Cognac',knitwear:'Cobalt'} },
+  { name:'The Weekend', desc:'Olive over cream, rust knitwear, denim below.', colors:['Olive','Cream','Rust','Denim','Saddle Brown'], slots:{shirt:'Cream',trousers:'Denim',knitwear:'Rust',jacket:'Olive',shoes:'Saddle Brown'} },
+  { name:'The Italianate', desc:'Camel coat, burgundy knit, cream base, chocolate leather.', colors:['Camel','Burgundy','Cream','Chocolate','Tan'], slots:{shirt:'Cream',trousers:'Tan',knitwear:'Burgundy',coat:'Camel',shoes:'Chocolate'} },
+  { name:'Tonal Grey', desc:'Four shades of grey, head to toe. Monochrome done right.', colors:['Light Grey','Pewter','Charcoal','Slate','Smoke'], slots:{shirt:'Light Grey',trousers:'Charcoal',knitwear:'Pewter',jacket:'Slate',shoes:'Smoke'} },
+  { name:'Country Walk', desc:'Forest green, mustard knit, stone chinos, espresso boots.', colors:['Forest','Mustard','Stone','Espresso','Olive'], slots:{shirt:'Stone',trousers:'Olive',knitwear:'Mustard',jacket:'Forest',shoes:'Espresso'} },
+  { name:'The Riviera', desc:'Sky blue linen, white tee, stone chinos, tan loafers.', colors:['Sky Blue','White','Stone','Tan','Chambray'], slots:{shirt:'White',trousers:'Stone',knitwear:'Chambray',jacket:'Sky Blue',shoes:'Tan'} },
+  { name:'Nordic Minimal', desc:'Black, charcoal, cement. Stripped to nothing. Sharp.', colors:['Black','Charcoal','Cement','Graphite','Silver'], slots:{shirt:'Cement',trousers:'Charcoal',knitwear:'Graphite',coat:'Black',shoes:'Black'} },
+  { name:'Rust Belt', desc:'Rust jacket, tobacco knit, raw denim, espresso leather.', colors:['Rust','Tobacco','Denim','Espresso','Copper'], slots:{shirt:'Copper',trousers:'Denim',knitwear:'Tobacco',jacket:'Rust',shoes:'Espresso'} },
+  { name:'The Academic', desc:'Burgundy knit, grey flannels, navy blazer, oxblood shoes.', colors:['Burgundy','Pewter','Navy','Oxblood','Cream'], slots:{shirt:'Cream',trousers:'Pewter',knitwear:'Burgundy',jacket:'Navy',shoes:'Oxblood'} },
+  { name:'Desert Palette', desc:'Sand, terracotta, olive. Earthy warmth, end to end.', colors:['Sand','Terracotta','Olive','Camel','Saddle Brown'], slots:{shirt:'Sand',trousers:'Olive',knitwear:'Terracotta',jacket:'Camel',shoes:'Saddle Brown'} },
 ];
 
 function renderPresets() {
@@ -277,7 +278,7 @@ function renderPresets() {
       <div class="preset-strips">${p.colors.map(c => `<div class="preset-strip" style="background:${C[c]||'#ccc'}"></div>`).join('')}</div>
       <p class="preset-name">${p.name}</p>
       <p class="preset-desc">${p.desc}</p>
-      <p class="preset-cta">Try this palette &rarr;</p>
+      <p class="preset-cta">Load this outfit &rarr;</p>
     </div>
   `).join('');
 
@@ -288,6 +289,7 @@ function renderPresets() {
     card.addEventListener('click', () => {
       document.querySelectorAll('.preset-card').forEach(c => c.classList.remove('sel'));
       card.classList.add('sel');
+      populateBuilder(PRESETS[parseInt(card.dataset.preset)]);
     });
     card.addEventListener('keydown',(e)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();card.click();}});
   });
@@ -366,6 +368,29 @@ function assignColourToSlot(slot, colorName) {
   } else {
     document.getElementById('ob-suggest').classList.remove('show');
   }
+  updateGauge();
+}
+
+function populateBuilder(preset) {
+  if (!preset || !preset.slots) return;
+  // Clear all slots first
+  document.querySelectorAll('.ob-slot').forEach(s => {
+    s.classList.remove('filled','on');
+    s.querySelector('.ob-slot-color').textContent = '';
+    s.querySelector('.ob-slot-dot').style.background = '';
+  });
+  // Fill mapped slots
+  Object.entries(preset.slots).forEach(([slotName, colorName]) => {
+    const slot = document.querySelector(`.ob-slot[data-slot="${slotName}"]`);
+    if (!slot || !C[colorName]) return;
+    slot.classList.add('filled');
+    slot.querySelector('.ob-slot-color').textContent = colorName;
+    slot.querySelector('.ob-slot-dot').style.background = C[colorName];
+  });
+  // Activate first empty slot, or none
+  const empty = document.querySelector('.ob-slot:not(.filled)');
+  if (empty) { empty.classList.add('on'); renderOBSuggestions(empty.dataset.slot); }
+  else { document.getElementById('ob-suggest').classList.remove('show'); }
   updateGauge();
 }
 

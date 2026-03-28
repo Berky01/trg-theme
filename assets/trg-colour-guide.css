@@ -310,5 +310,10 @@
   .presets-row{grid-template-columns:1fr 1fr;gap:.65rem}.preset-card{padding:.75rem .85rem}.preset-strips{gap:2px}.preset-strip{height:28px}
   .preset-name{font-size:.72rem}.preset-desc{font-size:.52rem}.preset-cta{font-size:.48rem}
   .ob-wrap{grid-template-columns:1fr;gap:1rem}.ob-left{position:static}
-  .ob-fam-chips{gap:5px}.ob-chip{width:36px;height:36px}
+  .ob-fam-chips{gap:6px 4px}
+  .ob-chip{width:42px;height:42px;border-radius:3px;position:relative;margin-bottom:14px}
+  .ob-chip .ob-tt{position:absolute;top:100%;left:50%;transform:translateX(-50%);bottom:auto;opacity:1;background:transparent;color:var(--mid);font-size:.32rem;padding:1px 0 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:48px;pointer-events:none;text-align:center}
+  .ob-chip .ob-tt::after{display:none}
+  .section-intro{margin:2rem auto 1rem}
+  .section-title{font-size:1.1rem}
 }
