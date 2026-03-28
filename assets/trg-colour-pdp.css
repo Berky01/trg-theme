@@ -5,7 +5,7 @@
    ═══════════════════════════════════════════════════════ */
 
 /* ─── PDP MODULE WRAPPER ─── */
-.pdp-guide-module{padding:2rem 0 0;max-width:1320px;margin:0 auto}
+.pdp-guide-module{padding:2rem 0 3rem;max-width:1320px;margin:0 auto}
 .pdp-guide-pad{padding:0 2rem}
 .pdp-guide-shell{background:linear-gradient(180deg,#fff,#fcfbf8);border:1px solid rgba(221,216,207,.95);border-radius:18px;padding:1.15rem 1.2rem 1.25rem;box-shadow:0 24px 70px rgba(16,14,11,.05)}
 .pdp-guide-head{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:.75rem;align-items:end;margin-bottom:0.45rem}
