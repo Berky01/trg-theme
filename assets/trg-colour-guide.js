@@ -130,14 +130,7 @@ function renderHIWVisuals() {
 
   // Step 2: mini builder with garment slots
   const outfitVis = document.getElementById('hiw-outfit-vis');
-  const slotIcons = {
-    shirt:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3l3-1 3 1 3 4-2 2v11H8V9L6 7l3-4z"/></svg>',
-    trousers:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h8l-1 6 2 12h-4l-1-7-1 7H7l2-12-1-6z"/></svg>',
-    knit:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4l2-2h4l2 2 3 4-2 2v10H7V10L5 8l3-4z"/></svg>',
-    jacket:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3l4-1 4 1 2 4-2 2v11h-3v-7h-2v7H8V9L6 7l2-4z"/></svg>',
-    coat:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 2h6l3 4-1 15h-4v-8h-2v8H7L6 6l3-4z"/></svg>',
-    shoes:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 16c2 0 4-1 5-3l2 1c2 1 4 2 7 2 1 0 2 1 2 2v2H4z"/></svg>'
-  };
+  const slotIcons = window.TRG_CG ? window.TRG_CG.IC : {};
   const outfitSlots = [
     {slot:'shirt',color:'White'},
     {slot:'trousers',color:'Charcoal'},
@@ -497,8 +490,8 @@ document.querySelectorAll('.quiz-opt').forEach(opt=>{opt.addEventListener('click
 
 // ── PRESETS ───────────────────────────────────────────────────────────────────
 
-const SLOT_ORDER=['shirt','trousers','knitwear','jacket','coat','shoes'];
-const SLOT_SHORT={shirt:'Shirt',trousers:'Trousers',knitwear:'Knit',jacket:'Jacket',coat:'Coat',shoes:'Shoes'};
+const SLOT_ORDER = window.TRG_CG ? window.TRG_CG.SLOT_ORDER : ['shirt','trousers','knitwear','jacket','coat','shoes'];
+const SLOT_SHORT = window.TRG_CG ? window.TRG_CG.SLOT_SHORT : {shirt:'Shirt',trousers:'Trousers',knitwear:'Knit',jacket:'Jacket',coat:'Coat',shoes:'Shoes'};
 const PRESETS = [
   { name:'The Business Classic', desc:'Navy tailoring, white shirting, cognac leather. Boardroom-safe without feeling corporate.', slots:{shirt:'White',trousers:'Charcoal',knitwear:'Powder Blue',jacket:'Navy',coat:'Camel',shoes:'Cognac'} },
   { name:'The Weekend', desc:'Olive outerwear, cream base, rust knitwear, and denim underneath.', slots:{shirt:'Cream',trousers:'Denim',knitwear:'Rust',jacket:'Olive',coat:'Stone',shoes:'Saddle Brown'} },
@@ -537,14 +530,7 @@ function renderPresets() {
 
 // ── SLOT SUGGESTIONS ─────────────────────────────────────────────────────────
 
-const SLOT_RECS = {
-  shirt:    { pool:['White','Off-White','Cream','Ivory','Powder Blue','Sky Blue','Chambray','Oatmeal','Ecru','Light Grey','Cement','Salmon','Rose','Soft Pink'], hint:'Lighter tones near the face' },
-  trousers: { pool:['Charcoal','Navy','Slate','Khaki','Olive','Stone','Smoke','Denim','Graphite','Dark Navy','Taupe','Sand'], hint:'Grounding neutrals and mid-tones' },
-  knitwear: { pool:['Burgundy','Rust','Teal','Forest','Cobalt','Mustard','Terracotta','Plum','Emerald','Copper','Jade','Wine','Ochre','Moss','Carmine','Cerulean'], hint:'Rich tones that add depth' },
-  jacket:   { pool:['Navy','Charcoal','Camel','Olive','Slate','Dark Navy','Hunter','Graphite','Chocolate','Saddle Brown','Denim'], hint:'The anchor piece' },
-  coat:     { pool:['Camel','Charcoal','Navy','Black','Chocolate','Dark Navy','Espresso','Graphite','Olive'], hint:'Broad strokes, outermost layer' },
-  shoes:    { pool:['Saddle Brown','Cognac','Chocolate','Black','Espresso','Tobacco','Tan','Oxblood'], hint:'Leathers and darks' },
-};
+const SLOT_RECS = window.TRG_CG ? window.TRG_CG.SLOT_RECS : {};
 
 function renderOBSuggestions(slotName) {
   const suggestEl = document.getElementById('ob-suggest');
