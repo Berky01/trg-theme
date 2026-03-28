@@ -1,7 +1,7 @@
-/* ═══════════════════════════════════════════════════════
-   TRG COLOUR GUIDE — PDP "Complete the Look" Block
+/* â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?
+   TRG COLOUR GUIDE â€” PDP "Complete the Look" Block
    Sits below the main PDP grid, full-width
-   ═══════════════════════════════════════════════════════ */
+   â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•? */
 
 .trg-ctl{border-top:1px solid #ddd8cf;background:#faf8f4;padding:2.5rem 2rem 3rem}
 .trg-ctl__inner{max-width:1320px;margin:0 auto}
@@ -17,7 +17,7 @@
 .trg-ctl__sub{font-size:0.85rem;color:#8a8478;margin-bottom:1.5rem;line-height:1.5}
 .trg-ctl__sub strong{color:#1a1a18;font-weight:500}
 
-/* ─── STRIP — horizontal garment slots ─── */
+/* â”€â”€â”€ STRIP â€” horizontal garment slots â”€â”€â”€ */
 .trg-ctl__strip{display:flex;gap:0.5rem;margin-bottom:1.25rem;flex-wrap:wrap}
 .trg-ctl__slot{display:flex;align-items:center;gap:0.5rem;padding:0.5rem 0.85rem;border:1px solid #ddd8cf;border-radius:3px;background:#fff;cursor:pointer;transition:all 0.15s;min-width:0;flex-shrink:0;position:relative}
 .trg-ctl__slot:hover{border-color:#1a1a18}
@@ -33,7 +33,7 @@
 .trg-ctl__slot-pct{font-size:0.6rem;font-weight:600;color:#8a8478;margin-left:auto;white-space:nowrap;display:none}
 .trg-ctl__slot.filled .trg-ctl__slot-pct{display:inline}
 .trg-ctl__slot-rm{position:absolute;top:-6px;right:-6px;width:16px;height:16px;border-radius:50%;background:#1a1a18;color:#f5f1eb;font-size:9px;line-height:16px;text-align:center;cursor:pointer;display:none;border:1.5px solid #fff;z-index:1}
-.trg-ctl__slot.filled:hover .trg-ctl__slot-rm{display:block}
+.trg-ctl__slot.filled:hover .trg-ctl__slot-rm,.trg-ctl__slot.filled:focus-within .trg-ctl__slot-rm{display:block}
 .trg-ctl__slot-lock{font-size:0.5rem;color:#8a8478;opacity:0.5;margin-left:auto}
 
 /* Skip button */
@@ -41,7 +41,7 @@
 .trg-ctl__skip:hover{border-color:#1a1a18;color:#1a1a18}
 .trg-ctl__strip.picking .trg-ctl__skip{display:flex}
 
-/* ─── PALETTE ─── */
+/* â”€â”€â”€ PALETTE â”€â”€â”€ */
 .trg-ctl__palette-wrap{display:none;margin-bottom:1.5rem}
 .trg-ctl__palette-wrap.vis{display:block}
 .trg-ctl__palette-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.6rem}
@@ -62,13 +62,29 @@
 .trg-ctl__chip.good{box-shadow:0 0 0 2px #3d8c5e}
 .trg-ctl__chip.atg{box-shadow:0 0 0 1px rgba(0,0,0,0.08)}
 .trg-ctl__chip-score{position:absolute;bottom:-14px;left:50%;transform:translateX(-50%);font-size:0.48rem;font-weight:700;white-space:nowrap;display:none}
-/* Score hidden — % shown in strip slot instead */
+/* Score hidden â€” % shown in strip slot instead */
 .trg-ctl__chip-score{display:none !important}
+
+/* Legend */
+.trg-ctl__legend{display:flex;gap:1rem;margin-bottom:0.6rem;flex-wrap:wrap}
+.trg-ctl__legend-item{display:flex;align-items:center;gap:0.3rem;font-size:0.58rem;font-weight:500;color:#8a8478;letter-spacing:0.02em}
+.trg-ctl__legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.trg-ctl__legend-dot.perfect{box-shadow:0 0 0 2px #c4562a;background:rgba(196,86,42,0.15)}
+.trg-ctl__legend-dot.good{box-shadow:0 0 0 2px #3d8c5e;background:rgba(61,140,94,0.15)}
+.trg-ctl__legend-dot.atg{box-shadow:0 0 0 1px rgba(0,0,0,0.15);background:rgba(0,0,0,0.05)}
+
+/* Mobile colour name bar */
+.trg-ctl__sel-name{display:none;font-size:0.72rem;font-weight:500;color:#1a1a18;min-height:1.4em;margin-bottom:0.4rem}
+@media(hover:none){.trg-ctl__sel-name{display:block}}
+
+/* Focus styles */
+.trg-ctl__chip:focus-visible,.trg-ctl__slot:focus-visible{outline:2px solid #c4562a;outline-offset:2px}
+.trg-ctl__slot-rm:focus-visible{outline:2px solid #c4562a;outline-offset:1px}
 
 /* Tooltip */
 .trg-ctl__tip{position:fixed;pointer-events:none;background:#1a1a18;color:#f5f1eb;font-size:0.6rem;font-weight:500;padding:0.25rem 0.5rem;border-radius:3px;white-space:nowrap;z-index:999;display:none;letter-spacing:0.02em}
 
-/* ─── BOTTOM BAR — gauge + shop links ─── */
+/* â”€â”€â”€ BOTTOM BAR â€” gauge + shop links â”€â”€â”€ */
 .trg-ctl__bottom{display:flex;align-items:center;gap:1.5rem;padding-top:1.25rem;border-top:1px solid #ddd8cf}
 .trg-ctl__bottom.empty{display:none}
 
@@ -95,15 +111,15 @@
 .trg-ctl__shop-all:hover{background:#b34d24}
 .trg-ctl__shop-all.vis{display:inline-flex}
 
-/* ─── RESET BUTTON ─── */
+/* â”€â”€â”€ RESET BUTTON â”€â”€â”€ */
 .trg-ctl__reset{font-family:'DM Sans',sans-serif;font-size:0.58rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#8a8478;background:none;border:1px solid #ddd8cf;border-radius:3px;padding:0.25rem 0.55rem;cursor:pointer;transition:all 0.15s;display:none;margin-left:0.5rem}
 .trg-ctl__reset:hover{color:#c4562a;border-color:#c4562a}
 .trg-ctl__reset.vis{display:inline-flex}
 
-/* ─── HIDDEN STATE ─── */
+/* â”€â”€â”€ HIDDEN STATE â”€â”€â”€ */
 .trg-ctl.hidden{display:none}
 
-/* ─── RESPONSIVE ─── */
+/* â”€â”€â”€ RESPONSIVE â”€â”€â”€ */
 @media(max-width:990px){
   .trg-ctl__strip{flex-wrap:wrap}
 }
@@ -111,23 +127,24 @@
   .trg-ctl{padding:1.5rem 1rem 2rem}
   .trg-ctl__title{font-size:1.15rem}
   .trg-ctl__head{flex-direction:column;gap:0.2rem;align-items:flex-start}
-  .trg-ctl__chip{width:32px;height:32px}
-  .trg-ctl__chips{gap:8px;padding:4px 2px}
+  .trg-ctl__chip{width:44px;height:44px}
+  .trg-ctl__chips{gap:10px;padding:4px 2px}
   .trg-ctl__bottom{flex-wrap:wrap;gap:1rem}
   .trg-ctl__gauge{width:48px;height:48px}
   .trg-ctl__shop{flex-direction:column;gap:0.4rem}
-  .trg-ctl__shop-all{margin-left:0;width:100%;text-align:center;justify-content:center}
+  .trg-ctl__shop-all{margin-left:0;width:100%;text-align:center;justify-content:center;font-size:0.62rem;font-weight:500;letter-spacing:0.06em;color:#8a8478;background:none;border:1px solid #ddd8cf;padding:0.5rem 1rem}
+  .trg-ctl__shop-all:hover{color:#c4562a;border-color:#c4562a;background:none}
   .trg-ctl__strip{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}
-  .trg-ctl__slot{padding:0.4rem 0.35rem;justify-content:center;min-width:0}
+  .trg-ctl__slot{padding:0.55rem 0.5rem;justify-content:center;min-width:0;min-height:44px}
   .trg-ctl__slot-icon{display:none}
   .trg-ctl__slot-label{font-size:0.62rem;overflow:hidden;text-overflow:ellipsis}
-  .trg-ctl__slot-dot{width:12px;height:12px}
-  .trg-ctl__slot-pct{font-size:0.52rem;margin-left:0.2rem}
-  .trg-ctl__slot-lock{font-size:0.42rem}
-  .trg-ctl__slot-rm{width:14px;height:14px;font-size:8px;line-height:14px;top:-5px;right:-5px}
-  .trg-ctl__skip{grid-column:1/-1;padding:0.4rem}
+  .trg-ctl__slot-dot{width:14px;height:14px}
   .trg-ctl__slot-pct{display:none !important}
   .trg-ctl__slot-lock{display:none !important}
+  .trg-ctl__slot-rm{width:22px;height:22px;font-size:11px;line-height:22px;top:-8px;right:-8px}
+  .trg-ctl__slot.filled .trg-ctl__slot-rm{display:block}
+  .trg-ctl__skip{grid-column:1/-1;padding:0.55rem;min-height:44px}
   .trg-ctl__slot.locked{border-style:dashed;border-color:#8a8478}
-  .trg-ctl__slot-dot{width:14px;height:14px}
+  .trg-ctl__legend{gap:0.6rem}
+  .trg-ctl__legend-item{font-size:0.52rem}
 }

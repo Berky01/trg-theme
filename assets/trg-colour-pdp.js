@@ -1,11 +1,11 @@
-/* ═══════════════════════════════════════════════════════
-   TRG COLOUR GUIDE — PDP "Complete the Look" Engine
+/* â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?
+   TRG COLOUR GUIDE â€” PDP "Complete the Look" Engine
    Phase 1: collection links (no Storefront API)
-   ═══════════════════════════════════════════════════════ */
+   â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•? */
 (function(){
 'use strict';
 
-/* ─── 75 MENSWEAR COLOURS ─── */
+/* â”€â”€â”€ 75 MENSWEAR COLOURS â”€â”€â”€ */
 var C=[
 {n:"White",h:"#f8f6f3",cb:[6,11,27,31,37,43,45,46,52,59,63,70,71,86,90],g:"Whites & Creams"},
 {n:"Cream",h:"#f2ead8",cb:[50,94,102,126,178,184,190,209,214,243],g:"Whites & Creams"},
@@ -84,7 +84,7 @@ var C=[
 {n:"Plum",h:"#583050",cb:[78,104,142,186,208,275,310,328],g:"Mauves"}
 ];
 
-/* ─── GARMENT CONFIG ─── */
+/* â”€â”€â”€ GARMENT CONFIG â”€â”€â”€ */
 var G=[
 {id:'shirt',l:'Shirt',ls:'Shirt',co:'shirts',ic:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M6 2l-4 4 3 2V18h10V8l3-2-4-4"/><path d="M6 2c0 2 2 3 4 3s4-1 4-3"/></svg>'},
 {id:'trousers',l:'Trousers',ls:'Pants',co:'trousers',ic:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M5 2h10v3l-1 13H11l-1-9-1 9H6L5 5z"/><line x1="5" y1="5" x2="15" y2="5"/></svg>'},
@@ -95,13 +95,13 @@ var G=[
 ];
 var GORD=['Blues','Greys','Greens','Sand & Khaki','Browns','Whites & Creams','Reds & Burgundy','Mauves'];
 
-/* ─── SCORING ─── */
+/* â”€â”€â”€ SCORING â”€â”€â”€ */
 function sL(hex){var r=parseInt(hex.slice(1,3),16)/255,g=parseInt(hex.slice(3,5),16)/255,b=parseInt(hex.slice(5,7),16)/255;r=r>.04045?Math.pow((r+.055)/1.055,2.4):r/12.92;g=g>.04045?Math.pow((g+.055)/1.055,2.4):g/12.92;b=b>.04045?Math.pow((b+.055)/1.055,2.4):b/12.92;var x=(r*.4124564+g*.3575761+b*.1804375)/.95047,y=(r*.2126729+g*.7151522+b*.072175)/1,z=(r*.0193339+g*.119192+b*.9503041)/1.08883;var f=function(t){return t>.008856?Math.pow(t,1/3):(903.3*t+16)/116};return[116*f(y)-16,500*(f(x)-f(y)),200*(f(y)-f(z))]}
 function dE(a,b){var A=sL(a),B=sL(b);return Math.sqrt(Math.pow(A[0]-B[0],2)+Math.pow(A[1]-B[1],2)+Math.pow(A[2]-B[2],2))}
 function sc(a,b){var s=0;for(var i=0;i<a.cb.length;i++){if(b.cb.indexOf(a.cb[i])>=0)s++}if(s>=3)return{pct:Math.min(97,82+s*4),tier:'perfect'};if(s>=1)return{pct:62+s*10,tier:'good'};return{pct:Math.max(18,Math.round(52-(dE(a.h,b.h)/120)*30)),tier:'atg'}}
 function near(hex){var b=null,bd=999;for(var i=0;i<C.length;i++){var d=dE(hex,C[i].h);if(d<bd){bd=d;b=C[i]}}return b}
 
-/* ─── COLOUR NAME DETECTION ─── */
+/* â”€â”€â”€ COLOUR NAME DETECTION â”€â”€â”€ */
 var ALIAS={'coal':'Charcoal','army':'Olive','army green':'Olive','army olive':'Olive',
 'beech green':'Sage','dark green':'Forest','dark blue':'Navy','midnight':'Dark Navy',
 'grey':'Pewter','gray':'Pewter','heather grey':'Silver','marled grey':'Pewter',
@@ -144,7 +144,7 @@ function detectColour(name){
   return null;
 }
 
-/* ─── GARMENT TYPE DETECTION ─── */
+/* â”€â”€â”€ GARMENT TYPE DETECTION â”€â”€â”€ */
 var TMAP={
   'shirts':'shirt','shirt':'shirt','camp shirt':'shirt','t-shirt':'shirt','t-shirts':'shirt',
   'pants':'trousers','trousers':'trousers','chino':'trousers','chinos':'trousers',
@@ -158,7 +158,7 @@ var TMAP={
 };
 function detectGarment(type){if(!type)return'shirt';var lo=type.toLowerCase().trim();return TMAP[lo]||null}
 
-/* ─── PDP CONTROLLER ─── */
+/* â”€â”€â”€ PDP CONTROLLER â”€â”€â”€ */
 var CTL={
   el:null, garment:null, base:null, outfit:{}, active:null, hist:[], tip:null,
 
@@ -209,7 +209,8 @@ var CTL={
       if(isLocked)cls+=' locked filled';
       else if(col)cls+=' filled';
       if(isActive)cls+=' active';
-      html+='<div class="'+cls+'" data-gid="'+g.id+'">';
+      var ariaLabel=g.l+(col&&!isLocked?': '+col.n:'')+(isLocked?' (this item)':'');
+      html+='<div class="'+cls+'" data-gid="'+g.id+'" role="button" tabindex="'+(isLocked?'-1':'0')+'" aria-label="'+ariaLabel+'">';
       html+='<span class="trg-ctl__slot-icon">'+g.ic+'</span>';
       var mob=window.innerWidth<=749;html+='<span class="trg-ctl__slot-label">'+(mob&&g.ls?g.ls:g.l)+'</span>';
       if(col){
@@ -217,7 +218,7 @@ var CTL={
         if(!isLocked){
           var s=sc(this.base,col);
           html+='<span class="trg-ctl__slot-pct" style="color:'+(s.tier==='perfect'?'#c4562a':s.tier==='good'?'#3d8c5e':'#8a8478')+'">'+s.pct+'%</span>';
-          html+='<span class="trg-ctl__slot-rm" data-rm="'+g.id+'">&times;</span>';
+          html+='<span class="trg-ctl__slot-rm" data-rm="'+g.id+'" role="button" tabindex="0" aria-label="Remove '+g.l+' colour">&times;</span>';
         } else {
           html+='<span class="trg-ctl__slot-lock">This item</span>';
         }
@@ -226,15 +227,20 @@ var CTL={
     }
     html+='<button class="trg-ctl__skip" id="trg-ctl-skip">Skip \u203A</button>';
     wrap.innerHTML=html;
-    // Bind
+    // Bind click + keyboard
     wrap.querySelectorAll('.trg-ctl__slot:not(.locked)').forEach(function(s){
-      s.addEventListener('click',function(e){
+      function handleSlot(e){
         if(e.target.closest('.trg-ctl__slot-rm')){
           var rmGid=e.target.closest('.trg-ctl__slot-rm').dataset.rm;
           self.remove(rmGid);return;
         }
         self.selectGarment(s.dataset.gid);
-      });
+      }
+      s.addEventListener('click',handleSlot);
+      s.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();handleSlot(e)}});
+    });
+    wrap.querySelectorAll('.trg-ctl__slot-rm').forEach(function(rm){
+      rm.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();self.remove(rm.dataset.rm)}});
     });
     var skipBtn=wrap.querySelector('#trg-ctl-skip');
     if(skipBtn)skipBtn.addEventListener('click',function(){self.skip()});
@@ -256,7 +262,14 @@ var CTL={
     // Build chips by group
     var palEl=pw.querySelector('.trg-ctl__chips-area');
     if(!palEl)return;
-    var html='';var lastG='';
+    // Legend
+    var html='<div class="trg-ctl__legend">';
+    html+='<span class="trg-ctl__legend-item"><span class="trg-ctl__legend-dot perfect"></span> Best match</span>';
+    html+='<span class="trg-ctl__legend-item"><span class="trg-ctl__legend-dot good"></span> Works well</span>';
+    html+='<span class="trg-ctl__legend-item"><span class="trg-ctl__legend-dot atg"></span> Use carefully</span>';
+    html+='</div>';
+    // Mobile colour name bar
+    html+='<div class="trg-ctl__sel-name" id="trg-ctl-sel-name" aria-live="polite"></div>';
     for(var gi=0;gi<GORD.length;gi++){
       var grp=GORD[gi];
       html+='<div class="trg-ctl__grp-label">'+grp+'</div><div class="trg-ctl__chips">';
@@ -273,20 +286,25 @@ var CTL={
           if(s2.tier==='good'&&allTier==='atg')allTier='good';
         }
         var avgPct=Math.round(allPcts.reduce(function(a,b){return a+b},0)/allPcts.length);
+        var tierLabel=allTier==='perfect'?'best match':allTier==='good'?'works well':'use carefully';
         var border='';
         if(c.n==='White')border='border:1px solid rgba(0,0,0,0.12);';
-        html+='<div class="trg-ctl__chip '+allTier+'" data-ci="'+ci+'" style="background:'+c.h+';'+border+'" title="'+c.n+' ('+avgPct+'%)">';
+        html+='<div class="trg-ctl__chip '+allTier+'" data-ci="'+ci+'" role="button" tabindex="0" aria-label="'+c.n+', '+avgPct+'% match, '+tierLabel+'" style="background:'+c.h+';'+border+'" title="'+c.n+' ('+avgPct+'%)">';
         html+='<span class="trg-ctl__chip-score">'+avgPct+'%</span>';
         html+='</div>';
       }
       html+='</div>';
     }
     palEl.innerHTML=html;
+    var selNameEl=palEl.querySelector('#trg-ctl-sel-name');
     // Bind chips
     palEl.querySelectorAll('.trg-ctl__chip').forEach(function(ch){
-      ch.addEventListener('click',function(){self.pickColour(parseInt(ch.dataset.ci))});
-      ch.addEventListener('mouseenter',function(e){self.showTip(e,C[parseInt(ch.dataset.ci)])});
+      var ci=parseInt(ch.dataset.ci);
+      ch.addEventListener('click',function(){self.pickColour(ci)});
+      ch.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();self.pickColour(ci)}});
+      ch.addEventListener('mouseenter',function(e){self.showTip(e,C[ci]);if(selNameEl)selNameEl.textContent=C[ci].n});
       ch.addEventListener('mouseleave',function(){self.hideTip()});
+      ch.addEventListener('focus',function(){if(selNameEl)selNameEl.textContent=C[ci].n});
     });
   },
 
@@ -424,7 +442,7 @@ var CTL={
       if(isLocked)continue;// don't show link for current product
       html+='<a class="trg-ctl__shop-link" href="/collections/'+g.co+'">';
       html+='<span class="trg-ctl__shop-link-dot" style="background:'+col.h+(col.n==='White'?';border-color:rgba(0,0,0,0.12)':'')+'"></span>';
-      html+=col.n+' '+g.l+' \u2192</a>';
+      html+='Shop '+g.l+' \u2192</a>';
     }
     shopEl.innerHTML=html;
     // Dots summary
@@ -461,7 +479,7 @@ var CTL={
   },
   hideTip:function(){if(this.tip)this.tip.style.display='none'},
 
-  /* ─── Variant change listener ─── */
+  /* â”€â”€â”€ Variant change listener â”€â”€â”€ */
   onVariantChange:function(colourName){
     var newCol=detectColour(colourName);
     if(!newCol)return;
@@ -473,7 +491,7 @@ var CTL={
   }
 };
 
-/* ─── INIT ON DOM READY ─── */
+/* â”€â”€â”€ INIT ON DOM READY â”€â”€â”€ */
 function boot(){
   var el=document.getElementById('trg-ctl');
   if(!el)return;
@@ -484,7 +502,7 @@ function boot(){
   // Reset button
   var resetBtn=el.querySelector('.trg-ctl__reset');
   if(resetBtn)resetBtn.addEventListener('click',function(){CTL.reset()});
-  // Full Colour Guide link — shop-all goes to colour guide
+  // Full Colour Guide link â€” shop-all goes to colour guide
   var shopAll=el.querySelector('.trg-ctl__shop-all');
   if(shopAll)shopAll.addEventListener('click',function(e){
     e.preventDefault();
