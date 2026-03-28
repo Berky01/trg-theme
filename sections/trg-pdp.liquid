@@ -1,9 +1,9 @@
 {%- liquid
   comment
-    ═══════════════════════════════════════════════════════════════════
+    â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?
     TRG PRODUCT PDP  -  Self-contained section (v3)
     Replaces Dwell's product-information section for full design control
-    ═══════════════════════════════════════════════════════════════════
+    â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?
   endcomment
 
   assign p = product
@@ -99,16 +99,16 @@
   assign currency_sym = '$'
   assign currency_label = ''
   if product_currency == 'GBP'
-    assign currency_sym = '£'
+    assign currency_sym = 'Â£'
     assign currency_label = 'GBP'
   elsif product_currency == 'EUR'
-    assign currency_sym = '€'
+    assign currency_sym = 'â‚¬'
     assign currency_label = 'EUR'
   elsif product_currency == 'CAD'
     assign currency_sym = 'CA$'
     assign currency_label = 'CAD'
   elsif product_currency == 'JPY'
-    assign currency_sym = '¥'
+    assign currency_sym = 'Â¥'
     assign currency_label = 'JPY'
   elsif product_currency == 'AUD'
     assign currency_sym = 'A$'
@@ -134,7 +134,7 @@
 -%}
 
 {% if p != blank %}
-{%- comment -%} ═══ STRUCTURED DATA (JSON-LD) ═══ {%- endcomment -%}
+{%- comment -%} â•?â•?â•? STRUCTURED DATA (JSON-LD) â•?â•?â•? {%- endcomment -%}
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -209,25 +209,25 @@
 }
 </script>
 
-{%- comment -%} ═══ BREADCRUMB ═══ {%- endcomment -%}
+{%- comment -%} â•?â•?â•? BREADCRUMB â•?â•?â•? {%- endcomment -%}
 <nav class="trg-pdp-bc" aria-label="Breadcrumb">
   <div class="trg-pdp-bc__inner">
     <a href="/">Home</a>
-    <span class="trg-pdp-bc__sep" aria-hidden="true">›</span>
+    <span class="trg-pdp-bc__sep" aria-hidden="true">â€º</span>
     <a href="/collections/all">Products</a>
     {%- if bc_collection -%}
-      <span class="trg-pdp-bc__sep" aria-hidden="true">›</span>
+      <span class="trg-pdp-bc__sep" aria-hidden="true">â€º</span>
       <a href="{{ bc_collection.url }}">{{ bc_collection.title }}</a>
     {%- endif -%}
-    <span class="trg-pdp-bc__sep" aria-hidden="true">›</span>
+    <span class="trg-pdp-bc__sep" aria-hidden="true">â€º</span>
     <span class="trg-pdp-bc__current">{{ p.title }}</span>
   </div>
 </nav>
 
-{%- comment -%} ═══ MAIN 55/45 GRID ═══ {%- endcomment -%}
+{%- comment -%} â•?â•?â•? MAIN 55/45 GRID â•?â•?â•? {%- endcomment -%}
 <div class="trg-pdp" {{ section.shopify_attributes }}>
 
-  {%- comment -%} ── GALLERY ── {%- endcomment -%}
+  {%- comment -%} â”€â”€ GALLERY â”€â”€ {%- endcomment -%}
   <div class="trg-pdp__gallery">
     <div class="trg-pdp__gallery-main" id="trg-gallery-main">
       {%- if p.featured_media -%}
@@ -269,7 +269,7 @@
     {%- endif -%}
   </div>
 
-  {%- comment -%} ── INFO COLUMN ── {%- endcomment -%}
+  {%- comment -%} â”€â”€ INFO COLUMN â”€â”€ {%- endcomment -%}
   <div class="trg-pdp__info">
 
     {%- comment -%} Brand link with arrow {%- endcomment -%}
@@ -309,10 +309,10 @@
       {%- endfor -%}
     {%- endif -%}
 
-    {%- comment -%} ═══ CTA SECTION ═══ {%- endcomment -%}
+    {%- comment -%} â•?â•?â•? CTA SECTION â•?â•?â•? {%- endcomment -%}
     <div class="trg-pdp__cta-section">
 
-      {%- comment -%} ── US MARKET ── {%- endcomment -%}
+      {%- comment -%} â”€â”€ US MARKET â”€â”€ {%- endcomment -%}
       <div class="trg-pdp__market trg-pdp__market--us">
 
         {%- if is_direct and buy_url_us != blank -%}
@@ -353,7 +353,7 @@
         {%- endif -%}
       </div>
 
-      {%- comment -%} ── CA MARKET ── {%- endcomment -%}
+      {%- comment -%} â”€â”€ CA MARKET â”€â”€ {%- endcomment -%}
       <div class="trg-pdp__market trg-pdp__market--ca">
 
         {%- if is_direct and buy_url_ca != blank -%}
@@ -392,7 +392,7 @@
 
     </div>
 
-    {%- comment -%} ═══ ALSO AVAILABLE AT (dedup surfacing) ═══ {%- endcomment -%}
+    {%- comment -%} â•?â•?â•? ALSO AVAILABLE AT (dedup surfacing) â•?â•?â•? {%- endcomment -%}
     {%- if also_available_raw != blank and also_available_raw != '[]' -%}
       <div class="trg-pdp__also-at" data-alts="{{ also_available_raw | escape }}">
         <div class="trg-pdp__also-at__label">Also available at</div>
@@ -416,11 +416,11 @@
       <span class="trg-pdp__wishlist-text">Save to Wishlist</span>
     </button>
 
-    {%- comment -%} ═══ CANADA STRIP ═══ (hidden default, body[data-region=CA] shows) {%- endcomment -%}
+    {%- comment -%} â•?â•?â•? CANADA STRIP â•?â•?â•? (hidden default, body[data-region=CA] shows) {%- endcomment -%}
     <div class="trg-pdp__canada" id="trg-canada-strip">
       <button class="trg-pdp__canada-header" type="button" onclick="this.closest('.trg-pdp__canada').classList.toggle('open')">
         <span class="trg-pdp__canada-title">
-          <span aria-hidden="true">🍁</span> Canadian Buyers
+          <span aria-hidden="true">ðŸ??</span> Canadian Buyers
         </span>
         <svg class="trg-pdp__canada-chevron" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 15l-6-6-6 6"/></svg>
       </button>
@@ -456,7 +456,7 @@
       </div>
     </div>
 
-    {%- comment -%} ═══ META GRID ═══ {%- endcomment -%}
+    {%- comment -%} â•?â•?â•? META GRID â•?â•?â•? {%- endcomment -%}
     <div class="trg-pdp__meta">
       <div class="trg-pdp__meta-item{% if material == blank %} trg-pdp__meta-item--hidden{% endif %}" id="trg-meta-material">
           <span class="trg-pdp__meta-key">Material</span>
@@ -482,7 +482,7 @@
       {%- endif -%}
     </div>
 
-    {%- comment -%} ═══ ACCORDION ═══ {%- endcomment -%}
+    {%- comment -%} â•?â•?â•? ACCORDION â•?â•?â•? {%- endcomment -%}
     <div class="trg-pdp__accordion">
 
       {%- if p.description != blank -%}
@@ -531,7 +531,7 @@
 </div>
 
 
-{%- comment -%} ═══ COMPLETE THE LOOK  -  COLOUR GUIDE ═══ {%- endcomment -%}
+{%- comment -%} â•?â•?â•? COMPLETE THE LOOK  -  COLOUR GUIDE â•?â•?â•? {%- endcomment -%}
 {%- liquid
   assign ctl_colour = ''
   for option in p.options_with_values
@@ -605,23 +605,23 @@
       <div class="trg-ctl__dots"></div>
       <div class="trg-ctl__shop"></div>
       <button class="trg-ctl__reset" type="button">Reset</button>
-      <a class="trg-ctl__shop-all" href="/pages/colour-guide">Full Colour Guide &rarr;</a>
+      <a class="trg-ctl__shop-all" href="/pages/colour-guide">Explore all 76 colours &rarr;</a>
     </div>
   </div>
 </div>
 <script src="{{ 'trg-colour-pdp.js' | asset_url }}" defer></script>
 {%- endif -%}
 
-{%- comment -%} ═══ PDP ENHANCEMENTS JS ═══ {%- endcomment -%}
+{%- comment -%} â•?â•?â•? PDP ENHANCEMENTS JS â•?â•?â•? {%- endcomment -%}
 <script src="{{ 'trg-pdp-enhance.js' | asset_url }}" defer></script>
 {% endif %}
 
 {% stylesheet %}
-  /* ═══════════════════════════════════════════════════════
+  /* â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?
      TRG PDP v3  -  Complete styles
-     ═══════════════════════════════════════════════════════ */
+     â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•?â•? */
 
-  /* ── BREADCRUMB ── */
+  /* â”€â”€ BREADCRUMB â”€â”€ */
   .trg-pdp-bc {
     padding: 0.75rem 2rem;
     border-bottom: 1px solid #ddd8cf;
@@ -651,7 +651,7 @@
     font-weight: 500;
   }
 
-  /* ── MAIN LAYOUT  -  55/45 split ── */
+  /* â”€â”€ MAIN LAYOUT  -  55/45 split â”€â”€ */
   .trg-pdp {
     max-width: 1320px;
     margin: 0 auto;
@@ -661,7 +661,7 @@
     gap: 2rem;
   }
 
-  /* ── GALLERY ── */
+  /* â”€â”€ GALLERY â”€â”€ */
   .trg-pdp__gallery {
     display: flex;
     flex-direction: column;
@@ -735,7 +735,7 @@
     text-align: center;
   }
 
-  /* ── INFO COLUMN ── */
+  /* â”€â”€ INFO COLUMN â”€â”€ */
   .trg-pdp__info {
     display: flex;
     flex-direction: column;
@@ -864,7 +864,7 @@
     border-color: #1a1a18;
   }
 
-  /* ── CTA SECTION ── */
+  /* â”€â”€ CTA SECTION â”€â”€ */
   .trg-pdp__cta-section {
     margin-bottom: 0.5rem;
     display: flex;
@@ -941,7 +941,7 @@
     color: #1a1a18;
   }
 
-  /* ── Also Available At (dedup) ── */
+  /* â”€â”€ Also Available At (dedup) â”€â”€ */
   .trg-pdp__also-at {
     margin-top: 0.75rem;
     padding-top: 0.75rem;
@@ -1058,7 +1058,7 @@
     fill: currentColor;
   }
 
-  /* ── CANADA STRIP ── */
+  /* â”€â”€ CANADA STRIP â”€â”€ */
   .trg-pdp__canada {
     display: none;
     background: rgba(212,41,26,0.04);
@@ -1128,7 +1128,7 @@
     color: #c47a28;
   }
 
-  /* ── META GRID ── */
+  /* â”€â”€ META GRID â”€â”€ */
   .trg-pdp__meta {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -1162,7 +1162,7 @@
     color: #3d8c5e;
   }
 
-  /* ── ACCORDION ── */
+  /* â”€â”€ ACCORDION â”€â”€ */
   .trg-pdp__accordion {
     border-top: 1px solid #ddd8cf;
   }
@@ -1223,7 +1223,7 @@
     line-height: 1.6;
   }
 
-  /* ── GALLERY ARROWS + COUNTER ── */
+  /* â”€â”€ GALLERY ARROWS + COUNTER â”€â”€ */
   .trg-pdp__gallery-arrow {
     position: absolute;
     top: 50%;
@@ -1273,7 +1273,7 @@
     display: none;
   }
 
-  /* ── RESPONSIVE ── */
+  /* â”€â”€ RESPONSIVE â”€â”€ */
   @media (max-width: 990px) {
     .trg-pdp {
       grid-template-columns: 1fr;
@@ -1288,7 +1288,7 @@
       font-size: 1.6rem;
     }
 
-    /* ── BREADCRUMB mobile ── */
+    /* â”€â”€ BREADCRUMB mobile â”€â”€ */
     .trg-pdp-bc {
       padding: 0.5rem 1rem;
       overflow: hidden;
@@ -1317,7 +1317,7 @@
       max-width: 52vw;
     }
 
-    /* ── META GRID mobile ── */
+    /* â”€â”€ META GRID mobile â”€â”€ */
     .trg-pdp__meta {
       display: flex;
       flex-wrap: wrap;
