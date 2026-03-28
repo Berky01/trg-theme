@@ -94,7 +94,7 @@ const IC={
 const G=[
   {id:'shirt',l:'Shirt',co:'shirts'},
   {id:'trousers',l:'Trousers',co:'trousers'},
-  {id:'knitwear',l:'Knitwear',co:'knitwear'},
+  {id:'knitwear',l:'Knit',co:'knitwear'},
   {id:'jacket',l:'Jacket',co:'jackets'},
   {id:'coat',l:'Coat',co:'outerwear'},
   {id:'shoes',l:'Shoes',co:'footwear'}
