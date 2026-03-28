@@ -1,0 +1,74 @@
+{
+  "light-cool": {
+    "name": "Light + Cool",
+    "archetype": "Summer",
+    "swatch": "#c8c0d0",
+    "core": ["Light Grey","Slate","Charcoal","Navy","Pewter","Stone","Silver"],
+    "best": ["Dusty Rose","Mauve","Steel Blue","Cobalt","Plum","Burgundy","Carmine","Jade","Powder Blue","Lavender","Chambray","Denim","Wine"],
+    "caution": ["Camel","Sand","Terracotta","Rust","Amber","Mustard","Salmon","Copper","Ochre"]
+  },
+  "light-warm": {
+    "name": "Light + Warm",
+    "archetype": "Spring",
+    "swatch": "#e8c898",
+    "core": ["Ivory","Cream","Sand","Camel","Smoke","Navy","Oatmeal","Biscuit"],
+    "best": ["Salmon","Rust","Burnt Orange","Olive","Teal","Moss","Forest","Amber","Mustard","Copper","Terracotta","Cognac","Emerald"],
+    "caution": ["White","Black","Plum","Steel Blue","Slate","Light Grey","Dusty Rose","Lavender","Indigo"]
+  },
+  "light-neutral": {
+    "name": "Light + Neutral",
+    "archetype": "Neutral light",
+    "swatch": "#d8c8b8",
+    "core": ["Stone","Smoke","Sand","Light Grey","Navy","Cream","Taupe","Oatmeal"],
+    "best": ["Teal","Sage","Dusty Rose","Steel Blue","Camel","Jade","Olive","Mauve","Chambray","Moss","Denim"],
+    "caution": ["Black","Salmon","Royal Blue","Burgundy","Mustard","Emerald"]
+  },
+  "medium-cool": {
+    "name": "Medium + Cool",
+    "archetype": "Summer\u2013Winter blend",
+    "swatch": "#b0a0c0",
+    "core": ["Charcoal","Slate","Navy","Pewter","Stone","Graphite","Dark Navy"],
+    "best": ["Steel Blue","Cobalt","Royal Blue","Burgundy","Carmine","Plum","Forest","Jade","Wine","Indigo","Cerulean","Oxblood","Emerald"],
+    "caution": ["Camel","Terracotta","Mustard","Amber","Khaki","Sand","Ochre","Copper","Tan"]
+  },
+  "medium-warm": {
+    "name": "Medium + Warm",
+    "archetype": "Autumn",
+    "swatch": "#b07840",
+    "core": ["Chocolate","Saddle Brown","Olive","Camel","Khaki","Smoke","Cognac","Tobacco"],
+    "best": ["Rust","Terracotta","Burnt Orange","Amber","Mustard","Olive Drab","Forest","Burgundy","Copper","Ochre","Moss","Hunter","Teal"],
+    "caution": ["Dusty Rose","Mauve","Powder Blue","Slate","Stone","Light Grey","Soft Pink","Lavender","Cement","Sky Blue"]
+  },
+  "medium-neutral": {
+    "name": "Medium + Neutral",
+    "archetype": "Olive neutral",
+    "swatch": "#9c8850",
+    "core": ["Khaki","Smoke","Navy","Chocolate","Sand","Taupe","Denim"],
+    "best": ["Teal","Cobalt","Burnt Orange","Hunter","Burgundy","Rust","Jade","Amber","Copper","Terracotta","Moss","Cerulean"],
+    "caution": ["Soft Pink","Dusty Rose","Stone","Powder Blue","Cream","Sage","Lavender","Mint","Fawn"]
+  },
+  "deep-cool": {
+    "name": "Deep + Cool",
+    "archetype": "Winter",
+    "swatch": "#3a2848",
+    "core": ["Black","Charcoal","Navy","White","Graphite","Dark Navy"],
+    "best": ["Royal Blue","Cobalt","Burgundy","Carmine","Forest","Jade","Plum","Wine","Emerald","Cerulean","Indigo","Oxblood"],
+    "caution": ["Camel","Sand","Ivory","Cream","Dusty Rose","Amber","Soft Pink","Oatmeal","Biscuit","Fawn"]
+  },
+  "deep-warm": {
+    "name": "Deep + Warm",
+    "archetype": "Deep autumn",
+    "swatch": "#583420",
+    "core": ["Chocolate","Saddle Brown","Hunter","Olive","Navy","Espresso","Cognac","Tobacco"],
+    "best": ["Burnt Orange","Terracotta","Rust","Mustard","Amber","Burgundy","Forest","Moss","Copper","Ochre","Teal","Olive Drab"],
+    "caution": ["Soft Pink","Stone","Cream","Powder Blue","Dusty Rose","Sage","White","Cement","Lavender","Mint"]
+  },
+  "deep-neutral": {
+    "name": "Deep + Neutral",
+    "archetype": "Deep neutral",
+    "swatch": "#443028",
+    "core": ["Charcoal","Black","Navy","Chocolate","Forest","Graphite","Dark Navy"],
+    "best": ["Teal","Burgundy","Cobalt","Rust","Hunter","Burnt Orange","Carmine","Jade","Wine","Emerald","Copper","Terracotta"],
+    "caution": ["Stone","Cream","Light Grey","Soft Pink","Sand","Cement","Oatmeal"]
+  }
+}
