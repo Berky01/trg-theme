@@ -36,39 +36,39 @@ const FAMILIES=[
 ];
 
 const PROFILES={
-  'light-cool':{name:'Light + Cool',archetype:'Summer archetype',swatch:'#c8c0d0',note:'Cool undertones mean warm earth tones pull sallow on you. The goal is harmony within the cool register \u2014 navy, charcoal, and muted jewel tones over camel and terracotta.',
+  'light-cool':{name:'Light + Cool',archetype:'Summer',swatch:'#c8c0d0',note:'Cool undertones mean warm earth tones pull sallow on you. The goal is harmony within the cool register \u2014 navy, charcoal, and muted jewel tones over camel and terracotta.',
     core:['Light Grey','Slate','Charcoal','Navy','Pewter','Stone','Silver'],
     best:['Dusty Rose','Mauve','Steel Blue','Cobalt','Plum','Burgundy','Carmine','Jade','Powder Blue','Lavender','Chambray','Denim','Wine'],
     caution:['Camel','Sand','Terracotta','Rust','Amber','Mustard','Salmon','Copper','Ochre']},
-  'light-warm':{name:'Light + Warm',archetype:'Spring archetype',swatch:'#e8c898',note:'Cool, icy tones will wash you out. Your range is warm and clear \u2014 enough brightness to match your light colouring without overwhelming it.',
+  'light-warm':{name:'Light + Warm',archetype:'Spring',swatch:'#e8c898',note:'Cool, icy tones will wash you out. Your range is warm and clear \u2014 enough brightness to match your light colouring without overwhelming it.',
     core:['Ivory','Cream','Sand','Camel','Smoke','Navy','Oatmeal','Biscuit'],
     best:['Salmon','Rust','Burnt Orange','Olive','Teal','Moss','Forest','Amber','Mustard','Copper','Terracotta','Cognac','Emerald'],
     caution:['White','Black','Plum','Steel Blue','Slate','Light Grey','Dusty Rose','Lavender','Indigo']},
-  'light-neutral':{name:'Light + Neutral',archetype:'Neutral light',swatch:'#d8c8b8',note:'Neutral undertones give you flexibility. The risk is extremes. Stick to muted, mid-range tones and let saturation do the work.',
+  'light-neutral':{name:'Light + Neutral',archetype:'Soft Season',swatch:'#d8c8b8',note:'Neutral undertones give you flexibility. The risk is extremes. Stick to muted, mid-range tones and let saturation do the work.',
     core:['Stone','Smoke','Sand','Light Grey','Navy','Cream','Taupe','Oatmeal'],
     best:['Teal','Sage','Dusty Rose','Steel Blue','Camel','Jade','Olive','Mauve','Chambray','Moss','Denim'],
     caution:['Black','Salmon','Royal Blue','Burgundy','Mustard','Emerald']},
-  'medium-cool':{name:'Medium + Cool',archetype:'Summer\u2013Winter blend',swatch:'#b0a0c0',note:'Medium depth with cool undertones means jewel tones hit hardest. Warm earth tones read muddy rather than rich against your colouring.',
+  'medium-cool':{name:'Medium + Cool',archetype:'Cool Classic',swatch:'#b0a0c0',note:'Medium depth with cool undertones means jewel tones hit hardest. Warm earth tones read muddy rather than rich against your colouring.',
     core:['Charcoal','Slate','Navy','Pewter','Stone','Graphite','Dark Navy'],
     best:['Steel Blue','Cobalt','Royal Blue','Burgundy','Carmine','Plum','Forest','Jade','Wine','Indigo','Cerulean','Oxblood','Emerald'],
     caution:['Camel','Terracotta','Mustard','Amber','Khaki','Sand','Ochre','Copper','Tan']},
-  'medium-warm':{name:'Medium + Warm',archetype:'Autumn archetype',swatch:'#b07840',note:'Autumn colouring is among the richest in the spectrum. Earth tones are your home territory. Cool pastels and muted greys flatten your natural warmth.',
+  'medium-warm':{name:'Medium + Warm',archetype:'Autumn',swatch:'#b07840',note:'Autumn colouring is among the richest in the spectrum. Earth tones are your home territory. Cool pastels and muted greys flatten your natural warmth.',
     core:['Chocolate','Saddle Brown','Olive','Camel','Khaki','Smoke','Cognac','Tobacco'],
     best:['Rust','Terracotta','Burnt Orange','Amber','Mustard','Olive Drab','Forest','Burgundy','Copper','Ochre','Moss','Hunter','Teal'],
     caution:['Dusty Rose','Mauve','Powder Blue','Slate','Stone','Light Grey','Soft Pink','Lavender','Cement','Sky Blue']},
-  'medium-neutral':{name:'Medium + Neutral',archetype:'Olive neutral',swatch:'#9c8850',note:'Olive skin with neutral undertones reads warm at a distance but holds cool tones well close up. Push saturation, not lightness.',
+  'medium-neutral':{name:'Medium + Neutral',archetype:'Olive',swatch:'#9c8850',note:'Olive skin with neutral undertones reads warm at a distance but holds cool tones well close up. Push saturation, not lightness.',
     core:['Khaki','Smoke','Navy','Chocolate','Sand','Taupe','Denim'],
     best:['Teal','Cobalt','Burnt Orange','Hunter','Burgundy','Rust','Jade','Amber','Copper','Terracotta','Moss','Cerulean'],
     caution:['Soft Pink','Dusty Rose','Stone','Powder Blue','Cream','Sage','Lavender','Mint','Fawn']},
-  'deep-cool':{name:'Deep + Cool',archetype:'Winter archetype',swatch:'#3a2848',note:'Deep cool colouring is high-contrast and high-impact. Bold, saturated colours are your territory. Low-saturation neutrals create a muddy effect.',
+  'deep-cool':{name:'Deep + Cool',archetype:'Winter',swatch:'#3a2848',note:'Deep cool colouring is high-contrast and high-impact. Bold, saturated colours are your territory. Low-saturation neutrals create a muddy effect.',
     core:['Black','Charcoal','Navy','White','Graphite','Dark Navy'],
     best:['Royal Blue','Cobalt','Burgundy','Carmine','Forest','Jade','Plum','Wine','Emerald','Cerulean','Indigo','Oxblood'],
     caution:['Camel','Sand','Ivory','Cream','Dusty Rose','Amber','Soft Pink','Oatmeal','Biscuit','Fawn']},
-  'deep-warm':{name:'Deep + Warm',archetype:'Deep autumn',swatch:'#583420',note:'Deep warm colouring carries rich earth tones beautifully. Pale, cool tones look disconnected against your depth.',
+  'deep-warm':{name:'Deep + Warm',archetype:'Deep Autumn',swatch:'#583420',note:'Deep warm colouring carries rich earth tones beautifully. Pale, cool tones look disconnected against your depth.',
     core:['Chocolate','Saddle Brown','Hunter','Olive','Navy','Espresso','Cognac','Tobacco'],
     best:['Burnt Orange','Terracotta','Rust','Mustard','Amber','Burgundy','Forest','Moss','Copper','Ochre','Teal','Olive Drab'],
     caution:['Soft Pink','Stone','Cream','Powder Blue','Dusty Rose','Sage','White','Cement','Lavender','Mint']},
-  'deep-neutral':{name:'Deep + Neutral',archetype:'Deep neutral',swatch:'#443028',note:'Deep neutral is the most versatile in the deep range. Both warm and cool work \u2014 what matters is saturation and contrast.',
+  'deep-neutral':{name:'Deep + Neutral',archetype:'Deep Anchor',swatch:'#443028',note:'Deep neutral is the most versatile in the deep range. Both warm and cool work \u2014 what matters is saturation and contrast.',
     core:['Charcoal','Black','Navy','Chocolate','Forest','Graphite','Dark Navy'],
     best:['Teal','Burgundy','Cobalt','Rust','Hunter','Burnt Orange','Carmine','Jade','Wine','Emerald','Copper','Terracotta'],
     caution:['Stone','Cream','Light Grey','Soft Pink','Sand','Cement','Oatmeal']},
@@ -278,7 +278,7 @@ function renderPresets() {
       <div class="preset-strips">${p.colors.map(c => `<div class="preset-strip" style="background:${C[c]||'#ccc'}"></div>`).join('')}</div>
       <p class="preset-name">${p.name}</p>
       <p class="preset-desc">${p.desc}</p>
-      <p class="preset-cta">Load this outfit &rarr;</p>
+      <p class="preset-cta">Start with this &rarr;</p>
     </div>
   `).join('');
 
@@ -349,7 +349,7 @@ function updateOBProfileLink() {
   } else {
     linkEl.classList.remove('active');
     document.getElementById('ob-pl-swatch').style.background = 'var(--border)';
-    document.getElementById('ob-pl-text').innerHTML = 'Your skin tone shapes which colours land. Answer two questions and the builder does the rest.';
+    document.getElementById('ob-pl-text').innerHTML = 'Your skin tone shapes which colours land. One depth pick, three quick tests, and the builder does the rest.';
     document.getElementById('ob-pl-cta').textContent = 'Personalise \u2192';
   }
 }

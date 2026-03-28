@@ -267,8 +267,9 @@
 .ob-fam-chips{display:flex;flex-wrap:wrap;gap:6px}
 .ob-chip{width:40px;height:40px;border-radius:3px;cursor:pointer;border:1.5px solid transparent;transition:.12s;position:relative}
 .ob-chip:hover{transform:scale(1.12);z-index:2;border-color:var(--ink);box-shadow:0 2px 8px rgba(0,0,0,.12)}
-.ob-chip .ob-tt{position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:var(--ink);color:var(--paper);font-size:.48rem;padding:.18rem .45rem;border-radius:3px;white-space:nowrap;opacity:0;pointer-events:none;transition:.12s;z-index:10}
-.ob-chip .ob-tt::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:3px solid transparent;border-top-color:var(--ink)}
+.ob-chip{margin-bottom:14px}
+.ob-chip .ob-tt{position:absolute;top:100%;left:50%;transform:translateX(-50%);background:transparent;color:var(--mid);font-size:.36rem;padding:2px 0 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:48px;opacity:1;pointer-events:none;text-align:center;z-index:1;line-height:1.2}
+.ob-chip .ob-tt::after{display:none}
 .ob-chip:hover .ob-tt{opacity:1}
 
 /* Profile link in builder */
