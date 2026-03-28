@@ -15,9 +15,9 @@
         "color_scheme": "scheme-header-ink",
         "eyebrow": "Product Catalogue",
         "title_source": "custom",
-        "custom_title": "<p>Find the <em>Right</em> Piece</p>",
+        "custom_title": "<p>Find the <em>Right<\/em> Piece<\/p>",
         "body_source": "custom",
-        "custom_body": "<p>Curated menswear - quality goods across North America.</p>",
+        "custom_body": "<p>Quality menswear - quality goods across North America.<\/p>",
         "show_count": true,
         "result_label": "products"
       }
@@ -273,7 +273,7 @@
         "trg_plp_sidebar_padding": 16,
         "trg_plp_caption_padding": 12,
         "trg_plp_sort_label": "Sort",
-        "trg_plp_image_ratio": "3 / 4",
+        "trg_plp_image_ratio": "3 \/ 4",
         "trg_plp_image_position": "top center",
         "trg_plp_show_toggles": true,
         "trg_plp_toggle_ships_ca": true,
