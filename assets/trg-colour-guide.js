@@ -83,7 +83,7 @@ let selDepth=null,selDepthGroup=null,answers={vein:null,metal:null,sun:null},und
 function renderDepths(){
   const grid=document.getElementById('depth-grid');
   grid.innerHTML=DEPTHS.map(d=>`<div class="depth-tile" data-id="${d.id}" data-group="${d.group}"><div class="depth-tile-check"></div><div class="depth-circle" style="background:${d.color}"></div><div class="depth-tile-name">${d.name}</div><div class="depth-tile-desc">${d.desc}</div></div>`).join('');
-  grid.querySelectorAll('.depth-tile').forEach(t=>{t.addEventListener('click',()=>{grid.querySelectorAll('.depth-tile').forEach(x=>x.classList.remove('sel'));t.classList.add('sel');selDepth=t.dataset.id;selDepthGroup=t.dataset.group;document.getElementById('step1-next').classList.add('on');});});
+  grid.querySelectorAll('.depth-tile').forEach(t=>{t.setAttribute('role','button');t.setAttribute('tabindex','0');t.setAttribute('aria-label',t.querySelector('.depth-tile-name').textContent);t.addEventListener('click',()=>{grid.querySelectorAll('.depth-tile').forEach(x=>x.classList.remove('sel'));t.classList.add('sel');selDepth=t.dataset.id;selDepthGroup=t.dataset.group;document.getElementById('step1-next').classList.add('on');});t.addEventListener('keydown',(e)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();t.click();}});});
 }
 
 function renderFamilies(){
@@ -222,7 +222,7 @@ function renderSortedGrid(profile) {
   });
 
   const chipHtml = (names) => names.map(n =>
-    `<div class="sorted-chip"><div class="sorted-chip-sq" style="background:${C[n]||'#ccc'}"></div><span class="sorted-chip-name">${n}</span></div>`
+    `<div class="sorted-chip" role="button" tabindex="0"><div class="sorted-chip-sq" style="background:${C[n]||'#ccc'}"></div><span class="sorted-chip-name">${n}</span></div>`
   ).join('');
 
   document.getElementById('guide-wrap').innerHTML = `
@@ -254,7 +254,7 @@ document.getElementById('skip-to-grid').addEventListener('click',scrollToGrid);
 document.getElementById('s1-change').addEventListener('click',()=>goStep(1));
 document.getElementById('s2-change').addEventListener('click',()=>goStep(2));
 
-document.querySelectorAll('.quiz-opt').forEach(opt=>{opt.addEventListener('click',()=>{const q=opt.dataset.q;document.querySelectorAll(`.quiz-opt[data-q="${q}"]`).forEach(o=>o.classList.remove('sel'));opt.classList.add('sel');answers[q]=opt.dataset.signal;updateTally();});});
+document.querySelectorAll('.quiz-opt').forEach(opt=>{opt.setAttribute('role','button');opt.setAttribute('tabindex','0');opt.setAttribute('aria-label',opt.querySelector('.quiz-opt-label').textContent);opt.addEventListener('click',()=>{const q=opt.dataset.q;document.querySelectorAll(`.quiz-opt[data-q="${q}"]`).forEach(o=>o.classList.remove('sel'));opt.classList.add('sel');answers[q]=opt.dataset.signal;updateTally();});opt.addEventListener('keydown',(e)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();opt.click();}});});
 
 // -- PRESETS --
 
@@ -282,10 +282,14 @@ function renderPresets() {
   `).join('');
 
   document.querySelectorAll('.preset-card').forEach(card => {
+    card.setAttribute('role','button');
+    card.setAttribute('tabindex','0');
+    card.setAttribute('aria-label',card.querySelector('.preset-name').textContent);
     card.addEventListener('click', () => {
       document.querySelectorAll('.preset-card').forEach(c => c.classList.remove('sel'));
       card.classList.add('sel');
     });
+    card.addEventListener('keydown',(e)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();card.click();}});
   });
 }
 
@@ -317,7 +321,7 @@ function renderOBSuggestions(slotName) {
 
   document.getElementById('ob-suggest-hint').textContent = rec.hint;
   document.getElementById('ob-suggest-chips').innerHTML = suggestions.map(name =>
-    `<div class="ob-sc" data-color="${name}"><div class="ob-sc-sq" style="background:${C[name]||'#ccc'}"></div><span class="ob-sc-name">${name}</span></div>`
+    `<div class="ob-sc" data-color="${name}" role="button" tabindex="0"><div class="ob-sc-sq" style="background:${C[name]||'#ccc'}"></div><span class="ob-sc-name">${name}</span></div>`
   ).join('');
 
   suggestEl.classList.add('show');
@@ -329,6 +333,7 @@ function renderOBSuggestions(slotName) {
       if (!activeSlot) return;
       assignColourToSlot(activeSlot, sc.dataset.color);
     });
+    sc.addEventListener('keydown',(e)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();sc.click();}});
   });
 }
 
@@ -342,7 +347,7 @@ function updateOBProfileLink() {
   } else {
     linkEl.classList.remove('active');
     document.getElementById('ob-pl-swatch').style.background = 'var(--border)';
-    document.getElementById('ob-pl-text').innerHTML = 'Take the skin tone quiz to get personalised colour picks for each garment slot.';
+    document.getElementById('ob-pl-text').innerHTML = 'Your skin tone shapes which colours land. Answer two questions and the builder does the rest.';
     document.getElementById('ob-pl-cta').textContent = 'Personalise \u2192';
   }
 }
@@ -378,18 +383,20 @@ function renderOBFamilies() {
       </div>
       <div class="ob-fam-chips">${fam.colors.map(name => {
         const cls = paletteSet && paletteSet.has(name) ? ' in-palette' : cautionSet && cautionSet.has(name) ? ' is-caution' : '';
-        return `<div class="ob-chip${cls}" style="background:${C[name]||'#ccc'}" data-color="${name}" title="${name}"><div class="ob-tt">${name}</div></div>`;
+        return `<div class="ob-chip${cls}" style="background:${C[name]||'#ccc'}" data-color="${name}" title="${name}" role="button" tabindex="0"><div class="ob-tt">${name}</div></div>`;
       }).join('')}</div>
     </div>
   `).join('');
 
   // Click to assign colour to active slot
   document.querySelectorAll('.ob-chip').forEach(chip => {
+    chip.setAttribute('role','button');
     chip.addEventListener('click', () => {
       const activeSlot = document.querySelector('.ob-slot.on');
       if (!activeSlot) return;
       assignColourToSlot(activeSlot, chip.dataset.color);
     });
+    chip.addEventListener('keydown',(e)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();chip.click();}});
   });
 }
 
