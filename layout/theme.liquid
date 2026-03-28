@@ -57,6 +57,7 @@ document.addEventListener('focusin',function(e){
     {%- if customer or template == 'customers/account' or template == 'customers/login' -%}<script src="{{ 'trg-account.js' | asset_url }}" defer></script>{%- endif -%}
     {%- if template.name == 'collection' or template.name == 'search' -%}<script src="{{ 'trg-plp.js' | asset_url }}" defer></script>{%- endif -%}
 <!-- trg-cache-bust-1774662519 -->
+<!-- trg-cache-bust:1774663915 -->
 </head>
 
   <body class="page-width-{{ settings.page_width }} card-hover-effect-{{ settings.card_hover_effect }} trg-card-style-{{ settings.trg_card_style | default: 'outlined' }} trg-reveal-enabled-{{ settings.trg_enable_reveal | default: true }}">
