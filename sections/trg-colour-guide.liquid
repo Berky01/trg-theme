@@ -1,34 +1,176 @@
 {{ 'trg-colour-guide.css' | asset_url | stylesheet_tag }}
 
-<div class="cg-hero">
-  <div class="cg-ey">Style Tool</div>
-  <h1 class="cg-title">The Colour Guide</h1>
-  <p class="cg-sub">Build colour-coordinated outfits from 468+ brands — powered by Sanzo Wada's <em>Dictionary of Colour Combinations.</em></p>
-</div>
+<div class="trg-colour-guide">
 
-<div class="cg-tabs">
-  <button class="cg-tab active" data-panel="panel-builder">Outfit Builder</button>
-  <button class="cg-tab" data-panel="panel-matcher">Colour Matcher</button>
-</div>
+<header class="cg-hero">
+  <p class="hero-ey">The Right Garment</p>
+  <h1>Colour Guide</h1>
+  <p>Find your palette. Build an outfit. Browse all 76 colours. One page, your pace.</p>
+</header>
 
-<div class="cg-panel active" id="panel-builder">
-  <div class="ob-wrap" id="cg-outfit-builder"></div>
-</div>
+  <!-- SKIN TONE FINDER -->
+  <div class="st-wrap" id="st-wrap">
 
-<div class="cg-panel" id="panel-matcher">
-  <div class="em-wrap" id="cg-editorial-matcher"></div>
-</div>
+    <div class="steps-bar">
+      <div class="step-item active" data-step="1"><div class="step-num">1</div><span class="step-label">Your depth</span></div>
+      <div class="step-connector"></div>
+      <div class="step-item" data-step="2"><div class="step-num">2</div><span class="step-label">Your undertone</span></div>
+      <div class="step-connector"></div>
+      <div class="step-item" data-step="3"><div class="step-num">3</div><span class="step-label">Your palette</span></div>
+    </div>
 
-<div class="cg-credit">
-  Colour combinations sourced from Sanzo Wada's <em>Dictionary of Colour Combinations</em> (1933) — <a href="https://sanzo-wada.dmbk.io" target="_blank" rel="noopener">sanzo-wada.dmbk.io</a>
+    <!-- Step 1 summary (shown when collapsed) -->
+    <div class="step-summary" id="step1-summary">
+      <div class="step-summary-num">1</div>
+      <div class="step-summary-circle" id="s1-circle"></div>
+      <div class="step-summary-text" id="s1-text"></div>
+      <button class="step-summary-change" id="s1-change">Change</button>
+    </div>
+
+    <!-- STEP 1 -->
+    <section class="step-section active" id="step-1">
+      <div class="step-intro">
+        <p class="step-eyebrow">Step 1 of 3</p>
+        <h2>How deep is your skin tone?</h2>
+        <p>Check in natural daylight. Look at your inner forearm or the back of your hand.</p>
+        <div class="skip-row">
+          <button class="skip-btn" id="skip-to-builder">Skip to outfit builder <span class="arrow">&#8595;</span></button>
+          <span class="skip-or">or</span>
+          <button class="skip-btn" id="skip-to-grid">Browse all 76 colours <span class="arrow">&#8595;</span></button>
+        </div>
+      </div>
+      <div class="depth-grid" id="depth-grid"></div>
+      <div class="step-cta-row">
+        <button class="cg-btn-primary" id="step1-next">Continue &#8594;</button>
+      </div>
+    </section>
+
+    <!-- Step 2 summary (shown when collapsed) -->
+    <div class="step-summary" id="step2-summary">
+      <div class="step-summary-num">2</div>
+      <div class="step-summary-dots" id="s2-dots"></div>
+      <div class="step-summary-text" id="s2-text"></div>
+      <button class="step-summary-change" id="s2-change">Change</button>
+    </div>
+
+    <!-- STEP 2 -->
+    <section class="step-section" id="step-2">
+      <div class="step-intro">
+        <p class="step-eyebrow">Step 2 of 3</p>
+        <h2>Find your undertone</h2>
+        <p>Answer all three tests. Your undertone is the majority signal.</p>
+      </div>
+      <div class="quiz-grid">
+        <div class="quiz-col"><div class="quiz-col-head"><p class="quiz-col-num">Test 1 -- Most reliable</p><h3 class="quiz-col-title">The Vein Test</h3><p class="quiz-col-desc">Inside of your wrist, natural light. What colour are your veins?</p></div><div class="quiz-options"><div class="quiz-opt" data-q="vein" data-signal="cool"><div class="quiz-opt-visual" style="background:linear-gradient(135deg,#8090d0,#9898e0)"></div><div class="quiz-opt-text"><span class="quiz-opt-label">Blue or purple</span><span class="quiz-opt-hint">Clearly bluish or violet</span></div></div><div class="quiz-opt" data-q="vein" data-signal="neutral"><div class="quiz-opt-visual" style="background:linear-gradient(135deg,#6898aa,#7aaa9a)"></div><div class="quiz-opt-text"><span class="quiz-opt-label">Blue-green, hard to tell</span><span class="quiz-opt-hint">A mix, shifts with light</span></div></div><div class="quiz-opt" data-q="vein" data-signal="warm"><div class="quiz-opt-visual" style="background:linear-gradient(135deg,#78b068,#90c078)"></div><div class="quiz-opt-text"><span class="quiz-opt-label">Green</span><span class="quiz-opt-hint">Clearly green or olive-toned</span></div></div></div></div>
+        <div class="quiz-col"><div class="quiz-col-head"><p class="quiz-col-num">Test 2</p><h3 class="quiz-col-title">The Metal Test</h3><p class="quiz-col-desc">Silver vs gold next to bare skin. Which looks more natural?</p></div><div class="quiz-options"><div class="quiz-opt" data-q="metal" data-signal="cool"><div class="quiz-opt-visual" style="background:linear-gradient(135deg,#c8ccd8,#b0b4c0)"></div><div class="quiz-opt-text"><span class="quiz-opt-label">Silver</span><span class="quiz-opt-hint">Silver looks bright, gold looks brassy</span></div></div><div class="quiz-opt" data-q="metal" data-signal="neutral"><div class="quiz-opt-visual" style="background:linear-gradient(to right,#c0c4d0 50%,#c8a840 50%)"></div><div class="quiz-opt-text"><span class="quiz-opt-label">Both equally</span><span class="quiz-opt-hint">Both feel natural</span></div></div><div class="quiz-opt" data-q="metal" data-signal="warm"><div class="quiz-opt-visual" style="background:linear-gradient(135deg,#c8a840,#d4b050)"></div><div class="quiz-opt-text"><span class="quiz-opt-label">Gold</span><span class="quiz-opt-hint">Gold looks warm, silver looks cold</span></div></div></div></div>
+        <div class="quiz-col"><div class="quiz-col-head"><p class="quiz-col-num">Test 3</p><h3 class="quiz-col-title">The Sun Test</h3><p class="quiz-col-desc">Without protection, what happens in direct sun?</p></div><div class="quiz-options"><div class="quiz-opt" data-q="sun" data-signal="cool"><div class="quiz-opt-visual" style="background:linear-gradient(135deg,#f0c0b0,#e8b0a0)"></div><div class="quiz-opt-text"><span class="quiz-opt-label">Burns easily, stays pink</span><span class="quiz-opt-hint">Tans minimally or not at all</span></div></div><div class="quiz-opt" data-q="sun" data-signal="neutral"><div class="quiz-opt-visual" style="background:linear-gradient(135deg,#d4a880,#c89870)"></div><div class="quiz-opt-text"><span class="quiz-opt-label">Burns first, then tans</span><span class="quiz-opt-hint">Develops a tan gradually</span></div></div><div class="quiz-opt" data-q="sun" data-signal="warm"><div class="quiz-opt-visual" style="background:linear-gradient(135deg,#c09050,#b88040)"></div><div class="quiz-opt-text"><span class="quiz-opt-label">Tans quickly, rarely burns</span><span class="quiz-opt-hint">Goes golden or olive</span></div></div></div></div>
+      </div>
+      <div class="ut-tally"><div class="ut-tally-block"><div class="ut-tally-count" id="tally-cool">0</div><div class="ut-tally-lbl">Cool</div></div><div class="ut-divider"></div><div class="ut-tally-block"><div class="ut-tally-count" id="tally-neutral">0</div><div class="ut-tally-lbl">Neutral</div></div><div class="ut-divider"></div><div class="ut-tally-block"><div class="ut-tally-count" id="tally-warm">0</div><div class="ut-tally-lbl">Warm</div></div><div class="ut-divider"></div><div class="ut-status-block"><p class="ut-status-text" id="ut-status">Answer all three tests to see your undertone</p></div></div>
+      <div class="step-cta-row">
+        <button class="cg-btn-secondary" id="step2-back">&#8592; Back</button>
+        <button class="cg-btn-primary" id="step2-next">See my palette &#8594;</button>
+      </div>
+    </section>
+
+    <!-- STEP 3 -->
+    <section class="step-section" id="step-3">
+      <div id="result-wrap"></div>
+      <div class="result-footer" style="display:flex;flex-direction:column;align-items:center;gap:.75rem;text-align:center">
+        <button class="cg-btn-primary on" id="step3-builder" style="font-size:.7rem;padding:.8rem 2rem">Build an outfit with your palette &#8595;</button>
+        <div style="display:flex;gap:1rem;align-items:center">
+          <button class="cg-btn-secondary" id="step3-scroll">See all 76 colours &#8595;</button>
+          <button class="cg-btn-secondary" id="step3-reset">Start over</button>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- COLOUR FAMILIES GRID (always visible) -->
+  <div class="grid-divider" id="grid-anchor">
+    <span class="grid-divider-tag">All 75 colours</span>
+  </div>
+
+  <div class="profile-bar" id="profile-bar">
+    <div class="pb-swatch" id="pb-swatch"></div>
+    <span class="pb-name" id="pb-name"></span>
+    <div class="pb-dots" id="pb-dots"></div>
+    <div class="pb-legend">
+      <div class="pb-legend-item"><div class="pb-legend-dot" style="background:var(--match)"></div> In your palette</div>
+      <div class="pb-legend-item"><div class="pb-legend-dot" style="background:var(--caution-c);opacity:.5"></div> With care</div>
+    </div>
+  </div>
+
+  <div class="guide-wrap" id="guide-wrap"></div>
+
+  <!-- OUTFIT BUILDER (same page, next section) -->
+  <div class="grid-divider" id="builder-anchor" style="margin-top:1rem">
+    <span class="grid-divider-tag">Outfit Builder</span>
+  </div>
+
+  <!-- Presets -->
+  <div class="presets-section">
+    <p class="presets-label">Start with a classic combination</p>
+    <div class="presets-row" id="presets-row"></div>
+  </div>
+
+  <!-- 2-col builder -->
+  <div class="ob-wrap">
+    <div class="ob-left">
+      <p class="ob-sec-label">Outfit Builder</p>
+      <div class="ob-slots" id="ob-slots">
+        <div class="ob-slot on" data-slot="shirt"><div class="ob-slot-main"><div class="ob-slot-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4l6 2v5h-3v8a1 1 0 0 1 -1 1h-10a1 1 0 0 1 -1 -1v-8h-3v-5l6 -2a3 3 0 0 0 6 0"/></svg></div><div class="ob-slot-body"><div class="ob-slot-name">Shirt</div><div class="ob-slot-hint">+ add</div><div class="ob-slot-color"></div></div><div class="ob-slot-dot"></div></div><span class="ob-slot-rm" title="Remove">&times;</span></div>
+        <div class="ob-slot" data-slot="trousers"><div class="ob-slot-main"><div class="ob-slot-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h10a1 1 0 0 1 1 1v4l-2.5 13h-2L12 11l-1.5 10h-2L6 8V4a1 1 0 0 1 1 -1"/><path d="M6 7h12"/></svg></div><div class="ob-slot-body"><div class="ob-slot-name">Trousers</div><div class="ob-slot-hint">+ add</div><div class="ob-slot-color"></div></div><div class="ob-slot-dot"></div></div><span class="ob-slot-rm">&times;</span></div>
+        <div class="ob-slot" data-slot="knitwear"><div class="ob-slot-main"><div class="ob-slot-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l6 1v5h-3v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-7H3V6l6-1"/><path d="M9 5a3.5 3.5 0 0 0 6 0"/><path d="M7 18h10"/></svg></div><div class="ob-slot-body"><div class="ob-slot-name">Knitwear</div><div class="ob-slot-hint">+ add</div><div class="ob-slot-color"></div></div><div class="ob-slot-dot"></div></div><span class="ob-slot-rm">&times;</span></div>
+        <div class="ob-slot" data-slot="jacket"><div class="ob-slot-main"><div class="ob-slot-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3l-4 5l-4 -5"/><path d="M12 19a2 2 0 0 1 -2 2h-4a2 2 0 0 1 -2 -2v-8.172a2 2 0 0 1 .586 -1.414l.828 -.828a2 2 0 0 0 .586 -1.414v-2.172a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v2.172a2 2 0 0 0 .586 1.414l.828 .828a2 2 0 0 1 .586 1.414v8.172a2 2 0 0 1 -2 2h-4a2 2 0 0 1 -2 -2"/><path d="M20 13h-3a1 1 0 0 0 -1 1v2a1 1 0 0 0 1 1h3"/><path d="M4 17h3a1 1 0 0 0 1 -1v-2a1 1 0 0 0 -1 -1h-3"/><path d="M12 19v-11"/></svg></div><div class="ob-slot-body"><div class="ob-slot-name">Jacket</div><div class="ob-slot-hint">+ add</div><div class="ob-slot-color"></div></div><div class="ob-slot-dot"></div></div><span class="ob-slot-rm">&times;</span></div>
+        <div class="ob-slot" data-slot="coat"><div class="ob-slot-main"><div class="ob-slot-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3l-4 5l-4 -5"/><path d="M4 7v13a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2V7"/><path d="M8 3L4 7"/><path d="M16 3l4 4"/><path d="M12 8v14"/><circle cx="10" cy="14" r=".5" fill="currentColor"/><circle cx="10" cy="17" r=".5" fill="currentColor"/></svg></div><div class="ob-slot-body"><div class="ob-slot-name">Coat</div><div class="ob-slot-hint">+ add</div><div class="ob-slot-color"></div></div><div class="ob-slot-dot"></div></div><span class="ob-slot-rm">&times;</span></div>
+        <div class="ob-slot" data-slot="shoes"><div class="ob-slot-main"><div class="ob-slot-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h5.426a1 1 0 0 1 .863 .496l1.064 1.823a3 3 0 0 0 1.896 1.407l4.677 1.114a4 4 0 0 1 3.074 3.89v2.27a1 1 0 0 1 -1 1h-16a1 1 0 0 1 -1 -1v-10a1 1 0 0 1 1 -1"/><path d="M14 13l1 -2"/><path d="M8 18v-1a4 4 0 0 0 -4 -4h-1"/><path d="M10 12l1.5 -3"/></svg></div><div class="ob-slot-body"><div class="ob-slot-name">Shoes</div><div class="ob-slot-hint">+ add</div><div class="ob-slot-color"></div></div><div class="ob-slot-dot"></div></div><span class="ob-slot-rm">&times;</span></div>
+      </div>
+
+      <!-- Gauge -->
+      <div class="ob-gauge">
+        <div class="ob-gauge-ring">
+          <svg viewBox="0 0 60 60"><circle class="ob-gauge-bg" cx="30" cy="30" r="26"/><circle class="ob-gauge-fill" id="ob-gauge-fill" cx="30" cy="30" r="26"/></svg>
+          <div class="ob-gauge-pct" id="ob-gauge-pct">Pick your<br>first piece</div>
+        </div>
+        <div class="ob-gauge-meta">
+          <p class="ob-gauge-label" id="ob-gauge-label">Colour Harmony</p>
+          <p class="ob-gauge-desc" id="ob-gauge-desc">Tap a garment, then choose a colour.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: colour families for the builder -->
+    <div class="ob-right">
+      <!-- Profile link -->
+      <div class="ob-profile-link" id="ob-profile-link">
+        <div class="ob-pl-swatch" id="ob-pl-swatch" style="background:var(--border)"></div>
+        <div class="ob-pl-text" id="ob-pl-text">Take the skin tone quiz to get personalised colour picks for each garment slot.</div>
+        <button class="ob-pl-cta" id="ob-pl-cta">Personalise &rarr;</button>
+      </div>
+
+      <!-- Suggested for you (appears when slot clicked + profile active) -->
+      <div class="ob-suggest" id="ob-suggest">
+        <div class="ob-suggest-head">
+          <span class="ob-suggest-label">Suggested for you</span>
+          <span class="ob-suggest-hint" id="ob-suggest-hint"></span>
+        </div>
+        <div class="ob-suggest-chips" id="ob-suggest-chips"></div>
+      </div>
+
+      <div id="ob-families"></div>
+    </div>
+  </div>
+
+<footer class="cg-credit">The Right Garment -- <a href="#">Colour Guide</a></footer>
+
 </div>
 
 <script src="{{ 'trg-colour-guide.js' | asset_url }}" defer></script>
 
 {% schema %}
 {
-  "name": "Colour Guide",
-  "tag": "section",
+  "name": "TRG Colour Guide",
   "class": "trg-colour-guide",
   "settings": []
 }

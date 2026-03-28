@@ -1,451 +1,438 @@
-/* ═══════════════════════════════════════ */
-/* TRG COLOUR GUIDE ENGINE                */
-/* ═══════════════════════════════════════ */
-(function(){
-'use strict';
+/* TRG Colour Guide — extracted from colour-guide-v9.html */
+document.addEventListener('DOMContentLoaded', function () {
 
-// ─── 65 VERIFIED MENSWEAR COLOURS ───
-const C=[
-  {n:"White",h:"#f8f6f3",cb:[6,11,27,31,37,43,45,46,52,59,63,70,71,86,90],g:"Whites & Creams"},
-  {n:"Cream",h:"#f2ead8",cb:[50,94,102,126,178,184,190,209,214,243],g:"Whites & Creams"},
-  {n:"Ecru",h:"#e8dcc8",cb:[50,94,102,126,178,184,190,209,214,235,243],g:"Whites & Creams"},
-  {n:"Off-White",h:"#eae4d8",cb:[11,50,94,126,184,190,235,243],g:"Whites & Creams"},
-  {n:"Oatmeal",h:"#d4c8b0",cb:[50,94,102,178,190,214,235],g:"Whites & Creams"},
-  {n:"Ivory",h:"#f0e8d0",cb:[11,50,94,102,126,178,184,190,209,214,235,243,262,266,301,343],g:"Whites & Creams"},
-  {n:"Sand",h:"#c8b88a",cb:[11,50,94,102,126,178,190,209,214,235,243,262,301],g:"Sand & Khaki"},
-  {n:"Tan",h:"#c4a878",cb:[23,41,56,79,116,129,134,199,210,232,234,291],g:"Sand & Khaki"},
-  {n:"Khaki",h:"#b0a07a",cb:[50,94,102,178,190,214,235,262,301],g:"Sand & Khaki"},
-  {n:"Camel",h:"#c49a5c",cb:[23,41,56,79,116,129,134,199,210,232,234,291,295,318],g:"Sand & Khaki"},
-  {n:"Biscuit",h:"#d0c0a0",cb:[50,94,126,184,190,235,243,262],g:"Sand & Khaki"},
-  {n:"Stone",h:"#a09080",cb:[47,55,69,95,113,122,129,160,175,212],g:"Sand & Khaki"},
-  {n:"Mushroom",h:"#a89888",cb:[47,55,69,95,113,122,129,160,175],g:"Sand & Khaki"},
-  {n:"Taupe",h:"#8a7e70",cb:[47,55,69,95,113,160,175,212,219],g:"Sand & Khaki"},
-  {n:"Mustard",h:"#c8a030",cb:[23,41,56,79,116,134,199,232,291],g:"Sand & Khaki"},
-  {n:"Ochre",h:"#b89028",cb:[3,13,33,70,86,130,131,182,247],g:"Sand & Khaki"},
-  {n:"Amber",h:"#d09030",cb:[23,41,56,79,116,134,199,232,234,291],g:"Sand & Khaki"},
-  {n:"Copper",h:"#b06828",cb:[3,13,33,70,86,130,131,182,243,247],g:"Browns"},
-  {n:"Raw Sienna",h:"#b86000",cb:[3,13,33,70,86,130,131,182,243,247,252,255,268,269,279,293,298,319,327],g:"Browns"},
-  {n:"Terracotta",h:"#c06848",cb:[40,85,198,242,244,263,285,286],g:"Browns"},
-  {n:"Rust",h:"#a05030",cb:[40,85,198,242,244,263,285,286,297],g:"Browns"},
-  {n:"Burnt Orange",h:"#c85028",cb:[40,85,198,242,244,263,285,286],g:"Browns"},
-  {n:"Tobacco",h:"#7a5028",cb:[110,121,145,161,198,242,263,285,286],g:"Browns"},
-  {n:"Saddle Brown",h:"#8b6834",cb:[110,121,145,161,198,242],g:"Browns"},
-  {n:"Cognac",h:"#9a5a28",cb:[110,121,145,161,198,242,263,285],g:"Browns"},
-  {n:"Chocolate",h:"#5c2c10",cb:[110,121,145,161],g:"Browns"},
-  {n:"Espresso",h:"#3c2010",cb:[110,121,145,161,198,242],g:"Browns"},
-  {n:"Mint",h:"#a0c8a0",cb:[4,36,46,87,106,137,173,194,220,253,264,274],g:"Greens"},
-  {n:"Sage",h:"#88a880",cb:[4,36,46,87,106,137,173,194,220,253,264,274,300,321,332],g:"Greens"},
-  {n:"Teal",h:"#287070",cb:[14,30,42,102,132,140,144,176,211],g:"Greens"},
-  {n:"Olive",h:"#606838",cb:[8,35,64,79,88,150,175,200,228,249,258,269,287,304,319],g:"Greens"},
-  {n:"Olive Drab",h:"#4a5828",cb:[8,35,64,79,88,150,175,200,228,249],g:"Greens"},
-  {n:"Hunter",h:"#305838",cb:[14,30,42,102,132,140,144,176,211,240,262,309],g:"Greens"},
-  {n:"Forest",h:"#1c4028",cb:[23,50,56,77,91,104,190,206,234,255,293,294,303,315,340],g:"Greens"},
-  {n:"Bottle Green",h:"#1a3828",cb:[23,50,56,77,91,104,190,206,234],g:"Greens"},
-  {n:"Emerald",h:"#40a860",cb:[2,60,85,114,136,188,209,225,248,290,313],g:"Greens"},
-  {n:"Jade",h:"#48a078",cb:[14,30,42,102,132,140,176,211],g:"Greens"},
-  {n:"Turquoise",h:"#388888",cb:[14,30,42,102,132,140,144,176,211],g:"Greens"},
-  {n:"Sky Blue",h:"#a0c4d8",cb:[24,72,135,148,182,196,222],g:"Blues"},
-  {n:"Powder Blue",h:"#b0c8e0",cb:[24,72,135,148,182,196,222],g:"Blues"},
-  {n:"Chambray",h:"#7898b8",cb:[24,72,135,148,182,196,222,233],g:"Blues"},
-  {n:"Mid Blue",h:"#5a90b8",cb:[7,57,66,116,154,174,179,208,232],g:"Blues"},
-  {n:"Steel Blue",h:"#587890",cb:[7,57,66,116,154,174,179,208,232],g:"Blues"},
-  {n:"Denim",h:"#486888",cb:[7,57,66,116,154,174,179,208,232,260],g:"Blues"},
-  {n:"Cerulean",h:"#4880c0",cb:[17,39,69,109,155,210,272,302,325],g:"Blues"},
-  {n:"Blue",h:"#3464a8",cb:[7,57,66,116,154,174,179,208,232,260,291,292,303],g:"Blues"},
-  {n:"Cobalt",h:"#2860a0",cb:[10,55,82,94,152,198,242,252,280,298,336],g:"Blues"},
-  {n:"Royal Blue",h:"#2a50b0",cb:[10,55,82,94,152,198,242,252,280,298],g:"Blues"},
-  {n:"French Blue",h:"#4070b8",cb:[17,39,69,109,155,210,272,302],g:"Blues"},
-  {n:"Navy",h:"#1a3060",cb:[3,25,30,68,84,115,117,121,136,153,162,181,197,205,223,261,276,289,306,307,318,340],g:"Blues"},
-  {n:"Dark Navy",h:"#101e40",cb:[33,40,73,80,110,126,133,178,213,214,218,236,257,266,270,281],g:"Blues"},
-  {n:"Indigo",h:"#282858",cb:[33,40,73,80,110,126,133,178,213],g:"Blues"},
-  {n:"Cement",h:"#ccc8c0",cb:[10,47,55,69,95,113,122,129,160,175,212],g:"Greys"},
-  {n:"Light Grey",h:"#b8b4ac",cb:[10,47,55,69,95,113,122,129,160,175,212,219],g:"Greys"},
-  {n:"Silver",h:"#a8a8a0",cb:[10,47,55,69,95,113,122,129,160,175,212,219,256,265,283],g:"Greys"},
-  {n:"Pewter",h:"#909088",cb:[1,44,66,96,105,128,161,177,195,207],g:"Greys"},
-  {n:"Smoke",h:"#808078",cb:[1,44,66,96,105,128,161,177,195,207,239,271,299,317,328],g:"Greys"},
-  {n:"Slate",h:"#585850",cb:[9,21,58,76,99,111,145,164,183,204,216,233],g:"Greys"},
-  {n:"Charcoal",h:"#404038",cb:[9,21,58,76,99,111,145,164,183,204,216,233,241,250,263,284,312,324,329,342],g:"Greys"},
-  {n:"Graphite",h:"#303028",cb:[6,11,27,31,37,43,45,46,52,59,63,70,71,86],g:"Greys"},
-  {n:"Black",h:"#181818",cb:[6,11,27,31,37,43,45,46,52,59,63,70,71,86,90,100,103,108,112,120,123,124,127,131,138,139,141,142],g:"Greys"},
-  {n:"Dusty Rose",h:"#c09080",cb:[35,68,185,191,223,239,244,268,285],g:"Reds & Burgundy"},
-  {n:"Salmon",h:"#d48870",cb:[35,68,185,191,223,239,244,268,285],g:"Reds & Burgundy"},
-  {n:"Rose",h:"#c07878",cb:[35,68,185,191,223,239,244,268],g:"Reds & Burgundy"},
-  {n:"Brick",h:"#8b3828",cb:[37,108,198,242,246,263,285,322,328],g:"Reds & Burgundy"},
-  {n:"Carmine",h:"#a01028",cb:[35,51,104,130,181,200,221,228,233,237,245],g:"Reds & Burgundy"},
-  {n:"Burgundy",h:"#6c1020",cb:[124,171,177,205,217,258,269,283],g:"Reds & Burgundy"},
-  {n:"Oxblood",h:"#601018",cb:[58,82,95,152,186,231,249,304,314,336,345],g:"Reds & Burgundy"},
-  {n:"Wine",h:"#501828",cb:[124,171,177,205,217,258,269],g:"Reds & Burgundy"},
-  {n:"Fawn",h:"#c8a8a8",cb:[18,125,308],g:"Mauves"},
-  {n:"Soft Pink",h:"#d4a8a0",cb:[18,125,308,35,68,185],g:"Mauves"},
-  {n:"Mauve",h:"#a08090",cb:[35,68,185,191,223,239,244,268,285,321],g:"Mauves"},
-  {n:"Lavender",h:"#9898b8",cb:[35,68,185,191,223,239,244],g:"Mauves"},
-  {n:"Lilac Grey",h:"#9890a0",cb:[35,68,185,191,223,239,244],g:"Mauves"},
-  {n:"Plum",h:"#502840",cb:[63,91,165,226,290,337],g:"Mauves"},
+// -- DATA --
+
+const DEPTHS=[{id:'very-fair',group:'light',name:'Very Fair',color:'#f2d4be',desc:'Burns quickly, rarely tans'},{id:'fair',group:'light',name:'Fair',color:'#e8c09c',desc:'Burns easily, tans slowly'},{id:'light-medium',group:'medium',name:'Light\u2013Medium',color:'#d4a878',desc:'Burns moderately, tans'},{id:'medium',group:'medium',name:'Medium',color:'#b87c50',desc:'Burns minimally, tans well'},{id:'medium-deep',group:'deep',name:'Medium\u2013Deep',color:'#8b5a3c',desc:'Rarely burns, tans deeply'},{id:'deep',group:'deep',name:'Deep',color:'#4a2c1a',desc:'Never burns, deepest pigment'}];
+
+const C={
+  // Whites & Creams (6)
+  'White':'#f8f6f3','Cream':'#f2ead8','Ecru':'#e8dcc8','Off-White':'#eae4d8','Oatmeal':'#d4c8b0','Ivory':'#f0e8d0',
+  // Sand & Khaki (11)
+  'Sand':'#c8b88a','Tan':'#c4a878','Khaki':'#b0a07a','Camel':'#c49a5c','Biscuit':'#d0c0a0','Stone':'#a09080','Mushroom':'#a89888','Taupe':'#8a7e70','Mustard':'#c8a030','Ochre':'#b89028','Amber':'#d09030',
+  // Browns (11)
+  'Copper':'#b06828','Raw Sienna':'#b86000','Terracotta':'#c06848','Rust':'#a05030','Burnt Orange':'#c85028','Tobacco':'#7a5028','Saddle Brown':'#8b6834','Cognac':'#9a5a28','Chocolate':'#5c2c10','Espresso':'#3c2010','Fawn':'#c8a8a8',
+  // Greens (12)
+  'Mint':'#a0c8a0','Sage':'#88a880','Teal':'#287070','Olive':'#606838','Olive Drab':'#4a5828','Hunter':'#305838','Forest':'#1c4028','Bottle Green':'#1a3828','Emerald':'#40a860','Jade':'#48a078','Turquoise':'#388888','Moss':'#6b7f4a',
+  // Blues (14)
+  'Sky Blue':'#a0c4d8','Powder Blue':'#b0c8e0','Chambray':'#7898b8','Mid Blue':'#5a90b8','Steel Blue':'#587890','Denim':'#486888','Cerulean':'#4880c0','Blue':'#3464a8','Cobalt':'#2860a0','Royal Blue':'#2a50b0','French Blue':'#4070b8','Navy':'#1a3060','Dark Navy':'#101e40','Indigo':'#282858',
+  // Greys (9)
+  'Cement':'#ccc8c0','Light Grey':'#b8b4ac','Silver':'#a8a8a0','Pewter':'#909088','Smoke':'#808078','Slate':'#585850','Charcoal':'#404038','Graphite':'#303028','Black':'#181818',
+  // Reds & Burgundy (8)
+  'Salmon':'#d48870','Rose':'#c07878','Brick':'#8b3828','Carmine':'#a01028','Burgundy':'#6c1020','Oxblood':'#601018','Wine':'#501828','Dusty Rose':'#c09080',
+  // Pinks & Mauves (5)
+  'Soft Pink':'#d4a8a0','Mauve':'#a08090','Lavender':'#9898b8','Lilac Grey':'#9890a0','Plum':'#502840',
+};
+
+const FAMILIES=[
+  {name:'Whites & Creams',colors:['White','Cream','Ecru','Off-White','Oatmeal','Ivory']},
+  {name:'Sand & Khaki',colors:['Sand','Tan','Khaki','Camel','Biscuit','Stone','Mushroom','Taupe','Mustard','Ochre','Amber']},
+  {name:'Browns',colors:['Copper','Raw Sienna','Terracotta','Rust','Burnt Orange','Tobacco','Saddle Brown','Cognac','Chocolate','Espresso','Fawn']},
+  {name:'Greens',colors:['Mint','Sage','Teal','Olive','Olive Drab','Hunter','Forest','Bottle Green','Emerald','Jade','Turquoise','Moss']},
+  {name:'Blues & Navies',colors:['Sky Blue','Powder Blue','Chambray','Mid Blue','Steel Blue','Denim','Cerulean','Blue','Cobalt','Royal Blue','French Blue','Navy','Dark Navy','Indigo']},
+  {name:'Greys',colors:['Cement','Light Grey','Silver','Pewter','Smoke','Slate','Charcoal','Graphite','Black']},
+  {name:'Reds & Burgundy',colors:['Salmon','Rose','Brick','Carmine','Burgundy','Oxblood','Wine','Dusty Rose']},
+  {name:'Pinks & Mauves',colors:['Soft Pink','Mauve','Lavender','Lilac Grey','Plum']},
 ];
 
-// ─── CIELAB / SCORING ───
-function sL(hex){
-  let r=parseInt(hex.slice(1,3),16)/255,g=parseInt(hex.slice(3,5),16)/255,b=parseInt(hex.slice(5,7),16)/255;
-  r=r>.04045?((r+.055)/1.055)**2.4:r/12.92;g=g>.04045?((g+.055)/1.055)**2.4:g/12.92;b=b>.04045?((b+.055)/1.055)**2.4:b/12.92;
-  let x=(r*.4124564+g*.3575761+b*.1804375)/.95047,y=(r*.2126729+g*.7151522+b*.072175)/1,z=(r*.0193339+g*.119192+b*.9503041)/1.08883;
-  const f=t=>t>.008856?t**(1/3):(903.3*t+16)/116;
-  return[116*f(y)-16,500*(f(x)-f(y)),200*(f(y)-f(z))];
-}
-function dE(a,b){const[L1,a1,b1]=sL(a),[L2,a2,b2]=sL(b);return Math.sqrt((L1-L2)**2+(a1-a2)**2+(b1-b2)**2)}
-function sc(a,b){
-  const s=a.cb.filter(c=>b.cb.includes(c)).length;
-  if(s>=3)return{pct:Math.min(97,82+s*4),tier:'perfect'};
-  if(s>=1)return{pct:62+s*10,tier:'good'};
-  return{pct:Math.max(18,Math.round(52-(dE(a.h,b.h)/120)*30)),tier:'atg'};
-}
-function near(hex){let b=null,bd=Infinity;C.forEach(c=>{const d=dE(hex,c.h);if(d<bd){bd=d;b=c}});return b}
-
-// ─── GARMENT CONFIG ───
-const IC={
-  shirt:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M6 2l-4 4 3 2V18h10V8l3-2-4-4"/><path d="M6 2c0 2 2 3 4 3s4-1 4-3"/></svg>',
-  trousers:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M5 2h10v3l-1 13H11l-1-9-1 9H6L5 5z"/><line x1="5" y1="5" x2="15" y2="5"/></svg>',
-  knitwear:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M5 5h10v12H5z"/><path d="M5 8h10"/><path d="M2 5h3v6H2"/><path d="M15 5h3v6h-3"/><path d="M7 3h6v2H7z"/></svg>',
-  jacket:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M5 3h10l1.5 5V17H3.5V8z"/><path d="M8 3l2 4 2-4"/><line x1="10" y1="7" x2="10" y2="17"/></svg>',
-  coat:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M6 2h8l2 6v10H4V8z"/><path d="M8 2v4"/><path d="M12 2v4"/><line x1="4" y1="8" x2="16" y2="8"/></svg>',
-  shoes:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M2 14c0-1 1-4 4-5V5h4v4c3 0 6 1 8 2v2c0 1-1 2-2 2H4c-1 0-2-1-2-2z"/><line x1="6" y1="5" x2="10" y2="5"/></svg>'
-};
-const G=[
-  {id:'shirt',l:'Shirt',co:'shirts'},
-  {id:'trousers',l:'Trousers',co:'trousers'},
-  {id:'knitwear',l:'Knitwear',co:'knitwear'},
-  {id:'jacket',l:'Jacket',co:'jackets'},
-  {id:'coat',l:'Coat',co:'outerwear'},
-  {id:'shoes',l:'Shoes',co:'footwear'}
-];
-const GORDER=['Blues','Greys','Greens','Sand & Khaki','Browns','Whites & Creams','Reds & Burgundy','Mauves'];
-const GNAMES={'Blues':'The <em>Navies</em> & Blues','Greys':'The <em>Greys</em>','Greens':'The <em>Greens</em>','Sand & Khaki':'The <em>Earths</em>','Browns':'The <em>Browns</em>','Whites & Creams':'The <em>Whites</em>','Reds & Burgundy':'The <em>Reds</em>','Mauves':'The <em>Pinks</em> & Mauves'};
-
-// ─── TEXTURE TIPS (grounded in Flusser, MasterClass, Articles of Style) ───
-// Rules: 1) Contrast smooth with rough  2) Max two textured pieces  3) Texture sets formality  4) Texture changes how colour reads
-const TTIPS={
-  shirt:{
-    hi:'A smooth broadcloth or poplin makes colours read cleaner — the fabric reflects light evenly. If the layers above are textured, that contrast does the heavy lifting.',
-    lo:'A rough-textured shirt — brushed flannel, heavy linen — absorbs light and softens bold colour. When the palette is unconventional, that muting effect helps everything sit together.'
-  },
-  trousers:{
-    hi:'Smooth worsted or sateen reads dressier, heavy cotton drill reads casual — same colour, different message. Either way, contrast the texture with whatever\u2019s happening on top.',
-    lo:'Wide-wale corduroy or heavy moleskin absorbs light and tones down colour. When the palette pushes boundaries, a textured trouser grounds the whole outfit.'
-  },
-  knitwear:{
-    hi:'Knitwear is where you introduce texture between a smooth shirt and a structured jacket. A Shetland or lambswool creates visual separation between layers without adding pattern.',
-    lo:'A nubby knit mutes whatever colour it carries — rough surfaces scatter light. An unconventional colour reads quieter in a chunky wool than it would in a smooth merino.'
-  },
-  jacket:{
-    hi:'A textured jacket — hopsack, tweed, herringbone — over smoother layers is the classic formula. Flusser\u2019s rule: highly textured fabrics pair more naturally with less formal clothing.',
-    lo:'One textured jacket can anchor an unconventional palette. Rough fabric absorbs light and softens the visual impact of unexpected colour — it\u2019s doing the diplomacy for you.'
-  },
-  coat:{
-    hi:'The coat frames everything underneath. A heavier cloth — casentino, melton, boucl\u00e9 — creates a tactile contrast with finer layers below. Limit bold textures to two pieces total.',
-    lo:'A heavy, light-absorbing fabric like boucl\u00e9 or casentino will visually mute whatever colour it carries. Bold palette plus textured coat — the fabric does the softening.'
-  },
-  shoes:{
-    hi:'Shoe texture sets the formality of the entire outfit. Suede grounds warm palettes and reads relaxed. Polished leather sharpens cool palettes and reads formal.',
-    lo:'Grainy leather, roughout suede, or a moc-stitched shoe carries more visual weight. When everything above is unconventional, shoes with character keep it from looking accidental.'
-  }
-};
-const TTIP_DEFAULT={
-  hi:'Contrast smooth with rough across your layers. A nubby jacket over a fine broadcloth shirt is more interesting than matching everything smooth \u2014 texture adds depth without adding pattern.',
-  lo:'When the palette runs bold, lean on texture to ground it. Rough surfaces absorb light and mute colour \u2014 one or two textured pieces can make an unexpected combination feel deliberate.'
+const PROFILES={
+  'light-cool':{name:'Light + Cool',archetype:'Summer archetype',swatch:'#c8c0d0',note:'Cool undertones mean warm earth tones pull sallow on you. The goal is harmony within the cool register \u2014 navy, charcoal, and muted jewel tones over camel and terracotta.',
+    core:['Light Grey','Slate','Charcoal','Navy','Pewter','Stone','Silver'],
+    best:['Dusty Rose','Mauve','Steel Blue','Cobalt','Plum','Burgundy','Carmine','Jade','Powder Blue','Lavender','Chambray','Denim','Wine'],
+    caution:['Camel','Sand','Terracotta','Rust','Amber','Mustard','Salmon','Copper','Ochre']},
+  'light-warm':{name:'Light + Warm',archetype:'Spring archetype',swatch:'#e8c898',note:'Cool, icy tones will wash you out. Your range is warm and clear \u2014 enough brightness to match your light colouring without overwhelming it.',
+    core:['Ivory','Cream','Sand','Camel','Smoke','Navy','Oatmeal','Biscuit'],
+    best:['Salmon','Rust','Burnt Orange','Olive','Teal','Moss','Forest','Amber','Mustard','Copper','Terracotta','Cognac','Emerald'],
+    caution:['White','Black','Plum','Steel Blue','Slate','Light Grey','Dusty Rose','Lavender','Indigo']},
+  'light-neutral':{name:'Light + Neutral',archetype:'Neutral light',swatch:'#d8c8b8',note:'Neutral undertones give you flexibility. The risk is extremes. Stick to muted, mid-range tones and let saturation do the work.',
+    core:['Stone','Smoke','Sand','Light Grey','Navy','Cream','Taupe','Oatmeal'],
+    best:['Teal','Sage','Dusty Rose','Steel Blue','Camel','Jade','Olive','Mauve','Chambray','Moss','Denim'],
+    caution:['Black','Salmon','Royal Blue','Burgundy','Mustard','Emerald']},
+  'medium-cool':{name:'Medium + Cool',archetype:'Summer\u2013Winter blend',swatch:'#b0a0c0',note:'Medium depth with cool undertones means jewel tones hit hardest. Warm earth tones read muddy rather than rich against your colouring.',
+    core:['Charcoal','Slate','Navy','Pewter','Stone','Graphite','Dark Navy'],
+    best:['Steel Blue','Cobalt','Royal Blue','Burgundy','Carmine','Plum','Forest','Jade','Wine','Indigo','Cerulean','Oxblood','Emerald'],
+    caution:['Camel','Terracotta','Mustard','Amber','Khaki','Sand','Ochre','Copper','Tan']},
+  'medium-warm':{name:'Medium + Warm',archetype:'Autumn archetype',swatch:'#b07840',note:'Autumn colouring is among the richest in the spectrum. Earth tones are your home territory. Cool pastels and muted greys flatten your natural warmth.',
+    core:['Chocolate','Saddle Brown','Olive','Camel','Khaki','Smoke','Cognac','Tobacco'],
+    best:['Rust','Terracotta','Burnt Orange','Amber','Mustard','Olive Drab','Forest','Burgundy','Copper','Ochre','Moss','Hunter','Teal'],
+    caution:['Dusty Rose','Mauve','Powder Blue','Slate','Stone','Light Grey','Soft Pink','Lavender','Cement','Sky Blue']},
+  'medium-neutral':{name:'Medium + Neutral',archetype:'Olive neutral',swatch:'#9c8850',note:'Olive skin with neutral undertones reads warm at a distance but holds cool tones well close up. Push saturation, not lightness.',
+    core:['Khaki','Smoke','Navy','Chocolate','Sand','Taupe','Denim'],
+    best:['Teal','Cobalt','Burnt Orange','Hunter','Burgundy','Rust','Jade','Amber','Copper','Terracotta','Moss','Cerulean'],
+    caution:['Soft Pink','Dusty Rose','Stone','Powder Blue','Cream','Sage','Lavender','Mint','Fawn']},
+  'deep-cool':{name:'Deep + Cool',archetype:'Winter archetype',swatch:'#3a2848',note:'Deep cool colouring is high-contrast and high-impact. Bold, saturated colours are your territory. Low-saturation neutrals create a muddy effect.',
+    core:['Black','Charcoal','Navy','White','Graphite','Dark Navy'],
+    best:['Royal Blue','Cobalt','Burgundy','Carmine','Forest','Jade','Plum','Wine','Emerald','Cerulean','Indigo','Oxblood'],
+    caution:['Camel','Sand','Ivory','Cream','Dusty Rose','Amber','Soft Pink','Oatmeal','Biscuit','Fawn']},
+  'deep-warm':{name:'Deep + Warm',archetype:'Deep autumn',swatch:'#583420',note:'Deep warm colouring carries rich earth tones beautifully. Pale, cool tones look disconnected against your depth.',
+    core:['Chocolate','Saddle Brown','Hunter','Olive','Navy','Espresso','Cognac','Tobacco'],
+    best:['Burnt Orange','Terracotta','Rust','Mustard','Amber','Burgundy','Forest','Moss','Copper','Ochre','Teal','Olive Drab'],
+    caution:['Soft Pink','Stone','Cream','Powder Blue','Dusty Rose','Sage','White','Cement','Lavender','Mint']},
+  'deep-neutral':{name:'Deep + Neutral',archetype:'Deep neutral',swatch:'#443028',note:'Deep neutral is the most versatile in the deep range. Both warm and cool work \u2014 what matters is saturation and contrast.',
+    core:['Charcoal','Black','Navy','Chocolate','Forest','Graphite','Dark Navy'],
+    best:['Teal','Burgundy','Cobalt','Rust','Hunter','Burnt Orange','Carmine','Jade','Wine','Emerald','Copper','Terracotta'],
+    caution:['Stone','Cream','Light Grey','Soft Pink','Sand','Cement','Oatmeal']},
 };
 
-// ─── COLOUR STORIES ───
-const STORIES={
-  'Navy':{t:'You already own three navy things. <em>Good. Buy a fourth.</em>',b:'The most versatile dark in menswear. Navy anchors everything from a chore coat to a suit — and in the Wada palette, it connects to more documented combinations than almost any other colour. It\'s not boring. It\'s correct.'},
-  'Olive':{t:'The colour that says <em>I\'ve read a menswear forum but I\'m not weird about it.</em>',b:'Quietly confident. Olive sits between utility and sophistication — workwear roots with enough nuance to pair with tailoring. Documented alongside creams, rust tones, and deep blues.'},
-  'Charcoal':{t:'Navy\'s quieter brother <em>who actually got the inheritance.</em>',b:'Less expected than black, more grounded than grey. Charcoal works as a foundation or a statement. 20 documented Wada combinations — it\'s the workhorse people overlook.'},
-  'Sand':{t:'Beige <em>but with a passport.</em>',b:'Neutral without being boring. Sand bridges cream and khaki — warm enough to feel intentional, muted enough to pair with almost anything in the palette.'},
-  'Rust':{t:'Autumn in textile form. <em>Pairs with everything except your ex\'s opinion.</em>',b:'The colour of well-worn leather and October light. Rust appears across 9 documented Wada combinations — every single one of them excellent.'},
-  'Cream':{t:'White for people <em>who\'ve ruined enough white shirts.</em>',b:'Warmer, kinder, and more forgiving than pure white. Cream is the neutral that actually looks like you chose it on purpose.'},
-  'Black':{t:'An ending. <em>Use it deliberately.</em>',b:'100+ documented combinations, but in menswear, restraint matters. Best as a grounding accent — boots, a belt, a coat. Not head to toe unless you\'re in a band.'},
-  'Forest':{t:'The colour of people <em>who own cast iron.</em>',b:'Deep, serious green. Forest works as a trouser, a jacket, a coat — it\'s the alternative to navy that people who think about clothes eventually arrive at.'},
-  'Camel':{t:'The coat colour <em>that makes strangers ask where you got it.</em>',b:'Camel reads expensive even when it isn\'t. In the Wada palette, it connects to 14 documented combinations — almost all of them with dark anchors like navy and charcoal.'},
-  'Burgundy':{t:'Red for adults. <em>Your burgundy phase starts now.</em>',b:'Burgundy is the red that doesn\'t need to shout. It works in knitwear, in a scarf, in a sock. In the Wada palette, it pairs beautifully with navy, cream, and forest.'},
-  'Stone':{t:'The colour of a building <em>that\'s been there longer than you.</em>',b:'Mid-tone neutral that reads neither warm nor cool. Stone is the go-anywhere trouser colour, the jacket that matches everything, the safe choice that doesn\'t look safe.'},
-  'Denim':{t:'You know this one. <em>You\'re wearing it right now.</em>',b:'Medium blue washed to within an inch of its life. Denim is technically a blue, but it behaves like a neutral — it goes with everything because everyone already owns it.'},
-  'Sage':{t:'Olive went to therapy <em>and came back lighter.</em>',b:'The softer, more approachable green. Sage works in spring and summer where olive would feel too heavy. Documented alongside creams, blues, and warm browns.'},
-  'Tobacco':{t:'Brown but make it <em>interesting.</em>',b:'Tobacco has the depth of chocolate without the seriousness. It\'s the colour of a jacket you\'d actually reach for, not one that stays on the hanger.'},
-  'Indigo':{t:'Navy at night. <em>Darker than you think.</em>',b:'The colour between navy and black that most people can\'t name but instinctively reach for. Indigo works in denim, in knitwear, in a blazer that reads formal without trying.'},
-};
+// -- STATE --
 
-// ═══════════════════════════════════════
-// OUTFIT BUILDER
-// ═══════════════════════════════════════
-let ob={o:{},act:null,hist:[],skipped:{}};
+let selDepth=null,selDepthGroup=null,answers={vein:null,metal:null,sun:null},undertone=null,activeProfile=null;
 
-function clrChips(){document.querySelectorAll('#ob-pal .ob-cc').forEach(ch=>{ch.classList.remove('perfect','good','atg');ch.querySelector('.ob-sc').style.display='none'})}
+// -- RENDER --
 
-function obInit(){
-  const el=document.getElementById('cg-outfit-builder');if(!el)return;
-  ob={o:{},act:null,hist:[],skipped:{}};
-  el.innerHTML=`
-<div class="ob-presets-wrap"><div class="ob-presets-label">Start with a classic combination</div><div class="ob-presets-row" id="ob-presets"></div></div>
-<div class="ob-grid">
-  <div class="ob-left">
-    <div class="ob-sec-head"><div class="ob-sec-label">Outfit Builder</div><button class="ob-reset hidden" id="ob-reset">Reset</button></div>
-    <div class="ob-slots" id="ob-slots"></div>
-    <div class="ob-gc empty" id="ob-gc">
-      <div class="ob-gauge"><svg viewBox="0 0 88 88"><circle class="ob-gauge-bg" cx="44" cy="44" r="36"/><circle class="ob-gauge-fill" id="ob-gf" cx="44" cy="44" r="36"/></svg><div class="ob-gauge-pct emp" id="ob-gp">Build<br>to score</div></div>
-      <div class="ob-gm"><div class="ob-gl" id="ob-gl">Pick your first piece</div><div class="ob-gd" id="ob-gd">Tap a garment, then choose a colour.</div><div class="ob-gt hidden" id="ob-gt"></div></div>
-    </div>
-    <div class="ob-texture-tip hidden" id="ob-tt"><div class="ob-tt-label">Texture tip</div><div class="ob-tt-body" id="ob-ttb"></div></div>
-    <div class="ob-shop" id="ob-sa"><div class="ob-shop-dots" id="ob-sad"></div><a class="ob-shop-btn" href="#">Shop entire look \u2192</a><div class="ob-shop-su" id="ob-sas"></div></div>
-  </div>
-  <div class="ob-right">
-    <button class="ob-undo" id="ob-undo"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 119 9"/><path d="M3 3v9h9"/></svg> Undo</button>
-    <div class="ob-prompt" id="ob-pr"></div>
-    <div class="ob-pal" id="ob-pal"></div>
-    <div class="ob-links" id="ob-lks"></div>
-  </div>
-</div>`;
-  obRSlots();obRPal();obRPresets();
-  document.getElementById('ob-undo').addEventListener('click',obUndo);
-  document.getElementById('ob-reset').addEventListener('click',obReset);
+function renderDepths(){
+  const grid=document.getElementById('depth-grid');
+  grid.innerHTML=DEPTHS.map(d=>`<div class="depth-tile" data-id="${d.id}" data-group="${d.group}"><div class="depth-tile-check"></div><div class="depth-circle" style="background:${d.color}"></div><div class="depth-tile-name">${d.name}</div><div class="depth-tile-desc">${d.desc}</div></div>`).join('');
+  grid.querySelectorAll('.depth-tile').forEach(t=>{t.addEventListener('click',()=>{grid.querySelectorAll('.depth-tile').forEach(x=>x.classList.remove('sel'));t.classList.add('sel');selDepth=t.dataset.id;selDepthGroup=t.dataset.group;document.getElementById('step1-next').classList.add('on');});});
 }
 
-function obRSlots(){
-  document.getElementById('ob-slots').innerHTML=G.map(g=>{
-    const col=ob.o[g.id],f=!!col,a=ob.act===g.id,sk=ob.skipped[g.id];
-    const isLight=f&&sL(col.h)[0]>55;const cls='ob-slot'+(f?' filled':'')+(f&&isLight?' light-bg':'')+(a?' on':'')+(sk?' skip':'');
-    const bg=f?`background:${col.h}`:'';
-    return`<div class="${cls}" style="${bg}" data-g="${g.id}">
-  ${f?`<span class="ob-sl-rm" data-a="rm">\u00d7</span>`:''}
-  <div class="ob-slot-main">
-    <span class="ob-sl-ic">${IC[g.id]}</span>
-    <span class="ob-sl-body">
-      ${f?`<span class="ob-sl-top"><span class="ob-sl-name">${g.l}</span><span class="ob-sl-sep">\u2014</span><span class="ob-sl-col">${col.n}</span></span><a class="ob-sl-shop" href="/collections/${g.co}">Shop ${col.n.toLowerCase()} ${g.l.toLowerCase()} \u2192</a>`:`<span class="ob-sl-name">${g.l}</span><span class="ob-sl-hint">+ add</span>`}
-    </span>
-  </div>
-  ${!f&&!sk?`<span class="ob-sl-skip" data-a="skip">skip</span>`:''}
-</div>`;
-  }).join('');
-  document.querySelectorAll('#ob-slots .ob-slot').forEach(sl=>{
-    const gid=sl.dataset.g;
-    sl.querySelector('.ob-slot-main').addEventListener('click',e=>{
-      if(ob.o[gid]){obRm(gid);return}
-      if(ob.skipped[gid])return;
-      obPG(gid);
-    });
-    const rm=sl.querySelector('.ob-sl-rm');
-    if(rm)rm.addEventListener('click',e=>{e.stopPropagation();obRm(gid)});
-    const sk=sl.querySelector('.ob-sl-skip');
-    if(sk)sk.addEventListener('click',e=>{e.stopPropagation();obSkip(gid)});
+function renderFamilies(){
+  document.getElementById('guide-wrap').innerHTML=FAMILIES.map(fam=>`<div class="family"><div class="family-head"><h2 class="family-name">${fam.name}</h2><span class="family-count">${fam.colors.length} colours</span></div><div class="family-chips">${fam.colors.map(name=>`<div class="g-chip" data-name="${name}"><div class="g-chip-sq" style="background:${C[name]||'#ccc'}"><div class="g-chip-badge"></div></div><span class="g-chip-name">${name}</span></div>`).join('')}</div></div>`).join('');
+}
+
+function rChips(names){return names.map(n=>{const hex=C[n];if(!hex)return '';return `<div class="r-chip"><div class="r-chip-sq" style="background:${hex}"></div><span class="r-chip-name">${n}</span></div>`;}).join('');}
+
+function renderResult(){
+  const key=`${selDepthGroup}-${undertone}`;const p=PROFILES[key];if(!p)return;
+  activeProfile=p;
+  document.getElementById('result-wrap').innerHTML=`<div class="result-header"><div class="result-swatch" style="background:${p.swatch}"></div><div><p class="result-eyebrow">Your colour profile</p><h2 class="result-name">${p.name}</h2><p class="result-sub">${p.archetype}</p></div><div class="result-acts"><button class="btn-ghost" id="btn-scroll-grid">See rated colours &#8595;</button><button class="btn-ghost-sm" onclick="window._cgResetAll()">Reset</button></div></div><div class="result-note">${p.note}</div><div class="result-body"><div class="result-sec"><div class="result-sec-head"><span class="result-sec-lbl">Core neutrals \u2014 always safe</span></div><div class="chip-row">${rChips(p.core)}</div></div><div class="result-sec"><div class="result-sec-head"><span class="result-sec-lbl">Best colours \u2014 your strongest plays</span></div><div class="chip-row">${rChips(p.best)}</div></div><div class="result-sec caution-sec"><div class="result-sec-head"><span class="result-sec-lbl">Approach with care</span></div><div class="chip-row">${rChips(p.caution)}</div></div></div>`;
+  document.getElementById('btn-scroll-grid')?.addEventListener('click',scrollToGrid);
+  applyMatchIndicators(p);
+}
+
+// -- MATCH INDICATORS ON GRID --
+
+function applyMatchIndicators(profile){
+  // Switch to sorted view
+  renderSortedGrid(profile);
+  // Refresh builder with profile data
+  renderOBFamilies();
+  updateOBProfileLink();
+  const activeSlot = document.querySelector('.ob-slot.on');
+  if (activeSlot) renderOBSuggestions(activeSlot.dataset.slot);
+  // Show profile bar
+  const bar=document.getElementById('profile-bar');
+  document.getElementById('pb-swatch').style.background=profile.swatch;
+  document.getElementById('pb-name').textContent=profile.name;
+  const previewColors=[...(profile.core||[]).slice(0,3),...(profile.best||[]).slice(0,3)];
+  document.getElementById('pb-dots').innerHTML=previewColors.map(n=>`<div class="pb-dot" style="background:${C[n]||'#ccc'}" title="${n}"></div>`).join('');
+  bar.classList.add('show');
+}
+
+function clearMatchIndicators(){
+  renderFamilies();
+  document.getElementById('profile-bar').classList.remove('show');
+  activeProfile=null;
+  renderOBFamilies();
+  updateOBProfileLink();
+  document.getElementById('ob-suggest').classList.remove('show');
+}
+
+// -- TALLY --
+
+function updateTally(){
+  const counts={cool:0,neutral:0,warm:0};
+  Object.values(answers).forEach(a=>{if(a)counts[a]++;});
+  const answered=Object.values(answers).filter(Boolean).length;
+  const max=Math.max(...Object.values(counts));
+  ['cool','neutral','warm'].forEach(k=>{const el=document.getElementById('tally-'+k);el.textContent=counts[k];el.className='ut-tally-count'+(counts[k]>0?' live':'')+(counts[k]===max&&max>0?' lead':'');});
+  const status=document.getElementById('ut-status');
+  const nextBtn=document.getElementById('step2-next');
+  if(answered<3){status.innerHTML=`${3-answered} test${3-answered>1?'s':''} remaining`;nextBtn.classList.remove('on');undertone=null;return;}
+  if(counts.cool>=2)undertone='cool';else if(counts.warm>=2)undertone='warm';else undertone='neutral';
+  const labels={cool:'Cool',warm:'Warm',neutral:'Neutral'};
+  status.innerHTML=`Your undertone is most likely <strong>${labels[undertone]}</strong> <span class="ut-tag ${undertone}">${labels[undertone]}</span>`;
+  nextBtn.classList.add('on');
+}
+
+// -- NAV --
+
+function goStep(n) {
+  document.querySelectorAll('.step-section').forEach((s, i) => s.classList.toggle('active', i + 1 === n));
+  document.querySelectorAll('.step-item').forEach((item, i) => {
+    const sn = i + 1;
+    item.className = 'step-item' + (sn === n ? ' active' : sn < n ? ' done' : '');
   });
-  obUpdateReset();
-  // Collapse presets on mobile when building
-  const pw=document.querySelector('.ob-presets-wrap');
-  if(pw){const hasPicks=Object.keys(ob.o).length>0||Object.keys(ob.skipped).length>0;
-    pw.classList.toggle('collapsed',hasPicks&&window.innerWidth<750);
-  }
-}
 
-function obPG(id){
-  if(ob.o[id]||ob.skipped[id])return;
-  ob.act=id;obRSlots();
-  const g=G.find(x=>x.id===id),pr=document.getElementById('ob-pr');
-  pr.style.display='block';
-  pr.innerHTML=`Pick a colour for <strong>${g.l}</strong>:`;
-  const locked=Object.values(ob.o);
-  document.querySelectorAll('#ob-pal .ob-cc').forEach(ch=>{
-    ch.classList.remove('perfect','good','atg');ch.querySelector('.ob-sc').style.display='none';
-    if(locked.length>0){
-      const ref=locked[locked.length-1],cObj=C[parseInt(ch.dataset.ci)];if(!cObj)return;
-      const s=sc(ref,cObj);
-      ch.classList.add(s.tier);ch.querySelector('.ob-sc').textContent=s.pct+'%';ch.querySelector('.ob-sc').style.display='block';
+  // Step 1 summary
+  const s1 = document.getElementById('step1-summary');
+  if (n > 1 && selDepth) {
+    const depthData = DEPTHS.find(d => d.id === selDepth);
+    if (depthData) {
+      document.getElementById('s1-circle').style.background = depthData.color;
+      document.getElementById('s1-text').innerHTML = `Your depth: <strong>${depthData.name}</strong>`;
     }
+    s1.classList.add('show');
+  } else {
+    s1.classList.remove('show');
+  }
+
+  // Step 2 summary
+  const s2 = document.getElementById('step2-summary');
+  if (n > 2 && undertone) {
+    const labels = { cool: 'Cool', warm: 'Warm', neutral: 'Neutral' };
+    const signalColors = { cool: '#8090d0', neutral: '#7aaa9a', warm: '#78b068' };
+    document.getElementById('s2-dots').innerHTML = Object.entries(answers)
+      .filter(([, v]) => v)
+      .map(([, v]) => `<div class="step-summary-dot" style="background:${signalColors[v]}"></div>`)
+      .join('');
+    document.getElementById('s2-text').innerHTML = `Your undertone: <strong>${labels[undertone]}</strong> <span class="step-summary-tag ${undertone}">${labels[undertone]}</span>`;
+    s2.classList.add('show');
+  } else {
+    s2.classList.remove('show');
+  }
+
+  document.getElementById('st-wrap').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function scrollToGrid(){
+  document.getElementById('grid-anchor').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function resetAll(){
+  selDepth=null;selDepthGroup=null;answers={vein:null,metal:null,sun:null};undertone=null;
+  document.querySelectorAll('.depth-tile').forEach(t=>t.classList.remove('sel'));
+  document.getElementById('step1-next').classList.remove('on');
+  document.querySelectorAll('.quiz-opt').forEach(o=>o.classList.remove('sel'));
+  ['cool','neutral','warm'].forEach(k=>{const el=document.getElementById('tally-'+k);if(el){el.textContent='0';el.className='ut-tally-count';}});
+  document.getElementById('ut-status').innerHTML='Answer all three tests to see your undertone';
+  document.getElementById('step2-next').classList.remove('on');
+  clearMatchIndicators();
+  document.getElementById('step1-summary').classList.remove('show');
+  document.getElementById('step2-summary').classList.remove('show');
+  goStep(1);
+}
+
+// Expose resetAll globally for inline onclick in rendered HTML
+window._cgResetAll = resetAll;
+
+// -- SORTED GRID --
+
+function renderSortedGrid(profile) {
+  const allMatch = new Set([...(profile.core || []), ...(profile.best || [])]);
+  const allCaution = new Set(profile.caution || []);
+  const matchColors = [], cautionColors = [], otherColors = [];
+
+  FAMILIES.forEach(fam => {
+    fam.colors.forEach(name => {
+      if (allMatch.has(name)) matchColors.push(name);
+      else if (allCaution.has(name)) cautionColors.push(name);
+      else otherColors.push(name);
+    });
+  });
+
+  const chipHtml = (names) => names.map(n =>
+    `<div class="sorted-chip"><div class="sorted-chip-sq" style="background:${C[n]||'#ccc'}"></div><span class="sorted-chip-name">${n}</span></div>`
+  ).join('');
+
+  document.getElementById('guide-wrap').innerHTML = `
+    <div class="sorted-section match-sec">
+      <div class="sorted-head"><span class="sorted-label match-label">In your palette &mdash; ${matchColors.length} colours</span></div>
+      <div class="sorted-chips">${chipHtml(matchColors)}</div>
+    </div>
+    <div class="sorted-section caution-sec">
+      <div class="sorted-head"><span class="sorted-label caution-label">Approach with care &mdash; ${cautionColors.length} colours</span></div>
+      <div class="sorted-chips">${chipHtml(cautionColors)}</div>
+    </div>
+    <div class="sorted-section other-sec">
+      <div class="sorted-head"><span class="sorted-label other-label">Other colours &mdash; ${otherColors.length} colours</span></div>
+      <div class="sorted-chips">${chipHtml(otherColors)}</div>
+    </div>
+  `;
+}
+
+// -- EVENTS --
+
+document.getElementById('step1-next').addEventListener('click',()=>selDepth&&goStep(2));
+document.getElementById('step2-back').addEventListener('click',()=>goStep(1));
+document.getElementById('step2-next').addEventListener('click',()=>{if(!undertone)return;renderResult();goStep(3);});
+document.getElementById('step3-reset').addEventListener('click',resetAll);
+document.getElementById('step3-scroll').addEventListener('click',scrollToGrid);
+document.getElementById('step3-builder').addEventListener('click',()=>document.getElementById('builder-anchor').scrollIntoView({behavior:'smooth',block:'start'}));
+document.getElementById('skip-to-builder').addEventListener('click',()=>document.getElementById('builder-anchor').scrollIntoView({behavior:'smooth',block:'start'}));
+document.getElementById('skip-to-grid').addEventListener('click',scrollToGrid);
+document.getElementById('s1-change').addEventListener('click',()=>goStep(1));
+document.getElementById('s2-change').addEventListener('click',()=>goStep(2));
+
+document.querySelectorAll('.quiz-opt').forEach(opt=>{opt.addEventListener('click',()=>{const q=opt.dataset.q;document.querySelectorAll(`.quiz-opt[data-q="${q}"]`).forEach(o=>o.classList.remove('sel'));opt.classList.add('sel');answers[q]=opt.dataset.signal;updateTally();});});
+
+// -- PRESETS --
+
+const PRESETS = [
+  { name:'The Business Classic', desc:'Navy blazer, white shirt, charcoal trousers, cognac shoes.', colors:['Navy','White','Charcoal','Cobalt','Cognac'] },
+  { name:'The Weekend', desc:'Olive over cream, rust knitwear, denim below.', colors:['Olive','Cream','Rust','Denim','Saddle Brown'] },
+  { name:'The Italianate', desc:'Camel coat, burgundy knit, cream base, chocolate leather.', colors:['Camel','Burgundy','Cream','Chocolate','Tan'] },
+  { name:'Tonal Grey', desc:'Four shades of grey, head to toe. Monochrome done right.', colors:['Light Grey','Pewter','Charcoal','Slate','Smoke'] },
+  { name:'Country Walk', desc:'Forest green, mustard knit, stone chinos, espresso boots.', colors:['Forest','Mustard','Stone','Espresso','Olive'] },
+  { name:'The Riviera', desc:'Sky blue linen, white tee, stone chinos, tan loafers.', colors:['Sky Blue','White','Stone','Tan','Chambray'] },
+  { name:'Nordic Minimal', desc:'Black, charcoal, cement. Stripped to nothing. Sharp.', colors:['Black','Charcoal','Cement','Graphite','Silver'] },
+  { name:'Rust Belt', desc:'Rust jacket, tobacco knit, raw denim, espresso leather.', colors:['Rust','Tobacco','Denim','Espresso','Copper'] },
+  { name:'The Academic', desc:'Burgundy knit, grey flannels, navy blazer, oxblood shoes.', colors:['Burgundy','Pewter','Navy','Oxblood','Cream'] },
+  { name:'Desert Palette', desc:'Sand, terracotta, olive. Earthy warmth, end to end.', colors:['Sand','Terracotta','Olive','Camel','Saddle Brown'] },
+];
+
+function renderPresets() {
+  document.getElementById('presets-row').innerHTML = PRESETS.map((p, i) => `
+    <div class="preset-card" data-preset="${i}">
+      <div class="preset-strips">${p.colors.map(c => `<div class="preset-strip" style="background:${C[c]||'#ccc'}"></div>`).join('')}</div>
+      <p class="preset-name">${p.name}</p>
+      <p class="preset-desc">${p.desc}</p>
+      <p class="preset-cta">Try this palette &rarr;</p>
+    </div>
+  `).join('');
+
+  document.querySelectorAll('.preset-card').forEach(card => {
+    card.addEventListener('click', () => {
+      document.querySelectorAll('.preset-card').forEach(c => c.classList.remove('sel'));
+      card.classList.add('sel');
+    });
   });
 }
 
-function obPCol(col){
-  if(!ob.act)return;
-  ob.hist.push({g:ob.act,col:ob.o[ob.act]||null,type:'pick'});
-  ob.o[ob.act]=col;ob.act=null;
-  document.getElementById('ob-pr').style.display='none';clrChips();
-  obRSlots();obUHarm();obUShop();
-  document.getElementById('ob-undo').classList.add('vis');
-}
+// -- SLOT SUGGESTIONS --
 
-function obSkip(id){
-  ob.hist.push({g:id,col:null,type:'skip'});ob.skipped[id]=true;
-  if(ob.act===id){ob.act=null;document.getElementById('ob-pr').style.display='none';clrChips()}
-  obRSlots();document.getElementById('ob-undo').classList.add('vis');
-}
+const SLOT_RECS = {
+  shirt:    { pool:['White','Off-White','Cream','Ivory','Powder Blue','Sky Blue','Chambray','Oatmeal','Ecru','Light Grey','Cement','Salmon','Rose','Soft Pink'], hint:'Lighter tones near the face' },
+  trousers: { pool:['Charcoal','Navy','Slate','Khaki','Olive','Stone','Smoke','Denim','Graphite','Dark Navy','Taupe','Sand'], hint:'Grounding neutrals and mid-tones' },
+  knitwear: { pool:['Burgundy','Rust','Teal','Forest','Cobalt','Mustard','Terracotta','Plum','Emerald','Copper','Jade','Wine','Ochre','Moss','Carmine','Cerulean'], hint:'Rich tones that add depth' },
+  jacket:   { pool:['Navy','Charcoal','Camel','Olive','Slate','Dark Navy','Hunter','Graphite','Chocolate','Saddle Brown','Denim'], hint:'The anchor piece' },
+  coat:     { pool:['Camel','Charcoal','Navy','Black','Chocolate','Dark Navy','Espresso','Graphite','Olive'], hint:'Broad strokes, outermost layer' },
+  shoes:    { pool:['Saddle Brown','Cognac','Chocolate','Black','Espresso','Tobacco','Tan','Oxblood'], hint:'Leathers and darks' },
+};
 
-function obRm(id){
-  delete ob.o[id];delete ob.skipped[id];ob.act=null;
-  obRSlots();obUHarm();obUShop();obPG(id);
-}
+function renderOBSuggestions(slotName) {
+  const suggestEl = document.getElementById('ob-suggest');
+  if (!activeProfile || !slotName) { suggestEl.classList.remove('show'); return; }
 
-function obUndo(){
-  if(!ob.hist.length)return;
-  const last=ob.hist.pop();
-  if(last.type==='skip')delete ob.skipped[last.g];
-  else{if(last.col)ob.o[last.g]=last.col;else delete ob.o[last.g]}
-  ob.act=null;document.getElementById('ob-pr').style.display='none';clrChips();
-  obRSlots();obUHarm();obUShop();
-  if(!ob.hist.length)document.getElementById('ob-undo').classList.remove('vis');
-}
+  const rec = SLOT_RECS[slotName];
+  if (!rec) { suggestEl.classList.remove('show'); return; }
 
-function obRPal(){
-  const groups={};C.forEach((c,ci)=>{(groups[c.g]=groups[c.g]||[]).push({...c,ci})});
-  const el=document.getElementById('ob-pal');el.innerHTML='';
-  GORDER.forEach(gn=>{if(!groups[gn])return;const d=document.createElement('div');d.className='ob-pal-g';
-    const eName=GNAMES[gn]||gn;
-    d.innerHTML=`<div class="ob-pal-gh"><span class="ob-pal-gn">${eName}</span><span class="ob-pal-gc">${groups[gn].length} colours</span></div><div class="ob-pal-r">${groups[gn].map(c=>`<div class="ob-cc" style="background:${c.h}" data-ci="${c.ci}"><span class="ob-tip">${c.n}</span><span class="ob-sc"></span></div>`).join('')}</div>`;
-    el.appendChild(d);
+  const paletteSet = new Set([...(activeProfile.core || []), ...(activeProfile.best || [])]);
+  const cautionSet = new Set(activeProfile.caution || []);
+  // Priority: palette matches first, then non-caution from pool
+  const paletteMatches = rec.pool.filter(c => paletteSet.has(c));
+  const neutrals = rec.pool.filter(c => !paletteSet.has(c) && !cautionSet.has(c));
+  const suggestions = [...paletteMatches, ...neutrals].slice(0, 8);
+  if (suggestions.length === 0) { suggestEl.classList.remove('show'); return; }
+
+  document.getElementById('ob-suggest-hint').textContent = rec.hint;
+  document.getElementById('ob-suggest-chips').innerHTML = suggestions.map(name =>
+    `<div class="ob-sc" data-color="${name}"><div class="ob-sc-sq" style="background:${C[name]||'#ccc'}"></div><span class="ob-sc-name">${name}</span></div>`
+  ).join('');
+
+  suggestEl.classList.add('show');
+
+  // Click suggestion to assign
+  document.querySelectorAll('.ob-sc').forEach(sc => {
+    sc.addEventListener('click', () => {
+      const activeSlot = document.querySelector('.ob-slot.on');
+      if (!activeSlot) return;
+      assignColourToSlot(activeSlot, sc.dataset.color);
+    });
   });
-  el.querySelectorAll('.ob-cc').forEach(ch=>{ch.addEventListener('click',()=>{
-    if(!ob.act)return;const cObj=C[parseInt(ch.dataset.ci)];if(cObj)obPCol(cObj);
-  })});
 }
 
-function obUHarm(){
-  const cols=Object.values(ob.o),gc=document.getElementById('ob-gc'),tip=document.getElementById('ob-tt'),tipB=document.getElementById('ob-ttb'),gt=document.getElementById('ob-gt');
-  if(cols.length<2){
-    gc.classList.add('empty');tip.classList.add('hidden');gt.classList.add('hidden');
-    document.getElementById('ob-gp').className='ob-gauge-pct emp';
-    document.getElementById('ob-gp').innerHTML=cols.length===1?'Add<br>more':'Build<br>to score';
-    document.getElementById('ob-gf').style.strokeDashoffset=226.2;
-    document.getElementById('ob-gl').textContent=cols.length===1?'One piece selected':'Pick your first piece';
-    document.getElementById('ob-gl').style.color='';
-    document.getElementById('ob-gd').textContent='Tap a garment, then choose a colour.';
+function updateOBProfileLink() {
+  const linkEl = document.getElementById('ob-profile-link');
+  if (activeProfile) {
+    linkEl.classList.add('active');
+    document.getElementById('ob-pl-swatch').style.background = activeProfile.swatch;
+    document.getElementById('ob-pl-text').innerHTML = `<strong>${activeProfile.name}</strong> profile active &mdash; colour picks personalised for your skin tone.`;
+    document.getElementById('ob-pl-cta').textContent = 'Change';
+  } else {
+    linkEl.classList.remove('active');
+    document.getElementById('ob-pl-swatch').style.background = 'var(--border)';
+    document.getElementById('ob-pl-text').innerHTML = 'Take the skin tone quiz to get personalised colour picks for each garment slot.';
+    document.getElementById('ob-pl-cta').textContent = 'Personalise \u2192';
+  }
+}
+
+function assignColourToSlot(slot, colorName) {
+  const hex = C[colorName];
+  slot.classList.add('filled');
+  slot.classList.remove('on');
+  slot.querySelector('.ob-slot-color').textContent = colorName;
+  slot.querySelector('.ob-slot-dot').style.background = hex;
+  const allSlots = [...document.querySelectorAll('.ob-slot')];
+  const nextEmpty = allSlots.find(s => !s.classList.contains('filled'));
+  if (nextEmpty) {
+    nextEmpty.classList.add('on');
+    renderOBSuggestions(nextEmpty.dataset.slot);
+  } else {
+    document.getElementById('ob-suggest').classList.remove('show');
+  }
+  updateGauge();
+}
+
+// -- OUTFIT BUILDER FAMILIES --
+
+function renderOBFamilies() {
+  const paletteSet = activeProfile ? new Set([...(activeProfile.core || []), ...(activeProfile.best || [])]) : null;
+  const cautionSet = activeProfile ? new Set(activeProfile.caution || []) : null;
+
+  document.getElementById('ob-families').innerHTML = FAMILIES.map(fam => `
+    <div class="ob-fam">
+      <div class="ob-fam-head">
+        <span class="ob-fam-name">The <em>${fam.name.split(' & ')[0]}</em>${fam.name.includes('&') ? ' & ' + fam.name.split(' & ')[1] : ''}</span>
+        <span class="ob-fam-count">${fam.colors.length} colours</span>
+      </div>
+      <div class="ob-fam-chips">${fam.colors.map(name => {
+        const cls = paletteSet && paletteSet.has(name) ? ' in-palette' : cautionSet && cautionSet.has(name) ? ' is-caution' : '';
+        return `<div class="ob-chip${cls}" style="background:${C[name]||'#ccc'}" data-color="${name}" title="${name}"><div class="ob-tt">${name}</div></div>`;
+      }).join('')}</div>
+    </div>
+  `).join('');
+
+  // Click to assign colour to active slot
+  document.querySelectorAll('.ob-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const activeSlot = document.querySelector('.ob-slot.on');
+      if (!activeSlot) return;
+      assignColourToSlot(activeSlot, chip.dataset.color);
+    });
+  });
+}
+
+// Slot click
+document.getElementById('ob-slots').addEventListener('click', (e) => {
+  const slot = e.target.closest('.ob-slot');
+  if (!slot) return;
+  if (e.target.closest('.ob-slot-rm') && slot.classList.contains('filled')) {
+    slot.classList.remove('filled');
+    slot.querySelector('.ob-slot-color').textContent = '';
+    slot.querySelector('.ob-slot-dot').style.background = '';
+    updateGauge();
+    renderOBSuggestions(slot.dataset.slot);
     return;
   }
-  gc.classList.remove('empty');
-  let t=0,p=0;for(let a=0;a<cols.length;a++)for(let b=a+1;b<cols.length;b++){t+=sc(cols[a],cols[b]).pct;p++}
-  const avg=Math.round(t/p);
-  document.getElementById('ob-gf').style.strokeDashoffset=226.2-(226.2*avg/100);
-  document.getElementById('ob-gp').className='ob-gauge-pct';
-  document.getElementById('ob-gp').textContent=avg+'%';
-  const gl=document.getElementById('ob-gl'),gd=document.getElementById('ob-gd');
-  gt.classList.remove('hidden','ob-gt-p','ob-gt-g','ob-gt-a');
-  if(avg>=85){gl.textContent='Excellent harmony';gl.style.color='';gd.textContent='';gt.className='ob-gt ob-gt-p';gt.textContent='Documented Wada palettes. Editorial.';}
-  else if(avg>=65){gl.textContent='Good harmony';gl.style.color='';gd.textContent='';gt.className='ob-gt ob-gt-g';gt.textContent='Cohesive. Confident without being safe.';}
-  else{gl.textContent='Against the Grain';gl.style.color='var(--accent)';gd.textContent='';gt.className='ob-gt ob-gt-a';gt.textContent='Defies Wada\u2019s indices. Own rules.';}
-  const lastG=Object.keys(ob.o).pop(),lvl=avg>=65?'hi':'lo';
-  tipB.textContent=(TTIPS[lastG]&&TTIPS[lastG][lvl])||TTIP_DEFAULT[lvl];
-  tip.classList.remove('hidden');
-}
-
-function obUShop(){
-  const entries=Object.entries(ob.o),sa=document.getElementById('ob-sa'),lk=document.getElementById('ob-lks');
-  if(entries.length<1){sa.classList.remove('vis');lk.innerHTML='';return}
-  sa.classList.add('vis');
-  document.getElementById('ob-sad').innerHTML=Object.values(ob.o).map(c=>`<div class="ob-shop-dot" style="background:${c.h}${c.n==='White'?';border:1px solid rgba(255,255,255,.2)':''}"></div>`).join('');
-  document.getElementById('ob-sas').textContent=entries.map(([gid,c])=>c.n+' '+G.find(x=>x.id===gid).l).join(' \u00b7 ');
-  lk.innerHTML=entries.map(([gid,col])=>{const g=G.find(x=>x.id===gid);return`<a class="ob-link" href="/collections/${g.co}"><span class="ob-link-d" style="background:${col.h}${col.n==='White'?';border:1px solid #ddd':''}"></span>${col.n} ${g.l} \u2192</a>`}).join('');
-}
-
-function obReset(){
-  ob={o:{},act:null,hist:[],skipped:{}};
-  document.getElementById('ob-pr').style.display='none';clrChips();
-  obRSlots();obUHarm();obUShop();
-  document.getElementById('ob-undo').classList.remove('vis');
-  const pw=document.querySelector('.ob-presets-wrap');if(pw)pw.classList.remove('collapsed');
-}
-function obUpdateReset(){
-  const btn=document.getElementById('ob-reset');if(!btn)return;
-  const hasFilled=Object.keys(ob.o).length>0||Object.keys(ob.skipped).length>0;
-  btn.classList.toggle('hidden',!hasFilled);
-}
-window._obReset=obReset;
-
-// ─── PRESET PALETTES ───
-const PRESETS=[
-  {name:'The Business Classic',desc:'Navy blazer, white shirt, charcoal trousers, cognac shoes.',picks:{shirt:'White',trousers:'Charcoal',jacket:'Navy',shoes:'Cognac'}},
-  {name:'The Weekend',desc:'Olive over cream, rust knitwear, denim below.',picks:{shirt:'Cream',knitwear:'Rust',jacket:'Olive',trousers:'Denim'}},
-  {name:'The Italianate',desc:'Camel coat, burgundy knit, cream base, chocolate leather.',picks:{shirt:'Cream',knitwear:'Burgundy',coat:'Camel',shoes:'Chocolate'}},
-  {name:'Tonal Grey',desc:'Four shades of grey, head to toe. Monochrome done right.',picks:{shirt:'Silver',knitwear:'Smoke',jacket:'Charcoal',trousers:'Slate'}},
-  {name:'Country Walk',desc:'Forest green, mustard knit, stone chinos, espresso boots.',picks:{jacket:'Forest',knitwear:'Mustard',trousers:'Stone',shoes:'Espresso'}},
-];
-function obLoadPreset(idx){
-  const p=PRESETS[idx];if(!p)return;
-  ob={o:{},act:null,hist:[],skipped:{}};
-  Object.entries(p.picks).forEach(([gid,cName])=>{
-    const c=C.find(x=>x.n===cName);if(c)ob.o[gid]=c;
-  });
-  // Skip unfilled garments
-  G.forEach(g=>{if(!ob.o[g.id])ob.skipped[g.id]=true});
-  obRSlots();obUHarm();obUShop();
-  document.getElementById('ob-undo').classList.add('vis');
-  // Scroll to builder
-  document.getElementById('cg-outfit-builder').scrollIntoView({behavior:'smooth',block:'start'});
-}
-window._obLP=obLoadPreset;
-
-// Render preset cards
-function obRPresets(){
-  const el=document.getElementById('ob-presets');if(!el)return;
-  el.innerHTML=PRESETS.map((p,i)=>{
-    const cols=Object.values(p.picks).map(cName=>{const c=C.find(x=>x.n===cName);return c?c.h:'#ccc'});
-    return`<div class="ob-preset" onclick="window._obLP(${i})"><div class="ob-preset-colours">${cols.map(h=>`<span style="background:${h}"></span>`).join('')}</div><div class="ob-preset-body"><div class="ob-preset-name">${p.name}</div><div class="ob-preset-desc">${p.desc}</div><div class="ob-preset-cta">Try this palette \u2192</div></div></div>`;
-  }).join('');
-}
-
-// Expose
-window._obPG=obPG;window._obRm=obRm;window._obSkip=obSkip;window._obUndo=obUndo;
-
-// ═══════════════════════════════════════
-// EDITORIAL COLOUR MATCHER
-// ═══════════════════════════════════════
-function emInit(){
-  const el=document.getElementById('cg-editorial-matcher');if(!el)return;
-  el.innerHTML=`
-    <div class="em-picker"><div class="em-swatch" id="em-sw" style="background:#1a3060;"><div class="em-sw-name" id="em-swn">Navy</div><div class="em-sw-hex" id="em-swh">#1A3060</div></div>
-    <div class="em-story"><div class="em-story-ey">Colour Story</div><div class="em-story-t" id="em-st"></div><div class="em-story-body" id="em-sb"></div></div></div>
-    <div class="em-pair-label">Documented pairings</div>
-    <div class="em-pair-grid" id="em-pg"></div>
-    <div class="em-browse" id="em-br"><div class="em-browse-label">Browse all colours</div></div>
-  `;
-  const browse=document.getElementById('em-br');
-  C.forEach(c=>{
-    const d=document.createElement('div');d.className='em-mini'+(c.n==='Navy'?' active':'');
-    d.style.background=c.h;d.title=c.n;
-    d.addEventListener('click',()=>emSelect(c));
-    browse.appendChild(d);
-  });
-  emSelect(C.find(c=>c.n==='Navy'));
-}
-
-function emSelect(col){
-  document.getElementById('em-sw').style.background=col.h;
-  document.getElementById('em-swn').textContent=col.n;
-  document.getElementById('em-swh').textContent=col.h.toUpperCase();
-  const[L]=sL(col.h);
-  document.getElementById('em-swn').style.color=L>55?'#1a1a18':'#fff';
-  document.getElementById('em-swh').style.color=L>55?'rgba(26,26,24,0.5)':'rgba(255,255,255,0.7)';
-  const story=STORIES[col.n]||{t:`${col.n} <em>in the wardrobe</em>`,b:`A colour with ${col.cb.length} documented combination${col.cb.length!==1?'s':''}. Click any pairing below to explore.`};
-  document.getElementById('em-st').innerHTML=story.t;
-  document.getElementById('em-sb').textContent=story.b;
-  const scored=C.filter(c=>c.n!==col.n).map(c=>({...c,...sc(col,c)})).sort((a,b)=>b.pct-a.pct).slice(0,6);
-  const notes=['A natural jacket-over-shirt pairing.','Try this as a trouser-shirt combination.','Best as a knitwear accent.','Strong as outerwear contrast.','Works in accessories — scarf, pocket square.','A subtle complement in tailoring.'];
-  document.getElementById('em-pg').innerHTML=scored.map((m,i)=>`<div class="em-pair-card" onclick="window._emSel(${C.indexOf(C.find(x=>x.n===m.n))})"><div class="em-pair-swatches"><div class="em-pair-sw-l" style="background:${col.h}"></div><div class="em-pair-sw-r" style="background:${m.h}"></div></div><div class="em-pair-body"><div class="em-pair-name">${m.n}</div><div class="em-pair-tier ${m.tier}">${m.tier==='perfect'?'Perfect match':m.tier==='good'?'Good match':'Against the grain'} · ${m.pct}%</div><div class="em-pair-note">${notes[i]||''}</div></div></div>`).join('');
-  document.querySelectorAll('.em-mini').forEach(m=>m.classList.remove('active'));
-  const mini=[...document.querySelectorAll('.em-mini')].find(m=>m.title===col.n);if(mini)mini.classList.add('active');
-}
-window._emSel=function(ci){emSelect(C[ci])};
-
-// ─── TAB SWITCHING ───
-function initTabs(){
-  document.querySelectorAll('.cg-tab').forEach(tab=>{
-    tab.addEventListener('click',()=>{
-      document.querySelectorAll('.cg-tab').forEach(t=>t.classList.remove('active'));
-      document.querySelectorAll('.cg-panel').forEach(p=>p.classList.remove('active'));
-      tab.classList.add('active');
-      document.getElementById(tab.dataset.panel).classList.add('active');
-    });
-  });
-}
-
-// ─── BOOT ───
-document.addEventListener('DOMContentLoaded',()=>{
-  initTabs();obInit();emInit();
+  document.querySelectorAll('.ob-slot').forEach(s => s.classList.remove('on'));
+  slot.classList.add('on');
+  renderOBSuggestions(slot.dataset.slot);
 });
 
-})();
+function updateGauge() {
+  const filled = document.querySelectorAll('.ob-slot.filled').length;
+  const total = 6;
+  const pct = Math.round((filled / total) * 100);
+  const circumference = 2 * Math.PI * 26; // ~163.4
+  const offset = circumference - (circumference * pct / 100);
+  document.getElementById('ob-gauge-fill').style.strokeDashoffset = offset;
+  const pctEl = document.getElementById('ob-gauge-pct');
+  if (filled === 0) { pctEl.innerHTML = 'Pick your<br>first piece'; }
+  else { pctEl.innerHTML = `${filled}/${total}`; }
+}
 
+// -- INIT --
 
+// Profile link in builder — scroll up to quiz
+document.getElementById('ob-pl-cta').addEventListener('click', () => {
+  document.getElementById('st-wrap').scrollIntoView({ behavior: 'smooth' });
+});
+
+renderDepths();
+renderFamilies();
+renderPresets();
+renderOBFamilies();
+updateOBProfileLink();
+
+}); // end DOMContentLoaded
