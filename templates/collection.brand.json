@@ -263,7 +263,7 @@
         "trg_plp_sidebar_padding": 16,
         "trg_plp_caption_padding": 12,
         "trg_plp_sort_label": "Sort",
-        "trg_plp_image_ratio": "3 / 4",
+        "trg_plp_image_ratio": "3 \/ 4",
         "trg_plp_image_position": "top center",
         "trg_plp_show_toggles": true,
         "trg_plp_toggle_ships_ca": true,
@@ -285,11 +285,16 @@
         "trg_plp_cta_text": "#f5f1eb",
         "trg_plp_cta_hover": "#c4562a"
       }
+    },
+    "trg_palette_data": {
+      "type": "trg-palette-data",
+      "settings": {}
     }
   },
   "order": [
     "trg_plp_fix",
     "trg_search_bar",
-    "main"
+    "main",
+    "trg_palette_data"
   ]
 }

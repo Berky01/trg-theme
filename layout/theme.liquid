@@ -57,13 +57,12 @@ document.addEventListener('focusin',function(e){
     {%- if customer or template == 'customers/account' or template == 'customers/login' -%}<script src="{{ 'trg-account.js' | asset_url }}" defer></script>{%- endif -%}
     {%- if template.name == 'collection' or template.name == 'search' -%}<script src="{{ 'trg-plp.js' | asset_url }}" defer></script>{%- endif -%}
 <!-- trg-cache-bust-1774662519 -->
-<!-- trg-cache-bust:1774663915 -->
-<!-- trg-cache-bust: 1774728995 -->
+<!-- trg-cache-bust:1774663872 -->
 </head>
 
   <body class="page-width-{{ settings.page_width }} card-hover-effect-{{ settings.card_hover_effect }} trg-card-style-{{ settings.trg_card_style | default: 'outlined' }} trg-reveal-enabled-{{ settings.trg_enable_reveal | default: true }}">
 <script>
-/* TRG geo-region detection â€” sets body[data-region=CA] for Canadian visitors */
+/* TRG geo-region detection Ã¢â‚¬â€� sets body[data-region=CA] for Canadian visitors */
 (function(){
   var r=sessionStorage.getItem('trg_region');
   if(r){if(r==='CA')document.body.dataset.region='CA';return}
@@ -86,6 +85,9 @@ document.addEventListener('focusin',function(e){
     {% endif %}
     {% if customer.metafields.trg.wishlist %}
       <div data-trg-meta-wishlist='{{ customer.metafields.trg.wishlist.value | json }}' style="display:none"></div>
+    {% endif %}
+    {% if customer.metafields.trg.colour_profile %}
+      <div data-trg-meta-colour_profile="{{ customer.metafields.trg.colour_profile.value }}" style="display:none"></div>
     {% endif %}
   {% endif %}
 
@@ -619,7 +621,3 @@ document.addEventListener('focusin',function(e){
 <!-- trg-mm-col-fix 1774656022 -->
 
 <!-- trg-reaudit-fix 1774660528 -->
-
-<!-- trg-colour-guide-v20 2026-03-28T15:54:51 -->
-<!-- trg-colour-data-dynamic 2026-03-28T16:14:08.558277 -->
-<!-- trg-cg-v20-dynamic 2026-03-28T16:15:23.468706 -->
