@@ -1,0 +1,426 @@
+{
+  "families": [
+    {
+      "name": "Whites & Creams",
+      "colors": [
+        {
+          "name": "White",
+          "hex": "#f8f6f3"
+        },
+        {
+          "name": "Cream",
+          "hex": "#f2ead8"
+        },
+        {
+          "name": "Ecru",
+          "hex": "#e8dcc8"
+        },
+        {
+          "name": "Off-White",
+          "hex": "#eae4d8"
+        },
+        {
+          "name": "Oatmeal",
+          "hex": "#d4c8b0"
+        },
+        {
+          "name": "Ivory",
+          "hex": "#f0e8d0"
+        }
+      ]
+    },
+    {
+      "name": "Sand & Khaki",
+      "colors": [
+        {
+          "name": "Sand",
+          "hex": "#c8b88a"
+        },
+        {
+          "name": "Tan",
+          "hex": "#c4a878"
+        },
+        {
+          "name": "Khaki",
+          "hex": "#b0a07a"
+        },
+        {
+          "name": "Camel",
+          "hex": "#c49a5c"
+        },
+        {
+          "name": "Biscuit",
+          "hex": "#d0c0a0"
+        },
+        {
+          "name": "Stone",
+          "hex": "#a09080"
+        },
+        {
+          "name": "Mushroom",
+          "hex": "#a89888"
+        },
+        {
+          "name": "Taupe",
+          "hex": "#8a7e70"
+        },
+        {
+          "name": "Mustard",
+          "hex": "#c8a030"
+        },
+        {
+          "name": "Ochre",
+          "hex": "#b89028"
+        },
+        {
+          "name": "Amber",
+          "hex": "#d09030"
+        },
+        {
+          "name": "Fawn",
+          "hex": "#c8a8a8"
+        }
+      ]
+    },
+    {
+      "name": "Browns",
+      "colors": [
+        {
+          "name": "Copper",
+          "hex": "#b06828"
+        },
+        {
+          "name": "Raw Sienna",
+          "hex": "#b86000"
+        },
+        {
+          "name": "Terracotta",
+          "hex": "#c06848"
+        },
+        {
+          "name": "Rust",
+          "hex": "#a05030"
+        },
+        {
+          "name": "Burnt Orange",
+          "hex": "#c85028"
+        },
+        {
+          "name": "Tobacco",
+          "hex": "#7a5028"
+        },
+        {
+          "name": "Saddle Brown",
+          "hex": "#8b6834"
+        },
+        {
+          "name": "Cognac",
+          "hex": "#9a5a28"
+        },
+        {
+          "name": "Chocolate",
+          "hex": "#5c2c10"
+        },
+        {
+          "name": "Espresso",
+          "hex": "#3c2010"
+        }
+      ]
+    },
+    {
+      "name": "Greens",
+      "colors": [
+        {
+          "name": "Mint",
+          "hex": "#a0c8a0"
+        },
+        {
+          "name": "Sage",
+          "hex": "#88a880"
+        },
+        {
+          "name": "Teal",
+          "hex": "#287070"
+        },
+        {
+          "name": "Olive",
+          "hex": "#606838"
+        },
+        {
+          "name": "Olive Drab",
+          "hex": "#4a5828"
+        },
+        {
+          "name": "Hunter",
+          "hex": "#305838"
+        },
+        {
+          "name": "Forest",
+          "hex": "#1c4028"
+        },
+        {
+          "name": "Bottle Green",
+          "hex": "#1a3828"
+        },
+        {
+          "name": "Emerald",
+          "hex": "#40a860"
+        },
+        {
+          "name": "Jade",
+          "hex": "#48a078"
+        },
+        {
+          "name": "Turquoise",
+          "hex": "#388888"
+        },
+        {
+          "name": "Moss",
+          "hex": "#6b7f4a"
+        }
+      ]
+    },
+    {
+      "name": "Blues & Navies",
+      "colors": [
+        {
+          "name": "Sky Blue",
+          "hex": "#a0c4d8"
+        },
+        {
+          "name": "Powder Blue",
+          "hex": "#b0c8e0"
+        },
+        {
+          "name": "Chambray",
+          "hex": "#7898b8"
+        },
+        {
+          "name": "Mid Blue",
+          "hex": "#5a90b8"
+        },
+        {
+          "name": "Steel Blue",
+          "hex": "#587890"
+        },
+        {
+          "name": "Denim",
+          "hex": "#486888"
+        },
+        {
+          "name": "Cerulean",
+          "hex": "#4880c0"
+        },
+        {
+          "name": "Blue",
+          "hex": "#3464a8"
+        },
+        {
+          "name": "Cobalt",
+          "hex": "#2860a0"
+        },
+        {
+          "name": "Royal Blue",
+          "hex": "#2a50b0"
+        },
+        {
+          "name": "French Blue",
+          "hex": "#4070b8"
+        },
+        {
+          "name": "Navy",
+          "hex": "#1a3060"
+        },
+        {
+          "name": "Dark Navy",
+          "hex": "#101e40"
+        },
+        {
+          "name": "Indigo",
+          "hex": "#282858"
+        }
+      ]
+    },
+    {
+      "name": "Greys",
+      "colors": [
+        {
+          "name": "Cement",
+          "hex": "#ccc8c0"
+        },
+        {
+          "name": "Light Grey",
+          "hex": "#b8b4ac"
+        },
+        {
+          "name": "Silver",
+          "hex": "#a8a8a0"
+        },
+        {
+          "name": "Pewter",
+          "hex": "#909088"
+        },
+        {
+          "name": "Smoke",
+          "hex": "#808078"
+        },
+        {
+          "name": "Slate",
+          "hex": "#585850"
+        },
+        {
+          "name": "Charcoal",
+          "hex": "#404038"
+        },
+        {
+          "name": "Graphite",
+          "hex": "#303028"
+        },
+        {
+          "name": "Black",
+          "hex": "#181818"
+        }
+      ]
+    },
+    {
+      "name": "Reds & Burgundy",
+      "colors": [
+        {
+          "name": "Salmon",
+          "hex": "#d48870"
+        },
+        {
+          "name": "Rose",
+          "hex": "#c07878"
+        },
+        {
+          "name": "Brick",
+          "hex": "#8b3828"
+        },
+        {
+          "name": "Carmine",
+          "hex": "#a01028"
+        },
+        {
+          "name": "Burgundy",
+          "hex": "#6c1020"
+        },
+        {
+          "name": "Oxblood",
+          "hex": "#601018"
+        },
+        {
+          "name": "Wine",
+          "hex": "#501828"
+        },
+        {
+          "name": "Dusty Rose",
+          "hex": "#c09080"
+        }
+      ]
+    },
+    {
+      "name": "Pinks & Mauves",
+      "colors": [
+        {
+          "name": "Soft Pink",
+          "hex": "#d4a8a0"
+        },
+        {
+          "name": "Mauve",
+          "hex": "#a08090"
+        },
+        {
+          "name": "Lavender",
+          "hex": "#9898b8"
+        },
+        {
+          "name": "Lilac Grey",
+          "hex": "#9890a0"
+        },
+        {
+          "name": "Plum",
+          "hex": "#502840"
+        }
+      ]
+    }
+  ],
+  "lookup": {
+    "White": "#f8f6f3",
+    "Cream": "#f2ead8",
+    "Ecru": "#e8dcc8",
+    "Off-White": "#eae4d8",
+    "Oatmeal": "#d4c8b0",
+    "Ivory": "#f0e8d0",
+    "Sand": "#c8b88a",
+    "Tan": "#c4a878",
+    "Khaki": "#b0a07a",
+    "Camel": "#c49a5c",
+    "Biscuit": "#d0c0a0",
+    "Stone": "#a09080",
+    "Mushroom": "#a89888",
+    "Taupe": "#8a7e70",
+    "Mustard": "#c8a030",
+    "Ochre": "#b89028",
+    "Amber": "#d09030",
+    "Fawn": "#c8a8a8",
+    "Copper": "#b06828",
+    "Raw Sienna": "#b86000",
+    "Terracotta": "#c06848",
+    "Rust": "#a05030",
+    "Burnt Orange": "#c85028",
+    "Tobacco": "#7a5028",
+    "Saddle Brown": "#8b6834",
+    "Cognac": "#9a5a28",
+    "Chocolate": "#5c2c10",
+    "Espresso": "#3c2010",
+    "Mint": "#a0c8a0",
+    "Sage": "#88a880",
+    "Teal": "#287070",
+    "Olive": "#606838",
+    "Olive Drab": "#4a5828",
+    "Hunter": "#305838",
+    "Forest": "#1c4028",
+    "Bottle Green": "#1a3828",
+    "Emerald": "#40a860",
+    "Jade": "#48a078",
+    "Turquoise": "#388888",
+    "Moss": "#6b7f4a",
+    "Sky Blue": "#a0c4d8",
+    "Powder Blue": "#b0c8e0",
+    "Chambray": "#7898b8",
+    "Mid Blue": "#5a90b8",
+    "Steel Blue": "#587890",
+    "Denim": "#486888",
+    "Cerulean": "#4880c0",
+    "Blue": "#3464a8",
+    "Cobalt": "#2860a0",
+    "Royal Blue": "#2a50b0",
+    "French Blue": "#4070b8",
+    "Navy": "#1a3060",
+    "Dark Navy": "#101e40",
+    "Indigo": "#282858",
+    "Cement": "#ccc8c0",
+    "Light Grey": "#b8b4ac",
+    "Silver": "#a8a8a0",
+    "Pewter": "#909088",
+    "Smoke": "#808078",
+    "Slate": "#585850",
+    "Charcoal": "#404038",
+    "Graphite": "#303028",
+    "Black": "#181818",
+    "Salmon": "#d48870",
+    "Rose": "#c07878",
+    "Brick": "#8b3828",
+    "Carmine": "#a01028",
+    "Burgundy": "#6c1020",
+    "Oxblood": "#601018",
+    "Wine": "#501828",
+    "Dusty Rose": "#c09080",
+    "Soft Pink": "#d4a8a0",
+    "Mauve": "#a08090",
+    "Lavender": "#9898b8",
+    "Lilac Grey": "#9890a0",
+    "Plum": "#502840"
+  }
+}

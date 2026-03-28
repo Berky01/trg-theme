@@ -16,9 +16,9 @@ const C={
   'Soft Pink':'#d4a8a0','Mauve':'#a08090','Lavender':'#9898b8','Lilac Grey':'#9890a0','Plum':'#502840',
 };
 
-const ALL_COLORS = Object.keys(C);
+let ALL_COLORS = Object.keys(C);
 
-const FAMILIES=[
+let FAMILIES=[
   {name:'Whites & Creams',colors:['White','Cream','Ecru','Off-White','Oatmeal','Ivory']},
   {name:'Sand & Khaki',colors:['Sand','Tan','Khaki','Camel','Biscuit','Stone','Mushroom','Taupe','Mustard','Ochre','Amber']},
   {name:'Browns',colors:['Copper','Raw Sienna','Terracotta','Rust','Burnt Orange','Tobacco','Saddle Brown','Cognac','Chocolate','Espresso','Fawn']},
@@ -696,6 +696,30 @@ renderPresets();
 renderOBFamilies();
 updateOBProfileLink();
 updateGauge();
+
+// ── DYNAMIC COLOUR DATA ──────────────────────────────────────────────────────
+
+(function loadColourData() {
+  var dataUrl = document.querySelector('.trg-colour-guide')?.dataset.colourData;
+  if (!dataUrl) return;
+  fetch(dataUrl).then(function(r) { return r.json(); }).then(function(data) {
+    if (!data || !data.families || !data.lookup) return;
+    // Merge fetched hex values into C (FM is source of truth for hex)
+    Object.keys(data.lookup).forEach(function(name) { C[name] = data.lookup[name]; });
+    // Replace families with FM data
+    FAMILIES = data.families.map(function(fam) {
+      return { name: fam.name, colors: fam.colors.map(function(c) { return c.name; }) };
+    });
+    ALL_COLORS = Object.keys(C);
+    // Update hero colour count
+    var countEl = document.querySelector('.hero-stat-num');
+    if (countEl) countEl.textContent = String(ALL_COLORS.length);
+    // Re-render the grid and builder families
+    if (activeProfile) { renderSortedGrid(activeProfile); } else { renderFamilies(); }
+    renderOBFamilies();
+    renderHeroRibbon();
+  }).catch(function() { /* graceful fallback to hardcoded data */ });
+})();
 
 // ── STICKY NAV ───────────────────────────────────────────────────────────────
 
