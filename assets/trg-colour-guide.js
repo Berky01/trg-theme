@@ -1,7 +1,5 @@
-/* TRG Colour Guide — extracted from colour-guide-v9.html */
-document.addEventListener('DOMContentLoaded', function () {
-
-// -- DATA --
+document.addEventListener('DOMContentLoaded', function() {
+// ── DATA ─────────────────────────────────────────────────────────────────────
 
 const DEPTHS=[{id:'very-fair',group:'light',name:'Very Fair',color:'#f2d4be',desc:'Burns quickly, rarely tans'},{id:'fair',group:'light',name:'Fair',color:'#e8c09c',desc:'Burns easily, tans slowly'},{id:'light-medium',group:'medium',name:'Light\u2013Medium',color:'#d4a878',desc:'Burns moderately, tans'},{id:'medium',group:'medium',name:'Medium',color:'#b87c50',desc:'Burns minimally, tans well'},{id:'medium-deep',group:'deep',name:'Medium\u2013Deep',color:'#8b5a3c',desc:'Rarely burns, tans deeply'},{id:'deep',group:'deep',name:'Deep',color:'#4a2c1a',desc:'Never burns, deepest pigment'}];
 
@@ -36,54 +34,54 @@ const FAMILIES=[
 ];
 
 const PROFILES={
-  'light-cool':{name:'Light + Cool',archetype:'Summer',swatch:'#c8c0d0',note:'Cool undertones mean warm earth tones pull sallow on you. The goal is harmony within the cool register \u2014 navy, charcoal, and muted jewel tones over camel and terracotta.',
+  'light-cool':{name:'Light + Cool',archetype:'Summer archetype',swatch:'#c8c0d0',note:'Cool undertones mean warm earth tones pull sallow on you. The goal is harmony within the cool register \u2014 navy, charcoal, and muted jewel tones over camel and terracotta.',
     core:['Light Grey','Slate','Charcoal','Navy','Pewter','Stone','Silver'],
     best:['Dusty Rose','Mauve','Steel Blue','Cobalt','Plum','Burgundy','Carmine','Jade','Powder Blue','Lavender','Chambray','Denim','Wine'],
     caution:['Camel','Sand','Terracotta','Rust','Amber','Mustard','Salmon','Copper','Ochre']},
-  'light-warm':{name:'Light + Warm',archetype:'Spring',swatch:'#e8c898',note:'Cool, icy tones will wash you out. Your range is warm and clear \u2014 enough brightness to match your light colouring without overwhelming it.',
+  'light-warm':{name:'Light + Warm',archetype:'Spring archetype',swatch:'#e8c898',note:'Cool, icy tones will wash you out. Your range is warm and clear \u2014 enough brightness to match your light colouring without overwhelming it.',
     core:['Ivory','Cream','Sand','Camel','Smoke','Navy','Oatmeal','Biscuit'],
     best:['Salmon','Rust','Burnt Orange','Olive','Teal','Moss','Forest','Amber','Mustard','Copper','Terracotta','Cognac','Emerald'],
     caution:['White','Black','Plum','Steel Blue','Slate','Light Grey','Dusty Rose','Lavender','Indigo']},
-  'light-neutral':{name:'Light + Neutral',archetype:'Soft Season',swatch:'#d8c8b8',note:'Neutral undertones give you flexibility. The risk is extremes. Stick to muted, mid-range tones and let saturation do the work.',
+  'light-neutral':{name:'Light + Neutral',archetype:'Neutral light',swatch:'#d8c8b8',note:'Neutral undertones give you flexibility. The risk is extremes. Stick to muted, mid-range tones and let saturation do the work.',
     core:['Stone','Smoke','Sand','Light Grey','Navy','Cream','Taupe','Oatmeal'],
     best:['Teal','Sage','Dusty Rose','Steel Blue','Camel','Jade','Olive','Mauve','Chambray','Moss','Denim'],
     caution:['Black','Salmon','Royal Blue','Burgundy','Mustard','Emerald']},
-  'medium-cool':{name:'Medium + Cool',archetype:'Cool Classic',swatch:'#b0a0c0',note:'Medium depth with cool undertones means jewel tones hit hardest. Warm earth tones read muddy rather than rich against your colouring.',
+  'medium-cool':{name:'Medium + Cool',archetype:'Summer\u2013Winter blend',swatch:'#b0a0c0',note:'Medium depth with cool undertones means jewel tones hit hardest. Warm earth tones read muddy rather than rich against your colouring.',
     core:['Charcoal','Slate','Navy','Pewter','Stone','Graphite','Dark Navy'],
     best:['Steel Blue','Cobalt','Royal Blue','Burgundy','Carmine','Plum','Forest','Jade','Wine','Indigo','Cerulean','Oxblood','Emerald'],
     caution:['Camel','Terracotta','Mustard','Amber','Khaki','Sand','Ochre','Copper','Tan']},
-  'medium-warm':{name:'Medium + Warm',archetype:'Autumn',swatch:'#b07840',note:'Autumn colouring is among the richest in the spectrum. Earth tones are your home territory. Cool pastels and muted greys flatten your natural warmth.',
+  'medium-warm':{name:'Medium + Warm',archetype:'Autumn archetype',swatch:'#b07840',note:'Autumn colouring is among the richest in the spectrum. Earth tones are your home territory. Cool pastels and muted greys flatten your natural warmth.',
     core:['Chocolate','Saddle Brown','Olive','Camel','Khaki','Smoke','Cognac','Tobacco'],
     best:['Rust','Terracotta','Burnt Orange','Amber','Mustard','Olive Drab','Forest','Burgundy','Copper','Ochre','Moss','Hunter','Teal'],
     caution:['Dusty Rose','Mauve','Powder Blue','Slate','Stone','Light Grey','Soft Pink','Lavender','Cement','Sky Blue']},
-  'medium-neutral':{name:'Medium + Neutral',archetype:'Olive',swatch:'#9c8850',note:'Olive skin with neutral undertones reads warm at a distance but holds cool tones well close up. Push saturation, not lightness.',
+  'medium-neutral':{name:'Medium + Neutral',archetype:'Olive neutral',swatch:'#9c8850',note:'Olive skin with neutral undertones reads warm at a distance but holds cool tones well close up. Push saturation, not lightness.',
     core:['Khaki','Smoke','Navy','Chocolate','Sand','Taupe','Denim'],
     best:['Teal','Cobalt','Burnt Orange','Hunter','Burgundy','Rust','Jade','Amber','Copper','Terracotta','Moss','Cerulean'],
     caution:['Soft Pink','Dusty Rose','Stone','Powder Blue','Cream','Sage','Lavender','Mint','Fawn']},
-  'deep-cool':{name:'Deep + Cool',archetype:'Winter',swatch:'#3a2848',note:'Deep cool colouring is high-contrast and high-impact. Bold, saturated colours are your territory. Low-saturation neutrals create a muddy effect.',
+  'deep-cool':{name:'Deep + Cool',archetype:'Winter archetype',swatch:'#3a2848',note:'Deep cool colouring is high-contrast and high-impact. Bold, saturated colours are your territory. Low-saturation neutrals create a muddy effect.',
     core:['Black','Charcoal','Navy','White','Graphite','Dark Navy'],
     best:['Royal Blue','Cobalt','Burgundy','Carmine','Forest','Jade','Plum','Wine','Emerald','Cerulean','Indigo','Oxblood'],
     caution:['Camel','Sand','Ivory','Cream','Dusty Rose','Amber','Soft Pink','Oatmeal','Biscuit','Fawn']},
-  'deep-warm':{name:'Deep + Warm',archetype:'Deep Autumn',swatch:'#583420',note:'Deep warm colouring carries rich earth tones beautifully. Pale, cool tones look disconnected against your depth.',
+  'deep-warm':{name:'Deep + Warm',archetype:'Deep autumn',swatch:'#583420',note:'Deep warm colouring carries rich earth tones beautifully. Pale, cool tones look disconnected against your depth.',
     core:['Chocolate','Saddle Brown','Hunter','Olive','Navy','Espresso','Cognac','Tobacco'],
     best:['Burnt Orange','Terracotta','Rust','Mustard','Amber','Burgundy','Forest','Moss','Copper','Ochre','Teal','Olive Drab'],
     caution:['Soft Pink','Stone','Cream','Powder Blue','Dusty Rose','Sage','White','Cement','Lavender','Mint']},
-  'deep-neutral':{name:'Deep + Neutral',archetype:'Deep Anchor',swatch:'#443028',note:'Deep neutral is the most versatile in the deep range. Both warm and cool work \u2014 what matters is saturation and contrast.',
+  'deep-neutral':{name:'Deep + Neutral',archetype:'Deep neutral',swatch:'#443028',note:'Deep neutral is the most versatile in the deep range. Both warm and cool work \u2014 what matters is saturation and contrast.',
     core:['Charcoal','Black','Navy','Chocolate','Forest','Graphite','Dark Navy'],
     best:['Teal','Burgundy','Cobalt','Rust','Hunter','Burnt Orange','Carmine','Jade','Wine','Emerald','Copper','Terracotta'],
     caution:['Stone','Cream','Light Grey','Soft Pink','Sand','Cement','Oatmeal']},
 };
 
-// -- STATE --
+// ── STATE ────────────────────────────────────────────────────────────────────
 
 let selDepth=null,selDepthGroup=null,answers={vein:null,metal:null,sun:null},undertone=null,activeProfile=null;
 
-// -- RENDER --
+// ── RENDER ───────────────────────────────────────────────────────────────────
 
 function renderDepths(){
   const grid=document.getElementById('depth-grid');
   grid.innerHTML=DEPTHS.map(d=>`<div class="depth-tile" data-id="${d.id}" data-group="${d.group}"><div class="depth-tile-check"></div><div class="depth-circle" style="background:${d.color}"></div><div class="depth-tile-name">${d.name}</div><div class="depth-tile-desc">${d.desc}</div></div>`).join('');
-  grid.querySelectorAll('.depth-tile').forEach(t=>{t.setAttribute('role','button');t.setAttribute('tabindex','0');t.setAttribute('aria-label',t.querySelector('.depth-tile-name').textContent);t.addEventListener('click',()=>{grid.querySelectorAll('.depth-tile').forEach(x=>x.classList.remove('sel'));t.classList.add('sel');selDepth=t.dataset.id;selDepthGroup=t.dataset.group;document.getElementById('step1-next').classList.add('on');});t.addEventListener('keydown',(e)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();t.click();}});});
+  grid.querySelectorAll('.depth-tile').forEach(t=>{t.addEventListener('click',()=>{grid.querySelectorAll('.depth-tile').forEach(x=>x.classList.remove('sel'));t.classList.add('sel');selDepth=t.dataset.id;selDepthGroup=t.dataset.group;document.getElementById('step1-next').classList.add('on');});});
 }
 
 function renderFamilies(){
@@ -95,13 +93,12 @@ function rChips(names){return names.map(n=>{const hex=C[n];if(!hex)return '';ret
 function renderResult(){
   const key=`${selDepthGroup}-${undertone}`;const p=PROFILES[key];if(!p)return;
   activeProfile=p;
-  const archetypeClean = p.archetype.replace(' archetype','');
-  document.getElementById('result-wrap').innerHTML=`<div class="result-header"><div class="result-swatch" style="background:${p.swatch}"></div><div><p class="result-eyebrow">Your colour profile</p><h2 class="result-name">${archetypeClean}</h2><p class="result-sub">${p.name}</p></div><div class="result-acts"><button class="btn-ghost" id="btn-scroll-grid">See rated colours &#8595;</button><button class="btn-ghost-sm" onclick="window._cgResetAll()">Reset</button></div></div><div class="result-note">${p.note}</div><div class="result-body"><div class="result-sec"><div class="result-sec-head"><span class="result-sec-lbl">Core neutrals \u2014 always safe</span></div><div class="chip-row">${rChips(p.core)}</div></div><div class="result-sec"><div class="result-sec-head"><span class="result-sec-lbl">Best colours \u2014 your strongest plays</span></div><div class="chip-row">${rChips(p.best)}</div></div><div class="result-sec caution-sec"><div class="result-sec-head"><span class="result-sec-lbl">Approach with care</span></div><div class="chip-row">${rChips(p.caution)}</div></div></div>`;
+  document.getElementById('result-wrap').innerHTML=`<div class="result-header"><div class="result-swatch" style="background:${p.swatch}"></div><div><p class="result-eyebrow">Your colour profile</p><h2 class="result-name">${p.name}</h2><p class="result-sub">${p.archetype}</p></div><div class="result-acts"><button class="btn-ghost" id="btn-scroll-grid">See rated colours &#8595;</button><button class="btn-ghost-sm" onclick="resetAll()">Reset</button></div></div><div class="result-note">${p.note}</div><div class="result-body"><div class="result-sec"><div class="result-sec-head"><span class="result-sec-lbl">Core neutrals \u2014 always safe</span></div><div class="chip-row">${rChips(p.core)}</div></div><div class="result-sec"><div class="result-sec-head"><span class="result-sec-lbl">Best colours \u2014 your strongest plays</span></div><div class="chip-row">${rChips(p.best)}</div></div><div class="result-sec caution-sec"><div class="result-sec-head"><span class="result-sec-lbl">Approach with care</span></div><div class="chip-row">${rChips(p.caution)}</div></div></div>`;
   document.getElementById('btn-scroll-grid')?.addEventListener('click',scrollToGrid);
   applyMatchIndicators(p);
 }
 
-// -- MATCH INDICATORS ON GRID --
+// ── MATCH INDICATORS ON GRID ─────────────────────────────────────────────────
 
 function applyMatchIndicators(profile){
   // Switch to sorted view
@@ -129,7 +126,7 @@ function clearMatchIndicators(){
   document.getElementById('ob-suggest').classList.remove('show');
 }
 
-// -- TALLY --
+// ── TALLY ────────────────────────────────────────────────────────────────────
 
 function updateTally(){
   const counts={cool:0,neutral:0,warm:0};
@@ -146,7 +143,7 @@ function updateTally(){
   nextBtn.classList.add('on');
 }
 
-// -- NAV --
+// ── NAV ──────────────────────────────────────────────────────────────────────
 
 function goStep(n) {
   document.querySelectorAll('.step-section').forEach((s, i) => s.classList.toggle('active', i + 1 === n));
@@ -204,10 +201,7 @@ function resetAll(){
   goStep(1);
 }
 
-// Expose resetAll globally for inline onclick in rendered HTML
-window._cgResetAll = resetAll;
-
-// -- SORTED GRID --
+// ── SORTED GRID ──────────────────────────────────────────────────────────────
 
 function renderSortedGrid(profile) {
   const allMatch = new Set([...(profile.core || []), ...(profile.best || [])]);
@@ -223,7 +217,7 @@ function renderSortedGrid(profile) {
   });
 
   const chipHtml = (names) => names.map(n =>
-    `<div class="sorted-chip" role="button" tabindex="0"><div class="sorted-chip-sq" style="background:${C[n]||'#ccc'}"></div><span class="sorted-chip-name">${n}</span></div>`
+    `<div class="sorted-chip"><div class="sorted-chip-sq" style="background:${C[n]||'#ccc'}"></div><span class="sorted-chip-name">${n}</span></div>`
   ).join('');
 
   document.getElementById('guide-wrap').innerHTML = `
@@ -242,7 +236,7 @@ function renderSortedGrid(profile) {
   `;
 }
 
-// -- EVENTS --
+// ── EVENTS ───────────────────────────────────────────────────────────────────
 
 document.getElementById('step1-next').addEventListener('click',()=>selDepth&&goStep(2));
 document.getElementById('step2-back').addEventListener('click',()=>goStep(1));
@@ -255,21 +249,23 @@ document.getElementById('skip-to-grid').addEventListener('click',scrollToGrid);
 document.getElementById('s1-change').addEventListener('click',()=>goStep(1));
 document.getElementById('s2-change').addEventListener('click',()=>goStep(2));
 
-document.querySelectorAll('.quiz-opt').forEach(opt=>{opt.setAttribute('role','button');opt.setAttribute('tabindex','0');opt.setAttribute('aria-label',opt.querySelector('.quiz-opt-label').textContent);opt.addEventListener('click',()=>{const q=opt.dataset.q;document.querySelectorAll(`.quiz-opt[data-q="${q}"]`).forEach(o=>o.classList.remove('sel'));opt.classList.add('sel');answers[q]=opt.dataset.signal;updateTally();});opt.addEventListener('keydown',(e)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();opt.click();}});});
+document.querySelectorAll('.quiz-opt').forEach(opt=>{opt.addEventListener('click',()=>{const q=opt.dataset.q;document.querySelectorAll(`.quiz-opt[data-q="${q}"]`).forEach(o=>o.classList.remove('sel'));opt.classList.add('sel');answers[q]=opt.dataset.signal;updateTally();});});
 
-// -- PRESETS --
+// No tabs — single page flow
+
+// ── PRESETS ───────────────────────────────────────────────────────────────────
 
 const PRESETS = [
-  { name:'The Business Classic', desc:'Navy blazer, white shirt, charcoal trousers, cognac shoes.', colors:['Navy','White','Charcoal','Cobalt','Cognac'], slots:{shirt:'White',trousers:'Charcoal',jacket:'Navy',shoes:'Cognac',knitwear:'Cobalt'} },
-  { name:'The Weekend', desc:'Olive over cream, rust knitwear, denim below.', colors:['Olive','Cream','Rust','Denim','Saddle Brown'], slots:{shirt:'Cream',trousers:'Denim',knitwear:'Rust',jacket:'Olive',shoes:'Saddle Brown'} },
-  { name:'The Italianate', desc:'Camel coat, burgundy knit, cream base, chocolate leather.', colors:['Camel','Burgundy','Cream','Chocolate','Tan'], slots:{shirt:'Cream',trousers:'Tan',knitwear:'Burgundy',coat:'Camel',shoes:'Chocolate'} },
-  { name:'Tonal Grey', desc:'Four shades of grey, head to toe. Monochrome done right.', colors:['Light Grey','Pewter','Charcoal','Slate','Smoke'], slots:{shirt:'Light Grey',trousers:'Charcoal',knitwear:'Pewter',jacket:'Slate',shoes:'Smoke'} },
-  { name:'Country Walk', desc:'Forest green, mustard knit, stone chinos, espresso boots.', colors:['Forest','Mustard','Stone','Espresso','Olive'], slots:{shirt:'Stone',trousers:'Olive',knitwear:'Mustard',jacket:'Forest',shoes:'Espresso'} },
-  { name:'The Riviera', desc:'Sky blue linen, white tee, stone chinos, tan loafers.', colors:['Sky Blue','White','Stone','Tan','Chambray'], slots:{shirt:'White',trousers:'Stone',knitwear:'Chambray',jacket:'Sky Blue',shoes:'Tan'} },
-  { name:'Nordic Minimal', desc:'Black, charcoal, cement. Stripped to nothing. Sharp.', colors:['Black','Charcoal','Cement','Graphite','Silver'], slots:{shirt:'Cement',trousers:'Charcoal',knitwear:'Graphite',coat:'Black',shoes:'Black'} },
-  { name:'Rust Belt', desc:'Rust jacket, tobacco knit, raw denim, espresso leather.', colors:['Rust','Tobacco','Denim','Espresso','Copper'], slots:{shirt:'Copper',trousers:'Denim',knitwear:'Tobacco',jacket:'Rust',shoes:'Espresso'} },
-  { name:'The Academic', desc:'Burgundy knit, grey flannels, navy blazer, oxblood shoes.', colors:['Burgundy','Pewter','Navy','Oxblood','Cream'], slots:{shirt:'Cream',trousers:'Pewter',knitwear:'Burgundy',jacket:'Navy',shoes:'Oxblood'} },
-  { name:'Desert Palette', desc:'Sand, terracotta, olive. Earthy warmth, end to end.', colors:['Sand','Terracotta','Olive','Camel','Saddle Brown'], slots:{shirt:'Sand',trousers:'Olive',knitwear:'Terracotta',jacket:'Camel',shoes:'Saddle Brown'} },
+  { name:'The Business Classic', desc:'Navy blazer, white shirt, charcoal trousers, cognac shoes.', colors:['Navy','White','Charcoal','Cobalt','Cognac'] },
+  { name:'The Weekend', desc:'Olive over cream, rust knitwear, denim below.', colors:['Olive','Cream','Rust','Denim','Saddle Brown'] },
+  { name:'The Italianate', desc:'Camel coat, burgundy knit, cream base, chocolate leather.', colors:['Camel','Burgundy','Cream','Chocolate','Tan'] },
+  { name:'Tonal Grey', desc:'Four shades of grey, head to toe. Monochrome done right.', colors:['Light Grey','Pewter','Charcoal','Slate','Smoke'] },
+  { name:'Country Walk', desc:'Forest green, mustard knit, stone chinos, espresso boots.', colors:['Forest','Mustard','Stone','Espresso','Olive'] },
+  { name:'The Riviera', desc:'Sky blue linen, white tee, stone chinos, tan loafers.', colors:['Sky Blue','White','Stone','Tan','Chambray'] },
+  { name:'Nordic Minimal', desc:'Black, charcoal, cement. Stripped to nothing. Sharp.', colors:['Black','Charcoal','Cement','Graphite','Silver'] },
+  { name:'Rust Belt', desc:'Rust jacket, tobacco knit, raw denim, espresso leather.', colors:['Rust','Tobacco','Denim','Espresso','Copper'] },
+  { name:'The Academic', desc:'Burgundy knit, grey flannels, navy blazer, oxblood shoes.', colors:['Burgundy','Pewter','Navy','Oxblood','Cream'] },
+  { name:'Desert Palette', desc:'Sand, terracotta, olive. Earthy warmth, end to end.', colors:['Sand','Terracotta','Olive','Camel','Saddle Brown'] },
 ];
 
 function renderPresets() {
@@ -278,24 +274,19 @@ function renderPresets() {
       <div class="preset-strips">${p.colors.map(c => `<div class="preset-strip" style="background:${C[c]||'#ccc'}"></div>`).join('')}</div>
       <p class="preset-name">${p.name}</p>
       <p class="preset-desc">${p.desc}</p>
-      <p class="preset-cta">Start with this &rarr;</p>
+      <p class="preset-cta">Try this palette &rarr;</p>
     </div>
   `).join('');
 
   document.querySelectorAll('.preset-card').forEach(card => {
-    card.setAttribute('role','button');
-    card.setAttribute('tabindex','0');
-    card.setAttribute('aria-label',card.querySelector('.preset-name').textContent);
     card.addEventListener('click', () => {
       document.querySelectorAll('.preset-card').forEach(c => c.classList.remove('sel'));
       card.classList.add('sel');
-      populateBuilder(PRESETS[parseInt(card.dataset.preset)]);
     });
-    card.addEventListener('keydown',(e)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();card.click();}});
   });
 }
 
-// -- SLOT SUGGESTIONS --
+// ── SLOT SUGGESTIONS ─────────────────────────────────────────────────────────
 
 const SLOT_RECS = {
   shirt:    { pool:['White','Off-White','Cream','Ivory','Powder Blue','Sky Blue','Chambray','Oatmeal','Ecru','Light Grey','Cement','Salmon','Rose','Soft Pink'], hint:'Lighter tones near the face' },
@@ -323,7 +314,7 @@ function renderOBSuggestions(slotName) {
 
   document.getElementById('ob-suggest-hint').textContent = rec.hint;
   document.getElementById('ob-suggest-chips').innerHTML = suggestions.map(name =>
-    `<div class="ob-sc" data-color="${name}" role="button" tabindex="0"><div class="ob-sc-sq" style="background:${C[name]||'#ccc'}"></div><span class="ob-sc-name">${name}</span></div>`
+    `<div class="ob-sc" data-color="${name}"><div class="ob-sc-sq" style="background:${C[name]||'#ccc'}"></div><span class="ob-sc-name">${name}</span></div>`
   ).join('');
 
   suggestEl.classList.add('show');
@@ -335,7 +326,6 @@ function renderOBSuggestions(slotName) {
       if (!activeSlot) return;
       assignColourToSlot(activeSlot, sc.dataset.color);
     });
-    sc.addEventListener('keydown',(e)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();sc.click();}});
   });
 }
 
@@ -349,7 +339,7 @@ function updateOBProfileLink() {
   } else {
     linkEl.classList.remove('active');
     document.getElementById('ob-pl-swatch').style.background = 'var(--border)';
-    document.getElementById('ob-pl-text').innerHTML = 'Your skin tone shapes which colours land. One depth pick, three quick tests, and the builder does the rest.';
+    document.getElementById('ob-pl-text').innerHTML = 'Take the skin tone quiz to get personalised colour picks for each garment slot.';
     document.getElementById('ob-pl-cta').textContent = 'Personalise \u2192';
   }
 }
@@ -371,30 +361,7 @@ function assignColourToSlot(slot, colorName) {
   updateGauge();
 }
 
-function populateBuilder(preset) {
-  if (!preset || !preset.slots) return;
-  // Clear all slots first
-  document.querySelectorAll('.ob-slot').forEach(s => {
-    s.classList.remove('filled','on');
-    s.querySelector('.ob-slot-color').textContent = '';
-    s.querySelector('.ob-slot-dot').style.background = '';
-  });
-  // Fill mapped slots
-  Object.entries(preset.slots).forEach(([slotName, colorName]) => {
-    const slot = document.querySelector(`.ob-slot[data-slot="${slotName}"]`);
-    if (!slot || !C[colorName]) return;
-    slot.classList.add('filled');
-    slot.querySelector('.ob-slot-color').textContent = colorName;
-    slot.querySelector('.ob-slot-dot').style.background = C[colorName];
-  });
-  // Activate first empty slot, or none
-  const empty = document.querySelector('.ob-slot:not(.filled)');
-  if (empty) { empty.classList.add('on'); renderOBSuggestions(empty.dataset.slot); }
-  else { document.getElementById('ob-suggest').classList.remove('show'); }
-  updateGauge();
-}
-
-// -- OUTFIT BUILDER FAMILIES --
+// ── OUTFIT BUILDER FAMILIES ──────────────────────────────────────────────────
 
 function renderOBFamilies() {
   const paletteSet = activeProfile ? new Set([...(activeProfile.core || []), ...(activeProfile.best || [])]) : null;
@@ -408,20 +375,18 @@ function renderOBFamilies() {
       </div>
       <div class="ob-fam-chips">${fam.colors.map(name => {
         const cls = paletteSet && paletteSet.has(name) ? ' in-palette' : cautionSet && cautionSet.has(name) ? ' is-caution' : '';
-        return `<div class="ob-chip${cls}" style="background:${C[name]||'#ccc'}" data-color="${name}" title="${name}" role="button" tabindex="0"><div class="ob-tt">${name}</div></div>`;
+        return `<div class="ob-chip${cls}" style="background:${C[name]||'#ccc'}" data-color="${name}" title="${name}"><div class="ob-tt">${name}</div></div>`;
       }).join('')}</div>
     </div>
   `).join('');
 
   // Click to assign colour to active slot
   document.querySelectorAll('.ob-chip').forEach(chip => {
-    chip.setAttribute('role','button');
     chip.addEventListener('click', () => {
       const activeSlot = document.querySelector('.ob-slot.on');
       if (!activeSlot) return;
       assignColourToSlot(activeSlot, chip.dataset.color);
     });
-    chip.addEventListener('keydown',(e)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();chip.click();}});
   });
 }
 
@@ -443,34 +408,18 @@ document.getElementById('ob-slots').addEventListener('click', (e) => {
 });
 
 function updateGauge() {
-  const filledSlots = document.querySelectorAll('.ob-slot.filled');
-  const filled = filledSlots.length;
+  const filled = document.querySelectorAll('.ob-slot.filled').length;
   const total = 6;
   const pct = Math.round((filled / total) * 100);
-  const circumference = 2 * Math.PI * 26;
+  const circumference = 2 * Math.PI * 26; // ~163.4
   const offset = circumference - (circumference * pct / 100);
   document.getElementById('ob-gauge-fill').style.strokeDashoffset = offset;
   const pctEl = document.getElementById('ob-gauge-pct');
   if (filled === 0) { pctEl.innerHTML = 'Pick your<br>first piece'; }
   else { pctEl.innerHTML = `${filled}/${total}`; }
-
-  // Shop bar — show when 3+ slots filled
-  const shopBar = document.getElementById('ob-shop-bar');
-  if (filled >= 3) {
-    const colours = [...filledSlots].map(s => s.querySelector('.ob-slot-color').textContent).filter(Boolean);
-    document.getElementById('ob-shop-dots').innerHTML = colours.map(name =>
-      `<div class="ob-shop-dot" style="background:${C[name]||'#ccc'}" title="${name}"></div>`
-    ).join('');
-    // Build search URL from colour names
-    const searchQ = colours.join(' ');
-    document.getElementById('ob-shop-cta').href = `/search?q=${encodeURIComponent(searchQ)}&type=product`;
-    shopBar.classList.add('vis');
-  } else {
-    shopBar.classList.remove('vis');
-  }
 }
 
-// -- INIT --
+// ── INIT ─────────────────────────────────────────────────────────────────────
 
 // Profile link in builder — scroll up to quiz
 document.getElementById('ob-pl-cta').addEventListener('click', () => {
@@ -483,4 +432,53 @@ renderPresets();
 renderOBFamilies();
 updateOBProfileLink();
 
-}); // end DOMContentLoaded
+// ── STICKY NAV ───────────────────────────────────────────────────────────────
+
+const stickyNav = document.getElementById('sticky-nav');
+const hiw = document.getElementById('hiw');
+const sections = [
+  { id: 'st-wrap', key: 'st-wrap' },
+  { id: 'builder-anchor', key: 'builder-anchor' },
+  { id: 'grid-anchor', key: 'grid-anchor' },
+];
+
+// Show/hide sticky nav based on scroll past "how it works"
+function updateStickyNav() {
+  if (!hiw || !stickyNav) return;
+  const hiwBottom = hiw.getBoundingClientRect().bottom;
+  stickyNav.classList.toggle('vis', hiwBottom < 0);
+
+  // Highlight active section
+  let activeKey = sections[0].key;
+  for (const s of sections) {
+    const el = document.getElementById(s.id);
+    if (el && el.getBoundingClientRect().top <= 80) activeKey = s.key;
+  }
+  stickyNav.querySelectorAll('.sticky-nav-link').forEach(link => {
+    link.classList.toggle('on', link.dataset.target === activeKey);
+  });
+}
+
+window.addEventListener('scroll', updateStickyNav, { passive: true });
+
+// Click sticky nav links
+stickyNav.querySelectorAll('.sticky-nav-link').forEach(link => {
+  link.addEventListener('click', () => {
+    const el = document.getElementById(link.dataset.target);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+
+// Transition link smooth scroll
+document.getElementById('transition-to-grid')?.addEventListener('click', (e) => {
+  e.preventDefault();
+  document.getElementById('grid-anchor').scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
+document.getElementById('transition-to-quiz')?.addEventListener('click', (e) => {
+  e.preventDefault();
+  document.getElementById('st-wrap').scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
+
+// Expose resetAll for onclick in HTML
+window._cgResetAll = resetAll;
+});
