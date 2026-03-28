@@ -582,35 +582,27 @@
 
 {%- if ctl_colour != blank -%}
 {{ 'trg-colour-pdp.css' | asset_url | stylesheet_tag }}
-<div class="trg-ctl" id="trg-ctl" data-colour="{{ ctl_colour | escape }}" data-garment="{{ ctl_garment }}">
-  <div class="trg-ctl__inner">
-    <div class="trg-ctl__head">
-      <h3 class="trg-ctl__title">Complete the <em>look</em></h3>
-      <a class="trg-ctl__link" href="/pages/colour-guide">Full Colour Guide &rarr;</a>
-    </div>
-    <p class="trg-ctl__sub">Build an outfit around your <strong>{{ ctl_colour | escape }}</strong> {{ ctl_garment }}.</p>
-
-    <div class="trg-ctl__strip"></div>
-
-    <div class="trg-ctl__palette-wrap">
-      <div class="trg-ctl__palette-head">
-        <span class="trg-ctl__palette-prompt">Choose a colour</span>
-        <button class="trg-ctl__undo" type="button">
-          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 119 9"/><path d="M3 3v9h9"/></svg> Undo
-        </button>
+<div class="pdp-guide-module" data-colour="{{ ctl_colour | escape }}" data-garment="{{ ctl_garment }}">
+  <div class="pdp-guide-pad">
+    <div class="pdp-guide-shell">
+      <div class="pdp-guide-head">
+        <div>
+          <p class="pdp-guide-kicker">From the Colour Guide</p>
+          <h3 class="pdp-guide-title">Complete the <em>look</em></h3>
+          <p class="pdp-guide-sub" id="ctl-subtitle">
+            Your <strong id="ctl-colour-name">{{ ctl_colour | escape }}</strong> {{ ctl_garment }} stays locked in. Build around it with the same colour system used across the guide.
+          </p>
+        </div>
+        <a class="pdp-guide-link" href="/pages/colour-guide">Open the full guide &rarr;</a>
       </div>
-      <div class="trg-ctl__chips-area"></div>
-    </div>
-
-    <div class="trg-ctl__bottom">
-      <div class="trg-ctl__gauge">
-        <svg viewBox="0 0 56 56"><circle class="trg-ctl__gauge-bg" cx="28" cy="28" r="24"/><circle class="trg-ctl__gauge-fill" cx="28" cy="28" r="24"/></svg>
-        <div class="trg-ctl__gauge-pct empty">&hellip;</div>
+      <div class="pdp-guide-pills">
+        <span class="pdp-guide-pill">Current item locked</span>
+        <span class="pdp-guide-pill">5 to fill</span>
       </div>
-      <div class="trg-ctl__dots"></div>
-      <div class="trg-ctl__shop"></div>
-      <button class="trg-ctl__reset" type="button">Reset</button>
-      <a class="trg-ctl__shop-all" href="/pages/colour-guide">Full Colour Guide &rarr;</a>
+      <div class="ob-wrap" id="cg-outfit-builder"></div>
+      <div class="pdp-guide-footnote">
+        Built from the same colour library as the full guide, so the advice here stays consistent with the larger reference. <a href="/pages/colour-guide">Browse the complete Colour Guide &rarr;</a>
+      </div>
     </div>
   </div>
 </div>
