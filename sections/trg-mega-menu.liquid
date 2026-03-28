@@ -1,4 +1,4 @@
-<!-- trg-mm-ver:1773801441 -->
+<!-- trg-mm-ver:1774663832 -->
 {% comment %}trg-mm-v4.1-dynamic-counts{% endcomment %}
 {%- liquid
   assign bd = shop.metaobjects['brand']
@@ -148,7 +148,7 @@
       <div class="trg-mm-bs">
         <div class="trg-mm-sf">
           <svg class="trg-mm-si" viewBox="0 0 16 16" fill="none"><circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.4"/><line x1="10.5" y1="10.5" x2="14" y2="14" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
-          <input type="text" id="trg-mm-bi" class="trg-mm-sin" placeholder="Search 460+ brands…" autocomplete="off" spellcheck="false">
+          <input type="text" id="trg-mm-bi" class="trg-mm-sin" placeholder="Search 460+ brandsâ€¦" autocomplete="off" spellcheck="false">
           <button class="trg-mm-sx" id="trg-mm-sx" type="button" aria-label="Clear">&#10005;</button>
         </div>
         <div class="trg-mm-sm" id="trg-mm-sm"></div>
@@ -175,7 +175,7 @@
 
 
 {%- comment -%}
-  ══════ MOBILE MEGA MENU DRAWER (≤989px) ══════
+  â•�â•�â•�â•�â•�â•� MOBILE MEGA MENU DRAWER (â‰¤989px) â•�â•�â•�â•�â•�â•�
   Reads from the same section blocks as desktop.
   JS shows/hides this; Dwell native drawer is hidden via CSS.
 {%- endcomment -%}
@@ -195,7 +195,7 @@
     </div>
     <div class="trg-mob-body" id="trg-mob-body">
 
-      {%- comment -%}═══ SHOP BY TYPE TAB ═══{%- endcomment -%}
+      {%- comment -%}â•�â•�â•� SHOP BY TYPE TAB â•�â•�â•�{%- endcomment -%}
       <div class="trg-mob-tc on" id="trg-mob-tc-shop">
         {%- assign mfi = 0 -%}
         {%- for block in section.blocks -%}
@@ -274,8 +274,8 @@
 
         {%- comment -%}Primary CTAs{%- endcomment -%}
         <div class="trg-mob-ctas">
-          <a href="/collections/all" class="trg-mob-cta-primary">Browse All Products →</a>
-          <a href="/pages/brands" class="trg-mob-cta-secondary">View All 460+ Brands →</a>
+          <a href="/collections/all" class="trg-mob-cta-primary">Browse All Products â†’</a>
+          <a href="/pages/brands" class="trg-mob-cta-secondary">View All 460+ Brands â†’</a>
         </div>
 
         {%- comment -%}Footer links{%- endcomment -%}
@@ -291,16 +291,17 @@
         </div>
       </div>
 
-      {%- comment -%}═══ BRANDS TAB ═══{%- endcomment -%}
+      {%- comment -%}â•�â•�â•� BRANDS TAB â•�â•�â•�{%- endcomment -%}
       <div class="trg-mob-tc" id="trg-mob-tc-brands">
-        <div class="trg-mob-bsearch" id="trg-mob-bsearch">
+        {%- comment -%}Search + chips injected by trg-mob-v2.js boot() — dead markup removed nav-audit 2026-03-27{%- endcomment -%}
+        <div class="trg-mob-bsearch" id="trg-mob-bsearch" style="display:none">
           <div class="trg-mob-bsf">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
-            <input type="text" id="trg-mob-bi" class="trg-mob-bin" placeholder="Search 460+ brands…" autocomplete="off" spellcheck="false">
-            <button class="trg-mob-bsx" id="trg-mob-bsx" type="button">✕</button>
+            <input type="text" id="trg-mob-bi" class="trg-mob-bin" placeholder="Search 460+ brandsâ€¦" autocomplete="off" spellcheck="false">
+            <button class="trg-mob-bsx" id="trg-mob-bsx" type="button">âœ•</button>
           </div>
         </div>
-        <div class="trg-mob-bchips" data-swipe id="trg-mob-bchips">
+        <div class="trg-mob-bchips" data-swipe id="trg-mob-bchips" style="display:none">
           <button class="trg-mob-chip on" data-bcat="all" type="button">All</button>
           {%- for block in section.blocks -%}
             {%- if block.type == 'brand_category' -%}
@@ -321,8 +322,8 @@
         <div class="trg-mob-bpicks" id="trg-mob-bpicks"></div>
         <div class="trg-mob-brest" id="trg-mob-brest"></div>
         <div class="trg-mob-ctas">
-          <a href="/pages/brands" class="trg-mob-cta-primary">View Full Brand Directory →</a>
-          <a href="/collections/all" class="trg-mob-cta-secondary">Browse All Products →</a>
+          <a href="/pages/brands" class="trg-mob-cta-primary">View Full Brand Directory â†’</a>
+          <a href="/collections/all" class="trg-mob-cta-secondary">Browse All Products â†’</a>
         </div>
 
       </div>
@@ -365,7 +366,7 @@
     ]},
     {"type":"featured_brand","name":"Featured Brand (Brands)","limit":1,"settings":[
       {"type":"text","id":"brand_name","label":"Name","default":"Norse Projects"},
-      {"type":"text","id":"brand_eyebrow","label":"Eyebrow","default":"Casualwear · Copenhagen"},
+      {"type":"text","id":"brand_eyebrow","label":"Eyebrow","default":"Casualwear Â· Copenhagen"},
       {"type":"textarea","id":"brand_description","label":"Description","default":"Scandinavian precision. Quietly considered, built to last."},
       {"type":"url","id":"brand_url","label":"Link"},
       {"type":"image_picker","id":"brand_image","label":"Image"},
@@ -376,7 +377,7 @@
     ]},
     {"type":"featured_brand_shop","name":"Featured Brand (Products)","limit":1,"settings":[
       {"type":"text","id":"brand_name","label":"Name","default":"Viberg"},
-      {"type":"text","id":"brand_eyebrow","label":"Eyebrow","default":"Footwear · Victoria"},
+      {"type":"text","id":"brand_eyebrow","label":"Eyebrow","default":"Footwear Â· Victoria"},
       {"type":"textarea","id":"brand_description","label":"Description","default":"Handwelted since 1931. The benchmark for North American heritage boots."},
       {"type":"url","id":"brand_url","label":"Link"},
       {"type":"image_picker","id":"brand_image","label":"Image"},
