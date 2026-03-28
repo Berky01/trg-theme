@@ -935,21 +935,27 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
     margin: 0 !important;
     border: none !important;
   }
-  /* Collapse mega-menu shell section wrapper completely */
+  /* Collapse mega-menu shell — visibility:hidden not display:none
+     so the fixed-position mobile drawer (#trg-mob) still renders */
   .shopify-section-group-header-group.trg-mega-menu-shell,
   .shopify-section.trg-mega-menu-shell {
-    display: none !important;
     height: 0 !important;
     min-height: 0 !important;
     overflow: hidden !important;
     padding: 0 !important;
     margin: 0 !important;
+    visibility: hidden !important;
   }
   /* Kill any header-group gap — only the header-component should have height */
   #header-group > .shopify-section:not(.header-section) {
-    display: none !important;
     height: 0 !important;
     min-height: 0 !important;
+    overflow: hidden !important;
+    visibility: hidden !important;
+  }
+  /* Re-enable the mobile drawer inside the collapsed mega-menu */
+  .trg-mob {
+    visibility: visible !important;
   }
   /* Content-for-layout: no top gap */
   .content-for-layout {
