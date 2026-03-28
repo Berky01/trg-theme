@@ -305,7 +305,7 @@
 .ob-slot-dot{width:26px;height:26px;border-radius:3px;flex-shrink:0;display:none;border:1px solid rgba(0,0,0,.06);align-self:center;margin-right:.5rem}
 .ob-slot.filled .ob-slot-dot{display:block}
 .ob-slot.filled .ob-slot-icon{opacity:.7}
-.ob-slot.filled .ob-slot-icon svg *{stroke:var(--ink) !important}
+.ob-slot.filled .ob-slot-icon svg *{fill:var(--ink) !important}
 .ob-slot-rm{width:36px;display:flex;align-items:center;justify-content:center;font-size:.8rem;color:var(--mid);cursor:pointer;opacity:0;transition:.12s;border-left:1px solid var(--border)}
 .ob-slot-rm:hover{color:var(--accent);background:rgba(196,86,42,.03)}
 .ob-slot:hover .ob-slot-rm{opacity:.4}
