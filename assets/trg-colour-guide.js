@@ -443,15 +443,31 @@ document.getElementById('ob-slots').addEventListener('click', (e) => {
 });
 
 function updateGauge() {
-  const filled = document.querySelectorAll('.ob-slot.filled').length;
+  const filledSlots = document.querySelectorAll('.ob-slot.filled');
+  const filled = filledSlots.length;
   const total = 6;
   const pct = Math.round((filled / total) * 100);
-  const circumference = 2 * Math.PI * 26; // ~163.4
+  const circumference = 2 * Math.PI * 26;
   const offset = circumference - (circumference * pct / 100);
   document.getElementById('ob-gauge-fill').style.strokeDashoffset = offset;
   const pctEl = document.getElementById('ob-gauge-pct');
   if (filled === 0) { pctEl.innerHTML = 'Pick your<br>first piece'; }
   else { pctEl.innerHTML = `${filled}/${total}`; }
+
+  // Shop bar — show when 3+ slots filled
+  const shopBar = document.getElementById('ob-shop-bar');
+  if (filled >= 3) {
+    const colours = [...filledSlots].map(s => s.querySelector('.ob-slot-color').textContent).filter(Boolean);
+    document.getElementById('ob-shop-dots').innerHTML = colours.map(name =>
+      `<div class="ob-shop-dot" style="background:${C[name]||'#ccc'}" title="${name}"></div>`
+    ).join('');
+    // Build search URL from colour names
+    const searchQ = colours.join(' ');
+    document.getElementById('ob-shop-cta').href = `/search?q=${encodeURIComponent(searchQ)}&type=product`;
+    shopBar.classList.add('vis');
+  } else {
+    shopBar.classList.remove('vis');
+  }
 }
 
 // -- INIT --

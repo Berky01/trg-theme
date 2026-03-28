@@ -280,6 +280,15 @@
 .ob-pl-text strong{color:var(--ink);font-weight:600}
 .ob-pl-cta{font-size:.54rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--accent);cursor:pointer;background:0;border:0;white-space:nowrap}
 
+/* Shop bar — appears when outfit is ready */
+.ob-shop-bar{display:none;background:var(--ink);border-radius:6px;padding:1rem 1.1rem;text-align:center;margin-top:1.25rem;animation:fadeUp .3s ease}
+.ob-shop-bar.vis{display:block}
+.ob-shop-dots{display:flex;justify-content:center;gap:4px;margin-bottom:.65rem}
+.ob-shop-dot{width:18px;height:18px;border-radius:3px}
+.ob-shop-cta{display:block;font-size:.65rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:.65rem 1rem;background:var(--accent);color:#fff;border-radius:3px;text-decoration:none;transition:.15s}
+.ob-shop-cta:hover{background:#d4663a}
+.ob-shop-sub{font-size:.52rem;color:rgba(245,241,235,.3);font-weight:300;margin-top:.4rem;line-height:1.4}
+
 /* Suggested strip */
 .ob-suggest{background:rgba(74,138,74,.03);border:1px solid rgba(74,138,74,.12);border-radius:6px;padding:.85rem 1rem;margin-bottom:1.25rem;display:none}
 .ob-suggest.show{display:block;animation:fadeUp .25s ease}
