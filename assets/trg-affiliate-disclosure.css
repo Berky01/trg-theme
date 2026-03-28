@@ -354,3 +354,17 @@
   }
   .trg-ad__contact-inner { text-align: center; }
 }
+
+/* h1 page title */
+.trg-ad__title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.75rem;
+  font-weight: 400;
+  color: #1a1a18;
+  text-align: center;
+  margin: 0;
+  padding: 2.5rem 2rem 0;
+}
+@media (max-width: 749px) {
+  .trg-ad__title { font-size: 1.35rem; padding: 2rem 1rem 0; }
+}
