@@ -1,13 +1,42 @@
 {% liquid
+  assign product_count = collection.all_products_count
+  assign limited_live_assortment = false
+  if collection.handle == 'all' and product_count > 0 and product_count <= 12
+    assign limited_live_assortment = true
+  endif
+
   assign heading_html = section.settings.custom_title
   if section.settings.title_source == 'collection' and collection.title != blank
     assign heading_html = collection.title
+  endif
+
+  assign count_label = section.settings.result_label | strip
+  if count_label == blank
+    assign count_label = 'products'
+  endif
+
+  assign show_product_count = section.settings.show_count
+  assign intro_body_html = blank
+
+  if limited_live_assortment
+    assign show_product_count = true
+    capture heading_html
+      echo '<p>Browse the <em>Live</em> Assortment</p>'
+    endcapture
+    capture intro_body_html
+      echo '<p>Available now while the broader product catalog is still being staged.</p>'
+    endcapture
+  endif
+
+  assign render_supporting_copy = false
+  if show_product_count or intro_body_html != blank
+    assign render_supporting_copy = true
   endif
 %}
 
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
 <section
-  class="section section--full-width color-{{ section.settings.color_scheme }} trg-collection-intro"
+  class="section section--full-width color-{{ section.settings.color_scheme }} trg-collection-intro{% if render_supporting_copy %} trg-collection-intro--has-supporting-copy{% endif %}{% if limited_live_assortment %} trg-collection-intro--limited-live{% endif %}"
   {{ section.shopify_attributes }}
 >
   <div class="trg-collection-intro__bar">
@@ -16,7 +45,28 @@
         <p class="trg-collection-intro__eyebrow">{{ section.settings.eyebrow | escape }}</p>
       {% endif %}
 
-      <div class="trg-collection-intro__title">{{ heading_html }}</div>
+      <div class="trg-collection-intro__copy">
+        <div class="trg-collection-intro__title">{{ heading_html }}</div>
+
+        {% if render_supporting_copy %}
+          <div class="trg-collection-intro__support">
+            {% if show_product_count %}
+              <p class="trg-collection-intro__count">
+                {{ product_count }}
+                {% if limited_live_assortment %}
+                  live {% if product_count == 1 %}product{% else %}products{% endif %}
+                {% else %}
+                  {{ count_label }}
+                {% endif %}
+              </p>
+            {% endif %}
+
+            {% if intro_body_html != blank %}
+              <div class="trg-collection-intro__body">{{ intro_body_html }}</div>
+            {% endif %}
+          </div>
+        {% endif %}
+      </div>
     </div>
   </div>
 </section>
@@ -56,6 +106,13 @@
     gap: 0;
   }
 
+  .trg-collection-intro__copy {
+    padding-left: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+
   .trg-collection-intro__eyebrow {
     margin: 0;
     padding-right: 1.5rem;
@@ -73,13 +130,12 @@
   }
 
   .trg-collection-intro__title {
-    padding-left: 1.5rem;
     color: #f5f1eb;
     font-family: var(--font-heading--family);
     font-size: 1.9rem;
     font-weight: 400;
     line-height: 1;
-    white-space: nowrap;
+    white-space: normal;
     animation: trg-collection-fade-up 0.4s 0.1s ease both;
   }
 
@@ -95,6 +151,46 @@
     font-style: italic;
   }
 
+  .trg-collection-intro--has-supporting-copy .trg-collection-intro__bar {
+    min-height: auto;
+    padding-block: 1rem;
+  }
+
+  .trg-collection-intro--has-supporting-copy .trg-collection-intro__inner {
+    align-items: flex-start;
+  }
+
+  .trg-collection-intro__support {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem 0.9rem;
+  }
+
+  .trg-collection-intro__count {
+    margin: 0;
+    color: #c4562a;
+    font-family: var(--font-body--family);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    line-height: 1.2;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .trg-collection-intro__body {
+    max-width: 44rem;
+    color: rgb(245 241 235 / 0.78);
+    font-family: var(--font-body--family);
+    font-size: 0.88rem;
+    line-height: 1.45;
+  }
+
+  .trg-collection-intro__body > * {
+    margin: 0;
+  }
+
   @media screen and (max-width: 900px) {
     .trg-collection-intro__bar {
       min-height: 52px;
@@ -108,10 +204,33 @@
       display: none;
     }
 
-    .trg-collection-intro__title {
+    .trg-collection-intro__copy {
       padding-left: 0;
+      gap: 0.35rem;
+    }
+
+    .trg-collection-intro__title {
       font-size: 1.4rem;
       white-space: normal;
+    }
+
+    .trg-collection-intro--has-supporting-copy .trg-collection-intro__bar {
+      padding-block: 0.875rem;
+    }
+
+    .trg-collection-intro__support {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.25rem;
+    }
+
+    .trg-collection-intro__count {
+      font-size: 0.64rem;
+    }
+
+    .trg-collection-intro__body {
+      font-size: 0.8rem;
+      max-width: none;
     }
   }
 
@@ -181,7 +300,7 @@
       "type": "richtext",
       "id": "custom_body",
       "label": "Custom body",
-      "default": "<p>Quality menswear - quality goods across North America.</p>",
+      "default": "<p>Curated menswear - quality goods across North America.</p>",
       "visible_if": "{{ section.settings.body_source == 'custom' }}"
     },
     {
