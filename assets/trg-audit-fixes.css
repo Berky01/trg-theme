@@ -17,13 +17,13 @@
 .brand-grid-empty {
   text-align: center;
   padding: 4rem 2rem;
-  color: var(--trg-mid, #8a8478);
+  color: var(--trg-mid, var(--mid));
 }
 .brand-grid-empty h3 {
   font-family: 'Playfair Display', serif;
   font-size: 1.3rem;
   font-weight: 400;
-  color: var(--trg-ink, #1a1a18);
+  color: var(--trg-ink, var(--ink));
   margin-bottom: 0.5rem;
 }
 .brand-grid-empty p {
@@ -45,7 +45,7 @@
 .brand-card__logo-placeholder,
 .product-card .placeholder-svg,
 [class*="brand-logo-fallback"] {
-  background: linear-gradient(135deg, #1a1a18 0%, #2d2d2a 100%) !important;
+  background: linear-gradient(135deg, var(--ink) 0%, #2d2d2a 100%) !important;
   border: 1px solid rgba(245, 241, 235, 0.08);
   font-family: 'Playfair Display', serif !important;
   font-weight: 400 !important;
@@ -70,18 +70,18 @@ footer a,
 footer a:hover,
 .footer a:hover,
 [class*="footer"] a:hover {
-  color: var(--trg-accent, #c4562a) !important;
+  color: var(--trg-accent, var(--accent)) !important;
 }
 
 /* ─── 7. POLISH: Breadcrumb styling consistency ─── */
 .breadcrumb,
 [class*="breadcrumb"] {
   font-size: 0.75rem;
-  color: var(--trg-mid, #8a8478);
+  color: var(--trg-mid, var(--mid));
   letter-spacing: 0.02em;
 }
 .breadcrumb a:hover {
-  color: var(--trg-accent, #c4562a);
+  color: var(--trg-accent, var(--accent));
 }
 
 /* ─── 8. POLISH: CTA button hierarchy on Brand PDP ─── */
@@ -89,7 +89,7 @@ footer a:hover,
 .btn-shop-direct,
 [class*="affiliate-cta"] .btn-primary,
 .trg-affiliate-cta__primary {
-  background: var(--trg-accent, #c4562a);
+  background: var(--trg-accent, var(--accent));
   color: #ffffff;
   font-family: 'DM Sans', sans-serif;
   font-size: 0.8rem;
@@ -118,13 +118,13 @@ footer a:hover,
 [class*="affiliate-cta"] .btn-secondary,
 .trg-affiliate-cta__secondary {
   background: transparent;
-  color: var(--trg-ink, #1a1a18);
+  color: var(--trg-ink, var(--ink));
   font-family: 'DM Sans', sans-serif;
   font-size: 0.78rem;
   font-weight: 400;
   letter-spacing: 0.04em;
   padding: 0.65rem 1.25rem;
-  border: 1px solid var(--trg-border, #ddd8cf);
+  border: 1px solid var(--trg-border, var(--border));
   border-radius: 2px;
   cursor: pointer;
   text-decoration: none;
@@ -137,8 +137,8 @@ footer a:hover,
 .btn-retailer:hover,
 [class*="affiliate-cta"] .btn-secondary:hover,
 .trg-affiliate-cta__secondary:hover {
-  border-color: var(--trg-accent, #c4562a);
-  color: var(--trg-accent, #c4562a);
+  border-color: var(--trg-accent, var(--accent));
+  color: var(--trg-accent, var(--accent));
 }
 
 /* ─── 9. POLISH: Tag/badge consistency ─── */
@@ -178,15 +178,15 @@ footer a:hover,
 .badge-price,
 .trg-badge--price {
   background: var(--trg-tag-bg, #ede8e0);
-  color: var(--trg-mid, #8a8478);
-  border: 1px solid var(--trg-border, #ddd8cf);
+  color: var(--trg-mid, var(--mid));
+  border: 1px solid var(--trg-border, var(--border));
 }
 
 /* ─── 10. POLISH: Scroll-to-top button ─── */
 .scroll-to-top,
 [class*="back-to-top"] {
-  background: var(--trg-ink, #1a1a18);
-  color: var(--trg-paper, #f5f1eb);
+  background: var(--trg-ink, var(--ink));
+  color: var(--trg-paper, var(--paper));
   border: none;
   width: 40px;
   height: 40px;
@@ -232,7 +232,7 @@ body[data-region="CA"] section.canada-only {
 /* ─── 12. POLISH: Collection page filter panel ─── */
 .trg-filter-panel,
 [class*="filter-sidebar"] {
-  border-right: 1px solid var(--trg-border, #ddd8cf);
+  border-right: 1px solid var(--trg-border, var(--border));
 }
 .trg-filter-group__title {
   font-family: 'DM Sans', sans-serif;
@@ -240,7 +240,7 @@ body[data-region="CA"] section.canada-only {
   font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--trg-mid, #8a8478);
+  color: var(--trg-mid, var(--mid));
   margin-bottom: 0.75rem;
 }
 
@@ -256,19 +256,19 @@ h1, h2, h3,
 h1 em, h2 em, h3 em,
 .h1 em, .h2 em, .h3 em {
   font-style: italic;
-  color: var(--trg-accent, #c4562a);
+  color: var(--trg-accent, var(--accent));
 }
 
 /* ─── 14. POLISH: Link styles ─── */
 a {
   color: inherit;
-  text-decoration-color: var(--trg-border, #ddd8cf);
+  text-decoration-color: var(--trg-border, var(--border));
   text-underline-offset: 0.15em;
   transition: color 0.15s ease, text-decoration-color 0.15s ease;
 }
 a:hover {
-  color: var(--trg-accent, #c4562a);
-  text-decoration-color: var(--trg-accent, #c4562a);
+  color: var(--trg-accent, var(--accent));
+  text-decoration-color: var(--trg-accent, var(--accent));
 }
 /* Remove underline from nav links, buttons, cards */
 nav a,
@@ -294,18 +294,18 @@ button a,
 /* ─── 16. POLISH: Selection color ─── */
 ::selection {
   background: rgba(196, 86, 42, 0.15);
-  color: var(--trg-ink, #1a1a18);
+  color: var(--trg-ink, var(--ink));
 }
 
 /* ─── 17. POLISH: Focus styles for accessibility ─── */
 *:focus-visible {
-  outline: 2px solid var(--trg-accent, #c4562a);
+  outline: 2px solid var(--trg-accent, var(--accent));
   outline-offset: 2px;
 }
 button:focus-visible,
 a:focus-visible,
 input:focus-visible {
-  outline: 2px solid var(--trg-accent, #c4562a);
+  outline: 2px solid var(--trg-accent, var(--accent));
   outline-offset: 2px;
 }
 
@@ -416,9 +416,9 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
   .header dialog,
   .header [role="dialog"],
   .header-menu .menu-list__submenu {
-    background-color: #1a1a18 !important;
-    background: #1a1a18 !important;
-    color: #f5f1eb !important;
+    background-color: var(--ink) !important;
+    background: var(--ink) !important;
+    color: var(--paper) !important;
   }
 
   /* Mobile menu links */
@@ -438,14 +438,14 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
   header-menu a:hover,
   .header .menu-list a:hover,
   .dialog-component a:hover {
-    color: #f5f1eb !important;
+    color: var(--paper) !important;
   }
 
   /* Active/expanded state */
   .menu-list__item--active > a,
   .menu-list__item[aria-expanded="true"] > a,
   header-menu .menu-list__item--active a {
-    color: #f5f1eb !important;
+    color: var(--paper) !important;
   }
 
   /* Submenu panel */
@@ -460,15 +460,15 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
   .header__icon--menu svg,
   .header__icon--menu path,
   .menu-drawer__close svg {
-    color: #f5f1eb !important;
-    stroke: #f5f1eb !important;
+    color: var(--paper) !important;
+    stroke: var(--paper) !important;
   }
 
   /* Remove beige/paper backgrounds from header area on mobile */
   .header__wrapper,
   .header-group .shopify-section-group-header-group,
   header.header {
-    background-color: #1a1a18 !important;
+    background-color: var(--ink) !important;
   }
 
   /* Menu separator lines */
@@ -498,7 +498,7 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
   .header__search input {
     background: #242422 !important;
     border-color: #35332f !important;
-    color: #f5f1eb !important;
+    color: var(--paper) !important;
   }
 
   /* Sign In and other utility links */
@@ -526,10 +526,10 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
   transition: color 0.2s;
   padding: 4px;
 }
-.trg-nav-wishlist:hover { color: #f5f1eb; }
+.trg-nav-wishlist:hover { color: var(--paper); }
 .trg-nav-wishlist__count {
   position: absolute; top: -3px; right: -5px;
-  background: #c4562a; color: #fff;
+  background: var(--accent); color: #fff;
   font-size: 0.5rem; font-weight: 500;
   width: 13px; height: 13px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
@@ -551,7 +551,7 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
   color: rgba(245,241,235,0.7);
   margin-top: 0.6rem;
 }
-.trg-follow-btn:hover { border-color: rgba(245,241,235,0.5); color: #f5f1eb; }
+.trg-follow-btn:hover { border-color: rgba(245,241,235,0.5); color: var(--paper); }
 .trg-follow-btn.following {
   background: rgba(196,86,42,0.2);
   border-color: rgba(196,86,42,0.4);
@@ -562,7 +562,7 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
 .trg-toast {
   position: fixed;
   bottom: 1rem; left: 1rem; right: 1rem;
-  background: #1a1a18; color: #f5f1eb;
+  background: var(--ink); color: var(--paper);
   padding: 0.65rem 1rem; border-radius: 2px;
   display: flex; align-items: center; gap: 0.5rem;
   font-family: "DM Sans", sans-serif;
@@ -574,18 +574,18 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
   pointer-events: none;
 }
 .trg-toast.show { transform: translateY(0); opacity: 1; pointer-events: auto; }
-.trg-toast__icon { color: #c4562a; flex-shrink: 0; }
+.trg-toast__icon { color: var(--accent); flex-shrink: 0; }
 
 /* Wishlist button on product cards — always visible on mobile */
 .trg-plp-card-wishlist.trg-wishlist-btn {
   opacity: 1 !important;
 }
 .trg-plp-card-wishlist.trg-wishlist-btn.saved {
-  color: #c4562a !important;
+  color: var(--accent) !important;
 }
 .trg-plp-card-wishlist.trg-wishlist-btn.saved svg path {
-  fill: #c4562a;
-  stroke: #c4562a;
+  fill: var(--accent);
+  stroke: var(--accent);
 }
 
 @media (min-width: 990px) {
@@ -867,11 +867,11 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
 /* ═══ #20 Brand PLP mobile: clean fix ═══ */
 @media screen and (max-width: 989px) {
   body:has([data-template="page.brands-directory"]) {
-    background: #f5f1eb !important;
+    background: var(--paper) !important;
   }
   body:has([data-template="page.brands-directory"]) footer,
   body:has([data-template="page.brands-directory"]) .footer {
-    background: #f5f1eb !important;
+    background: var(--paper) !important;
   }
   body:has([data-template="page.brands-directory"]) .header__navigation-bar-row {
     display: none !important;
@@ -1079,8 +1079,8 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
   gap: 6px;
   margin: 0;
   padding: 10px var(--trg-plp-caption-padding, 12px);
-  background: var(--trg-plp-cta-background, #1a1a18);
-  color: var(--trg-plp-cta-text, #f5f1eb);
+  background: var(--trg-plp-cta-background, var(--ink));
+  color: var(--trg-plp-cta-text, var(--paper));
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.14em;
@@ -1100,7 +1100,7 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
 }
 .trg-plp-body .trg-plp-card-shop-cta:hover {
   background: transparent;
-  color: var(--trg-plp-cta-hover, #c4562a);
+  color: var(--trg-plp-cta-hover, var(--accent));
 }
 
 /* Hide Dwell media wrapper inside group-block */
@@ -1132,7 +1132,7 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
 .trg-mm-sin:focus-visible,
 .trg-mob-bin:focus-visible,
 .trg-mob-bsl:focus-visible {
-  outline: 2px solid var(--accent, #c4562a);
+  outline: 2px solid var(--accent, var(--accent));
   outline-offset: 2px;
 }
 
@@ -1144,7 +1144,7 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
 .trg-bdir__go:focus-visible,
 .trg-bdir__carda:focus-visible,
 .trg-bdir__top:focus-visible {
-  outline: 2px solid var(--acc, #c4562a);
+  outline: 2px solid var(--acc, var(--accent));
   outline-offset: 2px;
 }
 
