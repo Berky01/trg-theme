@@ -1,4 +1,9 @@
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
+{% liquid
+  assign contact_page = pages['contact']
+  assign privacy_page = pages['privacy-policy']
+  assign affiliate_page = pages['affiliate-disclosure']
+%}
 <section
   class="section section--full-width color-{{ section.settings.color_scheme }} trg-footer trg-footer--{{ section.settings.skin }}"
   style="--padding-block-start: {{ section.settings.padding_block_start }}px; --padding-block-end: {{ section.settings.padding_block_end }}px;"
@@ -60,10 +65,28 @@
                     {% unless link.url == '/search' %}{% assign menu_has_real_links = true %}{% endunless %}
                   {% endfor %}
                   {% if menu_has_real_links %}
+                    {% liquid
+                      assign about_menu_has_contact = false
+                      assign about_menu_has_privacy = false
+                    %}
                     <ul class="trg-footer__links" role="list">
                       {% for link in linklists[block.settings.menu].links %}
+                        {% if block.settings.heading == 'About' %}
+                          {% if link.url == '/pages/contact' %}
+                            {% assign about_menu_has_contact = true %}
+                          {% endif %}
+                          {% if link.url == '/pages/privacy-policy' %}
+                            {% assign about_menu_has_privacy = true %}
+                          {% endif %}
+                        {% endif %}
                         <li><a href="{{ link.url }}">{{ link.title | escape }}</a></li>
                       {% endfor %}
+                      {% if block.settings.heading == 'About' and contact_page != blank and about_menu_has_contact == false %}
+                        <li><a href="{{ contact_page.url }}">{{ contact_page.title | escape }}</a></li>
+                      {% endif %}
+                      {% if block.settings.heading == 'About' and privacy_page != blank and about_menu_has_privacy == false %}
+                        <li><a href="{{ privacy_page.url }}">{{ privacy_page.title | escape }}</a></li>
+                      {% endif %}
                     </ul>
                   {% else %}
                     {%- comment -%}Fallback links when menu has only /search placeholders{%- endcomment -%}
@@ -90,10 +113,15 @@
                     {% elsif block.settings.heading == 'About' %}
                       <ul class="trg-footer__links" role="list">
                         <li><a href="/pages/about">About TRG</a></li>
+                        {% if contact_page != blank %}
+                          <li><a href="{{ contact_page.url }}">{{ contact_page.title | escape }}</a></li>
+                        {% endif %}
                         <li><a href="/pages/affiliate-disclosure">Affiliate Disclosure</a></li>
                         <li><a href="/pages/submit-brand">Submit a Brand</a></li>
                         <li><a href="/blogs/journal">Journal</a></li>
-                        <li><a href="/pages/privacy-policy">Privacy Policy</a></li>
+                        {% if privacy_page != blank %}
+                          <li><a href="{{ privacy_page.url }}">{{ privacy_page.title | escape }}</a></li>
+                        {% endif %}
                       </ul>
                     {% endif %}
                   {% endif %}
@@ -122,10 +150,15 @@
                   {% elsif block.settings.heading == 'About' %}
                     <ul class="trg-footer__links" role="list">
                       <li><a href="/pages/about">About TRG</a></li>
+                      {% if contact_page != blank %}
+                        <li><a href="{{ contact_page.url }}">{{ contact_page.title | escape }}</a></li>
+                      {% endif %}
                       <li><a href="/pages/affiliate-disclosure">Affiliate Disclosure</a></li>
                       <li><a href="/pages/submit-brand">Submit a Brand</a></li>
                       <li><a href="/blogs/journal">Journal</a></li>
-                      <li><a href="/pages/privacy-policy">Privacy Policy</a></li>
+                      {% if privacy_page != blank %}
+                        <li><a href="{{ privacy_page.url }}">{{ privacy_page.title | escape }}</a></li>
+                      {% endif %}
                     </ul>
                   {% endif %}
                 {% endif %}
@@ -153,6 +186,35 @@
       </p>
 
       <div class="trg-footer__bottom-links">
+        {% liquid
+          assign has_policy_links = false
+          assign has_contact_legal_link = false
+          assign has_privacy_legal_link = false
+          assign has_affiliate_legal_link = false
+
+          if section.settings.show_policy_links
+            for policy in shop.policies
+              if policy != blank
+                assign has_policy_links = true
+              endif
+            endfor
+          endif
+
+          for block in section.blocks
+            if block.type == 'legal_link' and block.settings.url != blank
+              if block.settings.url == '/pages/contact'
+                assign has_contact_legal_link = true
+              endif
+              if block.settings.url == '/pages/privacy-policy'
+                assign has_privacy_legal_link = true
+              endif
+              if block.settings.url == '/pages/affiliate-disclosure'
+                assign has_affiliate_legal_link = true
+              endif
+            endif
+          endfor
+        %}
+
         {% if section.settings.show_policy_links %}
           {% for policy in shop.policies %}
             {% if policy != blank %}<a href="{{ policy.url }}">{{ policy.title | escape }}</a>{% endif %}
@@ -164,6 +226,18 @@
             <a href="{{ block.settings.url }}" {{ block.shopify_attributes }}>{{ block.settings.label | escape }}</a>
           {% endif %}
         {% endfor %}
+
+        {% if has_contact_legal_link == false and contact_page != blank %}
+          <a href="{{ contact_page.url }}">Contact</a>
+        {% endif %}
+
+        {% if has_policy_links == false and has_privacy_legal_link == false and privacy_page != blank %}
+          <a href="{{ privacy_page.url }}">{{ privacy_page.title | escape }}</a>
+        {% endif %}
+
+        {% if has_affiliate_legal_link == false and affiliate_page != blank %}
+          <a href="{{ affiliate_page.url }}">{{ affiliate_page.title | escape }}</a>
+        {% endif %}
       </div>
     </div>
 
@@ -591,7 +665,7 @@
       "type": "richtext",
       "id": "brand_tagline",
       "label": "Brand tagline",
-      "default": "<p>A menswear directory for quality-conscious buyers in North America.</p>"
+      "default": "<p>A curated menswear directory for quality-conscious buyers in North America.</p>"
     },
     {
       "type": "header",
