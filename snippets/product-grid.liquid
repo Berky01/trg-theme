@@ -150,7 +150,7 @@
               No products matched "{{ search.terms | escape }}"
             </h2>
             <p>
-              The storefront is currently showing {{ live_catalog_count }} live Shopify product{% unless live_catalog_count == 1 %}s{% endunless %} while the broader catalog is still being staged.
+              The storefront is currently showing {{ live_catalog_count }} live product{% unless live_catalog_count == 1 %}s{% endunless %} while the broader catalog is still being staged.
             </p>
             {% if search.results_count > 0 %}
               <p class="main-collection-grid__empty-note">
@@ -164,7 +164,7 @@
           {% elsif request.page_type == 'collection' and collection.all_products_count == 0 %}
             {% if collection_brand %}
               <h2 class="main-collection-grid__empty-title h2">
-                No Shopify products are published for {{ collection.title }}
+                No live products are published for {{ collection.title }}
               </h2>
               <p>
                 This brand is tracked in the directory, but TRG is not stocking its full product feed yet. Use the brand shop link to continue directly or browse the wider directory while imports remain limited.
@@ -174,7 +174,7 @@
                 This collection is staged, but products are not live yet
               </h2>
               <p>
-                Only {{ live_catalog_count }} live Shopify product{% unless live_catalog_count == 1 %}s{% endunless %} are currently available while the broader catalog is being loaded.
+                Only {{ live_catalog_count }} live product{% unless live_catalog_count == 1 %}s{% endunless %} are currently available while the broader catalog is being loaded.
               </p>
             {% endif %}
             <div class="main-collection-grid__empty-actions">

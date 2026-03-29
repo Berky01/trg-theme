@@ -1,8 +1,21 @@
 {% liquid
   assign product_count = collection.all_products_count
+  assign live_catalog = collections['all']
+  assign live_catalog_count = 0
+  if live_catalog != blank
+    assign live_catalog_count = live_catalog.all_products_count
+  endif
+
   assign limited_live_assortment = false
   if collection.handle == 'all' and product_count > 0 and product_count <= 12
     assign limited_live_assortment = true
+  endif
+
+  assign staged_category_collection = false
+  if request.page_type == 'collection'
+    if collection.metafields.trg.brand.value == blank and collection.handle != 'all' and product_count == 0 and live_catalog_count > 0 and live_catalog_count <= 12
+      assign staged_category_collection = true
+    endif
   endif
 
   assign heading_html = section.settings.custom_title
@@ -25,6 +38,20 @@
     endcapture
     capture intro_body_html
       echo '<p>Available now while the broader product catalog is still being staged.</p>'
+    endcapture
+  endif
+
+  if staged_category_collection
+    assign show_product_count = false
+    assign heading_html = collection.title
+    capture intro_body_html
+      echo '<p>This category is staged for the wider catalog. Browse '
+      echo live_catalog_count
+      echo ' live product'
+      unless live_catalog_count == 1
+        echo 's'
+      endunless
+      echo ' or use the brand directory while products are still being published.</p>'
     endcapture
   endif
 

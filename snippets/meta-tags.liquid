@@ -48,9 +48,9 @@
         echo ' '
         echo live_catalog_count
         if live_catalog_count == 1
-          echo ' live Shopify product is currently published while the broader catalog is still being loaded.'
+          echo ' live product is currently published while the broader catalog is still being loaded.'
         else
-          echo ' live Shopify products are currently published while the broader catalog is still being loaded.'
+          echo ' live products are currently published while the broader catalog is still being loaded.'
         endif
       endif
     endcapture
@@ -87,13 +87,37 @@
     capture meta_description_content
       echo live_catalog_count
       if live_catalog_count == 1
-        echo ' live Shopify product is currently available while the broader product catalog is being staged.'
+        echo ' live product is currently available while the broader product catalog is being staged.'
       else
-        echo ' live Shopify products are currently available while the broader product catalog is being staged.'
+        echo ' live products are currently available while the broader product catalog is being staged.'
       endif
     endcapture
 
     assign og_description = meta_description_content
+  endif
+
+  if request.page_type == 'collection' and collection.handle != 'all' and collection.metafields.trg.brand.value == blank and collection.all_products_count == 0
+    assign live_catalog = collections['all']
+    assign live_catalog_count = 0
+
+    if live_catalog != blank
+      assign live_catalog_count = live_catalog.all_products_count
+    endif
+
+    if live_catalog_count > 0 and live_catalog_count <= 12
+      capture meta_description_content
+        echo collection.title
+        echo ' is staged for the broader catalog. '
+        echo live_catalog_count
+        if live_catalog_count == 1
+          echo ' live product is currently published while the wider assortment is still being loaded.'
+        else
+          echo ' live products are currently published while the wider assortment is still being loaded.'
+        endif
+      endcapture
+
+      assign og_description = meta_description_content
+    endif
   endif
 
   if request.page_type == 'product'

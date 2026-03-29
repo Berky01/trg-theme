@@ -20,6 +20,17 @@
   assign render_mobile_toggle = false
   assign render_drawer = false
   assign hide_empty_brand_filters = false
+  assign live_catalog = collections['all']
+  assign live_catalog_count = 0
+  assign show_new_arrivals_toggle = section.settings.trg_plp_toggle_new
+
+  if live_catalog != blank
+    assign live_catalog_count = live_catalog.all_products_count | default: live_catalog.products_count
+  endif
+
+  if live_catalog_count <= 12
+    assign show_new_arrivals_toggle = false
+  endif
 
   if request.page_type == 'collection' and collection.metafields.trg.brand.value and collection.all_products_count == 0
     assign hide_empty_brand_filters = true
@@ -366,7 +377,7 @@
                       <span class="trg-plp-toggle-switch" aria-hidden="true"></span>
                     </button>
                   {% endif %}
-                  {% if section.settings.trg_plp_toggle_new %}
+                  {% if show_new_arrivals_toggle %}
                     <button
                       type="button"
                       class="trg-plp-toggle-option"
