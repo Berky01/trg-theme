@@ -1120,3 +1120,47 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
   height: 100%;
 }
 
+/* ══════════════════════════════════════════
+   A11Y: Focus indicators (SH-H15) — 2026-03-29
+   Restores keyboard focus visibility suppressed by
+   outline:none in trg-mega-menu.css and trg-brand-directory.css
+   ══════════════════════════════════════════ */
+
+/* Mega menu interactive elements */
+.trg-mm a:focus-visible,
+.trg-mm button:focus-visible,
+.trg-mm-sin:focus-visible,
+.trg-mob-bin:focus-visible,
+.trg-mob-bsl:focus-visible {
+  outline: 2px solid var(--accent, #c4562a);
+  outline-offset: 2px;
+}
+
+/* Brand directory interactive elements */
+.trg-bdir__input:focus-visible,
+.trg-bdir__browsebtn:focus-visible,
+.trg-bdir__pill:focus-visible,
+.trg-bdir__gt:focus-visible,
+.trg-bdir__go:focus-visible,
+.trg-bdir__carda:focus-visible,
+.trg-bdir__top:focus-visible {
+  outline: 2px solid var(--acc, #c4562a);
+  outline-offset: 2px;
+}
+
+/* ══════════════════════════════════════════
+   A11Y: Reduced motion (SH-C5) — 2026-03-29
+   WCAG 2.1 SC 2.3.3 — respects system preference
+   ══════════════════════════════════════════ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
