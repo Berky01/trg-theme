@@ -43,10 +43,13 @@ function bindNav(){
       if(lk.getAttribute('aria-expanded')!==expected)lk.setAttribute('aria-expanded',expected);
     });
     /* Re-sync after any external attribute mutation (morphdom, Dwell idle hydration) */
-    new MutationObserver(function(){
+    var obs=new MutationObserver(function(){
+      obs.disconnect();
       var expected=op===k?'true':'false';
       if(lk.getAttribute('aria-expanded')!==expected)lk.setAttribute('aria-expanded',expected);
-    }).observe(lk,{attributes:true,attributeFilter:['aria-expanded']});
+      obs.observe(lk,{attributes:true,attributeFilter:['aria-expanded']});
+    });
+    obs.observe(lk,{attributes:true,attributeFilter:['aria-expanded']});
     lk.setAttribute('data-trg-mm',k);lk.setAttribute('aria-haspopup','true');lk.setAttribute('aria-expanded','false');
     lk.style.position='relative';
     addChv(lk);
@@ -221,7 +224,8 @@ function hookHamburger(){
   });
   document.querySelectorAll('header-drawer details').forEach(function(det){
     if(det._trgObs)return;det._trgObs=true;
-    new MutationObserver(function(){if(isMob()&&det.open)det.removeAttribute('open')}).observe(det,{attributes:true,attributeFilter:['open']});
+    var mobObs=new MutationObserver(function(){mobObs.disconnect();if(isMob()&&det.open)det.removeAttribute('open');mobObs.observe(det,{attributes:true,attributeFilter:['open']});});
+    mobObs.observe(det,{attributes:true,attributeFilter:['open']});
   });
 }
 

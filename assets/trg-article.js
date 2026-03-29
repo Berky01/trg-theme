@@ -73,7 +73,12 @@
   }
 
   /* ── Scroll listeners ── */
-  function onScroll(){ updateProgress(); updateTOC(); updatePill(); }
+  var _raf = false;
+  function onScroll(){
+    if(_raf) return;
+    _raf = true;
+    requestAnimationFrame(function(){ updateProgress(); updateTOC(); updatePill(); _raf = false; });
+  }
   window.addEventListener('scroll', onScroll, {passive:true});
   onScroll();
 
