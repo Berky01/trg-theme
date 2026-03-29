@@ -21,7 +21,8 @@
   assign og_title = page_title | default: shop.name
   assign og_url = canonical_url | default: request.origin
   assign og_type = 'website'
-  assign og_description = page_description | default: shop.description | default: shop.name
+  assign meta_description_content = page_description
+  assign og_description = meta_description_content | default: shop.description | default: shop.name
 
   if request.page_type == 'search' and search.performed and search.terms != blank
     assign search_products = search.results | where: 'object_type', 'product'
@@ -38,6 +39,27 @@
     endcapture
 
     assign og_title = rendered_page_title
+  endif
+
+  if request.page_type == 'collection' and collection.handle == 'all' and collection.all_products_count > 0 and collection.all_products_count <= 12
+    assign live_catalog_count = collection.all_products_count
+
+    capture rendered_page_title
+      echo 'Browse the Live Assortment'
+    endcapture
+
+    assign og_title = rendered_page_title
+
+    capture meta_description_content
+      echo live_catalog_count
+      if live_catalog_count == 1
+        echo ' live Shopify product is currently available while the broader product catalog is being staged.'
+      else
+        echo ' live Shopify products are currently available while the broader product catalog is being staged.'
+      endif
+    endcapture
+
+    assign og_description = meta_description_content
   endif
 
   if request.page_type == 'product'
@@ -131,9 +153,9 @@
   href="{{ canonical_url }}"
 >
 
-{% if page_description %}
+{% if meta_description_content %}
   <meta
     name="description"
-    content="{{ page_description | escape }}"
+    content="{{ meta_description_content | escape }}"
   >
 {% endif %}
