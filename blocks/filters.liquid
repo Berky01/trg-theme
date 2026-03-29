@@ -19,6 +19,11 @@
   assign render_sidebar_panel = false
   assign render_mobile_toggle = false
   assign render_drawer = false
+  assign hide_empty_brand_filters = false
+
+  if request.page_type == 'collection' and collection.metafields.trg.brand.value and collection.all_products_count == 0
+    assign hide_empty_brand_filters = true
+  endif
 
   case trg_render_mode
     when 'desktop_controls'
@@ -35,6 +40,14 @@
       assign render_mobile_toggle = true
       assign render_drawer = true
   endcase
+
+  if hide_empty_brand_filters
+    assign render_assets = false
+    assign render_desktop_controls = false
+    assign render_sidebar_panel = false
+    assign render_mobile_toggle = false
+    assign render_drawer = false
+  endif
 
   # Calculate facets margin style
   capture facets_margin_style

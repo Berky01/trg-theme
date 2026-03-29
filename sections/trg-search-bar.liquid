@@ -10,10 +10,14 @@
 {% liquid
   assign is_collection_toolbar = false
   assign show_filter_toggle = false
+  assign hide_for_empty_brand_collection = false
   if collection != blank
     assign is_collection_toolbar = true
+    if collection.metafields.trg.brand.value and collection.all_products_count == 0
+      assign hide_for_empty_brand_collection = true
+    endif
   endif
-  if is_collection_toolbar and section.settings.show_filter_toggle
+  if is_collection_toolbar and section.settings.show_filter_toggle and hide_for_empty_brand_collection == false
     assign show_filter_toggle = true
   endif
 %}
@@ -39,7 +43,10 @@
   {% if is_collection_toolbar %}
     data-trg-plp-toolbar
   {% endif %}
-  {% if section.settings.start_hidden %}
+  {% if hide_for_empty_brand_collection %}
+    aria-hidden="true"
+    hidden
+  {% elsif section.settings.start_hidden %}
     data-trg-search-collapsible
     aria-hidden="true"
     hidden

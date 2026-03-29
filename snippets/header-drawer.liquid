@@ -105,6 +105,15 @@
             {% assign first_accordion_open = false %}
             {% assign animation_index = 0 %}
             {%- for link in linklist.links -%}
+              {% liquid
+                assign hide_link = false
+                if link.url contains '/collections/new-arrivals' and collections['new-arrivals'].all_products_count == 0
+                  assign hide_link = true
+                endif
+              %}
+              {% if hide_link %}
+                {% continue %}
+              {% endif %}
               {% assign animation_index = animation_index | plus: 1 %}
               <li
                 style="--menu-drawer-animation-index: {{ animation_index }};"
@@ -254,6 +263,15 @@
             {%- endcomment -%}
             {% assign animation_index = 0 %}
             {%- for link in linklist.links -%}
+              {% liquid
+                assign hide_link = false
+                if link.url contains '/collections/new-arrivals' and collections['new-arrivals'].all_products_count == 0
+                  assign hide_link = true
+                endif
+              %}
+              {% if hide_link %}
+                {% continue %}
+              {% endif %}
               {% assign animation_index = animation_index | plus: 1 %}
               <li
                 class="menu-drawer__list-item"

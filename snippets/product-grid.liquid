@@ -16,6 +16,8 @@
 {% assign product_card_size = product_card_size | strip %}
 {% liquid
   assign trg_plp_mode = false
+  assign collection_brand = blank
+  assign collection_brand_shop_url = ''
   if section.settings.trg_plp_shell_max_width != blank
     assign trg_plp_mode = true
   endif
@@ -34,6 +36,18 @@
         echo 's'
       endunless
     endcapture
+  endif
+  if request.page_type == 'collection'
+    assign collection_brand = collection.metafields.trg.brand.value
+    if collection_brand
+      assign collection_brand_shop_url = collection_brand.retailer_url_na.value | default: collection_brand.retailer_url_na
+      if collection_brand_shop_url == blank
+        assign collection_brand_shop_url = collection_brand.affiliate_link | default: collection_brand.website
+      endif
+      if collection_brand_shop_url == blank
+        assign collection_brand_shop_url = collection_brand.retailer_url_ca.value | default: collection_brand.retailer_url_ca
+      endif
+    endif
   endif
 %}
 
@@ -148,12 +162,12 @@
               <a href="/pages/brands" class="main-collection-grid__empty-link">Open brand directory</a>
             </div>
           {% elsif request.page_type == 'collection' and collection.all_products_count == 0 %}
-            {% if collection.metafields.trg.brand.value %}
+            {% if collection_brand %}
               <h2 class="main-collection-grid__empty-title h2">
                 No Shopify products are published for {{ collection.title }}
               </h2>
               <p>
-                This brand page is live, but the product catalog is still being staged. Use the brand shop link above or keep browsing while imports are limited.
+                This brand is tracked in the directory, but TRG is not stocking its full product feed yet. Use the brand shop link to continue directly or browse the wider directory while imports remain limited.
               </p>
             {% else %}
               <h2 class="main-collection-grid__empty-title h2">
@@ -164,8 +178,15 @@
               </p>
             {% endif %}
             <div class="main-collection-grid__empty-actions">
-              <a href="{{ routes.all_products_collection_url }}" class="main-collection-grid__empty-button">{{ live_catalog_label }}</a>
+              {% if collection_brand_shop_url != blank %}
+                <a href="{{ collection_brand_shop_url }}" class="main-collection-grid__empty-button" target="_blank" rel="nofollow noopener">Shop {{ collection.title }}</a>
+              {% else %}
+                <a href="{{ routes.all_products_collection_url }}" class="main-collection-grid__empty-button">{{ live_catalog_label }}</a>
+              {% endif %}
               <a href="/pages/brands" class="main-collection-grid__empty-link">Browse brands instead</a>
+              {% if collection_brand_shop_url != blank %}
+                <a href="{{ routes.all_products_collection_url }}" class="main-collection-grid__empty-link">{{ live_catalog_label }}</a>
+              {% endif %}
             </div>
           {% else %}
             <h2 class="main-collection-grid__empty-title h2">
