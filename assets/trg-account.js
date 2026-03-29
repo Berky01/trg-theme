@@ -6,6 +6,11 @@
 
 (function() {
   'use strict';
+  // Escapes a value for safe use in HTML attribute contexts
+  function escAttr(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#39;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
 
   const TRG_ACCOUNT = {
     _cache: {},
@@ -61,7 +66,7 @@
 
     updateFollowButtons(handle) {
       const following = this.isFollowing(handle);
-      document.querySelectorAll(`.trg-follow-btn[data-brand="${handle}"]`).forEach(btn => {
+      document.querySelectorAll(`.trg-follow-btn[data-brand="${escAttr(handle)}"]`).forEach(btn => {
         btn.classList.toggle('following', following);
         btn.innerHTML = following
           ? '<svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Following'
@@ -160,7 +165,7 @@
         const name = handle.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
         return `
           <a href="/collections/${handle}" class="trg-acct__brand-card">
-            <button class="trg-acct__brand-unfollow" data-brand="${handle}" title="Unfollow" onclick="event.preventDefault(); event.stopPropagation(); TRG_ACCOUNT.toggleFollow('${handle}');">
+            <button class="trg-acct__brand-unfollow" data-brand="${handle}" title="Unfollow" onclick="event.preventDefault(); event.stopPropagation(); TRG_ACCOUNT.toggleFollow(this.dataset.brand);">
               <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
             </button>
             <div class="trg-acct__brand-logo">${initials}</div>
@@ -198,7 +203,7 @@
         return `
           <div class="trg-acct__wish-card">
             <div class="trg-acct__wish-img">
-              <button class="trg-acct__wish-remove" onclick="TRG_ACCOUNT.toggleWishlist('${item.handle}');" title="Remove">
+              <button class="trg-acct__wish-remove" data-product="${escAttr(item.handle)}" onclick="TRG_ACCOUNT.toggleWishlist(this.dataset.product);" title="Remove">
                 <svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
               </button>
             </div>
@@ -392,9 +397,9 @@
   /* ── Global PDP wishlist handler ── */
   window.trgToggleWishlist = function(btn) {
     const handle = btn.dataset.product;
-    if (handle && window.TRG) {
-      window.TRG.toggleWishlist(handle).then(() => {
-        window.TRG.initPdpWishlist();
+    if (handle && window.TRG_ACCOUNT) {
+      window.TRG_ACCOUNT.toggleWishlist(handle).then(() => {
+        window.TRG_ACCOUNT.initPdpWishlist();
       });
     }
   };

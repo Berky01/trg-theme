@@ -344,7 +344,7 @@
         {%- endif -%}
 
         {%- if is_reseller and retailer_name_us != blank and retailer_url_us != blank -%}
-          <a href="{{ retailer_url_us }}" target="_blank" rel="noopener sponsored" class="trg-pdp__btn-primary" style="background:#1a1a18;">
+          <a href="{{ retailer_url_us }}" target="_blank" rel="noopener sponsored" class="trg-pdp__btn-primary" style="background:var(--ink);">
             Buy at {{ retailer_name_us | escape }}
             <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
           </a>
@@ -387,7 +387,7 @@
         {%- endif -%}
 
         {%- if is_reseller and eff_retailer_url_ca != blank -%}
-          <a href="{{ eff_retailer_url_ca }}" target="_blank" rel="noopener sponsored" class="trg-pdp__btn-primary" style="background:#1a1a18;">
+          <a href="{{ eff_retailer_url_ca }}" target="_blank" rel="noopener sponsored" class="trg-pdp__btn-primary" style="background:var(--ink);">
             Buy at {{ eff_retailer_name_ca | escape }}
             <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
           </a>
@@ -509,7 +509,7 @@
         </button>
         <div class="trg-pdp__acc-body" id="trg-acc-materials">
           {%- if material != blank or care_inst != blank -%}
-            {%- if material != blank -%}<p style="margin:0 0 0.4rem;font-weight:500;color:#1a1a18;">{{ material }}</p>{%- endif -%}
+            {%- if material != blank -%}<p style="margin:0 0 0.4rem;font-weight:500;color:var(--ink);">{{ material }}</p>{%- endif -%}
             {%- if care_inst != blank -%}<p style="margin:0;">{{ care_inst }}</p>{%- endif -%}
           {%- else -%}
             Care instructions vary by product  -  check the brand's site for details.
@@ -620,12 +620,12 @@
 {% stylesheet %}
   /* â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�
      TRG PDP v3  -  Complete styles
-     â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•� */
+     â•�â•�â•��â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•� */
 
   /* â”€â”€ BREADCRUMB â”€â”€ */
   .trg-pdp-bc {
     padding: 0.75rem 2rem;
-    border-bottom: 1px solid #ddd8cf;
+    border-bottom: 1px solid var(--border);
     background: #faf8f4;
   }
   .trg-pdp-bc__inner {
@@ -635,20 +635,20 @@
     align-items: center;
     gap: 0.5rem;
     font-size: 0.72rem;
-    color: #8a8478;
+    color: var(--mid);
   }
   .trg-pdp-bc a {
-    color: #8a8478;
+    color: var(--mid);
     text-decoration: none;
   }
   .trg-pdp-bc a:hover {
-    color: #1a1a18;
+    color: var(--ink);
   }
   .trg-pdp-bc__sep {
     opacity: 0.4;
   }
   .trg-pdp-bc__current {
-    color: #1a1a18;
+    color: var(--ink);
     font-weight: 500;
   }
 
@@ -689,7 +689,7 @@
     align-items: center;
     justify-content: center;
     gap: 0.75rem;
-    color: #8a8478;
+    color: var(--mid);
   }
   .trg-pdp__gallery-placeholder svg {
     opacity: 0.3;
@@ -716,7 +716,7 @@
     padding: 0;
   }
   .trg-pdp__thumb.active {
-    border-color: #1a1a18;
+    border-color: var(--ink);
   }
   .trg-pdp__thumb img {
     width: 100%;
@@ -730,7 +730,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #8a8478;
+    color: var(--mid);
     font-size: 0.55rem;
     opacity: 0.4;
     text-align: center;
@@ -752,7 +752,7 @@
     font-weight: 600;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: #c4562a;
+    color: var(--accent);
     text-decoration: none;
     margin-bottom: 0.6rem;
   }
@@ -770,7 +770,7 @@
     font-size: 1.75rem;
     font-weight: 600;
     line-height: 1.2;
-    color: #1a1a18;
+    color: var(--ink);
     margin: 0 0 0.5rem;
   }
 
@@ -781,7 +781,7 @@
     gap: 0.75rem;
     margin-bottom: 1.25rem;
     padding-bottom: 1.25rem;
-    border-bottom: 1px solid #ddd8cf;
+    border-bottom: 1px solid var(--border);
   }
   .trg-pdp__price-code {
     font-size: 0.65em;
@@ -794,11 +794,11 @@
     font-family: 'Playfair Display', serif;
     font-size: 1.5rem;
     font-weight: 600;
-    color: #1a1a18;
+    color: var(--ink);
   }
   .trg-pdp__price-ca {
     font-size: 0.8rem;
-    color: #8a8478;
+    color: var(--mid);
     font-weight: 400;
     display: none;
   }
@@ -834,7 +834,7 @@
     font-weight: 600;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: #8a8478;
+    color: var(--mid);
     margin-bottom: 0.6rem;
   }
   .trg-pdp__chips {
@@ -846,23 +846,23 @@
     min-width: 44px;
     padding: 0.4rem 0.6rem;
     text-align: center;
-    border: 1px solid #ddd8cf;
+    border: 1px solid var(--border);
     border-radius: 2px;
     font-size: 0.78rem;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.15s;
     background: #ffffff;
-    color: #1a1a18;
+    color: var(--ink);
     font-family: inherit;
   }
   .trg-pdp__chip:hover {
-    border-color: #1a1a18;
+    border-color: var(--ink);
   }
   .trg-pdp__chip.active {
-    background: #1a1a18;
-    color: #f5f1eb;
-    border-color: #1a1a18;
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
   }
 
   /* â”€â”€ CTA SECTION â”€â”€ */
@@ -894,7 +894,7 @@
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    background: #c4562a;
+    background: var(--accent);
     color: #ffffff;
     font-family: 'DM Sans', sans-serif;
     font-size: 0.82rem;
@@ -923,7 +923,7 @@
     justify-content: center;
     gap: 0.5rem;
     background: #ffffff;
-    color: #1a1a18;
+    color: var(--ink);
     font-family: 'DM Sans', sans-serif;
     font-size: 0.82rem;
     font-weight: 500;
@@ -933,13 +933,13 @@
     border-radius: 2px;
     cursor: pointer;
     text-decoration: none;
-    border: 1px solid #ddd8cf;
+    border: 1px solid var(--border);
     transition: border-color 0.2s;
     width: 100%;
   }
   .trg-pdp__btn-secondary:hover {
-    border-color: #1a1a18;
-    color: #1a1a18;
+    border-color: var(--ink);
+    color: var(--ink);
   }
 
   /* â”€â”€ Also Available At (dedup) â”€â”€ */
@@ -988,7 +988,7 @@
     align-items: center;
     gap: 0.75rem;
     font-size: 0.65rem;
-    color: #8a8478;
+    color: var(--mid);
     text-transform: uppercase;
     letter-spacing: 0.1em;
   }
@@ -997,12 +997,12 @@
     content: '';
     flex: 1;
     height: 1px;
-    background: #ddd8cf;
+    background: var(--border);
   }
 
   .trg-pdp__disclosure {
     font-size: 0.7rem;
-    color: #8a8478;
+    color: var(--mid);
     font-weight: 300;
     letter-spacing: 0.02em;
     margin-bottom: 0.4rem;
@@ -1010,7 +1010,7 @@
 
   .trg-pdp__ca-note {
     font-size: 0.72rem;
-    color: #8a8478;
+    color: var(--mid);
     line-height: 1.4;
     padding: 0.6rem 0.75rem;
     background: rgba(212,41,26,0.04);
@@ -1020,7 +1020,7 @@
 
   .trg-pdp__no-link {
     font-size: 0.82rem;
-    color: #8a8478;
+    color: var(--mid);
     font-weight: 300;
     font-style: italic;
     padding: 0.75rem 0;
@@ -1035,9 +1035,9 @@
     width: 100%;
     padding: 0.7rem 1rem;
     background: transparent;
-    border: 1px solid #ddd8cf;
+    border: 1px solid var(--border);
     border-radius: 3px;
-    color: #8a8478;
+    color: var(--mid);
     font-family: 'DM Sans', sans-serif;
     font-size: 0.78rem;
     font-weight: 500;
@@ -1048,12 +1048,12 @@
     margin-bottom: 1rem;
   }
   .trg-pdp__wishlist:hover {
-    border-color: #1a1a18;
-    color: #1a1a18;
+    border-color: var(--ink);
+    color: var(--ink);
   }
   .trg-pdp__wishlist.trg-wishlist--saved {
-    color: #c4562a;
-    border-color: #c4562a;
+    color: var(--accent);
+    border-color: var(--accent);
   }
   .trg-pdp__wishlist.trg-wishlist--saved .trg-pdp__wishlist-icon {
     fill: currentColor;
@@ -1115,7 +1115,7 @@
     align-items: flex-start;
     gap: 0.5rem;
     font-size: 0.78rem;
-    color: #1a1a18;
+    color: var(--ink);
     line-height: 1.4;
   }
   .trg-pdp__canada-fact svg {
@@ -1135,8 +1135,8 @@
     grid-template-columns: 1fr 1fr;
     gap: 0.75rem 1rem;
     padding: 1.25rem 0;
-    border-top: 1px solid #ddd8cf;
-    border-bottom: 1px solid #ddd8cf;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
     margin-bottom: 1rem;
   }
   .trg-pdp__meta-key {
@@ -1144,12 +1144,12 @@
     font-weight: 600;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: #8a8478;
+    color: var(--mid);
     margin-bottom: 0.2rem;
   }
   .trg-pdp__meta-val {
     font-size: 0.82rem;
-    color: #1a1a18;
+    color: var(--ink);
     font-weight: 500;
   }
   .trg-pdp__meta-val--tag {
@@ -1165,10 +1165,10 @@
 
   /* â”€â”€ ACCORDION â”€â”€ */
   .trg-pdp__accordion {
-    border-top: 1px solid #ddd8cf;
+    border-top: 1px solid var(--border);
   }
   .trg-pdp__acc-item {
-    border-bottom: 1px solid #ddd8cf;
+    border-bottom: 1px solid var(--border);
   }
   .trg-pdp__acc-trigger {
     width: 100%;
@@ -1187,10 +1187,10 @@
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: #1a1a18;
+    color: var(--ink);
   }
   .trg-pdp__acc-chevron {
-    color: #8a8478;
+    color: var(--mid);
     transition: transform 0.2s;
   }
   .trg-pdp__acc-item.open .trg-pdp__acc-chevron {
@@ -1200,7 +1200,7 @@
     display: none;
     padding-bottom: 1rem;
     font-size: 0.85rem;
-    color: #8a8478;
+    color: var(--mid);
     line-height: 1.65;
   }
   .trg-pdp__acc-item.open .trg-pdp__acc-body {
@@ -1233,7 +1233,7 @@
     height: 36px;
     border-radius: 50%;
     background: rgba(255,255,255,0.88);
-    border: 1px solid #ddd8cf;
+    border: 1px solid var(--border);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1241,7 +1241,7 @@
     opacity: 0;
     transition: opacity 0.2s;
     z-index: 2;
-    color: #1a1a18;
+    color: var(--ink);
     padding: 0;
   }
   .trg-pdp__gallery-main:hover .trg-pdp__gallery-arrow {
@@ -1249,7 +1249,7 @@
   }
   .trg-pdp__gallery-arrow:hover {
     background: #ffffff;
-    border-color: #1a1a18;
+    border-color: var(--ink);
   }
   .trg-pdp__gallery-arrow--prev { left: 0.75rem; }
   .trg-pdp__gallery-arrow--next { right: 0.75rem; }
@@ -1325,7 +1325,7 @@
       column-gap: 1.5rem;
       row-gap: 0.5rem;
       padding: 0.85rem 0;
-      border-top: 1px solid #ddd8cf;
+      border-top: 1px solid var(--border);
       border-bottom: none;
       margin-bottom: 0;
     }
