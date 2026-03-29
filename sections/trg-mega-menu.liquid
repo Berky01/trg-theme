@@ -1,16 +1,28 @@
-<!-- trg-mm-ver:1773801441 -->
-{% comment %}trg-mm-v4.1-dynamic-counts{% endcomment %}
+<!-- trg-mm-ver:1774831701 -->
+{% comment %}trg-mm-v4.2-staged-subcategories{% endcomment %}
 {%- liquid
   assign bd = shop.metaobjects['brand']
   assign has_mo = false
   assign live_catalog = collections['all']
   assign live_catalog_count = 0
+  assign limited_live_catalog = false
   assign live_catalog_label = 'Browse live products'
+  assign desktop_shop_panel_label = 'Shop by products'
+  assign desktop_subcategory_label = 'Shop by type'
+  assign mobile_shop_panel_label = 'Shop by Type'
+  assign mobile_subcategory_label = 'Shop by type'
   if bd and bd.values.size > 0
     assign has_mo = true
   endif
   if live_catalog != blank
     assign live_catalog_count = live_catalog.all_products_count | default: live_catalog.products_count
+  endif
+  if live_catalog_count <= 12
+    assign limited_live_catalog = true
+    assign desktop_shop_panel_label = 'Browse categories'
+    assign desktop_subcategory_label = 'Subcategories'
+    assign mobile_shop_panel_label = 'Categories'
+    assign mobile_subcategory_label = 'Subcategories'
   endif
   if live_catalog_count > 0
     capture live_catalog_label
@@ -27,7 +39,7 @@
 
 <div class="trg-mm-bk" id="trg-mm-bk"></div>
 
-<div class="trg-mm-p" id="trg-mm-p-shop" role="region" aria-label="Shop by products">
+<div class="trg-mm-p" id="trg-mm-p-shop" role="region" aria-label="{{ desktop_shop_panel_label }}">
   <button class="trg-mm-x" type="button" aria-label="Close">&#10005;</button>
   <div class="trg-mm-in">
     <nav class="trg-mm-sb" aria-label="Product families">
@@ -98,7 +110,7 @@
         {%- comment -%}aesthetic_chip blocks deprecated - chips now in family settings{%- endcomment -%}
 
         {%- elsif block.type == 'subcategory' and po -%}
-          {%- unless go -%}<span class="trg-mm-sl">Shop by type</span><div class="trg-mm-sg">{%- assign go = true -%}{%- endunless -%}
+          {%- unless go -%}<span class="trg-mm-sl">{{ desktop_subcategory_label }}</span><div class="trg-mm-sg">{%- assign go = true -%}{%- endunless -%}
           {%- liquid
             assign st = block.settings.title_override
             if st == blank and block.settings.collection != blank
@@ -111,8 +123,26 @@
             if block.settings.collection != blank and block.settings.collection.url != blank
               assign su = block.settings.collection.url
             endif
+            assign subcategory_product_count = 0
+            if block.settings.collection != blank
+              assign subcategory_product_count = block.settings.collection.products_count
+            endif
+            assign subcategory_is_staged = false
+            if limited_live_catalog and subcategory_product_count == 0
+              assign subcategory_is_staged = true
+            endif
           -%}
-          <a href="{{ su }}" class="trg-mm-st" {{ block.shopify_attributes }}><span class="trg-mm-sn">{{ st }}</span>{%- if block.settings.collection != blank and block.settings.collection.products_count > 0 -%}<span class="trg-mm-sc">{{ block.settings.collection.products_count }}</span>{%- endif -%}</a>
+          {% if subcategory_is_staged %}
+            <span class="trg-mm-st trg-mm-st--static" {{ block.shopify_attributes }}>
+              <span class="trg-mm-sn">{{ st }}</span>
+              <span class="trg-mm-sc trg-mm-sc--staged">Staged</span>
+            </span>
+          {% else %}
+            <a href="{{ su }}" class="trg-mm-st" {{ block.shopify_attributes }}>
+              <span class="trg-mm-sn">{{ st }}</span>
+              {%- if subcategory_product_count > 0 -%}<span class="trg-mm-sc">{{ subcategory_product_count }}</span>{%- endif -%}
+            </a>
+          {% endif %}
         {%- endif -%}
       {%- endfor -%}
       {%- if ao -%}</div></div>{%- endif -%}
@@ -201,7 +231,7 @@
       </button>
     </div>
     <div class="trg-mob-tabs">
-      <button class="trg-mob-tab on" data-mob-tab="shop" type="button">Shop by Type</button>
+      <button class="trg-mob-tab on" data-mob-tab="shop" type="button">{{ mobile_shop_panel_label }}</button>
       <button class="trg-mob-tab" data-mob-tab="brands" type="button">Brands</button>
     </div>
     <div class="trg-mob-body" id="trg-mob-body">
@@ -254,7 +284,7 @@
 
           {%- elsif block.type == 'subcategory' and mfi > 0 -%}
             {%- unless msubs_started -%}
-              <span class="trg-mob-lbl">Shop by type</span>
+              <span class="trg-mob-lbl">{{ mobile_subcategory_label }}</span>
               <div class="trg-mob-subs">
               {%- assign msubs_started = true -%}
             {%- endunless -%}
@@ -270,11 +300,26 @@
               if block.settings.collection != blank and block.settings.collection.url != blank
                 assign msu = block.settings.collection.url
               endif
+              assign mobile_subcategory_product_count = 0
+              if block.settings.collection != blank
+                assign mobile_subcategory_product_count = block.settings.collection.products_count
+              endif
+              assign mobile_subcategory_is_staged = false
+              if limited_live_catalog and mobile_subcategory_product_count == 0
+                assign mobile_subcategory_is_staged = true
+              endif
             -%}
-            <a href="{{ msu }}" class="trg-mob-sub">
-              <span class="trg-mob-sub-name">{{ mst }}</span>
-              {%- if block.settings.collection != blank and block.settings.collection.products_count > 0 -%}<span class="trg-mob-sub-count">{{ block.settings.collection.products_count }}</span>{%- endif -%}
-            </a>
+            {% if mobile_subcategory_is_staged %}
+              <div class="trg-mob-sub trg-mob-sub--static">
+                <span class="trg-mob-sub-name">{{ mst }}</span>
+                <span class="trg-mob-sub-count">Staged</span>
+              </div>
+            {% else %}
+              <a href="{{ msu }}" class="trg-mob-sub">
+                <span class="trg-mob-sub-name">{{ mst }}</span>
+                {%- if mobile_subcategory_product_count > 0 -%}<span class="trg-mob-sub-count">{{ mobile_subcategory_product_count }}</span>{%- endif -%}
+              </a>
+            {% endif %}
           {%- endif -%}
         {%- endfor -%}
         {%- if mfi > 0 -%}
