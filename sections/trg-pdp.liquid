@@ -285,7 +285,7 @@
     <div class="trg-pdp__price-row">
       <span class="trg-pdp__price">{{ currency_sym }}{{ price_dollars }}{%- if price_remainder > 0 -%}.{{ price_remainder | prepend: '00' | slice: -2, 2 }}{%- endif -%}{%- if currency_label != blank %} <span class="trg-pdp__price-code">{{ currency_label }}</span>{%- endif -%}</span>
       {%- if product_currency == 'USD' -%}
-        <span class="trg-pdp__price-ca">~CA${{ price_dollars | times: 137 | divided_by: 100 }}</span>
+        <span class="trg-pdp__price-ca">~CA${{ price_cents | times: 137 | divided_by: 10000 | round: 0 }}</span>
         <span class="trg-pdp__price-ca-badge">CA Estimate</span>
       {%- endif -%}
     </div>
