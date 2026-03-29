@@ -28,6 +28,8 @@
   if request.page_type == 'index'
     assign rendered_page_title = 'Curated Menswear Directory'
     assign og_title = rendered_page_title
+    assign meta_description_content = default_site_description
+    assign og_description = meta_description_content
   endif
 
   if request.page_type == 'search' and search.performed and search.terms != blank
