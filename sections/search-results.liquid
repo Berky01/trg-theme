@@ -17,6 +17,25 @@
   {% assign products_per_page = section.settings.products_per_page %}
 {% endif %}
 
+{% liquid
+  assign live_catalog = collections['all']
+  assign live_catalog_count = 0
+  assign live_catalog_link_label = 'Browse live products'
+  if live_catalog != blank
+    assign live_catalog_count = live_catalog.all_products_count | default: live_catalog.products_count
+  endif
+  if live_catalog_count > 0
+    capture live_catalog_link_label
+      echo 'Browse '
+      echo live_catalog_count
+      echo ' live product'
+      unless live_catalog_count == 1
+        echo 's'
+      endunless
+    endcapture
+  endif
+%}
+
 {% paginate search.results by products_per_page %}
   {% assign products = search.results | where: 'object_type', 'product' %}
   {% assign products_count = products | size %}
@@ -171,7 +190,7 @@
 
         {% if search.performed and products_count > 0 %}
           <p class="trg-search-sparse-note" data-trg-sparse-note{% if products_count >= 4 %} hidden{% endif %}>
-            Try a broader search or <a href="/collections/all">Explore all products</a>.
+            Try a broader search or <a href="{{ routes.all_products_collection_url }}">{{ live_catalog_link_label }}</a>.
           </p>
           <p class="trg-search-local-empty" data-trg-search-empty hidden>No products match these filters.</p>
         {% endif %}

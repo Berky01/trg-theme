@@ -1,3 +1,22 @@
+{% liquid
+  assign live_catalog = collections['all']
+  assign live_catalog_count = 0
+  assign secondary_cta_label = section.settings.secondary_label
+  if live_catalog != blank
+    assign live_catalog_count = live_catalog.all_products_count | default: live_catalog.products_count
+  endif
+  if section.settings.secondary_link == '/collections/all' and live_catalog_count > 0 and live_catalog_count <= 12
+    capture secondary_cta_label
+      echo 'Browse '
+      echo live_catalog_count
+      echo ' live product'
+      unless live_catalog_count == 1
+        echo 's'
+      endunless
+    endcapture
+  endif
+%}
+
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
 <section
   class="section section--full-width color-{{ section.settings.color_scheme }} trg-section trg-home-hero trg-home-hero--{{ section.settings.layout_preset }}{% if section.settings.fill_viewport %} trg-home-hero--viewport{% endif %}"
@@ -31,7 +50,7 @@
               class="trg-hero-btn trg-hero-btn--{{ section.settings.secondary_style }}"
               href="{{ section.settings.secondary_link | default: '#' }}"
             >
-              {{ section.settings.secondary_label | escape }}
+              {{ secondary_cta_label | escape }}
             </a>
           {% endif %}
         </div>
@@ -159,7 +178,7 @@
       "type": "text",
       "id": "eyebrow",
       "label": "Eyebrow",
-      "default": "Menswear Directory"
+      "default": "Curated Menswear Directory"
     },
     {
       "type": "richtext",

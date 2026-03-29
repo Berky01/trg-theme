@@ -17,10 +17,28 @@
 >
 
 {%- liquid
+  assign rendered_page_title = page_title
   assign og_title = page_title | default: shop.name
   assign og_url = canonical_url | default: request.origin
   assign og_type = 'website'
   assign og_description = page_description | default: shop.description | default: shop.name
+
+  if request.page_type == 'search' and search.performed and search.terms != blank
+    assign search_products = search.results | where: 'object_type', 'product'
+    assign search_product_count = search_products | size
+
+    capture rendered_page_title
+      if search_product_count > 0
+        echo 'Search products for "'
+      else
+        echo 'No products found for "'
+      endif
+      echo search.terms | escape
+      echo '"'
+    endcapture
+
+    assign og_title = rendered_page_title
+  endif
 
   if request.page_type == 'product'
     assign og_type = 'product'
@@ -102,10 +120,10 @@
 >
 
 <title>
-  {{ page_title }}
+  {{ rendered_page_title }}
   {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
   {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
-  {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+  {%- unless rendered_page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
 </title>
 
 <link
@@ -113,45 +131,9 @@
   href="{{ canonical_url }}"
 >
 
-{%- liquid
-  assign meta_desc = page_description
-  if meta_desc == blank and request.page_type == 'collection' and collection.handle != blank
-    assign brand_mo = shop.metaobjects.brand[collection.handle]
-    if brand_mo != blank
-      assign b_name = brand_mo.name.value | default: collection.title
-      assign b_cat = brand_mo.primary_category.value
-      assign b_price = brand_mo.price_range.value
-      assign b_made = brand_mo.made_in.value
-      assign meta_parts = ''
-      if b_cat != blank
-        assign meta_parts = meta_parts | append: b_cat
-      endif
-      if b_price != blank
-        if meta_parts != ''
-          assign meta_parts = meta_parts | append: ' | '
-        endif
-        assign meta_parts = meta_parts | append: b_price
-      endif
-      if b_made != blank
-        if meta_parts != ''
-          assign meta_parts = meta_parts | append: ' | Made in '
-        else
-          assign meta_parts = meta_parts | append: 'Made in '
-        endif
-        assign meta_parts = meta_parts | append: b_made
-      endif
-      if meta_parts != ''
-        assign meta_desc = 'Shop ' | append: b_name | append: ' on The Right Garment. ' | append: meta_parts | append: '.'
-      else
-        assign meta_desc = 'Shop ' | append: b_name | append: ' on The Right Garment. Discover the full collection and find out where to buy.'
-      endif
-    endif
-  endif
-  if meta_desc == blank
-    assign meta_desc = shop.description | default: shop.name
-  endif
--%}
-<meta
-  name="description"
-  content="{{ meta_desc | escape }}"
->
+{% if page_description %}
+  <meta
+    name="description"
+    content="{{ page_description | escape }}"
+  >
+{% endif %}

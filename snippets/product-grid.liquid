@@ -19,6 +19,22 @@
   if section.settings.trg_plp_shell_max_width != blank
     assign trg_plp_mode = true
   endif
+  assign live_catalog = collections['all']
+  assign live_catalog_count = 0
+  assign live_catalog_label = 'Browse live products'
+  if live_catalog != blank
+    assign live_catalog_count = live_catalog.all_products_count | default: live_catalog.products_count
+  endif
+  if live_catalog_count > 0
+    capture live_catalog_label
+      echo 'Browse '
+      echo live_catalog_count
+      echo ' live product'
+      unless live_catalog_count == 1
+        echo 's'
+      endunless
+    endcapture
+  endif
 %}
 
 {% style %}
@@ -102,30 +118,68 @@
     --grid-column--mobile: var(--{% if section.settings.full_width_on_mobile %}full-width{% else %}{% if section.settings.product_grid_width == 'centered' %}centered{% else %}full-width{% endif %}{% endif %});
     --padding-inline-start: {{ section.settings.padding-inline-start }}px;
     --padding-inline-end: {{ section.settings.padding-inline-end }}px;
-  "
->
-  <div
-    style="
-      grid-column: var(--full-width);
+    "
+  >
+    <div
+      style="
+        grid-column: var(--full-width);
       --product-grid-gap-mobile: {{ section.settings.columns_gap_vertical | at_most: 12 }}px {{ section.settings.columns_gap_horizontal | at_most: 12 }}px;
       --product-grid-gap-desktop: {{ section.settings.columns_gap_vertical }}px {{ section.settings.columns_gap_horizontal }}px;
       container-type: inline-size;
       container-name: product-grid;
     "
-  >
-    {% if products.size == 0 %}
-      <div class="main-collection-grid__empty">
-        <h2 class="main-collection-grid__empty-title h2">
-          {{ 'content.no_products_found' | t }}
-        </h2>
-        <p>
-          {{ 'content.use_fewer_filters_html' | t: link: collection.url, class: 'main-collection-grid__empty-link' }}
-        </p>
-      </div>
-    {% else %}
-      {% if enable_infinite_scroll %}
-        <span ref="viewMorePrevious"></span>
-      {% endif %}
+    >
+      {% if products.size == 0 %}
+        <div class="main-collection-grid__empty">
+          {% if request.page_type == 'search' and search.performed %}
+            <h2 class="main-collection-grid__empty-title h2">
+              No products matched "{{ search.terms | escape }}"
+            </h2>
+            <p>
+              The storefront is currently showing {{ live_catalog_count }} live Shopify product{% unless live_catalog_count == 1 %}s{% endunless %} while the broader catalog is still being staged.
+            </p>
+            {% if search.results_count > 0 %}
+              <p class="main-collection-grid__empty-note">
+                We found related site results for this search, but there are no published product cards to show yet.
+              </p>
+            {% endif %}
+            <div class="main-collection-grid__empty-actions">
+              <a href="{{ routes.all_products_collection_url }}" class="main-collection-grid__empty-button">{{ live_catalog_label }}</a>
+              <a href="/pages/brands" class="main-collection-grid__empty-link">Open brand directory</a>
+            </div>
+          {% elsif request.page_type == 'collection' and collection.all_products_count == 0 %}
+            {% if collection.metafields.trg.brand.value %}
+              <h2 class="main-collection-grid__empty-title h2">
+                No Shopify products are published for {{ collection.title }}
+              </h2>
+              <p>
+                This brand page is live, but the product catalog is still being staged. Use the brand shop link above or keep browsing while imports are limited.
+              </p>
+            {% else %}
+              <h2 class="main-collection-grid__empty-title h2">
+                This collection is staged, but products are not live yet
+              </h2>
+              <p>
+                Only {{ live_catalog_count }} live Shopify product{% unless live_catalog_count == 1 %}s{% endunless %} are currently available while the broader catalog is being loaded.
+              </p>
+            {% endif %}
+            <div class="main-collection-grid__empty-actions">
+              <a href="{{ routes.all_products_collection_url }}" class="main-collection-grid__empty-button">{{ live_catalog_label }}</a>
+              <a href="/pages/brands" class="main-collection-grid__empty-link">Browse brands instead</a>
+            </div>
+          {% else %}
+            <h2 class="main-collection-grid__empty-title h2">
+              {{ 'content.no_products_found' | t }}
+            </h2>
+            <p>
+              {{ 'content.use_fewer_filters_html' | t: link: collection.url, class: 'main-collection-grid__empty-link' }}
+            </p>
+          {% endif %}
+        </div>
+      {% else %}
+        {% if enable_infinite_scroll %}
+          <span ref="viewMorePrevious"></span>
+        {% endif %}
 
       {% if title %}
         <h4 class="main-collection-grid__title">{{ title }}</h4>
@@ -175,7 +229,6 @@
       {% if trg_plp_mode and enable_infinite_scroll == false %}
         {% assign visible_count = paginate.current_offset | plus: products.size %}
         {% assign progress_percentage = visible_count | times: 100.0 | divided_by: paginate.items %}
-        {% if paginate.pages > 1 %}
         <div
           class="trg-plp-progress-zone"
           data-trg-load-more-zone
@@ -204,7 +257,6 @@
             </a>
           {% endif %}
         </div>
-        {% endif %}
       {% elsif enable_infinite_scroll != false %}
         <span ref="viewMoreNext"></span>
       {% else %}
@@ -263,5 +315,62 @@
 
   .main-collection-grid__empty-title {
     margin: 0;
+  }
+
+  .main-collection-grid__empty p {
+    margin: 0;
+    max-width: 42rem;
+  }
+
+  .main-collection-grid__empty-note {
+    color: rgb(var(--color-foreground-rgb) / 0.68);
+  }
+
+  .main-collection-grid__empty-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+  }
+
+  .main-collection-grid__empty-button,
+  .main-collection-grid__empty-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.75rem;
+    padding: 0.7rem 1rem;
+    border-radius: 3px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  .main-collection-grid__empty-button {
+    background: rgb(var(--color-button) / 1);
+    border: 1px solid rgb(var(--color-button) / 1);
+    color: rgb(var(--color-button-text));
+  }
+
+  .main-collection-grid__empty-link {
+    border: 1px solid rgb(var(--color-border-rgb) / 0.5);
+    color: rgb(var(--color-foreground));
+  }
+
+  @media screen and (max-width: 749px) {
+    .main-collection-grid__empty-actions {
+      width: 100%;
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .main-collection-grid__empty-button,
+    .main-collection-grid__empty-link {
+      width: 100%;
+    }
   }
 {% endstylesheet %}
