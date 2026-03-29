@@ -72,8 +72,8 @@
         "stat_1": {
           "type": "stat",
           "settings": {
-            "value": "418",
-            "suffix": "",
+            "value": "400",
+            "suffix": "+",
             "label": "Brands tracked"
           }
         },
@@ -174,7 +174,7 @@
           "type": "item",
           "settings": {
             "icon": "⌖",
-            "text": "418 brands tracked"
+            "text": "400+ brands tracked"
           }
         },
         "item_2": {

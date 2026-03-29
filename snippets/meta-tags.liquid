@@ -17,12 +17,18 @@
 >
 
 {%- liquid
+  assign default_site_description = 'A curated menswear directory for quality-conscious buyers, organized by style, price, and origin with editorial review and affiliate transparency.'
   assign rendered_page_title = page_title
   assign og_title = page_title | default: shop.name
   assign og_url = canonical_url | default: request.origin
   assign og_type = 'website'
   assign meta_description_content = page_description
-  assign og_description = meta_description_content | default: shop.description | default: shop.name
+  assign og_description = meta_description_content | default: default_site_description | default: shop.name
+
+  if request.page_type == 'index'
+    assign rendered_page_title = 'Curated Menswear Directory'
+    assign og_title = rendered_page_title
+  endif
 
   if request.page_type == 'search' and search.performed and search.terms != blank
     assign search_products = search.results | where: 'object_type', 'product'
