@@ -1,9 +1,9 @@
 /* TRG Product PLP — single source of truth — 2026-03-23 */
-/* :not(#_) boosts specificity to beat stale inline ghost styles */
+/* Specificity note: trg-theme-overrides.css (#MainContent prefix) takes priority on collection pages */
 
 /* ════ LAYOUT ════ */
 @media (min-width:990px) {
-  .trg-plp-body .collection-wrapper:not(#_) {
+  .trg-plp-body .collection-wrapper {
     display: grid !important;
     grid-template-columns: 196px minmax(0, 1fr) !important;
     gap: 1.25rem !important;
@@ -11,17 +11,17 @@
     padding: 0 var(--page-margin, 40px) !important;
     position: relative;
   }
-  .trg-plp-body .collection-wrapper:not(#_) > .trg-plp-sidebar-column,
-  .trg-plp-body .collection-wrapper:not(#_) > .facets-block-wrapper--vertical:not(dialog-component) {
+  .trg-plp-body .collection-wrapper > .trg-plp-sidebar-column,
+  .trg-plp-body .collection-wrapper > .facets-block-wrapper--vertical:not(dialog-component) {
     grid-column: 1 !important;
     grid-row: 1 !important;
     min-width: 0;
   }
-  .trg-plp-body .collection-wrapper:not(#_) > .trg-plp-sidebar-column {
+  .trg-plp-body .collection-wrapper > .trg-plp-sidebar-column {
     display: block !important;
   }
-  .trg-plp-body .collection-wrapper:not(#_) > .trg-plp-sidebar-column > .facets-block-wrapper--vertical:not(dialog-component),
-  .trg-plp-body .collection-wrapper:not(#_) > .facets-block-wrapper--vertical:not(dialog-component) {
+  .trg-plp-body .collection-wrapper > .trg-plp-sidebar-column > .facets-block-wrapper--vertical:not(dialog-component),
+  .trg-plp-body .collection-wrapper > .facets-block-wrapper--vertical:not(dialog-component) {
     width: 196px !important;
     position: sticky;
     top: calc(var(--header-group-height, 56px) + 10px);
@@ -32,43 +32,43 @@
     scrollbar-color: #ddd8cf transparent;
     align-self: start;
   }
-  .trg-plp-body .collection-wrapper:not(#_) > .trg-plp-main-column {
+  .trg-plp-body .collection-wrapper > .trg-plp-main-column {
     grid-column: 2 !important;
     grid-row: 1 !important;
     min-width: 0;
     display: flex !important;
     flex-direction: column !important;
   }
-  .trg-plp-body .collection-wrapper:not(#_) > .trg-plp-main-column > .trg-collection-controls {
+  .trg-plp-body .collection-wrapper > .trg-plp-main-column > .trg-collection-controls {
     position: static !important;
     inset: auto !important;
     width: 100% !important;
     z-index: 5 !important;
     margin: 0 0 10px !important;
   }
-  .trg-plp-body .collection-wrapper:not(#_) > .trg-plp-main-column > .main-collection-grid {
+  .trg-plp-body .collection-wrapper > .trg-plp-main-column > .main-collection-grid {
     min-width: 0;
     padding-top: 0 !important;
     margin: 0 !important;
   }
-  .trg-plp-body .collection-wrapper:not(#_) > .facets-toggle,
-  .trg-plp-body .collection-wrapper:not(#_) > .facets-mobile-wrapper,
-  .trg-plp-body .collection-wrapper:not(#_) > dialog-component,
-  .trg-plp-body .collection-wrapper:not(#_) > script,
-  .trg-plp-body .collection-wrapper:not(#_) > style {
+  .trg-plp-body .collection-wrapper > .facets-toggle,
+  .trg-plp-body .collection-wrapper > .facets-mobile-wrapper,
+  .trg-plp-body .collection-wrapper > dialog-component,
+  .trg-plp-body .collection-wrapper > script,
+  .trg-plp-body .collection-wrapper > style {
     display: none !important;
   }
 }
 
 /* Filters hidden state */
-body.filters-hidden .trg-plp-body .collection-wrapper:not(#_) {
+body.filters-hidden .trg-plp-body .collection-wrapper {
   grid-template-columns: minmax(0, 1fr) !important;
 }
-body.filters-hidden .trg-plp-body .collection-wrapper:not(#_) > .trg-plp-sidebar-column,
-body.filters-hidden .trg-plp-body .collection-wrapper:not(#_) > .facets-block-wrapper--vertical {
+body.filters-hidden .trg-plp-body .collection-wrapper > .trg-plp-sidebar-column,
+body.filters-hidden .trg-plp-body .collection-wrapper > .facets-block-wrapper--vertical {
   display: none !important;
 }
-body.filters-hidden .trg-plp-body .collection-wrapper:not(#_) > .trg-plp-main-column {
+body.filters-hidden .trg-plp-body .collection-wrapper > .trg-plp-main-column {
   grid-column: 1 / -1 !important;
 }
 
@@ -191,13 +191,13 @@ body.filters-hidden .trg-plp-body .trg-plp-show-filters-btn { display: flex !imp
   border-bottom: 0 !important;
 }
 .trg-plp-body .trg-facets-sidebar-title {
-  font-size: 0.66rem !important; font-weight: 500 !important;
-  letter-spacing: 0.14em !important; text-transform: uppercase !important;
-  color: #8a8478 !important; margin: 0 !important; line-height: 1 !important;
+  font-size: 0.66rem; font-weight: 500;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: #8a8478; margin: 0; line-height: 1;
 }
 .trg-plp-body .trg-facets-sidebar-clear-button {
-  font-size: 0.75rem !important; color: #c4562a !important;
-  background: none !important; border: none !important; padding: 0 !important;
+  font-size: 0.75rem; color: #c4562a;
+  background: none; border: none; padding: 0;
   opacity: 0; transition: opacity 0.2s;
 }
 .trg-plp-body .trg-facets-sidebar-clear--active .trg-facets-sidebar-clear-button { opacity: 1; }
@@ -368,17 +368,17 @@ body.filters-hidden .trg-plp-body .trg-plp-show-filters-btn { display: flex !imp
 }
 .trg-plp-body .group-block__media-wrapper { display: none !important; }
 .trg-plp-body .trg-plp-card-brand {
-  font-size: 0.58rem !important; font-weight: 500 !important;
-  letter-spacing: 0.1em !important; text-transform: uppercase !important;
-  color: #8e877d !important; margin-bottom: 0.18rem !important; order: -1 !important;
+  font-size: 0.58rem; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: #8e877d; margin-bottom: 0.18rem; order: -1;
 }
 .trg-plp-body .trg-plp-card-brand a {
-  color: inherit !important;
-  text-decoration: none !important;
-  transition: color 0.15s !important;
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.15s;
 }
 .trg-plp-body .trg-plp-card-brand a:hover {
-  color: var(--trg-plp-accent-color, #c4562a) !important;
+  color: var(--trg-plp-accent-color, #c4562a);
 }
 .trg-plp-body .group-block-content > a.contents.user-select-text { order: 0 !important; }
 .trg-plp-body .group-block-content > a.contents.user-select-text .text-block p {
@@ -388,9 +388,9 @@ body.filters-hidden .trg-plp-body .trg-plp-show-filters-btn { display: flex !imp
   margin-bottom: 0.15rem !important;
 }
 .trg-plp-body .trg-plp-card-material {
-  order: 1 !important; margin-top: 0 !important;
-  font-size: 0.65rem !important; font-weight: 300 !important;
-  color: #8e877d !important;
+  order: 1; margin-top: 0;
+  font-size: 0.65rem; font-weight: 300;
+  color: #8e877d;
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 .trg-plp-body .group-block-content > product-price {
@@ -431,7 +431,7 @@ body.filters-hidden .trg-plp-body .trg-plp-show-filters-btn { display: flex !imp
   }
 
   .trg-plp-body .trg-plp-card-brand {
-    font-size: 0.56rem !important;
+    font-size: 0.56rem;
   }
 
   .trg-plp-body .group-block-content > a.contents.user-select-text .text-block p {
@@ -440,7 +440,7 @@ body.filters-hidden .trg-plp-body .trg-plp-show-filters-btn { display: flex !imp
   }
 
   .trg-plp-body .trg-plp-card-material {
-    font-size: 0.6rem !important;
+    font-size: 0.6rem;
   }
 
   .trg-plp-body .group-block-content > product-price .price {
