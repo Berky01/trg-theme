@@ -94,7 +94,14 @@
             {% for block in stats %}
               {% assign stat_value = block.settings.value %}
               {% assign stat_suffix = block.settings.suffix %}
-              {% if block.settings.use_dynamic_brand_count and dynamic_brand_count != blank and dynamic_brand_count > 0 %}
+              {% assign stat_label_downcase = block.settings.label | downcase %}
+              {% assign use_dynamic_brand_count = false %}
+              {% if block.settings.use_dynamic_brand_count %}
+                {% assign use_dynamic_brand_count = true %}
+              {% elsif stat_label_downcase contains 'brand' %}
+                {% assign use_dynamic_brand_count = true %}
+              {% endif %}
+              {% if dynamic_brand_count != blank and dynamic_brand_count > 0 and use_dynamic_brand_count %}
                 {% assign stat_value = dynamic_brand_count %}
               {% endif %}
 
