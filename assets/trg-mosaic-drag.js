@@ -49,7 +49,9 @@
   `;
   document.head.appendChild(style);
 
-  let activeCard = null;
+  /* ── State ── */
+  let activeCard  = null;   // card currently being dragged
+  let hoveredCard = null;   // card under cursor right now
 
   /* ── Helpers ── */
   function applyFocal(card, x, y) {
@@ -89,52 +91,65 @@
     setTimeout(function () { if (toast.parentNode) toast.remove(); }, 2500);
   }
 
+  function finishDrag() {
+    if (!activeCard) return;
+    const card = activeCard;
+    activeCard = null;
+    card.classList.remove('trg-dragging');
+    const { x, y } = getFocal(card);
+    const blockId = card.dataset.blockId;
+    if (blockId) save(blockId, x, y);
+    showToast(card, x, y);
+  }
+
   /* ── Per-card init ── */
   function initCard(card) {
     if (card.dataset.dragInit) return;
     card.dataset.dragInit = '1';
 
     const blockId = card.dataset.blockId;
-
-    // Restore saved focal from last session
     const saved = blockId ? load(blockId) : null;
     if (saved) applyFocal(card, saved.x, saved.y);
 
-    // Crosshair marker
     const ch = document.createElement('div');
     ch.className = 'trg-mosaic-drag__crosshair';
     const { x, y } = getFocal(card);
     ch.style.left = x + '%';
     ch.style.top = y + '%';
     card.appendChild(ch);
-
-    card.addEventListener('mousedown', function (e) {
-      if (e.button !== 0) return;
-      e.preventDefault();
-      activeCard = card;
-      card.classList.add('trg-dragging');
-    });
   }
 
-  /* ── Global mouse tracking (single listener for all cards) ── */
+  /* ── Global tracking — no mousedown needed ── */
+
+  // Track which card the cursor is over
+  document.addEventListener('mouseover', function (e) {
+    hoveredCard = e.target.closest('.trg-mosaic__item[data-block-id]') || null;
+  });
+
   document.addEventListener('mousemove', function (e) {
-    if (!activeCard) return;
+    // Left button not held — end any drag in progress
+    if (e.buttons !== 1) {
+      if (activeCard) finishDrag();
+      return;
+    }
+
+    // Button held but no active drag yet — start one from hovered card
+    if (!activeCard) {
+      if (!hoveredCard) return;
+      activeCard = hoveredCard;
+      activeCard.classList.add('trg-dragging');
+    }
+
+    // Update focal point
     const rect = activeCard.getBoundingClientRect();
     const x = Math.round(Math.max(0, Math.min(100, (e.clientX - rect.left)  / rect.width  * 100)));
     const y = Math.round(Math.max(0, Math.min(100, (e.clientY - rect.top)   / rect.height * 100)));
     applyFocal(activeCard, x, y);
   });
 
+  // Belt-and-suspenders: also finish on mouseup
   document.addEventListener('mouseup', function () {
-    if (!activeCard) return;
-    const card = activeCard;
-    activeCard = null;
-    card.classList.remove('trg-dragging');
-
-    const { x, y } = getFocal(card);
-    const blockId = card.dataset.blockId;
-    if (blockId) save(blockId, x, y);
-    showToast(card, x, y);
+    if (activeCard) finishDrag();
   });
 
   /* ── Init on load + editor re-renders ── */
