@@ -69,28 +69,28 @@
     "trg_home_hero": {
       "type": "trg-home-hero",
       "blocks": {
-        "stat_1": {
-          "type": "stat",
-          "settings": {
-            "value": "473",
-            "suffix": "+",
-            "label": "Brands curated"
-          }
-        },
-  "stat_2": {
-    "type": "stat",
-    "settings": {
-      "value": "All in one",
-      "suffix": "",
-      "label": "Place"
-    }
-  },
-        "stat_3": {
-          "type": "stat",
-          "settings": {
-            "value": "Daily",
-            "suffix": "",
-            "label": "Updates"
+    "stat_brands_20260330": {
+      "type": "stat",
+      "settings": {
+        "value": "473",
+        "suffix": "+",
+        "label": "Brands curated"
+      }
+    },
+    "stat_allinone_20260330": {
+      "type": "stat",
+      "settings": {
+        "value": "All in one",
+        "suffix": "",
+        "label": "Place"
+      }
+    },
+    "stat_daily_20260330": {
+      "type": "stat",
+      "settings": {
+        "value": "Daily",
+        "suffix": "",
+        "label": "Updates"
           }
         },
         "mosaic_1": {
@@ -155,11 +155,11 @@
           }
         }
       },
-      "block_order": [
-        "stat_1",
-        "stat_2",
-        "stat_3",
-        "mosaic_1",
+  "block_order": [
+    "stat_brands_20260330",
+    "stat_allinone_20260330",
+    "stat_daily_20260330",
+    "mosaic_1",
         "mosaic_2",
         "mosaic_3",
         "mosaic_4",
