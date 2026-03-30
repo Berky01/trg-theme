@@ -60,12 +60,43 @@
         window.addEventListener('trg:url-changed', this.handleUrlChange);
         document.addEventListener('shopify:section:load', this.handleUrlChange);
 
+        this.normalizeBrandBanner();
         this.syncSortSelect();
         this.syncDesktopFilterToggle();
         this.renderActiveTags();
         this.applySearch();
         this.syncWishlistState();
         this.updateBackToTop();
+      }
+
+      normalizeBrandBanner() {
+        const mainColumn = this.root.querySelector('.trg-plp-main-column');
+        if (!(mainColumn instanceof HTMLElement)) return;
+
+        const currentBanner = mainColumn.querySelector('.trg-bch');
+        if (currentBanner instanceof HTMLElement) {
+          currentBanner.classList.add('trg-bch--inline');
+        }
+
+        const externalBanner = Array.from(document.querySelectorAll('.trg-bch')).find((banner) => !mainColumn.contains(banner));
+        if (!(externalBanner instanceof HTMLElement)) return;
+
+        const externalSection = externalBanner.closest('.trg-bch-section, [id^="shopify-section-"]');
+        const controls = mainColumn.querySelector('.trg-collection-controls');
+
+        if (!(currentBanner instanceof HTMLElement)) {
+          externalBanner.classList.add('trg-bch--inline');
+          if (controls instanceof HTMLElement) {
+            mainColumn.insertBefore(externalBanner, controls);
+          } else {
+            mainColumn.insertBefore(externalBanner, mainColumn.firstChild);
+          }
+        } else {
+          externalSection?.remove();
+          return;
+        }
+
+        externalSection?.remove();
       }
 
       installHistoryHooks() {
@@ -217,6 +248,7 @@
       scheduleSync() {
         window.clearTimeout(this.syncTimeout);
         this.syncTimeout = window.setTimeout(() => {
+          this.normalizeBrandBanner();
           this.syncSortSelect();
           this.syncDesktopFilterToggle();
           this.renderActiveTags();
