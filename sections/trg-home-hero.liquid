@@ -82,16 +82,32 @@
 
 
         {% assign stats = section.blocks | where: 'type', 'stat' %}
+        {% assign dynamic_brand_count = blank %}
+        {% if shop.metaobjects.brand != blank %}
+          {% assign dynamic_brand_count = shop.metaobjects.brand.values_count %}
+        {% endif %}
 
         {% if stats.size > 0 %}
 
           <div class="trg-home-hero__stats" style="margin-top: 18px;">
 
             {% for block in stats %}
+              {% assign stat_value = block.settings.value %}
+              {% assign stat_suffix = block.settings.suffix %}
+              {% assign stat_label_downcase = block.settings.label | downcase %}
+              {% assign use_dynamic_brand_count = false %}
+              {% if block.settings.use_dynamic_brand_count %}
+                {% assign use_dynamic_brand_count = true %}
+              {% elsif stat_label_downcase contains 'brand' %}
+                {% assign use_dynamic_brand_count = true %}
+              {% endif %}
+              {% if use_dynamic_brand_count and dynamic_brand_count != blank and dynamic_brand_count > 0 %}
+                {% assign stat_value = dynamic_brand_count %}
+              {% endif %}
 
               <div class="trg-stat" {{ block.shopify_attributes }}>
 
-                <p class="trg-stat__value">{{ block.settings.value | escape }}{% if block.settings.suffix != blank %}<em>{{ block.settings.suffix | escape }}</em>{% endif %}</p>
+                <p class="trg-stat__value">{{ stat_value | escape }}{% if stat_suffix != blank %}<em>{{ stat_suffix | escape }}</em>{% endif %}</p>
 
                 <p class="trg-stat__label">{{ block.settings.label | escape }}</p>
 
@@ -124,7 +140,6 @@
               data-size="{{ block.settings.height }}"
 
               data-index="{{ forloop.index }}"
-              data-block-id="{{ block.id }}"
 
               href="{{ block.settings.link | default: '#' }}"
 
@@ -550,6 +565,18 @@
 
           "default": "Brands tracked"
 
+        },
+
+        {
+
+          "type": "checkbox",
+
+          "id": "use_dynamic_brand_count",
+
+          "label": "Use live brand count",
+
+          "default": false
+
         }
 
       ]
@@ -586,7 +613,7 @@
 
           "label": "Meta",
 
-          "default": "Footwear · Victoria, BC"
+          "default": "Footwear Â· Victoria, BC"
 
         },
 
@@ -638,7 +665,7 @@
 
           "id": "focal_x",
 
-          "label": "Focal point X (left → right)",
+          "label": "Focal point X (left â†’ right)",
 
           "min": 0,
 
@@ -658,7 +685,7 @@
 
           "id": "focal_y",
 
-          "label": "Focal point Y (top → bottom)",
+          "label": "Focal point Y (top â†’ bottom)",
 
           "min": 0,
 
