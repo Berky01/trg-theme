@@ -1,4 +1,4 @@
-/* TRG Mega Menu v4.6 — route-map + chip-selection — desktop + mobile */
+/* TRG Mega Menu v4.7 — route-map + chip-selection + breadcrumb-fix */
 (function(){
 'use strict';
 var P={shop:'trg-mm-p-shop',brands:'trg-mm-p-brands'},BK='trg-mm-bk',DK=990;
@@ -71,6 +71,7 @@ function $$(s,r){return(r||document).querySelectorAll(s)}
 
 function init(){
   loadBrands();
+  normalizeBreadcrumbSeparators();
   normalizeShopLinks();
   normalizeShopChips();
   bindShopChips();
@@ -78,6 +79,15 @@ function init(){
   bindTabs();bindSearch();bindBk();bindKb();bindX();bindCC();
   render('all','');
   if(dk())watchChv();
+}
+
+function normalizeBreadcrumbSeparators(){
+  ['.trg-pdp-bc__sep','.trg-breadcrumb__sep'].forEach(function(selector){
+    $$(selector).forEach(function(node){
+      var text=(node.textContent||'').trim();
+      if(text==='â€º'||text==='›'||text==='â€¹')node.textContent='›';
+    });
+  });
 }
 
 function normShopHref(href){
