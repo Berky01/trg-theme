@@ -11,6 +11,13 @@
     assign limited_live_assortment = true
   endif
 
+  assign category_collection = false
+  if request.page_type == 'collection'
+    if collection.metafields.trg.brand.value == blank and collection.handle != 'all'
+      assign category_collection = true
+    endif
+  endif
+
   assign staged_category_collection = false
   if request.page_type == 'collection'
     if collection.metafields.trg.brand.value == blank and collection.handle != 'all' and product_count == 0 and live_catalog_count > 0 and live_catalog_count <= 12
@@ -22,10 +29,21 @@
   if section.settings.title_source == 'collection' and collection.title != blank
     assign heading_html = collection.title
   endif
+  if category_collection
+    assign heading_html = collection.title
+  endif
 
   assign count_label = section.settings.result_label | strip
   if count_label == blank
     assign count_label = 'products'
+  endif
+  assign resolved_count_label = count_label
+  if count_label == 'products'
+    if product_count == 1
+      assign resolved_count_label = 'product'
+    else
+      assign resolved_count_label = 'products'
+    endif
   endif
 
   assign show_product_count = section.settings.show_count
@@ -53,6 +71,10 @@
       endunless
       echo ' or use the brand directory while products are still being published.</p>'
     endcapture
+  endif
+
+  if category_collection and staged_category_collection == false
+    assign intro_body_html = blank
   endif
 
   assign render_supporting_copy = false
@@ -83,7 +105,7 @@
                 {% if limited_live_assortment %}
                   live {% if product_count == 1 %}product{% else %}products{% endif %}
                 {% else %}
-                  {{ count_label }}
+                  {{ resolved_count_label }}
                 {% endif %}
               </p>
             {% endif %}
