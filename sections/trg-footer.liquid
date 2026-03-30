@@ -198,6 +198,9 @@
                         {% if privacy_page != blank %}
                           <li><a href="{{ privacy_page.url }}">{{ privacy_page.title | escape }}</a></li>
                         {% endif %}
+                        {% if tos_page != blank %}
+                          <li><a href="{{ tos_page.url }}">{{ tos_page.title | escape }}</a></li>
+                        {% endif %}
                       </ul>
                     {% endif %}
                   {% endif %}
