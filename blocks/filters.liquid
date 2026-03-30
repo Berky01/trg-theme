@@ -20,6 +20,7 @@
   assign render_mobile_toggle = false
   assign render_drawer = false
   assign hide_empty_brand_filters = false
+  assign hide_small_live_category_filters = false
   assign live_catalog = collections['all']
   assign live_catalog_count = 0
   assign show_new_arrivals_toggle = section.settings.trg_plp_toggle_new
@@ -34,6 +35,10 @@
 
   if request.page_type == 'collection' and collection.metafields.trg.brand.value and collection.all_products_count == 0
     assign hide_empty_brand_filters = true
+  endif
+
+  if request.page_type == 'collection' and collection.metafields.trg.brand.value == blank and collection.handle != 'all' and collection.all_products_count > 0 and collection.all_products_count <= 2 and live_catalog_count > 0 and live_catalog_count <= 12
+    assign hide_small_live_category_filters = true
   endif
 
   case trg_render_mode
@@ -52,7 +57,7 @@
       assign render_drawer = true
   endcase
 
-  if hide_empty_brand_filters
+  if hide_empty_brand_filters or hide_small_live_category_filters
     assign render_assets = false
     assign render_desktop_controls = false
     assign render_sidebar_panel = false

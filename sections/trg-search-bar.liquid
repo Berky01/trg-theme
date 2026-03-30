@@ -12,6 +12,7 @@
   assign show_filter_toggle = false
   assign hide_for_empty_brand_collection = false
   assign hide_for_staged_empty_category_collection = false
+  assign hide_for_small_live_category_collection = false
   assign live_catalog = collections['all']
   assign live_catalog_count = 0
   if live_catalog != blank
@@ -25,8 +26,11 @@
     if collection.metafields.trg.brand.value == blank and collection.handle != 'all' and collection.all_products_count == 0 and live_catalog_count > 0 and live_catalog_count <= 12
       assign hide_for_staged_empty_category_collection = true
     endif
+    if collection.metafields.trg.brand.value == blank and collection.handle != 'all' and collection.all_products_count > 0 and collection.all_products_count <= 2 and live_catalog_count > 0 and live_catalog_count <= 12
+      assign hide_for_small_live_category_collection = true
+    endif
   endif
-  if is_collection_toolbar and section.settings.show_filter_toggle and hide_for_empty_brand_collection == false and hide_for_staged_empty_category_collection == false
+  if is_collection_toolbar and section.settings.show_filter_toggle and hide_for_empty_brand_collection == false and hide_for_staged_empty_category_collection == false and hide_for_small_live_category_collection == false
     assign show_filter_toggle = true
   endif
 %}
@@ -52,7 +56,7 @@
   {% if is_collection_toolbar %}
     data-trg-plp-toolbar
   {% endif %}
-  {% if hide_for_empty_brand_collection or hide_for_staged_empty_category_collection %}
+  {% if hide_for_empty_brand_collection or hide_for_staged_empty_category_collection or hide_for_small_live_category_collection %}
     aria-hidden="true"
     hidden
   {% elsif section.settings.start_hidden %}

@@ -545,12 +545,22 @@
   if collection.metafields.trg.brand.value == blank and collection.handle != 'all' and collection.all_products_count == 0 and live_catalog_count > 0 and live_catalog_count <= 12
     assign trg_staged_empty_category_collection = true
   endif
+
+  assign trg_small_live_category_collection = false
+  if collection.metafields.trg.brand.value == blank and collection.handle != 'all' and collection.all_products_count > 0 and collection.all_products_count <= 2 and live_catalog_count > 0 and live_catalog_count <= 12
+    assign trg_small_live_category_collection = true
+  endif
+
+  assign trg_single_column_category_collection = false
+  if trg_staged_empty_category_collection or trg_small_live_category_collection
+    assign trg_single_column_category_collection = true
+  endif
 %}
 
 {% comment %} We always render this full-width, as the child blocks have width: page/full settings {% endcomment %}
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
 <results-list
-  class="section product-grid-container trg-plp-body{% if trg_empty_brand_collection %} trg-plp-body--empty-brand{% endif %}{% if trg_staged_empty_category_collection %} trg-plp-body--staged-empty-category{% endif %} color-{{ section.settings.color_scheme }}"
+  class="section product-grid-container trg-plp-body{% if trg_empty_brand_collection %} trg-plp-body--empty-brand{% endif %}{% if trg_staged_empty_category_collection %} trg-plp-body--staged-empty-category{% endif %}{% if trg_small_live_category_collection %} trg-plp-body--small-live-category{% endif %} color-{{ section.settings.color_scheme }}"
   style="
     --padding-block-start: {{ section.settings.padding-block-start }}px;
     --padding-block-end: {{ section.settings.padding-block-end }}px;
@@ -579,6 +589,7 @@
   infinite-scroll="{{ section.settings.enable_infinite_scroll }}"
   data-trg-empty-brand-collection="{% if trg_empty_brand_collection %}true{% else %}false{% endif %}"
   data-trg-staged-empty-category-collection="{% if trg_staged_empty_category_collection %}true{% else %}false{% endif %}"
+  data-trg-small-live-category-collection="{% if trg_small_live_category_collection %}true{% else %}false{% endif %}"
 >
   {% render 'skip-to-content-link', href: '#ResultsList', text: 'accessibility.skip_to_results_list' %}
 
@@ -589,10 +600,10 @@
   {% assign current_sort = collection.sort_by | default: collection.default_sort_by %}
 
   <div
-    class="collection-wrapper gap-style{% if section.settings.product_grid_width == 'full-width' %} collection-wrapper--grid-full-width{% endif %}{% if trg_empty_brand_collection %} collection-wrapper--empty-brand{% endif %}{% if trg_staged_empty_category_collection %} collection-wrapper--staged-empty-category{% endif %}"
+    class="collection-wrapper gap-style{% if section.settings.product_grid_width == 'full-width' %} collection-wrapper--grid-full-width{% endif %}{% if trg_empty_brand_collection %} collection-wrapper--empty-brand{% endif %}{% if trg_staged_empty_category_collection %} collection-wrapper--staged-empty-category{% endif %}{% if trg_small_live_category_collection %} collection-wrapper--small-live-category{% endif %}"
   >
     {% if use_trg_split_layout %}
-      {% unless trg_staged_empty_category_collection %}
+      {% unless trg_single_column_category_collection %}
         <div class="trg-plp-sidebar-column">
           {% content_for 'block',
             type: 'filters',
@@ -604,7 +615,7 @@
         </div>
       {% endunless %}
       <div class="trg-plp-main-column">
-        {% unless trg_staged_empty_category_collection %}
+        {% unless trg_single_column_category_collection %}
           {% content_for 'block',
             type: 'filters',
             id: 'filters',
@@ -614,7 +625,7 @@
           %}
         {% endunless %}
     {% else %}
-      {% unless trg_staged_empty_category_collection %}
+      {% unless trg_single_column_category_collection %}
         {% content_for 'block',
           type: 'filters',
           id: 'filters',
@@ -1260,21 +1271,26 @@
   }
 
   .trg-plp-body--empty-brand .collection-wrapper,
-  .trg-plp-body--staged-empty-category .collection-wrapper {
+  .trg-plp-body--staged-empty-category .collection-wrapper,
+  .trg-plp-body--small-live-category .collection-wrapper {
     margin-top: 0 !important;
   }
 
   .trg-plp-body--empty-brand .trg-plp-main-column > .trg-collection-controls,
   .trg-plp-body--staged-empty-category .trg-plp-main-column > .trg-collection-controls,
+  .trg-plp-body--small-live-category .trg-plp-main-column > .trg-collection-controls,
   .trg-plp-body--empty-brand .collection-wrapper > .facets-toggle,
   .trg-plp-body--staged-empty-category .collection-wrapper > .facets-toggle,
+  .trg-plp-body--small-live-category .collection-wrapper > .facets-toggle,
   .trg-plp-body--empty-brand .collection-wrapper > dialog-component#filters-drawer,
-  .trg-plp-body--staged-empty-category .collection-wrapper > dialog-component#filters-drawer {
+  .trg-plp-body--staged-empty-category .collection-wrapper > dialog-component#filters-drawer,
+  .trg-plp-body--small-live-category .collection-wrapper > dialog-component#filters-drawer {
     display: none !important;
   }
 
   .trg-plp-body--empty-brand .main-collection-grid,
-  .trg-plp-body--staged-empty-category .main-collection-grid {
+  .trg-plp-body--staged-empty-category .main-collection-grid,
+  .trg-plp-body--small-live-category .main-collection-grid {
     padding-top: 0 !important;
   }
 
@@ -1300,7 +1316,8 @@
     }
 
     .trg-plp-body--empty-brand .collection-wrapper,
-    .trg-plp-body--staged-empty-category .collection-wrapper {
+    .trg-plp-body--staged-empty-category .collection-wrapper,
+    .trg-plp-body--small-live-category .collection-wrapper {
       grid-template-columns: minmax(0, 1fr) !important;
       margin-top: 0 !important;
     }
@@ -1332,12 +1349,14 @@
   }
 
   .trg-plp-body--empty-brand .trg-plp-sidebar-column,
-  .trg-plp-body--staged-empty-category .trg-plp-sidebar-column {
+  .trg-plp-body--staged-empty-category .trg-plp-sidebar-column,
+  .trg-plp-body--small-live-category .trg-plp-sidebar-column {
     display: none !important;
   }
 
   .trg-plp-body--empty-brand .trg-plp-main-column,
-  .trg-plp-body--staged-empty-category .trg-plp-main-column {
+  .trg-plp-body--staged-empty-category .trg-plp-main-column,
+  .trg-plp-body--small-live-category .trg-plp-main-column {
     grid-column: 1 / -1 !important;
   }
 

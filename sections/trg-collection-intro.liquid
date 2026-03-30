@@ -25,6 +25,13 @@
     endif
   endif
 
+  assign small_live_category_collection = false
+  if request.page_type == 'collection'
+    if collection.metafields.trg.brand.value == blank and collection.handle != 'all' and product_count > 0 and product_count <= 2 and live_catalog_count > 0 and live_catalog_count <= 12
+      assign small_live_category_collection = true
+    endif
+  endif
+
   assign heading_html = section.settings.custom_title
   if section.settings.title_source == 'collection' and collection.title != blank
     assign heading_html = collection.title
@@ -73,7 +80,21 @@
     endcapture
   endif
 
-  if category_collection and staged_category_collection == false
+  if small_live_category_collection
+    assign show_product_count = true
+    assign heading_html = collection.title
+    capture intro_body_html
+      echo '<p>This category currently has '
+      echo product_count
+      echo ' live product'
+      unless product_count == 1
+        echo 's'
+      endunless
+      echo ' while the broader assortment is still being staged.</p>'
+    endcapture
+  endif
+
+  if category_collection and staged_category_collection == false and small_live_category_collection == false
     assign intro_body_html = blank
   endif
 
@@ -102,7 +123,7 @@
             {% if show_product_count %}
               <p class="trg-collection-intro__count">
                 {{ product_count }}
-                {% if limited_live_assortment %}
+                {% if limited_live_assortment or small_live_category_collection %}
                   live {% if product_count == 1 %}product{% else %}products{% endif %}
                 {% else %}
                   {{ resolved_count_label }}

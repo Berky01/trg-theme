@@ -2,6 +2,7 @@ import { mediaQueryLarge, requestIdleCallback, startViewTransition } from '@them
 import PaginatedList from '@theme/paginated-list';
 
 const STAGED_EMPTY_CATEGORY_STYLE_ID = 'trg-staged-empty-category-runtime';
+const SMALL_LIVE_CATEGORY_THRESHOLD = 2;
 
 function ensureStagedEmptyCategoryStyles() {
   if (document.getElementById(STAGED_EMPTY_CATEGORY_STYLE_ID)) return;
@@ -18,6 +19,15 @@ function ensureStagedEmptyCategoryStyles() {
       grid-column: 1 / -1 !important;
     }
 
+    results-list.trg-plp-body--runtime-small-live-category .collection-wrapper {
+      grid-template-columns: minmax(0, 1fr) !important;
+      margin-top: 0 !important;
+    }
+
+    results-list.trg-plp-body--runtime-small-live-category .trg-plp-main-column {
+      grid-column: 1 / -1 !important;
+    }
+
     .trg-plp-body--runtime-staged-empty-category .trg-plp-sidebar-column,
     .trg-plp-body--runtime-staged-empty-category .trg-collection-controls,
     .trg-plp-body--runtime-staged-empty-category .collection-wrapper > dialog-component#filters-drawer,
@@ -25,7 +35,18 @@ function ensureStagedEmptyCategoryStyles() {
       display: none !important;
     }
 
+    .trg-plp-body--runtime-small-live-category .trg-plp-sidebar-column,
+    .trg-plp-body--runtime-small-live-category .trg-collection-controls,
+    .trg-plp-body--runtime-small-live-category .collection-wrapper > dialog-component#filters-drawer,
+    .trg-plp-body--runtime-small-live-category .collection-wrapper > .facets-toggle {
+      display: none !important;
+    }
+
     .trg-plp-body--runtime-staged-empty-category .main-collection-grid {
+      padding-top: 0 !important;
+    }
+
+    .trg-plp-body--runtime-small-live-category .main-collection-grid {
       padding-top: 0 !important;
     }
 
@@ -79,6 +100,7 @@ export default class ResultsList extends PaginatedList {
     mediaQueryLarge.addEventListener('change', this.#handleMediaQueryChange);
     this.#normalizeCategoryIntro();
     this.#normalizeStagedEmptyCategory();
+    this.#normalizeSmallLiveCategory();
     this.setAttribute('initialized', '');
   }
 
@@ -236,6 +258,82 @@ export default class ResultsList extends PaginatedList {
     if (emptyStateParagraph instanceof HTMLElement) {
       emptyStateParagraph.textContent = `Only ${liveCatalogCount} live product${liveCatalogCount === 1 ? '' : 's'} are currently available while the broader catalog is being loaded.`;
     }
+  }
+
+  #normalizeSmallLiveCategory() {
+    const pathname = window.location.pathname || '';
+    const collectionMatch = pathname.match(/^\/collections\/([^/?#]+)/);
+    if (!collectionMatch) return;
+    if (collectionMatch[1] === 'all') return;
+    if (this.dataset.trgEmptyBrandCollection === 'true') return;
+    if (this.dataset.trgStagedEmptyCategoryCollection === 'true') return;
+    if (document.querySelector('.trg-bch, .brand-banner')) return;
+
+    const renderedCount = this.#extractRenderedProductCount();
+    if (!Number.isFinite(renderedCount) || renderedCount < 1 || renderedCount > SMALL_LIVE_CATEGORY_THRESHOLD) return;
+
+    ensureStagedEmptyCategoryStyles();
+    this.classList.add('trg-plp-body--runtime-small-live-category');
+    this.dataset.trgSmallLiveCategoryCollection = 'true';
+
+    const searchSection = document.querySelector('[data-trg-search-bar]')?.closest('.shopify-section');
+    if (searchSection instanceof HTMLElement) {
+      searchSection.hidden = true;
+    }
+
+    const intro = document.querySelector('.trg-collection-intro');
+    if (!(intro instanceof HTMLElement)) return;
+
+    intro.classList.add('trg-collection-intro--runtime-staged');
+
+    const title = intro.querySelector('.trg-collection-intro__title');
+    if (title instanceof HTMLElement && /find the right piece/i.test(title.textContent || '')) {
+      const titleParagraph = document.createElement('p');
+      titleParagraph.textContent = humanizeCollectionHandle(collectionMatch[1]);
+      title.replaceChildren(titleParagraph);
+    }
+
+    let support = intro.querySelector('.trg-collection-intro__support');
+    if (!(support instanceof HTMLElement)) {
+      const copy = intro.querySelector('.trg-collection-intro__copy');
+      if (copy instanceof HTMLElement) {
+        support = document.createElement('div');
+        support.className = 'trg-collection-intro__support';
+        copy.append(support);
+      }
+    }
+
+    if (!(support instanceof HTMLElement)) return;
+
+    let body = support.querySelector('.trg-collection-intro__body');
+    if (!(body instanceof HTMLElement)) {
+      body = document.createElement('p');
+      body.className = 'trg-collection-intro__body trg-collection-intro__body--runtime';
+      support.append(body);
+    } else {
+      body.classList.add('trg-collection-intro__body--runtime');
+    }
+
+    if ((body.textContent || '').trim() === '') {
+      body.textContent = `This category currently has ${renderedCount} live product${renderedCount === 1 ? '' : 's'} while the broader assortment is still being staged.`;
+    }
+  }
+
+  #extractRenderedProductCount() {
+    const countSources = [
+      this.querySelector('.products-count-wrapper span'),
+      document.querySelector('.trg-collection-intro__count')
+    ];
+
+    for (const source of countSources) {
+      if (!(source instanceof HTMLElement)) continue;
+      const match = (source.textContent || '').match(/(\d+)/);
+      if (match) {
+        return Number.parseInt(match[1], 10);
+      }
+    }
+
+    return Number.NaN;
   }
 
   #extractLiveCatalogCount(emptyState) {
