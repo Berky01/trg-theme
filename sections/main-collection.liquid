@@ -83,8 +83,41 @@
 
         const externalSection = externalBanner.closest('.trg-bch-section, [id^="shopify-section-"]');
         const controls = mainColumn.querySelector('.trg-collection-controls');
+        const preserveExternalBannerStyles = () => {
+          if (!(externalSection instanceof HTMLElement)) return;
+
+          externalSection.querySelectorAll('link[rel="stylesheet"], style').forEach((node) => {
+            if (!(node instanceof HTMLElement)) return;
+
+            if (node.tagName === 'LINK') {
+              const href = node.getAttribute('href');
+              if (!href) return;
+
+              const alreadyLoaded = Array.from(document.querySelectorAll('link[rel="stylesheet"]')).some(
+                (existing) => existing !== node && existing.getAttribute('href') === href
+              );
+
+              if (!alreadyLoaded) {
+                document.head.appendChild(node.cloneNode(true));
+              }
+              return;
+            }
+
+            const cssText = (node.textContent || '').trim();
+            if (!cssText) return;
+
+            const alreadyLoaded = Array.from(document.querySelectorAll('style')).some(
+              (existing) => existing !== node && (existing.textContent || '').trim() === cssText
+            );
+
+            if (!alreadyLoaded) {
+              document.head.appendChild(node.cloneNode(true));
+            }
+          });
+        };
 
         if (!(currentBanner instanceof HTMLElement)) {
+          preserveExternalBannerStyles();
           externalBanner.classList.add('trg-bch--inline');
           if (controls instanceof HTMLElement) {
             mainColumn.insertBefore(externalBanner, controls);
@@ -92,6 +125,7 @@
             mainColumn.insertBefore(externalBanner, mainColumn.firstChild);
           }
         } else {
+          preserveExternalBannerStyles();
           externalSection?.remove();
           return;
         }
