@@ -80,9 +80,9 @@
   "stat_2": {
     "type": "stat",
     "settings": {
-      "value": "1",
+      "value": "All in one",
       "suffix": "",
-      "label": "Starting point"
+      "label": "Place"
     }
   },
         "stat_3": {
