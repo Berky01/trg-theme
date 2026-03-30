@@ -34,8 +34,8 @@ document.addEventListener('focusin',function(e){
     {% endif %}
 
     {%- render 'meta-tags' -%}
-{%- comment -%}TRG SEO — OG/Twitter (G1), meta description fallback (G2){%- endcomment -%}
-{%- capture _trg_desc -%}{%- if template.name == 'collection' -%}Shop {{ collection.title }} at The Right Garment — curated menswear from 470+ vetted brands.{%- elsif template.name == 'product' -%}{{ product.title }} by {{ product.vendor }}. Discover more at The Right Garment.{%- elsif template.name == 'article' -%}{{ article.title }} — The Right Garment Journal.{%- else -%}The Right Garment — curated menswear brand directory. 470+ brands, vetted and organised.{%- endif -%}{%- endcapture -%}
+{%- comment -%}TRG SEO â€” OG/Twitter (G1), meta description fallback (G2){%- endcomment -%}
+{%- capture _trg_desc -%}{%- if template.name == 'collection' -%}Shop {{ collection.title }} at The Right Garment â€” curated menswear from 470+ vetted brands.{%- elsif template.name == 'product' -%}{{ product.title }} by {{ product.vendor }}. Discover more at The Right Garment.{%- elsif template.name == 'article' -%}{{ article.title }} â€” The Right Garment Journal.{%- else -%}The Right Garment â€” curated menswear brand directory. 470+ brands, vetted and organised.{%- endif -%}{%- endcapture -%}
 {%- assign _trg_meta_desc = page_description | default: _trg_desc | strip | truncate: 160 -%}
 {%- unless page_description -%}<meta name="description" content="{{ _trg_meta_desc | escape }}">{%- endunless -%}
 <meta property="og:site_name" content="The Right Garment">
@@ -71,13 +71,13 @@ document.addEventListener('focusin',function(e){
     {% if template == 'page.colour-guide' %}{{ 'trg-colour-guide.css' | asset_url | stylesheet_tag }}{% endif %}
     {%- if customer or template == 'customers/account' or template == 'customers/login' -%}<script src="{{ 'trg-account.js' | asset_url }}" defer></script>{%- endif -%}
     {%- if template.name == 'collection' or template.name == 'search' -%}<script src="{{ 'trg-plp.js' | asset_url }}" defer></script>{%- endif -%}
-    {%- comment -%}TRG SEO — noindex non-public pages (G8){%- endcomment -%}
+    {%- comment -%}TRG SEO â€” noindex non-public pages (G8){%- endcomment -%}
     {%- if template == 'customers/account' or template == 'customers/login' or template == 'customers/register' or template == 'customers/order' or template == 'customers/addresses' or template == 'page.my-account' or template == 'page.newsletter' or collection.handle == 'brand-test1' -%}<meta name="robots" content="noindex, nofollow">{%- endif -%}
 </head>
 
   <body class="page-width-{{ settings.page_width }} card-hover-effect-{{ settings.card_hover_effect }} trg-card-style-{{ settings.trg_card_style | default: 'outlined' }} trg-reveal-enabled-{{ settings.trg_enable_reveal | default: true }}">
 <script>
-/* TRG geo-region detection Ã¢â‚¬â€� sets body[data-region=CA] for Canadian visitors */
+/* TRG geo-region detection ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬ï¿½ sets body[data-region=CA] for Canadian visitors */
 (function(){
   var r=sessionStorage.getItem('trg_region');
   if(r){if(r==='CA')document.body.dataset.region='CA';return}
@@ -347,14 +347,27 @@ document.addEventListener('focusin',function(e){
 <!-- trg-meta-tags-bust 2026-03-29T20:24:48-04:00 -->
 <!-- trg-seo-cache-bust 2026-03-29T20:30:57-04:00 -->
 <!-- trg-collection-description-bust 2026-03-29T20:33:07-04:00 -->
+
 <!-- TRG-TS:20260329204549 -->
+
 <!-- TRG-TS:20260329205608 -->
+
 <!-- trg-skill-bust 2026-03-29T21:11:35-04:00 -->
+
 <!-- trg-bust 2026-03-29T21:24:23-04:00 -->
+
 <!-- trg-bust 2026-03-29T21:40:59-04:00 -->
+
 <!-- trg-bust 2026-03-29T21:44:17-04:00 -->
+
 <!-- trg-bust 2026-03-29T21:47:09-04:00 -->
+
 <!-- trg-cache-bust 2026-03-30T02:17:51Z -->
+
 <!-- trg-cache-bust 2026-03-30T02:22:32Z -->
+
 <!-- trg-cache-bust 2026-03-30T02:26:05Z -->
+
 <!-- trg-cache-bust 2026-03-30T02:29:47Z -->
+
+<!-- trg-home-ksp-refresh 2026-03-30T16:59:00-04:00 -->
