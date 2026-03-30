@@ -1,8 +1,179 @@
 
+{% style %}
+  .trg-collections-index {
+    display: grid;
+    gap: 2.5rem;
+    color: #1a1a18;
+  }
+
+  .trg-collections-index__header {
+    max-width: 42rem;
+  }
+
+  .trg-collections-index__header h1,
+  .trg-collections-index__section h2 {
+    margin: 0;
+  }
+
+  .trg-collections-index__intro {
+    display: grid;
+    gap: 1.25rem;
+    max-width: 46rem;
+  }
+
+  .trg-collections-index__lede,
+  .trg-collections-index__section-copy {
+    margin: 0;
+    color: #5f594f;
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+
+  .trg-collections-index__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .trg-collections-index__action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 3.25rem;
+    padding: 0.9rem 1.1rem;
+    border: 1px solid #ddd8cf;
+    background: #f5f1eb;
+    color: #1a1a18;
+    text-decoration: none;
+    text-align: center;
+    transition: border-color 120ms ease, background-color 120ms ease, color 120ms ease;
+  }
+
+  .trg-collections-index__action:hover {
+    border-color: #c4562a;
+    background: #fffdf9;
+    color: #c4562a;
+  }
+
+  .trg-collections-index__section {
+    display: grid;
+    gap: 1rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #ddd8cf;
+  }
+
+  .trg-collections-index__cards {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+
+  .trg-collections-index__card {
+    display: grid;
+    gap: 0.8rem;
+    min-height: 8.75rem;
+    padding: 1.1rem;
+    border: 1px solid #ddd8cf;
+    background: #fffdf9;
+    color: #1a1a18;
+    text-decoration: none;
+    transition: border-color 120ms ease, background-color 120ms ease, color 120ms ease;
+  }
+
+  .trg-collections-index__card:hover,
+  .trg-collections-index__index-link:hover {
+    border-color: #c4562a;
+    color: #c4562a;
+  }
+
+  .trg-collections-index__card-title {
+    font-size: 1.02rem;
+    line-height: 1.4;
+  }
+
+  .trg-collections-index__card-meta {
+    margin-top: auto;
+    color: #5f594f;
+    font-size: 0.92rem;
+    line-height: 1.5;
+  }
+
+  .trg-collections-index__index {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 1.5rem;
+  }
+
+  .trg-collections-index__index-link {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.95rem 0;
+    border-bottom: 1px solid #ddd8cf;
+    color: #1a1a18;
+    text-decoration: none;
+    transition: border-color 120ms ease, color 120ms ease;
+  }
+
+  .trg-collections-index__index-link:last-child {
+    border-bottom-color: #ddd8cf;
+  }
+
+  .trg-collections-index__index-meta {
+    flex-shrink: 0;
+    color: #5f594f;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  @media screen and (max-width: 989px) {
+    .trg-collections-index {
+      gap: 2rem;
+    }
+
+    .trg-collections-index__cards {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .trg-collections-index__index {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .trg-collections-index__actions {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .trg-collections-index__card {
+      min-height: auto;
+    }
+
+    .trg-collections-index__index-link {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    .trg-collections-index__index-meta {
+      text-align: left;
+      white-space: normal;
+    }
+  }
+{% endstyle %}
 
 {% liquid
-  assign section_collections = collections
-  assign max_items = 20
+  assign live_catalog = collections['all']
+  assign live_catalog_count = 0
+  if live_catalog != blank
+    assign live_catalog_count = live_catalog.all_products_count
+  endif
+
+  assign featured_handles = 'outerwear,footwear,knitwear,casualwear,denim,formalwear,accessories,workwear' | split: ','
+  assign index_handles = 'accessories,activewear,bags,basics,blazers,boots,bottoms,casualwear,denim,footwear,formalwear,heritage-menswear,japanese-menswear,knitwear,outerwear,sale,smart-casual,workwear' | split: ','
 %}
 
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
@@ -21,43 +192,98 @@
     {% render 'gap-style', value: section.settings.gap %}
   "
 >
-  <div class="section-resource-list__content">
-    {%- content_for 'blocks' -%}
-  </div>
+  <div class="trg-collections-index">
+    <div class="section-resource-list__content trg-collections-index__header">
+      {%- content_for 'blocks' -%}
+    </div>
 
-  {% if section_collections == null %}
-    {% for i in (1..max_items) %}
-      {% assign section_collections = section_collections | append: ', ' %}
-    {% endfor %}
+    <div class="trg-collections-index__intro">
+      <p class="trg-collections-index__lede">
+        Use this page to browse the storefront by category, jump into the brand directory, or go straight to the
+        currently published product assortment while the wider Shopify catalog is still being loaded.
+      </p>
 
-    {% assign section_collections = section_collections | split: ',' %}
-  {% endif %}
-
-  {% capture list_items %}
-    {% for collection in section_collections limit: max_items %}
-      <div class="resource-list__item">
-        {% content_for 'block', type: '_collection-card', id: 'static-collection-card', closest.collection: collection %}
+      <div class="trg-collections-index__actions">
+        <a class="trg-collections-index__action" href="/pages/brands">Browse Brand Directory</a>
+        <a class="trg-collections-index__action" href="/collections/all">
+          {% if live_catalog_count > 0 %}
+            Browse {{ live_catalog_count }} live {% if live_catalog_count == 1 %}product{% else %}products{% endif %}
+          {% else %}
+            Browse Live Products
+          {% endif %}
+        </a>
       </div>
-      {% unless forloop.last %}
-        <!--@list/split-->
-      {% endunless %}
-    {% endfor %}
-  {% endcapture %}
+    </div>
 
-  {% liquid
-    # Create an array from the list items to be used for different layout types
-    assign list_items_array = list_items | strip | split: '<!--@list/split-->'
-  %}
+    {% capture featured_cards %}
+      {% for collection_handle in featured_handles %}
+        {% assign featured_collection = collections[collection_handle] %}
+        {% if featured_collection == blank %}
+          {% continue %}
+        {% endif %}
 
-  {% render 'resource-list',
-    list_items: list_items,
-    list_items_array: list_items_array,
-    settings: section.settings,
-    carousel_ref: 'mainCollectionList',
-    slide_count: max_items,
-    content_type: 'collections',
-    test_id: 'collections-list-grid'
-  %}
+        <a class="trg-collections-index__card" href="{{ featured_collection.url }}">
+          <span class="trg-collections-index__card-title">{{ featured_collection.title }}</span>
+          <span class="trg-collections-index__card-meta">
+            {% if featured_collection.all_products_count > 0 %}
+              {{ featured_collection.all_products_count }}
+              live {% if featured_collection.all_products_count == 1 %}product{% else %}products{% endif %}
+            {% else %}
+              Catalog building
+            {% endif %}
+          </span>
+        </a>
+      {% endfor %}
+    {% endcapture %}
+    {% assign featured_cards_stripped = featured_cards | strip %}
+
+    {% if featured_cards_stripped != blank %}
+      <section class="trg-collections-index__section" aria-labelledby="trg-collections-by-category">
+        <h2 id="trg-collections-by-category">Browse by category</h2>
+        <p class="trg-collections-index__section-copy">
+          These are the clearest shopping paths right now. Some collections are already populated and others are ready
+          for the broader catalog as products are published.
+        </p>
+        <div class="trg-collections-index__cards">
+          {{ featured_cards_stripped }}
+        </div>
+      </section>
+    {% endif %}
+
+    {% capture index_links %}
+      {% for collection_handle in index_handles %}
+        {% assign index_collection = collections[collection_handle] %}
+        {% if index_collection == blank %}
+          {% continue %}
+        {% endif %}
+
+        <a class="trg-collections-index__index-link" href="{{ index_collection.url }}">
+          <span>{{ index_collection.title }}</span>
+          <span class="trg-collections-index__index-meta">
+            {% if index_collection.all_products_count > 0 %}
+              {{ index_collection.all_products_count }}
+              live {% if index_collection.all_products_count == 1 %}product{% else %}products{% endif %}
+            {% else %}
+              Catalog building
+            {% endif %}
+          </span>
+        </a>
+      {% endfor %}
+    {% endcapture %}
+    {% assign index_links_stripped = index_links | strip %}
+
+    {% if index_links_stripped != blank %}
+      <section class="trg-collections-index__section" aria-labelledby="trg-collections-index">
+        <h2 id="trg-collections-index">More collection paths</h2>
+        <p class="trg-collections-index__section-copy">
+          This index keeps the collection layer curated instead of exposing a raw dump of brand and system paths.
+        </p>
+        <div class="trg-collections-index__index">
+          {{ index_links_stripped }}
+        </div>
+      </section>
+    {% endif %}
+  </div>
 </div>
 
 {% schema %}
