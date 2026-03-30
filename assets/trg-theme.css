@@ -325,7 +325,6 @@ body.trg-reveal-enabled-false [data-trg-reveal] {
 
 .trg-home-hero--editorial-dark .trg-home-hero__grid {
   gap: 0;
-  min-height: inherit;
 }
 
 .trg-home-hero--editorial-dark .trg-home-hero__left {
@@ -501,13 +500,26 @@ body.trg-reveal-enabled-false [data-trg-reveal] {
 }
 
 @media screen and (min-width: 990px) {
+  /* Fix black gap: convert min-height to a definite height on desktop so
+     height: 100% propagates through shell → grid → mosaic → fr rows.
+     min-height alone breaks the inheritance chain at .trg-shell. */
+  .trg-home-hero--editorial-dark.trg-home-hero--viewport {
+    height: calc(100vh - var(--header-group-height, 56px));
+    min-height: unset;
+  }
+
+  .trg-home-hero--editorial-dark .trg-shell {
+    height: 100%;
+  }
+
   .trg-home-hero--editorial-dark .trg-home-hero__grid {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    height: 100%;
+    min-height: unset;
   }
 
   /* Option A bento: tall hero left (2 rows), two landscape stacked right.
-     height: 100% anchors fr rows against the stretched grid-cell height,
-     preventing the black gap that appears when only min-height is set. */
+     height: 100% now resolves correctly against the definite grid height. */
   .trg-home-hero--editorial-dark .trg-mosaic {
     grid-template-columns: 1.15fr 1fr;
     grid-template-rows: 1fr 1fr;
