@@ -4,8 +4,8 @@
   /* ── Editor-only styles ── */
   const style = document.createElement('style');
   style.textContent = `
-    .trg-mosaic__item[data-block-id] { cursor: grab; user-select: none; }
-    .trg-mosaic__item[data-block-id].trg-dragging { cursor: grabbing; }
+    .trg-mosaic__item[data-block-id] { cursor: crosshair !important; user-select: none; }
+    .trg-mosaic__item[data-block-id].trg-dragging { cursor: grabbing !important; }
 
     .trg-mosaic-drag__crosshair {
       position: absolute;
@@ -49,9 +49,7 @@
   `;
   document.head.appendChild(style);
 
-  /* ── State ── */
-  let activeCard  = null;   // card currently being dragged
-  let hoveredCard = null;   // card under cursor right now
+  let activeCard = null;
 
   /* ── Helpers ── */
   function applyFocal(card, x, y) {
@@ -68,15 +66,13 @@
     };
   }
 
-  function storageKey(id) { return 'trg-mosaic-focal-' + id; }
-
   function save(blockId, x, y) {
-    try { localStorage.setItem(storageKey(blockId), JSON.stringify({ x, y })); } catch (e) {}
+    try { localStorage.setItem('trg-mosaic-focal-' + blockId, JSON.stringify({ x, y })); } catch (e) {}
   }
 
   function load(blockId) {
     try {
-      const raw = localStorage.getItem(storageKey(blockId));
+      const raw = localStorage.getItem('trg-mosaic-focal-' + blockId);
       return raw ? JSON.parse(raw) : null;
     } catch (e) { return null; }
   }
@@ -102,6 +98,46 @@
     showToast(card, x, y);
   }
 
+  /* ── Geometric hit test — finds card under cursor regardless of overlays ── */
+  function cardAtPoint(cx, cy) {
+    const cards = document.querySelectorAll('.trg-mosaic__item[data-block-id]');
+    for (let i = 0; i < cards.length; i++) {
+      const r = cards[i].getBoundingClientRect();
+      if (cx >= r.left && cx <= r.right && cy >= r.top && cy <= r.bottom) {
+        return cards[i];
+      }
+    }
+    return null;
+  }
+
+  /* ── Capture-phase mousemove — runs before any stopPropagation ── */
+  document.addEventListener('mousemove', function (e) {
+    // Button released — end drag
+    if (e.buttons !== 1) {
+      if (activeCard) finishDrag();
+      return;
+    }
+
+    // Button held but no active drag — start one if cursor is over a card
+    if (!activeCard) {
+      const card = cardAtPoint(e.clientX, e.clientY);
+      if (!card) return;
+      activeCard = card;
+      activeCard.classList.add('trg-dragging');
+    }
+
+    // Update focal
+    const rect = activeCard.getBoundingClientRect();
+    const x = Math.round(Math.max(0, Math.min(100, (e.clientX - rect.left) / rect.width  * 100)));
+    const y = Math.round(Math.max(0, Math.min(100, (e.clientY - rect.top)  / rect.height * 100)));
+    applyFocal(activeCard, x, y);
+
+  }, { capture: true }); // capture phase beats Shopify's overlay handlers
+
+  document.addEventListener('mouseup', function () {
+    if (activeCard) finishDrag();
+  }, { capture: true });
+
   /* ── Per-card init ── */
   function initCard(card) {
     if (card.dataset.dragInit) return;
@@ -119,40 +155,6 @@
     card.appendChild(ch);
   }
 
-  /* ── Global tracking — no mousedown needed ── */
-
-  // Track which card the cursor is over
-  document.addEventListener('mouseover', function (e) {
-    hoveredCard = e.target.closest('.trg-mosaic__item[data-block-id]') || null;
-  });
-
-  document.addEventListener('mousemove', function (e) {
-    // Left button not held — end any drag in progress
-    if (e.buttons !== 1) {
-      if (activeCard) finishDrag();
-      return;
-    }
-
-    // Button held but no active drag yet — start one from hovered card
-    if (!activeCard) {
-      if (!hoveredCard) return;
-      activeCard = hoveredCard;
-      activeCard.classList.add('trg-dragging');
-    }
-
-    // Update focal point
-    const rect = activeCard.getBoundingClientRect();
-    const x = Math.round(Math.max(0, Math.min(100, (e.clientX - rect.left)  / rect.width  * 100)));
-    const y = Math.round(Math.max(0, Math.min(100, (e.clientY - rect.top)   / rect.height * 100)));
-    applyFocal(activeCard, x, y);
-  });
-
-  // Belt-and-suspenders: also finish on mouseup
-  document.addEventListener('mouseup', function () {
-    if (activeCard) finishDrag();
-  });
-
-  /* ── Init on load + editor re-renders ── */
   function initAll() {
     document.querySelectorAll('.trg-mosaic__item[data-block-id]').forEach(initCard);
   }
