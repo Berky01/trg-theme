@@ -78,6 +78,13 @@
         "legal_link_3": {
           "type": "legal_link",
           "settings": {
+            "label": "Terms of Service",
+            "url": "shopify://pages/terms-of-service"
+          }
+        },
+        "legal_link_4": {
+          "type": "legal_link",
+          "settings": {
             "label": "Contact",
             "url": "shopify://pages/contact"
           }
@@ -89,7 +96,8 @@
         "menu_column_3",
         "legal_link_1",
         "legal_link_2",
-        "legal_link_3"
+        "legal_link_3",
+        "legal_link_4"
       ],
       "settings": {
         "color_scheme": "scheme-header-ink",
