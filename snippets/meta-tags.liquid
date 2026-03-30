@@ -96,6 +96,30 @@
     assign og_description = meta_description_content
   endif
 
+  if request.page_type == 'collection' and collection.handle != 'all' and collection.metafields.trg.brand.value == blank and collection.all_products_count > 0
+    assign live_catalog = collections['all']
+    assign live_catalog_count = 0
+
+    if live_catalog != blank
+      assign live_catalog_count = live_catalog.all_products_count
+    endif
+
+    if live_catalog_count > 0 and live_catalog_count <= 12
+      capture meta_description_content
+        echo collection.title
+        echo ' currently has '
+        echo collection.all_products_count
+        if collection.all_products_count == 1
+          echo ' live product published while the broader catalog is still being loaded.'
+        else
+          echo ' live products published while the broader catalog is still being loaded.'
+        endif
+      endcapture
+
+      assign og_description = meta_description_content
+    endif
+  endif
+
   if request.page_type == 'collection' and collection.handle != 'all' and collection.metafields.trg.brand.value == blank and collection.all_products_count == 0
     assign live_catalog = collections['all']
     assign live_catalog_count = 0
