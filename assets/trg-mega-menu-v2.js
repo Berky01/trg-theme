@@ -1,4 +1,4 @@
-/* TRG Mega Menu v4.5 — route-map + chip-selection — desktop + mobile */
+/* TRG Mega Menu v4.6 — route-map + chip-selection — desktop + mobile */
 (function(){
 'use strict';
 var P={shop:'trg-mm-p-shop',brands:'trg-mm-p-brands'},BK='trg-mm-bk',DK=990;
@@ -207,11 +207,18 @@ function setChipState(chip){
 function bindShopChips(){
   if(window.__trgMegaMenuShopChipsBound)return;
   window.__trgMegaMenuShopChipsBound=true;
-  document.addEventListener('click',function(e){
-    var chip=e.target.closest('#trg-mm-p-shop .trg-mm-acs .trg-mm-ac, #trg-mob-tc-shop .trg-mob-chips .trg-mob-chip');
-    if(!chip)return;
-    e.preventDefault();
-    setChipState(chip);
+  [
+    { root: '#trg-mm-p-shop', selector: '.trg-mm-acs .trg-mm-ac' },
+    { root: '#trg-mob-tc-shop', selector: '.trg-mob-chips .trg-mob-chip' }
+  ].forEach(function(binding){
+    var root=document.querySelector(binding.root);
+    if(!root)return;
+    root.addEventListener('click',function(e){
+      var chip=e.target.closest(binding.selector);
+      if(!chip)return;
+      e.preventDefault();
+      setChipState(chip);
+    });
   });
 }
 
