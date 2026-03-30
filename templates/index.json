@@ -74,7 +74,8 @@
           "settings": {
             "value": "473",
             "suffix": "+",
-            "label": "Brands curated"
+            "label": "Brands curated",
+            "use_dynamic_brand_count": false
           }
         },
         "stat_2": {
@@ -82,7 +83,8 @@
           "settings": {
             "value": "1",
             "suffix": "",
-            "label": "Starting point"
+            "label": "Starting point",
+            "use_dynamic_brand_count": false
           }
         },
         "stat_3": {
@@ -90,7 +92,8 @@
           "settings": {
             "value": "Daily",
             "suffix": "",
-            "label": "Updates"
+            "label": "Updates",
+            "use_dynamic_brand_count": false
           }
         },
         "mosaic_2": {
@@ -116,8 +119,8 @@
             "meta": "{{ metaobjects.brand.casatlantic.country.value }}",
             "badge": "",
             "image": "shopify://shop_images/SnapInsta.to_619210603_18070119131437761_2699822703743581036_n.jpg",
-            "zoom": 100,
-            "focal_x": 8,
+            "zoom": 140,
+            "focal_x": 44,
             "focal_y": 6,
             "gradient_start": "#526850",
             "gradient_end": "#1e3a2f",
