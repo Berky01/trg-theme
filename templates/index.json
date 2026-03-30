@@ -80,9 +80,10 @@
         "mosaic_1": {
           "type": "mosaic_card",
           "settings": {
-            "title": "Viberg",
-            "meta": "Footwear · Victoria, BC",
+            "title": "{{ metaobjects.brand[\"septieme-largeur\"].name.value }}",
+            "meta": "{{ metaobjects.brand[\"septieme-largeur\"].country.value }}",
             "badge": "CA",
+            "image": "shopify://shop_images/VIBERG_LR_EMAIL_Tempesti_ServiceBoot_Trio-03.webp",
             "gradient_start": "#3b1d0f",
             "gradient_end": "#552915",
             "height": "normal",
