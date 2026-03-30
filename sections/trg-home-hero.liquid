@@ -128,46 +128,22 @@
               href="{{ block.settings.link | default: '#' }}"
 
               style="
-
-                background: {{ bg }};
-
-                text-decoration: none;
-
                 --card-zoom: {{ block.settings.zoom | divided_by: 100.0 }};
-
                 --card-focal-x: {{ block.settings.focal_x }}%;
-
                 --card-focal-y: {{ block.settings.focal_y }}%;
-
+                text-decoration: none;
+                {% if block.settings.image != blank %}
+                  background-image: url('{{ block.settings.image | image_url: width: 1500 }}');
+                  background-size: calc(var(--card-zoom, 1) * 100%);
+                  background-position: var(--card-focal-x, 50%) var(--card-focal-y, 50%);
+                {% else %}
+                  background: {{ bg }};
+                {% endif %}
               "
 
               {{ block.shopify_attributes }}
 
             >
-
-              {% if block.settings.image != blank %}
-
-                {{
-
-                  block.settings.image
-
-                  | image_url: width: 700
-
-                  | image_tag:
-
-                    loading: 'lazy',
-
-                    widths: '280, 420, 560, 700',
-
-                    sizes: '(min-width: 990px) 260px, 45vw',
-
-                    class: 'trg-mosaic__image',
-
-                    alt: block.settings.title
-
-                }}
-
-              {% endif %}
 
 
 
