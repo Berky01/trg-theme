@@ -356,9 +356,9 @@
           "type": "category",
           "settings": {
             "name": "Shirts & Tops",
-            "count": "82 brands",
+            "count": "Catalog building",
             "colour_tint": "#3464a8",
-            "link": "/collections/shirts-tops",
+            "link": "/collections/shirts",
             "icon": "",
             "count_override": ""
           }
@@ -367,9 +367,9 @@
           "type": "category",
           "settings": {
             "name": "Outerwear & Jackets",
-            "count": "46 brands",
+            "count": "Catalog building",
             "colour_tint": "#7a5028",
-            "link": "/collections/outerwear-jackets",
+            "link": "/collections/outerwear",
             "icon": "",
             "count_override": ""
           }
@@ -378,9 +378,9 @@
           "type": "category",
           "settings": {
             "name": "Trousers & Bottoms",
-            "count": "38 brands",
+            "count": "Catalog building",
             "colour_tint": "#5c4020",
-            "link": "/collections/trousers-bottoms",
+            "link": "/collections/bottoms",
             "icon": "",
             "count_override": ""
           }
@@ -389,7 +389,7 @@
           "type": "category",
           "settings": {
             "name": "Footwear",
-            "count": "14 brands",
+            "count": "Catalog building",
             "colour_tint": "#8b6834",
             "link": "/collections/footwear",
             "icon": "",
@@ -400,7 +400,7 @@
           "type": "category",
           "settings": {
             "name": "Knitwear",
-            "count": "31 brands",
+            "count": "1 live product",
             "colour_tint": "#305838",
             "link": "/collections/knitwear",
             "icon": "",
@@ -411,7 +411,7 @@
           "type": "category",
           "settings": {
             "name": "Denim",
-            "count": "19 brands",
+            "count": "Catalog building",
             "colour_tint": "#2c3e6b",
             "link": "/collections/denim",
             "icon": "",
@@ -422,9 +422,9 @@
           "type": "category",
           "settings": {
             "name": "Suits & Tailoring",
-            "count": "9 brands",
+            "count": "Catalog building",
             "colour_tint": "#282858",
-            "link": "/collections/suits-tailoring",
+            "link": "/collections/tailoring",
             "icon": "",
             "count_override": ""
           }
@@ -433,7 +433,7 @@
           "type": "category",
           "settings": {
             "name": "Accessories",
-            "count": "22 brands",
+            "count": "Catalog building",
             "colour_tint": "#808078",
             "link": "/collections/accessories",
             "icon": "",

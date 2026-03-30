@@ -12,6 +12,13 @@
     %}
 
     <div class="trg-category-grid" style="--trg-category-columns-desktop: {{ section.settings.columns_desktop }};">
+      {% liquid
+        assign live_catalog_count = collections['all'].products_count
+        assign limit_live_category_copy = false
+        if live_catalog_count <= 12
+          assign limit_live_category_copy = true
+        endif
+      %}
       {% for block in section.blocks %}
         {% liquid
           assign selected_collection = block.settings.collection
@@ -26,10 +33,13 @@
           assign card_icon = block.settings.icon
           assign card_tint = block.settings.colour_tint
           assign card_icon_image = blank
+          assign linked_collection = blank
+          assign card_handle = blank
 
           if use_collection_data
             assign card_name = selected_collection.title
             assign card_link = selected_collection.url
+            assign linked_collection = selected_collection
 
             if section.settings.collection_count_mode == 'products'
               assign card_count = selected_collection.products_count | append: ' ' | append: section.settings.collection_count_suffix
@@ -47,6 +57,31 @@
           endif
           if block.settings.link != blank
             assign card_link = block.settings.link
+          endif
+
+          if linked_collection == blank and card_link contains '/collections/'
+            assign card_handle = card_link | split: '/collections/' | last | split: '?' | first | split: '#' | first | handleize
+            if card_handle != blank
+              assign linked_collection = collections[card_handle]
+            endif
+          endif
+
+          if linked_collection != blank
+            assign card_link = linked_collection.url
+
+            if card_name == blank
+              assign card_name = linked_collection.title
+            endif
+
+            if limit_live_category_copy
+              if linked_collection.products_count == 1
+                assign card_count = '1 live product'
+              elsif linked_collection.products_count > 1
+                assign card_count = linked_collection.products_count | append: ' live products'
+              else
+                assign card_count = 'Catalog building'
+              endif
+            endif
           endif
         %}
 
@@ -128,6 +163,7 @@
     box-shadow: 0 4px 20px rgba(26,26,24,0.07);
   }
 
+  /* Colour tint overlay */
   .trg-category-card::before {
     content: '';
     position: absolute;
@@ -208,6 +244,7 @@
     transform: translateX(3px);
   }
 
+  /* Mobile */
   @media screen and (max-width: 749px) {
     .trg-category-card { min-height: 118px; }
     .trg-category-icon { width: 40px; height: 40px; }
@@ -237,13 +274,13 @@
       "type": "richtext",
       "id": "title",
       "label": "Title",
-      "default": "<p>Shop by <em>Category</em></p>"
+      "default": "<p>Browse by <em>Category</em></p>"
     },
     {
       "type": "richtext",
       "id": "body",
       "label": "Body",
-      "default": "<p>From outerwear to footwear, every corner of a quality wardrobe.</p>"
+      "default": "<p>Explore the live category paths while the broader product assortment is still being loaded.</p>"
     },
     {
       "type": "text",
