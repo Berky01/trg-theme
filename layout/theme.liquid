@@ -73,7 +73,7 @@ document.addEventListener('focusin',function(e){
     {%- if template.name == 'collection' or template.name == 'search' -%}<script src="{{ 'trg-plp.js' | asset_url }}" defer></script>{%- endif -%}
     {%- comment -%}TRG SEO â€” noindex non-public pages (G8){%- endcomment -%}
     {%- if template == 'customers/account' or template == 'customers/login' or template == 'customers/register' or template == 'customers/order' or template == 'customers/addresses' or template == 'page.my-account' or template == 'page.newsletter' or collection.handle == 'brand-test1' -%}<meta name="robots" content="noindex, nofollow">{%- endif -%}
-<!-- trg-cache-bust: 1774912759926 -->
+<!-- trg-cache-bust: 1774913066758 -->
 </head>
 
   <body class="page-width-{{ settings.page_width }} card-hover-effect-{{ settings.card_hover_effect }} trg-card-style-{{ settings.trg_card_style | default: 'outlined' }} trg-reveal-enabled-{{ settings.trg_enable_reveal | default: true }}">

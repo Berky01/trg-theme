@@ -562,6 +562,35 @@ body.trg-reveal-enabled-false [data-trg-reveal] {
     padding-inline: clamp(16px, 4vw, 24px);
   }
 
+  /* Stats: keep desktop 3-column layout, scale to fit mobile.
+     Gap tightened, value font reduced so "Daily" doesn't overwhelm,
+     label letter-spacing reduced to prevent column overflow. */
+  .trg-home-hero--editorial-dark .trg-home-hero__stats {
+    gap: 0;
+    margin-top: clamp(20px, 4vw, 28px);
+    padding-top: clamp(14px, 3vw, 20px);
+  }
+
+  .trg-home-hero--editorial-dark .trg-stat {
+    padding-inline-end: 12px;
+  }
+
+  /* Divider between stats via left border on 2nd and 3rd */
+  .trg-home-hero--editorial-dark .trg-stat + .trg-stat {
+    padding-inline-start: 12px;
+    border-left: 1px solid rgb(255 255 255 / 0.1);
+  }
+
+  .trg-home-hero--editorial-dark .trg-stat__value {
+    font-size: clamp(1.1rem, 5vw, 1.4rem);
+  }
+
+  .trg-home-hero--editorial-dark .trg-stat__label {
+    font-size: 0.6rem;
+    letter-spacing: 0.05em;
+    margin-top: 3px;
+  }
+
   /* Bento on mobile: hero stays portrait (tall left, two stacked right).
      height is explicit so fr rows have a definite anchor — no black gap. */
   .trg-home-hero--editorial-dark .trg-mosaic {
@@ -636,6 +665,20 @@ body.trg-reveal-enabled-false [data-trg-reveal] {
   .trg-home-hero--editorial-dark .trg-hero-btn {
     width: 100%;
     justify-content: center;
+  }
+
+  /* Stats tighten further on very small phones */
+  .trg-home-hero--editorial-dark .trg-stat__value {
+    font-size: clamp(1rem, 4.5vw, 1.1rem);
+  }
+
+  .trg-home-hero--editorial-dark .trg-stat__label {
+    font-size: 0.55rem;
+    letter-spacing: 0.04em;
+  }
+
+  .trg-home-hero--editorial-dark .trg-stat + .trg-stat {
+    padding-inline-start: 8px;
   }
 }
 
