@@ -615,24 +615,18 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
    Appended 2026-03-20
    ══════════════════════════════════════════════════ */
 
-/* ─── #10 HIGH: HP Hero stats — safe at 375px ─── */
+/* ─── #10: HP Hero stats — 3-col on mobile matching desktop ─── */
 @media screen and (max-width: 480px) {
   .trg-home-hero__stats {
-    grid-template-columns: 1fr !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 8px;
-  }
-  .trg-stat {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 4px 10px;
-    align-items: baseline;
-    padding-top: 6px;
   }
   .trg-stat__value {
     font-size: 1.1rem;
   }
   .trg-stat__label {
-    font-size: 0.68rem;
+    font-size: 0.64rem;
+    letter-spacing: 0.06em;
   }
 }
 
