@@ -148,7 +148,6 @@
           {% if subcategory_is_staged %}
             <span class="trg-mm-st trg-mm-st--static" {{ block.shopify_attributes }}>
               <span class="trg-mm-sn">{{ st }}</span>
-              <span class="trg-mm-sc trg-mm-sc--staged">Staged</span>
             </span>
           {% else %}
             <a href="{{ su }}" class="trg-mm-st" {{ block.shopify_attributes }}>
@@ -335,7 +334,6 @@
             {% if mobile_subcategory_is_staged %}
               <div class="trg-mob-sub trg-mob-sub--static">
                 <span class="trg-mob-sub-name">{{ mst }}</span>
-                <span class="trg-mob-sub-count">Staged</span>
               </div>
             {% else %}
               <a href="{{ msu }}" class="trg-mob-sub">

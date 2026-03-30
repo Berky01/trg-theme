@@ -216,12 +216,12 @@
 
       const card = (brand) => `
         <article class="trg-bdir__card">
+          <button type="button" class="trg-bdir__wish${state.saved.has(brand.handle) ? ' is-saved' : ''}" data-save="${esc(brand.handle)}" aria-label="Save ${esc(brand.name)}">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5l-1.05-.95C5.2 14.37 2 11.46 2 7.88 2 5.08 4.18 3 6.94 3c1.57 0 3.08.75 4.06 1.93A5.17 5.17 0 0 1 15.06 3C17.82 3 20 5.08 20 7.88c0 3.58-3.2 6.49-8.95 11.67L12 20.5Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+          </button>
           <a class="trg-bdir__carda" href="${esc(brand.url || '#')}">
             <div class="trg-bdir__media">
               ${String(brand.priority || '').toLowerCase() === 'high' ? '<span class="trg-bdir__badgef">Featured</span>' : ''}
-              <button type="button" class="trg-bdir__wish${state.saved.has(brand.handle) ? ' is-saved' : ''}" data-save="${esc(brand.handle)}" aria-label="Save ${esc(brand.name)}">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5l-1.05-.95C5.2 14.37 2 11.46 2 7.88 2 5.08 4.18 3 6.94 3c1.57 0 3.08.75 4.06 1.93A5.17 5.17 0 0 1 15.06 3C17.82 3 20 5.08 20 7.88c0 3.58-3.2 6.49-8.95 11.67L12 20.5Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
-              </button>
               ${brand.logoUrl ? `<img src="${esc(brand.logoUrl)}" alt="${esc(brand.name)}" loading="lazy">` : `<span class="trg-bdir__mono">${esc((brand.name || '').slice(0, 2).toUpperCase())}</span>`}
             </div>
             <div class="trg-bdir__body2">
