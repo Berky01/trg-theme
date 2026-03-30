@@ -445,16 +445,26 @@ body.trg-reveal-enabled-false [data-trg-reveal] {
   min-height: 160px;
   border-radius: 0;
   padding: clamp(12px, 1.5vw, 22px);
-  background-size: cover;
+  background-size: 100%;
   background-position: center;
   background-repeat: no-repeat;
+  transition: background-size 0.6s ease;
+}
+
+.trg-home-hero--editorial-dark .trg-mosaic__item:hover {
+  background-size: 103%;
 }
 
 .trg-home-hero--editorial-dark .trg-mosaic__item::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgb(0 0 0 / 0.74) 0%, rgb(0 0 0 / 0.08) 58%);
+  background: linear-gradient(to top, rgb(0 0 0 / 0.65) 0%, rgb(0 0 0 / 0.08) 40%, transparent 60%);
+  transition: background 0.4s ease;
+}
+
+.trg-home-hero--editorial-dark .trg-mosaic__item:hover::after {
+  background: linear-gradient(to top, rgb(0 0 0 / 0.7) 0%, rgb(0 0 0 / 0.12) 40%, transparent 60%);
 }
 
 .trg-home-hero--editorial-dark .trg-mosaic__item > div {
@@ -495,35 +505,34 @@ body.trg-reveal-enabled-false [data-trg-reveal] {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   }
 
+  /* Option A bento: tall hero left (2 rows), two landscape stacked right */
   .trg-home-hero--editorial-dark .trg-mosaic {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-template-rows: repeat(3, minmax(0, 1fr));
+    grid-template-columns: 1.15fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 3px;
     min-height: inherit;
   }
 
-  .trg-home-hero--editorial-dark .trg-mosaic__item[data-index='1'] {
+  /* Hero (tall) card: left column, spans both rows */
+  .trg-home-hero--editorial-dark .trg-mosaic__item[data-size='tall'] {
     grid-column: 1;
-    grid-row: 1;
+    grid-row: 1 / 3;
   }
 
-  .trg-home-hero--editorial-dark .trg-mosaic__item[data-index='2'] {
+  /* First normal card: top-right */
+  .trg-home-hero--editorial-dark .trg-mosaic__item:not([data-size='tall']):nth-child(-n+2) {
     grid-column: 2;
-    grid-row: 1;
+    grid-row: auto;
   }
 
-  .trg-home-hero--editorial-dark .trg-mosaic__item[data-index='3'] {
-    grid-column: 1;
-    grid-row: 2 / span 2;
+  /* Hide cards beyond the bento 3 on desktop too */
+  .trg-home-hero--editorial-dark .trg-mosaic__item:nth-child(n+4) {
+    display: none;
   }
 
-  .trg-home-hero--editorial-dark .trg-mosaic__item[data-index='4'] {
-    grid-column: 2;
-    grid-row: 2;
-  }
-
-  .trg-home-hero--editorial-dark .trg-mosaic__item[data-index='5'] {
-    grid-column: 2;
-    grid-row: 3;
+  /* Larger title on hero cell */
+  .trg-home-hero--editorial-dark .trg-mosaic__item[data-size='tall'] .trg-mosaic__title {
+    font-size: 1.5rem;
   }
 }
 
