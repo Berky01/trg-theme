@@ -124,6 +124,7 @@
               data-size="{{ block.settings.height }}"
 
               data-index="{{ forloop.index }}"
+              data-block-id="{{ block.id }}"
 
               href="{{ block.settings.link | default: '#' }}"
 
@@ -182,6 +183,10 @@
 </section>
 
 
+
+{% if request.design_mode %}
+  {{ 'trg-mosaic-drag.js' | asset_url | script_tag }}
+{% endif %}
 
 {% schema %}
 
