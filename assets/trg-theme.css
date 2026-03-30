@@ -1185,7 +1185,7 @@ body.trg-reveal-enabled-false [data-trg-reveal] {
 
 .trg-collection-controls .sorting-filter .facets__label {
   margin: 0;
-  color: #8a8478;
+  color: #6a6458;
   font-size: 0.75rem;
   font-weight: 400;
   text-transform: none;
@@ -1199,7 +1199,7 @@ body.trg-reveal-enabled-false [data-trg-reveal] {
 }
 
 .trg-collection-controls .sorting-filter .icon-caret {
-  color: #8a8478;
+  color: #6a6458;
 }
 
 .trg-facets-sidebar-header {
@@ -1212,7 +1212,7 @@ body.trg-reveal-enabled-false [data-trg-reveal] {
 
 .trg-facets-sidebar-title {
   margin: 0;
-  color: #8a8478;
+  color: #6a6458;
   font-size: 0.7rem;
   font-weight: 500;
   letter-spacing: 0.12em;

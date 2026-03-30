@@ -194,7 +194,6 @@ function openMob(){
   el.classList.add('on');el.setAttribute('aria-hidden','false');
   document.body.style.overflow='hidden';
   mobOpen=true;
-  initMobBrands();
 }
 function closeMob(){
   var el=document.getElementById('trg-mob');
@@ -258,7 +257,6 @@ function bindMobTabs(){
       if(tc)tc.classList.add('on');
       var body=document.getElementById('trg-mob-body');
       if(body)body.scrollTop=0;
-      if(tab.dataset.mobTab==='brands')initMobBrands();
     });
   });
 }
@@ -294,142 +292,6 @@ function bindSwipeChips(){
     window.addEventListener('mousemove',function(e){if(!isDrag)return;el.scrollLeft=scrollL-(e.pageX-startX)});
     window.addEventListener('mouseup',function(){if(isDrag){isDrag=false;el.classList.remove('grabbing')}});
   });
-}
-
-/* â”€â”€â”€ BRANDS TAB (HYBRID) â”€â”€â”€ */
-var mobBCat='all',mobBQ='',mobBrandsInited=false;
-
-function initMobBrands(){/* disabled â€” trg-mob-v2.js handles brands */}
-
-function getMobBrands(){
-  /* Reuse desktop brand data */
-  var el=document.getElementById('trg-mm-bd');
-  if(el){try{var d=JSON.parse(el.textContent);if(Array.isArray(d)&&d.length>0)return d}catch(e){}}
-  /* Fallback 1: use desktop brand array (already mapped from FB or JSON) */
-  if(typeof br!=='undefined'&&br.length>0)return br;
-  /* Fallback 2: use the FB hardcoded array */
-  if(typeof FB!=='undefined'&&FB.length>0)return FB;
-  /* Fallback 3: reconstruct from DOM */
-  var links=document.querySelectorAll('#trg-mm-bg .trg-mm-bl');
-  if(links.length>0){
-    return Array.from(links).map(function(a){
-      var h=a.getAttribute('href')||'';
-      var slug=h.replace('/collections/','');
-      return{name:a.textContent,slug:slug,category:''};
-    });
-  }
-  return[];
-}
-
-var _mobBrands=null;
-function mobBrands(){
-  if(!_mobBrands)_mobBrands=getMobBrands();
-  return _mobBrands;
-}
-
-/* Rough priority: brands with shorter names in top categories tend to be higher priority.
-   For a real implementation, add a "priority" field to the brand metaobject.
-   For now, use a hardcoded set of "picks" slugs. */
-var PICKS=new Set(['a-p-c','allen-edmonds','arcteryx','asket','auralee','barbour','belstaff','brooks-brothers',
-'buck-mason','canada-goose','carhartt-wip','carmina','churchs','corridor','crockett-and-jones','drakes',
-'edward-green','engineered-garments','filson','folk','grant-stone','inis-meain','iron-heart','isaia',
-'j-crew','john-lobb','john-smedley','johnstons-of-elgin','kiton','lady-white-co','lemaire',
-'mackintosh','margaret-howell','meermin','momotaro','naked-and-famous','nigel-cabourn','norse-projects',
-'our-legacy','paraboot','patagonia','private-white-vc','pure-blue-japan','red-wing-heritage',
-'ring-jacket','rogue-territory','schott-nyc','sefr','spier-and-mackay','stone-island',
-'studio-nicholson','suitsupply','sunspel','taylor-stitch','the-armoury','todd-snyder',
-'trickers','viberg','william-lockie']);
-
-function isPick(b){return PICKS.has(b.slug)}
-
-function renderMobBrands(){
-  var all=mobBrands().slice();
-  var cat=mobBCat,q=mobBQ;
-  if(cat&&cat!=='all')all=all.filter(function(b){return b.category===cat});
-  if(q)all=all.filter(function(b){return b.name.toLowerCase().indexOf(q)!==-1});
-  all.sort(function(a,b){return a.name.replace(/^[^a-zA-Z]+/,'').localeCompare(b.name.replace(/^[^a-zA-Z]+/,''),'en',{sensitivity:'base'})});
-
-  var picks=all.filter(isPick);
-  var rest=all.filter(function(b){return!isPick(b)});
-  var total=picks.length+rest.length;
-
-  var countEl=document.getElementById('trg-mob-bcount');
-  if(countEl)countEl.innerHTML='<strong>'+total+'</strong> brand'+(total!==1?'s':'');
-
-  var clearEl=document.getElementById('trg-mob-bsx');
-  if(clearEl)clearEl.classList.toggle('on',!!q);
-
-  var picksEl=document.getElementById('trg-mob-bpicks');
-  var restEl=document.getElementById('trg-mob-brest');
-
-  if(!total){
-    if(picksEl)picksEl.innerHTML='';
-    if(restEl)restEl.innerHTML='<div class="trg-mob-bempty">No brands found.</div>';
-    return;
-  }
-
-  /* Picks */
-  if(picksEl){
-    if(picks.length){
-      var ph='<div class="trg-mob-bpicks-lbl">Our Picks</div>';
-      ph+=picks.map(function(b){
-        var d=hl(b.name,q);
-        return'<a href="/collections/'+b.slug+'" class="trg-mob-bpick"><span class="trg-mob-bpick-name">'+d+'</span><span class="trg-mob-bpick-dot"></span></a>';
-      }).join('');
-      picksEl.innerHTML=ph;
-    }else{picksEl.innerHTML=''}
-  }
-
-  /* Rest A-Z */
-  if(restEl){
-    if(rest.length){
-      var rh='<div class="trg-mob-brest-lbl">All Brands</div><div class="trg-mob-brest-list">';
-      var gr={};
-      rest.forEach(function(b){var l=b.name.replace(/^[^a-zA-Z]+/,'').charAt(0).toUpperCase()||'#';if(!gr[l])gr[l]=[];gr[l].push(b)});
-      Object.keys(gr).sort().forEach(function(l){
-        rh+='<div class="trg-mob-lt">'+l+'</div>';
-        gr[l].forEach(function(b){rh+='<a href="/collections/'+b.slug+'" class="trg-mob-bl">'+hl(b.name,q)+'</a>'});
-      });
-      rh+='</div>';
-      restEl.innerHTML=rh;
-    }else{restEl.innerHTML=''}
-  }
-}
-
-function hl(name,q){
-  if(!q)return esc(name);
-  var i=name.toLowerCase().indexOf(q);
-  if(i<0)return esc(name);
-  return esc(name.slice(0,i))+'<mark>'+esc(name.slice(i,i+q.length))+'</mark>'+esc(name.slice(i+q.length));
-}
-function esc(s){var d=document.createElement('div');d.textContent=s;return d.innerHTML}
-
-function bindMobBrandChips(){
-  document.querySelectorAll('#trg-mob-bchips .trg-mob-chip').forEach(function(chip){
-    chip.addEventListener('click',function(){
-      document.querySelectorAll('#trg-mob-bchips .trg-mob-chip').forEach(function(c){c.classList.remove('on')});
-      chip.classList.add('on');
-      mobBCat=chip.dataset.bcat||'all';
-      renderMobBrands();
-      /* Reset scroll */
-      var body=document.getElementById('trg-mob-body');
-      if(body){
-        var tc=document.getElementById('trg-mob-tc-brands');
-        if(tc)tc.scrollTop=0;
-      }
-    });
-  });
-}
-
-function bindMobBrandSearch(){
-  var i=document.getElementById('trg-mob-bi');
-  var x=document.getElementById('trg-mob-bsx');
-  if(i){
-    i.addEventListener('input',function(){mobBQ=i.value.trim().toLowerCase();renderMobBrands()});
-  }
-  if(x){
-    x.addEventListener('click',function(){if(i){i.value='';i.focus()};mobBQ='';renderMobBrands()});
-  }
 }
 
 /* â”€â”€â”€ INIT â”€â”€â”€ */
