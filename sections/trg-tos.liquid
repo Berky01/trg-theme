@@ -1,0 +1,491 @@
+<style>
+  .trg-tos {
+    background: var(--color-background, #f5f1eb);
+    color: var(--color-foreground, #1a1a18);
+  }
+
+  /* ─── TOKENS ─── */
+  .trg-tos {
+    --tos-ink: #1a1a18;
+    --tos-paper: #f5f1eb;
+    --tos-warm-white: #faf8f4;
+    --tos-mid: #8a8478;
+    --tos-accent: #c4562a;
+    --tos-canada: #d4291a;
+    --tos-tag-bg: #ede8e0;
+    --tos-card-bg: #ffffff;
+    --tos-border: #ddd8cf;
+  }
+
+  /* ─── PAGE HEADER ─── */
+  .trg-tos__header {
+    background: var(--tos-warm-white);
+    border-bottom: 1px solid var(--tos-border);
+    padding: 3rem 2rem 2.5rem;
+  }
+  .trg-tos__header-inner {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+  .trg-tos__eyebrow {
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--tos-accent);
+    margin-bottom: 0.75rem;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .trg-tos__title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.4rem;
+    font-weight: 400;
+    color: var(--tos-ink);
+    line-height: 1.15;
+    margin-bottom: 0.75rem;
+  }
+  .trg-tos__subtitle {
+    font-size: 0.88rem;
+    font-weight: 300;
+    color: var(--tos-mid);
+    line-height: 1.6;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .trg-tos__updated {
+    margin-top: 1rem;
+    font-size: 0.72rem;
+    color: var(--tos-mid);
+    letter-spacing: 0.03em;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  /* ─── CONTENT WRAPPER ─── */
+  .trg-tos__wrap {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 3.5rem 2rem 5rem;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  /* ─── SUMMARY BOX ─── */
+  .trg-tos__summary {
+    background: var(--tos-card-bg);
+    border: 1px solid var(--tos-border);
+    border-left: 3px solid var(--tos-accent);
+    border-radius: 3px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 3rem;
+  }
+  .trg-tos__summary-label {
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--tos-accent);
+    margin-bottom: 0.5rem;
+  }
+  .trg-tos__summary-text {
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: var(--tos-ink);
+    line-height: 1.7;
+  }
+
+  /* ─── TOC ─── */
+  .trg-tos__toc {
+    background: var(--tos-card-bg);
+    border: 1px solid var(--tos-border);
+    border-radius: 3px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 3rem;
+  }
+  .trg-tos__toc-label {
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--tos-accent);
+    margin-bottom: 0.75rem;
+  }
+  .trg-tos__toc-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.35rem 2rem;
+    margin: 0;
+    padding: 0;
+  }
+  .trg-tos__toc-list a {
+    font-size: 0.82rem;
+    font-weight: 400;
+    color: var(--tos-ink);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25rem 0;
+    transition: color 0.2s;
+  }
+  .trg-tos__toc-list a:hover { color: var(--tos-accent); }
+  .trg-tos__toc-num {
+    font-size: 0.68rem;
+    font-weight: 500;
+    color: var(--tos-mid);
+    min-width: 1.2rem;
+  }
+
+  /* ─── SECTIONS ─── */
+  .trg-tos__section { margin-bottom: 2.5rem; }
+  .trg-tos__section:last-of-type { margin-bottom: 0; }
+  .trg-tos__h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 400;
+    color: var(--tos-ink);
+    margin-bottom: 0.85rem;
+    padding-bottom: 0.65rem;
+    border-bottom: 1px solid var(--tos-border);
+  }
+  .trg-tos__body {
+    font-size: 0.88rem;
+    font-weight: 300;
+    color: var(--tos-ink);
+    line-height: 1.85;
+  }
+  .trg-tos__body p + p { margin-top: 0.9em; }
+  .trg-tos__body a { color: var(--tos-accent); text-decoration: none; }
+  .trg-tos__body a:hover { text-decoration: underline; }
+  .trg-tos__body strong { font-weight: 500; color: var(--tos-ink); }
+  .trg-tos__body ul {
+    margin: 0.8em 0;
+    padding-left: 1.4rem;
+  }
+  .trg-tos__body li {
+    margin-bottom: 0.5em;
+    line-height: 1.75;
+  }
+  .trg-tos__body li::marker { color: var(--tos-mid); }
+
+  /* ─── JURISDICTION CARDS ─── */
+  .trg-tos__jcard {
+    background: var(--tos-card-bg);
+    border: 1px solid var(--tos-border);
+    border-radius: 3px;
+    padding: 1.1rem 1.3rem;
+    margin-top: 1.25rem;
+    margin-bottom: 0.75rem;
+  }
+  .trg-tos__jcard + .trg-tos__jcard { margin-top: 0.75rem; }
+  .trg-tos__jflag {
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 0.45rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .trg-tos__jflag--ca { color: var(--tos-canada); }
+  .trg-tos__jflag--us { color: #2563eb; }
+  .trg-tos__jcard p {
+    font-size: 0.84rem;
+    font-weight: 300;
+    color: var(--tos-ink);
+    line-height: 1.75;
+    margin: 0;
+  }
+
+  /* ─── CONTACT STRIP ─── */
+  .trg-tos__contact {
+    background: var(--tos-tag-bg);
+    border: 1px solid var(--tos-border);
+    border-radius: 3px;
+    padding: 1.1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 3rem;
+  }
+  .trg-tos__contact-text {
+    font-size: 0.82rem;
+    font-weight: 300;
+    color: var(--tos-mid);
+  }
+  .trg-tos__contact-text strong { color: var(--tos-ink); font-weight: 500; }
+  .trg-tos__btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.5rem 1.1rem;
+    border-radius: 2px;
+    background: var(--tos-accent);
+    color: #ffffff;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: opacity 0.2s;
+    display: inline-block;
+  }
+  .trg-tos__btn:hover { opacity: 0.88; color: #ffffff; }
+
+  /* ─── TABLET (≤ 749px) ─── */
+  @media screen and (max-width: 749px) {
+    .trg-tos__header { padding: 2rem 1rem 1.75rem; }
+    .trg-tos__title { font-size: 1.75rem; margin-bottom: 0.6rem; }
+    .trg-tos__subtitle { font-size: 0.84rem; }
+    .trg-tos__eyebrow { margin-bottom: 0.5rem; }
+
+    .trg-tos__wrap { padding: 2rem 1rem 3rem; }
+
+    .trg-tos__summary { padding: 1rem 1.15rem; margin-bottom: 2rem; }
+    .trg-tos__summary-text { font-size: 0.86rem; line-height: 1.65; }
+
+    .trg-tos__toc { padding: 1rem 1.15rem; margin-bottom: 2rem; }
+    .trg-tos__toc-list { grid-template-columns: 1fr; gap: 0; }
+    .trg-tos__toc-list a {
+      padding: 0.5rem 0;
+      min-height: 44px;
+      border-bottom: 1px solid var(--tos-border);
+    }
+    .trg-tos__toc-list li:last-child a { border-bottom: none; }
+
+    .trg-tos__section { margin-bottom: 2rem; }
+    .trg-tos__h2 { font-size: 1.15rem; margin-bottom: 0.7rem; padding-bottom: 0.55rem; }
+    .trg-tos__body { font-size: 0.84rem; line-height: 1.8; }
+    .trg-tos__body ul { padding-left: 1.15rem; }
+
+    .trg-tos__jcard { padding: 0.9rem 1rem; }
+    .trg-tos__jcard p { font-size: 0.82rem; }
+
+    .trg-tos__contact {
+      flex-direction: column;
+      text-align: center;
+      padding: 1rem;
+      margin-top: 2rem;
+    }
+    .trg-tos__btn {
+      width: 100%;
+      text-align: center;
+      padding: 0.65rem 1rem;
+    }
+  }
+
+  /* ─── SMALL PHONE (≤ 374px) ─── */
+  @media screen and (max-width: 374px) {
+    .trg-tos__title { font-size: 1.5rem; }
+    .trg-tos__header { padding: 1.5rem 0.85rem 1.5rem; }
+    .trg-tos__wrap { padding: 1.5rem 0.85rem 2.5rem; }
+    .trg-tos__summary { padding: 0.85rem 1rem; }
+    .trg-tos__toc { padding: 0.85rem 1rem; }
+    .trg-tos__jcard { padding: 0.75rem 0.85rem; }
+  }
+</style>
+
+<div class="trg-tos">
+
+  <!-- PAGE HEADER -->
+  <div class="trg-tos__header">
+    <div class="trg-tos__header-inner">
+      <div class="trg-tos__eyebrow">Legal</div>
+      <h1 class="trg-tos__title">Terms of Service</h1>
+      <p class="trg-tos__subtitle">The rules for using The Right Garment. We're a menswear directory, not a store. We don't sell anything. These terms are correspondingly short.</p>
+      <p class="trg-tos__updated">Last updated March 29, 2026</p>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="trg-tos__wrap">
+
+    <!-- SUMMARY -->
+    <div class="trg-tos__summary">
+      <div class="trg-tos__summary-label">The short version</div>
+      <div class="trg-tos__summary-text">
+        The Right Garment is a brand discovery directory. We help you find menswear brands and click through to buy from them directly. We don't process payments, hold inventory, or handle returns. Use the site honestly, don't misuse it, and you're fine.
+      </div>
+    </div>
+
+    <!-- TOC -->
+    <div class="trg-tos__toc">
+      <div class="trg-tos__toc-label">On this page</div>
+      <ol class="trg-tos__toc-list">
+        <li><a href="#who-we-are"><span class="trg-tos__toc-num">1</span> Who we are</a></li>
+        <li><a href="#accepting-terms"><span class="trg-tos__toc-num">2</span> Accepting these terms</a></li>
+        <li><a href="#using-the-site"><span class="trg-tos__toc-num">3</span> Using the site</a></li>
+        <li><a href="#accounts"><span class="trg-tos__toc-num">4</span> Accounts</a></li>
+        <li><a href="#affiliate-links"><span class="trg-tos__toc-num">5</span> Affiliate links</a></li>
+        <li><a href="#our-content"><span class="trg-tos__toc-num">6</span> Our content</a></li>
+        <li><a href="#disclaimer"><span class="trg-tos__toc-num">7</span> Disclaimer of warranties</a></li>
+        <li><a href="#liability"><span class="trg-tos__toc-num">8</span> Limitation of liability</a></li>
+        <li><a href="#third-party-sites"><span class="trg-tos__toc-num">9</span> Third-party sites</a></li>
+        <li><a href="#termination"><span class="trg-tos__toc-num">10</span> Termination</a></li>
+        <li><a href="#governing-law"><span class="trg-tos__toc-num">11</span> Governing law</a></li>
+        <li><a href="#changes"><span class="trg-tos__toc-num">12</span> Changes to these terms</a></li>
+      </ol>
+    </div>
+
+    <!-- 1. WHO WE ARE -->
+    <div class="trg-tos__section" id="who-we-are">
+      <h2 class="trg-tos__h2">1. Who we are</h2>
+      <div class="trg-tos__body">
+        <p>The Right Garment is a curated menswear brand directory operated from Montreal, Quebec, Canada. We publish brand profiles, product pages, and editorial content to help shoppers find quality menswear. We earn commissions when you click through to a brand or retailer and make a purchase. We are not a retailer. We do not sell products, process payments, or ship anything.</p>
+        <p>Operator: The Right Garment<br>
+        Contact: [legal@therightgarment.com]</p>
+      </div>
+    </div>
+
+    <!-- 2. ACCEPTING TERMS -->
+    <div class="trg-tos__section" id="accepting-terms">
+      <h2 class="trg-tos__h2">2. Accepting these terms</h2>
+      <div class="trg-tos__body">
+        <p>By visiting or using therightgarment.com, you agree to these terms. If you don't agree, don't use the site. These terms apply to all visitors, account holders, and anyone who interacts with the site in any way.</p>
+        <p>If you create an account, you're confirming that you're at least 16 years old and that any information you provide is accurate.</p>
+      </div>
+    </div>
+
+    <!-- 3. USING THE SITE -->
+    <div class="trg-tos__section" id="using-the-site">
+      <h2 class="trg-tos__h2">3. Using the site</h2>
+      <div class="trg-tos__body">
+        <p>You may browse, search, and use The Right Garment for personal, non-commercial purposes. You may not:</p>
+        <ul>
+          <li>Scrape, crawl, or harvest any content or data from the site without written permission</li>
+          <li>Use the site to send unsolicited communications or spam</li>
+          <li>Attempt to access systems, accounts, or data you're not authorised to access</li>
+          <li>Reverse-engineer, decompile, or copy any part of the site or its underlying technology</li>
+          <li>Use the site in any way that violates applicable law or the rights of others</li>
+          <li>Interfere with the site's operation, performance, or availability</li>
+        </ul>
+        <p>Automated access for legitimate research or archiving purposes may be permitted with prior written consent.</p>
+      </div>
+    </div>
+
+    <!-- 4. ACCOUNTS -->
+    <div class="trg-tos__section" id="accounts">
+      <h2 class="trg-tos__h2">4. Accounts</h2>
+      <div class="trg-tos__body">
+        <p>Creating an account lets you follow brands, save a wishlist, and set notification preferences. Accounts are managed through Shopify's customer accounts system.</p>
+        <p>You're responsible for keeping your login credentials secure. If you think your account has been compromised, contact us straight away. We're not liable for anything that happens due to unauthorised use of your credentials.</p>
+        <p>We may suspend or terminate accounts that violate these terms, are used fraudulently, or are inactive for an extended period. If we do, we'll let you know unless it's not practical or legally permissible to do so.</p>
+      </div>
+    </div>
+
+    <!-- 5. AFFILIATE LINKS -->
+    <div class="trg-tos__section" id="affiliate-links">
+      <h2 class="trg-tos__h2">5. Affiliate links</h2>
+      <div class="trg-tos__body">
+        <p>Many links on The Right Garment are affiliate links. When you click one and make a purchase, we may earn a commission from the brand or retailer at no cost to you. This is how we keep the directory free and independent.</p>
+        <p>Affiliate commissions have no influence over which brands are listed or how they are described. We include brands because we think they're worth knowing about, not because they pay us. See our <a href="/pages/affiliate-disclosure">Affiliate Disclosure</a> for full details.</p>
+        <p><strong>Once you leave our site, the brand's or retailer's terms of service apply, not ours.</strong> Any purchase you make, return you request, or dispute you raise is between you and them. We are not a party to any transaction.</p>
+      </div>
+    </div>
+
+    <!-- 6. OUR CONTENT -->
+    <div class="trg-tos__section" id="our-content">
+      <h2 class="trg-tos__h2">6. Our content</h2>
+      <div class="trg-tos__body">
+        <p>The editorial content on The Right Garment, including brand descriptions, category guides, journal articles, and site copy, is our original work and protected by copyright. Brand names, logos, and product images remain the property of their respective owners and are used for identification purposes only.</p>
+        <p>You may share links to our pages and quote short passages (with attribution) for non-commercial purposes. You may not reproduce, republish, or distribute our content in bulk without written permission.</p>
+        <p>If you believe any content on the site infringes your intellectual property rights, contact us at [legal@therightgarment.com] with the details.</p>
+      </div>
+    </div>
+
+    <!-- 7. DISCLAIMER -->
+    <div class="trg-tos__section" id="disclaimer">
+      <h2 class="trg-tos__h2">7. Disclaimer of warranties</h2>
+      <div class="trg-tos__body">
+        <p>The Right Garment is provided "as is" and "as available." We make no warranties, express or implied, about the accuracy, completeness, or reliability of any content on the site, including brand information, pricing, product availability, shipping policies, or affiliate links.</p>
+        <p>Brand details change. Prices change. Products sell out. Policies change. We do our best to keep things current, but we can't guarantee any information is up to date at the moment you read it. Always confirm details directly with the brand or retailer before purchasing.</p>
+        <p>To the fullest extent permitted by law, we disclaim all implied warranties of merchantability, fitness for a particular purpose, and non-infringement.</p>
+      </div>
+    </div>
+
+    <!-- 8. LIMITATION OF LIABILITY -->
+    <div class="trg-tos__section" id="liability">
+      <h2 class="trg-tos__h2">8. Limitation of liability</h2>
+      <div class="trg-tos__body">
+        <p>To the fullest extent permitted by applicable law, The Right Garment and its operators will not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of the site or any content on it.</p>
+        <p>This includes, without limitation, losses arising from:</p>
+        <ul>
+          <li>Purchases made on third-party brand or retailer sites you reached through our links</li>
+          <li>Inaccurate, outdated, or missing brand information</li>
+          <li>Interrupted or unavailable access to the site</li>
+          <li>Unauthorised access to your account due to factors outside our control</li>
+        </ul>
+        <p>Where liability cannot be excluded by law (for instance, under Quebec consumer protection legislation or applicable Canadian federal law), our total liability is limited to the amount you paid us in the 12 months before the claim, or CAD $100, whichever is greater. Since we don't charge users anything to browse the directory, that amount will typically be CAD $100.</p>
+
+        <div class="trg-tos__jcard">
+          <div class="trg-tos__jflag trg-tos__jflag--ca">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Canada &middot; Quebec consumer law
+          </div>
+          <p>Quebec residents may have additional rights under the Consumer Protection Act (L.R.Q., c. P-40.1). Nothing in these terms limits rights that cannot be waived under Quebec law.</p>
+        </div>
+
+        <div class="trg-tos__jcard">
+          <div class="trg-tos__jflag trg-tos__jflag--us">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            United States &middot; State law variation
+          </div>
+          <p>Some US states do not allow exclusion of certain warranties or limitations on consequential damages. If you're in such a state, the above limitations apply only to the extent permitted by local law.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 9. THIRD-PARTY SITES -->
+    <div class="trg-tos__section" id="third-party-sites">
+      <h2 class="trg-tos__h2">9. Third-party sites</h2>
+      <div class="trg-tos__body">
+        <p>The Right Garment links to external brand and retailer websites that we do not operate or control. We're not responsible for the content, privacy practices, terms, or products on those sites. Clicking through is your choice, and you should read their terms and privacy policies before buying.</p>
+        <p>A link to a brand does not mean we endorse everything about that brand, or that the brand has any commercial relationship with us beyond a standard affiliate programme.</p>
+      </div>
+    </div>
+
+    <!-- 10. TERMINATION -->
+    <div class="trg-tos__section" id="termination">
+      <h2 class="trg-tos__h2">10. Termination</h2>
+      <div class="trg-tos__body">
+        <p>We may suspend or terminate your access to the site at any time, for any reason, with or without notice. Reasons include (but aren't limited to) violating these terms, abusive behaviour, or attempted fraud.</p>
+        <p>You may stop using the site at any time. To delete your account and the data associated with it, contact us at [legal@therightgarment.com].</p>
+        <p>Sections 6, 7, 8, 9, and 11 survive termination.</p>
+      </div>
+    </div>
+
+    <!-- 11. GOVERNING LAW -->
+    <div class="trg-tos__section" id="governing-law">
+      <h2 class="trg-tos__h2">11. Governing law</h2>
+      <div class="trg-tos__body">
+        <p>These terms are governed by the laws of the Province of Quebec and the federal laws of Canada applicable therein, without regard to conflict-of-law principles. Any dispute arising from these terms or your use of the site will be subject to the exclusive jurisdiction of the courts of Quebec.</p>
+        <p>If you're a US resident, you agree that any dispute will be resolved on an individual basis and not as part of a class action or representative proceeding.</p>
+      </div>
+    </div>
+
+    <!-- 12. CHANGES -->
+    <div class="trg-tos__section" id="changes">
+      <h2 class="trg-tos__h2">12. Changes to these terms</h2>
+      <div class="trg-tos__body">
+        <p>We may update these terms from time to time. When we do, we'll update the "last updated" date at the top of this page. If the changes are material, we'll post a notice on the site or email you if you have an account. Continued use of the site after changes are posted means you accept the revised terms.</p>
+      </div>
+    </div>
+
+    <!-- CONTACT STRIP -->
+    <div class="trg-tos__contact">
+      <div class="trg-tos__contact-text">
+        <strong>Questions about these terms?</strong> Get in touch.
+      </div>
+      <a href="mailto:[legal@therightgarment.com]" class="trg-tos__btn">Contact Us</a>
+    </div>
+
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "TRG Terms of Service",
+  "tag": "section",
+  "class": "trg-tos-section",
+  "settings": []
+}
+{% endschema %}
