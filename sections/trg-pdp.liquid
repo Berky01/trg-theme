@@ -1358,6 +1358,27 @@
   }
 {% endstylesheet %}
 
+{%- comment -%}TRG SEO — Product JSON-LD (G5){%- endcomment -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org/",
+  "@type": "Product",
+  "name": {{ product.title | json }},
+  "url": "{{ shop.url }}{{ product.url }}",
+  "description": {{ product.description | strip_html | json }},
+  "brand": { "@type": "Brand", "name": {{ product.vendor | json }} },
+  "sku": {{ product.selected_or_first_available_variant.sku | json }},
+  "offers": {
+    "@type": "Offer",
+    "price": "{{ product.price | money_without_currency }}",
+    "priceCurrency": "{{ cart.currency.iso_code }}",
+    "availability": "{% if product.available %}https://schema.org/InStock{% else %}https://schema.org/OutOfStock{% endif %}",
+    "url": "{{ shop.url }}{{ product.url }}"
+  }{% if product.featured_image %},
+  "image": "{{ product.featured_image | image_url: width: 1200 }}"{% endif %}
+}
+</script>
+
 {% schema %}
 {
   "name": "TRG Product PDP",

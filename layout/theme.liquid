@@ -34,6 +34,20 @@ document.addEventListener('focusin',function(e){
     {% endif %}
 
     {%- render 'meta-tags' -%}
+{%- comment -%}TRG SEO — OG/Twitter (G1), meta description fallback (G2){%- endcomment -%}
+{%- capture _trg_desc -%}{%- if template.name == 'collection' -%}Shop {{ collection.title }} at The Right Garment — curated menswear from 470+ vetted brands.{%- elsif template.name == 'product' -%}{{ product.title }} by {{ product.vendor }}. Discover more at The Right Garment.{%- elsif template.name == 'article' -%}{{ article.title }} — The Right Garment Journal.{%- else -%}The Right Garment — curated menswear brand directory. 470+ brands, vetted and organised.{%- endif -%}{%- endcapture -%}
+{%- assign _trg_meta_desc = page_description | default: _trg_desc | strip | truncate: 160 -%}
+{%- unless page_description -%}<meta name="description" content="{{ _trg_meta_desc | escape }}">{%- endunless -%}
+<meta property="og:site_name" content="The Right Garment">
+<meta property="og:url" content="{{ canonical_url }}">
+<meta property="og:type" content="{%- if template.name == 'product' -%}product{%- elsif template.name == 'article' -%}article{%- else -%}website{%- endif -%}">
+<meta property="og:title" content="{{ page_title | escape }}">
+<meta property="og:description" content="{{ _trg_meta_desc | escape }}">
+{%- if page_image -%}<meta property="og:image" content="{{ page_image | image_url: width: 1200 }}"><meta property="og:image:width" content="1200">{%- endif -%}
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ page_title | escape }}">
+<meta name="twitter:description" content="{{ _trg_meta_desc | escape }}">
+{%- if page_image -%}<meta name="twitter:image" content="{{ page_image | image_url: width: 1200 }}">{%- endif -%}
     {%- render 'stylesheets' -%}
     {{ 'trg-mega-menu.css' | asset_url | stylesheet_tag }}
     {%- render 'fonts' -%}
@@ -57,6 +71,8 @@ document.addEventListener('focusin',function(e){
     {% if template == 'page.colour-guide' %}{{ 'trg-colour-guide.css' | asset_url | stylesheet_tag }}{% endif %}
     {%- if customer or template == 'customers/account' or template == 'customers/login' -%}<script src="{{ 'trg-account.js' | asset_url }}" defer></script>{%- endif -%}
     {%- if template.name == 'collection' or template.name == 'search' -%}<script src="{{ 'trg-plp.js' | asset_url }}" defer></script>{%- endif -%}
+    {%- comment -%}TRG SEO — noindex non-public pages (G8){%- endcomment -%}
+    {%- if template == 'customers/account' or template == 'customers/login' or template == 'customers/register' or template == 'customers/order' or template == 'customers/addresses' or template == 'page.my-account' or template == 'page.newsletter' or collection.handle == 'brand-test1' -%}<meta name="robots" content="noindex, nofollow">{%- endif -%}
 </head>
 
   <body class="page-width-{{ settings.page_width }} card-hover-effect-{{ settings.card_hover_effect }} trg-card-style-{{ settings.trg_card_style | default: 'outlined' }} trg-reveal-enabled-{{ settings.trg_enable_reveal | default: true }}">
@@ -325,4 +341,3 @@ document.addEventListener('focusin',function(e){
 <!-- trg-collections-bust 2026-03-29T19:37:33.3478024-04:00 -->
 <!-- trg-category-copy-bust 2026-03-29T19:43:29.2474359-04:00 -->
 <!-- trg-staged-categories-bust 2026-03-29T19:48:41.2732843-04:00 -->
-<!-- trg-runtime-bust 2026-03-29T20:10:30-04:00 -->
