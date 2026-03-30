@@ -1,4 +1,4 @@
-/* TRG Mega Menu v4.3 — click-swap — desktop + mobile */
+/* TRG Mega Menu v4.5 — route-map + chip-selection — desktop + mobile */
 (function(){
 'use strict';
 var P={shop:'trg-mm-p-shop',brands:'trg-mm-p-brands'},BK='trg-mm-bk',DK=990;
@@ -7,6 +7,58 @@ var SHOP_ROUTE_FIX={
 '/collections/outerwear-jackets':'/collections/outerwear',
 '/collections/trousers-bottoms':'/collections/bottoms',
 '/collections/suits-tailoring':'/collections/tailoring'
+};
+var SHOP_SUBCATEGORY_ROUTE_FIX={
+'casual-shirts':'/collections/casualwear',
+'dress-shirts':'/collections/mens-dress-shirts',
+'t-shirts':'/collections/t-shirts',
+'polos':'/collections/polos',
+'overshirts':'/collections/mens-overshirts',
+'camp-collar':'/collections/shirting',
+'henleys':'/collections/basics',
+'linen-summer':'/collections/linen-clothing',
+'field-barn-jacket':'/collections/mens-field-jackets',
+'waxed-cotton':'/collections/outerwear',
+'down-insulated':'/collections/mens-down-jackets',
+'raincoat-mac':'/collections/mens-rainwear',
+'harrington-bomber':'/collections/mens-harrington-jackets',
+'parka':'/collections/outerwear',
+'leather-jacket':'/collections/outerwear',
+'overcoat-topcoat':'/collections/mens-overcoats',
+'chinos':'/collections/mens-chinos',
+'dress-trousers':'/collections/formalwear',
+'shorts':'/collections/shorts',
+'sweatpants-joggers':'/collections/bottoms',
+'corduroy':'/collections/bottoms',
+'cargo-utility':'/collections/workwear-inspired',
+'boots':'/collections/boots',
+'oxford-derby':'/collections/mens-dress-shoes',
+'loafers':'/collections/mens-loafers',
+'sneakers':'/collections/mens-sneakers',
+'moccasins':'/collections/footwear',
+'sandals':'/collections/sandals',
+'bespoke-mto':'/collections/handwelted-shoes',
+'crewneck':'/collections/knitwear',
+'cardigan':'/collections/knitwear',
+'turtleneck':'/collections/knitwear',
+'fisherman-cable':'/collections/wool-clothing',
+'cashmere':'/collections/cashmere-clothing',
+'merino':'/collections/merino-wool-clothing',
+'jeans':'/collections/jeans',
+'denim-jacket':'/collections/denim',
+'raw-selvedge':'/collections/selvedge-denim',
+'slim-tapered':'/collections/denim',
+'straight-relaxed':'/collections/denim',
+'suits':'/collections/suits',
+'sport-coats-blazers':'/collections/blazers',
+'tuxedo-black-tie':'/collections/formalwear',
+'bespoke-mtm':'/collections/bespoke-menswear',
+'waistcoats':'/collections/formalwear',
+'ties-pocket-squares':'/collections/mens-ties',
+'belts':'/collections/belts',
+'bags-leather-goods':'/collections/bags',
+'scarves-hats':'/collections/mens-hats-and-caps',
+'socks-underwear':'/collections/mens-underwear'
 };
 var FB=[
 {n:"3sixteen",s:"3sixteen",c:"denim"},{n:"A Day's March",s:"a-days-march",c:"casualwear"},{n:"A Kind of Guise",s:"a-kind-of-guise",c:"casualwear"},{n:"A.P.C.",s:"a-p-c",c:"casualwear"},{n:"Ace Marks",s:"ace-marks",c:"footwear"},{n:"Aime Leon Dore",s:"aime-leon-dore",c:"streetwear"},{n:"Allen Edmonds",s:"allen-edmonds",c:"footwear"},{n:"AMI Paris",s:"ami-paris",c:"smart-casual"},{n:"Anglo-Italian",s:"anglo-italian",c:"smart-casual"},{n:"Aran Sweater Market",s:"aran-sweater-market",c:"knitwear"},{n:"Arc'teryx",s:"arcteryx",c:"outerwear"},{n:"Arpenteur",s:"arpenteur",c:"workwear"},{n:"Asket",s:"asket",c:"basics"},{n:"Aspesi",s:"aspesi",c:"casualwear"},{n:"Astorflex",s:"astorflex",c:"footwear"},{n:"Auralee",s:"auralee",c:"casualwear"},{n:"Baracuta",s:"baracuta",c:"outerwear"},{n:"Barbour",s:"barbour",c:"outerwear"},{n:"Barena Venezia",s:"barena-venezia",c:"smart-casual"},{n:"Beckett Simonon",s:"beckett-simonon",c:"footwear"},{n:"Belstaff",s:"belstaff",c:"outerwear"},{n:"Billy Reid",s:"billy-reid",c:"casualwear"},{n:"Blundstone",s:"blundstone",c:"footwear"},{n:"Bode",s:"bode",c:"casualwear"},{n:"Boglioli",s:"boglioli",c:"formalwear"},{n:"Bonobos",s:"bonobos",c:"smart-casual"},{n:"Brooks Brothers",s:"brooks-brothers",c:"formalwear"},{n:"Buck Mason",s:"buck-mason",c:"basics"},{n:"Canada Goose",s:"canada-goose",c:"outerwear"},{n:"Carhartt WIP",s:"carhartt-wip",c:"workwear"},{n:"Carlos Santos",s:"carlos-santos",c:"footwear"},{n:"Carmina",s:"carmina",c:"footwear"},{n:"Charles Tyrwhitt",s:"charles-tyrwhitt",c:"formalwear"},{n:"Church's",s:"churchs",c:"footwear"},{n:"Clarks",s:"clarks",c:"footwear"},{n:"Closed",s:"closed",c:"denim"},{n:"Club Monaco",s:"club-monaco",c:"smart-casual"},{n:"Cobbler Union",s:"cobbler-union",c:"footwear"},{n:"Colhay's",s:"colhays",c:"knitwear"},{n:"Corridor",s:"corridor",c:"casualwear"},{n:"CP Company",s:"cp-company",c:"outerwear"},{n:"Crockett & Jones",s:"crockett-and-jones",c:"footwear"},{n:"Crown Northampton",s:"crown-northampton",c:"footwear"},{n:"Dale of Norway",s:"dale-of-norway",c:"knitwear"},{n:"Danner",s:"danner",c:"footwear"},{n:"Dehen 1920",s:"dehen-1920",c:"outerwear"},{n:"Dime",s:"dime",c:"streetwear"},{n:"Drakes",s:"drakes",c:"formalwear"},{n:"Duckworth",s:"duckworth",c:"knitwear"},{n:"Edwin",s:"edwin",c:"denim"},{n:"Eleventy",s:"eleventy",c:"smart-casual"},{n:"Engineered Garments",s:"engineered-garments",c:"workwear"},{n:"Eton Shirts",s:"eton-shirts",c:"formalwear"},{n:"Evan Kinori",s:"evan-kinori",c:"casualwear"},{n:"Everlane",s:"everlane",c:"basics"},{n:"Faherty Brand",s:"faherty-brand",c:"casualwear"},{n:"Filson",s:"filson",c:"outerwear"},{n:"Folk",s:"folk",c:"casualwear"},{n:"Frank And Oak",s:"frank-and-oak",c:"casualwear"},{n:"Goldwin",s:"goldwin",c:"outerwear"},{n:"Grant Stone",s:"grant-stone",c:"footwear"},{n:"Grenson",s:"grenson",c:"footwear"},{n:"HAVEN",s:"haven",c:"streetwear"},{n:"Inis Meáin",s:"inis-meain",c:"knitwear"},{n:"Iron Heart",s:"iron-heart",c:"denim"},{n:"J.Crew",s:"j-crew",c:"casualwear"},{n:"John Smedley",s:"john-smedley",c:"knitwear"},{n:"Johnstons of Elgin",s:"johnstons-of-elgin",c:"knitwear"},{n:"Kanata",s:"kanata",c:"knitwear"},{n:"Kapital",s:"kapital",c:"casualwear"},{n:"Kardo",s:"kardo",c:"casualwear"},{n:"KESTIN",s:"kestin",c:"casualwear"},{n:"Kith",s:"kith",c:"streetwear"},{n:"Kotn",s:"kotn",c:"basics"},{n:"L.B.M. 1911",s:"l-b-m-1911",c:"smart-casual"},{n:"Lady White Co.",s:"lady-white-co",c:"basics"},{n:"Lemaire",s:"lemaire",c:"casualwear"},{n:"Levi's Vintage Clothing",s:"levis-vintage-clothing",c:"denim"},{n:"LL Bean",s:"ll-bean",c:"outerwear"},{n:"Loake",s:"loake",c:"footwear"},{n:"Mackintosh",s:"mackintosh",c:"outerwear"},{n:"Magee 1866",s:"magee-1866",c:"outerwear"},{n:"Margaret Howell",s:"margaret-howell",c:"casualwear"},{n:"Meermin",s:"meermin",c:"footwear"},{n:"Merz b. Schwanen",s:"merz-b-schwanen",c:"basics"},{n:"Momotaro",s:"momotaro",c:"denim"},{n:"Monitaly",s:"monitaly",c:"casualwear"},{n:"Naked & Famous",s:"naked-and-famous",c:"denim"},{n:"Nanamica",s:"nanamica",c:"outerwear"},{n:"New Balance",s:"new-balance",c:"footwear"},{n:"Nigel Cabourn",s:"nigel-cabourn",c:"outerwear"},{n:"NN07",s:"nn07",c:"casualwear"},{n:"Noah NYC",s:"noah-nyc",c:"streetwear"},{n:"Norse Projects",s:"norse-projects",c:"casualwear"},{n:"Officine Générale",s:"officine-generale",c:"smart-casual"},{n:"Oliver Spencer",s:"oliver-spencer",c:"smart-casual"},{n:"Oni Denim",s:"oni-denim",c:"denim"},{n:"Orslow",s:"orslow",c:"casualwear"},{n:"Our Legacy",s:"our-legacy",c:"casualwear"},{n:"Outerknown",s:"outerknown",c:"casualwear"},{n:"Paraboot",s:"paraboot",c:"footwear"},{n:"Patagonia",s:"patagonia",c:"outerwear"},{n:"Paul Smith",s:"paul-smith",c:"smart-casual"},{n:"Pendleton",s:"pendleton",c:"outerwear"},{n:"Peter Millar",s:"peter-millar",c:"smart-casual"},{n:"Portuguese Flannel",s:"portuguese-flannel",c:"casualwear"},{n:"Private White V.C.",s:"private-white-vc",c:"outerwear"},{n:"Proper Cloth",s:"proper-cloth",c:"formalwear"},{n:"Pure Blue Japan",s:"pure-blue-japan",c:"denim"},{n:"Rancourt & Co",s:"rancourt-and-co",c:"footwear"},{n:"Red Wing",s:"red-wing",c:"footwear"},{n:"Reigning Champ",s:"reigning-champ",c:"casualwear"},{n:"Ring Jacket",s:"ring-jacket",c:"formalwear"},{n:"Rogue Territory",s:"rogue-territory",c:"denim"},{n:"Roots",s:"roots",c:"casualwear"},{n:"Saman Amel",s:"saman-amel",c:"formalwear"},{n:"Schott NYC",s:"schott-nyc",c:"outerwear"},{n:"Sid Mashburn",s:"sid-mashburn",c:"smart-casual"},{n:"Spier & Mackay",s:"spier-and-mackay",c:"formalwear"},{n:"Stan Ray",s:"stan-ray",c:"workwear"},{n:"Stone Island",s:"stone-island",c:"outerwear"},{n:"Story Mfg.",s:"story-mfg",c:"casualwear"},{n:"Studio Donegal",s:"studio-donegal",c:"knitwear"},{n:"Studio Nicholson",s:"studio-nicholson",c:"casualwear"},{n:"Stüssy",s:"stussy",c:"streetwear"},{n:"Suitsupply",s:"suitsupply",c:"formalwear"},{n:"Sunspel",s:"sunspel",c:"basics"},{n:"Taylor Stitch",s:"taylor-stitch",c:"casualwear"},{n:"Tellason",s:"tellason",c:"denim"},{n:"The Armoury",s:"the-armoury",c:"formalwear"},{n:"Thom Browne",s:"thom-browne",c:"formalwear"},{n:"Thursday Boot Co.",s:"thursday-boot-co",c:"footwear"},{n:"Todd Snyder",s:"todd-snyder",c:"casualwear"},{n:"Tricker's",s:"trickers",c:"footwear"},{n:"Universal Works",s:"universal-works",c:"workwear"},{n:"Velasca",s:"velasca",c:"footwear"},{n:"Vetra",s:"vetra",c:"workwear"},{n:"Viberg",s:"viberg",c:"footwear"},{n:"Visvim",s:"visvim",c:"casualwear"},{n:"Warehouse & Co.",s:"warehouse-and-co",c:"denim"},{n:"Wax London",s:"wax-london",c:"casualwear"},{n:"Wings+Horns",s:"wings-horns",c:"streetwear"},{n:"Woolrich",s:"woolrich",c:"outerwear"}
@@ -20,6 +72,8 @@ function $$(s,r){return(r||document).querySelectorAll(s)}
 function init(){
   loadBrands();
   normalizeShopLinks();
+  normalizeShopChips();
+  bindShopChips();
   if(dk())bindNav();
   bindTabs();bindSearch();bindBk();bindKb();bindX();bindCC();
   render('all','');
@@ -30,15 +84,35 @@ function normShopHref(href){
   return SHOP_ROUTE_FIX[href]||href;
 }
 
+function slug(s){
+  return String(s||'')
+    .toLowerCase()
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g,'')
+    .replace(/&/g,' ')
+    .replace(/[^a-z0-9]+/g,'-')
+    .replace(/^-+|-+$/g,'');
+}
+
+function resolveShopHref(label,fallback){
+  var key=slug(label);
+  if(SHOP_SUBCATEGORY_ROUTE_FIX[key])return SHOP_SUBCATEGORY_ROUTE_FIX[key];
+  if(key)return '/collections/'+key;
+  var fixedFallback=normShopHref(fallback||'');
+  if(fixedFallback)return fixedFallback;
+  return '';
+}
+
 function normalizeShopLinks(){
   $$('#trg-mm-p-shop .trg-mm-pn').forEach(function(panel){
     var fallback=panel.querySelector('.trg-mm-val');
-    var href=normShopHref(fallback&&fallback.getAttribute('href'));
-    if(!href)return;
-    panel.querySelectorAll('.trg-mm-sg > span.trg-mm-st, .trg-mm-sg > .trg-mm-st--static').forEach(function(node){
+    var fallbackHref=fallback&&fallback.getAttribute('href');
+    panel.querySelectorAll('.trg-mm-sg > a.trg-mm-st, .trg-mm-sg > span.trg-mm-st, .trg-mm-sg > .trg-mm-st--static').forEach(function(node){
       var name=node.querySelector('.trg-mm-sn');
       var label=name?(name.textContent||'').trim():(node.textContent||'').replace(/staged/ig,'').trim();
+      var href=resolveShopHref(label,node.getAttribute('href')||fallbackHref);
       if(!label)return;
+      if(!href)return;
       if(node.tagName==='A'){
         node.setAttribute('href',href);
         var count=node.querySelector('.trg-mm-sc');
@@ -54,12 +128,13 @@ function normalizeShopLinks(){
   });
   $$('#trg-mob-tc-shop .trg-mob-fam').forEach(function(fam){
     var fallback=fam.querySelector('.trg-mob-va');
-    var href=normShopHref(fallback&&fallback.getAttribute('href'));
-    if(!href)return;
-    fam.querySelectorAll('.trg-mob-subs > div.trg-mob-sub, .trg-mob-subs > .trg-mob-sub--static').forEach(function(node){
+    var fallbackHref=fallback&&fallback.getAttribute('href');
+    fam.querySelectorAll('.trg-mob-subs > a.trg-mob-sub, .trg-mob-subs > div.trg-mob-sub, .trg-mob-subs > .trg-mob-sub--static').forEach(function(node){
       var name=node.querySelector('.trg-mob-sub-name');
       var label=name?(name.textContent||'').trim():(node.textContent||'').replace(/staged/ig,'').trim();
+      var href=resolveShopHref(label,node.getAttribute('href')||fallbackHref);
       if(!label)return;
+      if(!href)return;
       if(node.tagName==='A'){
         node.setAttribute('href',href);
         var count=node.querySelector('.trg-mob-sub-count');
@@ -72,6 +147,71 @@ function normalizeShopLinks(){
       link.innerHTML='<span class="trg-mob-sub-name">'+esc(label)+'</span>';
       node.replaceWith(link);
     });
+  });
+}
+
+function normalizeShopChips(){
+  $$('#trg-mm-p-shop .trg-mm-acs').forEach(function(row){
+    var chips=Array.from(row.querySelectorAll('.trg-mm-ac'));
+    if(!chips.length)return;
+    chips.forEach(function(node){
+      var button=node;
+      if(node.tagName!=='BUTTON'){
+        button=document.createElement('button');
+        button.type='button';
+        button.className=(node.className||'').replace(/\btrg-mm-ac--static\b/g,'').trim()||'trg-mm-ac';
+        button.textContent=(node.textContent||'').trim();
+        if(node.classList.contains('on'))button.classList.add('on');
+        node.replaceWith(button);
+      }
+      button.type='button';
+      button.classList.remove('trg-mm-ac--static');
+    });
+    var normalized=Array.from(row.querySelectorAll('.trg-mm-ac'));
+    if(normalized.length&&!normalized.some(function(chip){return chip.classList.contains('on')}))normalized[0].classList.add('on');
+    normalized.forEach(function(chip){chip.setAttribute('aria-pressed',chip.classList.contains('on')?'true':'false')});
+  });
+  $$('#trg-mob-tc-shop .trg-mob-chips').forEach(function(row){
+    var chips=Array.from(row.querySelectorAll('.trg-mob-chip'));
+    if(!chips.length)return;
+    chips.forEach(function(node){
+      var button=node;
+      if(node.tagName!=='BUTTON'){
+        button=document.createElement('button');
+        button.type='button';
+        button.className=(node.className||'').replace(/\btrg-mob-chip--static\b/g,'').trim()||'trg-mob-chip';
+        button.textContent=(node.textContent||'').trim();
+        if(node.classList.contains('on'))button.classList.add('on');
+        node.replaceWith(button);
+      }
+      button.type='button';
+      button.classList.remove('trg-mob-chip--static');
+    });
+    var normalized=Array.from(row.querySelectorAll('.trg-mob-chip'));
+    if(normalized.length&&!normalized.some(function(chip){return chip.classList.contains('on')}))normalized[0].classList.add('on');
+    normalized.forEach(function(chip){chip.setAttribute('aria-pressed',chip.classList.contains('on')?'true':'false')});
+  });
+}
+
+function setChipState(chip){
+  var row=chip&&chip.parentElement;
+  if(!row)return;
+  var selector=chip.classList.contains('trg-mm-ac')?'.trg-mm-ac':'.trg-mob-chip';
+  row.querySelectorAll(selector).forEach(function(node){
+    var active=node===chip;
+    node.classList.toggle('on',active);
+    node.setAttribute('aria-pressed',active?'true':'false');
+  });
+}
+
+function bindShopChips(){
+  if(window.__trgMegaMenuShopChipsBound)return;
+  window.__trgMegaMenuShopChipsBound=true;
+  document.addEventListener('click',function(e){
+    var chip=e.target.closest('#trg-mm-p-shop .trg-mm-acs .trg-mm-ac, #trg-mob-tc-shop .trg-mob-chips .trg-mob-chip');
+    if(!chip)return;
+    e.preventDefault();
+    setChipState(chip);
   });
 }
 

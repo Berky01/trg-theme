@@ -17,13 +17,13 @@
 {% if product != blank %}
 <nav class="trg-breadcrumb" aria-label="Breadcrumb" {{ block.shopify_attributes }}>
   <a class="trg-breadcrumb__link" href="/">Home</a>
-  <span class="trg-breadcrumb__sep" aria-hidden="true">›</span>
+  <span class="trg-breadcrumb__sep" aria-hidden="true">&#8250;</span>
   <a class="trg-breadcrumb__link" href="/collections/all">Products</a>
   {% if bc_collection != nil %}
-    <span class="trg-breadcrumb__sep" aria-hidden="true">›</span>
+    <span class="trg-breadcrumb__sep" aria-hidden="true">&#8250;</span>
     <a class="trg-breadcrumb__link" href="{{ bc_collection.url }}">{{ bc_collection.title }}</a>
   {% endif %}
-  <span class="trg-breadcrumb__sep" aria-hidden="true">›</span>
+  <span class="trg-breadcrumb__sep" aria-hidden="true">&#8250;</span>
   <span class="trg-breadcrumb__current">{{ product.title }}</span>
 </nav>
 {% endif %}

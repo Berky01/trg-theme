@@ -57,6 +57,7 @@
 .trg-mm-al{font-family:'DM Sans',sans-serif;font-size:.58rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--trg-mm-faint);margin-bottom:.6rem;display:block}
 .trg-mm-acs{display:flex;flex-wrap:wrap;gap:.35rem}
 .trg-mm-ac{font-family:'DM Sans',sans-serif;font-size:.67rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;padding:.3rem .75rem;border:1px solid rgba(255,255,255,.1);border-radius:20px;color:rgba(245,241,235,.45);cursor:pointer;background:none;text-decoration:none;display:inline-block;transition:all .12s}
+.trg-mm-ac{-webkit-appearance:none;appearance:none}
 .trg-mm-ac:hover{background:rgba(255,255,255,.06);color:var(--trg-mm-text);border-color:rgba(255,255,255,.22)}
 .trg-mm-ac.on{background:var(--trg-mm-accent-dim);border-color:var(--trg-mm-accent-bd);color:var(--trg-mm-text)}
 .trg-mm-ac--static{cursor:default;pointer-events:none}
@@ -199,6 +200,7 @@ header-drawer .menu-drawer__inner-container{display:none!important}
 .trg-mob-chips{margin-bottom:1rem;flex-wrap:nowrap;padding:0 1.25rem}
 .trg-mob-bchips{padding:.75rem 1.25rem 0;flex-wrap:nowrap}
 .trg-mob-chip{font-family:'DM Sans',sans-serif;font-size:.62rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;padding:.3rem .7rem;border:1px solid rgba(255,255,255,.1);border-radius:20px;color:rgba(245,241,235,.55);background:none;cursor:pointer;white-space:nowrap;flex-shrink:0;-webkit-tap-highlight-color:transparent;transition:all .12s;text-decoration:none;display:inline-block;scroll-snap-align:start}
+.trg-mob-chip{-webkit-appearance:none;appearance:none}
 .trg-mob-chip.on{background:rgba(196,86,42,.15);border-color:rgba(196,86,42,.45);color:#f5f1eb}
 .trg-mob-chip--static{cursor:default;pointer-events:none}
 

@@ -1,9 +1,9 @@
 {%- liquid
   comment
-    â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�
-    TRG PRODUCT PDP  -  Self-contained section (v3)
+    ═══════════════════════════════════════════════════════════════════
+    TRG PRODUCT PDP — Self-contained section (v3)
     Replaces Dwell's product-information section for full design control
-    â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�
+    ═══════════════════════════════════════════════════════════════════
   endcomment
 
   assign p = product
@@ -95,35 +95,6 @@
   assign price_dollars = price_cents | divided_by: 100
   assign price_remainder = price_cents | modulo: 100
 
-  assign product_currency = p.metafields.trg.currency | default: 'USD'
-  assign currency_sym = '$'
-  assign currency_label = ''
-  if product_currency == 'GBP'
-    assign currency_sym = 'Â£'
-    assign currency_label = 'GBP'
-  elsif product_currency == 'EUR'
-    assign currency_sym = 'â‚¬'
-    assign currency_label = 'EUR'
-  elsif product_currency == 'CAD'
-    assign currency_sym = 'CA$'
-    assign currency_label = 'CAD'
-  elsif product_currency == 'JPY'
-    assign currency_sym = 'Â¥'
-    assign currency_label = 'JPY'
-  elsif product_currency == 'AUD'
-    assign currency_sym = 'A$'
-    assign currency_label = 'AUD'
-  elsif product_currency == 'SEK' or product_currency == 'DKK' or product_currency == 'NOK'
-    assign currency_sym = ''
-    assign currency_label = product_currency
-  elsif product_currency == 'CHF'
-    assign currency_sym = 'CHF '
-    assign currency_label = ''
-  elsif product_currency != 'USD'
-    assign currency_sym = ''
-    assign currency_label = product_currency
-  endif
-
   assign bc_collection = nil
   for col in p.collections
     if col.handle != 'all' and col.handle != 'frontpage'
@@ -134,100 +105,25 @@
 -%}
 
 {% if p != blank %}
-{%- comment -%} â•�â•�â•� STRUCTURED DATA (JSON-LD) â•�â•�â•� {%- endcomment -%}
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Product",
-  "name": {{ p.title | json }},
-  "url": "{{ shop.url }}{{ p.url }}",
-  "description": {{ p.description | strip_html | truncate: 500 | json }},
-  {%- if p.featured_media -%}
-  "image": "{{ p.featured_media | image_url: width: 1200 }}",
-  {%- endif -%}
-  "brand": {
-    "@type": "Brand",
-    "name": {{ vendor_name | json }}
-  },
-  "sku": {{ p.selected_or_first_available_variant.sku | default: p.id | json }},
-  {%- if made_in != blank -%}
-  "countryOfOrigin": {{ made_in | json }},
-  {%- endif -%}
-  {%- if material != blank -%}
-  "material": {{ material | json }},
-  {%- endif -%}
-  "offers": {
-    "@type": "Offer",
-    "url": "{{ shop.url }}{{ p.url }}",
-    "priceCurrency": "{{ product_currency }}",
-    "price": "{{ price_cents | divided_by: 100.0 }}",
-    "availability": "https://schema.org/InStock",
-    "seller": {
-      "@type": "Organization",
-      "name": {{ vendor_name | json }}
-    }
-  }
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position": 1,
-      "name": "Home",
-      "item": "{{ shop.url }}"
-    },
-    {
-      "@type": "ListItem",
-      "position": 2,
-      "name": "Products",
-      "item": "{{ shop.url }}/collections/all"
-    }
-    {%- if bc_collection -%},
-    {
-      "@type": "ListItem",
-      "position": 3,
-      "name": {{ bc_collection.title | json }},
-      "item": "{{ shop.url }}{{ bc_collection.url }}"
-    },
-    {
-      "@type": "ListItem",
-      "position": 4,
-      "name": {{ p.title | json }}
-    }
-    {%- else -%},
-    {
-      "@type": "ListItem",
-      "position": 3,
-      "name": {{ p.title | json }}
-    }
-    {%- endif -%}
-  ]
-}
-</script>
-
-{%- comment -%} â•�â•�â•� BREADCRUMB â•�â•�â•� {%- endcomment -%}
+{%- comment -%} ═══ BREADCRUMB ═══ {%- endcomment -%}
 <nav class="trg-pdp-bc" aria-label="Breadcrumb">
   <div class="trg-pdp-bc__inner">
     <a href="/">Home</a>
-    <span class="trg-pdp-bc__sep" aria-hidden="true">â€º</span>
+    <span class="trg-pdp-bc__sep" aria-hidden="true">&#8250;</span>
     <a href="/collections/all">Products</a>
     {%- if bc_collection -%}
-      <span class="trg-pdp-bc__sep" aria-hidden="true">â€º</span>
+      <span class="trg-pdp-bc__sep" aria-hidden="true">&#8250;</span>
       <a href="{{ bc_collection.url }}">{{ bc_collection.title }}</a>
     {%- endif -%}
-    <span class="trg-pdp-bc__sep" aria-hidden="true">â€º</span>
+    <span class="trg-pdp-bc__sep" aria-hidden="true">&#8250;</span>
     <span class="trg-pdp-bc__current">{{ p.title }}</span>
   </div>
 </nav>
 
-{%- comment -%} â•�â•�â•� MAIN 55/45 GRID â•�â•�â•� {%- endcomment -%}
+{%- comment -%} ═══ MAIN 55/45 GRID ═══ {%- endcomment -%}
 <div class="trg-pdp" {{ section.shopify_attributes }}>
 
-  {%- comment -%} â”€â”€ GALLERY â”€â”€ {%- endcomment -%}
+  {%- comment -%} ── GALLERY ── {%- endcomment -%}
   <div class="trg-pdp__gallery">
     <div class="trg-pdp__gallery-main" id="trg-gallery-main">
       {%- if p.featured_media -%}
@@ -247,10 +143,10 @@
       {%- endif -%}
     </div>
     {%- if p.media.size > 1 -%}
-      <div aria-label="View product image" class="trg-pdp__thumbs">
+      <div class="trg-pdp__thumbs">
         {%- for media in p.media -%}
           <button
-            aria-label="View product image" class="trg-pdp__thumb{% if forloop.first %} active{% endif %}"
+            class="trg-pdp__thumb{% if forloop.first %} active{% endif %}"
             data-src="{{ media | image_url: width: 900 }}"
             data-alt="{{ media.alt | default: p.title | escape }}"
             type="button"
@@ -260,16 +156,16 @@
         {%- endfor -%}
       </div>
     {%- else -%}
-      <div aria-label="View product image" class="trg-pdp__thumbs">
-        <div aria-label="View product image" class="trg-pdp__thumb active"><div aria-label="View product image" class="trg-pdp__thumb-ph">Front</div></div>
-        <div aria-label="View product image" class="trg-pdp__thumb"><div aria-label="View product image" class="trg-pdp__thumb-ph">Back</div></div>
-        <div aria-label="View product image" class="trg-pdp__thumb"><div aria-label="View product image" class="trg-pdp__thumb-ph">Detail</div></div>
-        <div aria-label="View product image" class="trg-pdp__thumb"><div aria-label="View product image" class="trg-pdp__thumb-ph">On Model</div></div>
+      <div class="trg-pdp__thumbs">
+        <div class="trg-pdp__thumb active"><div class="trg-pdp__thumb-ph">Front</div></div>
+        <div class="trg-pdp__thumb"><div class="trg-pdp__thumb-ph">Back</div></div>
+        <div class="trg-pdp__thumb"><div class="trg-pdp__thumb-ph">Detail</div></div>
+        <div class="trg-pdp__thumb"><div class="trg-pdp__thumb-ph">On Model</div></div>
       </div>
     {%- endif -%}
   </div>
 
-  {%- comment -%} â”€â”€ INFO COLUMN â”€â”€ {%- endcomment -%}
+  {%- comment -%} ── INFO COLUMN ── {%- endcomment -%}
   <div class="trg-pdp__info">
 
     {%- comment -%} Brand link with arrow {%- endcomment -%}
@@ -283,11 +179,9 @@
 
     {%- comment -%} Price {%- endcomment -%}
     <div class="trg-pdp__price-row">
-      <span class="trg-pdp__price">{{ currency_sym }}{{ price_dollars }}{%- if price_remainder > 0 -%}.{{ price_remainder | prepend: '00' | slice: -2, 2 }}{%- endif -%}{%- if currency_label != blank %} <span class="trg-pdp__price-code">{{ currency_label }}</span>{%- endif -%}</span>
-      {%- if product_currency == 'USD' -%}
-        <span class="trg-pdp__price-ca">~CA${{ price_cents | times: 137 | divided_by: 10000 | round: 0 }}</span>
-        <span class="trg-pdp__price-ca-badge">CA Estimate</span>
-      {%- endif -%}
+      <span class="trg-pdp__price">${{ price_dollars }}{%- if price_remainder > 0 -%}.{{ price_remainder | prepend: '00' | slice: -2, 2 }}{%- endif -%}</span>
+      <span class="trg-pdp__price-ca">~CA${{ price_dollars | times: 137 | divided_by: 100 }}</span>
+      <span class="trg-pdp__price-ca-badge">CA Estimate</span>
     </div>
 
     {%- comment -%} Variant picker (size chips) {%- endcomment -%}
@@ -309,15 +203,10 @@
       {%- endfor -%}
     {%- endif -%}
 
-    {%- comment -%} Palette indicator (face-adjacent products only) {%- endcomment -%}
-    {%- if p.tags contains 'face-adjacent' -%}
-      <div class="trg-palette-pdp" id="trg-palette-pdp" data-color="{{ p.metafields.trg.color.value | default: '' | escape }}" style="display:none"></div>
-    {%- endif -%}
-
-    {%- comment -%} â•�â•�â•� CTA SECTION â•�â•�â•� {%- endcomment -%}
+    {%- comment -%} ═══ CTA SECTION ═══ {%- endcomment -%}
     <div class="trg-pdp__cta-section">
 
-      {%- comment -%} â”€â”€ US MARKET â”€â”€ {%- endcomment -%}
+      {%- comment -%} ── US MARKET ── {%- endcomment -%}
       <div class="trg-pdp__market trg-pdp__market--us">
 
         {%- if is_direct and buy_url_us != blank -%}
@@ -344,7 +233,7 @@
         {%- endif -%}
 
         {%- if is_reseller and retailer_name_us != blank and retailer_url_us != blank -%}
-          <a href="{{ retailer_url_us }}" target="_blank" rel="noopener sponsored" class="trg-pdp__btn-primary" style="background:var(--ink);">
+          <a href="{{ retailer_url_us }}" target="_blank" rel="noopener sponsored" class="trg-pdp__btn-primary" style="background:#1a1a18;">
             Buy at {{ retailer_name_us | escape }}
             <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
           </a>
@@ -353,12 +242,12 @@
         {%- comment -%} Fallback if no URL at all {%- endcomment -%}
         {%- if is_direct and buy_url_us == blank -%}
           {%- if is_both == false and is_reseller == false -%}
-            <p class="trg-pdp__no-link">No direct link available  -  search <strong>{{ p.title | escape }}</strong> at your preferred retailer.</p>
+            <p class="trg-pdp__no-link">No direct link available — search <strong>{{ p.title | escape }}</strong> at your preferred retailer.</p>
           {%- endif -%}
         {%- endif -%}
       </div>
 
-      {%- comment -%} â”€â”€ CA MARKET â”€â”€ {%- endcomment -%}
+      {%- comment -%} ── CA MARKET ── {%- endcomment -%}
       <div class="trg-pdp__market trg-pdp__market--ca">
 
         {%- if is_direct and buy_url_ca != blank -%}
@@ -387,7 +276,7 @@
         {%- endif -%}
 
         {%- if is_reseller and eff_retailer_url_ca != blank -%}
-          <a href="{{ eff_retailer_url_ca }}" target="_blank" rel="noopener sponsored" class="trg-pdp__btn-primary" style="background:var(--ink);">
+          <a href="{{ eff_retailer_url_ca }}" target="_blank" rel="noopener sponsored" class="trg-pdp__btn-primary" style="background:#1a1a18;">
             Buy at {{ eff_retailer_name_ca | escape }}
             <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
           </a>
@@ -397,7 +286,7 @@
 
     </div>
 
-    {%- comment -%} â•�â•�â•� ALSO AVAILABLE AT (dedup surfacing) â•�â•�â•� {%- endcomment -%}
+    {%- comment -%} ═══ ALSO AVAILABLE AT (dedup surfacing) ═══ {%- endcomment -%}
     {%- if also_available_raw != blank and also_available_raw != '[]' -%}
       <div class="trg-pdp__also-at" data-alts="{{ also_available_raw | escape }}">
         <div class="trg-pdp__also-at__label">Also available at</div>
@@ -405,7 +294,9 @@
       </div>
     {%- endif -%}
 
-    <p class="trg-pdp__disclosure">We may earn a commission if you purchase through our links. <a href="/pages/affiliate-disclosure" class="trg-pdp__disclosure-link">Affiliate disclosure</a></p>
+    {%- if has_affiliate -%}
+    <p class="trg-pdp__disclosure">Affiliate link — TRG may earn a commission at no extra cost to you</p>
+    {%- endif -%}
 
     {%- comment -%} Wishlist {%- endcomment -%}
     <button
@@ -419,11 +310,11 @@
       <span class="trg-pdp__wishlist-text">Save to Wishlist</span>
     </button>
 
-    {%- comment -%} â•�â•�â•� CANADA STRIP â•�â•�â•� (hidden default, body[data-region=CA] shows) {%- endcomment -%}
+    {%- comment -%} ═══ CANADA STRIP ═══ (hidden default, body[data-region=CA] shows) {%- endcomment -%}
     <div class="trg-pdp__canada" id="trg-canada-strip">
       <button class="trg-pdp__canada-header" type="button" onclick="this.closest('.trg-pdp__canada').classList.toggle('open')">
         <span class="trg-pdp__canada-title">
-          <span aria-hidden="true">&#127464;&#127462;</span> Canadian Buyers
+          <span aria-hidden="true">🍁</span> Canadian Buyers
         </span>
         <svg class="trg-pdp__canada-chevron" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 15l-6-6-6 6"/></svg>
       </button>
@@ -431,23 +322,23 @@
         {%- if ships_to_ca -%}
           <div class="trg-pdp__canada-fact">
             <svg class="trg-pdp__canada-icon--ok" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-            <span><strong>Ships to Canada</strong>  -  direct from brand</span>
+            <span><strong>Ships to Canada</strong> — direct from brand</span>
           </div>
         {%- else -%}
           <div class="trg-pdp__canada-fact">
             <svg class="trg-pdp__canada-icon--warn" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-            <span><strong>Shipping to Canada</strong>  -  check retailer</span>
+            <span><strong>Shipping to Canada</strong> — check retailer</span>
           </div>
         {%- endif -%}
         {%- if duties_apply -%}
           <div class="trg-pdp__canada-fact">
             <svg class="trg-pdp__canada-icon--warn" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-            <span><strong>Duties not prepaid</strong>  -  may apply at delivery</span>
+            <span><strong>Duties not prepaid</strong> — may apply at delivery</span>
           </div>
         {%- else -%}
           <div class="trg-pdp__canada-fact">
             <svg class="trg-pdp__canada-icon--ok" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-            <span><strong>No duties</strong>  -  DDP, price is final</span>
+            <span><strong>No duties</strong> — DDP, price is final</span>
           </div>
         {%- endif -%}
         {%- if returns_window != blank -%}
@@ -459,7 +350,7 @@
       </div>
     </div>
 
-    {%- comment -%} â•�â•�â•� META GRID â•�â•�â•� {%- endcomment -%}
+    {%- comment -%} ═══ META GRID ═══ {%- endcomment -%}
     <div class="trg-pdp__meta">
       <div class="trg-pdp__meta-item{% if material == blank %} trg-pdp__meta-item--hidden{% endif %}" id="trg-meta-material">
           <span class="trg-pdp__meta-key">Material</span>
@@ -485,7 +376,7 @@
       {%- endif -%}
     </div>
 
-    {%- comment -%} â•�â•�â•� ACCORDION â•�â•�â•� {%- endcomment -%}
+    {%- comment -%} ═══ ACCORDION ═══ {%- endcomment -%}
     <div class="trg-pdp__accordion">
 
       {%- if p.description != blank -%}
@@ -507,10 +398,10 @@
         </button>
         <div class="trg-pdp__acc-body" id="trg-acc-materials">
           {%- if material != blank or care_inst != blank -%}
-            {%- if material != blank -%}<p style="margin:0 0 0.4rem;font-weight:500;color:var(--ink);">{{ material }}</p>{%- endif -%}
+            {%- if material != blank -%}<p style="margin:0 0 0.4rem;font-weight:500;color:#1a1a18;">{{ material }}</p>{%- endif -%}
             {%- if care_inst != blank -%}<p style="margin:0;">{{ care_inst }}</p>{%- endif -%}
           {%- else -%}
-            Care instructions vary by product  -  check the brand's site for details.
+            Care instructions vary by product — check the brand's site for details.
           {%- endif -%}
         </div>
       </div>
@@ -534,7 +425,7 @@
 </div>
 
 
-{%- comment -%} â•�â•�â•� COMPLETE THE LOOK  -  COLOUR GUIDE â•�â•�â•� {%- endcomment -%}
+{%- comment -%} ═══ COMPLETE THE LOOK — COLOUR GUIDE ═══ {%- endcomment -%}
 {%- liquid
   assign ctl_colour = ''
   for option in p.options_with_values
@@ -557,7 +448,7 @@
     endif
   endif
   if ctl_colour == blank
-    assign title_parts = p.title | split: '  -  '
+    assign title_parts = p.title | split: ' — '
     if title_parts.size > 1
       assign ctl_colour = title_parts.last | strip
     endif
@@ -580,50 +471,54 @@
 
 {%- if ctl_colour != blank -%}
 {{ 'trg-colour-pdp.css' | asset_url | stylesheet_tag }}
-<div class="pdp-guide-module" data-colour="{{ ctl_colour | escape }}" data-garment="{{ ctl_garment }}">
-  <div class="pdp-guide-pad">
-    <div class="pdp-guide-shell">
-      <div class="pdp-guide-head">
-        <div>
-          <p class="pdp-guide-kicker">From the Colour Guide</p>
-          <h3 class="pdp-guide-title">Complete the <em>look</em></h3>
-          <p class="pdp-guide-sub" id="ctl-subtitle">
-            Your <strong id="ctl-colour-name">{{ ctl_colour | escape }}</strong> {{ ctl_garment }} stays locked in. Build around it with the same colour system used across the guide.
-          </p>
-        </div>
-        <a class="pdp-guide-link" href="/pages/colour-guide">Open the full guide &rarr;</a>
+<div class="trg-ctl" id="trg-ctl" data-colour="{{ ctl_colour | escape }}" data-garment="{{ ctl_garment }}">
+  <div class="trg-ctl__inner">
+    <div class="trg-ctl__head">
+      <h3 class="trg-ctl__title">Complete the <em>look</em></h3>
+      <a class="trg-ctl__link" href="/pages/colour-guide">Full Colour Guide &rarr;</a>
+    </div>
+    <p class="trg-ctl__sub">Build an outfit around your <strong>{{ ctl_colour | escape }}</strong> {{ ctl_garment }}.</p>
+
+    <div class="trg-ctl__strip"></div>
+
+    <div class="trg-ctl__palette-wrap">
+      <div class="trg-ctl__palette-head">
+        <span class="trg-ctl__palette-prompt">Choose a colour</span>
+        <button class="trg-ctl__undo" type="button">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 119 9"/><path d="M3 3v9h9"/></svg> Undo
+        </button>
       </div>
-      <div class="pdp-guide-pills">
-        <span class="pdp-guide-pill">Current item locked</span>
-        <span class="pdp-guide-pill">5 to fill</span>
+      <div class="trg-ctl__chips-area"></div>
+    </div>
+
+    <div class="trg-ctl__bottom">
+      <div class="trg-ctl__gauge">
+        <svg viewBox="0 0 56 56"><circle class="trg-ctl__gauge-bg" cx="28" cy="28" r="24"/><circle class="trg-ctl__gauge-fill" cx="28" cy="28" r="24"/></svg>
+        <div class="trg-ctl__gauge-pct empty">&hellip;</div>
       </div>
-      <div class="ob-wrap" id="cg-outfit-builder"></div>
-      <div class="pdp-guide-footnote">
-        Built from the same colour library as the full guide, so the advice here stays consistent with the larger reference. <a href="/pages/colour-guide">Browse the complete Colour Guide &rarr;</a>
-      </div>
+      <div class="trg-ctl__dots"></div>
+      <div class="trg-ctl__shop"></div>
+      <button class="trg-ctl__reset" type="button">Reset</button>
+      <a class="trg-ctl__shop-all" href="/pages/colour-guide">Full Colour Guide &rarr;</a>
     </div>
   </div>
 </div>
-<script src="{{ 'trg-colour-engine.js' | asset_url }}" defer></script>
 <script src="{{ 'trg-colour-pdp.js' | asset_url }}" defer></script>
 {%- endif -%}
 
-{%- comment -%} â•�â•�â•� PDP ENHANCEMENTS JS â•�â•�â•� {%- endcomment -%}
+{%- comment -%} ═══ PDP ENHANCEMENTS JS ═══ {%- endcomment -%}
 <script src="{{ 'trg-pdp-enhance.js' | asset_url }}" defer></script>
-<script src="{{ 'trg-palette.js' | asset_url }}" defer
-  data-palette-profiles="{{ 'trg-colour-profiles.json' | asset_url }}"></script>
-<link rel="stylesheet" href="{{ 'trg-palette.css' | asset_url }}">
 {% endif %}
 
 {% stylesheet %}
-  /* â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�
-     TRG PDP v3  -  Complete styles
-     â•�â•���â•��â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•�â•� */
+  /* ═══════════════════════════════════════════════════════
+     TRG PDP v3 — Complete styles
+     ═══════════════════════════════════════════════════════ */
 
-  /* â”€â”€ BREADCRUMB â”€â”€ */
+  /* ── BREADCRUMB ── */
   .trg-pdp-bc {
     padding: 0.75rem 2rem;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid #ddd8cf;
     background: #faf8f4;
   }
   .trg-pdp-bc__inner {
@@ -633,24 +528,24 @@
     align-items: center;
     gap: 0.5rem;
     font-size: 0.72rem;
-    color: var(--mid);
+    color: #8a8478;
   }
   .trg-pdp-bc a {
-    color: var(--mid);
+    color: #8a8478;
     text-decoration: none;
   }
   .trg-pdp-bc a:hover {
-    color: var(--ink);
+    color: #1a1a18;
   }
   .trg-pdp-bc__sep {
     opacity: 0.4;
   }
   .trg-pdp-bc__current {
-    color: var(--ink);
+    color: #1a1a18;
     font-weight: 500;
   }
 
-  /* â”€â”€ MAIN LAYOUT  -  55/45 split â”€â”€ */
+  /* ── MAIN LAYOUT — 55/45 split ── */
   .trg-pdp {
     max-width: 1320px;
     margin: 0 auto;
@@ -660,7 +555,7 @@
     gap: 2rem;
   }
 
-  /* â”€â”€ GALLERY â”€â”€ */
+  /* ── GALLERY ── */
   .trg-pdp__gallery {
     display: flex;
     flex-direction: column;
@@ -687,7 +582,7 @@
     align-items: center;
     justify-content: center;
     gap: 0.75rem;
-    color: var(--mid);
+    color: #8a8478;
   }
   .trg-pdp__gallery-placeholder svg {
     opacity: 0.3;
@@ -714,7 +609,7 @@
     padding: 0;
   }
   .trg-pdp__thumb.active {
-    border-color: var(--ink);
+    border-color: #1a1a18;
   }
   .trg-pdp__thumb img {
     width: 100%;
@@ -728,13 +623,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--mid);
+    color: #8a8478;
     font-size: 0.55rem;
     opacity: 0.4;
     text-align: center;
   }
 
-  /* â”€â”€ INFO COLUMN â”€â”€ */
+  /* ── INFO COLUMN ── */
   .trg-pdp__info {
     display: flex;
     flex-direction: column;
@@ -750,7 +645,7 @@
     font-weight: 600;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--accent);
+    color: #c4562a;
     text-decoration: none;
     margin-bottom: 0.6rem;
   }
@@ -768,7 +663,7 @@
     font-size: 1.75rem;
     font-weight: 600;
     line-height: 1.2;
-    color: var(--ink);
+    color: #1a1a18;
     margin: 0 0 0.5rem;
   }
 
@@ -779,28 +674,22 @@
     gap: 0.75rem;
     margin-bottom: 1.25rem;
     padding-bottom: 1.25rem;
-    border-bottom: 1px solid var(--border);
-  }
-  .trg-pdp__price-code {
-    font-size: 0.65em;
-    font-weight: 400;
-    color: var(--mid);
-    letter-spacing: 0.03em;
-    vertical-align: baseline;
+    border-bottom: 1px solid #ddd8cf;
   }
   .trg-pdp__price {
     font-family: 'Playfair Display', serif;
     font-size: 1.5rem;
     font-weight: 600;
-    color: var(--ink);
+    color: #1a1a18;
   }
   .trg-pdp__price-ca {
     font-size: 0.8rem;
-    color: var(--mid);
+    color: #8a8478;
     font-weight: 400;
     display: none;
   }
-  body[data-region='CA'] .trg-pdp__price-ca {
+  body[data-region='CA'] .trg-pdp__price-ca,
+  body[data-region='ca'] .trg-pdp__price-ca {
     display: inline;
   }
   .trg-pdp__price-ca-badge {
@@ -817,7 +706,8 @@
     text-transform: uppercase;
     padding: 0.2rem 0.5rem;
   }
-  body[data-region='CA'] .trg-pdp__price-ca-badge {
+  body[data-region='CA'] .trg-pdp__price-ca-badge,
+  body[data-region='ca'] .trg-pdp__price-ca-badge {
     display: flex;
   }
 
@@ -830,7 +720,7 @@
     font-weight: 600;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--mid);
+    color: #8a8478;
     margin-bottom: 0.6rem;
   }
   .trg-pdp__chips {
@@ -842,26 +732,26 @@
     min-width: 44px;
     padding: 0.4rem 0.6rem;
     text-align: center;
-    border: 1px solid var(--border);
+    border: 1px solid #ddd8cf;
     border-radius: 2px;
     font-size: 0.78rem;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.15s;
     background: #ffffff;
-    color: var(--ink);
+    color: #1a1a18;
     font-family: inherit;
   }
   .trg-pdp__chip:hover {
-    border-color: var(--ink);
+    border-color: #1a1a18;
   }
   .trg-pdp__chip.active {
-    background: var(--ink);
-    color: var(--paper);
-    border-color: var(--ink);
+    background: #1a1a18;
+    color: #f5f1eb;
+    border-color: #1a1a18;
   }
 
-  /* â”€â”€ CTA SECTION â”€â”€ */
+  /* ── CTA SECTION ── */
   .trg-pdp__cta-section {
     margin-bottom: 0.5rem;
     display: flex;
@@ -876,10 +766,12 @@
   .trg-pdp__market--ca {
     display: none;
   }
-  body[data-region='CA'] .trg-pdp__market--us {
+  body[data-region='CA'] .trg-pdp__market--us,
+  body[data-region='ca'] .trg-pdp__market--us {
     display: none;
   }
-  body[data-region='CA'] .trg-pdp__market--ca {
+  body[data-region='CA'] .trg-pdp__market--ca,
+  body[data-region='ca'] .trg-pdp__market--ca {
     display: flex;
   }
 
@@ -888,7 +780,7 @@
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    background: var(--accent);
+    background: #c4562a;
     color: #ffffff;
     font-family: 'DM Sans', sans-serif;
     font-size: 0.82rem;
@@ -917,7 +809,7 @@
     justify-content: center;
     gap: 0.5rem;
     background: #ffffff;
-    color: var(--ink);
+    color: #1a1a18;
     font-family: 'DM Sans', sans-serif;
     font-size: 0.82rem;
     font-weight: 500;
@@ -927,16 +819,16 @@
     border-radius: 2px;
     cursor: pointer;
     text-decoration: none;
-    border: 1px solid var(--border);
+    border: 1px solid #ddd8cf;
     transition: border-color 0.2s;
     width: 100%;
   }
   .trg-pdp__btn-secondary:hover {
-    border-color: var(--ink);
-    color: var(--ink);
+    border-color: #1a1a18;
+    color: #1a1a18;
   }
 
-  /* â”€â”€ Also Available At (dedup) â”€â”€ */
+  /* ── Also Available At (dedup) ── */
   .trg-pdp__also-at {
     margin-top: 0.75rem;
     padding-top: 0.75rem;
@@ -982,7 +874,7 @@
     align-items: center;
     gap: 0.75rem;
     font-size: 0.65rem;
-    color: var(--mid);
+    color: #8a8478;
     text-transform: uppercase;
     letter-spacing: 0.1em;
   }
@@ -991,12 +883,12 @@
     content: '';
     flex: 1;
     height: 1px;
-    background: var(--border);
+    background: #ddd8cf;
   }
 
   .trg-pdp__disclosure {
     font-size: 0.7rem;
-    color: var(--mid);
+    color: #8a8478;
     font-weight: 300;
     letter-spacing: 0.02em;
     margin-bottom: 0.4rem;
@@ -1004,7 +896,7 @@
 
   .trg-pdp__ca-note {
     font-size: 0.72rem;
-    color: var(--mid);
+    color: #8a8478;
     line-height: 1.4;
     padding: 0.6rem 0.75rem;
     background: rgba(212,41,26,0.04);
@@ -1014,7 +906,7 @@
 
   .trg-pdp__no-link {
     font-size: 0.82rem;
-    color: var(--mid);
+    color: #8a8478;
     font-weight: 300;
     font-style: italic;
     padding: 0.75rem 0;
@@ -1029,9 +921,9 @@
     width: 100%;
     padding: 0.7rem 1rem;
     background: transparent;
-    border: 1px solid var(--border);
+    border: 1px solid #ddd8cf;
     border-radius: 3px;
-    color: var(--mid);
+    color: #8a8478;
     font-family: 'DM Sans', sans-serif;
     font-size: 0.78rem;
     font-weight: 500;
@@ -1042,18 +934,18 @@
     margin-bottom: 1rem;
   }
   .trg-pdp__wishlist:hover {
-    border-color: var(--ink);
-    color: var(--ink);
+    border-color: #1a1a18;
+    color: #1a1a18;
   }
   .trg-pdp__wishlist.trg-wishlist--saved {
-    color: var(--accent);
-    border-color: var(--accent);
+    color: #c4562a;
+    border-color: #c4562a;
   }
   .trg-pdp__wishlist.trg-wishlist--saved .trg-pdp__wishlist-icon {
     fill: currentColor;
   }
 
-  /* â”€â”€ CANADA STRIP â”€â”€ */
+  /* ── CANADA STRIP ── */
   .trg-pdp__canada {
     display: none;
     background: rgba(212,41,26,0.04);
@@ -1062,7 +954,8 @@
     overflow: hidden;
     margin-bottom: 1rem;
   }
-  body[data-region='CA'] .trg-pdp__canada {
+  body[data-region='CA'] .trg-pdp__canada,
+  body[data-region='ca'] .trg-pdp__canada {
     display: block;
   }
   .trg-pdp__canada-header {
@@ -1108,7 +1001,7 @@
     align-items: flex-start;
     gap: 0.5rem;
     font-size: 0.78rem;
-    color: var(--ink);
+    color: #1a1a18;
     line-height: 1.4;
   }
   .trg-pdp__canada-fact svg {
@@ -1122,14 +1015,14 @@
     color: #c47a28;
   }
 
-  /* â”€â”€ META GRID â”€â”€ */
+  /* ── META GRID ── */
   .trg-pdp__meta {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 0.75rem 1rem;
     padding: 1.25rem 0;
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
+    border-top: 1px solid #ddd8cf;
+    border-bottom: 1px solid #ddd8cf;
     margin-bottom: 1rem;
   }
   .trg-pdp__meta-key {
@@ -1137,12 +1030,12 @@
     font-weight: 600;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--mid);
+    color: #8a8478;
     margin-bottom: 0.2rem;
   }
   .trg-pdp__meta-val {
     font-size: 0.82rem;
-    color: var(--ink);
+    color: #1a1a18;
     font-weight: 500;
   }
   .trg-pdp__meta-val--tag {
@@ -1156,12 +1049,12 @@
     color: #3d8c5e;
   }
 
-  /* â”€â”€ ACCORDION â”€â”€ */
+  /* ── ACCORDION ── */
   .trg-pdp__accordion {
-    border-top: 1px solid var(--border);
+    border-top: 1px solid #ddd8cf;
   }
   .trg-pdp__acc-item {
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid #ddd8cf;
   }
   .trg-pdp__acc-trigger {
     width: 100%;
@@ -1180,10 +1073,10 @@
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--ink);
+    color: #1a1a18;
   }
   .trg-pdp__acc-chevron {
-    color: var(--mid);
+    color: #8a8478;
     transition: transform 0.2s;
   }
   .trg-pdp__acc-item.open .trg-pdp__acc-chevron {
@@ -1193,7 +1086,7 @@
     display: none;
     padding-bottom: 1rem;
     font-size: 0.85rem;
-    color: var(--mid);
+    color: #8a8478;
     line-height: 1.65;
   }
   .trg-pdp__acc-item.open .trg-pdp__acc-body {
@@ -1217,7 +1110,7 @@
     line-height: 1.6;
   }
 
-  /* â”€â”€ GALLERY ARROWS + COUNTER â”€â”€ */
+  /* ── GALLERY ARROWS + COUNTER ── */
   .trg-pdp__gallery-arrow {
     position: absolute;
     top: 50%;
@@ -1226,7 +1119,7 @@
     height: 36px;
     border-radius: 50%;
     background: rgba(255,255,255,0.88);
-    border: 1px solid var(--border);
+    border: 1px solid #ddd8cf;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1234,7 +1127,7 @@
     opacity: 0;
     transition: opacity 0.2s;
     z-index: 2;
-    color: var(--ink);
+    color: #1a1a18;
     padding: 0;
   }
   .trg-pdp__gallery-main:hover .trg-pdp__gallery-arrow {
@@ -1242,7 +1135,7 @@
   }
   .trg-pdp__gallery-arrow:hover {
     background: #ffffff;
-    border-color: var(--ink);
+    border-color: #1a1a18;
   }
   .trg-pdp__gallery-arrow--prev { left: 0.75rem; }
   .trg-pdp__gallery-arrow--next { right: 0.75rem; }
@@ -1267,7 +1160,7 @@
     display: none;
   }
 
-  /* â”€â”€ RESPONSIVE â”€â”€ */
+  /* ── RESPONSIVE ── */
   @media (max-width: 990px) {
     .trg-pdp {
       grid-template-columns: 1fr;
@@ -1282,7 +1175,7 @@
       font-size: 1.6rem;
     }
 
-    /* â”€â”€ BREADCRUMB mobile â”€â”€ */
+    /* ── BREADCRUMB mobile ── */
     .trg-pdp-bc {
       padding: 0.5rem 1rem;
       overflow: hidden;
@@ -1311,14 +1204,14 @@
       max-width: 52vw;
     }
 
-    /* â”€â”€ META GRID mobile â”€â”€ */
+    /* ── META GRID mobile ── */
     .trg-pdp__meta {
       display: flex;
       flex-wrap: wrap;
       column-gap: 1.5rem;
       row-gap: 0.5rem;
       padding: 0.85rem 0;
-      border-top: 1px solid var(--border);
+      border-top: 1px solid #ddd8cf;
       border-bottom: none;
       margin-bottom: 0;
     }
@@ -1356,27 +1249,6 @@
   }
 {% endstylesheet %}
 
-{%- comment -%}TRG SEO — Product JSON-LD (G5){%- endcomment -%}
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org/",
-  "@type": "Product",
-  "name": {{ product.title | json }},
-  "url": "{{ shop.url }}{{ product.url }}",
-  "description": {{ product.description | strip_html | json }},
-  "brand": { "@type": "Brand", "name": {{ product.vendor | json }} },
-  "sku": {{ product.selected_or_first_available_variant.sku | json }},
-  "offers": {
-    "@type": "Offer",
-    "price": "{{ product.price | money_without_currency }}",
-    "priceCurrency": "{{ cart.currency.iso_code }}",
-    "availability": "{% if product.available %}https://schema.org/InStock{% else %}https://schema.org/OutOfStock{% endif %}",
-    "url": "{{ shop.url }}{{ product.url }}"
-  }{% if product.featured_image %},
-  "image": "{{ product.featured_image | image_url: width: 1200 }}"{% endif %}
-}
-</script>
-
 {% schema %}
 {
   "name": "TRG Product PDP",
@@ -1393,5 +1265,4 @@
   ]
 }
 {% endschema %}
-
 

@@ -1,5 +1,5 @@
-<!-- trg-mm-ver:1774834110 -->
-{% comment %}trg-mm-v4.4-category-route-fix{% endcomment %}
+<!-- trg-mm-ver:1774836900 -->
+{% comment %}trg-mm-v4.5-subcategory-routing-and-chip-selection{% endcomment %}
 {%- liquid
   assign bd = shop.metaobjects['brand']
   assign has_mo = false
@@ -113,7 +113,7 @@
                 {%- assign chip_list = block.settings.chips | split: ',' -%}
                 {%- for chip in chip_list -%}
                   {%- assign chip_clean = chip | strip -%}
-                  <span class="trg-mm-ac trg-mm-ac--static{% if forloop.first %} on{% endif %}">{{ chip_clean }}</span>
+                  <button type="button" class="trg-mm-ac{% if forloop.first %} on{% endif %}" aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}">{{ chip_clean }}</button>
                 {%- endfor -%}
               </div>
             </div>
@@ -132,23 +132,18 @@
             if st == blank
               assign st = 'Untitled'
             endif
-            assign su = block.settings.title_override | default: 'all' | handleize | prepend: '/collections/'
-            if block.settings.collection != blank and block.settings.collection.url != blank
-              assign su = block.settings.collection.url
-            endif
             assign subcategory_product_count = 0
             if block.settings.collection != blank
               assign subcategory_product_count = block.settings.collection.products_count
             endif
             assign subcategory_is_staged = false
-            assign staged_subcategory_url = pfu
             if limited_live_catalog and subcategory_product_count == 0
               assign subcategory_is_staged = true
             endif
-            if block.settings.collection != blank and block.settings.collection.url != blank
-              assign staged_subcategory_url = block.settings.collection.url
-            endif
           -%}
+          {%- capture su -%}{% render 'trg-mega-menu-subcategory-url', title: st, collection_url: block.settings.collection.url, fallback_url: pfu %}{%- endcapture -%}
+          {%- assign su = su | strip -%}
+          {%- assign staged_subcategory_url = su -%}
           {% if subcategory_is_staged %}
             <a href="{{ staged_subcategory_url }}" class="trg-mm-st" {{ block.shopify_attributes }}>
               <span class="trg-mm-sn">{{ st }}</span>
@@ -301,7 +296,7 @@
                   <div class="trg-mob-chips" data-swipe>
                     {%- assign mchips = block.settings.chips | split: ',' -%}
                     {%- for chip in mchips -%}
-                      <span class="trg-mob-chip trg-mob-chip--static{% if forloop.first %} on{% endif %}">{{ chip | strip }}</span>
+                      <button type="button" class="trg-mob-chip{% if forloop.first %} on{% endif %}" aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}">{{ chip | strip }}</button>
                     {%- endfor -%}
                   </div>
                 {%- endif -%}
@@ -322,23 +317,18 @@
               if mst == blank
                 assign mst = 'Untitled'
               endif
-              assign msu = block.settings.title_override | default: 'all' | handleize | prepend: '/collections/'
-              if block.settings.collection != blank and block.settings.collection.url != blank
-                assign msu = block.settings.collection.url
-              endif
               assign mobile_subcategory_product_count = 0
               if block.settings.collection != blank
                 assign mobile_subcategory_product_count = block.settings.collection.products_count
               endif
               assign mobile_subcategory_is_staged = false
-              assign mobile_staged_subcategory_url = mfu
               if limited_live_catalog and mobile_subcategory_product_count == 0
                 assign mobile_subcategory_is_staged = true
               endif
-              if block.settings.collection != blank and block.settings.collection.url != blank
-                assign mobile_staged_subcategory_url = block.settings.collection.url
-              endif
             -%}
+            {%- capture msu -%}{% render 'trg-mega-menu-subcategory-url', title: mst, collection_url: block.settings.collection.url, fallback_url: mfu %}{%- endcapture -%}
+            {%- assign msu = msu | strip -%}
+            {%- assign mobile_staged_subcategory_url = msu -%}
             {% if mobile_subcategory_is_staged %}
               <a href="{{ mobile_staged_subcategory_url }}" class="trg-mob-sub">
                 <span class="trg-mob-sub-name">{{ mst }}</span>
