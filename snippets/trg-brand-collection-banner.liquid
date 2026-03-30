@@ -1,0 +1,203 @@
+{% liquid
+  assign brand = collection.metafields.trg.brand.value
+  assign inline = inline | default: false
+  if brand
+    assign brand_name = brand.name | default: collection.title
+    assign brand_slug = brand.slug.value | default: brand.slug | default: brand_name | handleize
+    assign brand_description = brand.description | strip_html | strip
+    assign brand_positioning = brand.brand_positioning.value | default: brand.brand_positioning | strip_html | strip
+    assign brand_price_range = brand.price_range.value | default: brand.price_range
+    assign brand_ships_to_canada = brand.ships_to_canada.value | default: brand.ships_to_canada
+    assign brand_made_in = brand.made_in.value | default: brand.made_in
+    assign brand_country = brand.country.value | default: brand.country | strip
+    assign brand_primary_category = brand.primary_category.value | default: brand.primary_category
+    assign brand_primary_category_first = brand_primary_category | split: ',' | first | strip
+    assign brand_shop_url = brand.retailer_url_na.value | default: brand.retailer_url_na
+    if brand_shop_url == blank
+      assign brand_shop_url = brand.affiliate_link | default: brand.website
+    endif
+    if brand_shop_url == blank
+      assign brand_shop_url = brand.retailer_url_ca.value | default: brand.retailer_url_ca
+    endif
+    assign editorial_description = brand_description
+    if editorial_description == blank
+      capture fallback_description
+        if brand_made_in != blank
+          echo 'Made in '
+          echo brand_made_in
+        endif
+        if brand_primary_category_first != blank
+          if brand_made_in != blank
+            echo '. '
+          endif
+          if brand_positioning != blank
+            echo brand_positioning
+            echo ' with a focus on '
+            echo brand_primary_category_first | downcase
+          else
+            echo 'Focus on '
+            echo brand_primary_category_first | downcase
+          endif
+        elsif brand_positioning != blank
+          if brand_made_in != blank
+            echo '. '
+          endif
+          echo brand_positioning
+        endif
+        if brand_price_range != blank
+          if brand_made_in != blank or brand_primary_category_first != blank or brand_positioning != blank
+            echo '. '
+          endif
+          echo brand_price_range
+          echo ' pricing'
+        endif
+      endcapture
+      assign editorial_description = fallback_description | strip
+    endif
+    assign use_sparse_banner = false
+    if brand_description == blank
+      assign use_sparse_banner = true
+    endif
+    assign has_editorial_copy = false
+    if brand_positioning != blank or editorial_description != blank or brand_primary_category != blank or brand_price_range != blank or brand_country != blank
+      assign has_editorial_copy = true
+    endif
+  endif
+%}
+
+{% if brand %}
+{{ 'trg-brand-collection-header.css' | asset_url | stylesheet_tag }}
+
+<div class="trg-bch{% if inline %} trg-bch--inline{% endif %}">
+  <div class="trg-bch-wrap">
+    <div class="trg-bch-container">
+      <div class="brand-banner{% unless has_editorial_copy %} brand-banner--no-copy{% endunless %}{% if use_sparse_banner %} brand-banner--sparse{% endif %} trg-bch-reveal">
+        <div class="brand-banner__identity">
+          <div class="brand-banner__logo">
+            {%- if brand.logo != blank -%}
+              <img
+                src="{{ brand.logo | image_url: width: 120, height: 120, crop: 'center' }}"
+                alt="{{ brand_name | escape }} logo"
+                loading="lazy"
+                width="64"
+                height="64"
+              >
+            {%- else -%}
+              <span class="brand-banner__logo-initial">{{ brand_name | slice: 0 | upcase }}</span>
+            {%- endif -%}
+          </div>
+          <h1 class="brand-banner__name">{{ brand_name }}</h1>
+          {%- if brand_made_in != blank -%}
+            <span class="brand-banner__badge">Made in {{ brand_made_in }}</span>
+          {%- endif -%}
+        </div>
+
+        {%- if has_editorial_copy -%}
+          <div class="brand-banner__copy">
+            {%- if brand_positioning != blank -%}
+              <div class="brand-banner__positioning">{{ brand_positioning }}</div>
+            {%- endif -%}
+            {%- if editorial_description != blank -%}
+              <p class="brand-banner__desc{% if brand_description == blank %} brand-banner__desc--fallback{% endif %}">{{ editorial_description | truncate: 160 }}</p>
+            {%- endif -%}
+            {%- if brand_primary_category != blank or brand_price_range != blank or brand_country != blank -%}
+              <div class="brand-banner__tags">
+                {%- assign rendered_tag_count = 0 -%}
+                {%- assign cats = brand_primary_category | split: ',' -%}
+                {%- for cat in cats limit: 3 -%}
+                  {%- assign clean_cat = cat | strip -%}
+                  {%- if clean_cat != blank -%}
+                    <span class="brand-banner__tag">{{ clean_cat }}</span>
+                    {%- assign rendered_tag_count = rendered_tag_count | plus: 1 -%}
+                  {%- endif -%}
+                {%- endfor -%}
+                {%- if rendered_tag_count < 3 and brand_price_range != blank -%}
+                  <span class="brand-banner__tag">{{ brand_price_range }}</span>
+                  {%- assign rendered_tag_count = rendered_tag_count | plus: 1 -%}
+                {%- endif -%}
+                {%- if rendered_tag_count < 3 and brand_country != blank and brand_country != brand_made_in -%}
+                  <span class="brand-banner__tag">{{ brand_country }}</span>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+
+        <div class="brand-banner__action">
+          {%- if brand_shop_url != blank -%}
+            <a href="{{ brand_shop_url }}" class="brand-banner__cta" target="_blank" rel="nofollow noopener">
+              Shop {{ brand_name }}
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
+          {%- endif -%}
+          <div class="brand-banner__meta">
+            {%- if brand_made_in != blank -%}
+              <div class="brand-banner__meta-row">
+                <span class="brand-banner__meta-key">Made In</span>
+                <span class="brand-banner__meta-val">{{ brand_made_in }}</span>
+              </div>
+            {%- endif -%}
+            {%- if brand_primary_category != blank -%}
+              <div class="brand-banner__meta-row">
+                <span class="brand-banner__meta-key">Category</span>
+                <span class="brand-banner__meta-val">{{ brand_primary_category_first }}</span>
+              </div>
+            {%- endif -%}
+            {%- if brand_price_range != blank -%}
+              <div class="brand-banner__meta-row">
+                <span class="brand-banner__meta-key">Price Range</span>
+                <span class="brand-banner__meta-val">{{ brand_price_range }}</span>
+              </div>
+            {%- endif -%}
+          </div>
+          <button class="brand-banner__follow" type="button" data-brand="{{ brand_slug }}" aria-label="Follow {{ brand_name }}">
+            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            Follow Brand
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {%- if brand_ships_to_canada == 'Yes' or brand_ships_to_canada == true or brand_ships_to_canada == 'true' or brand_ships_to_canada == '1' -%}
+  <div class="trg-bch-canada">
+    <div class="trg-bch-canada__inner">
+      <button class="trg-bch-canada__toggle" aria-expanded="false"
+        onclick="this.setAttribute('aria-expanded',this.getAttribute('aria-expanded')==='true'?'false':'true');this.nextElementSibling.classList.toggle('is-open');">
+        <div class="trg-bch-canada__toggle-left">
+          <span class="trg-bch-canada__flag">🍁</span>
+          <span class="trg-bch-canada__toggle-label">Shipping to Canada</span>
+          <span class="trg-bch-canada__toggle-summary">
+            —{%- if brand.ddp_duties == 'Yes' %} Duties included{%- endif -%}
+            {%- if brand.free_shipping_ca_threshold != blank %} · Free over {{ brand.free_shipping_ca_threshold }}{%- endif -%}
+          </span>
+        </div>
+        <svg class="trg-bch-canada__chevron" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <div class="trg-bch-canada__body">
+        <div class="trg-bch-canada__grid">
+          <div>
+            <div class="trg-bch-canada__item-label">Duties & Taxes</div>
+            <div class="trg-bch-canada__item-value{% if brand.ddp_duties == 'Yes' %} trg-bch-canada__item-value--good{% endif %}">
+              {%- if brand.ddp_duties == 'Yes' -%}Included (DDP){%- else -%}Buyer pays{%- endif -%}
+            </div>
+          </div>
+          {%- if brand.free_shipping_ca_threshold != blank -%}
+          <div>
+            <div class="trg-bch-canada__item-label">Free Shipping</div>
+            <div class="trg-bch-canada__item-value">Over {{ brand.free_shipping_ca_threshold }}</div>
+          </div>
+          {%- endif -%}
+          {%- if brand.best_retailer_ca != blank -%}
+          <div>
+            <div class="trg-bch-canada__item-label">Best CA Retailer</div>
+            <div class="trg-bch-canada__item-value">{{ brand.best_retailer_ca }}</div>
+          </div>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+  {%- endif -%}
+</div>
+{% endif %}

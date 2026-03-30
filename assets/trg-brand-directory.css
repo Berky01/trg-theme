@@ -129,6 +129,7 @@ body:has(.menu-drawer-container.menu-open) .trg-bdir__desktop-chrome {
   flex-direction: column;
   transform: none;
   box-shadow: none;
+  cursor: pointer;
 }
 
 .trg-bdir .trg-bdir__card:hover {

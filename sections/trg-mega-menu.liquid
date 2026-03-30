@@ -141,14 +141,18 @@
               assign subcategory_product_count = block.settings.collection.products_count
             endif
             assign subcategory_is_staged = false
+            assign staged_subcategory_url = pfu
             if limited_live_catalog and subcategory_product_count == 0
               assign subcategory_is_staged = true
             endif
+            if block.settings.collection != blank and block.settings.collection.url != blank
+              assign staged_subcategory_url = block.settings.collection.url
+            endif
           -%}
           {% if subcategory_is_staged %}
-            <span class="trg-mm-st trg-mm-st--static" {{ block.shopify_attributes }}>
+            <a href="{{ staged_subcategory_url }}" class="trg-mm-st" {{ block.shopify_attributes }}>
               <span class="trg-mm-sn">{{ st }}</span>
-            </span>
+            </a>
           {% else %}
             <a href="{{ su }}" class="trg-mm-st" {{ block.shopify_attributes }}>
               <span class="trg-mm-sn">{{ st }}</span>
@@ -327,14 +331,18 @@
                 assign mobile_subcategory_product_count = block.settings.collection.products_count
               endif
               assign mobile_subcategory_is_staged = false
+              assign mobile_staged_subcategory_url = mfu
               if limited_live_catalog and mobile_subcategory_product_count == 0
                 assign mobile_subcategory_is_staged = true
               endif
+              if block.settings.collection != blank and block.settings.collection.url != blank
+                assign mobile_staged_subcategory_url = block.settings.collection.url
+              endif
             -%}
             {% if mobile_subcategory_is_staged %}
-              <div class="trg-mob-sub trg-mob-sub--static">
+              <a href="{{ mobile_staged_subcategory_url }}" class="trg-mob-sub">
                 <span class="trg-mob-sub-name">{{ mst }}</span>
-              </div>
+              </a>
             {% else %}
               <a href="{{ msu }}" class="trg-mob-sub">
                 <span class="trg-mob-sub-name">{{ mst }}</span>

@@ -439,6 +439,18 @@
         }
       });
 
+      section.addEventListener('click', (event) => {
+        if (event.defaultPrevented) return;
+        const target = event.target instanceof Element ? event.target : null;
+        if (!target) return;
+        if (target.closest('.trg-bdir__carda, [data-save]')) return;
+        const card = target.closest('.trg-bdir__card');
+        if (!card) return;
+        const link = card.querySelector('.trg-bdir__carda[href]');
+        if (!(link instanceof HTMLAnchorElement) || !link.href) return;
+        window.location.assign(link.href);
+      });
+
       if (topb) topb.addEventListener('click', () => window.scrollTo({top: 0, behavior: 'smooth'}));
       window.addEventListener(
         'scroll',

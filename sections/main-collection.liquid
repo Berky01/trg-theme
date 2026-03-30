@@ -615,6 +615,9 @@
         </div>
       {% endunless %}
       <div class="trg-plp-main-column">
+        {% if collection.metafields.trg.brand.value %}
+          {% render 'trg-brand-collection-banner', collection: collection, inline: true %}
+        {% endif %}
         {% unless trg_single_column_category_collection %}
           {% content_for 'block',
             type: 'filters',

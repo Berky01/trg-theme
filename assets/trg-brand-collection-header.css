@@ -7,17 +7,28 @@
   --bch-paper: #f5f1eb;
   --bch-warm: #faf8f4;
   --bch-mid: #8a8478;
-  --bch-accent: #b84a24;
+  --bch-accent: #c4562a;
   --bch-canada: #d4291a;
   --bch-border: #ddd8cf;
+  width: 100%;
 }
 
 .trg-bch-wrap {
+  background: var(--bch-paper);
+  padding: 1.35rem 2rem 1rem;
+}
+
+.trg-bch--inline .trg-bch-wrap {
   background: transparent;
-  padding: 1.25rem 0 1.25rem 0;
+  padding: 0 0 1rem;
 }
 
 .trg-bch-container {
+  max-width: 1320px;
+  margin: 0 auto;
+}
+
+.trg-bch--inline .trg-bch-container {
   max-width: none;
   margin: 0;
 }
@@ -25,38 +36,34 @@
 /* ─── BRAND BANNER — 3-column ─── */
 .brand-banner {
   display: grid;
-  grid-template-columns: 220px 1fr 220px;
+  grid-template-columns: auto 1fr auto;
   border: 1px solid var(--bch-border, #ddd8cf);
   background: #faf8f4;
-  margin-bottom: 0;
+  margin-bottom: 1.5rem;
 }
 
 .brand-banner--no-copy {
-  grid-template-columns: 220px 1fr 220px;
+  grid-template-columns: auto auto;
 }
 
 .brand-banner--sparse {
-  grid-template-columns: 220px 1fr 220px;
-  justify-content: normal;
+  grid-template-columns: 237px minmax(360px, 520px) 229px;
+  justify-content: space-between;
 }
 
 .brand-banner__identity {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 1.25rem 1.5rem 1.25rem 1.5rem;
+  padding: 1.5rem 2rem 1.5rem 1.75rem;
   border-right: 1px solid var(--bch-border, #ddd8cf);
-  min-width: 180px;
-  max-width: 220px;
+  min-width: 200px;
+  max-width: 240px;
 }
 
 .brand-banner__logo {
   width: 64px;
   height: 64px;
-  min-width: 64px;
-  min-height: 64px;
-  max-width: 64px;
-  max-height: 64px;
   border: 1px solid var(--bch-border, #ddd8cf);
   background: var(--bch-paper, #f5f1eb);
   display: flex;
@@ -71,8 +78,7 @@
   width: 100%;
   height: 100%;
   object-fit: contain;
-  padding: 6px;
-  display: block;
+  padding: 8px;
 }
 
 .brand-banner__logo-initial {
@@ -101,14 +107,6 @@
   border: 1px solid var(--bch-border, #ddd8cf);
   padding: 0.18rem 0.45rem;
   width: fit-content;
-}
-
-.brand-banner__identity-text {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 0.3rem;
-  min-width: 0;
 }
 
 .brand-banner__copy {
@@ -159,11 +157,32 @@
   padding: 0.18rem 0.45rem;
 }
 
+.brand-banner--sparse .brand-banner__copy {
+  max-width: 520px;
+}
+
+.brand-banner--sparse .brand-banner__tags {
+  margin-top: 0.25rem;
+}
+
+.brand-banner:has(.brand-banner__copy:not(:has(.brand-banner__desc))) {
+  grid-template-columns: 237px minmax(360px, 520px) 229px;
+  justify-content: space-between;
+}
+
+.brand-banner:has(.brand-banner__copy:not(:has(.brand-banner__desc))) .brand-banner__copy {
+  max-width: 520px;
+}
+
+.brand-banner:has(.brand-banner__copy:not(:has(.brand-banner__desc))) .brand-banner__tags {
+  margin-top: 0.25rem;
+}
+
 .brand-banner__action {
   display: flex;
   flex-direction: column;
   border-left: 1px solid var(--bch-border, #ddd8cf);
-  min-width: 0;
+  min-width: 210px;
   flex-shrink: 0;
 }
 
@@ -256,6 +275,12 @@ body[data-region="CA"] .trg-bch-canada {
   max-width: 1320px;
   margin: 0 auto;
   padding: 0 2rem;
+}
+
+.trg-bch--inline .trg-bch-canada__inner {
+  max-width: none;
+  margin: 0;
+  padding: 0;
 }
 
 .trg-bch-canada__toggle {
@@ -351,21 +376,40 @@ body[data-region="CA"] .trg-bch-canada {
   animation: trg-bch-fadeUp 0.4s ease both;
 }
 
+/* ─── SECTION REORDER ─── */
+main[data-template="collection.brand"] {
+  display: flex;
+  flex-direction: column;
+}
+
+main[data-template="collection.brand"] > .trg-search-bar-wrapper {
+  order: -2;
+}
+
+main[data-template="collection.brand"] > .trg-bch-section {
+  order: -1;
+}
+
 @media screen and (max-width: 990px) {
   .trg-bch-wrap {
-    padding: 1.25rem 0 1.25rem 0;
+    padding: 1.25rem 1.5rem;
   }
 
   .brand-banner {
-    grid-template-columns: 200px 1fr 220px;
+    grid-template-columns: auto minmax(0, 1fr) 240px;
   }
 
   .brand-banner--no-copy {
-    grid-template-columns: 200px 1fr 220px;
+    grid-template-columns: auto 240px;
   }
 
   .brand-banner--sparse {
-    grid-template-columns: 200px 1fr 220px;
+    grid-template-columns: 220px minmax(280px, 1fr) 240px;
+    justify-content: normal;
+  }
+
+  .brand-banner:has(.brand-banner__copy:not(:has(.brand-banner__desc))) {
+    grid-template-columns: 220px minmax(280px, 1fr) 240px;
     justify-content: normal;
   }
 
@@ -378,7 +422,7 @@ body[data-region="CA"] .trg-bch-canada {
   }
 
   .brand-banner__action {
-    min-width: 0;
+    min-width: 240px;
   }
 
   .trg-bch-canada__grid {
@@ -388,70 +432,103 @@ body[data-region="CA"] .trg-bch-canada {
 
 @media screen and (max-width: 749px) {
   .trg-bch-wrap {
-    padding: 0.75rem 0 1rem 0;
+    padding: 1rem;
   }
 
   .brand-banner {
     grid-template-columns: 1fr;
-    border-left: none;
-    border-right: none;
   }
 
-  /* Identity row: logo + name side by side, tighter */
+  .brand-banner--no-copy {
+    grid-template-columns: 1fr;
+  }
+
+  .brand-banner--sparse {
+    grid-template-columns: 1fr;
+  }
+
   .brand-banner__identity {
-    flex-direction: row;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.875rem 1rem;
     border-right: none;
     border-bottom: 1px solid var(--bch-border, #ddd8cf);
     max-width: none;
-    min-width: 0;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-areas:
+      "logo name"
+      "logo badge";
+    align-items: center;
+    column-gap: 1rem;
+    row-gap: 0.25rem;
+    padding: 1.25rem;
   }
 
-  /* Logo smaller on mobile */
   .brand-banner__logo {
-    width: 48px;
-    height: 48px;
-    min-width: 48px;
-    min-height: 48px;
-    max-width: 48px;
-    max-height: 48px;
+    grid-area: logo;
+    width: 56px;
+    height: 56px;
     margin-bottom: 0;
-    flex-shrink: 0;
   }
 
   .brand-banner__name {
-    font-size: 1.25rem;
-    margin-bottom: 0.2rem;
+    grid-area: name;
+    font-size: 1.35rem;
+    margin-bottom: 0;
   }
 
-  /* Copy section: tighter padding */
+  .brand-banner__badge {
+    grid-area: badge;
+  }
+
   .brand-banner__copy {
-    padding: 0.875rem 1rem;
     border-bottom: 1px solid var(--bch-border, #ddd8cf);
-    gap: 0.35rem;
+    padding: 1.25rem;
   }
 
-  /* Action panel: no left border, CTA full width */
+  .brand-banner__positioning {
+    font-size: 0.62rem;
+  }
+
+  .brand-banner__desc {
+    font-size: 0.8rem;
+    -webkit-line-clamp: 3;
+  }
+
   .brand-banner__action {
     border-left: none;
-    display: flex;
-    flex-direction: column;
+    min-width: 0;
   }
 
-  /* Hide meta rows on mobile — info already shown as tags in copy section */
-  .brand-banner__meta {
-    display: none;
-  }
-
-  /* CTA full width */
   .brand-banner__cta {
-    padding: 0.875rem 1rem;
+    min-height: 44px;
+    padding: 0.8rem 1rem;
   }
 
-  /* Follow button tighter */
+  .brand-banner__meta {
+    padding: 0.95rem 1.25rem;
+  }
+
+  .brand-banner__meta-row {
+    align-items: center;
+  }
+
+  .brand-banner__meta-val {
+    font-size: 0.76rem;
+    text-align: right;
+  }
+
   .brand-banner__follow {
-    padding: 0.5rem 1rem;
+    min-height: 44px;
+  }
+
+  .trg-bch-canada__inner {
+    padding: 0 1rem;
+  }
+
+  .trg-bch-canada__toggle {
+    min-height: 44px;
+  }
+
+  .trg-bch-canada__grid {
+    grid-template-columns: 1fr 1fr;
   }
 }
