@@ -15,6 +15,10 @@
   assign block_settings = block.settings
   assign max_featured_items = 4
   assign image_border_radius = block_settings.image_border_radius
+  assign live_catalog = collections['all']
+  assign live_catalog_count = 0
+  assign new_arrivals_collection = collections['new-arrivals']
+  assign hide_new_arrivals_link = false
 
   if block_settings.menu_style == 'featured_collections'
     assign ratio = block_settings.featured_collections_aspect_ratio
@@ -34,6 +38,14 @@
   assign eager_loading = false
   if section.index == blank
     assign eager_loading = true
+  endif
+
+  if live_catalog != blank
+    assign live_catalog_count = live_catalog.all_products_count | default: live_catalog.products_count
+  endif
+
+  if live_catalog_count <= 12
+    assign hide_new_arrivals_link = true
   endif
 %}
 
@@ -107,8 +119,10 @@
             {%- for link in linklist.links -%}
               {% liquid
                 assign hide_link = false
-                if link.url contains '/collections/new-arrivals' and collections['new-arrivals'].all_products_count == 0
-                  assign hide_link = true
+                if link.url contains '/collections/new-arrivals'
+                  if hide_new_arrivals_link or new_arrivals_collection.all_products_count == 0
+                    assign hide_link = true
+                  endif
                 endif
               %}
               {% if hide_link %}
@@ -265,8 +279,10 @@
             {%- for link in linklist.links -%}
               {% liquid
                 assign hide_link = false
-                if link.url contains '/collections/new-arrivals' and collections['new-arrivals'].all_products_count == 0
-                  assign hide_link = true
+                if link.url contains '/collections/new-arrivals'
+                  if hide_new_arrivals_link or new_arrivals_collection.all_products_count == 0
+                    assign hide_link = true
+                  endif
                 endif
               %}
               {% if hide_link %}

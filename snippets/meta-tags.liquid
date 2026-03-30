@@ -32,6 +32,13 @@
     assign og_description = meta_description_content
   endif
 
+  if request.page_type == 'page' and page.handle == 'brands'
+    assign rendered_page_title = 'Brand Directory'
+    assign og_title = rendered_page_title
+    assign meta_description_content = 'Browse the menswear brand directory by category, price, origin, and shipping behavior. Editorially reviewed with affiliate transparency.'
+    assign og_description = meta_description_content
+  endif
+
   if request.page_type == 'list-collections' or template.name == 'list-collections'
     assign rendered_page_title = 'Browse Menswear Collections'
     assign og_title = rendered_page_title

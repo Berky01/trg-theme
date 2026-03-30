@@ -9,6 +9,17 @@
 {% liquid
   assign block_settings = block.settings
   assign new_arrivals_collection = collections['new-arrivals']
+  assign live_catalog = collections['all']
+  assign live_catalog_count = 0
+  assign hide_new_arrivals_link = false
+
+  if live_catalog != blank
+    assign live_catalog_count = live_catalog.all_products_count | default: live_catalog.products_count
+  endif
+
+  if live_catalog_count <= 12
+    assign hide_new_arrivals_link = true
+  endif
 %}
 
 {% case variant %}
@@ -37,8 +48,10 @@
             {% for link in block_settings.menu.links %}
               {% liquid
                 assign hide_link = false
-                if link.url contains '/collections/new-arrivals' and new_arrivals_collection.all_products_count == 0
-                  assign hide_link = true
+                if link.url contains '/collections/new-arrivals'
+                  if hide_new_arrivals_link or new_arrivals_collection.all_products_count == 0
+                    assign hide_link = true
+                  endif
                 endif
               %}
               {% if hide_link %}
@@ -91,8 +104,10 @@
       {% for link in block_settings.menu.links %}
         {% liquid
           assign hide_link = false
-          if link.url contains '/collections/new-arrivals' and new_arrivals_collection.all_products_count == 0
-            assign hide_link = true
+          if link.url contains '/collections/new-arrivals'
+            if hide_new_arrivals_link or new_arrivals_collection.all_products_count == 0
+              assign hide_link = true
+            endif
           endif
           assign normalized_link_title = link.title | strip | downcase
           assign is_trg_overlay_trigger = false

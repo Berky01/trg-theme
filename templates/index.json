@@ -454,8 +454,8 @@
       "settings": {
         "color_scheme": "scheme-1",
         "eyebrow": "",
-        "title": "<p>Shop by <em>Category</em></p>",
-        "body": "<p>From outerwear to footwear, every corner of a quality wardrobe.</p>",
+        "title": "<p>Browse by <em>Category</em></p>",
+        "body": "<p>Explore the live category paths while the broader product assortment is still being loaded.</p>",
         "link_label": "",
         "link_url": "",
         "columns_desktop": 4,
