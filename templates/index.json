@@ -80,9 +80,9 @@
     "stat_allinone_20260330": {
       "type": "stat",
       "settings": {
-        "value": "All in one",
+        "value": "1",
         "suffix": "",
-        "label": "Place"
+        "label": "All in one place"
       }
     },
     "stat_daily_20260330": {
