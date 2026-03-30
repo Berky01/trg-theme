@@ -77,6 +77,7 @@ export default class ResultsList extends PaginatedList {
     super.connectedCallback();
 
     mediaQueryLarge.addEventListener('change', this.#handleMediaQueryChange);
+    this.#normalizeCategoryIntro();
     this.#normalizeStagedEmptyCategory();
     this.setAttribute('initialized', '');
   }
@@ -140,6 +141,31 @@ export default class ResultsList extends PaginatedList {
     targetElement.checked = true;
     this.#setLayout('default');
   };
+
+  #normalizeCategoryIntro() {
+    const pathname = window.location.pathname || '';
+    const collectionMatch = pathname.match(/^\/collections\/([^/?#]+)/);
+    if (!collectionMatch) return;
+    if (collectionMatch[1] === 'all') return;
+
+    const intro = document.querySelector('.trg-collection-intro');
+    if (!(intro instanceof HTMLElement)) return;
+
+    const title = intro.querySelector('.trg-collection-intro__title');
+    if (title instanceof HTMLElement && /find the right piece/i.test(title.textContent || '')) {
+      const titleParagraph = document.createElement('p');
+      titleParagraph.textContent = humanizeCollectionHandle(collectionMatch[1]);
+      title.replaceChildren(titleParagraph);
+    }
+
+    const count = intro.querySelector('.trg-collection-intro__count');
+    if (count instanceof HTMLElement) {
+      const normalizedCount = (count.textContent || '').replace(/\s+/g, ' ').trim();
+      if (/^1 products$/i.test(normalizedCount)) {
+        count.textContent = '1 product';
+      }
+    }
+  }
 
   #normalizeStagedEmptyCategory() {
     const pathname = window.location.pathname || '';
