@@ -69,28 +69,92 @@
     "trg_home_hero": {
       "type": "trg-home-hero",
       "blocks": {
-    "stat_brands_20260330": {
-      "type": "stat",
-      "settings": {
-        "value": "473",
-        "suffix": "+",
-        "label": "Brands curated"
-      }
-    },
-    "stat_allinone_20260330": {
-      "type": "stat",
-      "settings": {
-        "value": "1",
-        "suffix": "",
-        "label": "All in one place"
-      }
-    },
-    "stat_daily_20260330": {
-      "type": "stat",
-      "settings": {
-        "value": "Daily",
-        "suffix": "",
-        "label": "Updates"
+        "stat_1": {
+          "type": "stat",
+          "settings": {
+            "value": "473",
+            "suffix": "+",
+            "label": "Brands curated"
+          }
+        },
+        "stat_2": {
+          "type": "stat",
+          "settings": {
+            "value": "1",
+            "suffix": "",
+            "label": "Starting point"
+          }
+        },
+        "stat_3": {
+          "type": "stat",
+          "settings": {
+            "value": "Daily",
+            "suffix": "",
+            "label": "Updates"
+          }
+        },
+        "mosaic_2": {
+          "type": "mosaic_card",
+          "settings": {
+            "title": "{{ metaobjects.brand[\"portuguese-flannel\"].name.value }}",
+            "meta": "{{ metaobjects.brand[\"portuguese-flannel\"].country.value }}",
+            "badge": "",
+            "image": "shopify://shop_images/36.Cap_Store_Canvas_-_Navy_2.webp",
+            "zoom": 100,
+            "focal_x": 50,
+            "focal_y": 64,
+            "gradient_start": "#3f5274",
+            "gradient_end": "#1f2f50",
+            "height": "normal",
+            "link": "/collections/taylor-stitch"
+          }
+        },
+        "mosaic_3": {
+          "type": "mosaic_card",
+          "settings": {
+            "title": "{{ metaobjects.brand.casatlantic.name.value }}",
+            "meta": "{{ metaobjects.brand.casatlantic.country.value }}",
+            "badge": "",
+            "image": "shopify://shop_images/bf2a6d284f97bb01dbc0a1fbad301e83.jpg",
+            "zoom": 100,
+            "focal_x": 8,
+            "focal_y": 50,
+            "gradient_start": "#526850",
+            "gradient_end": "#1e3a2f",
+            "height": "tall",
+            "link": "/collections/norse-projects"
+          }
+        },
+        "mosaic_4": {
+          "type": "mosaic_card",
+          "settings": {
+            "title": "{{ metaobjects.brand[\"todd-snyder\"].name.value }}",
+            "meta": "{{ metaobjects.brand[\"todd-snyder\"].country.value }}",
+            "badge": "",
+            "image": "shopify://shop_images/FEB26_BL114290_NAVY_030_M2_R.webp",
+            "zoom": 100,
+            "focal_x": 14,
+            "focal_y": 43,
+            "gradient_start": "#2b3348",
+            "gradient_end": "#121722",
+            "height": "normal",
+            "link": "/collections/reigning-champ"
+          }
+        },
+        "mosaic_5": {
+          "type": "mosaic_card",
+          "settings": {
+            "title": "{{ metaobjects.brand.barbour.name.value }}",
+            "meta": "{{ metaobjects.brand.barbour.country.value }}",
+            "badge": "",
+            "image": "shopify://shop_images/barbour.webp",
+            "zoom": 100,
+            "focal_x": 50,
+            "focal_y": 50,
+            "gradient_start": "#9f8468",
+            "gradient_end": "#c5a783",
+            "height": "normal",
+            "link": "/collections/buck-mason"
           }
         },
         "mosaic_1": {
@@ -99,71 +163,26 @@
             "title": "{{ metaobjects.brand[\"septieme-largeur\"].name.value }}",
             "meta": "{{ metaobjects.brand[\"septieme-largeur\"].country.value }}",
             "badge": "",
-            "image": "shopify:\/\/shop_images\/VIBERG_LR_EMAIL_Tempesti_ServiceBoot_Trio-03.webp",
+            "image": "shopify://shop_images/VIBERG_LR_EMAIL_Tempesti_ServiceBoot_Trio-03.webp",
+            "zoom": 100,
+            "focal_x": 50,
+            "focal_y": 50,
             "gradient_start": "#3b1d0f",
             "gradient_end": "#552915",
             "height": "normal",
-            "link": "shopify:\/\/collections\/septieme-largeur"
-          }
-        },
-        "mosaic_2": {
-          "type": "mosaic_card",
-          "settings": {
-            "title": "Taylor Stitch",
-            "meta": "Workwear Â· San Francisco",
-            "badge": "New",
-            "gradient_start": "#3f5274",
-            "gradient_end": "#1f2f50",
-            "height": "normal",
-            "link": "\/collections\/taylor-stitch"
-          }
-        },
-        "mosaic_3": {
-          "type": "mosaic_card",
-          "settings": {
-            "title": "Norse Projects",
-            "meta": "Minimalist Â· Copenhagen",
-            "badge": "",
-            "gradient_start": "#526850",
-            "gradient_end": "#1e3a2f",
-            "height": "tall",
-            "link": "\/collections\/norse-projects"
-          }
-        },
-        "mosaic_4": {
-          "type": "mosaic_card",
-          "settings": {
-            "title": "Reigning Champ",
-            "meta": "Casualwear Â· Vancouver",
-            "badge": "CA",
-            "gradient_start": "#2b3348",
-            "gradient_end": "#121722",
-            "height": "normal",
-            "link": "\/collections\/reigning-champ"
-          }
-        },
-        "mosaic_5": {
-          "type": "mosaic_card",
-          "settings": {
-            "title": "Buck Mason",
-            "meta": "Basics Â· Los Angeles",
-            "badge": "",
-            "gradient_start": "#9f8468",
-            "gradient_end": "#c5a783",
-            "height": "normal",
-            "link": "\/collections\/buck-mason"
+            "link": "shopify://collections/septieme-largeur"
           }
         }
       },
-  "block_order": [
-    "stat_brands_20260330",
-    "stat_allinone_20260330",
-    "stat_daily_20260330",
-    "mosaic_1",
+      "block_order": [
+        "stat_1",
+        "stat_2",
+        "stat_3",
         "mosaic_2",
         "mosaic_3",
         "mosaic_4",
-        "mosaic_5"
+        "mosaic_5",
+        "mosaic_1"
       ],
       "settings": {
         "color_scheme": "scheme-header-ink",
@@ -174,13 +193,13 @@
         "hero_text": "#f5f1eb",
         "hero_accent": "#c4562a",
         "eyebrow": "Curated Menswear Directory",
-        "heading": "<p>The brands worth knowing.<br\/><em>Editorially curated.<\/em><\/p>",
-        "body": "<p>Quality menswear brands, vetted and organized by style, price, and origin.<\/p>",
+        "heading": "<p>The brands worth knowing.<br/><em>Editorially curated.</em></p>",
+        "body": "<p>Quality menswear brands, vetted and organized by style, price, and origin.</p>",
         "primary_label": "Browse Brands",
-        "primary_link": "\/pages\/brands",
+        "primary_link": "/pages/brands",
         "primary_style": "primary",
         "secondary_label": "Browse Live Products",
-        "secondary_link": "\/collections\/all",
+        "secondary_link": "/collections/all",
         "secondary_style": "secondary",
         "padding_block_start": 0,
         "padding_block_end": 0
@@ -241,7 +260,7 @@
             "positioning": "Heritage Footwear",
             "gradient_start": "#3b1d0f",
             "gradient_end": "#6b3518",
-            "link": "\/collections\/viberg"
+            "link": "/collections/viberg"
           }
         },
         "brand_2": {
@@ -259,7 +278,7 @@
             "positioning": "Workshop Essentials",
             "gradient_start": "#3f5274",
             "gradient_end": "#1f2f50",
-            "link": "\/collections\/taylor-stitch"
+            "link": "/collections/taylor-stitch"
           }
         },
         "brand_3": {
@@ -277,7 +296,7 @@
             "positioning": "Premium Basics",
             "gradient_start": "#2b3348",
             "gradient_end": "#121722",
-            "link": "\/collections\/reigning-champ"
+            "link": "/collections/reigning-champ"
           }
         },
         "brand_4": {
@@ -295,7 +314,7 @@
             "positioning": "Modern Tailoring",
             "gradient_start": "#282858",
             "gradient_end": "#484878",
-            "link": "\/collections\/spier-and-mackay"
+            "link": "/collections/spier-and-mackay"
           }
         },
         "brand_5": {
@@ -313,7 +332,7 @@
             "positioning": "Scandinavian Minimalism",
             "gradient_start": "#526850",
             "gradient_end": "#1e3a2f",
-            "link": "\/collections\/norse-projects"
+            "link": "/collections/norse-projects"
           }
         },
         "brand_6": {
@@ -331,7 +350,7 @@
             "positioning": "Everyday Staples",
             "gradient_start": "#9f8468",
             "gradient_end": "#c5a783",
-            "link": "\/collections\/buck-mason"
+            "link": "/collections/buck-mason"
           }
         }
       },
@@ -346,16 +365,16 @@
       "settings": {
         "color_scheme": "scheme-1",
         "eyebrow": "Featured",
-        "title": "<p>Featured <em>Brands<\/em><\/p>",
-        "body": "<p>Six brands we'd start with.<\/p>",
+        "title": "<p>Featured <em>Brands</em></p>",
+        "body": "<p>Six brands we'd start with.</p>",
         "link_label": "All brands",
-        "link_url": "\/pages\/brands",
+        "link_url": "/pages/brands",
         "columns_desktop": 3,
         "source_mode": "curated_metaobjects",
         "metaobject_type": "brand",
         "auto_limit": 6,
         "metaobject_cta_label": "View",
-        "metaobject_fallback_link": "\/pages\/brands",
+        "metaobject_fallback_link": "/pages/brands",
         "mo_title_field": "name",
         "mo_origin_field": "origin",
         "mo_description_field": "description",
@@ -380,7 +399,7 @@
             "count": "Catalog building",
             "count_override": "",
             "colour_tint": "#3464a8",
-            "link": "\/collections\/shirts"
+            "link": "/collections/shirts"
           }
         },
         "cat_2": {
@@ -392,7 +411,7 @@
             "count": "Catalog building",
             "count_override": "",
             "colour_tint": "#7a5028",
-            "link": "\/collections\/outerwear"
+            "link": "/collections/outerwear"
           }
         },
         "cat_3": {
@@ -404,7 +423,7 @@
             "count": "Catalog building",
             "count_override": "",
             "colour_tint": "#5c4020",
-            "link": "\/collections\/bottoms"
+            "link": "/collections/bottoms"
           }
         },
         "cat_4": {
@@ -416,7 +435,7 @@
             "count": "Catalog building",
             "count_override": "",
             "colour_tint": "#8b6834",
-            "link": "\/collections\/footwear"
+            "link": "/collections/footwear"
           }
         },
         "cat_5": {
@@ -428,7 +447,7 @@
             "count": "1 live product",
             "count_override": "",
             "colour_tint": "#305838",
-            "link": "\/collections\/knitwear"
+            "link": "/collections/knitwear"
           }
         },
         "cat_6": {
@@ -440,7 +459,7 @@
             "count": "Catalog building",
             "count_override": "",
             "colour_tint": "#2c3e6b",
-            "link": "\/collections\/denim"
+            "link": "/collections/denim"
           }
         },
         "cat_7": {
@@ -452,7 +471,7 @@
             "count": "Catalog building",
             "count_override": "",
             "colour_tint": "#282858",
-            "link": "\/collections\/tailoring"
+            "link": "/collections/tailoring"
           }
         },
         "cat_8": {
@@ -464,7 +483,7 @@
             "count": "Catalog building",
             "count_override": "",
             "colour_tint": "#808078",
-            "link": "\/collections\/accessories"
+            "link": "/collections/accessories"
           }
         }
       },
@@ -481,8 +500,8 @@
       "settings": {
         "color_scheme": "scheme-1",
         "eyebrow": "",
-        "title": "<p>Browse by <em>Category<\/em><\/p>",
-        "body": "<p>Explore the live category paths while the broader product assortment is still being loaded.<\/p>",
+        "title": "<p>Browse by <em>Category</em></p>",
+        "body": "<p>Explore the live category paths while the broader product assortment is still being loaded.</p>",
         "link_label": "",
         "link_url": "",
         "columns_desktop": 4,
@@ -589,10 +608,10 @@
       "settings": {
         "color_scheme": "scheme-1",
         "eyebrow": "Colour Guide",
-        "title": "<p>Not sure what <em>suits you?<\/em><\/p>",
-        "body": "<p>75 menswear colours across 8 families. Find what works for your wardrobe.<\/p>",
+        "title": "<p>Not sure what <em>suits you?</em></p>",
+        "body": "<p>75 menswear colours across 8 families. Find what works for your wardrobe.</p>",
         "cta_label": "Open the Colour Guide",
-        "cta_link": "\/pages\/colour-guide"
+        "cta_link": "/pages/colour-guide"
       }
     },
     "trg_steps": {
@@ -634,8 +653,8 @@
       "settings": {
         "color_scheme": "scheme-header-ink",
         "eyebrow": "How it works",
-        "title": "<p>How it<br><em>works<\/em><\/p>",
-        "body": "<p>Not an algorithm. Not a sponsored feed.<br>Curation the old-fashioned way.<\/p>",
+        "title": "<p>How it<br><em>works</em></p>",
+        "body": "<p>Not an algorithm. Not a sponsored feed.<br>Curation the old-fashioned way.</p>",
         "layout_variant": "editorial_dark",
         "accent_color": "#c4562a"
       }
@@ -697,8 +716,8 @@
       "settings": {
         "color_scheme": "scheme-1",
         "eyebrow": "Our Approach",
-        "heading": "<p>Built for the guy who<br><em>already knows<\/em> what he wants<\/p>",
-        "body": "<p>The best wardrobe is composed, intentional, and resilient to trend cycles. Quality over quantity, always.<\/p>",
+        "heading": "<p>Built for the guy who<br><em>already knows</em> what he wants</p>",
+        "body": "<p>The best wardrobe is composed, intentional, and resilient to trend cycles. Quality over quantity, always.</p>",
         "layout_variant": "mockup",
         "accent_color": "#c4562a",
         "panel_background_color": "#1a1a18",
@@ -715,7 +734,7 @@
         "feature_meta": "Brand of the Month Â· Heritage Footwear",
         "feature_logo_text": "VB",
         "feature_button_label": "View brand",
-        "feature_button_link": "\/collections\/viberg"
+        "feature_button_link": "/collections/viberg"
       }
     }
   },
