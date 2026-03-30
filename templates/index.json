@@ -219,10 +219,10 @@
             "body": "Heirloom-quality boots handcrafted in Canada with exceptional build integrity.",
             "price_tag": "Luxury",
             "cta_label": "View",
-            "link": "/collections/viberg",
             "positioning": "Heritage Footwear",
             "gradient_start": "#3b1d0f",
-            "gradient_end": "#6b3518"
+            "gradient_end": "#6b3518",
+            "link": "/collections/viberg"
           }
         },
         "brand_2": {
@@ -237,10 +237,10 @@
             "body": "Workshop-grade essentials with sturdy materials and classic silhouettes.",
             "price_tag": "Mid-range",
             "cta_label": "View",
-            "link": "/collections/taylor-stitch",
             "positioning": "Workshop Essentials",
             "gradient_start": "#3f5274",
-            "gradient_end": "#1f2f50"
+            "gradient_end": "#1f2f50",
+            "link": "/collections/taylor-stitch"
           }
         },
         "brand_3": {
@@ -255,10 +255,10 @@
             "body": "Quiet premium basics and fleece with reliable quality control.",
             "price_tag": "Premium",
             "cta_label": "View",
-            "link": "/collections/reigning-champ",
             "positioning": "Premium Basics",
             "gradient_start": "#2b3348",
-            "gradient_end": "#121722"
+            "gradient_end": "#121722",
+            "link": "/collections/reigning-champ"
           }
         },
         "brand_4": {
@@ -273,10 +273,10 @@
             "body": "Strong tailoring value with thoughtful fabric and fit options.",
             "price_tag": "Mid-range",
             "cta_label": "View",
-            "link": "/collections/spier-and-mackay",
             "positioning": "Modern Tailoring",
             "gradient_start": "#282858",
-            "gradient_end": "#484878"
+            "gradient_end": "#484878",
+            "link": "/collections/spier-and-mackay"
           }
         },
         "brand_5": {
@@ -291,10 +291,10 @@
             "body": "Modern essentials with clean lines and durable fabrics.",
             "price_tag": "Premium",
             "cta_label": "View",
-            "link": "/collections/norse-projects",
             "positioning": "Scandinavian Minimalism",
             "gradient_start": "#526850",
-            "gradient_end": "#1e3a2f"
+            "gradient_end": "#1e3a2f",
+            "link": "/collections/norse-projects"
           }
         },
         "brand_6": {
@@ -309,10 +309,10 @@
             "body": "Refined basics and staple layers with practical everyday fit.",
             "price_tag": "Mid-range",
             "cta_label": "View",
-            "link": "/collections/buck-mason",
             "positioning": "Everyday Staples",
             "gradient_start": "#9f8468",
-            "gradient_end": "#c5a783"
+            "gradient_end": "#c5a783",
+            "link": "/collections/buck-mason"
           }
         }
       },
@@ -355,89 +355,97 @@
         "cat_1": {
           "type": "category",
           "settings": {
+            "icon": "",
+            "collection": "",
             "name": "Shirts & Tops",
             "count": "Catalog building",
+            "count_override": "",
             "colour_tint": "#3464a8",
-            "link": "/collections/shirts",
-            "icon": "",
-            "count_override": ""
+            "link": "/collections/shirts"
           }
         },
         "cat_2": {
           "type": "category",
           "settings": {
+            "icon": "",
+            "collection": "",
             "name": "Outerwear & Jackets",
             "count": "Catalog building",
+            "count_override": "",
             "colour_tint": "#7a5028",
-            "link": "/collections/outerwear",
-            "icon": "",
-            "count_override": ""
+            "link": "/collections/outerwear"
           }
         },
         "cat_3": {
           "type": "category",
           "settings": {
+            "icon": "",
+            "collection": "",
             "name": "Trousers & Bottoms",
             "count": "Catalog building",
+            "count_override": "",
             "colour_tint": "#5c4020",
-            "link": "/collections/bottoms",
-            "icon": "",
-            "count_override": ""
+            "link": "/collections/bottoms"
           }
         },
         "cat_4": {
           "type": "category",
           "settings": {
+            "icon": "",
+            "collection": "",
             "name": "Footwear",
             "count": "Catalog building",
+            "count_override": "",
             "colour_tint": "#8b6834",
-            "link": "/collections/footwear",
-            "icon": "",
-            "count_override": ""
+            "link": "/collections/footwear"
           }
         },
         "cat_5": {
           "type": "category",
           "settings": {
+            "icon": "",
+            "collection": "",
             "name": "Knitwear",
             "count": "1 live product",
+            "count_override": "",
             "colour_tint": "#305838",
-            "link": "/collections/knitwear",
-            "icon": "",
-            "count_override": ""
+            "link": "/collections/knitwear"
           }
         },
         "cat_6": {
           "type": "category",
           "settings": {
+            "icon": "",
+            "collection": "",
             "name": "Denim",
             "count": "Catalog building",
+            "count_override": "",
             "colour_tint": "#2c3e6b",
-            "link": "/collections/denim",
-            "icon": "",
-            "count_override": ""
+            "link": "/collections/denim"
           }
         },
         "cat_7": {
           "type": "category",
           "settings": {
+            "icon": "",
+            "collection": "",
             "name": "Suits & Tailoring",
             "count": "Catalog building",
+            "count_override": "",
             "colour_tint": "#282858",
-            "link": "/collections/tailoring",
-            "icon": "",
-            "count_override": ""
+            "link": "/collections/tailoring"
           }
         },
         "cat_8": {
           "type": "category",
           "settings": {
+            "icon": "",
+            "collection": "",
             "name": "Accessories",
             "count": "Catalog building",
+            "count_override": "",
             "colour_tint": "#808078",
-            "link": "/collections/accessories",
-            "icon": "",
-            "count_override": ""
+            "link": "/collections/accessories"
           }
         }
       },
@@ -463,128 +471,6 @@
         "collection_count_mode": "manual",
         "collection_count_suffix": "products",
         "collection_icon_mode": "text"
-      }
-    },
-    "trg_steps": {
-      "type": "trg-process-steps",
-      "blocks": {
-        "step_1": {
-          "type": "step",
-          "settings": {
-            "custom_number": "",
-            "icon": "⌕",
-            "title": "We do the research",
-            "body": "Every brand is manually evaluated for quality signals and long-term value."
-          }
-        },
-        "step_2": {
-          "type": "step",
-          "settings": {
-            "custom_number": "",
-            "icon": "⇄",
-            "title": "You filter with intent",
-            "body": "Use style, price, origin, and shipping behavior to shortlist quickly."
-          }
-        },
-        "step_3": {
-          "type": "step",
-          "settings": {
-            "custom_number": "",
-            "icon": "✓",
-            "title": "Buy with confidence",
-            "body": "Shop direct or through trusted retailers with practical buying context."
-          }
-        }
-      },
-      "block_order": [
-        "step_1",
-        "step_2",
-        "step_3"
-      ],
-      "settings": {
-        "color_scheme": "scheme-header-ink",
-        "eyebrow": "How it works",
-        "title": "<p>How it<br><em>works</em></p>",
-        "body": "<p>Not an algorithm. Not a sponsored feed.<br>Curation the old-fashioned way.</p>",
-        "layout_variant": "editorial_dark"
-      }
-    },
-    "trg_editorial": {
-      "type": "trg-editorial-split",
-      "blocks": {
-        "pillar_1": {
-          "type": "pillar",
-          "settings": {
-            "icon": "⌖",
-            "title": "Practical buying intelligence",
-            "body": "Shipping context, retailer routing, and price transparency for every brand."
-          }
-        },
-        "pillar_2": {
-          "type": "pillar",
-          "settings": {
-            "icon": "◯",
-            "title": "No fast fashion, no filler",
-            "body": "Every brand passes an editorial quality bar with a strict scope."
-          }
-        },
-        "pillar_3": {
-          "type": "pillar",
-          "settings": {
-            "icon": "⚑",
-            "title": "Real data, not affiliate fluff",
-            "body": "Commission networks, return terms, and practical signals surfaced clearly."
-          }
-        },
-        "tag_1": {
-          "type": "tag",
-          "settings": {
-            "label": "Made in Canada"
-          }
-        },
-        "tag_2": {
-          "type": "tag",
-          "settings": {
-            "label": "Heritage"
-          }
-        },
-        "tag_3": {
-          "type": "tag",
-          "settings": {
-            "label": "Ships to Canada"
-          }
-        }
-      },
-      "block_order": [
-        "pillar_1",
-        "pillar_2",
-        "pillar_3",
-        "tag_1",
-        "tag_2",
-        "tag_3"
-      ],
-      "settings": {
-        "color_scheme": "scheme-1",
-        "eyebrow": "Our Approach",
-        "heading": "<p>Built for the guy who<br><em>already knows</em> what he wants</p>",
-        "body": "<p>The best wardrobe is composed, intentional, and resilient to trend cycles. Quality over quantity, always.</p>",
-        "layout_variant": "mockup",
-        "accent_color": "#c4562a",
-        "panel_background_color": "#1a1a18",
-        "panel_text_color": "#f5f1eb",
-        "panel_muted_color": "#8a847c",
-        "panel_border_color": "#35332f",
-        "pillar_icon_bg_color": "#f5e8df",
-        "pillar_icon_color": "#c4562a",
-        "button_bg_color": "#c4562a",
-        "button_text_color": "#ffffff",
-        "quote": "The best wardrobe isn't the biggest one. It's the one where everything fits, everything works, and nothing was a mistake.",
-        "quote_source": "The Right Garment editorial principle",
-        "feature_title": "Viberg",
-        "feature_meta": "Brand of the Month · Heritage Footwear",
-        "feature_logo_text": "VB",
-        "feature_button_label": "View brand",
-        "feature_button_link": "/collections/viberg"
       }
     },
     "trg_colour_teaser": {
@@ -688,6 +574,129 @@
         "body": "<p>75 menswear colours across 8 families. Find what works for your wardrobe.</p>",
         "cta_label": "Open the Colour Guide",
         "cta_link": "/pages/colour-guide"
+      }
+    },
+    "trg_steps": {
+      "type": "trg-process-steps",
+      "blocks": {
+        "step_1": {
+          "type": "step",
+          "settings": {
+            "custom_number": "",
+            "icon": "",
+            "title": "We do the research",
+            "body": "Every brand is manually evaluated for quality signals and long-term value."
+          }
+        },
+        "step_2": {
+          "type": "step",
+          "settings": {
+            "custom_number": "",
+            "icon": "",
+            "title": "You filter with intent",
+            "body": "Use style, price, origin, and shipping behavior to shortlist quickly."
+          }
+        },
+        "step_3": {
+          "type": "step",
+          "settings": {
+            "custom_number": "",
+            "icon": "",
+            "title": "Buy with confidence",
+            "body": "Shop direct or through trusted retailers with practical buying context."
+          }
+        }
+      },
+      "block_order": [
+        "step_1",
+        "step_2",
+        "step_3"
+      ],
+      "settings": {
+        "color_scheme": "scheme-header-ink",
+        "eyebrow": "How it works",
+        "title": "<p>How it<br><em>works</em></p>",
+        "body": "<p>Not an algorithm. Not a sponsored feed.<br>Curation the old-fashioned way.</p>",
+        "layout_variant": "editorial_dark",
+        "accent_color": "#c4562a"
+      }
+    },
+    "trg_editorial": {
+      "type": "trg-editorial-split",
+      "blocks": {
+        "pillar_1": {
+          "type": "pillar",
+          "settings": {
+            "icon": "⌖",
+            "title": "Practical buying intelligence",
+            "body": "Shipping context, retailer routing, and price transparency for every brand."
+          }
+        },
+        "pillar_2": {
+          "type": "pillar",
+          "settings": {
+            "icon": "◯",
+            "title": "No fast fashion, no filler",
+            "body": "Every brand passes an editorial quality bar with a strict scope."
+          }
+        },
+        "pillar_3": {
+          "type": "pillar",
+          "settings": {
+            "icon": "⚑",
+            "title": "Real data, not affiliate fluff",
+            "body": "Commission networks, return terms, and practical signals surfaced clearly."
+          }
+        },
+        "tag_1": {
+          "type": "tag",
+          "settings": {
+            "label": "Made in Canada"
+          }
+        },
+        "tag_2": {
+          "type": "tag",
+          "settings": {
+            "label": "Heritage"
+          }
+        },
+        "tag_3": {
+          "type": "tag",
+          "settings": {
+            "label": "Ships to Canada"
+          }
+        }
+      },
+      "block_order": [
+        "pillar_1",
+        "pillar_2",
+        "pillar_3",
+        "tag_1",
+        "tag_2",
+        "tag_3"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "eyebrow": "Our Approach",
+        "heading": "<p>Built for the guy who<br><em>already knows</em> what he wants</p>",
+        "body": "<p>The best wardrobe is composed, intentional, and resilient to trend cycles. Quality over quantity, always.</p>",
+        "layout_variant": "mockup",
+        "accent_color": "#c4562a",
+        "panel_background_color": "#1a1a18",
+        "panel_text_color": "#f5f1eb",
+        "panel_muted_color": "#8a847c",
+        "panel_border_color": "#35332f",
+        "pillar_icon_bg_color": "#f5e8df",
+        "pillar_icon_color": "#c4562a",
+        "button_bg_color": "#c4562a",
+        "button_text_color": "#ffffff",
+        "quote": "The best wardrobe isn't the biggest one. It's the one where everything fits, everything works, and nothing was a mistake.",
+        "quote_source": "The Right Garment editorial principle",
+        "feature_title": "Viberg",
+        "feature_meta": "Brand of the Month · Heritage Footwear",
+        "feature_logo_text": "VB",
+        "feature_button_label": "View brand",
+        "feature_button_link": "/collections/viberg"
       }
     }
   },
