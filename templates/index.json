@@ -208,43 +208,6 @@
         "padding_block_end": 0
       }
     },
-    "trg_strip": {
-      "type": "trg-icon-strip",
-      "blocks": {
-        "item_1": {
-          "type": "item",
-          "settings": {
-            "icon": "âŒ–",
-            "text": "400+ brands tracked"
-          }
-        },
-        "item_2": {
-          "type": "item",
-          "settings": {
-            "icon": "âœ“",
-            "text": "Editorially reviewed"
-          }
-        },
-        "item_3": {
-          "type": "item",
-          "settings": {
-            "icon": "â†—",
-            "text": "Affiliate transparency"
-          }
-        }
-      },
-      "block_order": [
-        "item_1",
-        "item_2",
-        "item_3"
-      ],
-      "settings": {
-        "color_scheme": "scheme-1",
-        "variant": "canada",
-        "lead_text": "Built for the quality-focused shopper",
-        "padding_y": 10
-      }
-    },
     "trg_featured_brands": {
       "type": "trg-featured-brands",
       "blocks": {
@@ -744,7 +707,6 @@
   "order": [
     "trg_search_bar_nVixRj",
     "trg_home_hero",
-    "trg_strip",
     "trg_featured_brands",
     "trg_categories",
     "trg_colour_teaser",
