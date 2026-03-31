@@ -948,3 +948,11 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
     padding-top: 0 !important;
   }
 }
+
+/* ─── HP Hero mosaic — mobile height matching desktop proportions ─── */
+@media screen and (max-width: 989px) {
+  .trg-mosaic {
+    height: clamp(360px, 90vw, 520px);
+    grid-template-rows: 1fr 1fr;
+  }
+}
