@@ -624,6 +624,9 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
   .trg-stat__value {
     font-size: 1.25rem;
   }
+  .trg-stat__value em {
+    display: none;
+  }
   .trg-stat__label {
     font-size: 0.7rem;
     letter-spacing: 0.06em;
@@ -952,7 +955,7 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
 /* ─── HP Hero mosaic — mobile height matching desktop proportions ─── */
 @media screen and (max-width: 989px) {
   .trg-mosaic {
-    height: clamp(220px, 55vw, 340px);
+    height: clamp(180px, 45vw, 280px);
     grid-template-rows: 1fr 1fr;
   }
   .trg-mosaic__item {
