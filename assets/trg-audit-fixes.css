@@ -624,9 +624,6 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
   .trg-stat__value {
     font-size: 1.25rem;
   }
-  .trg-stat__value em {
-    display: none;
-  }
   .trg-stat__label {
     font-size: 0.7rem;
     letter-spacing: 0.06em;
