@@ -955,4 +955,8 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
     height: clamp(360px, 90vw, 520px);
     grid-template-rows: 1fr 1fr;
   }
+  .trg-mosaic__item {
+    background-size: cover !important;
+    background-position: center !important;
+  }
 }
