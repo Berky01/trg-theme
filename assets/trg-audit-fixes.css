@@ -623,13 +623,14 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
   }
   .trg-stat,
   .trg-stat__value,
-  .trg-stat__label {
+  .trg-stat__label,
+  .trg-home-hero__left,
+  .trg-home-hero__left * {
     overflow: visible !important;
     scrollbar-width: none !important;
   }
-  .trg-stat::-webkit-scrollbar,
-  .trg-stat__value::-webkit-scrollbar,
-  .trg-stat__label::-webkit-scrollbar {
+  .trg-home-hero__left::-webkit-scrollbar,
+  .trg-home-hero__left *::-webkit-scrollbar {
     display: none !important;
   }
   .trg-stat__value {
