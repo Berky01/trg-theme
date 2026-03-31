@@ -958,7 +958,8 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
     grid-template-rows: 1fr 1fr;
   }
   .trg-mosaic__item {
-    background-size: cover !important;
+    background-size: contain !important;
     background-position: center !important;
+    background-repeat: no-repeat !important;
   }
 }
