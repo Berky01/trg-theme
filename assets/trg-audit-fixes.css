@@ -951,26 +951,10 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
   }
 }
 
-/* ─── HP Hero mosaic — mobile layout ─── */
-@media screen and (max-width: 749px) {
+/* ─── HP Hero mosaic — mobile height matching desktop proportions ─── */
+@media screen and (max-width: 989px) {
   .trg-mosaic {
-    grid-template-columns: 1fr;
-    height: auto;
-    gap: 6px;
-  }
-  .trg-mosaic__item {
-    min-height: 180px;
-    background-size: cover !important;
-    background-position: center top !important;
-  }
-  .trg-mosaic__item[data-size='tall'] {
-    grid-row: span 1;
-    min-height: 220px;
-  }
-}
-@media screen and (min-width: 750px) and (max-width: 989px) {
-  .trg-mosaic {
-    height: clamp(300px, 40vw, 420px);
+    height: clamp(260px, 65vw, 380px);
     grid-template-rows: 1fr 1fr;
   }
   .trg-mosaic__item {
