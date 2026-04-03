@@ -58,25 +58,25 @@
 
   if limited_live_assortment
     assign show_product_count = true
-    capture heading_html
-      echo '<p>Browse the <em>Live</em> Assortment</p>'
-    endcapture
-    capture intro_body_html
-      echo '<p>Available now while the broader product catalog is still being staged.</p>'
-    endcapture
+    assign heading_html = section.settings.limited_live_heading
+    assign intro_body_html = section.settings.limited_live_body
   endif
 
   if staged_category_collection
     assign show_product_count = false
     assign heading_html = collection.title
     capture intro_body_html
-      echo '<p>This category is staged for the wider catalog. Browse '
+      echo '<p>'
+      echo section.settings.staged_body_before | escape
+      echo ' '
       echo live_catalog_count
       echo ' live product'
       unless live_catalog_count == 1
         echo 's'
       endunless
-      echo ' or use the brand directory while products are still being published.</p>'
+      echo ' '
+      echo section.settings.staged_body_after | escape
+      echo '</p>'
     endcapture
   endif
 
@@ -84,13 +84,17 @@
     assign show_product_count = true
     assign heading_html = collection.title
     capture intro_body_html
-      echo '<p>This category currently has '
+      echo '<p>'
+      echo section.settings.small_body_before | escape
+      echo ' '
       echo product_count
       echo ' live product'
       unless product_count == 1
         echo 's'
       endunless
-      echo ' while the broader assortment is still being staged.</p>'
+      echo ' '
+      echo section.settings.small_body_after | escape
+      echo '</p>'
     endcapture
   endif
 
@@ -141,32 +145,60 @@
   </div>
 </section>
 
+
 {% stylesheet %}
+
   @keyframes trg-collection-fade-up {
+
     from {
+
       opacity: 0;
+
       transform: translate3d(0, 10px, 0);
+
     }
+
+
 
     to {
+
       opacity: 1;
+
       transform: translate3d(0, 0, 0);
+
     }
+
   }
+
+
 
   .trg-collection-intro {
+
     padding-block: 0;
+
     background: #1a1a18;
+
     border-top: 1px solid rgb(245 241 235 / 0.08);
+
     border-bottom: 1px solid rgb(245 241 235 / 0.08);
+
   }
 
+
+
   .trg-collection-intro__bar {
+
     min-height: 72px;
+
     display: flex;
+
     align-items: center;
+
     background: #1a1a18;
+
   }
+
+
 
   .trg-collection-intro__inner {
     width: min(calc(100% - 64px), 1320px);
@@ -188,15 +220,25 @@
     padding-right: 1.5rem;
     border-right: 1px solid rgb(245 241 235 / 0.12);
     color: #c4562a;
+
     font-family: var(--font-body--family);
+
     font-size: 0.6rem;
+
     font-weight: 600;
+
     letter-spacing: 0.2em;
+
     line-height: 1;
+
     text-transform: uppercase;
+
     white-space: nowrap;
+
     flex-shrink: 0;
+
     animation: trg-collection-fade-up 0.4s 0.05s ease both;
+
   }
 
   .trg-collection-intro__title {
@@ -212,9 +254,14 @@
   .trg-collection-intro__title > * {
     margin: 0;
     font: inherit;
+
     color: inherit;
+
     line-height: inherit;
+
   }
+
+
 
   .trg-collection-intro__title em {
     color: #c4562a;
@@ -267,8 +314,12 @@
     }
 
     .trg-collection-intro__inner {
+
       width: min(calc(100% - 32px), 1320px);
+
     }
+
+
 
     .trg-collection-intro__eyebrow {
       display: none;
@@ -311,85 +362,216 @@
   }
 {% endstylesheet %}
 
+
 {% schema %}
+
 {
+
   "name": "TRG Collection Intro",
+
   "settings": [
     {
+      "type": "header",
+      "content": "Live assortment state"
+    },
+    {
+      "type": "richtext",
+      "id": "limited_live_heading",
+      "label": "Heading",
+      "default": "<p>Browse the <em>Live<\/em> Assortment<\/p>"
+    },
+    {
+      "type": "richtext",
+      "id": "limited_live_body",
+      "label": "Body",
+      "default": "<p>Available now while the broader product catalog is still being staged.<\/p>"
+    },
+    {
+      "type": "header",
+      "content": "Staged category state"
+    },
+    {
+      "type": "text",
+      "id": "staged_body_before",
+      "label": "Body (before count)",
+      "default": "This category is staged for the wider catalog. Browse"
+    },
+    {
+      "type": "text",
+      "id": "staged_body_after",
+      "label": "Body (after count)",
+      "default": "or use the brand directory while products are still being published."
+    },
+    {
+      "type": "header",
+      "content": "Small live category state"
+    },
+    {
+      "type": "text",
+      "id": "small_body_before",
+      "label": "Body (before count)",
+      "default": "This category currently has"
+    },
+    {
+      "type": "text",
+      "id": "small_body_after",
+      "label": "Body (after count)",
+      "default": "while the broader assortment is still being staged."
+    },
+
+    {
+
       "type": "color_scheme",
+
       "id": "color_scheme",
+
       "label": "Color scheme",
+
       "default": "scheme-header-ink"
+
     },
+
     {
+
       "type": "text",
+
       "id": "eyebrow",
+
       "label": "Eyebrow",
+
       "default": "Product Catalogue"
+
     },
+
     {
+
       "type": "select",
+
       "id": "title_source",
+
       "label": "Title source",
+
       "options": [
+
         {
+
           "value": "collection",
+
           "label": "Collection title"
+
         },
+
         {
+
           "value": "custom",
+
           "label": "Custom"
+
         }
+
       ],
+
       "default": "custom"
+
     },
+
     {
+
       "type": "richtext",
+
       "id": "custom_title",
+
       "label": "Custom title",
+
       "default": "<p>Find the <em>Right</em> Piece</p>",
+
       "visible_if": "{{ section.settings.title_source == 'custom' }}"
+
     },
+
     {
+
       "type": "select",
+
       "id": "body_source",
+
       "label": "Body source",
+
       "options": [
+
         {
+
           "value": "custom",
+
           "label": "Custom"
+
         },
+
         {
+
           "value": "collection_description",
+
           "label": "Collection description"
+
         }
+
       ],
+
       "default": "custom"
+
     },
+
     {
+
       "type": "richtext",
+
       "id": "custom_body",
+
       "label": "Custom body",
+
       "default": "<p>Curated menswear - quality goods across North America.</p>",
+
       "visible_if": "{{ section.settings.body_source == 'custom' }}"
+
     },
+
     {
+
       "type": "checkbox",
+
       "id": "show_count",
+
       "label": "Show product count",
+
       "default": false
+
     },
+
     {
+
       "type": "text",
+
       "id": "result_label",
+
       "label": "Result label",
+
       "default": "products"
+
     }
+
   ],
+
   "presets": [
+
     {
+
       "name": "TRG Collection Intro"
+
     }
+
   ]
+
 }
+
 {% endschema %}
+
