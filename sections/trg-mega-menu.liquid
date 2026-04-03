@@ -6,13 +6,13 @@
   assign live_catalog = collections['all']
   assign live_catalog_count = 0
   assign limited_live_catalog = false
-  assign live_catalog_label = 'Browse live products'
-  assign desktop_shop_panel_label = 'Shop by products'
-  assign desktop_family_label = 'Product Family'
-  assign desktop_subcategory_label = 'Shop by type'
-  assign mobile_shop_panel_label = 'Shop by Type'
-  assign mobile_subcategory_label = 'Shop by type'
-  assign brand_category_label = 'Browse by Category'
+  assign live_catalog_label = section.settings.live_catalog_label
+  assign desktop_shop_panel_label = section.settings.shop_panel_label_desktop
+  assign desktop_family_label = section.settings.family_label
+  assign desktop_subcategory_label = section.settings.subcategory_label
+  assign mobile_shop_panel_label = section.settings.shop_panel_label_mobile
+  assign mobile_subcategory_label = section.settings.subcategory_label
+  assign brand_category_label = section.settings.brand_category_label
   if bd and bd.values.size > 0
     assign has_mo = true
   endif
@@ -21,11 +21,11 @@
   endif
   if live_catalog_count <= 12
     assign limited_live_catalog = true
-    assign desktop_shop_panel_label = 'Browse categories'
-    assign desktop_family_label = 'Categories'
-    assign desktop_subcategory_label = 'Subcategories'
-    assign mobile_shop_panel_label = 'Categories'
-    assign mobile_subcategory_label = 'Subcategories'
+    assign desktop_shop_panel_label = section.settings.limited_shop_panel_label_desktop
+    assign desktop_family_label = section.settings.limited_family_label
+    assign desktop_subcategory_label = section.settings.limited_subcategory_label
+    assign mobile_shop_panel_label = section.settings.limited_shop_panel_label_mobile
+    assign mobile_subcategory_label = section.settings.limited_subcategory_label
   endif
   if live_catalog_count > 0
     capture live_catalog_label
@@ -48,45 +48,85 @@
     <nav class="trg-mm-sb" aria-label="Product families">
       <div class="trg-mm-sb-lbl">{{ desktop_family_label }}</div>
       {%- assign fi = 0 -%}
+
       {%- for block in section.blocks -%}
+
         {%- if block.type == 'family' -%}
+
           {%- liquid
+
             assign ft = block.settings.title_override
+
             if ft == blank and block.settings.collection != blank
+
               assign ft = block.settings.collection.title
+
             endif
+
             if ft == blank
+
               assign ft = 'Untitled'
+
             endif
+
           -%}
+
           {%- assign tab_pc = 0 -%}
+
           {%- if block.settings.collection != blank -%}
+
             {%- assign tab_pc = block.settings.collection.products_count -%}
+
           {%- endif -%}
+
           <button class="trg-mm-t{% if fi == 0 %} on{% endif %}" data-tab="shop-{{ ft | handleize }}" type="button" {{ block.shopify_attributes }}>{{ ft }}{%- if tab_pc > 0 %}<span class="trg-mm-tc">{{ tab_pc }}</span>{%- endif -%}</button>
+
           {%- assign fi = fi | plus: 1 -%}
+
         {%- endif -%}
+
       {%- endfor -%}
+
       {%- if fi == 0 -%}<p class="trg-mm-empty">Add Product Family blocks in Customizer</p>{%- endif -%}
+
     </nav>
+
     <div class="trg-mm-c">
+
       {%- assign fi = 0 -%}{%- assign po = false -%}{%- assign go = false -%}{%- assign ao = false -%}
+
       {%- for block in section.blocks -%}
+
         {%- if block.type == 'family' -%}
+
           {%- if po -%}
+
             {%- if ao -%}</div></div>{%- assign ao = false -%}{%- endif -%}
+
             {%- if go -%}</div>{%- assign go = false -%}{%- endif -%}
+
             <div class="trg-mm-va"><a href="{{ pfu }}" class="trg-mm-val">View all {{ pft | downcase }}</a></div></div>
+
             {%- assign po = false -%}
+
           {%- endif -%}
+
           {%- liquid
+
             assign ft = block.settings.title_override
+
             if ft == blank and block.settings.collection != blank
+
               assign ft = block.settings.collection.title
+
             endif
+
             if ft == blank
+
               assign ft = 'Untitled'
+
             endif
+
             assign fu = block.settings.title_override | default: 'all' | handleize | prepend: '/collections/'
             if block.settings.collection != blank and block.settings.collection.url != blank
               assign fu = block.settings.collection.url
@@ -106,7 +146,9 @@
             assign ao = false
           -%}
           <div class="trg-mm-pn{% if fi == 0 %} on{% endif %}" id="trg-mm-pn-shop-{{ ft | handleize }}" {{ block.shopify_attributes }}>
+
             <div class="trg-mm-ph"><span class="trg-mm-pt">{{ ft }}</span>{%- if block.settings.collection != blank and block.settings.collection.products_count > 0 -%}<span class="trg-mm-ps">{{ block.settings.collection.products_count }} products</span>{%- endif -%}</div>
+
           {%- if block.settings.chips != blank -%}
             <div class="trg-mm-ar"><span class="trg-mm-al">Style Aesthetic</span>
               <div class="trg-mm-acs">
@@ -120,7 +162,10 @@
           {%- endif -%}
           {%- assign po = true -%}{%- assign fi = fi | plus: 1 -%}
 
+
+
         {%- comment -%}aesthetic_chip blocks deprecated - chips now in family settings{%- endcomment -%}
+
 
         {%- elsif block.type == 'subcategory' and po -%}
           {%- unless go -%}<span class="trg-mm-sl">{{ desktop_subcategory_label }}</span><div class="trg-mm-sg">{%- assign go = true -%}{%- endunless -%}
@@ -157,23 +202,42 @@
         {%- endif -%}
       {%- endfor -%}
       {%- if ao -%}</div></div>{%- endif -%}
+
       {%- if po -%}{%- if go -%}</div>{%- endif -%}<div class="trg-mm-va"><a href="{{ pfu }}" class="trg-mm-val">View all {{ pft | downcase }}</a></div></div>{%- endif -%}
+
       {%- if fi == 0 -%}<div class="trg-mm-pn on"><div class="trg-mm-ph"><span class="trg-mm-pt">Shop by Products</span></div><p class="trg-mm-empty">Add Product Family, Style Chip, and Subcategory blocks in the Theme Customizer.</p></div>{%- endif -%}
+
     </div>
+
     {%- for block in section.blocks -%}
+
       {%- if block.type == 'featured_brand_shop' and block.settings.brand_name != blank -%}
+
         <div class="trg-mm-ft" {{ block.shopify_attributes }}>
+
           <div class="trg-mm-fl">Featured Brand</div>
+
           <a href="{{ block.settings.brand_url | default: '#' }}" class="trg-mm-fc">
+
             <div class="trg-mm-fi">{%- if block.settings.brand_image != blank -%}<img src="{{ block.settings.brand_image | image_url: width: 400 }}" alt="{{ block.settings.brand_name }}" loading="lazy" width="400" height="300">{%- else -%}<div class="trg-mm-ff">{{ block.settings.brand_name | truncate: 2, '' }}</div>{%- endif -%}</div>
+
             <div class="trg-mm-fb">{%- if block.settings.brand_eyebrow != blank -%}<div class="trg-mm-fe">{{ block.settings.brand_eyebrow }}</div>{%- endif -%}<div class="trg-mm-fn">{{ block.settings.brand_name }}</div>{%- if block.settings.brand_description != blank -%}<div class="trg-mm-fd">{{ block.settings.brand_description }}</div>{%- endif -%}<div class="trg-mm-fct">View brand</div></div>
+
           </a>
+
           {%- if block.settings.link_1_text != blank -%}<div class="trg-mm-fv"></div><div class="trg-mm-fl">Quick Filters</div><div class="trg-mm-fls">{%- if block.settings.link_1_text != blank -%}<a href="{{ block.settings.link_1_url | default: '#' }}" class="trg-mm-fq">{{ block.settings.link_1_text }}</a>{%- endif -%}{%- if block.settings.link_2_text != blank -%}<a href="{{ block.settings.link_2_url | default: '#' }}" class="trg-mm-fq">{{ block.settings.link_2_text }}</a>{%- endif -%}{%- if block.settings.link_3_text != blank -%}<a href="{{ block.settings.link_3_url | default: '#' }}" class="trg-mm-fq">{{ block.settings.link_3_text }}</a>{%- endif -%}</div>{%- endif -%}
+
         </div>{%- break -%}
+
       {%- endif -%}
+
     {%- endfor -%}
+
   </div>
+
 </div>
+
+
 
 <div class="trg-mm-p" id="trg-mm-p-brands" role="region" aria-label="Browse brands">
   <button class="trg-mm-x" type="button" aria-label="Close">&#10005;</button>
@@ -181,65 +245,124 @@
     <nav class="trg-mm-sb" aria-label="Brand categories">
       <div class="trg-mm-sb-lbl">{{ brand_category_label }}</div>
       <button class="trg-mm-t on" data-tab="brands-all" type="button">All Brands</button>
+
       {%- for block in section.blocks -%}
+
         {%- if block.type == 'brand_category' -%}
+
           {%- liquid
+
             assign ctt = block.settings.title_override
+
             if ctt == blank and block.settings.collection != blank
+
               assign ctt = block.settings.collection.title
+
             endif
+
             if ctt == blank
+
               assign ctt = 'Untitled'
+
             endif
+
           -%}
+
           <button class="trg-mm-t" data-tab="brands-{{ ctt | handleize }}" data-bc="{{ ctt | handleize }}" type="button" {{ block.shopify_attributes }}>{{ ctt }}</button>
+
         {%- endif -%}
+
       {%- endfor -%}
+
     </nav>
+
     <div class="trg-mm-c">
+
       <div class="trg-mm-bs">
+
         <div class="trg-mm-sf">
+
           <svg class="trg-mm-si" viewBox="0 0 16 16" fill="none"><circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.4"/><line x1="10.5" y1="10.5" x2="14" y2="14" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+
           <input type="text" id="trg-mm-bi" class="trg-mm-sin" placeholder="Search brands…" autocomplete="off" spellcheck="false">
           <button class="trg-mm-sx" id="trg-mm-sx" type="button" aria-label="Clear">&#10005;</button>
+
         </div>
+
         <div class="trg-mm-sm" id="trg-mm-sm"></div>
+
       </div>
+
       <div class="trg-mm-bg" id="trg-mm-bg"></div>
+
       <div class="trg-mm-va"><a href="/pages/brands" class="trg-mm-val">Open full brand directory</a></div>
+
     </div>
+
     {%- for block in section.blocks -%}
+
       {%- if block.type == 'featured_brand' and block.settings.brand_name != blank -%}
+
         <div class="trg-mm-ft" {{ block.shopify_attributes }}>
+
           <div class="trg-mm-fl">Featured Brand</div>
+
           <a href="{{ block.settings.brand_url | default: '#' }}" class="trg-mm-fc">
+
             <div class="trg-mm-fi">{%- if block.settings.brand_image != blank -%}<img src="{{ block.settings.brand_image | image_url: width: 400 }}" alt="{{ block.settings.brand_name }}" loading="lazy" width="400" height="300">{%- else -%}<div class="trg-mm-ff">{{ block.settings.brand_name | truncate: 2, '' }}</div>{%- endif -%}</div>
+
             <div class="trg-mm-fb">{%- if block.settings.brand_eyebrow != blank -%}<div class="trg-mm-fe">{{ block.settings.brand_eyebrow }}</div>{%- endif -%}<div class="trg-mm-fn">{{ block.settings.brand_name }}</div>{%- if block.settings.brand_description != blank -%}<div class="trg-mm-fd">{{ block.settings.brand_description }}</div>{%- endif -%}<div class="trg-mm-fct">View brand</div></div>
+
           </a>
+
           {%- if block.settings.link_1_text != blank -%}<div class="trg-mm-fv"></div><div class="trg-mm-fl">Explore</div><div class="trg-mm-fls">{%- if block.settings.link_1_text != blank -%}<a href="{{ block.settings.link_1_url | default: '#' }}" class="trg-mm-fq">{{ block.settings.link_1_text }}</a>{%- endif -%}{%- if block.settings.link_2_text != blank -%}<a href="{{ block.settings.link_2_url | default: '#' }}" class="trg-mm-fq">{{ block.settings.link_2_text }}</a>{%- endif -%}{%- if block.settings.link_3_text != blank -%}<a href="{{ block.settings.link_3_url | default: '#' }}" class="trg-mm-fq">{{ block.settings.link_3_text }}</a>{%- endif -%}</div>{%- endif -%}
+
         </div>{%- break -%}
+
       {%- endif -%}
+
     {%- endfor -%}
+
   </div>
+
 </div>
+
+
 
 <script id="trg-mm-bd" type="application/json">{%- if has_mo -%}[{%- for brand in bd.values -%}{%- if brand.status == 'Active' or brand.status == 'Add' or brand.status == blank -%}{"name":{{ brand.name | json }},"slug":{{ brand.slug | default: brand.name | handleize | json }},"category":{{ brand.primary_category | default: '' | handleize | json }}}{% unless forloop.last %},{% endunless %}{%- endif -%}{%- endfor -%}]{%- else -%}[]{%- endif -%}</script>
 
 
+
+
+
 {%- comment -%}
+
   ══════ MOBILE MEGA MENU DRAWER (≤989px) ══════
+
   Reads from the same section blocks as desktop.
+
   JS shows/hides this; Dwell native drawer is hidden via CSS.
+
 {%- endcomment -%}
+
 <div class="trg-mob" id="trg-mob" aria-hidden="true">
+
   <div class="trg-mob-bk" id="trg-mob-bk"></div>
 
+
+
   <div class="trg-mob-drawer">
+
     <div class="trg-mob-head">
+
       <a href="/" class="trg-mob-logo">The <span>Right</span> Garment</a>
+
       <button class="trg-mob-close" id="trg-mob-close" type="button" aria-label="Close menu">
+
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+
       </button>
+
     </div>
     <div class="trg-mob-tabs">
       <button class="trg-mob-tab on" data-mob-tab="shop" type="button">{{ mobile_shop_panel_label }}</button>
@@ -247,20 +370,36 @@
     </div>
     <div class="trg-mob-body" id="trg-mob-body">
 
+
+
       {%- comment -%}═══ SHOP BY TYPE TAB ═══{%- endcomment -%}
+
       <div class="trg-mob-tc on" id="trg-mob-tc-shop">
+
         {%- assign mfi = 0 -%}
+
         {%- for block in section.blocks -%}
+
           {%- if block.type == 'family' -%}
+
             {%- assign pmft = mft -%}{%- assign pmfu = mfu -%}
+
             {%- liquid
+
               assign mft = block.settings.title_override
+
               if mft == blank and block.settings.collection != blank
+
                 assign mft = block.settings.collection.title
+
               endif
+
               if mft == blank
+
                 assign mft = 'Untitled'
+
               endif
+
                assign mfu = block.settings.title_override | default: 'all' | handleize | prepend: '/collections/'
                if block.settings.collection != blank and block.settings.collection.url != blank
                  assign mfu = block.settings.collection.url
@@ -277,20 +416,35 @@
                endcase
              -%}
             {%- comment -%}Close previous family body if open{%- endcomment -%}
+
             {%- if mfi > 0 -%}
+
               {%- if msubs_started -%}</div>{%- assign msubs_started = false -%}{%- endif -%}
+
               <a href="{{ pmfu }}" class="trg-mob-va">View all {{ pmft | downcase }}</a>
+
               </div></div></div>
+
             {%- endif -%}
+
             <div class="trg-mob-fam" data-fam-idx="{{ mfi }}">
+
               <button class="trg-mob-fam-hdr" type="button">
+
                 <div class="trg-mob-fam-left">
+
                   <span class="trg-mob-fam-name">{{ mft }}</span>
+
                   {%- if block.settings.collection != blank and block.settings.collection.products_count > 0 -%}<span class="trg-mob-fam-count">{{ block.settings.collection.products_count }} products</span>{%- endif -%}
+
                 </div>
+
                 <svg class="trg-mob-chv" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+
               </button>
+
               <div class="trg-mob-fam-body"><div class="trg-mob-fam-inner">
+
                 {%- if block.settings.chips != blank -%}
                   <span class="trg-mob-lbl">Style aesthetic</span>
                   <div class="trg-mob-chips" data-swipe>
@@ -301,7 +455,10 @@
                   </div>
                 {%- endif -%}
                 {%- assign msubs_started = false -%}
+
             {%- assign mfi = mfi | plus: 1 -%}
+
+
 
           {%- elsif block.type == 'subcategory' and mfi > 0 -%}
             {%- unless msubs_started -%}
@@ -342,10 +499,16 @@
           {%- endif -%}
         {%- endfor -%}
         {%- if mfi > 0 -%}
+
           {%- if msubs_started -%}</div>{%- endif -%}
+
           <a href="{{ mfu }}" class="trg-mob-va">View all {{ mft | downcase }}</a>
+
           </div></div></div>
+
         {%- endif -%}
+
+
 
         {%- comment -%}Primary CTAs{%- endcomment -%}
         <div class="trg-mob-ctas">
@@ -353,12 +516,19 @@
           <a href="/pages/brands" class="trg-mob-cta-secondary">View Full Brand Directory →</a>
         </div>
 
+
         {%- comment -%}Footer links{%- endcomment -%}
+
         <div class="trg-mob-footer">
+
           <a href="/blogs/journal" class="trg-mob-flink"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h4l2 3h8a2 2 0 012 2v9a2 2 0 01-2 2z"/></svg>Journal</a>
+
           <a href="/pages/about" class="trg-mob-flink"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>About</a>
+
           <a href="/pages/submit-brand" class="trg-mob-flink"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>Submit a Brand</a>
+
         </div>
+
         <div class="trg-mob-nl">
           <div class="trg-mob-nl-title">The Right Edit</div>
           <div class="trg-mob-nl-text">Curated menswear picks, brand deep-dives, and style notes — delivered monthly.</div>
@@ -366,33 +536,61 @@
         </div>
       </div>
 
+
+
       {%- comment -%}═══ BRANDS TAB ═══{%- endcomment -%}
+
       <div class="trg-mob-tc" id="trg-mob-tc-brands">
+
         <div class="trg-mob-bsearch" id="trg-mob-bsearch">
+
           <div class="trg-mob-bsf">
+
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
+
             <input type="text" id="trg-mob-bi" class="trg-mob-bin" placeholder="Search brands…" autocomplete="off" spellcheck="false">
             <button class="trg-mob-bsx" id="trg-mob-bsx" type="button">✕</button>
+
           </div>
+
         </div>
+
         <div class="trg-mob-bchips" data-swipe id="trg-mob-bchips">
+
           <button class="trg-mob-chip on" data-bcat="all" type="button">All</button>
+
           {%- for block in section.blocks -%}
+
             {%- if block.type == 'brand_category' -%}
+
               {%- liquid
+
                 assign bctt = block.settings.title_override
+
                 if bctt == blank and block.settings.collection != blank
+
                   assign bctt = block.settings.collection.title
+
                 endif
+
                 if bctt == blank
+
                   assign bctt = 'Untitled'
+
                 endif
+
               -%}
+
               <button class="trg-mob-chip" data-bcat="{{ bctt | handleize }}" type="button">{{ bctt }}</button>
+
             {%- endif -%}
+
           {%- endfor -%}
+
         </div>
+
         <div class="trg-mob-bcount" id="trg-mob-bcount"></div>
+
         <div class="trg-mob-bpicks" id="trg-mob-bpicks"></div>
         <div class="trg-mob-brest" id="trg-mob-brest"></div>
         <div class="trg-mob-ctas">
@@ -400,68 +598,203 @@
           <a href="{{ routes.all_products_collection_url }}" class="trg-mob-cta-secondary">{{ live_catalog_label }}</a>
         </div>
 
+
       </div>
 
+
+
     </div>
+
   </div>
+
 </div>
 
 
 
 
+
+
+
+
+
 {% schema %}
+
 {
+
   "name": "Mega Menu",
+
   "tag": "div",
+
   "class": "trg-mega-menu-shell",
+
   "limit": 1,
+
   "max_blocks": 80,
-  "settings": [],
-  "blocks": [
-    {"type":"family","name":"Product Family","settings":[
-      {"type":"collection","id":"collection","label":"Collection"},
-      {"type":"text","id":"title_override","label":"Custom title (optional)"},
-      {"type":"text","id":"subtitle","label":"Subtitle (optional)","info":"E.g. '77 brands'"},
-      {"type":"text","id":"chips","label":"Style aesthetic chips (comma-separated)","info":"E.g. 'All, Heritage, Dress, Casual'. Leave blank for no chips."}
-    ]},
-    {"type":"aesthetic_chip","name":"Style Chip","settings":[
-      {"type":"text","id":"title","label":"Label","default":"Heritage"},
-      {"type":"collection","id":"collection","label":"Collection (optional)"},
-      {"type":"checkbox","id":"is_default","label":"Active by default?","default":false}
-    ]},
-    {"type":"subcategory","name":"Subcategory","settings":[
-      {"type":"collection","id":"collection","label":"Collection"},
-      {"type":"text","id":"title_override","label":"Custom title (optional)"},
-      {"type":"text","id":"count","label":"Count (optional)","info":"E.g. '22'"}
-    ]},
-    {"type":"brand_category","name":"Brand Category Tab","settings":[
-      {"type":"collection","id":"collection","label":"Collection (optional)"},
-      {"type":"text","id":"title_override","label":"Custom title (optional)"}
-    ]},
-    {"type":"featured_brand","name":"Featured Brand (Brands)","limit":1,"settings":[
-      {"type":"text","id":"brand_name","label":"Name","default":"Norse Projects"},
-      {"type":"text","id":"brand_eyebrow","label":"Eyebrow","default":"Casualwear · Copenhagen"},
-      {"type":"textarea","id":"brand_description","label":"Description","default":"Scandinavian precision. Quietly considered, built to last."},
-      {"type":"url","id":"brand_url","label":"Link"},
-      {"type":"image_picker","id":"brand_image","label":"Image"},
-      {"type":"header","content":"Quick links"},
-      {"type":"text","id":"link_1_text","label":"Link 1","default":"Made in Canada"},{"type":"url","id":"link_1_url","label":"URL 1"},
-      {"type":"text","id":"link_2_text","label":"Link 2","default":"Has affiliate program"},{"type":"url","id":"link_2_url","label":"URL 2"},
-      {"type":"text","id":"link_3_text","label":"Link 3","default":"Ships to Canada"},{"type":"url","id":"link_3_url","label":"URL 3"}
-    ]},
-    {"type":"featured_brand_shop","name":"Featured Brand (Products)","limit":1,"settings":[
-      {"type":"text","id":"brand_name","label":"Name","default":"Viberg"},
-      {"type":"text","id":"brand_eyebrow","label":"Eyebrow","default":"Footwear · Victoria"},
-      {"type":"textarea","id":"brand_description","label":"Description","default":"Handwelted since 1931. The benchmark for North American heritage boots."},
-      {"type":"url","id":"brand_url","label":"Link"},
-      {"type":"image_picker","id":"brand_image","label":"Image"},
-      {"type":"header","content":"Quick links"},
-      {"type":"text","id":"link_1_text","label":"Link 1","default":"Under $200 entry point"},{"type":"url","id":"link_1_url","label":"URL 1"},
-      {"type":"text","id":"link_2_text","label":"Link 2","default":"Ships duty-free to CA"},{"type":"url","id":"link_2_url","label":"URL 2"},
-      {"type":"text","id":"link_3_text","label":"Link 3","default":"Submit a brand"},{"type":"url","id":"link_3_url","label":"URL 3"}
-    ]}
+
+  "settings": [
+    {
+      "type": "header",
+      "content": "Full catalog labels"
+    },
+    {
+      "type": "text",
+      "id": "live_catalog_label",
+      "label": "Live catalog CTA",
+      "default": "Browse live products"
+    },
+    {
+      "type": "text",
+      "id": "shop_panel_label_desktop",
+      "label": "Shop panel (desktop)",
+      "default": "Shop by products"
+    },
+    {
+      "type": "text",
+      "id": "shop_panel_label_mobile",
+      "label": "Shop panel (mobile)",
+      "default": "Shop by Type"
+    },
+    {
+      "type": "text",
+      "id": "family_label",
+      "label": "Family label",
+      "default": "Product Family"
+    },
+    {
+      "type": "text",
+      "id": "subcategory_label",
+      "label": "Subcategory label",
+      "default": "Shop by type"
+    },
+    {
+      "type": "text",
+      "id": "brand_category_label",
+      "label": "Brand category label",
+      "default": "Browse by Category"
+    },
+    {
+      "type": "header",
+      "content": "Limited catalog labels"
+    },
+    {
+      "type": "text",
+      "id": "limited_shop_panel_label_desktop",
+      "label": "Shop panel (desktop)",
+      "default": "Browse categories"
+    },
+    {
+      "type": "text",
+      "id": "limited_shop_panel_label_mobile",
+      "label": "Shop panel (mobile)",
+      "default": "Categories"
+    },
+    {
+      "type": "text",
+      "id": "limited_family_label",
+      "label": "Family label",
+      "default": "Categories"
+    },
+    {
+      "type": "text",
+      "id": "limited_subcategory_label",
+      "label": "Subcategory label",
+      "default": "Subcategories"
+    }
   ],
+
+  "blocks": [
+
+    {"type":"family","name":"Product Family","settings":[
+
+      {"type":"collection","id":"collection","label":"Collection"},
+
+      {"type":"text","id":"title_override","label":"Custom title (optional)"},
+
+      {"type":"text","id":"subtitle","label":"Subtitle (optional)","info":"E.g. '77 brands'"},
+
+      {"type":"text","id":"chips","label":"Style aesthetic chips (comma-separated)","info":"E.g. 'All, Heritage, Dress, Casual'. Leave blank for no chips."}
+
+    ]},
+
+    {"type":"aesthetic_chip","name":"Style Chip","settings":[
+
+      {"type":"text","id":"title","label":"Label","default":"Heritage"},
+
+      {"type":"collection","id":"collection","label":"Collection (optional)"},
+
+      {"type":"checkbox","id":"is_default","label":"Active by default?","default":false}
+
+    ]},
+
+    {"type":"subcategory","name":"Subcategory","settings":[
+
+      {"type":"collection","id":"collection","label":"Collection"},
+
+      {"type":"text","id":"title_override","label":"Custom title (optional)"},
+
+      {"type":"text","id":"count","label":"Count (optional)","info":"E.g. '22'"}
+
+    ]},
+
+    {"type":"brand_category","name":"Brand Category Tab","settings":[
+
+      {"type":"collection","id":"collection","label":"Collection (optional)"},
+
+      {"type":"text","id":"title_override","label":"Custom title (optional)"}
+
+    ]},
+
+    {"type":"featured_brand","name":"Featured Brand (Brands)","limit":1,"settings":[
+
+      {"type":"text","id":"brand_name","label":"Name","default":"Norse Projects"},
+
+      {"type":"text","id":"brand_eyebrow","label":"Eyebrow","default":"Casualwear · Copenhagen"},
+
+      {"type":"textarea","id":"brand_description","label":"Description","default":"Scandinavian precision. Quietly considered, built to last."},
+
+      {"type":"url","id":"brand_url","label":"Link"},
+
+      {"type":"image_picker","id":"brand_image","label":"Image"},
+
+      {"type":"header","content":"Quick links"},
+
+      {"type":"text","id":"link_1_text","label":"Link 1","default":"Made in Canada"},{"type":"url","id":"link_1_url","label":"URL 1"},
+
+      {"type":"text","id":"link_2_text","label":"Link 2","default":"Has affiliate program"},{"type":"url","id":"link_2_url","label":"URL 2"},
+
+      {"type":"text","id":"link_3_text","label":"Link 3","default":"Ships to Canada"},{"type":"url","id":"link_3_url","label":"URL 3"}
+
+    ]},
+
+    {"type":"featured_brand_shop","name":"Featured Brand (Products)","limit":1,"settings":[
+
+      {"type":"text","id":"brand_name","label":"Name","default":"Viberg"},
+
+      {"type":"text","id":"brand_eyebrow","label":"Eyebrow","default":"Footwear · Victoria"},
+
+      {"type":"textarea","id":"brand_description","label":"Description","default":"Handwelted since 1931. The benchmark for North American heritage boots."},
+
+      {"type":"url","id":"brand_url","label":"Link"},
+
+      {"type":"image_picker","id":"brand_image","label":"Image"},
+
+      {"type":"header","content":"Quick links"},
+
+      {"type":"text","id":"link_1_text","label":"Link 1","default":"Under $200 entry point"},{"type":"url","id":"link_1_url","label":"URL 1"},
+
+      {"type":"text","id":"link_2_text","label":"Link 2","default":"Ships duty-free to CA"},{"type":"url","id":"link_2_url","label":"URL 2"},
+
+      {"type":"text","id":"link_3_text","label":"Link 3","default":"Submit a brand"},{"type":"url","id":"link_3_url","label":"URL 3"}
+
+    ]}
+
+  ],
+
   "presets":[{"name":"Mega Menu"}]
+
 }
+
 {% endschema %}
+
+
 
