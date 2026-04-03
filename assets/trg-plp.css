@@ -399,6 +399,16 @@ body.filters-hidden .trg-plp-body .trg-plp-show-filters-btn { display: flex !imp
 .trg-plp-body .group-block-content > product-price .price {
   font-size: 1rem !important; font-weight: 400 !important; letter-spacing: 0 !important; color: #2f2b27 !important;
 }
+@media screen and (min-width: 990px) {
+  /* Keep every desktop PLP tile visually the same height even when metadata lines differ. */
+  .trg-plp-body .group-block {
+    flex: 1 1 auto !important;
+  }
+
+  .trg-plp-body .group-block-content > product-price {
+    margin-top: auto !important;
+  }
+}
 .trg-plp-body .trg-plp-card-cta-block,
 .trg-plp-body .trg-plp-card-shop-cta,
 .trg-plp-body .trg-plp-card-retailer {
