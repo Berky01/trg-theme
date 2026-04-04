@@ -51,7 +51,7 @@
 }
 .trg-palette-pdp__dot--caution { background: #c4923a; }
 .trg-palette-pdp__text {
-  font-size: .7rem; color: var(--mid, #8a8478); line-height: 1.45;
+  font-size: .7rem; color: var(--mid, #6b6560); line-height: 1.45;
 }
 .trg-palette-pdp__text strong { color: var(--ink); font-weight: 500; }
 
