@@ -336,8 +336,9 @@
   <div
     class="header__underlay header__underlay-open"
   ></div>
+  {%- comment -%}SH-H: demoted from h1 — homepage hero carries the single h1{%- endcomment -%}
   {%- if request.page_type == 'index' -%}
-    <h1 class="visually-hidden">{{ shop.name }}</h1>
+    <p class="visually-hidden">{{ shop.name }}</p>
   {%- endif -%}
   {% for row in rows %}
     {% liquid
