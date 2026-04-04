@@ -67,6 +67,25 @@
 
 {% if brand %}
 {{ 'trg-brand-collection-header.css' | asset_url | stylesheet_tag }}
+{%- comment -%}TRG SEO — BreadcrumbList JSON-LD (G11){%- endcomment -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://therightgarment.com/" },
+    { "@type": "ListItem", "position": 2, "name": "Brand Directory", "item": "https://therightgarment.com/pages/brands" },
+    { "@type": "ListItem", "position": 3, "name": {{ brand_name | json }}, "item": {{ canonical_url | json }} }
+  ]
+}
+</script>
+<nav class="trg-bch-bc" aria-label="Breadcrumb">
+  <a href="/">Home</a>
+  <span aria-hidden="true"> / </span>
+  <a href="/pages/brands">Brands</a>
+  <span aria-hidden="true"> / </span>
+  <span>{{ brand_name }}</span>
+</nav>
 
 <div class="trg-bch{% if inline %} trg-bch--inline{% endif %}">
   <div class="trg-bch-wrap">

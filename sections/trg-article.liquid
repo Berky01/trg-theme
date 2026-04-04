@@ -48,15 +48,23 @@
 <div class="trg-art-page">
 
   <!-- Breadcrumb -->
-  <div class="trg-art-bc">
+  <nav class="trg-art-bc" aria-label="Breadcrumb">
     <a href="/blogs/{{ blog_handle }}">Journal</a>
-    <span class="trg-art-bc-sep">/</span>
-    {%- if art.tags.size > 0 -%}
-      <span class="trg-art-bc-current">{{ art.tags.first }}</span>
-    {%- else -%}
-      <span class="trg-art-bc-current">Article</span>
-    {%- endif -%}
-  </div>
+    <span class="trg-art-bc-sep" aria-hidden="true">/</span>
+    <span class="trg-art-bc-current">{{ art.title | truncate: 60 }}</span>
+  </nav>
+  {%- comment -%}TRG SEO — BreadcrumbList JSON-LD (G11){%- endcomment -%}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://therightgarment.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Journal", "item": "https://therightgarment.com/blogs/{{ blog_handle }}" },
+      { "@type": "ListItem", "position": 3, "name": {{ art.title | json }}, "item": {{ canonical_url | json }} }
+    ]
+  }
+  </script>
 
   <div class="trg-art-layout">
 
