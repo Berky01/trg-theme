@@ -5,7 +5,7 @@
 
 /* ─── ACCOUNT HERO ─── */
 .trg-acct__hero {
-  background: var(--ink, var(--ink));
+  background: var(--ink);
   padding: 1.5rem 1rem;
   position: relative;
   overflow: hidden;
