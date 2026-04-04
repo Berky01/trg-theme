@@ -370,6 +370,8 @@ document.addEventListener('focusin',function(e){
     {% endif %}
     <script src="{{ 'trg-mega-menu-v2.js' | asset_url }}" defer></script>
     <script src="{{ 'trg-mob-v2.js' | asset_url }}" defer></script>
+    {%- render 'trg-cookie-consent' -%}
+    <script src="{{ 'trg-cookie-consent.js' | asset_url }}" defer></script>
 </body>
 </html>
-<!-- trg-cache-bust: 2026-04-03 -->
+<!-- trg-cache-bust: 2026-04-03c -->
