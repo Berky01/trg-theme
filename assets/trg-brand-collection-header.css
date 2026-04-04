@@ -2,6 +2,19 @@
    TRG Brand Collection Header — Brand Banner
    ═══════════════════════════════════════════ */
 
+/* ── Breadcrumb ── */
+.trg-bch-bc {
+  font-size: 0.7rem;
+  color: var(--mid);
+  letter-spacing: 0.04em;
+  padding: 0.5rem var(--page-margin, 40px) 0;
+}
+.trg-bch-bc a {
+  color: inherit;
+  text-decoration: none;
+}
+.trg-bch-bc a:hover { color: var(--accent); }
+
 .trg-bch {
   --bch-ink: #1a1a18;
   --bch-paper: #f5f1eb;
