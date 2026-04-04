@@ -171,6 +171,7 @@
       const sort = q('[data-sort]');
       const topb = q('[data-top]');
       const scrim = q('[data-scrim]');
+      const az = q('[data-az]');
 
       const state = {
         page: 1,
@@ -285,6 +286,17 @@
         return result;
       };
 
+      const ALPHA = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+      const updAZ = () => {
+        if (!az) return;
+        const avail = new Set(
+          state.filtered.map(b => (b.name || '').charAt(0).toUpperCase()).filter(c => /[A-Z]/.test(c))
+        );
+        az.innerHTML = ALPHA.map(l =>
+          `<button type="button" class="trg-bdir__az-btn${avail.has(l) ? '' : ' trg-bdir__az-btn--dim'}" data-az-letter="${l}"${avail.has(l) ? '' : ' aria-disabled="true"'}>${l}</button>`
+        ).join('');
+      };
+
       const render = () => {
         try {
           const total = state.filtered.length;
@@ -303,6 +315,7 @@
           if (more) more.hidden = visible.length >= total;
           const prog = q('[data-prog]');
           if (prog) prog.hidden = !total;
+          updAZ();
         } catch (err) {
           console.error('[TRG Brand Directory] render error:', err);
         }
@@ -452,6 +465,28 @@
       });
 
       if (topb) topb.addEventListener('click', () => window.scrollTo({top: 0, behavior: 'smooth'}));
+      section.addEventListener('click', e => {
+        const btn = e.target.closest('[data-az-letter]');
+        if (!btn || btn.getAttribute('aria-disabled') === 'true') return;
+        const letter = btn.dataset.azLetter;
+        const idx = state.filtered.findIndex(b => (b.name || '').charAt(0).toUpperCase() === letter);
+        if (idx < 0) return;
+        /* Load enough pages to include the target brand */
+        const neededPage = Math.ceil((idx + 1) / PAGE);
+        if (state.page < neededPage) { state.page = neededPage; render(); }
+        requestAnimationFrame(() => {
+          const cards = Array.from(grid.querySelectorAll('.trg-bdir__card'));
+          const target = cards.find(c => {
+            const h3 = c.querySelector('h3');
+            return h3 && (h3.textContent || '').trim().charAt(0).toUpperCase() === letter;
+          });
+          if (!target) return;
+          const bar = section.querySelector('.trg-bdir__searchbar');
+          const barBottom = bar ? bar.getBoundingClientRect().bottom : 160;
+          const cardTop = target.getBoundingClientRect().top + window.scrollY;
+          window.scrollTo({ top: cardTop - barBottom - 8, behavior: 'smooth' });
+        });
+      });
       window.addEventListener(
         'scroll',
         () => {

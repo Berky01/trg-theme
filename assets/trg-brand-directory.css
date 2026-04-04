@@ -1863,6 +1863,48 @@ body:not(.filters-hidden) .trg-bdir .trg-bdir__show {
 
 }
 
+/* ─── A-Z Jump Navigation ─── */
+.trg-bdir__az {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem;
+  padding: 0.75rem 0 0.9rem;
+  border-bottom: 1px solid var(--bd);
+  margin-bottom: 1.25rem;
+}
+.trg-bdir__az-btn {
+  min-width: 1.9rem;
+  min-height: 1.9rem;
+  padding: 0;
+  border: 1px solid var(--bd);
+  background: transparent;
+  color: var(--ink);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s, border-color 0.12s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.trg-bdir__az-btn:hover:not(.trg-bdir__az-btn--dim) {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+.trg-bdir__az-btn--dim {
+  color: var(--bd);
+  border-color: transparent;
+  cursor: default;
+  pointer-events: none;
+}
+@media screen and (max-width: 989px) {
+  .trg-bdir__az {
+    display: none;
+  }
+}
+
 
 
 @media screen and (max-width: 989px) {
