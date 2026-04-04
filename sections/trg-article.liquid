@@ -476,10 +476,22 @@
   "@context": "https://schema.org",
   "@type": "Article",
   "headline": {{ article.title | json }},
+  "url": {{ canonical_url | json }},
   "datePublished": "{{ article.published_at | date: '%Y-%m-%dT%H:%M:%SZ' }}",
   "dateModified": "{{ article.updated_at | date: '%Y-%m-%dT%H:%M:%SZ' }}",
-  "publisher": { "@type": "Organization", "name": "The Right Garment" }{% if article.image %},
-  "image": "{{ article.image | image_url: width: 1200 }}"{% endif %}
+  "author": { "@type": "Organization", "name": "The Right Garment", "url": "https://therightgarment.com" },
+  "publisher": {
+    "@type": "Organization",
+    "name": "The Right Garment",
+    "url": "https://therightgarment.com"
+  }{% if article.excerpt_or_content %},
+  "description": {{ article.excerpt_or_content | strip_html | truncate: 200 | json }}{% endif %}{% if article.image %},
+  "image": {
+    "@type": "ImageObject",
+    "url": "{{ article.image | image_url: width: 1200 }}",
+    "width": 1200
+  }{% endif %},
+  "mainEntityOfPage": { "@type": "WebPage", "@id": {{ canonical_url | json }} }
 }
 </script>
 
