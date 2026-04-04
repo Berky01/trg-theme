@@ -130,6 +130,11 @@
     "category": "suits-tailoring"
   },
   {
+    "name": "Anthony GarÃ§on",
+    "slug": "anthony-garcon",
+    "category": "suits-tailoring"
+  },
+  {
     "name": "Aran Sweater Market",
     "slug": "aran-sweater-market",
     "category": "knitwear"
@@ -193,6 +198,11 @@
     "name": "AYR",
     "slug": "ayr",
     "category": "shirts-tops"
+  },
+  {
+    "name": "Balibaris",
+    "slug": "balibaris",
+    "category": "suits-tailoring"
   },
   {
     "name": "Baracuta",
@@ -277,6 +287,11 @@
   {
     "name": "Berwick 1707",
     "slug": "berwick-1707",
+    "category": "footwear"
+  },
+  {
+    "name": "Bexley",
+    "slug": "bexley",
     "category": "footwear"
   },
   {
@@ -382,6 +397,11 @@
   {
     "name": "Buck Mason",
     "slug": "buck-mason",
+    "category": "shirts-tops"
+  },
+  {
+    "name": "Budd Shirtmakers",
+    "slug": "budd-shirtmakers",
     "category": "shirts-tops"
   },
   {
@@ -525,6 +545,11 @@
     "category": "outerwear-jackets"
   },
   {
+    "name": "Cravat Club",
+    "slug": "cravat-club",
+    "category": "accessories"
+  },
+  {
     "name": "Crescent Down Works",
     "slug": "crescent-down-works",
     "category": "outerwear-jackets"
@@ -625,6 +650,11 @@
     "category": "footwear"
   },
   {
+    "name": "Edward Sexton",
+    "slug": "edward-sexton",
+    "category": "suits-tailoring"
+  },
+  {
     "name": "Edwin",
     "slug": "edwin",
     "category": "denim"
@@ -680,9 +710,19 @@
     "category": "shirts-tops"
   },
   {
+    "name": "Father and Sons",
+    "slug": "father-and-sons",
+    "category": "suits-tailoring"
+  },
+  {
     "name": "Fedeli",
     "slug": "fedeli",
     "category": "knitwear"
+  },
+  {
+    "name": "Figaret",
+    "slug": "figaret",
+    "category": "shirts-tops"
   },
   {
     "name": "Filson",
@@ -753,6 +793,11 @@
     "name": "Fullcount",
     "slug": "fullcount",
     "category": "denim"
+  },
+  {
+    "name": "Fursac",
+    "slug": "fursac",
+    "category": "suits-tailoring"
   },
   {
     "name": "Gammarelli",
@@ -940,6 +985,11 @@
     "category": "footwear"
   },
   {
+    "name": "J. Press",
+    "slug": "j-press",
+    "category": "suits-tailoring"
+  },
+  {
     "name": "J.Crew",
     "slug": "j-crew",
     "category": "shirts-tops"
@@ -973,6 +1023,11 @@
     "name": "Jim Green",
     "slug": "jim-green",
     "category": "footwear"
+  },
+  {
+    "name": "John Henric",
+    "slug": "john-henric",
+    "category": "shirts-tops"
   },
   {
     "name": "John Lobb",
@@ -1063,6 +1118,11 @@
     "name": "La Botte Gardiane",
     "slug": "la-botte-gardiane",
     "category": "footwear"
+  },
+  {
+    "name": "La Faurie Paris",
+    "slug": "la-faurie-paris",
+    "category": "suits-tailoring"
   },
   {
     "name": "La Paz",
@@ -1173,6 +1233,11 @@
     "name": "Massimo Alba",
     "slug": "massimo-alba",
     "category": "shirts-tops"
+  },
+  {
+    "name": "Massimo Dutti",
+    "slug": "massimo-dutti",
+    "category": "suits-tailoring"
   },
   {
     "name": "Maurizio Baldassari",
@@ -1333,6 +1398,11 @@
     "name": "Octobre Ã‰ditions",
     "slug": "octobre-editions",
     "category": "shirts-tops"
+  },
+  {
+    "name": "Officine Creative",
+    "slug": "officine-creative",
+    "category": "footwear"
   },
   {
     "name": "Officine GÃ©nÃ©rale",
@@ -1835,6 +1905,11 @@
     "category": "footwear"
   },
   {
+    "name": "Ted Baker",
+    "slug": "ted-baker",
+    "category": "suits-tailoring"
+  },
+  {
     "name": "Tellason",
     "slug": "tellason",
     "category": "denim"
@@ -1873,6 +1948,11 @@
     "name": "The Iron Snail",
     "slug": "the-iron-snail",
     "category": "shirts-tops"
+  },
+  {
+    "name": "The Nines",
+    "slug": "the-nines",
+    "category": "suits-tailoring"
   },
   {
     "name": "The Real McCoy's",
@@ -1963,6 +2043,11 @@
     "name": "Viberg",
     "slug": "viberg",
     "category": "footwear"
+  },
+  {
+    "name": "Vicomte A.",
+    "slug": "vicomte-a",
+    "category": "shirts-tops"
   },
   {
     "name": "Visvim",
