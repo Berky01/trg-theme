@@ -9,9 +9,21 @@
 {% liquid
   assign block_settings = block.settings
   assign new_arrivals_collection = collections['new-arrivals']
+  assign new_arrivals_collection_alt = collections['new-arrivals-1']
+  assign new_arrivals_count = 0
   assign live_catalog = collections['all']
   assign live_catalog_count = 0
   assign hide_new_arrivals_link = false
+
+  if new_arrivals_collection != blank
+    assign new_arrivals_count = new_arrivals_collection.all_products_count | default: new_arrivals_collection.products_count
+  endif
+  if new_arrivals_collection_alt != blank
+    assign new_arrivals_count_alt = new_arrivals_collection_alt.all_products_count | default: new_arrivals_collection_alt.products_count
+    if new_arrivals_count_alt > new_arrivals_count
+      assign new_arrivals_count = new_arrivals_count_alt
+    endif
+  endif
 
   if live_catalog != blank
     assign live_catalog_count = live_catalog.all_products_count | default: live_catalog.products_count
@@ -48,8 +60,19 @@
             {% for link in block_settings.menu.links %}
               {% liquid
                 assign hide_link = false
-                if link.url contains '/collections/new-arrivals'
-                  if hide_new_arrivals_link or new_arrivals_collection.all_products_count == 0
+                assign normalized_link_url = link.url | downcase
+                assign normalized_link_title = link.title | strip | downcase
+                assign normalized_link_handle = link.handle | downcase
+                assign is_new_arrivals_link = false
+                if normalized_link_url contains '/collections/new-arrivals'
+                  assign is_new_arrivals_link = true
+                elsif normalized_link_handle contains 'new-arrivals'
+                  assign is_new_arrivals_link = true
+                elsif normalized_link_title contains 'new arrivals' or normalized_link_title == 'recently added'
+                  assign is_new_arrivals_link = true
+                endif
+                if is_new_arrivals_link
+                  if hide_new_arrivals_link or new_arrivals_count == 0
                     assign hide_link = true
                   endif
                 endif
@@ -104,12 +127,22 @@
       {% for link in block_settings.menu.links %}
         {% liquid
           assign hide_link = false
-          if link.url contains '/collections/new-arrivals'
-            if hide_new_arrivals_link or new_arrivals_collection.all_products_count == 0
+          assign normalized_link_url = link.url | downcase
+          assign normalized_link_title = link.title | strip | downcase
+          assign normalized_link_handle = link.handle | downcase
+          assign is_new_arrivals_link = false
+          if normalized_link_url contains '/collections/new-arrivals'
+            assign is_new_arrivals_link = true
+          elsif normalized_link_handle contains 'new-arrivals'
+            assign is_new_arrivals_link = true
+          elsif normalized_link_title contains 'new arrivals' or normalized_link_title == 'recently added'
+            assign is_new_arrivals_link = true
+          endif
+          if is_new_arrivals_link
+            if hide_new_arrivals_link or new_arrivals_count == 0
               assign hide_link = true
             endif
           endif
-          assign normalized_link_title = link.title | strip | downcase
           assign is_trg_overlay_trigger = false
           if menu_content_type == 'trg_editorial'
             if normalized_link_title == 'brands' or normalized_link_title == 'products'
@@ -1099,3 +1132,4 @@
   ]
 }
 {% endschema %}
+
