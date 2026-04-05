@@ -190,9 +190,24 @@
 
     <div class="trg-search-bar__predictive" hidden data-trg-search-predictive></div>
 
-    <p class="trg-search-bar__empty" hidden data-trg-search-empty>
-      {{ section.settings.empty_message | escape }}
-    </p>
+    <div class="trg-search-bar__empty" hidden data-trg-search-empty>
+      <span class="trg-search-bar__empty-text" data-trg-search-empty-text>No results</span>
+      <span class="trg-search-bar__empty-divider"></span>
+      <span class="trg-search-bar__empty-try">Try</span>
+      <div class="trg-search-bar__empty-chips">
+        {% for block in section.blocks %}
+          {% assign chip_label = block.settings.label | strip %}
+          {% assign chip_query = block.settings.query | strip %}
+          {% if chip_label == blank %}{% assign chip_label = chip_query %}{% endif %}
+          {% if chip_query == blank %}{% assign chip_query = chip_label %}{% endif %}
+          {% if chip_label != blank %}
+            <button type="button" class="trg-search-bar__empty-chip" data-trg-search-pill="{{ chip_query | escape }}">
+              {{ chip_label | escape }}
+            </button>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
   </div>
 </section>
 
@@ -477,10 +492,60 @@
   }
 
   .trg-search-bar__empty {
-    margin: 0;
-    padding: 0.5rem 0 0;
-    color: rgb(var(--color-foreground-rgb) / 0.55);
-    font-size: 0.82rem;
+    padding: 0.85rem 0 0.65rem;
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    flex-wrap: wrap;
+  }
+
+  .trg-search-bar__empty[hidden] { display: none !important; }
+
+  .trg-search-bar__empty-text {
+    font-size: 0.78rem;
+    color: rgb(var(--color-foreground-rgb) / 0.45);
+    font-style: italic;
+    font-family: var(--font-heading--family);
+  }
+
+  .trg-search-bar__empty-divider {
+    width: 1px;
+    height: 0.85rem;
+    background: rgb(var(--color-foreground-rgb) / 0.12);
+  }
+
+  .trg-search-bar__empty-try {
+    font-size: 0.62rem;
+    color: rgb(var(--color-foreground-rgb) / 0.3);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 500;
+  }
+
+  .trg-search-bar__empty-chips {
+    display: flex;
+    gap: 5px;
+  }
+
+  .trg-search-bar__empty-chip {
+    display: inline-flex;
+    padding: 0.22rem 0.5rem;
+    border: 1px solid rgb(var(--color-foreground-rgb) / 0.1);
+    border-radius: 2px;
+    color: rgb(var(--color-foreground-rgb) / 0.42);
+    font-size: 0.6rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    background: transparent;
+    font-family: var(--font-body--family);
+    transition: color 0.15s, border-color 0.15s;
+  }
+
+  .trg-search-bar__empty-chip:hover {
+    color: rgb(var(--color-foreground-rgb) / 0.75);
+    border-color: rgb(var(--color-foreground-rgb) / 0.22);
   }
 
   .trg-search-bar__predictive {
@@ -605,6 +670,15 @@
       min-width: 84px;
       padding-inline-start: 10px;
     }
+
+    .trg-search-bar__empty {
+      padding: 0.75rem 0 0.5rem;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+
+    .trg-search-bar__empty-divider { display: none; }
   }
 {% endstylesheet %}
 

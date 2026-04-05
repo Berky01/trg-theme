@@ -280,6 +280,11 @@ function initSharedSearchBar() {
 
     if (emptyState instanceof HTMLElement) {
       emptyState.hidden = visibleCount !== 0;
+      const emptyText = emptyState.querySelector('[data-trg-search-empty-text]');
+      if (emptyText) {
+        const q = input.value.trim();
+        emptyText.textContent = q ? `No results for \u201c${q}\u201d` : 'No results';
+      }
     }
   };
 

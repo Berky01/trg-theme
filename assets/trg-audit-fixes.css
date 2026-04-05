@@ -5,13 +5,6 @@
    {{ 'trg-audit-fixes.css' | asset_url | stylesheet_tag }}
    ============================================ */
 
-/* ─── 1. FIX: Search empty state showing by default ─── */
-/* Hide "No pieces match this search" until search is actually active */
-.trg-search-bar ~ .trg-search-empty,
-.trg-search-empty:not(.is-active) {
-  display: none !important;
-}
-
 /* ─── 2. FIX: Brand PLP empty state polish ─── */
 /* When brand directory shows no results, improve the empty state */
 .brand-grid-empty {
