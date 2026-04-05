@@ -501,6 +501,12 @@
 
   .trg-search-bar__empty[hidden] { display: none !important; }
 
+  .trg-search-bar-section--collection .trg-search-bar__empty {
+    background: var(--ink);
+    margin-inline: calc(-1 * var(--trg-search-horizontal-padding, 32px));
+    padding-inline: var(--trg-search-horizontal-padding, 32px);
+  }
+
   .trg-search-bar__empty-text {
     font-size: 0.78rem;
     color: rgb(var(--color-foreground-rgb) / 0.45);
@@ -679,6 +685,11 @@
     }
 
     .trg-search-bar__empty-divider { display: none; }
+
+    .trg-search-bar-section--collection .trg-search-bar__empty {
+      margin-inline: -1rem;
+      padding-inline: 1rem;
+    }
   }
 {% endstylesheet %}
 
