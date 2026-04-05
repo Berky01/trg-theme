@@ -1,5 +1,5 @@
 {%- comment -%}
-  TRG Cookie Consent Banner — snippets/trg-cookie-consent.liquid
+  TRG Cookie Consent Banner â€” snippets/trg-cookie-consent.liquid
   Rendered once in theme.liquid body.
   JS: assets/trg-cookie-consent.js (deferred)
 {%- endcomment -%}
@@ -84,9 +84,11 @@
   border: 1px solid rgba(245, 241, 235, 0.2);
 }
 .trg-cc__btn:hover { opacity: 0.85; }
+.trg-cc__btn { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
 @media (max-width: 749px) {
   .trg-cc__inner { flex-direction: column; gap: 0.875rem; }
   .trg-cc__actions { width: 100%; justify-content: flex-end; }
+  .trg-cc__btn { padding: 0.6rem 1.3rem; font-size: 0.74rem; min-height: 44px; }
   #trg-cc-banner { padding: 1rem; }
 }
 </style>
