@@ -51,14 +51,14 @@
           "type": "menu_column",
           "settings": {
             "heading": "Categories",
-            "menu": "footer"
+            "menu": "footer-menu-categories"
           }
         },
         "menu_column_3": {
           "type": "menu_column",
           "settings": {
             "heading": "About",
-            "menu": "footer"
+            "menu": "footer-menu-about"
           }
         },
         "legal_link_1": {
