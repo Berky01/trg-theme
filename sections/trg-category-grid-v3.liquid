@@ -1,0 +1,461 @@
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<section class="section section--full-width color-{{ section.settings.color_scheme }} trg-section trg-catv3-section">
+  <div class="trg-shell">
+    {% render 'trg-section-header',
+      eyebrow: section.settings.eyebrow,
+      title: section.settings.title,
+      body: section.settings.body,
+      link_label: section.settings.link_label,
+      link_url: section.settings.link_url,
+      align: 'left',
+      reveal: true
+    %}
+
+    <div class="trg-catv3-layout">
+      {%- liquid
+        assign live_catalog_count = collections['all'].products_count
+        assign limit_live_category_copy = false
+        if live_catalog_count <= 12
+          assign limit_live_category_copy = true
+        endif
+      -%}
+
+      {%- comment -%}── Feature card (first block) ──{%- endcomment -%}
+      {%- assign feat = section.blocks.first -%}
+      {%- if feat -%}
+        {%- liquid
+          assign feat_name  = feat.settings.name
+          assign feat_count = feat.settings.count
+          assign feat_link  = feat.settings.link | default: '#'
+          if feat.settings.count_override != blank
+            assign feat_count = feat.settings.count_override
+          endif
+          assign feat_slug = feat_name | downcase | replace: '&', '' | replace: '  ', ' ' | handleize
+        -%}
+        <a class="trg-catv3-feature"
+           href="{{ feat_link }}"
+           style="--feat-bg: {{ section.settings.feature_bg }}; --feat-accent: {{ section.settings.feature_accent }};"
+           data-trg-reveal
+           {{ feat.shopify_attributes }}>
+          <div class="trg-catv3-feature__icon">
+            {%- render 'trg-category-icon', type: feat_slug -%}
+          </div>
+          <div class="trg-catv3-feature__body">
+            <h3 class="trg-catv3-feature__name">{{ feat_name | escape }}</h3>
+            {%- if feat_count != blank -%}
+              <p class="trg-catv3-feature__count">{{ feat_count | escape }}</p>
+            {%- endif -%}
+            <span class="trg-catv3-feature__cta" aria-hidden="true">→</span>
+          </div>
+        </a>
+      {%- endif -%}
+
+      {%- comment -%}── Tile grid (blocks 2 onward) ──{%- endcomment -%}
+      <div class="trg-catv3-tiles">
+        {%- for block in section.blocks -%}
+          {%- if forloop.first -%}{%- continue -%}{%- endif -%}
+          {%- liquid
+            assign selected_collection = block.settings.collection
+            assign use_collection_data = false
+            if section.settings.source_mode == 'collection_blocks' and selected_collection != blank
+              assign use_collection_data = true
+            endif
+
+            assign card_name  = block.settings.name
+            assign card_count = block.settings.count
+            assign card_link  = block.settings.link
+            assign linked_collection = blank
+            assign card_handle = blank
+
+            if use_collection_data
+              assign card_name  = selected_collection.title
+              assign card_link  = selected_collection.url
+              assign linked_collection = selected_collection
+              if section.settings.collection_count_mode == 'products'
+                assign card_count = selected_collection.products_count | append: ' ' | append: section.settings.collection_count_suffix
+              elsif section.settings.collection_count_mode == 'hide'
+                assign card_count = blank
+              endif
+            endif
+
+            if block.settings.count_override != blank
+              assign card_count = block.settings.count_override
+            endif
+            if block.settings.link != blank
+              assign card_link = block.settings.link
+            endif
+
+            if linked_collection == blank and card_link contains '/collections/'
+              assign card_handle = card_link | split: '/collections/' | last | split: '?' | first | split: '#' | first | handleize
+              if card_handle != blank
+                assign linked_collection = collections[card_handle]
+              endif
+            endif
+
+            if linked_collection != blank
+              assign card_link = linked_collection.url
+              if card_name == blank
+                assign card_name = linked_collection.title
+              endif
+
+              if limit_live_category_copy
+                if linked_collection.products_count == 1
+                  assign card_count = '1 live product'
+                elsif linked_collection.products_count > 1
+                  assign card_count = linked_collection.products_count | append: ' live products'
+                else
+                  assign card_count = 'Catalog building'
+                endif
+              endif
+            endif
+
+            assign card_slug = card_name | downcase | replace: '&', '' | replace: '  ', ' ' | handleize
+          -%}
+          <a class="trg-catv3-tile" href="{{ card_link | default: '#' }}" data-trg-reveal {{ block.shopify_attributes }}>
+            <div class="trg-catv3-tile__top">
+              {%- render 'trg-category-icon', type: card_slug -%}
+            </div>
+            <div class="trg-catv3-tile__bottom">
+              <span class="trg-catv3-tile__name">{{ card_name | escape }}</span>
+              {%- if card_count != blank -%}
+                <span class="trg-catv3-tile__count">{{ card_count | escape }}</span>
+              {%- endif -%}
+            </div>
+          </a>
+        {%- endfor -%}
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .trg-catv3-section {
+    border-top: 1px solid var(--trg-border-color);
+    border-bottom: 1px solid var(--trg-border-color);
+  }
+  .trg-catv3-section .trg-section-header { align-items: start; }
+  .trg-catv3-section .trg-section-header .trg-heading {
+    font-size: clamp(1.7rem, 2.6vw, 2.25rem);
+  }
+  .trg-catv3-section .trg-section-header .trg-lead {
+    color: var(--trg-muted-color);
+    font-size: 0.86rem;
+    line-height: 1.7;
+  }
+
+  /* ── Outer layout ── */
+  .trg-catv3-layout {
+    display: flex;
+    gap: 10px;
+    align-items: stretch;
+  }
+
+  /* ── Feature card ── */
+  .trg-catv3-feature {
+    flex: 0 0 280px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    background: var(--feat-bg, var(--ink, #1a1a18));
+    border-radius: var(--trg-card-radius, 6px);
+    padding: 40px 32px;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    transition: background 0.22s ease;
+  }
+  .trg-catv3-feature:hover {
+    background: color-mix(in srgb, var(--feat-bg, var(--ink, #1a1a18)) 90%, white);
+  }
+
+  .trg-catv3-feature__icon {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .trg-catv3-feature__icon svg {
+    width: 96px;
+    height: 96px;
+    stroke: rgba(255,255,255,0.12);
+    stroke-width: 1.1;
+    fill: none;
+    opacity: 1;
+  }
+
+  .trg-catv3-feature__body {
+    text-align: center;
+    width: 100%;
+  }
+  .trg-catv3-feature__name {
+    font-family: var(--font-heading--family);
+    font-size: 1.75rem;
+    font-weight: 400;
+    color: var(--paper, #f5f1eb);
+    line-height: 1.15;
+    margin: 0 0 6px;
+  }
+  .trg-catv3-feature__count {
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.38);
+    letter-spacing: 0.04em;
+    margin: 0 0 22px;
+  }
+  .trg-catv3-feature__cta {
+    display: inline-block;
+    font-size: 1.15rem;
+    color: color-mix(in srgb, var(--feat-accent, var(--trg-accent-color, #c4562a)) 65%, transparent);
+    transition: color 0.2s ease, transform 0.2s ease;
+    line-height: 1;
+  }
+  .trg-catv3-feature:hover .trg-catv3-feature__cta {
+    color: var(--feat-accent, var(--trg-accent-color, #c4562a));
+    transform: translateX(4px);
+  }
+
+  /* ── Tile grid ── */
+  .trg-catv3-tiles {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+
+  /* ── Small tile ── */
+  .trg-catv3-tile {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 22px 20px;
+    background: color-mix(in srgb, var(--paper, #f5f1eb) 95%, var(--ink, #1a1a18));
+    border-radius: var(--trg-card-radius, 6px);
+    border: 1px solid var(--trg-border-color);
+    border-left: 3px solid var(--trg-accent-color, #c4562a);
+    text-decoration: none;
+    cursor: pointer;
+    overflow: hidden;
+    min-height: 120px;
+    transition: background 0.22s ease;
+  }
+  .trg-catv3-tile:hover {
+    background: color-mix(in srgb, var(--paper, #f5f1eb) 90%, var(--ink, #1a1a18));
+  }
+  .trg-catv3-tile:hover .trg-catv3-tile__name {
+    color: var(--trg-accent-color, #c4562a);
+  }
+
+  .trg-catv3-tile__top { display: block; }
+  .trg-catv3-tile__top svg {
+    width: 42px;
+    height: 42px;
+    stroke: var(--trg-accent-color, #c4562a);
+    fill: none;
+    stroke-width: 1.4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    opacity: 0.65;
+    transition: opacity 0.22s ease;
+  }
+  .trg-catv3-tile:hover .trg-catv3-tile__top svg { opacity: 1; }
+
+  .trg-catv3-tile__bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  .trg-catv3-tile__name {
+    font-family: var(--font-heading--family);
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--trg-heading-color, var(--ink, #1a1a18));
+    line-height: 1.3;
+    text-align: left;
+    transition: color 0.22s ease;
+  }
+  .trg-catv3-tile__count {
+    font-size: 0.65rem;
+    color: var(--trg-muted-color);
+    letter-spacing: 0.04em;
+  }
+
+  /* ── Mobile ── */
+  @media screen and (max-width: 749px) {
+    .trg-catv3-layout { flex-direction: column; }
+    .trg-catv3-feature {
+      flex: 0 0 auto;
+      min-height: 180px;
+      padding: 32px 24px;
+    }
+    .trg-catv3-feature__icon svg {
+      width: 72px;
+      height: 72px;
+    }
+    .trg-catv3-feature__name { font-size: 1.5rem; }
+    .trg-catv3-tiles { grid-template-columns: repeat(2, 1fr); }
+    .trg-catv3-tile { min-height: 100px; }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "TRG Category Grid V3",
+  "tag": "section",
+  "class": "trg-category-grid-v3-schema",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow"
+    },
+    {
+      "type": "richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "<p>Shop by <em>Category</em></p>"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Body",
+      "default": "<p>From outerwear to footwear, every corner of a quality wardrobe.</p>"
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "label": "Header link label"
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "Header link"
+    },
+    {
+      "type": "header",
+      "content": "Feature card"
+    },
+    {
+      "type": "color",
+      "id": "feature_bg",
+      "label": "Feature card background",
+      "default": "#1a1a18"
+    },
+    {
+      "type": "color",
+      "id": "feature_accent",
+      "label": "Feature card accent color",
+      "default": "#c4562a"
+    },
+    {
+      "type": "header",
+      "content": "Dynamic source"
+    },
+    {
+      "type": "select",
+      "id": "source_mode",
+      "label": "Card source",
+      "options": [
+        { "value": "manual_blocks", "label": "Manual block text" },
+        { "value": "collection_blocks", "label": "Collection from each block" }
+      ],
+      "default": "manual_blocks"
+    },
+    {
+      "type": "select",
+      "id": "collection_count_mode",
+      "label": "Collection count source",
+      "options": [
+        { "value": "manual", "label": "Use block count text" },
+        { "value": "products", "label": "Use collection product count" },
+        { "value": "hide", "label": "Hide count" }
+      ],
+      "default": "manual"
+    },
+    {
+      "type": "text",
+      "id": "collection_count_suffix",
+      "label": "Collection count suffix",
+      "default": "products"
+    },
+    {
+      "type": "select",
+      "id": "collection_icon_mode",
+      "label": "Collection icon source",
+      "options": [
+        { "value": "text", "label": "Use block icon text" },
+        { "value": "image", "label": "Use collection image" }
+      ],
+      "default": "text"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Category card",
+      "limit": 12,
+      "settings": [
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Icon (legacy)"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Outerwear"
+        },
+        {
+          "type": "text",
+          "id": "count",
+          "label": "Count text",
+          "default": "18 brands"
+        },
+        {
+          "type": "text",
+          "id": "count_override",
+          "label": "Count override (optional)"
+        },
+        {
+          "type": "color",
+          "id": "colour_tint",
+          "label": "Background colour tint (unused in V3)"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "TRG Category Grid V3",
+      "blocks": [
+        { "type": "category" },
+        { "type": "category" },
+        { "type": "category" },
+        { "type": "category" },
+        { "type": "category" },
+        { "type": "category" },
+        { "type": "category" },
+        { "type": "category" }
+      ]
+    }
+  ]
+}
+{% endschema %}
