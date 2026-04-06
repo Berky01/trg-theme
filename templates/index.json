@@ -353,121 +353,122 @@
         "mo_collection_field": "collection"
       }
     },
-    "trg_categories": {
-      "type": "trg-category-grid",
+    "trg_category_grid_v2_hEjnMt": {
+      "type": "trg-category-grid-v2",
       "blocks": {
-        "cat_1": {
+        "category_dRKmRd": {
           "type": "category",
           "settings": {
             "icon": "",
             "collection": "",
-            "name": "Shirts & Tops",
-            "count": "Catalog building",
+            "name": "Outerwear",
+            "count": "18 brands",
             "count_override": "",
-            "colour_tint": "#3464a8",
-            "link": "/collections/shirts"
+            "colour_tint": "#8a8478",
+            "link": ""
           }
         },
-        "cat_2": {
+        "category_RRr97H": {
           "type": "category",
           "settings": {
             "icon": "",
             "collection": "",
-            "name": "Outerwear & Jackets",
-            "count": "Catalog building",
+            "name": "Outerwear",
+            "count": "18 brands",
             "count_override": "",
-            "colour_tint": "#7a5028",
-            "link": "/collections/outerwear"
+            "colour_tint": "#8a8478",
+            "link": ""
           }
         },
-        "cat_3": {
+        "category_rw48tN": {
           "type": "category",
           "settings": {
             "icon": "",
             "collection": "",
-            "name": "Trousers & Bottoms",
-            "count": "Catalog building",
+            "name": "Outerwear",
+            "count": "18 brands",
             "count_override": "",
-            "colour_tint": "#5c4020",
-            "link": "/collections/bottoms"
+            "colour_tint": "#8a8478",
+            "link": ""
           }
         },
-        "cat_4": {
+        "category_z8XNpT": {
           "type": "category",
           "settings": {
             "icon": "",
             "collection": "",
-            "name": "Footwear",
-            "count": "Catalog building",
+            "name": "Outerwear",
+            "count": "18 brands",
             "count_override": "",
-            "colour_tint": "#8b6834",
-            "link": "/collections/footwear"
+            "colour_tint": "#8a8478",
+            "link": ""
           }
         },
-        "cat_5": {
+        "category_pzQycL": {
           "type": "category",
           "settings": {
             "icon": "",
             "collection": "",
-            "name": "Knitwear",
-            "count": "1 live product",
+            "name": "Outerwear",
+            "count": "18 brands",
             "count_override": "",
-            "colour_tint": "#305838",
-            "link": "/collections/knitwear"
+            "colour_tint": "#8a8478",
+            "link": ""
           }
         },
-        "cat_6": {
+        "category_yAPjtD": {
           "type": "category",
           "settings": {
             "icon": "",
             "collection": "",
-            "name": "Denim",
-            "count": "Catalog building",
+            "name": "Outerwear",
+            "count": "18 brands",
             "count_override": "",
-            "colour_tint": "#2c3e6b",
-            "link": "/collections/denim"
+            "colour_tint": "#8a8478",
+            "link": ""
           }
         },
-        "cat_7": {
+        "category_N6zeDe": {
           "type": "category",
           "settings": {
             "icon": "",
             "collection": "",
-            "name": "Suits & Tailoring",
-            "count": "Catalog building",
+            "name": "Outerwear",
+            "count": "18 brands",
             "count_override": "",
-            "colour_tint": "#282858",
-            "link": "/collections/tailoring"
+            "colour_tint": "#8a8478",
+            "link": ""
           }
         },
-        "cat_8": {
+        "category_gGmQGM": {
           "type": "category",
           "settings": {
             "icon": "",
             "collection": "",
-            "name": "Accessories",
-            "count": "Catalog building",
+            "name": "Outerwear",
+            "count": "18 brands",
             "count_override": "",
-            "colour_tint": "#808078",
-            "link": "/collections/accessories"
+            "colour_tint": "#8a8478",
+            "link": ""
           }
         }
       },
       "block_order": [
-        "cat_1",
-        "cat_2",
-        "cat_3",
-        "cat_4",
-        "cat_5",
-        "cat_6",
-        "cat_7",
-        "cat_8"
+        "category_dRKmRd",
+        "category_RRr97H",
+        "category_rw48tN",
+        "category_z8XNpT",
+        "category_pzQycL",
+        "category_yAPjtD",
+        "category_N6zeDe",
+        "category_gGmQGM"
       ],
+      "name": "TRG Category Grid",
       "settings": {
-        "color_scheme": "scheme-1",
+        "color_scheme": "",
         "eyebrow": "",
-        "title": "<p>Browse by <em>Category</em></p>",
-        "body": "<p>Explore the live category paths while the broader product assortment is still being loaded.</p>",
+        "title": "<p>Shop by <em>Category</em></p>",
+        "body": "<p>From outerwear to footwear, every corner of a quality wardrobe.</p>",
         "link_label": "",
         "link_url": "",
         "columns_desktop": 4,
@@ -708,7 +709,7 @@
     "trg_search_bar_nVixRj",
     "trg_home_hero",
     "trg_featured_brands",
-    "trg_categories",
+    "trg_category_grid_v2_hEjnMt",
     "trg_colour_teaser",
     "trg_steps",
     "trg_editorial"
