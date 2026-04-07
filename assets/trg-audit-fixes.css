@@ -955,3 +955,10 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
     background-position: center !important;
   }
 }
+
+/* ─── Mobile brands search — typed text colour ─── */
+/* iOS Safari uses -webkit-text-fill-color which overrides the inline color property */
+#trg-v4-input {
+  color: rgba(245, 241, 235, 0.92) !important;
+  -webkit-text-fill-color: rgba(245, 241, 235, 0.92) !important;
+}
