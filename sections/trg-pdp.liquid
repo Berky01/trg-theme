@@ -64,6 +64,18 @@
 
   assign buy_url_ca = p.metafields.trg.buy_url_ca.value | default: p.metafields.trg.buy_url_ca | default: buy_url_us
 
+  assign trg_variant_color_data = p.metafields.trg.variant_color_data.value
+
+  assign trg_source_variant_id = p.metafields.trg.source_variant_external_id.value | default: p.metafields.trg.source_variant_external_id | append: ''
+
+  assign trg_has_grouped_colours = false
+
+  if trg_variant_color_data != blank and trg_variant_color_data.size > 1
+
+    assign trg_has_grouped_colours = true
+
+  endif
+
 
 
   assign retailer_name_us = p.metafields.trg.retailer_name_us.value | default: p.metafields.trg.retailer_name_us
@@ -393,11 +405,72 @@
 
 
 
+    {%- if trg_has_grouped_colours -%}
+
+      <div class="trg-pdp__selector trg-pdp__selector--grouped-colours">
+
+        <div class="trg-pdp__selector-label">Colour</div>
+
+        <div class="trg-pdp__chips trg-pdp__chips--colours">
+
+          {%- for color_group in trg_variant_color_data -%}
+
+            {%- liquid
+              assign grouped_colour_value = color_group.color_raw | default: color_group.color_normalized | strip
+              assign grouped_colour_label = grouped_colour_value | default: color_group.color_normalized | strip
+              assign grouped_colour_hex = color_group.color_hex | default: '#ddd8cf'
+              assign grouped_colour_variant_id = color_group.first_variant_id | default: color_group.source_variant_external_id | append: ''
+              assign grouped_colour_active = false
+              if trg_source_variant_id != blank and grouped_colour_variant_id == trg_source_variant_id
+                assign grouped_colour_active = true
+              elsif trg_source_variant_id == blank and forloop.first
+                assign grouped_colour_active = true
+              endif
+            -%}
+
+            <button
+
+              class="trg-pdp__chip trg-pdp__chip--colour{% if grouped_colour_active %} active{% endif %}"
+
+              type="button"
+
+              data-option-index="0"
+
+              data-value="{{ grouped_colour_value | escape }}"
+
+              aria-label="{{ grouped_colour_label | escape }}"
+
+            ><span class="trg-pdp__chip-swatch" style="--trg-colour-swatch: {{ grouped_colour_hex }};"></span><span>{{ grouped_colour_label }}</span></button>
+
+          {%- endfor -%}
+
+        </div>
+
+      </div>
+
+    {%- endif -%}
+
     {%- comment -%} Variant picker (size chips) {%- endcomment -%}
 
     {%- if p.has_only_default_variant == false -%}
 
       {%- for option in p.options_with_values -%}
+
+        {%- assign opt_lower = option.name | downcase -%}
+
+        {%- assign hide_grouped_colour_option = false -%}
+
+        {%- if trg_has_grouped_colours -%}
+
+          {%- if opt_lower == 'color' or opt_lower == 'colour' -%}
+
+            {%- assign hide_grouped_colour_option = true -%}
+
+          {%- endif -%}
+
+        {%- endif -%}
+
+        {%- unless hide_grouped_colour_option -%}
 
         <div class="trg-pdp__selector">
 
@@ -424,6 +497,8 @@
           </div>
 
         </div>
+
+        {%- endunless -%}
 
       {%- endfor -%}
 
@@ -882,10 +957,6 @@
   assign ctl_colour = ''
 
   assign ctl_colour = p.metafields.trg.color.value | default: p.metafields.trg.color | strip
-
-  assign trg_source_variant_id = p.metafields.trg.source_variant_external_id.value | default: p.metafields.trg.source_variant_external_id | append: ''
-
-  assign trg_variant_color_data = p.metafields.trg.variant_color_data.value
 
   if ctl_colour == blank and trg_variant_color_data != blank
 
@@ -1505,6 +1576,34 @@
     color: #1a1a18;
 
     font-family: inherit;
+
+  }
+
+  .trg-pdp__chip--colour {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 0.45rem;
+
+    min-width: 0;
+
+  }
+
+  .trg-pdp__chip-swatch {
+
+    width: 0.8rem;
+
+    height: 0.8rem;
+
+    border-radius: 999px;
+
+    background: var(--trg-colour-swatch, #ddd8cf);
+
+    border: 1px solid rgba(26, 26, 24, 0.12);
+
+    flex-shrink: 0;
 
   }
 
@@ -2570,5 +2669,3 @@
 }
 
 {% endschema %}
-
-

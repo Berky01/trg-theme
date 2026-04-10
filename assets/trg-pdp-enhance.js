@@ -44,6 +44,19 @@
     });
   });
 
+  try {
+    var requestedColor = new URLSearchParams(window.location.search).get('trg_color');
+    if (requestedColor) {
+      var preferredChip = Array.prototype.slice.call(document.querySelectorAll('.trg-pdp__chip[data-option-index="0"]')).find(function (chip) {
+        var colorVal = chip.dataset.value || chip.textContent.trim();
+        return colorVal && colorVal.toLowerCase() === requestedColor.toLowerCase();
+      });
+      if (preferredChip) preferredChip.click();
+    }
+  } catch (err) {
+    console.warn('[TRG] Could not apply trg_color preselect:', err);
+  }
+
   /**
    * Filter gallery thumbnails + images array by color alt text.
    * Hides non-matching thumbs, rebuilds `images` array, jumps to first match.
@@ -401,4 +414,3 @@
   })();
 
 })();
-
