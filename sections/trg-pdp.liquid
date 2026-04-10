@@ -64,7 +64,14 @@
 
   assign buy_url_ca = p.metafields.trg.buy_url_ca.value | default: p.metafields.trg.buy_url_ca | default: buy_url_us
   assign selected_variant = p.selected_or_first_available_variant
-  assign selected_colour = selected_variant.option1 | default: ''
+  assign selected_colour = ''
+  for option in p.options_with_values
+    assign opt_lower = option.name | downcase
+    if opt_lower == 'color' or opt_lower == 'colour'
+      assign selected_colour = option.selected_value | default: selected_variant.option1 | strip
+      break
+    endif
+  endfor
 
   assign trg_variant_color_data = p.metafields.trg.variant_color_data.value
 
@@ -966,9 +973,11 @@
 
 {%- liquid
 
-  assign ctl_colour = ''
+  assign ctl_colour = selected_colour | strip
 
-  assign ctl_colour = p.metafields.trg.color.value | default: p.metafields.trg.color | strip
+  if ctl_colour == blank
+    assign ctl_colour = p.metafields.trg.color.value | default: p.metafields.trg.color | strip
+  endif
 
   if ctl_colour == blank and trg_variant_color_data != blank
 
