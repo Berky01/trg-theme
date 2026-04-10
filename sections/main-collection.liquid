@@ -711,6 +711,7 @@
     {% endif %}
 
     {% paginate collection.products by products_per_page %}
+      {% assign trg_seen_parent_keys = '|' %}
       {% capture children %}
         {% for product in collection.products %}
           {% liquid
@@ -729,6 +730,21 @@
               assign material_search = product.metafields.custom.primary_material.value | default: product.metafields.custom.primary_material
             endif
             assign color_search = product.metafields.trg.color.value | default: product.metafields.trg.color
+            assign trg_plp_display_mode = product.metafields.trg.plp_display_mode.value | default: product.metafields.trg.plp_display_mode | strip
+            if trg_plp_display_mode == blank
+              assign trg_plp_display_mode = 'parent_card'
+            endif
+            assign trg_source_parent_id = product.metafields.trg.source_parent_external_id.value | default: product.metafields.trg.source_parent_external_id | append: ''
+            assign trg_source_variant_id = product.metafields.trg.source_variant_external_id.value | default: product.metafields.trg.source_variant_external_id | append: ''
+            assign trg_skip_card = false
+            if trg_plp_display_mode == 'parent_card' and trg_source_parent_id != blank
+              assign trg_parent_marker = '|' | append: trg_source_parent_id | append: '|'
+              if trg_seen_parent_keys contains trg_parent_marker
+                assign trg_skip_card = true
+              else
+                assign trg_seen_parent_keys = trg_seen_parent_keys | append: trg_source_parent_id | append: '|'
+              endif
+            endif
             if color_search == blank
               assign color_search = product.metafields.custom.color.value | default: product.metafields.custom.color
             endif
@@ -811,11 +827,14 @@
             assign searchable_text = searchable_text | strip | downcase | escape
             assign card_delay = forloop.index0 | modulo: products_per_page | times: 25
           %}
+          {% unless trg_skip_card %}
           <li
             id="{{ section.id }}-{{ product.id }}"
             class="product-grid__item product-grid__item--{{ forloop.index0 }}"
             data-page="{{ paginate.current_page }}"
             data-product-id="{{ product.id }}"
+            data-trg-plp-display-mode="{{ trg_plp_display_mode }}"
+            data-trg-source-parent-id="{{ trg_source_parent_id | escape }}"
             data-trg-search-item
             data-trg-search-text="{{ searchable_text }}"
             data-trg-ships-ca="{% if ships_to_canada %}true{% else %}false{% endif %}"
@@ -827,7 +846,44 @@
             {% # theme-check-disable %}
             {% content_for 'block', type: '_product-card', id: 'product-card', closest.product: product %}
             {% # theme-check-enable %}
+            {% if variant_color_groups != blank and variant_color_groups.size > 1 and trg_plp_display_mode == 'variant_cards' %}
+              <div class="trg-plp-card-colours" aria-label="Available colours">
+                <span class="trg-plp-card-colours__label">{{ variant_color_groups.size }} colours</span>
+                <div class="trg-plp-card-colours__list">
+                  {% for color_group in variant_color_groups %}
+                    {% liquid
+                      assign group_label = color_group.color_raw | default: color_group.color_normalized | strip
+                      assign group_hex = color_group.color_hex | default: '#ddd8cf'
+                      assign group_variant_id = color_group.first_variant_id | default: color_group.source_variant_external_id | append: ''
+                      assign group_url = product.url
+                      assign group_query_value = group_label | url_encode
+                      if group_url contains '?'
+                        assign group_url = group_url | append: '&trg_color=' | append: group_query_value
+                      else
+                        assign group_url = group_url | append: '?trg_color=' | append: group_query_value
+                      endif
+                      assign group_is_active = false
+                      if trg_source_variant_id != blank and group_variant_id == trg_source_variant_id
+                        assign group_is_active = true
+                      elsif trg_source_variant_id == blank and forloop.first
+                        assign group_is_active = true
+                      endif
+                    %}
+                    <a
+                      class="trg-plp-card-colour{% if group_is_active %} is-active{% endif %}"
+                      href="{{ group_url }}"
+                      aria-label="{{ group_label | escape }}"
+                      title="{{ group_label | escape }}"
+                    >
+                      <span class="trg-plp-card-colour__swatch" style="--trg-colour-swatch: {{ group_hex }};"></span>
+                      <span class="visually-hidden">{{ group_label }}</span>
+                    </a>
+                  {% endfor %}
+                </div>
+              </div>
+            {% endif %}
           </li>
+          {% endunless %}
         {% endfor %}
       {% endcapture %}
 
