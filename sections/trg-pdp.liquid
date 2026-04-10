@@ -63,6 +63,8 @@
   assign buy_url_us = buy_url_us | default: p.metafields.trg.affiliate_link.value | default: p.metafields.trg.affiliate_link
 
   assign buy_url_ca = p.metafields.trg.buy_url_ca.value | default: p.metafields.trg.buy_url_ca | default: buy_url_us
+  assign selected_variant = p.selected_or_first_available_variant
+  assign selected_colour = selected_variant.option1 | default: ''
 
   assign trg_variant_color_data = p.metafields.trg.variant_color_data.value
 
@@ -196,7 +198,7 @@
 
 
 
-  assign price_cents = p.price
+  assign price_cents = selected_variant.price | default: p.price
 
   assign price_dollars = price_cents | divided_by: 100
 
@@ -421,7 +423,9 @@
               assign grouped_colour_hex = color_group.color_hex | default: '#ddd8cf'
               assign grouped_colour_variant_id = color_group.first_variant_id | default: color_group.source_variant_external_id | append: ''
               assign grouped_colour_active = false
-              if trg_source_variant_id != blank and grouped_colour_variant_id == trg_source_variant_id
+              if selected_colour != blank and grouped_colour_value == selected_colour
+                assign grouped_colour_active = true
+              elsif trg_source_variant_id != blank and grouped_colour_variant_id == trg_source_variant_id
                 assign grouped_colour_active = true
               elsif trg_source_variant_id == blank and forloop.first
                 assign grouped_colour_active = true
@@ -479,14 +483,22 @@
           <div class="trg-pdp__chips">
 
             {%- for val in option.values -%}
+              {%- assign option_value_active = false -%}
+              {%- if val == option.selected_value -%}
+                {%- assign option_value_active = true -%}
+              {%- elsif option.selected_value == blank and forloop.first -%}
+                {%- assign option_value_active = true -%}
+              {%- endif -%}
 
               <button
 
-                class="trg-pdp__chip{% if forloop.first %} active{% endif %}"
+                class="trg-pdp__chip{% if option_value_active %} active{% endif %}"
 
                 type="button"
 
                 data-option-index="{{ forloop.parentloop.index0 }}"
+
+                data-option-name="{{ option.name | escape }}"
 
                 data-value="{{ val | escape }}"
 
@@ -1105,6 +1117,28 @@
 
 {%- endif -%}
 
+<script type="application/json" id="trg-pdp-product-data">
+  {
+    "handle": {{ p.handle | json }},
+    "url": {{ p.url | json }},
+    "options": {{ p.options | json }},
+    "selectedVariantId": {{ selected_variant.id | json }},
+    "variants": [
+      {%- for variant in p.variants -%}
+        {
+          "id": {{ variant.id | json }},
+          "available": {{ variant.available | json }},
+          "price": {{ variant.price | json }},
+          "option1": {{ variant.option1 | json }},
+          "option2": {{ variant.option2 | json }},
+          "option3": {{ variant.option3 | json }},
+          "featuredImage": {% if variant.featured_media %}{{ variant.featured_media | image_url: width: 900 | json }}{% else %}null{% endif %}
+        }{%- unless forloop.last -%},{%- endunless -%}
+      {%- endfor -%}
+    ]
+  }
+</script>
+
 
 
 {%- comment -%} ═══ PDP ENHANCEMENTS JS ═══ {%- endcomment -%}
@@ -1620,6 +1654,28 @@
     color: #f5f1eb;
 
     border-color: #1a1a18;
+
+  }
+
+  .trg-pdp__chip.is-unavailable {
+
+    opacity: 0.42;
+
+    border-style: dashed;
+
+    color: #8a8478;
+
+    cursor: not-allowed;
+
+  }
+
+  .trg-pdp__chip.is-unavailable.active {
+
+    background: transparent;
+
+    border-color: #ddd8cf;
+
+    color: #8a8478;
 
   }
 

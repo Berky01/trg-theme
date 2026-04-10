@@ -26,35 +26,319 @@
   var allImages = images.slice();
   var allThumbs = Array.prototype.slice.call(thumbs);
   var activeColorFilter = null; /* null = show all */
+  var priceEl = document.querySelector('.trg-pdp__price');
+  var priceCaEl = document.querySelector('.trg-pdp__price-ca');
+  var productData = parseProductData();
+  var optionNames = productData && Array.isArray(productData.options) ? productData.options : [];
+  var colourOptionIndex = optionNames.findIndex(function (name) { return /colou?r/i.test(name || ''); });
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.trg-pdp__chip[data-option-index]'));
+  var chipsByOption = {};
+  var selectedOptions = [];
+  var currentVariant = null;
+  var lastDispatchedColour = null;
 
-  document.querySelectorAll('.trg-pdp__chip').forEach(function (chip) {
+  chips.forEach(function (chip) {
+    var optionIndex = parseInt(chip.dataset.optionIndex, 10);
+    if (!chipsByOption[optionIndex]) chipsByOption[optionIndex] = [];
+    chipsByOption[optionIndex].push(chip);
     chip.addEventListener('click', function () {
-      var parent = chip.closest('.trg-pdp__chips');
-      parent.querySelectorAll('.trg-pdp__chip').forEach(function (c) { c.classList.remove('active'); });
-      chip.classList.add('active');
-
-      /* ── Color gallery filter ──
-         When a Color chip is clicked, filter gallery to that color's images.
-         Images are tagged with alt = color name by the push pipeline. */
-      var optIdx = parseInt(chip.dataset.optionIndex, 10);
-      if (optIdx === 0 && allImages.length > 1) {
-        var colorVal = chip.dataset.value || chip.textContent.trim();
-        filterGalleryByColor(colorVal);
-      }
+      handleChipClick(chip);
     });
   });
 
-  try {
-    var requestedColor = new URLSearchParams(window.location.search).get('trg_color');
-    if (requestedColor) {
+  initializeVariantState();
+
+  function parseProductData() {
+    var node = document.getElementById('trg-pdp-product-data');
+    if (!node) return null;
+    try {
+      return JSON.parse(node.textContent);
+    } catch (err) {
+      console.warn('[TRG] Could not parse product data:', err);
+      return null;
+    }
+  }
+
+  function initializeVariantState() {
+    if (!productData || !Array.isArray(productData.variants) || productData.variants.length === 0) {
+      applyRequestedColourFallback();
+      return;
+    }
+
+    var baseVariant = getRequestedVariant() || findVariantById(productData.selectedVariantId) || firstAvailableVariant();
+    if (!baseVariant) {
+      applyRequestedColourFallback();
+      return;
+    }
+
+    selectedOptions = variantToOptions(baseVariant);
+
+    var requestedColor = getRequestedColor();
+    if (requestedColor && colourOptionIndex >= 0) {
+      selectedOptions[colourOptionIndex] = requestedColor;
+    }
+
+    var resolvedVariant = resolveVariant(null) || baseVariant;
+    applyVariantState(resolvedVariant, { syncUrl: false, dispatchColour: true });
+  }
+
+  function applyRequestedColourFallback() {
+    try {
+      var requestedColor = getRequestedColor();
+      if (!requestedColor) return;
       var preferredChip = Array.prototype.slice.call(document.querySelectorAll('.trg-pdp__chip[data-option-index="0"]')).find(function (chip) {
         var colorVal = chip.dataset.value || chip.textContent.trim();
         return colorVal && colorVal.toLowerCase() === requestedColor.toLowerCase();
       });
-      if (preferredChip) preferredChip.click();
+      if (preferredChip) handleChipClick(preferredChip);
+    } catch (err) {
+      console.warn('[TRG] Could not apply trg_color preselect:', err);
     }
-  } catch (err) {
-    console.warn('[TRG] Could not apply trg_color preselect:', err);
+  }
+
+  function getRequestedVariant() {
+    try {
+      var variantParam = new URLSearchParams(window.location.search).get('variant');
+      return variantParam ? findVariantById(variantParam) : null;
+    } catch (err) {
+      return null;
+    }
+  }
+
+  function getRequestedColor() {
+    try {
+      return new URLSearchParams(window.location.search).get('trg_color');
+    } catch (err) {
+      return null;
+    }
+  }
+
+  function handleChipClick(chip) {
+    if (!chip) return;
+    if (chip.disabled || chip.classList.contains('is-unavailable')) return;
+
+    var optionIndex = parseInt(chip.dataset.optionIndex, 10);
+    var optionValue = chip.dataset.value || chip.textContent.trim();
+
+    if (!productData || !Array.isArray(productData.variants) || productData.variants.length === 0) {
+      var parent = chip.closest('.trg-pdp__chips');
+      if (parent) {
+        parent.querySelectorAll('.trg-pdp__chip').forEach(function (sibling) {
+          sibling.classList.remove('active');
+        });
+      }
+      chip.classList.add('active');
+      if (optionIndex === 0) filterGalleryByColor(optionValue);
+      return;
+    }
+
+    selectedOptions[optionIndex] = optionValue;
+
+    var resolvedVariant = resolveVariant(optionIndex);
+    if (!resolvedVariant) return;
+
+    applyVariantState(resolvedVariant, { syncUrl: true, dispatchColour: true });
+  }
+
+  function resolveVariant(changedOptionIndex) {
+    if (!productData || !Array.isArray(productData.variants) || productData.variants.length === 0) return null;
+
+    var requiredIndices = [];
+    if (colourOptionIndex >= 0 && selectedOptions[colourOptionIndex]) requiredIndices.push(colourOptionIndex);
+    if (
+      changedOptionIndex !== null &&
+      changedOptionIndex !== undefined &&
+      selectedOptions[changedOptionIndex] &&
+      requiredIndices.indexOf(changedOptionIndex) === -1
+    ) {
+      requiredIndices.push(changedOptionIndex);
+    }
+
+    var scopedMatch = pickBestVariant(productData.variants.filter(function (variant) {
+      return requiredIndices.every(function (index) {
+        return variantOptionValue(variant, index) === selectedOptions[index];
+      });
+    }));
+
+    return scopedMatch || pickBestVariant(productData.variants);
+  }
+
+  function pickBestVariant(candidates) {
+    if (!candidates || candidates.length === 0) return null;
+
+    var ranked = candidates
+      .slice()
+      .sort(function (a, b) {
+        return scoreVariant(b) - scoreVariant(a);
+      });
+
+    return ranked[0] || null;
+  }
+
+  function scoreVariant(variant) {
+    var score = variant.available ? 1000 : 0;
+
+    selectedOptions.forEach(function (value, index) {
+      if (!value) return;
+      if (variantOptionValue(variant, index) === value) {
+        score += 25;
+      }
+    });
+
+    return score;
+  }
+
+  function applyVariantState(variant, options) {
+    if (!variant) return;
+
+    currentVariant = variant;
+    selectedOptions = variantToOptions(variant);
+
+    syncActiveChips();
+    syncChipAvailability();
+    syncPrice(variant);
+    syncColourPresentation();
+
+    if (options && options.syncUrl) {
+      syncUrlState(variant);
+    }
+
+    if (options && options.dispatchColour) {
+      dispatchColourChange();
+    }
+  }
+
+  function syncActiveChips() {
+    Object.keys(chipsByOption).forEach(function (key) {
+      var optionIndex = parseInt(key, 10);
+      (chipsByOption[key] || []).forEach(function (chip) {
+        var chipValue = chip.dataset.value || chip.textContent.trim();
+        chip.classList.toggle('active', selectedOptions[optionIndex] === chipValue);
+      });
+    });
+  }
+
+  function syncChipAvailability() {
+    Object.keys(chipsByOption).forEach(function (key) {
+      var optionIndex = parseInt(key, 10);
+      (chipsByOption[key] || []).forEach(function (chip) {
+        var nextSelections = selectedOptions.slice();
+        nextSelections[optionIndex] = chip.dataset.value || chip.textContent.trim();
+        var available = productData.variants.some(function (variant) {
+          if (!variant.available) return false;
+          return nextSelections.every(function (value, index) {
+            return !value || variantOptionValue(variant, index) === value;
+          });
+        });
+
+        chip.disabled = !available;
+        chip.setAttribute('aria-disabled', available ? 'false' : 'true');
+        chip.classList.toggle('is-unavailable', !available);
+      });
+    });
+  }
+
+  function syncPrice(variant) {
+    if (priceEl && typeof variant.price === 'number') {
+      var formattedPrice = formatMoney(variant.price);
+      if (formattedPrice) priceEl.textContent = formattedPrice;
+    }
+
+    if (priceCaEl && typeof variant.price === 'number') {
+      var estimatedCad = Math.floor((variant.price / 100) * 1.37);
+      priceCaEl.textContent = '~CA$' + estimatedCad;
+    }
+  }
+
+  function syncColourPresentation() {
+    var selectedColour = colourOptionIndex >= 0 ? selectedOptions[colourOptionIndex] : null;
+
+    if (selectedColour) {
+      filterGalleryByColor(selectedColour);
+    } else {
+      resetGallery();
+    }
+  }
+
+  function syncUrlState(variant) {
+    if (!window.history || !window.history.replaceState) return;
+
+    try {
+      var url = new URL(window.location.href);
+      if (variant && variant.id) {
+        url.searchParams.set('variant', String(variant.id));
+      }
+
+      if (colourOptionIndex >= 0 && selectedOptions[colourOptionIndex]) {
+        url.searchParams.set('trg_color', selectedOptions[colourOptionIndex]);
+      } else {
+        url.searchParams.delete('trg_color');
+      }
+
+      window.history.replaceState({}, '', url.toString());
+    } catch (err) {
+      console.warn('[TRG] Could not sync PDP URL state:', err);
+    }
+  }
+
+  function dispatchColourChange() {
+    var selectedColour = colourOptionIndex >= 0 ? selectedOptions[colourOptionIndex] : null;
+    if (!selectedColour) return;
+    if (selectedColour === lastDispatchedColour) return;
+
+    lastDispatchedColour = selectedColour;
+
+    syncGuideModule(selectedColour);
+    window.dispatchEvent(new CustomEvent('trg-swatch-change', {
+      detail: { name: selectedColour, variantId: currentVariant && currentVariant.id ? currentVariant.id : null }
+    }));
+  }
+
+  function syncGuideModule(colourName) {
+    var guideModule = document.querySelector('.pdp-guide-module');
+    if (!guideModule || !colourName) return;
+
+    guideModule.setAttribute('data-colour', colourName);
+
+    var hiddenColour = document.getElementById('ctl-colour-name');
+    if (hiddenColour) hiddenColour.textContent = colourName;
+
+    var guideTitleEm = guideModule.querySelector('.pdp-guide-title em');
+    if (guideTitleEm) guideTitleEm.textContent = colourName;
+
+    var guideSubStrong = guideModule.querySelector('.pdp-guide-sub strong');
+    if (guideSubStrong) guideSubStrong.textContent = colourName;
+  }
+
+  function findVariantById(id) {
+    if (!id || !productData || !Array.isArray(productData.variants)) return null;
+    var idString = String(id);
+    return productData.variants.find(function (variant) {
+      return String(variant.id) === idString;
+    }) || null;
+  }
+
+  function firstAvailableVariant() {
+    return productData.variants.find(function (variant) { return !!variant.available; }) || productData.variants[0] || null;
+  }
+
+  function variantToOptions(variant) {
+    return [
+      variant.option1 || '',
+      variant.option2 || '',
+      variant.option3 || ''
+    ];
+  }
+
+  function variantOptionValue(variant, index) {
+    return variant['option' + String(index + 1)] || '';
+  }
+
+  function formatMoney(cents) {
+    if (typeof cents !== 'number') return '';
+    var dollars = Math.floor(cents / 100);
+    var remainder = cents % 100;
+    return '$' + dollars + (remainder ? '.' + String(remainder).padStart(2, '0') : '');
   }
 
   /**
@@ -92,6 +376,16 @@
 
     images = filtered;
     thumbs = filteredThumbEls;
+    goToImage(0);
+  }
+
+  function resetGallery() {
+    activeColorFilter = null;
+    allThumbs.forEach(function (thumb) {
+      thumb.style.display = '';
+    });
+    images = allImages.slice();
+    thumbs = allThumbs.slice();
     goToImage(0);
   }
 
