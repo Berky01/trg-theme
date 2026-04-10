@@ -881,19 +881,63 @@
 
   assign ctl_colour = ''
 
-  for option in p.options_with_values
+  assign ctl_colour = p.metafields.trg.color.value | default: p.metafields.trg.color | strip
 
-    assign opt_lower = option.name | downcase
+  assign trg_source_variant_id = p.metafields.trg.source_variant_external_id.value | default: p.metafields.trg.source_variant_external_id | append: ''
 
-    if opt_lower == 'color' or opt_lower == 'colour'
+  assign trg_variant_color_data = p.metafields.trg.variant_color_data.value
 
-      assign ctl_colour = option.values.first
+  if ctl_colour == blank and trg_variant_color_data != blank
 
-      break
+    assign trg_fallback_colour = ''
+
+    for colour_group in trg_variant_color_data
+
+      assign group_variant_id = colour_group.source_variant_external_id | append: ''
+
+      assign group_colour = colour_group.color_normalized | default: colour_group.color_raw | strip
+
+      if trg_fallback_colour == blank and group_colour != blank
+
+        assign trg_fallback_colour = group_colour
+
+      endif
+
+      if trg_source_variant_id != blank and group_variant_id == trg_source_variant_id and group_colour != blank
+
+        assign ctl_colour = group_colour
+
+        break
+
+      endif
+
+    endfor
+
+    if ctl_colour == blank
+
+      assign ctl_colour = trg_fallback_colour
 
     endif
 
-  endfor
+  endif
+
+  if ctl_colour == blank
+
+    for option in p.options_with_values
+
+      assign opt_lower = option.name | downcase
+
+      if opt_lower == 'color' or opt_lower == 'colour'
+
+        assign ctl_colour = option.values.first
+
+        break
+
+      endif
+
+    endfor
+
+  endif
 
   if ctl_colour == blank
 
@@ -2526,6 +2570,5 @@
 }
 
 {% endschema %}
-
 
 

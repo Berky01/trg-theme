@@ -728,9 +728,32 @@
             if material_search == blank
               assign material_search = product.metafields.custom.primary_material.value | default: product.metafields.custom.primary_material
             endif
-            assign color_search = product.metafields.custom.color.value | default: product.metafields.custom.color
+            assign color_search = product.metafields.trg.color.value | default: product.metafields.trg.color
+            if color_search == blank
+              assign color_search = product.metafields.custom.color.value | default: product.metafields.custom.color
+            endif
             if color_search == blank
               assign color_search = product.metafields.details.color.value | default: product.metafields.details.color
+            endif
+            assign variant_color_groups = product.metafields.trg.variant_color_data.value
+            if variant_color_groups != blank
+              capture variant_color_search
+                for color_group in variant_color_groups
+                  assign group_colour = color_group.color_normalized | default: color_group.color_raw | strip
+                  if group_colour != blank
+                    echo group_colour
+                    echo ' '
+                  endif
+                endfor
+              endcapture
+              assign variant_color_search = variant_color_search | strip
+              if variant_color_search != blank
+                if color_search == blank
+                  assign color_search = variant_color_search
+                else
+                  assign color_search = color_search | append: ' ' | append: variant_color_search
+                endif
+              endif
             endif
             assign ships_to_canada_meta = product.metafields.custom.ships_to_canada.value | default: product.metafields.custom.ships_to_canada
             if ships_to_canada_meta == blank
