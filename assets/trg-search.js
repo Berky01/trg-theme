@@ -7,6 +7,16 @@ const SCROLL_FOCUS_DELAY_MS = 220;
 const PREDICTIVE_SEARCH_MIN_LENGTH = 2;
 const PREDICTIVE_SEARCH_SECTION_ID = 'predictive-search';
 const PREDICTIVE_CLOSE_DELAY_MS = 140;
+const COLOUR_GUIDE_INTENT_KEY = 'trg_colour_intent';
+const COLOUR_GUIDE_PROFILE_KEY = 'trg_colour_profile';
+const COLOUR_GUIDE_SLOT_META = {
+  shirt: { handle: 'shirts', singular: 'shirt' },
+  trousers: { handle: 'trousers', singular: 'trousers' },
+  knitwear: { handle: 'knitwear', singular: 'knitwear' },
+  jacket: { handle: 'jackets', singular: 'jacket' },
+  coat: { handle: 'outerwear', singular: 'coat' },
+  shoes: { handle: 'footwear', singular: 'shoes' },
+};
 
 function normalize(value = '') {
   return value
@@ -546,8 +556,99 @@ function ensureColourGuideShopIndexShim() {
   guide.dataset.shopIndex = '/cdn/shop/t/21/assets/trg-colour-shop-index-v2.json?cv=20260411f';
 }
 
+function initColourGuideIntentShim() {
+  if (Theme?.template?.name !== 'page.colour-guide') {
+    return;
+  }
+
+  const slotRoot = document.getElementById('ob-slots');
+  if (!(slotRoot instanceof HTMLElement)) {
+    return;
+  }
+
+  let persistTimer = null;
+
+  const readSlots = () =>
+    Array.from(slotRoot.querySelectorAll('.ob-slot.filled'))
+      .map((slot) => {
+        if (!(slot instanceof HTMLElement)) {
+          return null;
+        }
+
+        const slotName = slot.dataset.slot || '';
+        const meta = COLOUR_GUIDE_SLOT_META[slotName];
+        const color = slot.querySelector('.ob-slot-color')?.textContent?.trim() || '';
+        const hex = slot.querySelector('.ob-slot-dot') instanceof HTMLElement
+          ? slot.querySelector('.ob-slot-dot').style.background || ''
+          : '';
+
+        if (!meta || !color) {
+          return null;
+        }
+
+        return {
+          slot: slotName,
+          singular: meta.singular,
+          handle: meta.handle,
+          color,
+          hex,
+        };
+      })
+      .filter(Boolean);
+
+  const persistIntent = () => {
+    persistTimer = null;
+
+    try {
+      const slots = readSlots();
+      if (!slots.length) {
+        localStorage.removeItem(COLOUR_GUIDE_INTENT_KEY);
+        return;
+      }
+
+      const profileKey = localStorage.getItem(COLOUR_GUIDE_PROFILE_KEY) || '';
+      const payload = {
+        source: 'guide',
+        savedAt: new Date().toISOString(),
+        profile_key: profileKey || null,
+        slots,
+        anchor: slots[0],
+      };
+
+      localStorage.setItem(COLOUR_GUIDE_INTENT_KEY, JSON.stringify(payload));
+    } catch (err) {
+      /* storage can fail in private mode */
+    }
+  };
+
+  const schedulePersist = () => {
+    if (persistTimer) {
+      window.clearTimeout(persistTimer);
+    }
+
+    persistTimer = window.setTimeout(persistIntent, 40);
+  };
+
+  const observer = new MutationObserver(schedulePersist);
+  observer.observe(slotRoot, {
+    subtree: true,
+    childList: true,
+    attributes: true,
+    characterData: true,
+    attributeFilter: ['class', 'style'],
+  });
+
+  document.getElementById('presets-row')?.addEventListener('click', schedulePersist, true);
+  document.getElementById('ob-families')?.addEventListener('click', schedulePersist, true);
+  document.getElementById('ob-suggest')?.addEventListener('click', schedulePersist, true);
+  slotRoot.addEventListener('click', schedulePersist, true);
+
+  schedulePersist();
+}
+
 onDocumentReady(() => {
   ensureColourGuideShopIndexShim();
+  initColourGuideIntentShim();
   initSearchDropdown();
   initSharedSearchBar();
 });
