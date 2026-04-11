@@ -22,12 +22,12 @@ const COLOUR_GUIDE_SEED_SWATCHES = {
   'Saddle Brown': '#8b6834',
 };
 const COLOUR_GUIDE_SLOT_META = {
-  shirt: { handle: 'shirts', singular: 'shirt' },
-  trousers: { handle: 'trousers', singular: 'trousers' },
-  knitwear: { handle: 'knitwear', singular: 'knitwear' },
-  jacket: { handle: 'jackets', singular: 'jacket' },
-  coat: { handle: 'outerwear', singular: 'coat' },
-  shoes: { handle: 'footwear', singular: 'shoes' },
+  shirt: { handle: 'shirts', label: 'Shirts', singular: 'shirt', note: 'Start near the face.' },
+  trousers: { handle: 'trousers', label: 'Trousers', singular: 'trousers', note: 'Build the base first.' },
+  knitwear: { handle: 'knitwear', label: 'Knitwear', singular: 'knitwear', note: 'Layer warmth and texture.' },
+  jacket: { handle: 'jackets', label: 'Jackets', singular: 'jacket', note: 'Choose the anchor piece.' },
+  coat: { handle: 'outerwear', label: 'Outerwear', singular: 'coat', note: 'Top off the palette.' },
+  shoes: { handle: 'footwear', label: 'Footwear', singular: 'shoes', note: 'Ground the look.' },
 };
 
 function normalize(value = '') {
@@ -755,10 +755,10 @@ function initColourGuideSeedRescueShim() {
             return '';
           }
 
-          const title = slotName === garment ? `Shop ${meta.handle === 'footwear' ? 'Footwear' : meta.handle.charAt(0).toUpperCase() + meta.handle.slice(1)}` : `Browse ${meta.handle === 'footwear' ? 'Footwear' : meta.handle.charAt(0).toUpperCase() + meta.handle.slice(1)}`;
+          const title = slotName === garment ? `Shop ${meta.label}` : `Browse ${meta.label}`;
           const note = slotName === garment
             ? `${color} is the brief for this ${meta.singular} category.`
-            : (meta.singular === 'shirt' ? 'Start near the face.' : meta.singular === 'jacket' ? 'Choose the anchor piece.' : 'Build the base first.');
+            : meta.note;
 
           return `<a class="ob-shop-card" href="/collections/${meta.handle}">
             <span class="ob-shop-swatch" style="background:${slotName === garment ? (COLOUR_GUIDE_SEED_SWATCHES[color] || 'linear-gradient(135deg,#f4efe7,#b8aa96)') : 'linear-gradient(135deg,#f4efe7,#b8aa96)'}"></span>

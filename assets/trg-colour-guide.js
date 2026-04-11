@@ -21,7 +21,7 @@ let ALL_COLORS = Object.keys(C);
 let FAMILIES=[
   {name:'Whites & Creams',colors:['White','Cream','Ecru','Off-White','Oatmeal','Ivory']},
   {name:'Sand & Khaki',colors:['Sand','Tan','Khaki','Camel','Biscuit','Stone','Mushroom','Taupe','Mustard','Ochre','Amber']},
-  {name:'Browns',colors:['Copper','Raw Sienna','Terracotta','Rust','Burnt Orange','Tobacco','Saddle Brown','Cognac','Chocolate','Espresso','Fawn']},
+  {name:'Browns',colors:['Copper','Raw Sienna','Terracotta','Rust','Burnt Orange','Tobacco','Brown','Saddle Brown','Cognac','Chocolate','Espresso','Fawn']},
   {name:'Greens',colors:['Mint','Sage','Teal','Olive','Olive Drab','Hunter','Forest','Bottle Green','Emerald','Jade','Turquoise','Moss']},
   {name:'Blues & Navies',colors:['Sky Blue','Powder Blue','Chambray','Mid Blue','Steel Blue','Denim','Cerulean','Blue','Cobalt','Royal Blue','French Blue','Navy','Dark Navy','Indigo']},
   {name:'Greys',colors:['Cement','Light Grey','Silver','Pewter','Smoke','Slate','Charcoal','Graphite','Black']},
