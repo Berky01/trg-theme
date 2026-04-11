@@ -787,6 +787,14 @@ function initColourGuideSeedRescueShim() {
       applySeed();
     }, 1800);
   }, { once: true });
+
+  const rescueInterval = window.setInterval(() => {
+    applySeed();
+  }, 2500);
+
+  window.setTimeout(() => {
+    window.clearInterval(rescueInterval);
+  }, 30000);
 }
 
 onDocumentReady(() => {
