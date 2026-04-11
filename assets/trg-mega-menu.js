@@ -181,10 +181,19 @@
     fixHomepageCategoryGrid();
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', runLegacySurfaceHotfixes, { once: true });
-  } else {
+  function scheduleLegacySurfaceHotfixes() {
     runLegacySurfaceHotfixes();
+    var attempts = 0;
+    var timer = window.setInterval(function () {
+      attempts += 1;
+      runLegacySurfaceHotfixes();
+      if (attempts >= 12) window.clearInterval(timer);
+    }, 500);
   }
-  window.setTimeout(runLegacySurfaceHotfixes, 350);
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', scheduleLegacySurfaceHotfixes, { once: true });
+  } else {
+    scheduleLegacySurfaceHotfixes();
+  }
 })();
