@@ -492,6 +492,23 @@ document.querySelectorAll('.quiz-opt').forEach(opt=>{opt.addEventListener('click
 
 const SLOT_ORDER = window.TRG_CG ? window.TRG_CG.SLOT_ORDER : ['shirt','trousers','knitwear','jacket','coat','shoes'];
 const SLOT_SHORT = window.TRG_CG ? window.TRG_CG.SLOT_SHORT : {shirt:'Shirt',trousers:'Trousers',knitwear:'Knit',jacket:'Jacket',coat:'Coat',shoes:'Shoes'};
+const GUIDE_CONTEXT_ALIASES={
+  'off white':'Off-White',
+  'off-white':'Off-White',
+  'dark navy':'Dark Navy',
+  'heather grey':'Silver',
+  'stone grey':'Pewter'
+};
+const SHOP_SLOT_META={
+  shirt:{label:'Shirts',singular:'shirt',handle:'shirts',note:'Start near the face'},
+  trousers:{label:'Trousers',singular:'trousers',handle:'trousers',note:'Build the base first'},
+  knitwear:{label:'Knitwear',singular:'knitwear',handle:'knitwear',note:'Add colour and texture'},
+  jacket:{label:'Jackets',singular:'jacket',handle:'jackets',note:'Choose the anchor piece'},
+  coat:{label:'Outerwear',singular:'coat',handle:'outerwear',note:'Work from the outer layer'},
+  shoes:{label:'Footwear',singular:'shoes',handle:'footwear',note:'Finish with leather and darks'}
+};
+const DEFAULT_SHOP_SLOTS=['shirt','trousers','jacket'];
+
 const PRESETS = [
   { name:'The Business Classic', desc:'Navy tailoring, white shirting, cognac leather. Boardroom-safe without feeling corporate.', slots:{shirt:'White',trousers:'Charcoal',knitwear:'Powder Blue',jacket:'Navy',coat:'Camel',shoes:'Cognac'} },
   { name:'The Weekend', desc:'Olive outerwear, cream base, rust knitwear, and denim underneath.', slots:{shirt:'Cream',trousers:'Denim',knitwear:'Rust',jacket:'Olive',coat:'Stone',shoes:'Saddle Brown'} },
@@ -504,6 +521,52 @@ const PRESETS = [
   { name:'The Academic', desc:'Navy tailoring, burgundy knitwear, and oxblood shoes. Ivy done with more depth.', slots:{shirt:'Cream',trousers:'Pewter',knitwear:'Burgundy',jacket:'Navy',coat:'Charcoal',shoes:'Oxblood'} },
   { name:'Desert Palette', desc:'Sand, terracotta, olive, and camel layered end to end.', slots:{shirt:'Ivory',trousers:'Sand',knitwear:'Terracotta',jacket:'Olive',coat:'Camel',shoes:'Saddle Brown'} },
 ];
+
+function findCanonicalGuideColour(raw){
+  const key=(raw||'').trim().toLowerCase();
+  if(!key)return '';
+  if(GUIDE_CONTEXT_ALIASES[key])return GUIDE_CONTEXT_ALIASES[key];
+  return Object.keys(C).find(name=>name.toLowerCase()===key) || '';
+}
+
+function applyGuideContextFromUrl(){
+  let params;
+  try{
+    params=new URLSearchParams(window.location.search);
+  }catch(err){
+    return false;
+  }
+
+  const source=(params.get('source')||'').toLowerCase();
+  const garment=params.get('base_garment')||'';
+  const safeGarment=SLOT_ORDER.includes(garment)?garment:'';
+  const colour=findCanonicalGuideColour(params.get('base_colour'));
+  if(!safeGarment&&!colour)return false;
+
+  document.querySelectorAll('.preset-card').forEach(card=>card.classList.remove('sel'));
+  document.querySelectorAll('.ob-slot').forEach(clearSlot);
+
+  let activeSlot=document.querySelector(`.ob-slot[data-slot="${safeGarment||'shirt'}"]`) || document.querySelector('.ob-slot');
+  if(safeGarment&&colour){
+    const anchorSlot=document.querySelector(`.ob-slot[data-slot="${safeGarment}"]`);
+    if(anchorSlot){
+      setSlotColor(anchorSlot, colour);
+      activeSlot=[...document.querySelectorAll('.ob-slot')].find(slot=>!slot.classList.contains('filled')) || anchorSlot;
+    }
+  }
+
+  setActiveSlot(activeSlot);
+  updateGauge();
+
+  if(source==='pdp'&&safeGarment&&colour){
+    document.getElementById('ob-pl-text').innerHTML=`<strong>${colour} ${SLOT_SHORT[safeGarment].toLowerCase()}</strong> loaded from a PDP. Keep building here or take the finder for profile-led picks.`;
+    document.getElementById('ob-pl-cta').textContent='Take the finder →';
+  }
+
+  renderGuideShopRail();
+
+  return true;
+}
 
 function renderPresets() {
   document.getElementById('presets-row').innerHTML = PRESETS.map((p, i) => `
@@ -545,15 +608,101 @@ function renderOBSuggestions(slotName) {
   if (suggestions.length === 0) { suggestEl.classList.remove('show'); return; }
   document.getElementById('ob-suggest-hint').textContent = rec.hint;
   document.getElementById('ob-suggest-chips').innerHTML = suggestions.map(name =>
-    `<div class="ob-sc" data-color="${name}"><div class="ob-sc-sq" style="background:${C[name]||'#ccc'}"></div><span class="ob-sc-name">${name}</span></div>`
+    `<div class="ob-sc" data-color="${name}" role="button" tabindex="0"><div class="ob-sc-sq" style="background:${C[name]||'#ccc'}"></div><span class="ob-sc-name">${name}</span></div>`
   ).join('');
   suggestEl.classList.add('show');
   document.querySelectorAll('.ob-sc').forEach(sc => {
-    sc.addEventListener('click', () => {
+    const choose=() => {
       const activeSlot = document.querySelector('.ob-slot.on');
       if (!activeSlot) return;
       assignColourToSlot(activeSlot, sc.dataset.color);
+    };
+    sc.addEventListener('click', choose);
+    sc.addEventListener('keydown', e => {
+      if(e.key==='Enter' || e.key===' '){
+        e.preventDefault();
+        choose();
+      }
     });
+  });
+}
+
+function getFilledGuideSlots(){
+  return SLOT_ORDER.map(slotName=>{
+    const slot=document.querySelector(`.ob-slot[data-slot="${slotName}"]`);
+    const meta=SHOP_SLOT_META[slotName];
+    if(!slot||!meta||!slot.classList.contains('filled'))return null;
+    const colorName=(slot.querySelector('.ob-slot-color')?.textContent||'').trim();
+    if(!colorName)return null;
+    return {
+      slot:slotName,
+      color:colorName,
+      hex:C[colorName]||'#ccc',
+      meta:meta
+    };
+  }).filter(Boolean);
+}
+
+function filledShopCardMarkup(slotState,eyebrow){
+  return `<a class="ob-shop-card" href="/collections/${slotState.meta.handle}">
+    <span class="ob-shop-swatch" style="background:${slotState.hex}"></span>
+    <span class="ob-shop-body">
+      <span class="ob-shop-eyebrow">${eyebrow}</span>
+      <span class="ob-shop-card-title">Shop ${slotState.meta.label}</span>
+      <span class="ob-shop-card-note">${slotState.color} is the brief for this ${slotState.meta.singular} category.</span>
+    </span>
+    <span class="ob-shop-arrow" aria-hidden="true">&rarr;</span>
+  </a>`;
+}
+
+function browseShopCardMarkup(slotName,eyebrow){
+  const meta=SHOP_SLOT_META[slotName];
+  if(!meta)return '';
+  return `<a class="ob-shop-card" href="/collections/${meta.handle}">
+    <span class="ob-shop-swatch" style="background:linear-gradient(135deg,#f4efe7,#b8aa96)"></span>
+    <span class="ob-shop-body">
+      <span class="ob-shop-eyebrow">${eyebrow}</span>
+      <span class="ob-shop-card-title">Browse ${meta.label}</span>
+      <span class="ob-shop-card-note">${meta.note}.</span>
+    </span>
+    <span class="ob-shop-arrow" aria-hidden="true">&rarr;</span>
+  </a>`;
+}
+
+function renderGuideShopRail(){
+  const summaryEl=document.getElementById('ob-shop-summary');
+  const actionsEl=document.getElementById('ob-shop-actions');
+  if(!summaryEl||!actionsEl)return;
+
+  const filledSlots=getFilledGuideSlots();
+  if(!filledSlots.length){
+    summaryEl.innerHTML='Choose a piece to unlock category jumps here. There is no exact colour filter on these pages yet, so the selected colour becomes your shopping brief.';
+    actionsEl.innerHTML=DEFAULT_SHOP_SLOTS.map(slotName=>browseShopCardMarkup(slotName,'Start here')).join('');
+    return;
+  }
+
+  const leadSlot=filledSlots[0];
+  const cards=filledSlots.slice(0,4).map((slotState,index)=>filledShopCardMarkup(slotState,index===0?'Anchor piece':'Current piece'));
+  const usedSlots=new Set(filledSlots.map(slotState=>slotState.slot));
+  DEFAULT_SHOP_SLOTS.forEach(slotName=>{
+    if(cards.length>=4||usedSlots.has(slotName))return;
+    cards.push(browseShopCardMarkup(slotName,'Add next'));
+  });
+
+  const profileNote=activeProfile?` <strong>${stripArchetypeLabel(activeProfile.archetype)}</strong> is active, so these jumps are biased toward your better register.`:'';
+  summaryEl.innerHTML=`Start with <strong>${leadSlot.color} ${SLOT_SHORT[leadSlot.slot].toLowerCase()}</strong>, then open the matching categories. The catalogue is not colour-filtered yet, so treat the selected colours as the brief rather than a strict filter.${profileNote}`;
+  actionsEl.innerHTML=cards.join('');
+}
+
+function syncOBSlotA11y(){
+  document.querySelectorAll('.ob-slot').forEach(slot=>{
+    slot.setAttribute('role','button');
+    slot.setAttribute('tabindex','0');
+    slot.setAttribute('aria-pressed',slot.classList.contains('on')?'true':'false');
+  });
+  document.querySelectorAll('.ob-slot-rm').forEach(remove=>{
+    remove.setAttribute('role','button');
+    remove.setAttribute('tabindex','0');
   });
 }
 
@@ -570,6 +719,7 @@ function updateOBProfileLink() {
     document.getElementById('ob-pl-text').innerHTML = 'No profile yet. The builder still works; the finder simply highlights the colours most likely to suit you.';
     document.getElementById('ob-pl-cta').textContent = 'Take the finder \u2192';
   }
+  renderGuideShopRail();
 }
 
 function clearSlot(slot){
@@ -593,6 +743,7 @@ function setActiveSlot(slot){
   } else {
     document.getElementById('ob-suggest').classList.remove('show');
   }
+  syncOBSlotA11y();
 }
 
 function assignColourToSlot(slot, colorName) {
@@ -631,16 +782,23 @@ function renderOBFamilies() {
       </div>
       <div class="ob-fam-chips">${fam.colors.map(name => {
         const cls = paletteSet && paletteSet.has(name) ? ' in-palette' : cautionSet && cautionSet.has(name) ? ' is-caution' : '';
-        return `<div class="ob-chip${cls}" style="background:${C[name]||'#ccc'}" data-color="${name}" title="${name}"><div class="ob-tt">${name}</div></div>`;
+        return `<div class="ob-chip${cls}" style="background:${C[name]||'#ccc'}" data-color="${name}" title="${name}" role="button" tabindex="0"><div class="ob-tt">${name}</div></div>`;
       }).join('')}</div>
     </div>
   `).join('');
 
   document.querySelectorAll('.ob-chip').forEach(chip => {
-    chip.addEventListener('click', () => {
+    const choose=() => {
       const activeSlot = document.querySelector('.ob-slot.on');
       if (!activeSlot) return;
       assignColourToSlot(activeSlot, chip.dataset.color);
+    };
+    chip.addEventListener('click', choose);
+    chip.addEventListener('keydown', e => {
+      if(e.key==='Enter' || e.key===' '){
+        e.preventDefault();
+        choose();
+      }
     });
   });
 }
@@ -650,6 +808,23 @@ document.getElementById('ob-slots').addEventListener('click', (e) => {
   const slot = e.target.closest('.ob-slot');
   if (!slot) return;
   if (e.target.closest('.ob-slot-rm') && slot.classList.contains('filled')) {
+    clearSlot(slot);
+    document.querySelectorAll('.preset-card').forEach(c => c.classList.remove('sel'));
+    setActiveSlot(slot);
+    updateGauge();
+    return;
+  }
+  document.querySelectorAll('.preset-card').forEach(c => c.classList.remove('sel'));
+  setActiveSlot(slot);
+});
+
+document.getElementById('ob-slots').addEventListener('keydown', (e) => {
+  if(e.key!=='Enter' && e.key!==' ') return;
+  const remove = e.target.closest('.ob-slot-rm');
+  const slot = e.target.closest('.ob-slot');
+  if(!slot) return;
+  e.preventDefault();
+  if(remove && slot.classList.contains('filled')){
     clearSlot(slot);
     document.querySelectorAll('.preset-card').forEach(c => c.classList.remove('sel'));
     setActiveSlot(slot);
@@ -679,6 +854,7 @@ function updateGauge() {
     pctEl.innerHTML = '6/6';
     document.getElementById('ob-gauge-desc').textContent = 'Base outfit loaded. Refine the pieces until the mix feels right.';
   }
+  renderGuideShopRail();
 }
 
 // ── INIT ─────────────────────────────────────────────────────────────────────
@@ -695,8 +871,10 @@ renderDepths();
 renderFamilies();
 renderPresets();
 renderOBFamilies();
+syncOBSlotA11y();
 updateOBProfileLink();
 updateGauge();
+applyGuideContextFromUrl();
 
 // ── DYNAMIC COLOUR DATA ──────────────────────────────────────────────────────
 
@@ -719,6 +897,7 @@ updateGauge();
     if (activeProfile) { renderSortedGrid(activeProfile); } else { renderFamilies(); }
     renderOBFamilies();
     renderHeroRibbon();
+    applyGuideContextFromUrl();
   }).catch(function() { /* graceful fallback to hardcoded data */ });
 })();
 

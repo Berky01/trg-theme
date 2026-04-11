@@ -218,6 +218,7 @@
 .trg-colour-guide .result-acts{display:flex;align-items:center;gap:.65rem;flex-wrap:wrap;margin-top:1rem}
 .trg-colour-guide .btn-ghost{display:inline-flex;align-items:center;gap:.35rem;padding:.58rem 1rem;border:1px solid rgba(255,255,255,.18);border-radius:999px;color:rgba(245,241,235,.82);font-size:.58rem;font-weight:500;background:0;cursor:pointer;transition:.15s;white-space:nowrap}
 .trg-colour-guide .btn-ghost:hover{border-color:rgba(255,255,255,.45);color:var(--paper)}
+.trg-colour-guide .btn-ghost.saved{border-color:rgba(136,168,128,.5);color:rgba(168,200,160,.9);pointer-events:none}
 .trg-colour-guide .btn-ghost-sm{font-size:.52rem;color:rgba(245,241,235,.34);background:0;border:0;cursor:pointer;text-decoration:underline;padding:.2rem 0}
 .trg-colour-guide .btn-ghost-sm:hover{color:rgba(245,241,235,.6)}
 .trg-colour-guide .result-side{min-width:244px}
@@ -438,6 +439,23 @@
 .trg-colour-guide .ob-chip.in-palette{box-shadow:0 0 0 2px rgba(74,138,74,.35)}
 .trg-colour-guide .ob-chip.is-caution{opacity:.52}
 
+/* Shopping handoff */
+.trg-colour-guide .ob-shop-rail{margin-bottom:1.25rem;padding:1.05rem;background:linear-gradient(135deg,#1f1b17,#2b241d 54%,#3a2e23);border:1px solid rgba(255,255,255,.08);border-radius:14px;box-shadow:0 20px 50px rgba(16,14,11,.14)}
+.trg-colour-guide .ob-shop-head{display:flex;align-items:flex-end;justify-content:space-between;gap:.75rem;margin-bottom:.55rem}
+.trg-colour-guide .ob-shop-kicker{font-size:.48rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(212,116,73,.9)}
+.trg-colour-guide .ob-shop-title{font-family:'Playfair Display',serif;font-size:1.08rem;font-weight:400;color:var(--paper);margin:0}
+.trg-colour-guide .ob-shop-summary{font-size:.62rem;font-weight:300;line-height:1.65;color:rgba(245,241,235,.7);margin-bottom:.9rem}
+.trg-colour-guide .ob-shop-summary strong{color:var(--paper);font-weight:600}
+.trg-colour-guide .ob-shop-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem}
+.trg-colour-guide .ob-shop-card{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:.75rem;padding:.8rem .85rem;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:12px;text-decoration:none;transition:border-color .15s,transform .15s,background .15s}
+.trg-colour-guide .ob-shop-card:hover{border-color:rgba(212,116,73,.45);background:rgba(255,255,255,.08);transform:translateY(-2px)}
+.trg-colour-guide .ob-shop-swatch{width:34px;height:34px;border-radius:10px;border:1px solid rgba(255,255,255,.14);box-shadow:inset 0 1px 0 rgba(255,255,255,.12);flex-shrink:0}
+.trg-colour-guide .ob-shop-body{min-width:0}
+.trg-colour-guide .ob-shop-eyebrow{display:block;font-size:.44rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(245,241,235,.42);margin-bottom:.18rem}
+.trg-colour-guide .ob-shop-card-title{display:block;font-size:.67rem;font-weight:600;color:var(--paper);line-height:1.35}
+.trg-colour-guide .ob-shop-card-note{display:block;font-size:.54rem;font-weight:300;color:rgba(245,241,235,.56);line-height:1.5;margin-top:.16rem}
+.trg-colour-guide .ob-shop-arrow{font-size:1rem;line-height:1;color:rgba(245,241,235,.62)}
+
 /* ══════════════════════════════════════════════════
    MOBILE
 ══════════════════════════════════════════════════ */
@@ -548,6 +566,12 @@
   .trg-colour-guide .ob-gauge-desc{font-size:.6rem}
   .trg-colour-guide .ob-profile-link{flex-wrap:wrap;align-items:flex-start;gap:.75rem}
   .trg-colour-guide .ob-pl-cta{margin-left:auto}
+  .trg-colour-guide .ob-shop-rail{padding:.95rem}
+  .trg-colour-guide .ob-shop-head{display:block}
+  .trg-colour-guide .ob-shop-title{margin-top:.18rem;font-size:.96rem}
+  .trg-colour-guide .ob-shop-actions{grid-template-columns:1fr}
+  .trg-colour-guide .ob-shop-card{padding:.72rem .78rem}
+  .trg-colour-guide .ob-shop-swatch{width:30px;height:30px}
   .trg-colour-guide .ob-fam-head{flex-direction:column;align-items:flex-start;gap:.18rem}
   .trg-colour-guide .ob-fam-chips{gap:10px 7px}
   .trg-colour-guide .ob-chip{width:40px;height:40px}

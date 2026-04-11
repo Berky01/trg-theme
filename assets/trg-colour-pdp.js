@@ -28,11 +28,69 @@ const STORIES={
 // ═══════════════════════════════════════
 // OUTFIT BUILDER (v21-aligned)
 // ═══════════════════════════════════════
-let ob={slots:{},activeSlot:null,history:[],lockedSlot:'shirt'};
-let obBase={garment:'shirt',colour:null,name:''};
+let ob={slots:{},activeSlot:null,history:[],lockedSlot:null};
+let obBase={garment:null,colour:null,name:''};
+
+function normalizeGarment(slot){
+  if(!slot)return null;
+  return G.some(g=>g.id===slot)?slot:null;
+}
+
+function garmentLabel(slot){
+  const garment=G.find(g=>g.id===slot);
+  return garment?garment.l.toLowerCase():'piece';
+}
+
+function buildGuideUrl(colourName,garment){
+  const params=['source=pdp'];
+  if(colourName)params.push('base_colour='+encodeURIComponent(colourName));
+  const safeGarment=normalizeGarment(garment);
+  if(safeGarment)params.push('base_garment='+encodeURIComponent(safeGarment));
+  return '/pages/colour-guide?'+params.join('&');
+}
+
+function buildCollectionSearchUrl(garmentId,colourName){
+  const garment=G.find(g=>g.id===garmentId);
+  if(!garment)return '/search?options%5Bprefix%5D=last&type=product';
+  const params=['options%5Bprefix%5D=last'];
+  if(colourName)params.unshift('q='+encodeURIComponent(colourName));
+  return '/collections/'+garment.co+'?'+params.join('&');
+}
+
+function obSyncA11y(){
+  document.querySelectorAll('.ob-slot').forEach(function(slot){
+    slot.setAttribute('role','button');
+    slot.setAttribute('tabindex',slot.classList.contains('locked')?'-1':'0');
+    slot.setAttribute('aria-pressed',slot.classList.contains('on')?'true':'false');
+  });
+  document.querySelectorAll('.ob-slot-rm').forEach(function(remove){
+    remove.setAttribute('role','button');
+    remove.setAttribute('tabindex','0');
+  });
+}
+
+function syncGuideLinks(colourName,garment){
+  const guideUrl=buildGuideUrl(colourName,garment);
+  document.querySelectorAll('.pdp-guide-link, .pdp-guide-footnote a').forEach(function(link){
+    link.setAttribute('href',guideUrl);
+  });
+  return guideUrl;
+}
+
+function readBuilderContext(overrideName){
+  const el=document.getElementById('cg-outfit-builder');
+  const container=el?el.closest('[data-colour]'):null;
+  const hiddenName=document.getElementById('ctl-colour-name');
+  const name=typeof overrideName==='string'
+    ? overrideName
+    : (container&&container.getAttribute('data-colour')) || (hiddenName&&hiddenName.textContent) || '';
+  const garment=normalizeGarment(container&&container.getAttribute('data-garment'));
+  return {name:(name||'').trim(),garment:garment};
+}
 
 function obDetectBaseColour(name){
   const lo=(name||'').toLowerCase().trim();
+  if(!lo)return null;
   const aliases={
     'indigo heather':'Indigo','heather grey':'Silver',
     'off white':'Off-White','off-white':'Off-White',
@@ -48,7 +106,7 @@ function obDetectBaseColour(name){
   if(lo.includes('navy'))return C.find(c=>c.n==='Navy');
   if(lo.includes('ecru'))return C.find(c=>c.n==='Ecru');
   if(lo.includes('cream'))return C.find(c=>c.n==='Cream');
-  return C.find(c=>c.n==='Indigo');
+  return null;
 }
 
 function obNextOpen(){
@@ -56,12 +114,30 @@ function obNextOpen(){
 }
 
 // ─── INIT ───
-function obInit(){
+function obInit(config){
   const el=document.getElementById('cg-outfit-builder');if(!el)return;
-  obBase.name=(document.getElementById('ctl-colour-name')?.textContent||'Indigo').trim();
-  obBase.colour=obDetectBaseColour(obBase.name);
-  ob={slots:{},activeSlot:null,history:[],lockedSlot:'shirt'};
-  if(obBase.colour)ob.slots[ob.lockedSlot]=obBase.colour;
+  const context=config||readBuilderContext();
+  const initialGarment=normalizeGarment(context.garment);
+  const initialColour=obDetectBaseColour(context.name);
+  const guideUrl=syncGuideLinks(context.name,initialGarment);
+  const profileState=(initialColour&&initialGarment)?{
+    shellClass:' active',
+    text:'No profile yet. The finder simply sorts the field more tightly to you.',
+    cta:'Take the finder &rarr;'
+  }:(initialGarment?{
+    shellClass:' is-warning',
+    text:'We could not map this product colour cleanly yet. The builder stays available, but the locked item is not colour-rated.',
+    cta:'Open the guide &rarr;'
+  }:{
+    shellClass:' is-warning',
+    text:'We could not confirm this product category or colour cleanly yet. Use the full guide as the source of truth.',
+    cta:'Open the guide &rarr;'
+  });
+  obBase.name=context.name;
+  obBase.garment=initialGarment;
+  obBase.colour=initialColour;
+  ob={slots:{},activeSlot:null,history:[],lockedSlot:initialGarment};
+  if(obBase.colour&&ob.lockedSlot)ob.slots[ob.lockedSlot]=obBase.colour;
 
   el.innerHTML=`
     <div class="ob-left">
@@ -80,10 +156,10 @@ function obInit(){
       <button class="ob-undo" id="ob-undo" onclick="window._obUndo()"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 119 9"/><path d="M3 3v9h9"/></svg> Undo</button>
     </div>
     <div class="ob-right">
-      <div class="ob-profile-link" id="ob-profile-link">
+      <div class="ob-profile-link${profileState.shellClass}" id="ob-profile-link">
         <div class="ob-pl-swatch" style="background:${obBase.colour?obBase.colour.h:'var(--border)'}"></div>
-        <div class="ob-pl-text">No profile yet. The finder simply sorts the field more tightly to you.</div>
-        <a class="ob-pl-cta" href="/pages/colour-guide">Take the finder &rarr;</a>
+        <div class="ob-pl-text">${profileState.text}</div>
+        <a class="ob-pl-cta" href="${guideUrl}">${profileState.cta}</a>
       </div>
       <div class="ob-suggest" id="ob-suggest">
         <div class="ob-suggest-head">
@@ -93,7 +169,7 @@ function obInit(){
         <div class="ob-suggest-chips" id="ob-suggest-chips"></div>
       </div>
       <div id="ob-families"></div>
-      <div class="ob-shop" id="ob-sa"><div class="ob-shop-dots" id="ob-sad"></div><div class="ob-shop-tx"><div class="ob-shop-ti" id="ob-sat"></div><div class="ob-shop-su" id="ob-sas"></div></div><a class="ob-shop-btn" href="/pages/colour-guide">See the full system &rarr;</a></div>
+      <div class="ob-shop" id="ob-sa"><div class="ob-shop-dots" id="ob-sad"></div><div class="ob-shop-tx"><div class="ob-shop-ti" id="ob-sat"></div><div class="ob-shop-su" id="ob-sas"></div></div><a class="ob-shop-btn" href="${guideUrl}">See the full system &rarr;</a></div>
       <div class="ob-links" id="ob-lks"></div>
     </div>
   `;
@@ -107,14 +183,23 @@ function obRenderSlots(){
   const slotsEl=document.getElementById('ob-slots');
   slotsEl.innerHTML=G.map(g=>{
     const col=ob.slots[g.id];
-    const isLocked=g.id===ob.lockedSlot;
+    const isLocked=!!ob.lockedSlot&&g.id===ob.lockedSlot;
     const isFilled=!!col;
     const isActive=ob.activeSlot===g.id;
     let cls='ob-slot';
     if(isActive)cls+=' on';
     if(isFilled)cls+=' filled';
     if(isLocked)cls+=' locked';
-    const helper=isLocked&&isFilled?`<span class="ob-slot-badge">This item</span>`:isFilled?`<div class="ob-slot-color">${col.n}</div>`:`<div class="ob-slot-hint">+ add</div>`;
+    let helper='';
+    if(isLocked&&isFilled){
+      helper=`<span class="ob-slot-badge">This item</span><div class="ob-slot-color">${col.n}</div>`;
+    }else if(isLocked){
+      helper=`<span class="ob-slot-badge">This item</span><div class="ob-slot-color ob-slot-color--pending">Colour not mapped yet</div>`;
+    }else if(isFilled){
+      helper=`<div class="ob-slot-color">${col.n}</div>`;
+    }else{
+      helper=`<div class="ob-slot-hint">+ add</div>`;
+    }
     return`<div class="${cls}" data-slot="${g.id}">
       <div class="ob-slot-main">
         <span class="ob-slot-icon">${IC[g.id]}</span>
@@ -124,17 +209,41 @@ function obRenderSlots(){
         </span>
         ${isFilled?`<span class="ob-slot-dot" style="background:${col.h}${col.n==='White'?';border-color:rgba(0,0,0,0.16)':''}"></span>`:''}
       </div>
-      ${isFilled&&!isLocked?`<span class="ob-slot-rm" onclick="event.stopPropagation();window._obRemove('${g.id}')">&times;</span>`:''}
+      ${isFilled&&!isLocked?`<span class="ob-slot-rm" data-remove-slot="${g.id}">&times;</span>`:''}
     </div>`;
   }).join('');
+  obSyncA11y();
 
   // Event delegation for slot clicks
   slotsEl.onclick=function(e){
-    if(e.target.closest('.ob-slot-rm'))return; // handled by inline onclick
+    const remove=e.target.closest('.ob-slot-rm');
+    if(remove){
+      const removeId=remove.getAttribute('data-remove-slot');
+      if(removeId)obRemove(removeId);
+      return;
+    }
     const slot=e.target.closest('.ob-slot');if(!slot)return;
     const sid=slot.dataset.slot;
     if(slot.classList.contains('locked'))return;
     obSetActiveSlot(sid);
+    if(window.innerWidth<=900){
+      const fams=document.getElementById('ob-families');
+      if(fams)fams.scrollIntoView({behavior:'smooth',block:'start'});
+    }
+  };
+  slotsEl.onkeydown=function(e){
+    if(e.key!=='Enter'&&e.key!==' ')return;
+    const remove=e.target.closest('.ob-slot-rm');
+    const slot=e.target.closest('.ob-slot');
+    if(!remove&&!slot)return;
+    e.preventDefault();
+    if(remove){
+      const removeId=remove.getAttribute('data-remove-slot');
+      if(removeId)obRemove(removeId);
+      return;
+    }
+    if(slot.classList.contains('locked'))return;
+    obSetActiveSlot(slot.dataset.slot);
     if(window.innerWidth<=900){
       const fams=document.getElementById('ob-families');
       if(fams)fams.scrollIntoView({behavior:'smooth',block:'start'});
@@ -175,16 +284,22 @@ function obRenderFamilies(){
           const best=scores.reduce((a,b)=>a.pct>b.pct?a:b);
           cls=best.tier==='perfect'||best.tier==='good'?' in-palette':' is-caution';
         }
-        return`<div class="ob-chip${cls}" style="background:${c.h}" data-ci="${C.indexOf(c)}" data-color="${c.n}" title="${c.n}"><div class="ob-tt">${c.n}</div></div>`;
+        return`<div class="ob-chip${cls}" style="background:${c.h}" data-ci="${C.indexOf(c)}" data-color="${c.n}" title="${c.n}" role="button" tabindex="0"><div class="ob-tt">${c.n}</div></div>`;
       }).join('')}</div>
     </div>
   `).join('');
 
   famsEl.querySelectorAll('.ob-chip').forEach(chip=>{
-    chip.addEventListener('click',()=>{
+    const choose=()=>{
       if(!ob.activeSlot)return;
       const cObj=C[parseInt(chip.dataset.ci)];
       if(cObj)obPickColor(cObj);
+    };
+    chip.addEventListener('click',choose);
+    chip.addEventListener('keydown',function(e){
+      if(e.key!=='Enter'&&e.key!==' ')return;
+      e.preventDefault();
+      choose();
     });
   });
 }
@@ -241,7 +356,9 @@ function updateGauge(){
   if(filled<=1){
     pctEl.innerHTML='Start<br>here';
     labelEl.textContent='Outfit progress';
-    descEl.textContent='Build around the shirt, then add the rest garment by garment.';
+    descEl.textContent=ob.lockedSlot
+      ? 'Build around the '+garmentLabel(ob.lockedSlot)+', then add the rest garment by garment.'
+      : 'Pick a starting piece, then add the rest garment by garment.';
   }else if(filled<6){
     pctEl.textContent=filled+'/6';
     labelEl.textContent='Outfit progress';
@@ -274,14 +391,20 @@ function obRenderSuggestions(slotId){
   document.getElementById('ob-suggest-hint').textContent=rec.hint;
   document.getElementById('ob-suggest-chips').innerHTML=suggestions.map(name=>{
     const c=C.find(x=>x.n===name);
-    return`<div class="ob-sc" data-color="${name}"><div class="ob-sc-sq" style="background:${c?c.h:'#ccc'}"></div><div class="ob-sc-name">${name}</div></div>`;
+    return`<div class="ob-sc" data-color="${name}" role="button" tabindex="0"><div class="ob-sc-sq" style="background:${c?c.h:'#ccc'}"></div><div class="ob-sc-name">${name}</div></div>`;
   }).join('');
   suggestEl.classList.add('show');
   document.querySelectorAll('.ob-sc').forEach(sc=>{
-    sc.addEventListener('click',()=>{
+    const choose=()=>{
       if(!ob.activeSlot)return;
       const cObj=C.find(c=>c.n===sc.dataset.color);
       if(cObj)obPickColor(cObj);
+    };
+    sc.addEventListener('click',choose);
+    sc.addEventListener('keydown',function(e){
+      if(e.key!=='Enter'&&e.key!==' ')return;
+      e.preventDefault();
+      choose();
     });
   });
 }
@@ -293,10 +416,9 @@ function obUShop(){
   sa.classList.add('vis');
   document.getElementById('ob-sad').innerHTML=Object.values(ob.slots).map(c=>`<div class="ob-shop-dot" style="background:${c.h}"></div>`).join('');
   document.getElementById('ob-sat').textContent='Working palette';
-  document.getElementById('ob-sas').textContent=entries.map(([gid,c])=>c.n+' '+G.find(x=>x.id===gid).l).join(' \u00b7 ');
+  document.getElementById('ob-sas').textContent=entries.map(([gid,c])=>c.n+' '+G.find(x=>x.id===gid).l).join(' \u00b7 ')+' \u00b7 Search the catalogue with these colours as the brief.';
   lk.innerHTML=entries.filter(([gid])=>gid!==ob.lockedSlot).map(([gid,col])=>{
-    const g=G.find(x=>x.id===gid);
-    return`<a class="ob-link" href="/collections/${g.co}"><span class="ob-link-d" style="background:${col.h}"></span>${col.n} ${g.l} &rarr;</a>`;
+    return`<a class="ob-link" href="${buildCollectionSearchUrl(gid,col.n)}"><span class="ob-link-d" style="background:${col.h}"></span>Search ${col.n} ${G.find(x=>x.id===gid).l} &rarr;</a>`;
   }).join('');
 }
 
@@ -304,22 +426,13 @@ function obUShop(){
 document.addEventListener('DOMContentLoaded',function(){
   var el = document.getElementById('cg-outfit-builder');
   if(!el) return;
-  var container = el.closest('[data-colour]');
-  if(container){
-    obBase.name = container.getAttribute('data-colour') || 'Indigo';
-    var garm = container.getAttribute('data-garment') || 'shirt';
-    ob.lockedSlot = garm;
-  }
-  obInit();
+  obInit(readBuilderContext());
 });
 
 // Listen for swatch changes from PDP variant picker
 window.addEventListener('trg-swatch-change',function(e){
   var name = e.detail && e.detail.name;
-  if(name){
-    obBase.name = name;
-    obInit();
-  }
+  obInit(readBuilderContext(name||''));
 });
 
 })();
