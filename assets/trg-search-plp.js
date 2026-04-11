@@ -4,6 +4,7 @@
 
   var FILTER_STORAGE_KEY = 'trg_filters_open';
   var WISHLIST_STORAGE_KEY = 'trg_plp_saved_products';
+  var COLOUR_INTENT_STORAGE_KEY = 'trg_colour_intent';
 
   function normalizeText(value) {
     return (value || '').toString().trim().toLowerCase();
@@ -17,6 +18,17 @@
       .replaceAll('>', '&gt;')
       .replaceAll('"', '&quot;')
       .replaceAll("'", '&#39;');
+  }
+
+  function readColourIntent() {
+    try {
+      var parsed = JSON.parse(window.localStorage.getItem(COLOUR_INTENT_STORAGE_KEY) || 'null');
+      if (!parsed || typeof parsed !== 'object') return null;
+      if (!Array.isArray(parsed.slots)) parsed.slots = [];
+      return parsed;
+    } catch (_) {
+      return null;
+    }
   }
 
   function TrgSearchPlpController(root) {
@@ -45,6 +57,7 @@
     this.syncDesktopFilterToggle();
     this.renderActiveTags();
     this.applyFilters();
+    this.syncColourIntentBanner();
     this.syncWishlistState();
   };
 
@@ -114,6 +127,14 @@
   TrgSearchPlpController.prototype.handleClick = function (event) {
     var target = event.target instanceof Element ? event.target : null;
     if (!target) return;
+
+    var clearColourIntent = target.closest('[data-trg-colour-intent-clear]');
+    if (clearColourIntent instanceof HTMLButtonElement) {
+      event.preventDefault();
+      window.localStorage.removeItem(COLOUR_INTENT_STORAGE_KEY);
+      this.syncColourIntentBanner();
+      return;
+    }
 
     var filterToggle = target.closest('[data-trg-plp-filter-toggle]');
     if (filterToggle) {
@@ -292,6 +313,84 @@
     }, this);
 
     this.updateVisibleState(visibleCount);
+    this.syncColourIntentBanner(visibleCount);
+  };
+
+  TrgSearchPlpController.prototype.syncColourIntentBanner = function (visibleCount) {
+    var mainColumn = this.root.querySelector('.trg-plp-main-column');
+    if (!(mainColumn instanceof HTMLElement)) return;
+
+    var intent = readColourIntent();
+    var banner = mainColumn.querySelector('.trg-colour-intent-banner');
+    if (!intent) {
+      banner?.remove();
+      return;
+    }
+
+    var activeSlot = intent.anchor || intent.slots[0] || null;
+    var cards = this.getSearchCards();
+    var visibleCards = cards.filter(function (card) {
+      return !card.hidden;
+    });
+    var colourNeedle = normalizeText(activeSlot && activeSlot.color);
+    var colourMatchCount = colourNeedle
+      ? visibleCards.filter(function (card) {
+          return normalizeText(card.getAttribute('data-trg-search-text')).indexOf(colourNeedle) !== -1;
+        }).length
+      : 0;
+    var totalVisible = Number.isFinite(visibleCount) ? visibleCount : visibleCards.length;
+    var profileLabel = intent.profile_archetype || intent.profile_name || '';
+    var title = activeSlot
+      ? activeSlot.color + ' ' + (activeSlot.singular || activeSlot.slot)
+      : profileLabel
+        ? profileLabel + ' profile active'
+        : 'Saved colour brief';
+    var note = activeSlot
+      ? colourMatchCount + ' of ' + totalVisible + ' visible cards mention ' + activeSlot.color + '. This is a text match, not a strict colour filter.'
+      : profileLabel
+        ? 'Your saved profile is ' + profileLabel + '. Return to the guide to assign colours to garment slots.'
+        : 'Return to the guide to set an outfit brief.';
+    var query = activeSlot
+      ? '?source=search&base_colour=' + encodeURIComponent(activeSlot.color) + '&base_garment=' + encodeURIComponent(activeSlot.slot)
+      : '';
+    var chips = intent.slots
+      .slice(0, 4)
+      .map(function (slot) {
+        return (
+          '<span class="trg-colour-intent-chip">' +
+          '<span class="trg-colour-intent-chip__swatch" style="background:' + escapeHtml(slot.hex || '#ddd8cf') + '"></span>' +
+          escapeHtml(slot.color) +
+          ' ' +
+          escapeHtml(slot.singular || slot.slot) +
+          '</span>'
+        );
+      })
+      .join('');
+
+    if (!(banner instanceof HTMLElement)) {
+      banner = document.createElement('div');
+      banner.className = 'trg-colour-intent-banner';
+      var controls = mainColumn.querySelector('.trg-collection-controls');
+      if (controls instanceof HTMLElement) {
+        mainColumn.insertBefore(banner, controls);
+      } else {
+        mainColumn.insertBefore(banner, mainColumn.firstChild);
+      }
+    }
+
+    banner.innerHTML =
+      '<div class="trg-colour-intent-banner__head">' +
+      '<div>' +
+      '<p class="trg-colour-intent-banner__kicker">Saved colour brief</p>' +
+      '<h3 class="trg-colour-intent-banner__title">' + escapeHtml(title) + '</h3>' +
+      '<p class="trg-colour-intent-banner__note">' + escapeHtml(note) + '</p>' +
+      '</div>' +
+      '<div class="trg-colour-intent-banner__actions">' +
+      '<a class="trg-colour-intent-banner__link" href="/pages/colour-guide' + query + '">Open guide</a>' +
+      '<button type="button" class="trg-colour-intent-banner__clear" data-trg-colour-intent-clear>Clear</button>' +
+      '</div>' +
+      '</div>' +
+      (chips ? '<div class="trg-colour-intent-banner__chips">' + chips + '</div>' : '');
   };
 
   TrgSearchPlpController.prototype.resolveInputLabel = function (input) {

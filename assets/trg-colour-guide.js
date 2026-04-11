@@ -508,6 +508,7 @@ const SHOP_SLOT_META={
   shoes:{label:'Footwear',singular:'shoes',handle:'footwear',note:'Finish with leather and darks'}
 };
 const DEFAULT_SHOP_SLOTS=['shirt','trousers','jacket'];
+const GUIDE_INTENT_STORAGE_KEY='trg_colour_intent';
 
 const PRESETS = [
   { name:'The Business Classic', desc:'Navy tailoring, white shirting, cognac leather. Boardroom-safe without feeling corporate.', slots:{shirt:'White',trousers:'Charcoal',knitwear:'Powder Blue',jacket:'Navy',coat:'Camel',shoes:'Cognac'} },
@@ -586,6 +587,39 @@ function getGuideProductRecommendations(filledSlots,limit){
   });
 
   return cards;
+}
+
+function persistGuideIntentState(){
+  const filledSlots=getFilledGuideSlots().map(slotState=>({
+    slot:slotState.slot,
+    color:slotState.color,
+    handle:slotState.meta.handle,
+    label:slotState.meta.label,
+    singular:slotState.meta.singular,
+    hex:slotState.hex
+  }));
+
+  try{
+    if(!filledSlots.length&&!activeProfile){
+      localStorage.removeItem(GUIDE_INTENT_STORAGE_KEY);
+      return;
+    }
+
+    const payload={
+      source:'colour-guide',
+      updatedAt:new Date().toISOString(),
+      profile_key:activeProfile&&selDepthGroup&&undertone?`${selDepthGroup}-${undertone}`:'',
+      profile_name:activeProfile?activeProfile.name:'',
+      profile_archetype:activeProfile?stripArchetypeLabel(activeProfile.archetype):'',
+      profile_swatch:activeProfile?activeProfile.swatch:'',
+      anchor:filledSlots[0]||null,
+      slots:filledSlots
+    };
+
+    localStorage.setItem(GUIDE_INTENT_STORAGE_KEY,JSON.stringify(payload));
+  }catch(err){
+    /* storage can fail in private mode */
+  }
 }
 
 function applyGuideContextFromUrl(){
@@ -762,6 +796,7 @@ function renderGuideShopRail(){
     const loadingCopy=shopIndexLoaded?'Choose a piece to unlock exact product matches here. If a colour bucket is empty, the guide falls back to category jumps.':'Choose a piece to unlock category jumps here. Exact product matching is still loading.';
     summaryEl.innerHTML=loadingCopy;
     actionsEl.innerHTML=DEFAULT_SHOP_SLOTS.map(slotName=>browseShopCardMarkup(slotName,'Start here')).join('');
+    persistGuideIntentState();
     return;
   }
 
@@ -772,6 +807,7 @@ function renderGuideShopRail(){
     const profileNote=activeProfile?` <strong>${stripArchetypeLabel(activeProfile.archetype)}</strong> is active, so the rail still favours colours that sit in your stronger register.`:'';
     summaryEl.innerHTML=`Showing <strong>${exactCount} product match${exactCount===1?'':'es'}</strong> for the colours currently in play, starting with <strong>${leadSlot.color} ${SLOT_SHORT[leadSlot.slot].toLowerCase()}</strong>.${profileNote}`;
     actionsEl.innerHTML=productMatches.map((match,index)=>productShopCardMarkup(match,index)).join('');
+    persistGuideIntentState();
     return;
   }
 
@@ -787,6 +823,7 @@ function renderGuideShopRail(){
   const profileNote=activeProfile?` <strong>${stripArchetypeLabel(activeProfile.archetype)}</strong> is active, so these jumps are biased toward your better register.`:'';
   summaryEl.innerHTML=`Start with <strong>${leadSlot.color} ${SLOT_SHORT[leadSlot.slot].toLowerCase()}</strong>, then open the matching categories.${loadingNote} Treat the selected colours as the shopping brief rather than a strict filter.${profileNote}`;
   actionsEl.innerHTML=cards.join('');
+  persistGuideIntentState();
 }
 
 function syncOBSlotA11y(){

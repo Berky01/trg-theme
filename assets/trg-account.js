@@ -6,6 +6,7 @@
 
 (function() {
   'use strict';
+  const COLOUR_INTENT_STORAGE_KEY = 'trg_colour_intent';
   // Escapes a value for safe use in HTML attribute contexts
   function escAttr(s) {
     return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#39;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
@@ -268,16 +269,27 @@
       const body = document.getElementById('trg-palette-card-body');
       if (!body) return;
       const key = localStorage.getItem('trg_colour_profile');
-      if (!key) return; // Default "Take the Finder" CTA stays
+      const intent = this.getColourIntent();
+      if (!key && !intent) return;
 
-      const profilesUrl = document.querySelector('link[href*="trg-colour-profiles"]');
-      // Try to fetch profile data for display
-      const jsonUrl = Array.from(document.querySelectorAll('link[rel="stylesheet"]'))
-        .map(l => l.href).find(h => false); // won't match — use asset URL pattern instead
-
-      // Build the profiles URL from the pattern used by other assets
       const anyAsset = document.querySelector('link[href*="trg-account.css"]');
-      if (!anyAsset) { this._renderPaletteSimple(body, key); return; }
+      if (!key) {
+        body.innerHTML = `
+          <div class="trg-acct__field-note">Your saved colour brief is available below.</div>
+          ${this.renderColourIntentMarkup(intent)}
+        `;
+        document.getElementById('trg-intent-clear')?.addEventListener('click', () => {
+          localStorage.removeItem(COLOUR_INTENT_STORAGE_KEY);
+          this.renderPaletteCard();
+        });
+        return;
+      }
+
+      if (!anyAsset) {
+        this._renderPaletteSimple(body, key, intent);
+        return;
+      }
+
       const base = anyAsset.href.replace(/trg-account\.css.*$/, '');
       const url = base + 'trg-colour-profiles.json';
 
@@ -285,9 +297,8 @@
         .then(r => r.json())
         .then(data => {
           const profile = data[key];
-          if (!profile) { this._renderPaletteSimple(body, key); return; }
+          if (!profile) { this._renderPaletteSimple(body, key, intent); return; }
           const preview = [...(profile.core || []).slice(0, 3), ...(profile.best || []).slice(0, 5)];
-          // We need hex values — fetch colour data too
           const colourUrl = base + 'trg-colour-data.json';
           fetch(colourUrl)
             .then(r => r.json())
@@ -306,26 +317,75 @@
                 <div style="display:flex;gap:0.75rem;align-items:center;">
                   <a href="/pages/colour-guide" style="font-size:0.68rem;color:#c4562a;text-decoration:none;font-weight:500;">View full palette</a>
                   <button id="trg-palette-remove" style="font-size:0.62rem;color:#8a8478;background:0;border:0;cursor:pointer;text-decoration:underline;padding:0;">Remove</button>
-                </div>`;
+                </div>
+                ${this.renderColourIntentMarkup(intent)}`;
               document.getElementById('trg-palette-remove')?.addEventListener('click', () => {
                 localStorage.removeItem('trg_colour_profile');
-                body.innerHTML = `
-                  <div class="trg-acct__field-note">Find out which colours suit you best.</div>
-                  <a href="/pages/colour-guide" class="trg-acct__btn-cta" style="margin-top:0.5rem;">Take the Colour Finder</a>`;
+                this.renderPaletteCard();
+              });
+              document.getElementById('trg-intent-clear')?.addEventListener('click', () => {
+                localStorage.removeItem(COLOUR_INTENT_STORAGE_KEY);
+                this.renderPaletteCard();
               });
             })
-            .catch(() => this._renderPaletteSimple(body, key));
+            .catch(() => this._renderPaletteSimple(body, key, intent));
         })
-        .catch(() => this._renderPaletteSimple(body, key));
+        .catch(() => this._renderPaletteSimple(body, key, intent));
     },
 
-    _renderPaletteSimple(body, key) {
+    _renderPaletteSimple(body, key, intent) {
       const label = key.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' + ');
       body.innerHTML = `
         <div style="font-size:0.82rem;color:#1a1a18;margin-bottom:0.5rem;">Your profile: <strong>${label}</strong></div>
         <div style="display:flex;gap:0.75rem;align-items:center;">
           <a href="/pages/colour-guide" style="font-size:0.68rem;color:#c4562a;text-decoration:none;font-weight:500;">View full palette</a>
-          <button onclick="localStorage.removeItem('trg_colour_profile');this.closest('#trg-palette-card-body').innerHTML='<div class=\\'trg-acct__field-note\\'>Profile removed.</div><a href=\\'/pages/colour-guide\\' class=\\'trg-acct__btn-cta\\' style=\\'margin-top:0.5rem;\\'>Retake the Finder</a>';" style="font-size:0.62rem;color:#8a8478;background:0;border:0;cursor:pointer;text-decoration:underline;padding:0;">Remove</button>
+          <button id="trg-palette-remove" style="font-size:0.62rem;color:#8a8478;background:0;border:0;cursor:pointer;text-decoration:underline;padding:0;">Remove</button>
+        </div>
+        ${this.renderColourIntentMarkup(intent)}`;
+      document.getElementById('trg-palette-remove')?.addEventListener('click', () => {
+        localStorage.removeItem('trg_colour_profile');
+        this.renderPaletteCard();
+      });
+      document.getElementById('trg-intent-clear')?.addEventListener('click', () => {
+        localStorage.removeItem(COLOUR_INTENT_STORAGE_KEY);
+        this.renderPaletteCard();
+      });
+    },
+
+    getColourIntent() {
+      try {
+        const parsed = JSON.parse(localStorage.getItem(COLOUR_INTENT_STORAGE_KEY) || 'null');
+        if (!parsed || typeof parsed !== 'object') return null;
+        if (!Array.isArray(parsed.slots)) parsed.slots = [];
+        return parsed;
+      } catch (e) {
+        return null;
+      }
+    },
+
+    renderColourIntentMarkup(intent) {
+      if (!intent || !intent.slots || intent.slots.length === 0) return '';
+      const anchor = intent.anchor || intent.slots[0];
+      const chips = intent.slots.slice(0, 4).map(slot => `
+        <span style="display:inline-flex;align-items:center;gap:0.32rem;padding:0.22rem 0.42rem;border:1px solid rgba(0,0,0,.08);background:#fff;font-size:0.63rem;color:#1a1a18;">
+          <span style="width:10px;height:10px;border-radius:999px;border:1px solid rgba(0,0,0,.12);background:${escAttr(slot.hex || '#ddd8cf')};flex-shrink:0;"></span>
+          ${slot.color} ${slot.singular || slot.slot}
+        </span>
+      `).join('');
+      const profileLine = intent.profile_archetype || intent.profile_name
+        ? `<div style="font-size:0.68rem;color:#8a8478;margin-top:0.28rem;">Profile: ${intent.profile_archetype || intent.profile_name}</div>`
+        : '';
+
+      return `
+        <div style="margin-top:0.9rem;padding-top:0.9rem;border-top:1px solid rgba(0,0,0,.08);">
+          <div style="font-size:0.66rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#8a8478;margin-bottom:0.28rem;">Current outfit brief</div>
+          <div style="font-size:0.82rem;color:#1a1a18;">Anchor piece: <strong>${anchor.color} ${anchor.singular || anchor.slot}</strong></div>
+          ${profileLine}
+          <div style="display:flex;flex-wrap:wrap;gap:0.42rem;margin-top:0.65rem;">${chips}</div>
+          <div style="display:flex;gap:0.75rem;align-items:center;margin-top:0.7rem;">
+            <a href="/pages/colour-guide?source=account&base_colour=${encodeURIComponent(anchor.color)}&base_garment=${encodeURIComponent(anchor.slot)}" style="font-size:0.68rem;color:#c4562a;text-decoration:none;font-weight:500;">Resume in Colour Guide</a>
+            <button id="trg-intent-clear" style="font-size:0.62rem;color:#8a8478;background:0;border:0;cursor:pointer;text-decoration:underline;padding:0;">Clear brief</button>
+          </div>
         </div>`;
     },
 
