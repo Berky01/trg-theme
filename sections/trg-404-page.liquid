@@ -1,0 +1,280 @@
+<div class="section-background color-scheme-1"></div>
+<section class="section section--page-width color-scheme-1 trg-404-page">
+  <div class="trg-404-page__shell">
+    <div class="trg-404-page__main">
+      <h1 class="trg-404-page__title">Page not found</h1>
+      <p class="trg-404-page__lead">
+        The link may be wrong, expired, or no longer in the directory. Start from a reliable route below.
+      </p>
+
+      <div class="trg-404-page__actions">
+        <a href="/pages/brands" class="trg-404-page__button trg-404-page__button--primary">Browse brands</a>
+        <a href="/collections/all" class="trg-404-page__button trg-404-page__button--secondary">Browse live products</a>
+      </div>
+
+      <form action="{{ routes.search_url }}" method="get" class="trg-404-page__search">
+        <label class="trg-404-page__search-label" for="Trg404Search">Search instead</label>
+        <div class="trg-404-page__search-row">
+          <input
+            id="Trg404Search"
+            type="search"
+            name="q"
+            value=""
+            placeholder="Brands, styles, categories"
+            class="trg-404-page__search-input"
+          >
+          <input type="hidden" name="options[prefix]" value="last">
+          <button type="submit" class="trg-404-page__search-submit">Search</button>
+        </div>
+      </form>
+    </div>
+
+    <aside class="trg-404-page__aside">
+      <section class="trg-404-page__group">
+        <h2>Common routes</h2>
+        <div class="trg-404-page__chips">
+          <a href="/collections/outerwear" class="trg-404-page__chip">Outerwear</a>
+          <a href="/collections/shirts" class="trg-404-page__chip">Shirts &amp; Tops</a>
+          <a href="/collections/bottoms" class="trg-404-page__chip">Trousers &amp; Bottoms</a>
+          <a href="/collections/footwear" class="trg-404-page__chip">Footwear</a>
+          <a href="/pages/colour-guide" class="trg-404-page__chip">Colour guide</a>
+          <a href="/blogs/journal" class="trg-404-page__chip">Journal</a>
+        </div>
+      </section>
+
+      <section class="trg-404-page__group">
+        <h2>Need a specific page?</h2>
+        <p>
+          If you were looking for a brand page, the brand directory is usually the fastest way back in.
+        </p>
+      </section>
+    </aside>
+  </div>
+</section>
+
+{% stylesheet %}
+  .trg-404-page {
+    padding-block: clamp(24px, 5vw, 56px);
+    border-top: 1px solid #ddd8cf;
+  }
+
+  .trg-404-page__shell {
+    display: grid;
+    gap: 20px;
+  }
+
+  .trg-404-page__main,
+  .trg-404-page__aside {
+    border: 1px solid #ddd8cf;
+    background: #faf8f4;
+    padding: 18px;
+  }
+
+  .trg-404-page__title {
+    margin: 0;
+    font-family: var(--font-heading--family);
+    font-size: clamp(2.1rem, 5vw, 4rem);
+    font-weight: 400;
+    line-height: 0.96;
+    letter-spacing: -0.02em;
+    color: #1a1a18;
+    max-width: 9ch;
+  }
+
+  .trg-404-page__lead {
+    margin: 16px 0 0;
+    max-width: 36rem;
+    color: #332f2a;
+    font-size: 0.98rem;
+    line-height: 1.7;
+  }
+
+  .trg-404-page__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 20px;
+  }
+
+  .trg-404-page__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.85rem;
+    padding: 0.76rem 1.05rem;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    font-size: 0.74rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  .trg-404-page__button--primary {
+    background: #1a1a18;
+    border-color: #1a1a18;
+    color: #f5f1eb;
+  }
+
+  .trg-404-page__button--primary:hover {
+    background: #2a2824;
+    border-color: #2a2824;
+  }
+
+  .trg-404-page__button--secondary {
+    border-color: #ddd8cf;
+    color: #1a1a18;
+    background: transparent;
+  }
+
+  .trg-404-page__button--secondary:hover {
+    border-color: #c4562a;
+    color: #c4562a;
+  }
+
+  .trg-404-page__search {
+    margin-top: 22px;
+    padding-top: 16px;
+    border-top: 1px solid #ddd8cf;
+  }
+
+  .trg-404-page__search-label {
+    display: block;
+    margin-bottom: 8px;
+    color: #1a1a18;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .trg-404-page__search-row {
+    display: grid;
+    gap: 10px;
+  }
+
+  .trg-404-page__search-input {
+    width: 100%;
+    min-width: 0;
+    border: 1px solid #ddd8cf;
+    background: #fff;
+    color: #1a1a18;
+    font: inherit;
+    padding: 0.85rem 0.9rem;
+  }
+
+  .trg-404-page__search-input:focus {
+    outline: 2px solid #c4562a;
+    outline-offset: 1px;
+    border-color: #c4562a;
+  }
+
+  .trg-404-page__search-submit {
+    min-height: 2.85rem;
+    border: 1px solid #ddd8cf;
+    background: #fff;
+    color: #1a1a18;
+    font: inherit;
+    font-size: 0.74rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.76rem 1rem;
+    cursor: pointer;
+  }
+
+  .trg-404-page__search-submit:hover {
+    border-color: #c4562a;
+    color: #c4562a;
+  }
+
+  .trg-404-page__aside {
+    display: grid;
+    gap: 18px;
+  }
+
+  .trg-404-page__group h2 {
+    margin: 0 0 10px;
+    font-family: var(--font-heading--family);
+    font-size: 1rem;
+    font-weight: 400;
+    color: #1a1a18;
+  }
+
+  .trg-404-page__group p {
+    margin: 0;
+    color: #6f695f;
+    font-size: 0.9rem;
+    line-height: 1.65;
+  }
+
+  .trg-404-page__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+  }
+
+  .trg-404-page__chip {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.2rem;
+    padding: 0.52rem 0.78rem;
+    border: 1px solid #ddd8cf;
+    background: #fff;
+    color: #1a1a18;
+    font-size: 0.73rem;
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  .trg-404-page__chip:hover {
+    border-color: #c4562a;
+    color: #c4562a;
+  }
+
+  @media screen and (min-width: 990px) {
+    .trg-404-page__shell {
+      grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
+      align-items: start;
+    }
+
+    .trg-404-page__search-row {
+      grid-template-columns: minmax(0, 1fr) auto;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .trg-404-page {
+      padding-block: 18px 30px;
+    }
+
+    .trg-404-page__main,
+    .trg-404-page__aside {
+      padding: 14px;
+    }
+
+    .trg-404-page__lead,
+    .trg-404-page__group p {
+      font-size: 0.88rem;
+      line-height: 1.6;
+    }
+
+    .trg-404-page__actions {
+      flex-direction: column;
+    }
+
+    .trg-404-page__button,
+    .trg-404-page__search-submit {
+      width: 100%;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "TRG 404 Page",
+  "settings": []
+}
+{% endschema %}
