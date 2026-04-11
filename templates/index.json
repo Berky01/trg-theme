@@ -102,14 +102,14 @@
             "title": "{{ metaobjects.brand[\"portuguese-flannel\"].name.value }}",
             "meta": "{{ metaobjects.brand[\"portuguese-flannel\"].country.value }}",
             "badge": "",
-            "image": "shopify://shop_images/36.Cap_Store_Canvas_-_Navy_2.webp",
+            "image": "shopify:\/\/shop_images\/36.Cap_Store_Canvas_-_Navy_2.webp",
             "zoom": 100,
             "focal_x": 50,
             "focal_y": 6,
             "gradient_start": "#3f5274",
             "gradient_end": "#1f2f50",
             "height": "normal",
-            "link": "/collections/taylor-stitch"
+            "link": "\/collections\/taylor-stitch"
           }
         },
         "mosaic_3": {
@@ -118,14 +118,14 @@
             "title": "{{ metaobjects.brand.casatlantic.name.value }}",
             "meta": "{{ metaobjects.brand.casatlantic.country.value }}",
             "badge": "",
-            "image": "shopify://shop_images/SnapInsta.to_619210603_18070119131437761_2699822703743581036_n.jpg",
+            "image": "shopify:\/\/shop_images\/SnapInsta.to_619210603_18070119131437761_2699822703743581036_n.jpg",
             "zoom": 140,
             "focal_x": 44,
             "focal_y": 6,
             "gradient_start": "#526850",
             "gradient_end": "#1e3a2f",
             "height": "tall",
-            "link": "/collections/norse-projects"
+            "link": "\/collections\/norse-projects"
           }
         },
         "mosaic_4": {
@@ -134,14 +134,14 @@
             "title": "{{ metaobjects.brand[\"todd-snyder\"].name.value }}",
             "meta": "{{ metaobjects.brand[\"todd-snyder\"].country.value }}",
             "badge": "",
-            "image": "shopify://shop_images/SnapInsta.to_483365310_18491238064038388_7044520128343581927_n.jpg",
+            "image": "shopify:\/\/shop_images\/SnapInsta.to_483365310_18491238064038388_7044520128343581927_n.jpg",
             "zoom": 100,
             "focal_x": 14,
             "focal_y": 43,
             "gradient_start": "#2b3348",
             "gradient_end": "#121722",
             "height": "normal",
-            "link": "/collections/reigning-champ"
+            "link": "\/collections\/reigning-champ"
           }
         },
         "mosaic_5": {
@@ -150,14 +150,14 @@
             "title": "{{ metaobjects.brand.barbour.name.value }}",
             "meta": "{{ metaobjects.brand.barbour.country.value }}",
             "badge": "",
-            "image": "shopify://shop_images/SnapInsta.to_564475268_18531320380047800_7687314681512306071_n.jpg",
+            "image": "shopify:\/\/shop_images\/SnapInsta.to_564475268_18531320380047800_7687314681512306071_n.jpg",
             "zoom": 100,
             "focal_x": 50,
             "focal_y": 39,
             "gradient_start": "#9f8468",
             "gradient_end": "#c5a783",
             "height": "normal",
-            "link": "/collections/buck-mason"
+            "link": "\/collections\/buck-mason"
           }
         },
         "mosaic_1": {
@@ -166,14 +166,14 @@
             "title": "{{ metaobjects.brand[\"septieme-largeur\"].name.value }}",
             "meta": "{{ metaobjects.brand[\"septieme-largeur\"].country.value }}",
             "badge": "",
-            "image": "shopify://shop_images/SnapInsta.to_476874838_1017382700414655_8147940494628651969_n.jpg",
+            "image": "shopify:\/\/shop_images\/SnapInsta.to_476874838_1017382700414655_8147940494628651969_n.jpg",
             "zoom": 100,
             "focal_x": 50,
             "focal_y": 100,
             "gradient_start": "#3b1d0f",
             "gradient_end": "#552915",
             "height": "normal",
-            "link": "shopify://collections/septieme-largeur"
+            "link": "shopify:\/\/collections\/septieme-largeur"
           }
         }
       },
@@ -196,13 +196,13 @@
         "hero_text": "#f5f1eb",
         "hero_accent": "#c4562a",
         "eyebrow": "Curated Menswear Directory",
-        "heading": "<p>The brands worth knowing.<br/><em>Editorially curated.</em></p>",
-        "body": "<p>Quality menswear brands, vetted and organized by style, price, and origin.</p>",
+        "heading": "<p>The brands worth knowing.<br\/><em>Editorially curated.<\/em><\/p>",
+        "body": "<p>Quality menswear brands, vetted and organized by style, price, and origin.<\/p>",
         "primary_label": "Browse Brands",
-        "primary_link": "/pages/brands",
+        "primary_link": "\/pages\/brands",
         "primary_style": "primary",
         "secondary_label": "Browse Live Products",
-        "secondary_link": "/collections/all",
+        "secondary_link": "\/collections\/all",
         "secondary_style": "secondary",
         "padding_block_start": 0,
         "padding_block_end": 0
@@ -226,7 +226,7 @@
             "positioning": "Heritage Footwear",
             "gradient_start": "#3b1d0f",
             "gradient_end": "#6b3518",
-            "link": "/collections/viberg"
+            "link": "\/collections\/viberg"
           }
         },
         "brand_2": {
@@ -244,7 +244,7 @@
             "positioning": "Workshop Essentials",
             "gradient_start": "#3f5274",
             "gradient_end": "#1f2f50",
-            "link": "/collections/taylor-stitch"
+            "link": "\/collections\/taylor-stitch"
           }
         },
         "brand_3": {
@@ -262,7 +262,7 @@
             "positioning": "Premium Basics",
             "gradient_start": "#2b3348",
             "gradient_end": "#121722",
-            "link": "/collections/reigning-champ"
+            "link": "\/collections\/reigning-champ"
           }
         },
         "brand_4": {
@@ -280,7 +280,7 @@
             "positioning": "Modern Tailoring",
             "gradient_start": "#282858",
             "gradient_end": "#484878",
-            "link": "/collections/spier-and-mackay"
+            "link": "\/collections\/spier-and-mackay"
           }
         },
         "brand_5": {
@@ -298,7 +298,7 @@
             "positioning": "Scandinavian Minimalism",
             "gradient_start": "#526850",
             "gradient_end": "#1e3a2f",
-            "link": "/collections/norse-projects"
+            "link": "\/collections\/norse-projects"
           }
         },
         "brand_6": {
@@ -316,7 +316,7 @@
             "positioning": "Everyday Staples",
             "gradient_start": "#9f8468",
             "gradient_end": "#c5a783",
-            "link": "/collections/buck-mason"
+            "link": "\/collections\/buck-mason"
           }
         }
       },
@@ -331,16 +331,16 @@
       "settings": {
         "color_scheme": "scheme-1",
         "eyebrow": "Featured",
-        "title": "<p>Featured <em>Brands</em></p>",
-        "body": "<p>Six brands we'd start with.</p>",
+        "title": "<p>Featured <em>Brands<\/em><\/p>",
+        "body": "<p>Six brands we'd start with.<\/p>",
         "link_label": "All brands",
-        "link_url": "/pages/brands",
+        "link_url": "\/pages\/brands",
         "columns_desktop": 3,
         "source_mode": "curated_metaobjects",
         "metaobject_type": "brand",
         "auto_limit": 6,
         "metaobject_cta_label": "View",
-        "metaobject_fallback_link": "/pages/brands",
+        "metaobject_fallback_link": "\/pages\/brands",
         "mo_title_field": "name",
         "mo_origin_field": "origin",
         "mo_description_field": "description",
@@ -361,11 +361,11 @@
           "settings": {
             "icon": "",
             "collection": "",
-            "name": "Outerwear",
-            "count": "18 brands",
+            "name": "Outerwear & Jackets",
+            "count": "Catalog building",
             "count_override": "",
-            "colour_tint": "#8a8478",
-            "link": ""
+            "colour_tint": "#7a5028",
+            "link": "\/collections\/outerwear"
           }
         },
         "category_RRr97H": {
@@ -373,11 +373,11 @@
           "settings": {
             "icon": "",
             "collection": "",
-            "name": "Outerwear",
-            "count": "18 brands",
+            "name": "Shirts & Tops",
+            "count": "Catalog building",
             "count_override": "",
-            "colour_tint": "#8a8478",
-            "link": ""
+            "colour_tint": "#3464a8",
+            "link": "\/collections\/shirts"
           }
         },
         "category_rw48tN": {
@@ -385,11 +385,11 @@
           "settings": {
             "icon": "",
             "collection": "",
-            "name": "Outerwear",
-            "count": "18 brands",
+            "name": "Trousers & Bottoms",
+            "count": "Catalog building",
             "count_override": "",
-            "colour_tint": "#8a8478",
-            "link": ""
+            "colour_tint": "#5c4020",
+            "link": "\/collections\/bottoms"
           }
         },
         "category_z8XNpT": {
@@ -397,11 +397,11 @@
           "settings": {
             "icon": "",
             "collection": "",
-            "name": "Outerwear",
-            "count": "18 brands",
+            "name": "Footwear",
+            "count": "Catalog building",
             "count_override": "",
-            "colour_tint": "#8a8478",
-            "link": ""
+            "colour_tint": "#8b6834",
+            "link": "\/collections\/footwear"
           }
         },
         "category_pzQycL": {
@@ -409,11 +409,11 @@
           "settings": {
             "icon": "",
             "collection": "",
-            "name": "Outerwear",
-            "count": "18 brands",
+            "name": "Knitwear",
+            "count": "1 live product",
             "count_override": "",
-            "colour_tint": "#8a8478",
-            "link": ""
+            "colour_tint": "#305838",
+            "link": "\/collections\/knitwear"
           }
         },
         "category_yAPjtD": {
@@ -421,11 +421,11 @@
           "settings": {
             "icon": "",
             "collection": "",
-            "name": "Outerwear",
-            "count": "18 brands",
+            "name": "Denim",
+            "count": "Catalog building",
             "count_override": "",
-            "colour_tint": "#8a8478",
-            "link": ""
+            "colour_tint": "#2c3e6b",
+            "link": "\/collections\/denim"
           }
         },
         "category_N6zeDe": {
@@ -433,11 +433,11 @@
           "settings": {
             "icon": "",
             "collection": "",
-            "name": "Outerwear",
-            "count": "18 brands",
+            "name": "Suits & Tailoring",
+            "count": "Catalog building",
             "count_override": "",
-            "colour_tint": "#8a8478",
-            "link": ""
+            "colour_tint": "#282858",
+            "link": "\/collections\/tailoring"
           }
         },
         "category_gGmQGM": {
@@ -445,11 +445,11 @@
           "settings": {
             "icon": "",
             "collection": "",
-            "name": "Outerwear",
-            "count": "18 brands",
+            "name": "Accessories",
+            "count": "Catalog building",
             "count_override": "",
-            "colour_tint": "#8a8478",
-            "link": ""
+            "colour_tint": "#808078",
+            "link": "\/collections\/accessories"
           }
         }
       },
@@ -467,8 +467,8 @@
       "settings": {
         "color_scheme": "",
         "eyebrow": "",
-        "title": "<p>Shop by <em>Category</em></p>",
-        "body": "<p>From outerwear to footwear, every corner of a quality wardrobe.</p>",
+        "title": "<p>Shop by <em>Category<\/em><\/p>",
+        "body": "<p>From outerwear to footwear, every corner of a quality wardrobe.<\/p>",
         "link_label": "",
         "link_url": "",
         "columns_desktop": 4,
@@ -575,10 +575,10 @@
       "settings": {
         "color_scheme": "scheme-1",
         "eyebrow": "Colour Guide",
-        "title": "<p>Not sure what <em>suits you?</em></p>",
-        "body": "<p>75 menswear colours across 8 families. Find what works for your wardrobe.</p>",
+        "title": "<p>Not sure what <em>suits you?<\/em><\/p>",
+        "body": "<p>75 menswear colours across 8 families. Find what works for your wardrobe.<\/p>",
         "cta_label": "Open the Colour Guide",
-        "cta_link": "/pages/colour-guide"
+        "cta_link": "\/pages\/colour-guide"
       }
     },
     "trg_steps": {
@@ -620,8 +620,8 @@
       "settings": {
         "color_scheme": "scheme-header-ink",
         "eyebrow": "How it works",
-        "title": "<p>How it<br><em>works</em></p>",
-        "body": "<p>Not an algorithm. Not a sponsored feed.<br>Curation the old-fashioned way.</p>",
+        "title": "<p>How it<br><em>works<\/em><\/p>",
+        "body": "<p>Not an algorithm. Not a sponsored feed.<br>Curation the old-fashioned way.<\/p>",
         "layout_variant": "editorial_dark",
         "accent_color": "#c4562a"
       }
@@ -683,8 +683,8 @@
       "settings": {
         "color_scheme": "scheme-1",
         "eyebrow": "Our Approach",
-        "heading": "<p>Built for the guy who<br><em>already knows</em> what he wants</p>",
-        "body": "<p>The best wardrobe is composed, intentional, and resilient to trend cycles. Quality over quantity, always.</p>",
+        "heading": "<p>Built for the guy who<br><em>already knows<\/em> what he wants<\/p>",
+        "body": "<p>The best wardrobe is composed, intentional, and resilient to trend cycles. Quality over quantity, always.<\/p>",
         "layout_variant": "mockup",
         "accent_color": "#c4562a",
         "panel_background_color": "#1a1a18",
@@ -701,7 +701,7 @@
         "feature_meta": "Brand of the Month Â· Heritage Footwear",
         "feature_logo_text": "VB",
         "feature_button_label": "View brand",
-        "feature_button_link": "/collections/viberg"
+        "feature_button_link": "\/collections\/viberg"
       }
     }
   },
