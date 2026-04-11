@@ -36,6 +36,8 @@
   endif
 %}
 
+{% capture search_reset_url %}{{ routes.search_url }}?q={{ search.terms | url_encode }}&options%5Bprefix%5D=last{% endcapture %}
+
 {% paginate search.results by products_per_page %}
   {% assign products = search.results | where: 'object_type', 'product' %}
   {% assign products_count = products | size %}
@@ -259,19 +261,76 @@
           {% endfor %}
         {% endcapture %}
 
-        {% render 'product-grid',
-          section: section,
-          children: children,
-          products: products,
-          paginate: paginate,
-          enable_infinite_scroll: section.settings.enable_infinite_scroll
-        %}
+        {% if search.performed and products_count == 0 %}
+          <section class="trg-search-empty-state" aria-labelledby="trg-search-empty-title">
+            <div class="trg-search-empty-state__panel">
+              <p class="trg-search-empty-state__eyebrow">Search</p>
+              <h2 id="trg-search-empty-title" class="trg-search-empty-state__title">
+                No products matched "{{ search.terms | escape }}"
+              </h2>
+              <p class="trg-search-empty-state__lead">
+                The live catalog is still compact. Try a broader term, start from the brand directory, or jump straight into a category.
+              </p>
+              {% if search.results_count > 0 %}
+                <p class="trg-search-empty-state__note">
+                  We found related site results for this search, but there are no published product cards to show yet.
+                </p>
+              {% endif %}
+              <div class="trg-search-empty-state__actions">
+                <a href="{{ routes.all_products_collection_url }}" class="trg-search-empty-state__button trg-search-empty-state__button--primary">
+                  {{ live_catalog_link_label }}
+                </a>
+                <a href="/pages/brands" class="trg-search-empty-state__button trg-search-empty-state__button--secondary">
+                  Open brand directory
+                </a>
+              </div>
+            </div>
+
+            <div class="trg-search-empty-state__meta">
+              <div class="trg-search-empty-state__group">
+                <p class="trg-search-empty-state__label">Browse categories</p>
+                <div class="trg-search-empty-state__chips">
+                  <a href="/collections/shirts" class="trg-search-empty-state__chip">Shirts &amp; Tops</a>
+                  <a href="/collections/outerwear" class="trg-search-empty-state__chip">Outerwear &amp; Jackets</a>
+                  <a href="/collections/bottoms" class="trg-search-empty-state__chip">Trousers &amp; Bottoms</a>
+                  <a href="/collections/footwear" class="trg-search-empty-state__chip">Footwear</a>
+                  <a href="/collections/knitwear" class="trg-search-empty-state__chip">Knitwear</a>
+                  <a href="/collections/accessories" class="trg-search-empty-state__chip">Accessories</a>
+                </div>
+              </div>
+
+              <div class="trg-search-empty-state__group">
+                <p class="trg-search-empty-state__label">Try another search</p>
+                <div class="trg-search-empty-state__chips">
+                  <a href="/search?q=workwear&options%5Bprefix%5D=last" class="trg-search-empty-state__chip">Workwear</a>
+                  <a href="/search?q=merino&options%5Bprefix%5D=last" class="trg-search-empty-state__chip">Merino</a>
+                  <a href="/search?q=made+in+canada&options%5Bprefix%5D=last" class="trg-search-empty-state__chip">Made in Canada</a>
+                </div>
+              </div>
+            </div>
+          </section>
+        {% else %}
+          {% render 'product-grid',
+            section: section,
+            children: children,
+            products: products,
+            paginate: paginate,
+            enable_infinite_scroll: section.settings.enable_infinite_scroll
+          %}
+        {% endif %}
 
         {% if search.performed and products_count > 0 %}
           <p class="trg-search-sparse-note" data-trg-sparse-note{% if products_count >= 4 %} hidden{% endif %}>
             Try a broader search or <a href="{{ routes.all_products_collection_url }}">{{ live_catalog_link_label }}</a>.
           </p>
-          <p class="trg-search-local-empty" data-trg-search-empty hidden>No products match these filters.</p>
+          <div class="trg-search-local-empty" data-trg-search-empty hidden>
+            <p class="trg-search-local-empty__title">No products match these filters.</p>
+            <p class="trg-search-local-empty__body">Clear the current filters or return to the wider live catalog.</p>
+            <div class="trg-search-local-empty__actions">
+              <a href="{{ search_reset_url }}" class="trg-search-local-empty__link">Reset filters</a>
+              <a href="{{ routes.all_products_collection_url }}" class="trg-search-local-empty__link">{{ live_catalog_link_label }}</a>
+            </div>
+          </div>
         {% endif %}
       </div>
 
