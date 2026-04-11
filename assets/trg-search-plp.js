@@ -5,6 +5,10 @@
   var FILTER_STORAGE_KEY = 'trg_filters_open';
   var WISHLIST_STORAGE_KEY = 'trg_plp_saved_products';
   var COLOUR_INTENT_STORAGE_KEY = 'trg_colour_intent';
+  var LOCAL_SEARCH_INPUT_DEBOUNCE_MS = 160;
+  var LOAD_MORE_MAX_PAGES = 8;
+  var LOAD_MORE_MAX_CARDS = 192;
+  var CONTROLLER_REGISTRY_KEY = '__trgSearchPlpControllers';
 
   function normalizeText(value) {
     return (value || '').toString().trim().toLowerCase();
@@ -34,6 +38,8 @@
   function TrgSearchPlpController(root) {
     this.root = root;
     this.syncTimeout = null;
+    this.searchInputTimeout = null;
+    this.cardSearchIndex = new WeakMap();
     this.handleClick = this.handleClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleInput = this.handleInput.bind(this);
@@ -59,6 +65,20 @@
     this.applyFilters();
     this.syncColourIntentBanner();
     this.syncWishlistState();
+  };
+
+  TrgSearchPlpController.prototype.disconnect = function () {
+    if (this.root.dataset.trgPlpReady !== 'true') return;
+
+    document.removeEventListener('click', this.handleClick);
+    document.removeEventListener('change', this.handleChange, true);
+    document.removeEventListener('input', this.handleInput, true);
+    window.removeEventListener('trg:url-changed', this.handleUrlChange);
+    document.removeEventListener('shopify:section:load', this.handleUrlChange);
+
+    window.clearTimeout(this.syncTimeout);
+    window.clearTimeout(this.searchInputTimeout);
+    this.root.dataset.trgPlpReady = 'false';
   };
 
   TrgSearchPlpController.prototype.installHistoryHooks = function () {
@@ -94,7 +114,7 @@
   TrgSearchPlpController.prototype.handleInput = function (event) {
     if (this.root.dataset.trgLocalSearch === 'false') return;
     if (event.target instanceof HTMLInputElement && event.target.matches('[data-trg-search-input]')) {
-      this.applyFilters();
+      this.scheduleApplyFilters();
     }
   };
 
@@ -199,6 +219,14 @@
     }, 90);
   };
 
+  TrgSearchPlpController.prototype.scheduleApplyFilters = function () {
+    var self = this;
+    window.clearTimeout(this.searchInputTimeout);
+    this.searchInputTimeout = window.setTimeout(function () {
+      self.applyFilters();
+    }, LOCAL_SEARCH_INPUT_DEBOUNCE_MS);
+  };
+
   TrgSearchPlpController.prototype.syncSortSelect = function () {
     var sortSelect = this.root.querySelector('[data-trg-plp-sort]');
     if (!(sortSelect instanceof HTMLSelectElement)) return;
@@ -244,6 +272,47 @@
 
   TrgSearchPlpController.prototype.getSearchCards = function () {
     return Array.from(this.root.querySelectorAll('[data-trg-search-item]'));
+  };
+
+  TrgSearchPlpController.prototype.getCardSearchText = function (card) {
+    if (!(card instanceof HTMLElement)) return '';
+    if (this.cardSearchIndex.has(card)) return this.cardSearchIndex.get(card);
+    var normalized = normalizeText(card.getAttribute('data-trg-search-text'));
+    this.cardSearchIndex.set(card, normalized);
+    return normalized;
+  };
+
+  TrgSearchPlpController.prototype.getLoadMoreLimits = function (loadMoreZone) {
+    var currentPage = Number(
+      (loadMoreZone && loadMoreZone.dataset.currentPage) || new URL(window.location.href).searchParams.get('page') || '1'
+    );
+    var visibleCount = Number((loadMoreZone && loadMoreZone.dataset.visibleCount) || this.getSearchCards().length || 0);
+    var pageSize = Number((loadMoreZone && loadMoreZone.dataset.pageSize) || 24);
+    var maxPages = Number(this.root.dataset.trgMaxAppendedPages || LOAD_MORE_MAX_PAGES);
+    var maxCards = Number(this.root.dataset.trgMaxAppendedCards || pageSize * maxPages || LOAD_MORE_MAX_CARDS);
+
+    return {
+      currentPage: currentPage,
+      visibleCount: visibleCount,
+      maxPages: maxPages,
+      maxCards: maxCards
+    };
+  };
+
+  TrgSearchPlpController.prototype.getExistingParentKeys = function (grid) {
+    var seen = new Set();
+    if (!(grid instanceof HTMLElement)) return seen;
+
+    grid.querySelectorAll('.product-grid__item').forEach(function (card) {
+      if (!(card instanceof HTMLElement)) return;
+      var mode = (card.dataset.trgPlpDisplayMode || '').trim();
+      var parentKey = (card.dataset.trgSourceParentId || '').trim();
+      if (mode === 'parent_card' && parentKey) {
+        seen.add(parentKey);
+      }
+    });
+
+    return seen;
   };
 
   TrgSearchPlpController.prototype.getActiveToggles = function () {
@@ -305,7 +374,7 @@
     var visibleCount = 0;
 
     cards.forEach(function (card) {
-      var cardText = normalizeText(card.getAttribute('data-trg-search-text'));
+      var cardText = this.getCardSearchText(card);
       var matchesQuery = query === '' || cardText.indexOf(query) !== -1;
       var matches = matchesQuery && this.matchesToggleFilters(card, activeToggles);
       card.hidden = !matches;
@@ -335,8 +404,8 @@
     var colourNeedle = normalizeText(activeSlot && activeSlot.color);
     var colourMatchCount = colourNeedle
       ? visibleCards.filter(function (card) {
-          return normalizeText(card.getAttribute('data-trg-search-text')).indexOf(colourNeedle) !== -1;
-        }).length
+          return this.getCardSearchText(card).indexOf(colourNeedle) !== -1;
+        }, this).length
       : 0;
     var totalVisible = Number.isFinite(visibleCount) ? visibleCount : visibleCards.length;
     var profileLabel = intent.profile_archetype || intent.profile_name || '';
@@ -504,6 +573,15 @@
     var nextUrl = button.href;
     if (!nextUrl) return;
 
+    var loadMoreZone = this.root.querySelector('[data-trg-load-more-zone]');
+    var limits = this.getLoadMoreLimits(loadMoreZone);
+    var reachedPageLimit = Number.isFinite(limits.maxPages) && limits.currentPage >= limits.maxPages;
+    var reachedCardLimit = Number.isFinite(limits.maxCards) && limits.visibleCount >= limits.maxCards;
+    if (reachedPageLimit || reachedCardLimit) {
+      window.location.assign(nextUrl);
+      return;
+    }
+
     button.dataset.loading = 'true';
     button.setAttribute('aria-busy', 'true');
     var originalLabel = button.textContent;
@@ -519,9 +597,24 @@
       var grid = this.root.querySelector('.product-grid');
       if (!(grid instanceof HTMLElement)) return;
 
+      var seenParentKeys = this.getExistingParentKeys(grid);
+      var fragment = document.createDocumentFragment();
+
       nextItems.forEach(function (item) {
-        grid.insertAdjacentHTML('beforeend', item.outerHTML);
+        if (!(item instanceof HTMLElement)) return;
+        var mode = (item.dataset.trgPlpDisplayMode || '').trim();
+        var parentKey = (item.dataset.trgSourceParentId || '').trim();
+        if (mode === 'parent_card' && parentKey) {
+          if (seenParentKeys.has(parentKey)) return;
+          seenParentKeys.add(parentKey);
+        }
+
+        fragment.appendChild(item.cloneNode(true));
       });
+
+      if (fragment.childNodes.length > 0) {
+        grid.appendChild(fragment);
+      }
 
       var nextZone = nextDocument.querySelector('[data-trg-load-more-zone]');
       var currentZone = this.root.querySelector('[data-trg-load-more-zone]');
@@ -577,9 +670,21 @@
   };
 
   function initializeTrgSearchPlp() {
+    var existingControllers = window[CONTROLLER_REGISTRY_KEY];
+    if (existingControllers instanceof Set) {
+      existingControllers.forEach(function (controller) {
+        controller.disconnect();
+      });
+      existingControllers.clear();
+    }
+
+    var nextControllers = existingControllers instanceof Set ? existingControllers : new Set();
     document.querySelectorAll('.trg-search-plp').forEach(function (root) {
-      new TrgSearchPlpController(root).connect();
+      var controller = new TrgSearchPlpController(root);
+      controller.connect();
+      nextControllers.add(controller);
     });
+    window[CONTROLLER_REGISTRY_KEY] = nextControllers;
   }
 
   document.addEventListener('DOMContentLoaded', initializeTrgSearchPlp, { once: true });

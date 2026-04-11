@@ -50,6 +50,10 @@
 
     const WISHLIST_STORAGE_KEY = 'trg_plp_saved_products';
     const COLOUR_INTENT_STORAGE_KEY = 'trg_colour_intent';
+    const LOCAL_SEARCH_INPUT_DEBOUNCE_MS = 160;
+    const LOAD_MORE_MAX_PAGES = 8;
+    const LOAD_MORE_MAX_CARDS = 192;
+    const CONTROLLER_REGISTRY_KEY = '__trgPlpControllers';
     const COLOUR_INTENT_SLOT_HANDLES = {
       shirt: 'shirts',
       trousers: 'trousers',
@@ -113,7 +117,8 @@
         this.root = root;
 
         this.syncTimeout = null;
-
+        this.searchInputTimeout = null;
+        this.cardSearchIndex = new WeakMap();
         this.handleClick = this.handleClick.bind(this);
 
         this.handleChange = this.handleChange.bind(this);
@@ -156,6 +161,21 @@
         this.syncColourIntentBanner();
         this.syncWishlistState();
         this.updateBackToTop();
+      }
+
+      disconnect() {
+        if (this.root.dataset.trgPlpReady !== 'true') return;
+
+        document.removeEventListener('click', this.handleClick);
+        document.removeEventListener('change', this.handleChange, true);
+        document.removeEventListener('input', this.handleInput, true);
+        window.removeEventListener('scroll', this.handleScroll);
+        window.removeEventListener('trg:url-changed', this.handleUrlChange);
+        document.removeEventListener('shopify:section:load', this.handleUrlChange);
+
+        window.clearTimeout(this.syncTimeout);
+        window.clearTimeout(this.searchInputTimeout);
+        this.root.dataset.trgPlpReady = 'false';
       }
 
       normalizeBrandBanner() {
@@ -278,8 +298,7 @@
 
         if (event.target instanceof HTMLInputElement && event.target.matches('[data-trg-search-input]')) {
 
-          this.applySearch();
-
+          this.scheduleApplySearch();
         }
 
       }
@@ -511,6 +530,12 @@
         }, 90);
       }
 
+      scheduleApplySearch() {
+        window.clearTimeout(this.searchInputTimeout);
+        this.searchInputTimeout = window.setTimeout(() => {
+          this.applySearch();
+        }, LOCAL_SEARCH_INPUT_DEBOUNCE_MS);
+      }
 
       syncSortSelect() {
         const sortSelect = document.querySelector('[data-trg-plp-sort]');
@@ -576,15 +601,45 @@
 
 
       getSearchCards() {
-
         return Array.from(this.root.querySelectorAll('[data-trg-search-item]'));
 
       }
 
+      getCardSearchText(card) {
+        if (!(card instanceof HTMLElement)) return '';
+        if (this.cardSearchIndex.has(card)) return this.cardSearchIndex.get(card);
+        const normalized = normalizeText(card.getAttribute('data-trg-search-text'));
+        this.cardSearchIndex.set(card, normalized);
+        return normalized;
+      }
 
+      getLoadMoreLimits(loadMoreZone) {
+        const currentPage = Number(
+          loadMoreZone?.dataset.currentPage || new URL(window.location.href).searchParams.get('page') || '1'
+        );
+        const visibleCount = Number(loadMoreZone?.dataset.visibleCount || this.getSearchCards().length || 0);
+        const pageSize = Number(loadMoreZone?.dataset.pageSize || 24);
+        const maxPages = Number(this.root.dataset.trgMaxAppendedPages || LOAD_MORE_MAX_PAGES);
+        const maxCards = Number(this.root.dataset.trgMaxAppendedCards || pageSize * maxPages || LOAD_MORE_MAX_CARDS);
+
+        return { currentPage, visibleCount, maxPages, maxCards };
+      }
+
+      getExistingParentKeys(grid) {
+        const seen = new Set();
+        if (!(grid instanceof HTMLElement)) return seen;
+
+        for (const card of grid.querySelectorAll('.product-grid__item')) {
+          if (!(card instanceof HTMLElement)) continue;
+          const mode = (card.dataset.trgPlpDisplayMode || '').trim();
+          const parentKey = (card.dataset.trgSourceParentId || '').trim();
+          if (mode === 'parent_card' && parentKey) seen.add(parentKey);
+        }
+
+        return seen;
+      }
 
       getActiveToggles() {
-
         const active = new Set();
 
 
@@ -651,8 +706,7 @@
 
         for (const card of cards) {
 
-          const cardText = normalizeText(card.getAttribute('data-trg-search-text'));
-
+          const cardText = this.getCardSearchText(card);
           const matchesQuery = query === '' || cardText.includes(query);
 
           const matches = matchesQuery && this.matchesToggleFilters(card, activeToggles);
@@ -711,7 +765,7 @@
 
         const colourMatchCount = colourNeedle
 
-          ? visibleCards.filter((card) => normalizeText(card.getAttribute('data-trg-search-text')).includes(colourNeedle)).length
+          ? visibleCards.filter((card) => this.getCardSearchText(card).includes(colourNeedle)).length
 
           : 0;
 
@@ -1023,9 +1077,16 @@
 
 
         const nextUrl = button.href;
-
         if (!nextUrl) return;
 
+        const loadMoreZone = this.root.querySelector('[data-trg-load-more-zone]');
+        const { currentPage, visibleCount, maxPages, maxCards } = this.getLoadMoreLimits(loadMoreZone);
+        const reachedPageLimit = Number.isFinite(maxPages) && currentPage >= maxPages;
+        const reachedCardLimit = Number.isFinite(maxCards) && visibleCount >= maxCards;
+        if (reachedPageLimit || reachedCardLimit) {
+          window.location.assign(nextUrl);
+          return;
+        }
 
 
         button.dataset.loading = 'true';
@@ -1058,12 +1119,24 @@
 
 
 
+          const seenParentKeys = this.getExistingParentKeys(grid);
+          const fragment = document.createDocumentFragment();
+
           for (const item of nextItems) {
+            if (!(item instanceof HTMLElement)) continue;
+            const mode = (item.dataset.trgPlpDisplayMode || '').trim();
+            const parentKey = (item.dataset.trgSourceParentId || '').trim();
+            if (mode === 'parent_card' && parentKey) {
+              if (seenParentKeys.has(parentKey)) continue;
+              seenParentKeys.add(parentKey);
+            }
 
-            grid.insertAdjacentHTML('beforeend', item.outerHTML);
-
+            fragment.appendChild(item.cloneNode(true));
           }
 
+          if (fragment.childNodes.length > 0) {
+            grid.appendChild(fragment);
+          }
 
 
           const nextZone = nextDocument.querySelector('[data-trg-load-more-zone]');
@@ -1195,14 +1268,26 @@
 
 
     const initializeTrgPlp = () => {
+      const existingControllers = window[CONTROLLER_REGISTRY_KEY];
+      if (existingControllers instanceof Set) {
+        for (const controller of existingControllers) {
+          controller.disconnect();
+        }
+        existingControllers.clear();
+      }
 
+      const nextControllers = existingControllers instanceof Set ? existingControllers : new Set();
       document.querySelectorAll('.trg-plp-body').forEach((root) => {
 
         const controller = new TrgPlpController(root);
 
         controller.connect();
-
+        nextControllers.add(controller);
       });
+
+
+
+      window[CONTROLLER_REGISTRY_KEY] = nextControllers;
 
     };
 
