@@ -9,6 +9,18 @@ const PREDICTIVE_SEARCH_SECTION_ID = 'predictive-search';
 const PREDICTIVE_CLOSE_DELAY_MS = 140;
 const COLOUR_GUIDE_INTENT_KEY = 'trg_colour_intent';
 const COLOUR_GUIDE_PROFILE_KEY = 'trg_colour_profile';
+const COLOUR_GUIDE_SEED_COLOR_ALIASES = {
+  brown: 'Brown',
+  'off white': 'Off-White',
+  'off-white': 'Off-White',
+  'dark navy': 'Dark Navy',
+};
+const COLOUR_GUIDE_SEED_SWATCHES = {
+  Brown: '#6f4a2d',
+  'Off-White': '#eae4d8',
+  'Dark Navy': '#101e40',
+  'Saddle Brown': '#8b6834',
+};
 const COLOUR_GUIDE_SLOT_META = {
   shirt: { handle: 'shirts', singular: 'shirt' },
   trousers: { handle: 'trousers', singular: 'trousers' },
@@ -646,9 +658,135 @@ function initColourGuideIntentShim() {
   schedulePersist();
 }
 
+function normalizeColourGuideSeedColor(rawColor) {
+  const trimmed = `${rawColor ?? ''}`.trim();
+  if (!trimmed) {
+    return '';
+  }
+
+  const alias = COLOUR_GUIDE_SEED_COLOR_ALIASES[trimmed.toLowerCase()];
+  return alias || trimmed;
+}
+
+function initColourGuideSeedRescueShim() {
+  if (Theme?.template?.name !== 'page.colour-guide') {
+    return;
+  }
+
+  let params;
+  try {
+    params = new URLSearchParams(window.location.search);
+  } catch (err) {
+    return;
+  }
+
+  const garment = params.get('base_garment') || '';
+  const color = normalizeColourGuideSeedColor(params.get('base_colour'));
+  const source = (params.get('source') || '').toLowerCase();
+  const slotMeta = COLOUR_GUIDE_SLOT_META[garment];
+
+  if (!slotMeta || !color) {
+    return;
+  }
+
+  const applySeed = () => {
+    const slotRoot = document.getElementById('ob-slots');
+    if (!(slotRoot instanceof HTMLElement)) {
+      return false;
+    }
+
+    if (slotRoot.querySelector('.ob-slot.filled')) {
+      return true;
+    }
+
+    const slot = slotRoot.querySelector(`.ob-slot[data-slot="${garment}"]`);
+    const colorEl = slot?.querySelector('.ob-slot-color');
+    const dotEl = slot?.querySelector('.ob-slot-dot');
+    if (!(slot instanceof HTMLElement) || !(colorEl instanceof HTMLElement) || !(dotEl instanceof HTMLElement)) {
+      return false;
+    }
+
+    slotRoot.querySelectorAll('.ob-slot').forEach((candidate) => {
+      candidate.classList.remove('on');
+      candidate.setAttribute('aria-pressed', 'false');
+    });
+
+    slot.classList.add('filled', 'on');
+    slot.setAttribute('aria-pressed', 'true');
+    colorEl.textContent = color;
+    dotEl.style.background = COLOUR_GUIDE_SEED_SWATCHES[color] || '';
+
+    const gaugePct = document.getElementById('ob-gauge-pct');
+    const gaugeLabel = document.getElementById('ob-gauge-label');
+    const gaugeDesc = document.getElementById('ob-gauge-desc');
+    if (gaugePct instanceof HTMLElement) {
+      gaugePct.textContent = '1/6';
+    }
+    if (gaugeLabel instanceof HTMLElement) {
+      gaugeLabel.textContent = 'Outfit progress';
+    }
+    if (gaugeDesc instanceof HTMLElement) {
+      gaugeDesc.textContent = '1 of 6 pieces is set. Add another piece or swap the anchor colour.';
+    }
+
+    if (source === 'pdp') {
+      const profileText = document.getElementById('ob-pl-text');
+      const profileCta = document.getElementById('ob-pl-cta');
+      if (profileText instanceof HTMLElement) {
+        profileText.innerHTML = `<strong>${color} ${slotMeta.singular}</strong> loaded from a PDP. Keep building here or take the finder for profile-led picks.`;
+      }
+      if (profileCta instanceof HTMLElement) {
+        profileCta.textContent = 'Take the finder →';
+      }
+    }
+
+    const summaryEl = document.getElementById('ob-shop-summary');
+    const actionsEl = document.getElementById('ob-shop-actions');
+    if (summaryEl instanceof HTMLElement && actionsEl instanceof HTMLElement) {
+      const defaultSlots = [garment, 'shirt', 'jacket', 'trousers']
+        .filter((value, index, values) => values.indexOf(value) === index)
+        .slice(0, 3);
+
+      summaryEl.innerHTML = `Start with <strong>${color} ${slotMeta.singular}</strong>, then open the matching categories. No exact product bucket exists for this combination yet, so the guide is falling back to category jumps. Treat the selected colours as the shopping brief rather than a strict filter.`;
+      actionsEl.innerHTML = defaultSlots
+        .map((slotName, index) => {
+          const meta = COLOUR_GUIDE_SLOT_META[slotName];
+          if (!meta) {
+            return '';
+          }
+
+          const title = slotName === garment ? `Shop ${meta.handle === 'footwear' ? 'Footwear' : meta.handle.charAt(0).toUpperCase() + meta.handle.slice(1)}` : `Browse ${meta.handle === 'footwear' ? 'Footwear' : meta.handle.charAt(0).toUpperCase() + meta.handle.slice(1)}`;
+          const note = slotName === garment
+            ? `${color} is the brief for this ${meta.singular} category.`
+            : (meta.singular === 'shirt' ? 'Start near the face.' : meta.singular === 'jacket' ? 'Choose the anchor piece.' : 'Build the base first.');
+
+          return `<a class="ob-shop-card" href="/collections/${meta.handle}">
+            <span class="ob-shop-swatch" style="background:${slotName === garment ? (COLOUR_GUIDE_SEED_SWATCHES[color] || 'linear-gradient(135deg,#f4efe7,#b8aa96)') : 'linear-gradient(135deg,#f4efe7,#b8aa96)'}"></span>
+            <span class="ob-shop-body">
+              <span class="ob-shop-eyebrow">${index === 0 ? 'Anchor piece' : 'Add next'}</span>
+              <span class="ob-shop-card-title">${title}</span>
+              <span class="ob-shop-card-note">${note}</span>
+            </span>
+            <span class="ob-shop-arrow" aria-hidden="true">&rarr;</span>
+          </a>`;
+        })
+        .join('');
+    }
+
+    return true;
+  };
+
+  [60, 220, 700, 1500].forEach((delay) => {
+    window.setTimeout(() => {
+      applySeed();
+    }, delay);
+  });
+}
+
 onDocumentReady(() => {
   ensureColourGuideShopIndexShim();
   initColourGuideIntentShim();
+  initColourGuideSeedRescueShim();
   initSearchDropdown();
   initSharedSearchBar();
 });
