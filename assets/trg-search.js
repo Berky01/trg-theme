@@ -543,7 +543,7 @@ function ensureColourGuideShopIndexShim() {
     return;
   }
 
-  guide.dataset.shopIndex = '/cdn/shop/t/21/assets/trg-colour-shop-index.json?cv=20260411e';
+  guide.dataset.shopIndex = '/cdn/shop/t/21/assets/trg-colour-shop-index-v2.json?cv=20260411f';
 }
 
 onDocumentReady(() => {
