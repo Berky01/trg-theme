@@ -77,7 +77,7 @@ const DEPTH_PREVIEWS = {
 
 // ── STATE ────────────────────────────────────────────────────────────────────
 
-let selDepth=null,selDepthGroup=null,answers={vein:null,metal:null,sun:null},undertone=null,activeProfile=null;
+let selDepth=null,selDepthGroup=null,answers={vein:null,metal:null,sun:null},undertone=null,activeProfile=null,shopIndexPayload=null,shopIndexLoaded=false;
 
 // ── v16 HERO RIBBON ─────────────────────────────────────────────────────────
 
@@ -529,6 +529,65 @@ function findCanonicalGuideColour(raw){
   return Object.keys(C).find(name=>name.toLowerCase()===key) || '';
 }
 
+function escapeGuideHtml(value){
+  return String(value===null||value===undefined?'':value)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,'&#39;');
+}
+
+function getGuideShopIndexBucket(slotName,colorName){
+  if(!shopIndexPayload||!shopIndexPayload.index||!slotName||!colorName)return [];
+  const bucket=shopIndexPayload.index[slotName] && shopIndexPayload.index[slotName][colorName];
+  return Array.isArray(bucket)?bucket:[];
+}
+
+function getGuideProductRecommendations(filledSlots,limit){
+  if(!filledSlots.length||!shopIndexPayload)return [];
+  const cap=Math.max(1,limit||4);
+  const cards=[];
+  const seen=new Set();
+
+  filledSlots.forEach((slotState,index)=>{
+    if(cards.length>=cap)return;
+    const bucket=getGuideShopIndexBucket(slotState.slot,slotState.color);
+    const perBucket=index===0?2:1;
+    bucket.slice(0,perBucket).forEach(entry=>{
+      const key=[entry.handle||entry.shopify_product_id||entry.title,entry.url].join('::');
+      if(seen.has(key)||cards.length>=cap)return;
+      seen.add(key);
+      cards.push({
+        slot:slotState.slot,
+        color:slotState.color,
+        meta:slotState.meta,
+        entry:entry
+      });
+    });
+  });
+
+  if(cards.length>=cap)return cards;
+
+  filledSlots.forEach(slotState=>{
+    if(cards.length>=cap)return;
+    const bucket=getGuideShopIndexBucket(slotState.slot,slotState.color);
+    bucket.forEach(entry=>{
+      const key=[entry.handle||entry.shopify_product_id||entry.title,entry.url].join('::');
+      if(seen.has(key)||cards.length>=cap)return;
+      seen.add(key);
+      cards.push({
+        slot:slotState.slot,
+        color:slotState.color,
+        meta:slotState.meta,
+        entry:entry
+      });
+    });
+  });
+
+  return cards;
+}
+
 function applyGuideContextFromUrl(){
   let params;
   try{
@@ -655,6 +714,30 @@ function filledShopCardMarkup(slotState,eyebrow){
   </a>`;
 }
 
+function productShopCardMarkup(match,index){
+  const entry=match.entry||{};
+  const title=escapeGuideHtml(entry.title||`${match.color} ${match.meta.singular}`);
+  const brand=escapeGuideHtml(entry.brand||'The Right Garment');
+  const price=escapeGuideHtml(entry.price_display||'');
+  const color=escapeGuideHtml(match.color);
+  const slotLabel=escapeGuideHtml(match.meta.singular);
+  const href=escapeGuideHtml(entry.url||`/collections/${match.meta.handle}`);
+  const img=entry.image?`<img class="ob-shop-product-image" src="${escapeGuideHtml(entry.image)}" alt="${title}" loading="lazy">`:`<span class="ob-shop-product-fallback" style="background:${entry.colour_hex||match.hex}"></span>`;
+  const eyebrow=index===0?'Best match':'Also works';
+  const note=`${color} ${slotLabel}`;
+
+  return `<a class="ob-shop-card ob-shop-card-product" href="${href}">
+    <span class="ob-shop-product-media">${img}</span>
+    <span class="ob-shop-body">
+      <span class="ob-shop-eyebrow">${eyebrow}</span>
+      <span class="ob-shop-card-title">${title}</span>
+      <span class="ob-shop-card-note">${brand}${price?` · ${price}`:''}</span>
+      <span class="ob-shop-card-chip">${note}</span>
+    </span>
+    <span class="ob-shop-arrow" aria-hidden="true">&rarr;</span>
+  </a>`;
+}
+
 function browseShopCardMarkup(slotName,eyebrow){
   const meta=SHOP_SLOT_META[slotName];
   if(!meta)return '';
@@ -676,8 +759,19 @@ function renderGuideShopRail(){
 
   const filledSlots=getFilledGuideSlots();
   if(!filledSlots.length){
-    summaryEl.innerHTML='Choose a piece to unlock category jumps here. There is no exact colour filter on these pages yet, so the selected colour becomes your shopping brief.';
+    const loadingCopy=shopIndexLoaded?'Choose a piece to unlock exact product matches here. If a colour bucket is empty, the guide falls back to category jumps.':'Choose a piece to unlock category jumps here. Exact product matching is still loading.';
+    summaryEl.innerHTML=loadingCopy;
     actionsEl.innerHTML=DEFAULT_SHOP_SLOTS.map(slotName=>browseShopCardMarkup(slotName,'Start here')).join('');
+    return;
+  }
+
+  const productMatches=getGuideProductRecommendations(filledSlots,4);
+  if(productMatches.length){
+    const leadSlot=filledSlots[0];
+    const exactCount=productMatches.length;
+    const profileNote=activeProfile?` <strong>${stripArchetypeLabel(activeProfile.archetype)}</strong> is active, so the rail still favours colours that sit in your stronger register.`:'';
+    summaryEl.innerHTML=`Showing <strong>${exactCount} product match${exactCount===1?'':'es'}</strong> for the colours currently in play, starting with <strong>${leadSlot.color} ${SLOT_SHORT[leadSlot.slot].toLowerCase()}</strong>.${profileNote}`;
+    actionsEl.innerHTML=productMatches.map((match,index)=>productShopCardMarkup(match,index)).join('');
     return;
   }
 
@@ -689,8 +783,9 @@ function renderGuideShopRail(){
     cards.push(browseShopCardMarkup(slotName,'Add next'));
   });
 
+  const loadingNote=!shopIndexLoaded?' The exact product index is still loading.':' No exact product bucket exists for this combination yet, so the guide is falling back to category jumps.';
   const profileNote=activeProfile?` <strong>${stripArchetypeLabel(activeProfile.archetype)}</strong> is active, so these jumps are biased toward your better register.`:'';
-  summaryEl.innerHTML=`Start with <strong>${leadSlot.color} ${SLOT_SHORT[leadSlot.slot].toLowerCase()}</strong>, then open the matching categories. The catalogue is not colour-filtered yet, so treat the selected colours as the brief rather than a strict filter.${profileNote}`;
+  summaryEl.innerHTML=`Start with <strong>${leadSlot.color} ${SLOT_SHORT[leadSlot.slot].toLowerCase()}</strong>, then open the matching categories.${loadingNote} Treat the selected colours as the shopping brief rather than a strict filter.${profileNote}`;
   actionsEl.innerHTML=cards.join('');
 }
 
@@ -899,6 +994,27 @@ applyGuideContextFromUrl();
     renderHeroRibbon();
     applyGuideContextFromUrl();
   }).catch(function() { /* graceful fallback to hardcoded data */ });
+})();
+
+(function loadGuideShopIndex() {
+  var dataUrl = document.querySelector('.trg-colour-guide')?.dataset.shopIndex;
+  if (!dataUrl) {
+    shopIndexLoaded = true;
+    renderGuideShopRail();
+    return;
+  }
+  fetch(dataUrl).then(function(r) {
+    if (!r.ok) throw new Error('shop index unavailable');
+    return r.json();
+  }).then(function(data) {
+    if (!data || !data.index) throw new Error('invalid shop index payload');
+    shopIndexPayload = data;
+    shopIndexLoaded = true;
+    renderGuideShopRail();
+  }).catch(function() {
+    shopIndexLoaded = true;
+    renderGuideShopRail();
+  });
 })();
 
 // ── STICKY NAV ───────────────────────────────────────────────────────────────

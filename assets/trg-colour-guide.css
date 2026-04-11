@@ -454,6 +454,11 @@
 .trg-colour-guide .ob-shop-eyebrow{display:block;font-size:.44rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(245,241,235,.42);margin-bottom:.18rem}
 .trg-colour-guide .ob-shop-card-title{display:block;font-size:.67rem;font-weight:600;color:var(--paper);line-height:1.35}
 .trg-colour-guide .ob-shop-card-note{display:block;font-size:.54rem;font-weight:300;color:rgba(245,241,235,.56);line-height:1.5;margin-top:.16rem}
+.trg-colour-guide .ob-shop-card-product{grid-template-columns:74px minmax(0,1fr) auto}
+.trg-colour-guide .ob-shop-product-media{display:flex;align-items:center;justify-content:center;width:74px;height:88px;border-radius:10px;overflow:hidden;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1)}
+.trg-colour-guide .ob-shop-product-image{display:block;width:100%;height:100%;object-fit:cover}
+.trg-colour-guide .ob-shop-product-fallback{display:block;width:100%;height:100%}
+.trg-colour-guide .ob-shop-card-chip{display:inline-flex;align-items:center;width:max-content;max-width:100%;margin-top:.4rem;padding:.18rem .42rem;border:1px solid rgba(255,255,255,.12);border-radius:999px;font-size:.46rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(245,241,235,.74)}
 .trg-colour-guide .ob-shop-arrow{font-size:1rem;line-height:1;color:rgba(245,241,235,.62)}
 
 /* ══════════════════════════════════════════════════
@@ -572,6 +577,8 @@
   .trg-colour-guide .ob-shop-actions{grid-template-columns:1fr}
   .trg-colour-guide .ob-shop-card{padding:.72rem .78rem}
   .trg-colour-guide .ob-shop-swatch{width:30px;height:30px}
+  .trg-colour-guide .ob-shop-card-product{grid-template-columns:60px minmax(0,1fr) auto}
+  .trg-colour-guide .ob-shop-product-media{width:60px;height:74px}
   .trg-colour-guide .ob-fam-head{flex-direction:column;align-items:flex-start;gap:.18rem}
   .trg-colour-guide .ob-fam-chips{gap:10px 7px}
   .trg-colour-guide .ob-chip{width:40px;height:40px}
