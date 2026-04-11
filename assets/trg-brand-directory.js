@@ -67,6 +67,53 @@
       "'": '&#39;',
     })[match]);
 
+  const MOJIBAKE_RE = /Ã.|Â|â[\u0080-\u00bf]|�/;
+
+  const repairText = (value) => {
+    if (typeof value !== 'string') return value;
+    let output = value;
+
+    for (let index = 0; index < 2 && MOJIBAKE_RE.test(output); index += 1) {
+      try {
+        const bytes = Uint8Array.from(Array.from(output), (char) => char.charCodeAt(0) & 0xff);
+        const decoded = new TextDecoder('utf-8').decode(bytes);
+        if (!decoded || decoded === output) break;
+        output = decoded;
+      } catch (error) {
+        break;
+      }
+    }
+
+    return output.replace(/\uFFFD/g, '').trim();
+  };
+
+  const normalizeList = (value) =>
+    Array.isArray(value) ? value.map((item) => repairText(String(item || '').trim())).filter(Boolean) : [];
+
+  const normalizeBrand = (brand) => ({
+    ...brand,
+    handle: repairText(String(brand.handle || '').trim()),
+    name: repairText(String(brand.name || '').trim()),
+    url: String(brand.url || '').trim(),
+    country: repairText(String(brand.country || '').trim()),
+    madeIn: repairText(String(brand.madeIn || '').trim()),
+    madeInGroup: repairText(String(brand.madeInGroup || '').trim()),
+    primaryCategoryRaw: repairText(String(brand.primaryCategoryRaw || '').trim()),
+    category: repairText(String(brand.category || '').trim()),
+    priceRange: repairText(String(brand.priceRange || '').trim()),
+    buyPath: repairText(String(brand.buyPath || '').trim()),
+    bestRetailerNa: repairText(String(brand.bestRetailerNa || '').trim()),
+    bestRetailerCa: repairText(String(brand.bestRetailerCa || '').trim()),
+    affiliateNetwork: repairText(String(brand.affiliateNetwork || '').trim()),
+    commission: repairText(String(brand.commission || '').trim()),
+    description: repairText(String(brand.description || '').trim()),
+    priority: repairText(String(brand.priority || '').trim()),
+    brandPositioning: normalizeList(brand.brandPositioning),
+    tags: normalizeList(brand.tags),
+  });
+
+  const normalizeBrands = (brands) => brands.map((brand) => normalizeBrand(brand));
+
   const price = (value) =>
     ({
       budget: 1,
@@ -123,25 +170,15 @@
       }
       if (!totalBrandsCount || totalBrandsCount < data.length) totalBrandsCount = data.length;
 
-      data = data.map((brand) => ({
-        ...brand,
-        brandPositioning: Array.isArray(brand.brandPositioning)
-          ? brand.brandPositioning.map((value) => String(value || '').trim()).filter(Boolean)
-          : [],
-        tags: Array.isArray(brand.tags) ? brand.tags.map((value) => String(value || '').trim()).filter(Boolean) : [],
-      }));
+      data = normalizeBrands(data);
+      dataNode.textContent = JSON.stringify(data);
 
       const PAGE = 24;
 
       /* Listen for handle corrections */
       document.addEventListener('trg:brands-updated', () => {
         try {
-          const fresh = JSON.parse(dataNode.textContent || '[]').map((brand) => ({
-            ...brand,
-            brandPositioning: Array.isArray(brand.brandPositioning)
-              ? brand.brandPositioning.map((v) => String(v || '').trim()).filter(Boolean) : [],
-            tags: Array.isArray(brand.tags) ? brand.tags.map((v) => String(v || '').trim()).filter(Boolean) : [],
-          }));
+          const fresh = normalizeBrands(JSON.parse(dataNode.textContent || '[]'));
           data.length = 0;
           data.push(...fresh);
           /* Re-read total from data attribute (updated by pagination) */
@@ -215,6 +252,13 @@
         return out.join('');
       };
 
+      const placeholderMedia = (brand) => `
+        <div class="trg-bdir__placeholder" aria-hidden="true">
+          <span class="trg-bdir__placeholder-kicker">${esc(brand.category || 'Brand profile')}</span>
+          <span class="trg-bdir__placeholder-name">${esc(brand.name)}</span>
+        </div>
+      `;
+
       const card = (brand) => `
         <article class="trg-bdir__card">
           <button type="button" class="trg-bdir__wish${state.saved.has(brand.handle) ? ' is-saved' : ''}" data-save="${esc(brand.handle)}" aria-label="Save ${esc(brand.name)}">
@@ -223,7 +267,7 @@
           <a class="trg-bdir__carda" href="${esc(brand.url || '#')}">
             <div class="trg-bdir__media">
               ${String(brand.priority || '').toLowerCase() === 'high' ? '<span class="trg-bdir__badgef">Featured</span>' : ''}
-              ${brand.logoUrl ? `<img src="${esc(brand.logoUrl)}" alt="${esc(brand.name)}" loading="lazy">` : `<span class="trg-bdir__mono">${esc((brand.name || '').slice(0, 2).toUpperCase())}</span>`}
+              ${brand.logoUrl ? `<img src="${esc(brand.logoUrl)}" alt="${esc(brand.name)}" loading="lazy">` : placeholderMedia(brand)}
             </div>
             <div class="trg-bdir__body2">
               <div class="trg-bdir__toprow">
