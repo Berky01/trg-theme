@@ -533,7 +533,21 @@ function initSharedSearchBar() {
   }
 }
 
+function ensureColourGuideShopIndexShim() {
+  if (Theme?.template?.name !== 'page.colour-guide') {
+    return;
+  }
+
+  const guide = document.querySelector('.trg-colour-guide');
+  if (!(guide instanceof HTMLElement) || guide.dataset.shopIndex) {
+    return;
+  }
+
+  guide.dataset.shopIndex = '/cdn/shop/t/21/assets/trg-colour-shop-index.json?cv=20260411e';
+}
+
 onDocumentReady(() => {
+  ensureColourGuideShopIndexShim();
   initSearchDropdown();
   initSharedSearchBar();
 });
