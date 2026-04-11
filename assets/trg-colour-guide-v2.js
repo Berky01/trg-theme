@@ -8,7 +8,7 @@ const DEPTHS=[{id:'very-fair',group:'light',name:'Very Fair',color:'#f2d4be',des
 const C={
   'White':'#f8f6f3','Cream':'#f2ead8','Ecru':'#e8dcc8','Off-White':'#eae4d8','Oatmeal':'#d4c8b0','Ivory':'#f0e8d0',
   'Sand':'#c8b88a','Tan':'#c4a878','Khaki':'#b0a07a','Camel':'#c49a5c','Biscuit':'#d0c0a0','Stone':'#a09080','Mushroom':'#a89888','Taupe':'#8a7e70','Mustard':'#c8a030','Ochre':'#b89028','Amber':'#d09030',
-  'Copper':'#b06828','Raw Sienna':'#b86000','Terracotta':'#c06848','Rust':'#a05030','Burnt Orange':'#c85028','Tobacco':'#7a5028','Saddle Brown':'#8b6834','Cognac':'#9a5a28','Chocolate':'#5c2c10','Espresso':'#3c2010','Fawn':'#c8a8a8',
+  'Copper':'#b06828','Raw Sienna':'#b86000','Terracotta':'#c06848','Rust':'#a05030','Burnt Orange':'#c85028','Tobacco':'#7a5028','Brown':'#6f4a2d','Saddle Brown':'#8b6834','Cognac':'#9a5a28','Chocolate':'#5c2c10','Espresso':'#3c2010','Fawn':'#c8a8a8',
   'Mint':'#a0c8a0','Sage':'#88a880','Teal':'#287070','Olive':'#606838','Olive Drab':'#4a5828','Hunter':'#305838','Forest':'#1c4028','Bottle Green':'#1a3828','Emerald':'#40a860','Jade':'#48a078','Turquoise':'#388888','Moss':'#6b7f4a',
   'Sky Blue':'#a0c4d8','Powder Blue':'#b0c8e0','Chambray':'#7898b8','Mid Blue':'#5a90b8','Steel Blue':'#587890','Denim':'#486888','Cerulean':'#4880c0','Blue':'#3464a8','Cobalt':'#2860a0','Royal Blue':'#2a50b0','French Blue':'#4070b8','Navy':'#1a3060','Dark Navy':'#101e40','Indigo':'#282858',
   'Cement':'#ccc8c0','Light Grey':'#b8b4ac','Silver':'#a8a8a0','Pewter':'#909088','Smoke':'#808078','Slate':'#585850','Charcoal':'#404038','Graphite':'#303028','Black':'#181818',
@@ -21,7 +21,7 @@ let ALL_COLORS = Object.keys(C);
 let FAMILIES=[
   {name:'Whites & Creams',colors:['White','Cream','Ecru','Off-White','Oatmeal','Ivory']},
   {name:'Sand & Khaki',colors:['Sand','Tan','Khaki','Camel','Biscuit','Stone','Mushroom','Taupe','Mustard','Ochre','Amber']},
-  {name:'Browns',colors:['Copper','Raw Sienna','Terracotta','Rust','Burnt Orange','Tobacco','Saddle Brown','Cognac','Chocolate','Espresso','Fawn']},
+  {name:'Browns',colors:['Copper','Raw Sienna','Terracotta','Rust','Burnt Orange','Tobacco','Brown','Saddle Brown','Cognac','Chocolate','Espresso','Fawn']},
   {name:'Greens',colors:['Mint','Sage','Teal','Olive','Olive Drab','Hunter','Forest','Bottle Green','Emerald','Jade','Turquoise','Moss']},
   {name:'Blues & Navies',colors:['Sky Blue','Powder Blue','Chambray','Mid Blue','Steel Blue','Denim','Cerulean','Blue','Cobalt','Royal Blue','French Blue','Navy','Dark Navy','Indigo']},
   {name:'Greys',colors:['Cement','Light Grey','Silver','Pewter','Smoke','Slate','Charcoal','Graphite','Black']},
@@ -493,6 +493,7 @@ document.querySelectorAll('.quiz-opt').forEach(opt=>{opt.addEventListener('click
 const SLOT_ORDER = window.TRG_CG ? window.TRG_CG.SLOT_ORDER : ['shirt','trousers','knitwear','jacket','coat','shoes'];
 const SLOT_SHORT = window.TRG_CG ? window.TRG_CG.SLOT_SHORT : {shirt:'Shirt',trousers:'Trousers',knitwear:'Knit',jacket:'Jacket',coat:'Coat',shoes:'Shoes'};
 const GUIDE_CONTEXT_ALIASES={
+  'brown':'Brown',
   'off white':'Off-White',
   'off-white':'Off-White',
   'dark navy':'Dark Navy',
