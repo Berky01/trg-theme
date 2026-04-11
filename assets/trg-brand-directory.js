@@ -90,6 +90,30 @@
   const normalizeList = (value) =>
     Array.isArray(value) ? value.map((item) => repairText(String(item || '').trim())).filter(Boolean) : [];
 
+  const normalizeCategory = (value) => {
+    const output = repairText(String(value || '').trim());
+    const key = output.toLowerCase();
+
+    return ({
+      accessories: 'Accessories',
+      denim: 'Denim',
+      footwear: 'Footwear',
+      knitwear: 'Knitwear',
+      outerwear: 'Outerwear & Jackets',
+      'outerwear-jackets': 'Outerwear & Jackets',
+      shirts: 'Shirts & Tops',
+      'shirts-tops': 'Shirts & Tops',
+      tops: 'Shirts & Tops',
+      trousers: 'Trousers & Bottoms',
+      bottoms: 'Trousers & Bottoms',
+      'trousers-bottoms': 'Trousers & Bottoms',
+      tailoring: 'Suits & Tailoring',
+      suiting: 'Suits & Tailoring',
+      formalwear: 'Suits & Tailoring',
+      'suits-tailoring': 'Suits & Tailoring',
+    })[key] || output;
+  };
+
   const normalizeBrand = (brand) => ({
     ...brand,
     handle: repairText(String(brand.handle || '').trim()),
@@ -99,7 +123,7 @@
     madeIn: repairText(String(brand.madeIn || '').trim()),
     madeInGroup: repairText(String(brand.madeInGroup || '').trim()),
     primaryCategoryRaw: repairText(String(brand.primaryCategoryRaw || '').trim()),
-    category: repairText(String(brand.category || '').trim()),
+    category: normalizeCategory(brand.category),
     priceRange: repairText(String(brand.priceRange || '').trim()),
     buyPath: repairText(String(brand.buyPath || '').trim()),
     bestRetailerNa: repairText(String(brand.bestRetailerNa || '').trim()),
@@ -179,6 +203,7 @@
       document.addEventListener('trg:brands-updated', () => {
         try {
           const fresh = normalizeBrands(JSON.parse(dataNode.textContent || '[]'));
+          dataNode.textContent = JSON.stringify(fresh);
           data.length = 0;
           data.push(...fresh);
           /* Re-read total from data attribute (updated by pagination) */
