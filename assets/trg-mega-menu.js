@@ -126,9 +126,59 @@
       '</section>';
   }
 
+  function fixHomepageCategoryGrid() {
+    var section = document.querySelector('.trg-category-grid-schema');
+    if (!section) return;
+
+    var feature = section.querySelector('.trg-catv2-feature');
+    var tiles = Array.prototype.slice.call(section.querySelectorAll('.trg-catv2-tile'));
+    if (!feature || tiles.length < 7) return;
+
+    var featureName = feature.querySelector('.trg-catv2-feature__name');
+    var tileNames = tiles.map(function (tile) {
+      return tile.querySelector('.trg-catv2-tile__name');
+    });
+    var isBroken = feature.getAttribute('href') === '#' &&
+      featureName &&
+      featureName.textContent &&
+      featureName.textContent.trim() === 'Outerwear' &&
+      tileNames.every(function (node) {
+        return node && node.textContent && node.textContent.trim() === 'Outerwear';
+      });
+
+    if (!isBroken) return;
+
+    var categories = [
+      { href: '/collections/outerwear', name: 'Outerwear & Jackets', count: 'Catalog building' },
+      { href: '/collections/shirts', name: 'Shirts & Tops', count: 'Catalog building' },
+      { href: '/collections/bottoms', name: 'Trousers & Bottoms', count: 'Catalog building' },
+      { href: '/collections/footwear', name: 'Footwear', count: 'Catalog building' },
+      { href: '/collections/knitwear', name: 'Knitwear', count: '1 live product' },
+      { href: '/collections/denim', name: 'Denim', count: 'Catalog building' },
+      { href: '/collections/tailoring', name: 'Suits & Tailoring', count: 'Catalog building' },
+      { href: '/collections/accessories', name: 'Accessories', count: 'Catalog building' }
+    ];
+
+    feature.setAttribute('href', categories[0].href);
+    var featureCount = feature.querySelector('.trg-catv2-feature__count');
+    if (featureName) featureName.textContent = categories[0].name;
+    if (featureCount) featureCount.textContent = categories[0].count;
+
+    tiles.slice(0, 7).forEach(function (tile, index) {
+      var category = categories[index + 1];
+      if (!category) return;
+      tile.setAttribute('href', category.href);
+      var nameNode = tile.querySelector('.trg-catv2-tile__name');
+      var countNode = tile.querySelector('.trg-catv2-tile__count');
+      if (nameNode) nameNode.textContent = category.name;
+      if (countNode) countNode.textContent = category.count;
+    });
+  }
+
   function runLegacySurfaceHotfixes() {
     fixCookieBanner();
     fix404Page();
+    fixHomepageCategoryGrid();
   }
 
   if (document.readyState === 'loading') {
