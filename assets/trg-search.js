@@ -776,11 +776,17 @@ function initColourGuideSeedRescueShim() {
     return true;
   };
 
-  [60, 220, 700, 1500].forEach((delay) => {
+  [60, 220, 700, 1500, 3000, 5000, 8000, 12000].forEach((delay) => {
     window.setTimeout(() => {
       applySeed();
     }, delay);
   });
+
+  window.addEventListener('load', () => {
+    window.setTimeout(() => {
+      applySeed();
+    }, 1800);
+  }, { once: true });
 }
 
 onDocumentReady(() => {
