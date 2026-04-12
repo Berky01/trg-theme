@@ -3,7 +3,7 @@
   Pushed via Admin API
 {%- endcomment -%}
 
-{{ 'trg-colour-guide.css' | asset_url | stylesheet_tag }}
+<link rel="stylesheet" href="{{ 'trg-colour-guide.css' | asset_url }}&cv=20260411c">
 
 <div class="trg-colour-guide" data-colour-data="{{ 'trg-colour-data.json' | asset_url }}" data-shop-index="{{ 'trg-colour-shop-index-v2.json' | asset_url }}">
 
@@ -293,8 +293,8 @@
 
 </div>
 
-<script src="{{ 'trg-colour-engine.js' | asset_url }}" defer></script>
-<script src="{{ 'trg-colour-guide-v2.js' | asset_url }}" defer></script>
+<script src="{{ 'trg-colour-engine.js' | asset_url }}&cv=20260411c" defer></script>
+<script src="{{ 'trg-colour-guide-v2.js' | asset_url }}&cv=20260411c" defer></script>
 
 {% schema %}
 {
