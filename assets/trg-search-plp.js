@@ -282,14 +282,27 @@
     return normalized;
   };
 
+  TrgSearchPlpController.prototype.parsePositiveNumber = function (value, fallback) {
+    var parsed = Number(value);
+    return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback;
+  };
+
   TrgSearchPlpController.prototype.getLoadMoreLimits = function (loadMoreZone) {
-    var currentPage = Number(
-      (loadMoreZone && loadMoreZone.dataset.currentPage) || new URL(window.location.href).searchParams.get('page') || '1'
+    var pageFromUrl = new URL(window.location.href).searchParams.get('page');
+    var currentPage = this.parsePositiveNumber(
+      (loadMoreZone && loadMoreZone.dataset.currentPage) || pageFromUrl || '1',
+      1
     );
-    var visibleCount = Number((loadMoreZone && loadMoreZone.dataset.visibleCount) || this.getSearchCards().length || 0);
-    var pageSize = Number((loadMoreZone && loadMoreZone.dataset.pageSize) || 24);
-    var maxPages = Number(this.root.dataset.trgMaxAppendedPages || LOAD_MORE_MAX_PAGES);
-    var maxCards = Number(this.root.dataset.trgMaxAppendedCards || pageSize * maxPages || LOAD_MORE_MAX_CARDS);
+    var visibleCount = this.parsePositiveNumber(
+      (loadMoreZone && loadMoreZone.dataset.visibleCount) || this.getSearchCards().length || 0,
+      0
+    );
+    var pageSize = this.parsePositiveNumber((loadMoreZone && loadMoreZone.dataset.pageSize) || 24, 24);
+    var maxPages = this.parsePositiveNumber(this.root.dataset.trgMaxAppendedPages || LOAD_MORE_MAX_PAGES, LOAD_MORE_MAX_PAGES);
+    var maxCards = this.parsePositiveNumber(
+      this.root.dataset.trgMaxAppendedCards || pageSize * maxPages || LOAD_MORE_MAX_CARDS,
+      LOAD_MORE_MAX_CARDS
+    );
 
     return {
       currentPage: currentPage,
@@ -628,8 +641,10 @@
       this.scheduleSync();
     } catch (error) {
       console.error('Failed to load more search results.', error);
-      button.textContent = originalLabel || 'Load more';
     } finally {
+      if (button.isConnected) {
+        button.textContent = originalLabel || 'Load more';
+      }
       button.dataset.loading = 'false';
       button.removeAttribute('aria-busy');
     }

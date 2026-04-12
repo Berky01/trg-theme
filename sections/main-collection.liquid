@@ -613,14 +613,21 @@
         return normalized;
       }
 
+      parsePositiveNumber(value, fallback) {
+        const parsed = Number(value);
+        return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback;
+      }
+
       getLoadMoreLimits(loadMoreZone) {
-        const currentPage = Number(
-          loadMoreZone?.dataset.currentPage || new URL(window.location.href).searchParams.get('page') || '1'
+        const pageFromUrl = new URL(window.location.href).searchParams.get('page');
+        const currentPage = this.parsePositiveNumber(loadMoreZone?.dataset.currentPage || pageFromUrl || '1', 1);
+        const visibleCount = this.parsePositiveNumber(loadMoreZone?.dataset.visibleCount || this.getSearchCards().length || 0, 0);
+        const pageSize = this.parsePositiveNumber(loadMoreZone?.dataset.pageSize || 24, 24);
+        const maxPages = this.parsePositiveNumber(this.root.dataset.trgMaxAppendedPages || LOAD_MORE_MAX_PAGES, LOAD_MORE_MAX_PAGES);
+        const maxCards = this.parsePositiveNumber(
+          this.root.dataset.trgMaxAppendedCards || pageSize * maxPages || LOAD_MORE_MAX_CARDS,
+          LOAD_MORE_MAX_CARDS
         );
-        const visibleCount = Number(loadMoreZone?.dataset.visibleCount || this.getSearchCards().length || 0);
-        const pageSize = Number(loadMoreZone?.dataset.pageSize || 24);
-        const maxPages = Number(this.root.dataset.trgMaxAppendedPages || LOAD_MORE_MAX_PAGES);
-        const maxCards = Number(this.root.dataset.trgMaxAppendedCards || pageSize * maxPages || LOAD_MORE_MAX_CARDS);
 
         return { currentPage, visibleCount, maxPages, maxCards };
       }
@@ -1166,6 +1173,10 @@
           button.textContent = originalLabel || 'Load more';
 
         } finally {
+
+          if (button.isConnected) {
+            button.textContent = originalLabel || 'Load more';
+          }
 
           button.dataset.loading = 'false';
 
@@ -4801,4 +4812,5 @@
 }
 
 {% endschema %}
+
 
