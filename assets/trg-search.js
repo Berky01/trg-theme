@@ -745,25 +745,26 @@ function ensureColourGuideIntroCardHotfixStyle() {
     .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-palette-card:nth-child(5){left:72px!important;transform:rotate(7deg)!important}
     .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-palette-card:nth-child(6){left:90px!important;transform:rotate(12deg)!important}
     @media (max-width: 749px){
-      .trg-colour-guide .trg-hiw-v1-hotfix{min-height:202px!important;padding:1rem .78rem .98rem!important}
-      .trg-colour-guide .trg-hiw-v1-hotfix .hiw-visual-label{font-size:.43rem!important}
-      .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-flow{display:flex!important;align-items:center!important;justify-content:center!important;gap:12px!important;padding:.12rem 0 0!important}
-      .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-stage{width:auto!important;flex:0 0 98px!important}
-      .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-output{width:auto!important;min-width:0!important;gap:12px!important;flex:0 0 118px!important}
+      .trg-colour-guide .trg-hiw-v1-hotfix{min-height:214px!important;padding:1.02rem .72rem 1rem!important}
+      .trg-colour-guide .trg-hiw-v1-hotfix .hiw-visual-shell{gap:.92rem!important}
+      .trg-colour-guide .trg-hiw-v1-hotfix .hiw-visual-label{font-size:.49rem!important}
+      .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-flow{display:flex!important;align-items:center!important;justify-content:center!important;gap:16px!important;padding:.18rem 0 0!important}
+      .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-stage{width:auto!important;flex:0 0 104px!important}
+      .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-output{width:auto!important;min-width:0!important;gap:14px!important;flex:0 0 126px!important}
       .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-depth{gap:0!important}
-      .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-tone-row{gap:8px!important}
-      .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-skin.sm{width:25px!important;height:25px!important}
-      .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-skin.md{width:56px!important;height:56px!important}
-      .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-skin.lg{width:32px!important;height:32px!important}
-      .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-divider{width:22px!important;flex-basis:22px!important}
-      .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-palette-ill{width:118px!important;height:82px!important;flex-basis:118px!important}
-      .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-palette-card{width:28px!important;height:72px!important}
+      .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-tone-row{gap:9px!important}
+      .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-skin.sm{width:26px!important;height:26px!important}
+      .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-skin.md{width:58px!important;height:58px!important}
+      .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-skin.lg{width:33px!important;height:33px!important}
+      .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-divider{width:26px!important;flex-basis:26px!important}
+      .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-palette-ill{width:126px!important;height:88px!important;flex-basis:126px!important}
+      .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-palette-card{width:29px!important;height:76px!important}
       .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-palette-card:nth-child(1){left:0!important}
-      .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-palette-card:nth-child(2){left:18px!important}
-      .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-palette-card:nth-child(3){left:36px!important}
-      .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-palette-card:nth-child(4){left:54px!important}
-      .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-palette-card:nth-child(5){left:72px!important}
-      .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-palette-card:nth-child(6){left:90px!important}
+      .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-palette-card:nth-child(2){left:19px!important}
+      .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-palette-card:nth-child(3){left:38px!important}
+      .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-palette-card:nth-child(4){left:57px!important}
+      .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-palette-card:nth-child(5){left:76px!important}
+      .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-palette-card:nth-child(6){left:95px!important}
     }
   `;
   document.head.appendChild(style);
