@@ -1,6 +1,7 @@
-{% comment %}codex-pdp-swatch-media-2026-04-12T20:33:46.041Z-theme-186604257559{% endcomment %}
+﻿{% comment %}trg-bulletproof-v3-2026-04-12T21:23:00Z{% endcomment %}
+{% comment %}codex-pdp-swatch-media-2026-04-12T20:33:46.041Z-theme-187505606935{% endcomment %}
 
-<!-- codex-cache-bust: global-swatch-suppression 2026-04-12 19:17:37 UTC -->
+<!-- codex-cache-bust: global-swatch-suppression 2026-04-12 22:30:20 UTC -->
 <!-- trg-cache-bust: 2026-04-12T15:17:06.170Z -->
 <!-- trg-plp-v27-2026-04-12T10:53 -->
 <!doctype html>
@@ -74,6 +75,48 @@ document.addEventListener('focusin',function(e){
     {%- if customer or template == 'customers/account' or template == 'customers/login' -%}<link rel="stylesheet" href="{{ 'trg-account.css' | asset_url }}" media="print" onload="this.media='all'">{%- endif -%}
     {%- if template.name == 'collection' or template.name == 'search' -%}{{ 'trg-plp.css' | asset_url | stylesheet_tag }}{%- endif -%}
     {%- if template.name == 'collection' -%}{{ 'trg-theme-overrides.css' | asset_url | stylesheet_tag }}{%- endif -%}
+    {%- if template.name == 'collection' or template.name == 'search' or request.page_type == 'product' -%}
+      <style id="trg-live-hotfix-20260412">
+        {%- if template.name == 'collection' or template.name == 'search' -%}
+          .trg-plp-body .card-gallery {
+            display: block !important;
+            width: 100% !important;
+          }
+          .trg-plp-body .card-gallery a.contents,
+          .trg-plp-body .card-gallery slideshow-component,
+          .trg-plp-body .card-gallery slideshow-container,
+          .trg-plp-body .card-gallery slideshow-slides,
+          .trg-plp-body .card-gallery slideshow-slide,
+          .trg-plp-body .card-gallery .product-media-container,
+          .trg-plp-body .card-gallery .product-media {
+            width: 100% !important;
+            max-width: 100% !important;
+          }
+          .trg-plp-body .card-gallery slideshow-component,
+          .trg-plp-body .card-gallery slideshow-container,
+          .trg-plp-body .card-gallery slideshow-slides,
+          .trg-plp-body .card-gallery slideshow-slide,
+          .trg-plp-body .card-gallery .product-media-container {
+            flex: 0 0 100% !important;
+            min-width: 100% !important;
+          }
+        {%- endif -%}
+        {%- if request.page_type == 'product' -%}
+          .trg-pdp__chips--colours {
+            gap: 0.65rem !important;
+          }
+          .trg-pdp__chip--colour {
+            width: 3.5rem !important;
+            height: 3.5rem !important;
+            min-width: 3.5rem !important;
+          }
+          .trg-pdp__chip-swatch {
+            width: 2.35rem !important;
+            height: 2.35rem !important;
+          }
+        {%- endif -%}
+      </style>
+    {%- endif -%}
     {% if template == 'page.brands-directory' %}{{ 'trg-brand-directory.css' | asset_url | stylesheet_tag }}{% endif %}
 
     {% if template == 'page.colour-guide' %}{{ 'trg-colour-guide.css' | asset_url | stylesheet_tag }}{% endif %}
@@ -449,4 +492,4 @@ document.addEventListener('focusin',function(e){
 <!-- codex-cache-bust:2026-04-12T16:41:20Z -->
 
 {% comment %}codex-color-ui-live-2026-04-12T16:25:00-04:00 theme 187505606935{% endcomment %}
-<!-- cache-bust 2026-04-12T20:28:32.515Z -->
+<!-- cache-bust 2026-04-12T20:59:19.046Z -->

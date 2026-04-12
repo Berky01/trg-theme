@@ -1,10 +1,35 @@
-
+﻿
 
 <script
   src="{{ 'results-list.js' | asset_url }}"
   type="module"
   fetchpriority="low"
 ></script>
+
+<style data-trg-plp-inline-hotfix>
+  .trg-plp-body .card-gallery {
+    display: block !important;
+    width: 100% !important;
+  }
+  .trg-plp-body .card-gallery a.contents,
+  .trg-plp-body .card-gallery slideshow-component,
+  .trg-plp-body .card-gallery slideshow-container,
+  .trg-plp-body .card-gallery slideshow-slides,
+  .trg-plp-body .card-gallery slideshow-slide,
+  .trg-plp-body .card-gallery .product-media-container,
+  .trg-plp-body .card-gallery .product-media {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  .trg-plp-body .card-gallery slideshow-component,
+  .trg-plp-body .card-gallery slideshow-container,
+  .trg-plp-body .card-gallery slideshow-slides,
+  .trg-plp-body .card-gallery slideshow-slide,
+  .trg-plp-body .card-gallery .product-media-container {
+    flex: 0 0 100% !important;
+    min-width: 100% !important;
+  }
+</style>
 
 {% javascript %}
   (() => {
@@ -337,47 +362,10 @@
           return;
         }
 
-        const colourSwatch = target.closest('.trg-plp-card-colour');
-        if (colourSwatch instanceof HTMLButtonElement) {
-          event.preventDefault();
-          event.stopPropagation();
-          this.handleColourSwatchClick(colourSwatch);
-          return;
-        }
-
         const backToTop = target.closest('[data-trg-back-to-top]');
         if (backToTop instanceof HTMLButtonElement) {
           event.preventDefault();
           window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-      }
-
-      handleColourSwatchClick(button) {
-        const li = button.closest('.product-grid__item');
-        if (!li) return;
-        const imageUrl = (button.dataset.trgColourImage || '').trim();
-        const pdpUrl = (button.dataset.trgColourUrl || '').trim();
-
-        li.querySelectorAll('.trg-plp-card-colour').forEach(b => b.classList.remove('is-active'));
-        button.classList.add('is-active');
-
-        if (imageUrl) {
-          const img = li.querySelector('.card-gallery img');
-          if (img) {
-            const base = imageUrl.replace(/\?.*$/, '');
-            img.srcset = [200, 300, 400, 500, 600, 700, 800].map(w => base + '?width=' + w + ' ' + w + 'w').join(', ');
-            img.src = base + '?width=600';
-            img.removeAttribute('loading');
-          }
-        }
-
-        if (pdpUrl) {
-          const clickDiv = li.querySelector('[onclick*="location.href"]');
-          if (clickDiv) {
-            clickDiv.setAttribute('onclick', "location.href='" + pdpUrl.replace(/'/g, "\\'") + "'");
-            clickDiv.dataset.url = pdpUrl;
-          }
-          li.querySelectorAll('a[href*="/products/"]').forEach(a => { a.href = pdpUrl; });
         }
       }
 
@@ -901,6 +889,7 @@
     document.addEventListener('DOMContentLoaded', initializeTrgPlp, { once: true });
     document.addEventListener('shopify:section:load', initializeTrgPlp);
   })();
+
 {% endjavascript %}
 
 {% liquid
@@ -1155,7 +1144,7 @@
             {% # theme-check-disable %}
             {% content_for 'block', type: '_product-card', id: 'product-card', closest.product: product %}
             {% # theme-check-enable %}
-            {% if false and variant_color_groups != blank and variant_color_groups.size > 1 and trg_plp_display_mode == 'variant_cards' %}
+            {% if variant_color_groups != blank and variant_color_groups.size > 1 and trg_plp_display_mode == 'variant_cards' %}
               <div class="trg-plp-card-colours" aria-label="Available colours">
                 <span class="trg-plp-card-colours__label">{{ variant_color_groups.size }} colours</span>
                 <div class="trg-plp-card-colours__list">
@@ -1195,7 +1184,7 @@
                       data-trg-colour-image="{{ group_image }}"
                       style="--trg-colour-swatch: {{ group_hex }};"
                     >
-                      <span class="trg-plp-card-colour__swatch"></span>
+                      <span class="trg-plp-card-colour__swatch{% if group_image != blank %} trg-plp-card-colour__swatch--image{% endif %}"{% if group_image != blank %} style="background-image:url('{{ group_image | escape }}');"{% endif %}></span>
                       <span class="visually-hidden">{{ group_label }}</span>
                     </button>
                   {% endfor %}

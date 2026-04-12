@@ -1,4 +1,4 @@
-{%- liquid
+﻿{%- liquid
 
   comment
 
@@ -1274,31 +1274,22 @@
 
 {%- comment -%} PDP ENHANCEMENTS JS {%- endcomment -%}
 
-<script src="{{ 'trg-pdp-enhance.js' | asset_url }}" defer></script>
+<style data-trg-pdp-inline-hotfix>
+  .trg-pdp__chips--colours {
+    gap: 0.65rem !important;
+  }
+  .trg-pdp__chip--colour {
+    width: 3.5rem !important;
+    height: 3.5rem !important;
+    min-width: 3.5rem !important;
+  }
+  .trg-pdp__chip-swatch {
+    width: 2.35rem !important;
+    height: 2.35rem !important;
+  }
+</style>
 
-<script>
-  (function(){
-    var TOLERANCE = 0.12;
-    var TARGET = 0.80;
-    function checkFit(img) {
-      if (!img.naturalWidth || !img.naturalHeight) return;
-      var ratio = img.naturalWidth / img.naturalHeight;
-      if (Math.abs(ratio - TARGET) > TOLERANCE) img.classList.add('trg-img-contain');
-    }
-    document.querySelectorAll('.trg-pdp__gallery-main img').forEach(function(img) {
-      if (img.complete) checkFit(img);
-      else img.addEventListener('load', function() { checkFit(img); }, { once: true });
-    });
-    var obs = new MutationObserver(function() {
-      document.querySelectorAll('.trg-pdp__gallery-main img:not(.trg-img-contain)').forEach(function(img) {
-        if (img.complete) checkFit(img);
-        else img.addEventListener('load', function() { checkFit(img); }, { once: true });
-      });
-    });
-    var gallery = document.querySelector('.trg-pdp__gallery-main');
-    if (gallery) obs.observe(gallery, { childList: true, subtree: true });
-  })();
-</script>
+<script src="{{ 'trg-pdp-enhance.js' | asset_url }}" defer></script>
 
 {% endif %}
 
@@ -1444,16 +1435,6 @@
 
   }
 
-  .trg-pdp__gallery-main img.trg-img-contain {
-
-    object-fit: contain;
-
-    object-position: center center;
-
-    background: #fff;
-
-  }
-
   .trg-pdp__gallery-placeholder {
 
     width: 100%;
@@ -1495,6 +1476,24 @@
     display: flex;
 
     gap: 0.5rem;
+
+    animation: trg-thumb-reveal 0.15s ease 0.4s both;
+
+  }
+
+  .trg-pdp__thumbs.is-ready {
+
+    animation: none;
+
+    opacity: 1;
+
+  }
+
+  @keyframes trg-thumb-reveal {
+
+    from { opacity: 0; }
+
+    to   { opacity: 1; }
 
   }
 
@@ -1798,7 +1797,7 @@
 
   .trg-pdp__chips--colours {
 
-    gap: 0.55rem;
+    gap: 0.65rem;
 
   }
 
@@ -1838,11 +1837,11 @@
 
     justify-content: center;
 
-    width: 2.15rem;
+    width: 3.5rem;
 
-    height: 2.15rem;
+    height: 3.5rem;
 
-    min-width: 2.15rem;
+    min-width: 3.5rem;
 
     padding: 0;
 
@@ -1854,9 +1853,9 @@
 
   .trg-pdp__chip-swatch {
 
-    width: 1.45rem;
+    width: 2.35rem;
 
-    height: 1.45rem;
+    height: 2.35rem;
 
     border-radius: 999px;
 

@@ -1,4 +1,4 @@
-<script
+﻿<script
   src="{{ 'results-list.js' | asset_url }}"
   type="module"
   fetchpriority="low"
@@ -9,6 +9,31 @@
 ></script>
 
 {{ 'trg-plp.css' | asset_url | stylesheet_tag }}
+
+<style data-trg-plp-inline-hotfix>
+  .trg-plp-body .card-gallery {
+    display: block !important;
+    width: 100% !important;
+  }
+  .trg-plp-body .card-gallery a.contents,
+  .trg-plp-body .card-gallery slideshow-component,
+  .trg-plp-body .card-gallery slideshow-container,
+  .trg-plp-body .card-gallery slideshow-slides,
+  .trg-plp-body .card-gallery slideshow-slide,
+  .trg-plp-body .card-gallery .product-media-container,
+  .trg-plp-body .card-gallery .product-media {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  .trg-plp-body .card-gallery slideshow-component,
+  .trg-plp-body .card-gallery slideshow-container,
+  .trg-plp-body .card-gallery slideshow-slides,
+  .trg-plp-body .card-gallery slideshow-slide,
+  .trg-plp-body .card-gallery .product-media-container {
+    flex: 0 0 100% !important;
+    min-width: 100% !important;
+  }
+</style>
 
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
 
@@ -220,7 +245,7 @@
               ref="cards[]"
             >
               {% content_for 'block', type: '_product-card', id: 'product-card', closest.product: product %}
-              {% if false and variant_color_groups != blank and variant_color_groups.size > 1 and trg_plp_display_mode == 'variant_cards' %}
+              {% if variant_color_groups != blank and variant_color_groups.size > 1 and trg_plp_display_mode == 'variant_cards' %}
                 <div class="trg-plp-card-colours" aria-label="Available colours">
                   <span class="trg-plp-card-colours__label">{{ variant_color_groups.size }} colours</span>
                   <div class="trg-plp-card-colours__list">
@@ -258,8 +283,9 @@
                         title="{{ group_label | escape }}"
                         data-trg-colour-url="{{ group_url }}"
                         data-trg-colour-image="{{ group_image }}"
+                        style="--trg-colour-swatch: {{ group_hex }};"
                       >
-                        <span class="trg-plp-card-colour__swatch" style="--trg-colour-swatch: {{ group_hex }};"></span>
+                        <span class="trg-plp-card-colour__swatch{% if group_image != blank %} trg-plp-card-colour__swatch--image{% endif %}"{% if group_image != blank %} style="background-image:url('{{ group_image | escape }}');"{% endif %}></span>
                         <span class="visually-hidden">{{ group_label }}</span>
                       </button>
                     {% endfor %}
