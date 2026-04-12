@@ -1155,7 +1155,7 @@
             {% # theme-check-disable %}
             {% content_for 'block', type: '_product-card', id: 'product-card', closest.product: product %}
             {% # theme-check-enable %}
-            {% if variant_color_groups != blank and variant_color_groups.size > 1 and trg_plp_display_mode == 'variant_cards' %}
+            {% if false and variant_color_groups != blank and variant_color_groups.size > 1 and trg_plp_display_mode == 'variant_cards' %}
               <div class="trg-plp-card-colours" aria-label="Available colours">
                 <span class="trg-plp-card-colours__label">{{ variant_color_groups.size }} colours</span>
                 <div class="trg-plp-card-colours__list">

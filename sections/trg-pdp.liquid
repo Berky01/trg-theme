@@ -344,7 +344,7 @@
 
     {%- comment -%} Grouped colour selector (from variant_color_data metafield) {%- endcomment -%}
 
-    {%- if trg_has_grouped_colours -%}
+    {%- if false and trg_has_grouped_colours -%}
 
       <div class="trg-pdp__selector">
 
@@ -408,10 +408,8 @@
       {%- for option in p.options_with_values -%}
         {%- assign _opt_name_lower = option.name | downcase -%}
         {%- assign _hide_native_colour_option = false -%}
-        {%- if trg_has_grouped_colours and trg_local_colour_option_index != blank and trg_grouped_colours_have_local_variants -%}
-          {%- if _opt_name_lower == 'color' or _opt_name_lower == 'colour' -%}
-            {%- assign _hide_native_colour_option = true -%}
-          {%- endif -%}
+        {%- if _opt_name_lower == 'color' or _opt_name_lower == 'colour' -%}
+          {%- assign _hide_native_colour_option = true -%}
         {%- endif -%}
         {%- if _hide_native_colour_option -%}{%- continue -%}{%- endif -%}
 
