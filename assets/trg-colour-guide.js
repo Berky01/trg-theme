@@ -97,8 +97,7 @@ function renderHeroRibbon() {
 function renderHIWVisuals() {
   // Step 1: diagnosis flow -> palette result
   const v1 = document.getElementById('hiw-v1');
-  const previewProfile = PROFILES['medium-warm'];
-  const fanColors = ['Chocolate','Saddle Brown','Rust','Terracotta','Amber','Olive Drab'];
+  const fanColors = ['Navy','Teal','Burgundy','Cobalt','Mustard','Forest'];
   v1.innerHTML = `
     <div class="hiw-visual-shell">
       <span class="hiw-visual-label">Finder input to palette result</span>
@@ -110,17 +109,10 @@ function renderHIWVisuals() {
               <div class="hiw-v1-skin md active" style="background:${DEPTHS[3].color}"></div>
               <div class="hiw-v1-skin lg" style="background:${DEPTHS[5].color}"></div>
             </div>
-            <div class="hiw-v1-depth-meta">
-              <span class="hiw-v1-depth-name">Medium</span>
-            </div>
           </div>
         </div>
         <div class="hiw-v1-divider"></div>
         <div class="hiw-v1-output">
-          <div class="hiw-v1-result">
-            <div class="hiw-v1-result-dot" style="background:${previewProfile.swatch}"></div>
-            <span class="hiw-v1-result-name">Autumn</span>
-          </div>
           <div class="hiw-v1-palette-ill">
             ${fanColors.map(name => `<div class="hiw-v1-palette-card" style="background:${C[name]}" title="${name}"></div>`).join('')}
           </div>
