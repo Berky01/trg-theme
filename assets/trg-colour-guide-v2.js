@@ -102,15 +102,17 @@ function renderHIWVisuals() {
   v1.innerHTML = `
     <div class="hiw-visual-shell">
       <span class="hiw-visual-label">Finder input to palette result</span>
-      <div class="hiw-v1-flow">
-        <div class="hiw-v1-stage">
-          <div class="hiw-v1-depth">
-            <div class="hiw-v1-skin sm" style="background:${DEPTHS[1].color}"></div>
-            <div class="hiw-v1-skin md active" style="background:${DEPTHS[3].color}"></div>
-            <div class="hiw-v1-skin lg" style="background:${DEPTHS[5].color}"></div>
-            <div class="hiw-v1-depth-meta">
-              <span class="hiw-v1-depth-name">Medium</span>
-            </div>
+        <div class="hiw-v1-flow">
+          <div class="hiw-v1-stage">
+            <div class="hiw-v1-depth">
+              <div class="hiw-v1-tone-row">
+                <div class="hiw-v1-skin sm" style="background:${DEPTHS[1].color}"></div>
+                <div class="hiw-v1-skin md active" style="background:${DEPTHS[3].color}"></div>
+                <div class="hiw-v1-skin lg" style="background:${DEPTHS[5].color}"></div>
+              </div>
+              <div class="hiw-v1-depth-meta">
+                <span class="hiw-v1-depth-name">Medium</span>
+              </div>
           </div>
         </div>
         <div class="hiw-v1-divider"></div>
