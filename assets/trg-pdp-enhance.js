@@ -1,4 +1,4 @@
-/**
+﻿/**
  * TRG PDP Enhancements -- v2
  * 1. Thumbnail + chip handlers with color group awareness
  * 2. Gallery arrows + touch swipe
@@ -7,6 +7,22 @@
  */
 (function () {
   'use strict';
+
+  function ensureRuntimeStyles() {
+    if (document.getElementById('trg-pdp-runtime-hotfix')) return;
+    var target = document.head || document.documentElement;
+    if (!target) return;
+
+    var style = document.createElement('style');
+    style.id = 'trg-pdp-runtime-hotfix';
+    style.textContent =
+      '.trg-pdp__chips--colours{gap:.9rem!important;}' +
+      '.trg-pdp__chip--colour{width:7rem!important;height:7rem!important;min-width:7rem!important;}' +
+      '.trg-pdp__chip-swatch{width:4.75rem!important;height:4.75rem!important;}';
+    target.appendChild(style);
+  }
+
+  ensureRuntimeStyles();
 
   /* ═══════════════════════════════════════════
      1. THUMBNAIL + CHIP HANDLERS
@@ -59,6 +75,9 @@
   });
 
   initializeVariantState();
+
+  var thumbsContainer = document.querySelector('.trg-pdp__thumbs');
+  if (thumbsContainer) thumbsContainer.classList.add('is-ready');
 
   function parseProductData() {
     var node = document.getElementById('trg-pdp-product-data');

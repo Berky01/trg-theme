@@ -54,6 +54,7 @@
     const LOAD_MORE_MAX_PAGES = 8;
     const LOAD_MORE_MAX_CARDS = 192;
     const CONTROLLER_REGISTRY_KEY = '__trgPlpControllers';
+    const PLP_LAYOUT_STYLE_ID = 'trg-plp-section-layout-hotfix';
     const COLOUR_INTENT_SLOT_HANDLES = {
       shirt: 'shirts',
       trousers: 'trousers',
@@ -72,6 +73,118 @@
         .replaceAll('>', '&gt;')
         .replaceAll('"', '&quot;')
         .replaceAll("'", '&#39;');
+
+    const setImportantStyle = (node, property, value) => {
+      if (!(node instanceof HTMLElement) || !value) return;
+      node.style.setProperty(property, value, 'important');
+    };
+
+    const ensurePlpLayoutStyles = () => {
+      if (document.getElementById(PLP_LAYOUT_STYLE_ID)) return;
+      const target = document.head || document.documentElement;
+      if (!(target instanceof HTMLElement)) return;
+
+      const style = document.createElement('style');
+      style.id = PLP_LAYOUT_STYLE_ID;
+      style.textContent = `
+        .trg-plp-body .card-gallery {
+          display: block !important;
+          width: 100% !important;
+          background: #fff !important;
+        }
+        .trg-plp-body .card-gallery a.contents,
+        .trg-plp-body .card-gallery slideshow-component,
+        .trg-plp-body .card-gallery slideshow-container,
+        .trg-plp-body .card-gallery slideshow-slides,
+        .trg-plp-body .card-gallery slideshow-slide,
+        .trg-plp-body .card-gallery .product-media-container,
+        .trg-plp-body .card-gallery .product-media {
+          display: block !important;
+          width: 100% !important;
+          max-width: 100% !important;
+          min-width: 100% !important;
+        }
+        .trg-plp-body .card-gallery slideshow-component,
+        .trg-plp-body .card-gallery slideshow-container,
+        .trg-plp-body .card-gallery slideshow-slides,
+        .trg-plp-body .card-gallery slideshow-slide,
+        .trg-plp-body .card-gallery .product-media-container {
+          flex: 0 0 100% !important;
+          height: 100% !important;
+          min-height: 100% !important;
+        }
+        .trg-plp-body .card-gallery .product-media {
+          background: #fff !important;
+          box-sizing: border-box !important;
+        }
+        .trg-plp-body .card-gallery.trg-img-contain .product-media {
+          padding: clamp(0.9rem, 1.6vw, 1.4rem) !important;
+        }
+        .trg-plp-body .card-gallery.trg-img-contain img,
+        .trg-plp-body .card-gallery.trg-img-contain video {
+          object-fit: contain !important;
+          object-position: center center !important;
+          background: #fff !important;
+        }
+      `;
+      target.appendChild(style);
+    };
+
+    const repairCardGalleryLayout = (root = document) => {
+      ensurePlpLayoutStyles();
+      const scope =
+        root instanceof HTMLElement || root instanceof Document || root instanceof DocumentFragment
+          ? root
+          : document;
+
+      scope.querySelectorAll('.trg-plp-body .card-gallery').forEach((gallery) => {
+        setImportantStyle(gallery, 'display', 'block');
+        setImportantStyle(gallery, 'width', '100%');
+        setImportantStyle(gallery, 'background', '#fff');
+
+        const selectors = [
+          'a.contents',
+          'slideshow-component',
+          'slideshow-container',
+          'slideshow-slides',
+          'slideshow-slide',
+          '.product-media-container'
+        ];
+
+        selectors.forEach((selector) => {
+          gallery.querySelectorAll(selector).forEach((node) => {
+            setImportantStyle(node, 'display', 'block');
+            setImportantStyle(node, 'width', '100%');
+            setImportantStyle(node, 'max-width', '100%');
+            setImportantStyle(node, 'min-width', '100%');
+            setImportantStyle(node, 'height', '100%');
+            setImportantStyle(node, 'min-height', '100%');
+            setImportantStyle(node, 'flex', '0 0 100%');
+          });
+        });
+
+        gallery.querySelectorAll('.product-media').forEach((media) => {
+          setImportantStyle(media, 'display', 'flex');
+          setImportantStyle(media, 'align-items', 'center');
+          setImportantStyle(media, 'justify-content', 'center');
+          setImportantStyle(media, 'width', '100%');
+          setImportantStyle(media, 'height', '100%');
+          setImportantStyle(media, 'background', '#fff');
+          setImportantStyle(media, 'box-sizing', 'border-box');
+          setImportantStyle(
+            media,
+            'padding',
+            gallery.classList.contains('trg-img-contain') ? 'clamp(0.9rem, 1.6vw, 1.4rem)' : '0'
+          );
+        });
+      });
+    };
+
+    const scheduleCardGalleryRepair = (root = document) => {
+      [0, 120, 400, 1000].forEach((delay) => {
+        window.setTimeout(() => repairCardGalleryLayout(root), delay);
+      });
+    };
 
     const readColourIntent = () => {
       try {
@@ -117,6 +230,8 @@
         if (this.root.dataset.trgPlpReady === 'true') return;
 
         this.root.dataset.trgPlpReady = 'true';
+        ensurePlpLayoutStyles();
+        scheduleCardGalleryRepair(this.root);
         this.installHistoryHooks();
         this.restoreFilterState();
 
@@ -241,6 +356,7 @@
       }
 
       handleUrlChange() {
+        scheduleCardGalleryRepair(this.root);
         this.scheduleSync();
       }
 
@@ -868,6 +984,8 @@
     }
 
     const initializeTrgPlp = () => {
+      ensurePlpLayoutStyles();
+      scheduleCardGalleryRepair(document);
       const existingControllers = window[CONTROLLER_REGISTRY_KEY];
       if (existingControllers instanceof Set) {
         for (const controller of existingControllers) {

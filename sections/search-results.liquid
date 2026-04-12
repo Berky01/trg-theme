@@ -35,6 +35,105 @@
   }
 </style>
 
+{% javascript %}
+  (() => {
+    const STYLE_ID = 'trg-search-plp-section-layout-hotfix';
+
+    const setImportantStyle = (node, property, value) => {
+      if (!(node instanceof HTMLElement) || !value) return;
+      node.style.setProperty(property, value, 'important');
+    };
+
+    const ensureLayoutStyles = () => {
+      if (document.getElementById(STYLE_ID)) return;
+      const target = document.head || document.documentElement;
+      if (!(target instanceof HTMLElement)) return;
+
+      const style = document.createElement('style');
+      style.id = STYLE_ID;
+      style.textContent = `
+        .trg-plp-body .card-gallery {
+          display: block !important;
+          width: 100% !important;
+          background: #fff !important;
+        }
+        .trg-plp-body .card-gallery a.contents,
+        .trg-plp-body .card-gallery slideshow-component,
+        .trg-plp-body .card-gallery slideshow-container,
+        .trg-plp-body .card-gallery slideshow-slides,
+        .trg-plp-body .card-gallery slideshow-slide,
+        .trg-plp-body .card-gallery .product-media-container,
+        .trg-plp-body .card-gallery .product-media {
+          display: block !important;
+          width: 100% !important;
+          max-width: 100% !important;
+          min-width: 100% !important;
+        }
+        .trg-plp-body .card-gallery slideshow-component,
+        .trg-plp-body .card-gallery slideshow-container,
+        .trg-plp-body .card-gallery slideshow-slides,
+        .trg-plp-body .card-gallery slideshow-slide,
+        .trg-plp-body .card-gallery .product-media-container {
+          flex: 0 0 100% !important;
+          height: 100% !important;
+          min-height: 100% !important;
+        }
+        .trg-plp-body .card-gallery .product-media {
+          background: #fff !important;
+          box-sizing: border-box !important;
+        }
+        .trg-plp-body .card-gallery.trg-img-contain .product-media {
+          padding: clamp(0.9rem, 1.6vw, 1.4rem) !important;
+        }
+      `;
+      target.appendChild(style);
+    };
+
+    const repairLayouts = (root = document) => {
+      ensureLayoutStyles();
+      root.querySelectorAll('.trg-plp-body .card-gallery').forEach((gallery) => {
+        setImportantStyle(gallery, 'display', 'block');
+        setImportantStyle(gallery, 'width', '100%');
+        setImportantStyle(gallery, 'background', '#fff');
+
+        ['a.contents', 'slideshow-component', 'slideshow-container', 'slideshow-slides', 'slideshow-slide', '.product-media-container'].forEach((selector) => {
+          gallery.querySelectorAll(selector).forEach((node) => {
+            setImportantStyle(node, 'display', 'block');
+            setImportantStyle(node, 'width', '100%');
+            setImportantStyle(node, 'max-width', '100%');
+            setImportantStyle(node, 'min-width', '100%');
+            setImportantStyle(node, 'height', '100%');
+            setImportantStyle(node, 'min-height', '100%');
+            setImportantStyle(node, 'flex', '0 0 100%');
+          });
+        });
+
+        gallery.querySelectorAll('.product-media').forEach((media) => {
+          setImportantStyle(media, 'display', 'flex');
+          setImportantStyle(media, 'align-items', 'center');
+          setImportantStyle(media, 'justify-content', 'center');
+          setImportantStyle(media, 'width', '100%');
+          setImportantStyle(media, 'height', '100%');
+          setImportantStyle(media, 'background', '#fff');
+          setImportantStyle(media, 'box-sizing', 'border-box');
+          setImportantStyle(
+            media,
+            'padding',
+            gallery.classList.contains('trg-img-contain') ? 'clamp(0.9rem, 1.6vw, 1.4rem)' : '0'
+          );
+        });
+      });
+    };
+
+    const scheduleRepair = (root = document) => {
+      [0, 120, 400, 1000].forEach((delay) => window.setTimeout(() => repairLayouts(root), delay));
+    };
+
+    document.addEventListener('DOMContentLoaded', () => scheduleRepair(document), { once: true });
+    document.addEventListener('shopify:section:load', (event) => scheduleRepair(event.target || document));
+  })();
+{% endjavascript %}
+
 <div class="section-background color-{{ section.settings.color_scheme }}"></div>
 
 {% assign products_per_page = 24 %}
