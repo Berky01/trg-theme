@@ -6,6 +6,10 @@ var E = window.TRG_CG;
 if (!E) { console.warn('TRG: colour engine not loaded'); return; }
 var C=E.C, sL=E.sL, dE=E.dE, sc=E.sc, near=E.near, IC=E.IC, G=E.G, GORDER=E.GORDER, FAMILIES=E.FAMILIES, SLOT_RECS=E.SLOT_RECS;
 
+function byId(id){
+  return document.getElementById(id);
+}
+
 // ─── COLOUR STORIES ───
 const STORIES={
   'Navy':{t:'You already own three navy things. <em>Good. Buy a fourth.</em>',b:'The most versatile dark in menswear. Navy anchors everything from a chore coat to a suit — and in the Wada palette, it connects to more documented combinations than almost any other colour. It\'s not boring. It\'s correct.'},
@@ -115,7 +119,7 @@ function obNextOpen(){
 
 // ─── INIT ───
 function obInit(config){
-  const el=document.getElementById('cg-outfit-builder');if(!el)return;
+  const el=byId('cg-outfit-builder');if(!el)return;
   const context=config||readBuilderContext();
   const initialGarment=normalizeGarment(context.garment);
   const initialColour=obDetectBaseColour(context.name);
@@ -161,6 +165,7 @@ function obInit(config){
         <div class="ob-pl-text">${profileState.text}</div>
         <a class="ob-pl-cta" href="${guideUrl}">${profileState.cta}</a>
       </div>
+      <div class="ob-prompt" id="ob-prompt">Your outfit has a <strong>working palette</strong></div>
       <div class="ob-suggest" id="ob-suggest">
         <div class="ob-suggest-head">
           <span class="ob-suggest-label">Suggested for you</span>
@@ -180,7 +185,8 @@ function obInit(config){
 
 // ─── RENDER SLOTS (vertical list — v20) ───
 function obRenderSlots(){
-  const slotsEl=document.getElementById('ob-slots');
+  const slotsEl=byId('ob-slots');
+  if(!slotsEl)return;
   slotsEl.innerHTML=G.map(g=>{
     const col=ob.slots[g.id];
     const isLocked=!!ob.lockedSlot&&g.id===ob.lockedSlot;
@@ -313,7 +319,8 @@ function obPickColor(colorObj){
   ob.activeSlot=next?next.id:null;
   obRenderSlots();obRenderFamilies();updateGauge();obUShop();
   obRenderSuggestions(ob.activeSlot);obUpdatePrompt();
-  document.getElementById('ob-undo').classList.add('vis');
+  const undoEl=byId('ob-undo');
+  if(undoEl)undoEl.classList.add('vis');
 }
 
 // ─── REMOVE ───
@@ -324,7 +331,8 @@ function obRemove(slotId){
   ob.activeSlot=slotId;
   obRenderSlots();obRenderFamilies();updateGauge();obUShop();
   obRenderSuggestions(slotId);obUpdatePrompt();
-  document.getElementById('ob-undo').classList.add('vis');
+  const undoEl=byId('ob-undo');
+  if(undoEl)undoEl.classList.add('vis');
 }
 
 // ─── UNDO ───
@@ -337,7 +345,10 @@ function obUndo(){
   }
   ob.activeSlot=null;
   obRenderSlots();obRenderFamilies();updateGauge();obUShop();
-  if(!ob.history.length)document.getElementById('ob-undo').classList.remove('vis');
+  if(!ob.history.length){
+    const undoEl=byId('ob-undo');
+    if(undoEl)undoEl.classList.remove('vis');
+  }
   const next=obNextOpen();
   if(next)obSetActiveSlot(next.id);
   else obUpdatePrompt();
@@ -349,10 +360,12 @@ function updateGauge(){
   const filled=Object.keys(ob.slots).length;
   const pct=Math.round((filled/6)*100);
   const offset=164-(164*pct/100);
-  document.getElementById('ob-gauge-fill').style.strokeDashoffset=offset;
-  const pctEl=document.getElementById('ob-gauge-pct');
-  const labelEl=document.getElementById('ob-gauge-label');
-  const descEl=document.getElementById('ob-gauge-desc');
+  const gaugeFill=byId('ob-gauge-fill');
+  const pctEl=byId('ob-gauge-pct');
+  const labelEl=byId('ob-gauge-label');
+  const descEl=byId('ob-gauge-desc');
+  if(!gaugeFill||!pctEl||!labelEl||!descEl)return;
+  gaugeFill.style.strokeDashoffset=offset;
   if(filled<=1){
     pctEl.innerHTML='Start<br>here';
     labelEl.textContent='Outfit progress';
@@ -372,10 +385,11 @@ function updateGauge(){
 
 // ─── PROMPT ───
 function obUpdatePrompt(){
-  const promptEl=document.getElementById('ob-prompt');
+  const promptEl=byId('ob-prompt');
+  if(!promptEl)return;
   if(ob.activeSlot){
     const g=G.find(x=>x.id===ob.activeSlot);
-    promptEl.textContent='Choose a colour for '+g.l;
+    promptEl.textContent='Choose a colour for '+(g?g.l:'this piece');
   }else{
     promptEl.innerHTML='Your outfit has a <strong>working palette</strong>';
   }
@@ -383,13 +397,16 @@ function obUpdatePrompt(){
 
 // ─── SUGGESTIONS ───
 function obRenderSuggestions(slotId){
-  const suggestEl=document.getElementById('ob-suggest');
+  const suggestEl=byId('ob-suggest');
+  const hintEl=byId('ob-suggest-hint');
+  const chipsEl=byId('ob-suggest-chips');
+  if(!suggestEl||!hintEl||!chipsEl)return;
   if(!slotId||!SLOT_RECS[slotId]){suggestEl.classList.remove('show');return;}
   const rec=SLOT_RECS[slotId];
   const suggestions=rec.pool.filter(name=>C.some(c=>c.n===name)).slice(0,8);
   if(!suggestions.length){suggestEl.classList.remove('show');return;}
-  document.getElementById('ob-suggest-hint').textContent=rec.hint;
-  document.getElementById('ob-suggest-chips').innerHTML=suggestions.map(name=>{
+  hintEl.textContent=rec.hint;
+  chipsEl.innerHTML=suggestions.map(name=>{
     const c=C.find(x=>x.n===name);
     return`<div class="ob-sc" data-color="${name}" role="button" tabindex="0"><div class="ob-sc-sq" style="background:${c?c.h:'#ccc'}"></div><div class="ob-sc-name">${name}</div></div>`;
   }).join('');
@@ -411,12 +428,17 @@ function obRenderSuggestions(slotId){
 
 // ─── SHOP AREA (PDP-specific) ───
 function obUShop(){
-  const entries=Object.entries(ob.slots),sa=document.getElementById('ob-sa'),lk=document.getElementById('ob-lks');
+  const entries=Object.entries(ob.slots),sa=byId('ob-sa'),lk=byId('ob-lks');
+  if(!sa||!lk)return;
   if(entries.length<2){sa.classList.remove('vis');lk.innerHTML='';return;}
   sa.classList.add('vis');
-  document.getElementById('ob-sad').innerHTML=Object.values(ob.slots).map(c=>`<div class="ob-shop-dot" style="background:${c.h}"></div>`).join('');
-  document.getElementById('ob-sat').textContent='Working palette';
-  document.getElementById('ob-sas').textContent=entries.map(([gid,c])=>c.n+' '+G.find(x=>x.id===gid).l).join(' \u00b7 ')+' \u00b7 Search the catalogue with these colours as the brief.';
+  const dotsEl=byId('ob-sad');
+  const titleEl=byId('ob-sat');
+  const summaryEl=byId('ob-sas');
+  if(!dotsEl||!titleEl||!summaryEl)return;
+  dotsEl.innerHTML=Object.values(ob.slots).map(c=>`<div class="ob-shop-dot" style="background:${c.h}"></div>`).join('');
+  titleEl.textContent='Working palette';
+  summaryEl.textContent=entries.map(([gid,c])=>c.n+' '+G.find(x=>x.id===gid).l).join(' \u00b7 ')+' \u00b7 Search the catalogue with these colours as the brief.';
   lk.innerHTML=entries.filter(([gid])=>gid!==ob.lockedSlot).map(([gid,col])=>{
     return`<a class="ob-link" href="${buildCollectionSearchUrl(gid,col.n)}"><span class="ob-link-d" style="background:${col.h}"></span>Search ${col.n} ${G.find(x=>x.id===gid).l} &rarr;</a>`;
   }).join('');
@@ -424,7 +446,7 @@ function obUShop(){
 
 // ─── BOOT (Shopify PDP) ───
 document.addEventListener('DOMContentLoaded',function(){
-  var el = document.getElementById('cg-outfit-builder');
+  var el = byId('cg-outfit-builder');
   if(!el) return;
   obInit(readBuilderContext());
 });
