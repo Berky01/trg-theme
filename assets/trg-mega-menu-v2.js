@@ -82,6 +82,7 @@ function init(){
   normalizeBreadcrumbSeparators();
   normalizeShopLinks();
   normalizeShopChips();
+  fixEditorialIcons(document);
   bindShopChips();
   if(dk())bindNav();
   bindTabs();bindSearch();bindBk();bindKb();bindX();bindCC();
@@ -95,6 +96,26 @@ function normalizeBreadcrumbSeparators(){
       var text=(node.textContent||'').trim();
       if(text==='â€º'||text==='›'||text==='â€¹')node.textContent='›';
     });
+  });
+}
+
+function fixEditorialIcons(root){
+  var scope=root&&root.querySelectorAll?root:document;
+  var iconMap={
+    '\u2316':'<svg class="trg-pillar__icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="6"></circle><path d="M12 3v3"></path><path d="M12 18v3"></path><path d="M3 12h3"></path><path d="M18 12h3"></path></svg>',
+    '\u00e2\u0152\u2013':'<svg class="trg-pillar__icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="6"></circle><path d="M12 3v3"></path><path d="M12 18v3"></path><path d="M3 12h3"></path><path d="M18 12h3"></path></svg>',
+    '\u25ef':'<svg class="trg-pillar__icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="7"></circle></svg>',
+    '\u00e2\u2014\u00af':'<svg class="trg-pillar__icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="7"></circle></svg>',
+    '\u2691':'<svg class="trg-pillar__icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v16"></path><path d="M8 5h8l-2.6 3 2.6 3H8"></path></svg>',
+    '\u00e2\u0161\u2018':'<svg class="trg-pillar__icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v16"></path><path d="M8 5h8l-2.6 3 2.6 3H8"></path></svg>'
+  };
+  scope.querySelectorAll('.trg-pillar__icon').forEach(function(icon){
+    if(icon.querySelector('svg'))return;
+    var glyph=(icon.textContent||'').trim();
+    var markup=iconMap[glyph];
+    if(!markup)return;
+    icon.innerHTML=markup;
+    icon.setAttribute('aria-hidden','true');
   });
 }
 
