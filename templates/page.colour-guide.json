@@ -9,13 +9,13 @@
  */
 {
   "sections": {
-    "main": {
+    "guide_main_20260411c": {
       "type": "trg-colour-guide-v2",
       "settings": {}
     }
   },
   "order": [
-    "main"
+    "guide_main_20260411c"
   ]
 }
 
