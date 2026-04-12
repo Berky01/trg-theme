@@ -122,14 +122,13 @@ function renderHIWVisuals() {
   const outfitVis = document.getElementById('hiw-outfit-vis');
   const assignmentColour = 'Mustard';
   const garmentIcons = {
-    shirt: '<svg viewBox="0 0 96 72" fill="currentColor" aria-hidden="true"><path d="M26 18L38 8H58L70 18L80 24L72 36L64 31V64H32V31L24 36L16 24Z"/></svg>',
-    jacket: '<svg viewBox="0 0 96 72" fill="currentColor" aria-hidden="true"><path d="M30 10L40 6H56L66 10L78 21L70 35L62 31L58 64H38L34 31L26 35L18 21Z"/></svg>',
-    trousers: '<svg viewBox="0 0 96 72" fill="currentColor" aria-hidden="true"><path d="M32 8H64L58 64H48L44 34L40 64H30Z"/></svg>',
-    shoes: '<svg viewBox="0 0 96 40" fill="currentColor" aria-hidden="true"><path d="M16 24C21 20 28 19 35 21L44 25V34H8V29C10 26 12 25 16 24ZM55 24C60 20 67 19 74 21L83 25V34H47V29C49 26 51 25 55 24Z"/></svg>'
+    shirt: '<svg viewBox="0 0 96 72" fill="currentColor" aria-hidden="true"><path d="M24 20L36 10H60L72 20L80 25L72 34L65 31V62H31V31L24 34L16 25Z"/></svg>',
+    trousers: '<svg viewBox="0 0 42 72" fill="currentColor" aria-hidden="true"><path d="M9 6H33L28 70H21L18 40L15 70H8Z"/></svg>',
+    shoes: '<svg viewBox="0 0 90 28" fill="currentColor" aria-hidden="true"><path d="M10 17C17 13 24 13 31 15L39 18V26H2V22C4 19 6 18 10 17ZM50 17C57 13 64 13 71 15L79 18V26H42V22C44 19 46 18 50 17Z"/></svg>'
   };
   const garments = [
-    {type:'shirt'},
-    {type:'jacket',active:true,color:assignmentColour},
+    {type:'shirt',key:'shirt-muted'},
+    {type:'shirt',key:'shirt-active',active:true,color:assignmentColour},
     {type:'trousers'},
     {type:'shoes'}
   ];
@@ -141,8 +140,8 @@ function renderHIWVisuals() {
         </div>
         <div class="hiw-builder-arrow" aria-hidden="true"></div>
         <div class="hiw-builder-garments">
-          ${garments.map(({type,active,color})=>`
-            <div class="hiw-garment${active?' is-active':''}" data-garment="${type}"${active ? ` style="--hiw-garment-color:${C[color]}"` : ''}>
+          ${garments.map(({type,key,active,color})=>`
+            <div class="hiw-garment${active?' is-active':''}" data-garment="${key || type}"${active ? ` style="--hiw-garment-color:${C[color]}"` : ''}>
               ${garmentIcons[type]}
             </div>
           `).join('')}
@@ -163,20 +162,20 @@ function renderHIWVisuals() {
   sortIcon.innerHTML = '<svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 5h12M6.5 10h7M9 15h2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M14.5 4.5l2 2-2 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   const gridEl = document.createElement('div');
   gridEl.className = 'hiw-mini-grid';
-  const sortedPreviewProfile = PROFILES['medium-warm'];
-  const highlightedNames = ['Teal','Burgundy','Mustard'];
-  const grouped = [
-    ...sortedPreviewProfile.core.slice(0, 6),
-    ...sortedPreviewProfile.best.slice(0, 16),
-    ...sortedPreviewProfile.caution.slice(0, 8),
-    ...ALL_COLORS.filter(name => !sortedPreviewProfile.core.includes(name) && !sortedPreviewProfile.best.includes(name) && !sortedPreviewProfile.caution.includes(name)).slice(0, 18)
-  ].slice(0, 48);
-  grouped.forEach(name => {
+  const gridRows = [
+    ['Teal','Tan','Olive','Camel','Stone','Smoke','Burnt Orange','Terracotta','Raw Sienna','Amber','Mustard','Moss'],
+    ['Forest','Burgundy','Saddle Brown','Ochre','Olive Drab','Hunter','Turquoise','Taupe','Graphite','Pewter','Powder Blue','Stone'],
+    ['Light Grey','Dusty Rose','Lavender','White','Off-White','Cement','Silver','Pewter','Mushroom','Khaki','Sand','Taupe'],
+    ['Mushroom','Smoke','Copper','Tobacco','Chocolate','Fawn','Sage','Moss','Bottle Green']
+  ];
+  const highlightedNames = new Set(['Teal','Burgundy','Mustard']);
+  const matchedNames = new Set(['Forest','Olive','Camel','Stone','Smoke','Burnt Orange','Terracotta','Raw Sienna','Amber','Moss','Hunter','Turquoise','Sage','Bottle Green']);
+  gridRows.flat().forEach(name => {
     const cell = document.createElement('div');
     cell.className = 'hiw-mini-cell';
-    if (highlightedNames.includes(name)) {
+    if (highlightedNames.has(name)) {
       cell.classList.add('is-highlight');
-    } else if (sortedPreviewProfile.best.includes(name) || sortedPreviewProfile.core.includes(name)) {
+    } else if (matchedNames.has(name)) {
       cell.classList.add('is-match');
     }
     cell.style.background = C[name];
