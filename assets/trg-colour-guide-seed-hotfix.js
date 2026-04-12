@@ -151,3 +151,35 @@
     window.setTimeout(applySeed, 1200);
   }, { once: true });
 })();
+
+(function () {
+  var iconMap = {
+    '\u2316': '<svg class="trg-pillar__icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="6"></circle><path d="M12 3v3"></path><path d="M12 18v3"></path><path d="M3 12h3"></path><path d="M18 12h3"></path></svg>',
+    '\u00e2\u0152\u2013': '<svg class="trg-pillar__icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="6"></circle><path d="M12 3v3"></path><path d="M12 18v3"></path><path d="M3 12h3"></path><path d="M18 12h3"></path></svg>',
+    '\u25ef': '<svg class="trg-pillar__icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="7"></circle></svg>',
+    '\u00e2\u2014\u00af': '<svg class="trg-pillar__icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="7"></circle></svg>',
+    '\u2691': '<svg class="trg-pillar__icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v16"></path><path d="M8 5h8l-2.6 3 2.6 3H8"></path></svg>',
+    '\u00e2\u0161\u2018': '<svg class="trg-pillar__icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v16"></path><path d="M8 5h8l-2.6 3 2.6 3H8"></path></svg>'
+  };
+
+  function fixEditorialIcons(root) {
+    var scope = root && root.querySelectorAll ? root : document;
+    var icons = scope.querySelectorAll('.trg-pillar__icon');
+    for (var i = 0; i < icons.length; i += 1) {
+      var icon = icons[i];
+      if (icon.querySelector('svg')) continue;
+      var glyph = (icon.textContent || '').trim();
+      var markup = iconMap[glyph];
+      if (!markup) continue;
+      icon.innerHTML = markup;
+      icon.setAttribute('aria-hidden', 'true');
+    }
+  }
+
+  fixEditorialIcons(document);
+  document.addEventListener('DOMContentLoaded', function () { fixEditorialIcons(document); });
+  window.addEventListener('load', function () { fixEditorialIcons(document); });
+  document.addEventListener('shopify:section:load', function (event) { fixEditorialIcons(event.target || document); });
+  window.setTimeout(function () { fixEditorialIcons(document); }, 250);
+  window.setTimeout(function () { fixEditorialIcons(document); }, 1200);
+})();
