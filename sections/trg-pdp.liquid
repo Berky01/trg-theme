@@ -357,7 +357,7 @@
 
       <div class="trg-pdp__selector">
 
-        <div class="trg-pdp__selector-label">Colour</div>
+        <div class="trg-pdp__selector-label"><span>Colour</span><span class="trg-pdp__selector-value" data-trg-selected-color-label>{{ selected_colour | default: trg_variant_color_data.first.shopify_option_value | default: trg_variant_color_data.first.color_raw | default: trg_variant_color_data.first.color_normalized | escape }}</span></div>
 
         <div class="trg-pdp__chips trg-pdp__chips--colours">
 
@@ -371,6 +371,10 @@
               assign grouped_local_variant_id = color_group.shopify_first_variant_id | append: ''
               assign grouped_shopify_option_value = color_group.shopify_option_value | default: grouped_colour_value | strip
               assign grouped_colour_active = false
+              assign grouped_colour_swatch_image = ''
+              if trg_variant_media_mode == 'per_color'
+                assign grouped_colour_swatch_image = color_group.image_url | default: ''
+              endif
               if grouped_local_variant_id != blank and grouped_local_variant_id == trg_local_variant_id
                 assign grouped_colour_active = true
               elsif selected_colour != blank and grouped_shopify_option_value == selected_colour
@@ -398,9 +402,11 @@
 
               data-trg-shopify-option-value="{{ grouped_shopify_option_value | escape }}"
 
+              title="{{ grouped_colour_label | escape }}"
+
               aria-label="{{ grouped_colour_label | escape }}"
 
-            ><span class="trg-pdp__chip-swatch" style="--trg-colour-swatch: {{ grouped_colour_hex }};"></span><span>{{ grouped_colour_label }}</span></button>
+            ><span class="trg-pdp__chip-swatch{% if grouped_colour_swatch_image != blank %} trg-pdp__chip-swatch--image{% endif %}"{% if grouped_colour_swatch_image != blank %} style="--trg-colour-swatch: {{ grouped_colour_hex }}; background-image:url('{{ grouped_colour_swatch_image | escape }}');"{% else %} style="--trg-colour-swatch: {{ grouped_colour_hex }};"{% endif %}></span><span class="visually-hidden">{{ grouped_colour_label }}</span></button>
 
           {%- endfor -%}
 
@@ -426,23 +432,64 @@
 
         <div class="trg-pdp__selector">
 
-          <div class="trg-pdp__selector-label">{{ option.name }}</div>
+          <div class="trg-pdp__selector-label"><span>{{ option.name }}</span>{% if _opt_name_lower == 'color' or _opt_name_lower == 'colour' %}<span class="trg-pdp__selector-value" data-trg-selected-color-label>{{ option.selected_value | default: selected_colour | escape }}</span>{% endif %}</div>
 
-          <div class="trg-pdp__chips">
+          <div class="trg-pdp__chips{% if _opt_name_lower == 'color' or _opt_name_lower == 'colour' %} trg-pdp__chips--colours{% endif %}">
 
             {%- for val in option.values -%}
+              {%- if _opt_name_lower == 'color' or _opt_name_lower == 'colour' -%}
+                {%- liquid
+                  assign native_colour_hex = '#ddd8cf'
+                  assign native_colour_swatch_image = ''
+                  if trg_variant_color_data != blank
+                    for native_color_group in trg_variant_color_data
+                      assign native_group_option_value = native_color_group.shopify_option_value | default: native_color_group.color_raw | default: native_color_group.color_normalized | strip
+                      assign native_group_norm = native_color_group.color_normalized | strip
+                      assign native_group_raw = native_color_group.color_raw | strip
+                      if native_group_option_value == val or native_group_norm == val or native_group_raw == val
+                        assign native_colour_hex = native_color_group.color_hex | default: native_colour_hex
+                        if trg_variant_media_mode == 'per_color'
+                          assign native_colour_swatch_image = native_color_group.image_url | default: ''
+                        endif
+                        break
+                      endif
+                    endfor
+                  endif
+                  assign native_colour_active = false
+                  if option.selected_value != blank and option.selected_value == val
+                    assign native_colour_active = true
+                  elsif option.selected_value == blank and forloop.first
+                    assign native_colour_active = true
+                  endif
+                -%}
+                <button
 
-              <button
+                  class="trg-pdp__chip trg-pdp__chip--colour{% if native_colour_active %} active{% endif %}"
 
-                class="trg-pdp__chip{% if forloop.first %} active{% endif %}"
+                  type="button"
 
-                type="button"
+                  data-option-index="{{ forloop.parentloop.index0 }}"
 
-                data-option-index="{{ forloop.parentloop.index0 }}"
+                  data-value="{{ val | escape }}"
 
-                data-value="{{ val | escape }}"
+                  title="{{ val | escape }}"
 
-              >{{ val }}</button>
+                  aria-label="{{ val | escape }}"
+
+                ><span class="trg-pdp__chip-swatch{% if native_colour_swatch_image != blank %} trg-pdp__chip-swatch--image{% endif %}"{% if native_colour_swatch_image != blank %} style="--trg-colour-swatch: {{ native_colour_hex }}; background-image:url('{{ native_colour_swatch_image | escape }}');"{% else %} style="--trg-colour-swatch: {{ native_colour_hex }};"{% endif %}></span><span class="visually-hidden">{{ val }}</span></button>
+              {%- else -%}
+                <button
+
+                  class="trg-pdp__chip{% if option.selected_value == val or option.selected_value == blank and forloop.first %} active{% endif %}"
+
+                  type="button"
+
+                  data-option-index="{{ forloop.parentloop.index0 }}"
+
+                  data-value="{{ val | escape }}"
+
+                >{{ val }}</button>
+              {%- endif -%}
 
             {%- endfor -%}
 
@@ -1229,6 +1276,30 @@
 
 <script src="{{ 'trg-pdp-enhance.js' | asset_url }}" defer></script>
 
+<script>
+  (function(){
+    var TOLERANCE = 0.12;
+    var TARGET = 0.80;
+    function checkFit(img) {
+      if (!img.naturalWidth || !img.naturalHeight) return;
+      var ratio = img.naturalWidth / img.naturalHeight;
+      if (Math.abs(ratio - TARGET) > TOLERANCE) img.classList.add('trg-img-contain');
+    }
+    document.querySelectorAll('.trg-pdp__gallery-main img').forEach(function(img) {
+      if (img.complete) checkFit(img);
+      else img.addEventListener('load', function() { checkFit(img); }, { once: true });
+    });
+    var obs = new MutationObserver(function() {
+      document.querySelectorAll('.trg-pdp__gallery-main img:not(.trg-img-contain)').forEach(function(img) {
+        if (img.complete) checkFit(img);
+        else img.addEventListener('load', function() { checkFit(img); }, { once: true });
+      });
+    });
+    var gallery = document.querySelector('.trg-pdp__gallery-main');
+    if (gallery) obs.observe(gallery, { childList: true, subtree: true });
+  })();
+</script>
+
 {% endif %}
 
 
@@ -1379,7 +1450,7 @@
 
     object-position: center center;
 
-    background: var(--trg-card-bg, #f5f2ed);
+    background: #fff;
 
   }
 
@@ -1679,6 +1750,14 @@
 
   .trg-pdp__selector-label {
 
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 0.75rem;
+
     font-size: 0.7rem;
 
     font-weight: 600;
@@ -1693,6 +1772,20 @@
 
   }
 
+  .trg-pdp__selector-value {
+
+    font-size: 0.68rem;
+
+    font-weight: 500;
+
+    letter-spacing: 0.04em;
+
+    text-transform: none;
+
+    color: #1a1a18;
+
+  }
+
   .trg-pdp__chips {
 
     display: flex;
@@ -1700,6 +1793,12 @@
     gap: 0.4rem;
 
     flex-wrap: wrap;
+
+  }
+
+  .trg-pdp__chips--colours {
+
+    gap: 0.55rem;
 
   }
 
@@ -1737,17 +1836,27 @@
 
     align-items: center;
 
-    gap: 0.45rem;
+    justify-content: center;
 
-    min-width: 0;
+    width: 2.15rem;
+
+    height: 2.15rem;
+
+    min-width: 2.15rem;
+
+    padding: 0;
+
+    border-radius: 999px;
+
+    background: transparent;
 
   }
 
   .trg-pdp__chip-swatch {
 
-    width: 0.8rem;
+    width: 1.45rem;
 
-    height: 0.8rem;
+    height: 1.45rem;
 
     border-radius: 999px;
 
@@ -1756,6 +1865,16 @@
     border: 1px solid rgba(26, 26, 24, 0.12);
 
     flex-shrink: 0;
+
+  }
+
+  .trg-pdp__chip-swatch--image {
+
+    background-position: center;
+
+    background-repeat: no-repeat;
+
+    background-size: cover;
 
   }
 
@@ -1772,6 +1891,24 @@
     color: #f5f1eb;
 
     border-color: #1a1a18;
+
+  }
+
+  .trg-pdp__chip--colour.active {
+
+    background: transparent;
+
+    color: #1a1a18;
+
+    border-color: #1a1a18;
+
+    box-shadow: 0 0 0 1px #1a1a18;
+
+  }
+
+  .trg-pdp__chip--colour:hover {
+
+    transform: translateY(-1px);
 
   }
 

@@ -40,6 +40,7 @@
   var selectedOptions = [];
   var currentVariant = null;
   var lastDispatchedColour = null;
+  var selectedColourLabels = Array.prototype.slice.call(document.querySelectorAll('[data-trg-selected-color-label]'));
 
   chips.forEach(function (chip) {
     if (chip.dataset.trgGroupedColour === 'true') {
@@ -82,6 +83,48 @@
       if (raw === lower || norm === lower) return g;
     }
     return null;
+  }
+
+  function syncSelectedColorLabel(colorName) {
+    if (!selectedColourLabels.length) return;
+    var label = colorName || '';
+    selectedColourLabels.forEach(function (node) {
+      node.textContent = label;
+    });
+  }
+
+  function imageKey(url) {
+    if (!url) return '';
+    try {
+      var parsed = new URL(url, window.location.origin);
+      var parts = parsed.pathname.split('/');
+      return (parts[parts.length - 1] || '').toLowerCase();
+    } catch (err) {
+      return String(url).split('?')[0].split('/').pop().toLowerCase();
+    }
+  }
+
+  function findImageIndexByUrl(url) {
+    var key = imageKey(url);
+    if (!key) return -1;
+    for (var i = 0; i < allImages.length; i++) {
+      if (imageKey(allImages[i].src) === key) return i;
+    }
+    return -1;
+  }
+
+  function setMainImage(src, alt) {
+    if (!galleryImg || galleryImg.tagName !== 'IMG' || !src) return;
+    galleryImg.removeAttribute('srcset');
+    galleryImg.src = src;
+    if (alt) galleryImg.alt = alt;
+  }
+
+  function getPreferredImageForSelection(colorName) {
+    var group = colorName ? findColorGroup(colorName) : null;
+    if (currentVariant && currentVariant.featuredImage) return currentVariant.featuredImage;
+    if (group && group.image_url) return group.image_url;
+    return '';
   }
 
   /* ── Initialization ── */
@@ -261,6 +304,7 @@
 
     /* Gallery */
     filterGalleryByColor(colorName);
+    syncSelectedColorLabel(colorName);
 
     /* Price */
     syncColorGroupPrice(group);
@@ -480,8 +524,31 @@
     }
 
     if (selectedColour) {
-      filterGalleryByColor(selectedColour);
+      var preferredImage = getPreferredImageForSelection(selectedColour);
+      syncSelectedColorLabel(selectedColour);
+      if (variantMediaMode === 'shared_gallery') {
+        if (preferredImage) {
+          var sharedIndex = findImageIndexByUrl(preferredImage);
+          if (sharedIndex >= 0) {
+            images = allImages.slice();
+            thumbs = allThumbs.slice();
+            allThumbs.forEach(function (thumb) { thumb.style.display = ''; });
+            goToImage(sharedIndex);
+            return;
+          }
+          setMainImage(preferredImage, selectedColour);
+          allThumbs.forEach(function (thumb) {
+            thumb.classList.remove('active');
+            thumb.style.display = '';
+          });
+          return;
+        }
+        resetGallery();
+        return;
+      }
+      filterGalleryByColor(selectedColour, preferredImage);
     } else {
+      syncSelectedColorLabel('');
       resetGallery();
     }
   }
@@ -617,23 +684,33 @@
   /**
    * Filter gallery thumbnails + images array by color alt text.
    */
-  function filterGalleryByColor(color) {
-    if (variantMediaMode === 'shared_gallery') {
-      resetGallery();
-      return;
-    }
+  function filterGalleryByColor(color, preferredImage) {
     if (!color || allImages.length <= 1) return;
 
     var hasColorTags = allImages.some(function (img) { return img.alt && img.alt !== ''; });
+    if (!hasColorTags && preferredImage) {
+      var directIndex = findImageIndexByUrl(preferredImage);
+      if (directIndex >= 0) {
+        images = allImages.slice();
+        thumbs = allThumbs.slice();
+        allThumbs.forEach(function (thumb) { thumb.style.display = ''; });
+        goToImage(directIndex);
+        return;
+      }
+      setMainImage(preferredImage, color);
+      return;
+    }
     if (!hasColorTags) return;
 
     activeColorFilter = color;
     var filtered = [];
     var filteredThumbEls = [];
+    var colorNeedle = color.toLowerCase();
 
     allThumbs.forEach(function (thumb, i) {
       var imgAlt = (allImages[i] && allImages[i].alt) || '';
-      var match = imgAlt.toLowerCase() === color.toLowerCase();
+      var imgAltLower = imgAlt.toLowerCase();
+      var match = imgAltLower === colorNeedle || imgAltLower.indexOf(colorNeedle) !== -1;
       thumb.style.display = match ? '' : 'none';
       if (match) {
         filtered.push(allImages[i]);
@@ -642,6 +719,18 @@
     });
 
     if (filtered.length === 0) {
+      if (preferredImage) {
+        var preferredIndex = findImageIndexByUrl(preferredImage);
+        if (preferredIndex >= 0) {
+          allThumbs.forEach(function (thumb) { thumb.style.display = ''; });
+          images = allImages.slice();
+          thumbs = allThumbs.slice();
+          goToImage(preferredIndex);
+          return;
+        }
+        setMainImage(preferredImage, color);
+        return;
+      }
       allThumbs.forEach(function (t) { t.style.display = ''; });
       images = allImages.slice();
       thumbs = allThumbs.slice();
@@ -651,7 +740,10 @@
 
     images = filtered;
     thumbs = filteredThumbEls;
-    goToImage(0);
+    var filteredPreferredIndex = preferredImage
+      ? filtered.findIndex(function (img) { return imageKey(img.src) === imageKey(preferredImage); })
+      : -1;
+    goToImage(filteredPreferredIndex >= 0 ? filteredPreferredIndex : 0);
   }
 
   function resetGallery() {
