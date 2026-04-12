@@ -29,6 +29,8 @@ const COLOUR_GUIDE_SLOT_META = {
   coat: { handle: 'outerwear', label: 'Outerwear', singular: 'coat', note: 'Top off the palette.' },
   shoes: { handle: 'footwear', label: 'Footwear', singular: 'shoes', note: 'Ground the look.' },
 };
+const COLOUR_GUIDE_HIW_DEPTH_FALLBACKS = ['#a88d72', '#be8250', '#4a2c1a'];
+const COLOUR_GUIDE_HIW_FAN_FALLBACKS = ['#5c2c10', '#8b6834', '#a05030', '#c06848', '#d09030', '#4a5828'];
 
 function normalize(value = '') {
   return value
@@ -683,6 +685,148 @@ function normalizeColourGuideSeedColor(rawColor) {
   return alias || trimmed;
 }
 
+function ensureColourGuideIntroCardHotfixStyle() {
+  if (document.getElementById('trg-colour-guide-intro-hotfix')) {
+    return;
+  }
+
+  const style = document.createElement('style');
+  style.id = 'trg-colour-guide-intro-hotfix';
+  style.textContent = `
+    .trg-colour-guide .trg-hiw-v1-hotfix{min-height:214px!important;padding:1.02rem 1.02rem 1.06rem!important}
+    .trg-colour-guide .trg-hiw-v1-hotfix .hiw-visual-shell{display:flex!important;flex-direction:column!important;gap:.9rem!important;width:100%!important}
+    .trg-colour-guide .trg-hiw-v1-hotfix .hiw-visual-label{font-size:.5rem!important;font-weight:700!important;letter-spacing:.11em!important;text-transform:uppercase!important;color:rgba(245,241,235,.72)!important}
+    .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-flow{display:grid!important;grid-template-columns:minmax(108px,124px) 26px minmax(0,1fr)!important;gap:16px!important;align-items:center!important;width:100%!important;padding:0 .12rem!important}
+    .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-stage{display:flex!important;flex-direction:column!important;align-items:flex-start!important;justify-content:center!important;gap:12px!important;min-width:0!important}
+    .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-depth{display:flex!important;flex-direction:column!important;align-items:flex-start!important;gap:12px!important;min-width:0!important}
+    .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-tone-row{display:flex!important;align-items:center!important;gap:10px!important;min-width:0!important}
+    .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-skin{border-radius:50%!important;border:1.5px solid rgba(255,255,255,.08)!important;opacity:.55!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.08)!important}
+    .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-skin.sm{width:28px!important;height:28px!important}
+    .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-skin.md{width:60px!important;height:60px!important}
+    .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-skin.lg{width:34px!important;height:34px!important}
+    .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-skin.active{opacity:1!important;box-shadow:0 0 0 5px rgba(196,86,42,.18),inset 0 1px 0 rgba(255,255,255,.12)!important}
+    .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-depth-meta{display:flex!important;flex-direction:column!important;align-items:flex-start!important;gap:2px!important}
+    .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-depth-name{font-size:.8rem!important;font-weight:600!important;letter-spacing:.06em!important;text-transform:uppercase!important;color:rgba(245,241,235,.9)!important}
+    .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-divider{width:26px!important;height:2px!important;background:linear-gradient(90deg,rgba(245,241,235,.14),rgba(245,241,235,.84))!important;position:relative!important}
+    .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-divider::after{content:''!important;position:absolute!important;right:-1px!important;top:50%!important;width:9px!important;height:9px!important;border-top:2px solid rgba(245,241,235,.84)!important;border-right:2px solid rgba(245,241,235,.84)!important;transform:translateY(-50%) rotate(45deg)!important}
+    .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-output{display:flex!important;flex-direction:column!important;gap:.8rem!important;min-width:0!important;align-items:flex-start!important}
+    .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-result{display:flex!important;align-items:center!important;gap:8px!important}
+    .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-result-dot{width:13px!important;height:13px!important;border-radius:50%!important;border:1.5px solid rgba(255,255,255,.12)!important}
+    .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-result-name{font-size:.58rem!important;font-weight:700!important;letter-spacing:.1em!important;text-transform:uppercase!important;color:rgba(245,241,235,.84)!important}
+    .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-palette-ill{position:relative!important;height:96px!important;width:146px!important;margin:0!important}
+    .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-palette-card{position:absolute!important;bottom:0!important;width:36px!important;height:84px!important;border-radius:9px 9px 4px 4px!important;border:1px solid rgba(255,255,255,.08)!important;box-shadow:0 14px 24px rgba(0,0,0,.22)!important;transform-origin:bottom center!important}
+    .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-palette-card:nth-child(1){left:0!important;transform:rotate(-13deg)!important}
+    .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-palette-card:nth-child(2){left:22px!important;transform:rotate(-8deg)!important}
+    .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-palette-card:nth-child(3){left:44px!important;transform:rotate(-3deg)!important}
+    .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-palette-card:nth-child(4){left:66px!important;transform:rotate(2deg)!important}
+    .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-palette-card:nth-child(5){left:88px!important;transform:rotate(7deg)!important}
+    .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-palette-card:nth-child(6){left:110px!important;transform:rotate(12deg)!important}
+    @media (max-width: 749px){
+      .trg-colour-guide .trg-hiw-v1-hotfix{min-height:176px!important;padding:1rem .92rem .95rem!important}
+      .trg-colour-guide .trg-hiw-v1-hotfix .hiw-visual-label{font-size:.43rem!important}
+      .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-flow{display:flex!important;flex-direction:column!important;align-items:flex-start!important;gap:10px!important;padding:0!important}
+      .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-stage,.trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-output{width:100%!important}
+      .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-depth{gap:9px!important}
+      .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-tone-row{gap:8px!important}
+      .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-skin.sm{width:24px!important;height:24px!important}
+      .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-skin.md{width:46px!important;height:46px!important}
+      .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-skin.lg{width:32px!important;height:32px!important}
+      .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-depth-name{font-size:.62rem!important}
+      .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-divider{width:28px!important}
+      .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-palette-ill{width:124px!important;height:78px!important}
+      .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-palette-card{width:28px!important;height:66px!important}
+      .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-palette-card:nth-child(1){left:0!important}
+      .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-palette-card:nth-child(2){left:19px!important}
+      .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-palette-card:nth-child(3){left:38px!important}
+      .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-palette-card:nth-child(4){left:57px!important}
+      .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-palette-card:nth-child(5){left:76px!important}
+      .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-palette-card:nth-child(6){left:95px!important}
+      .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-result-name{font-size:.48rem!important}
+    }
+  `;
+  document.head.appendChild(style);
+}
+
+function rewriteColourGuideIntroCard() {
+  if (Theme?.template?.name !== 'page.colour-guide') {
+    return false;
+  }
+
+  const root = document.getElementById('hiw-v1');
+  if (!(root instanceof HTMLElement)) {
+    return false;
+  }
+
+  ensureColourGuideIntroCardHotfixStyle();
+  root.classList.add('trg-hiw-v1-hotfix');
+
+  const skinColors = Array.from(root.querySelectorAll('.hiw-v1-skin'))
+    .map((element) => element.style.background || element.style.backgroundColor || '')
+    .filter(Boolean);
+  const paletteColors = Array.from(root.querySelectorAll('.hiw-v1-palette-card'))
+    .map((element) => element.style.background || element.style.backgroundColor || '')
+    .filter(Boolean);
+  const depthName = root.querySelector('.hiw-v1-depth-name')?.textContent?.trim() || 'Medium';
+  const resultName = root.querySelector('.hiw-v1-result-name')?.textContent?.trim() || 'Autumn';
+  const resultSwatch = root.querySelector('.hiw-v1-result-dot')?.style.background || '#b07840';
+  const finalSkinColors = COLOUR_GUIDE_HIW_DEPTH_FALLBACKS.map((fallback, index) => skinColors[index] || fallback);
+  const finalPaletteColors = COLOUR_GUIDE_HIW_FAN_FALLBACKS.map((fallback, index) => paletteColors[index] || fallback);
+
+  root.innerHTML = `
+    <div class="hiw-visual-shell">
+      <span class="hiw-visual-label">Finder input to palette result</span>
+      <div class="hiw-v1-flow">
+        <div class="hiw-v1-stage">
+          <div class="hiw-v1-depth">
+            <div class="hiw-v1-tone-row">
+              <div class="hiw-v1-skin sm" style="background:${finalSkinColors[0]}"></div>
+              <div class="hiw-v1-skin md active" style="background:${finalSkinColors[1]}"></div>
+              <div class="hiw-v1-skin lg" style="background:${finalSkinColors[2]}"></div>
+            </div>
+            <div class="hiw-v1-depth-meta">
+              <span class="hiw-v1-depth-name">${depthName}</span>
+            </div>
+          </div>
+        </div>
+        <div class="hiw-v1-divider"></div>
+        <div class="hiw-v1-output">
+          <div class="hiw-v1-result">
+            <div class="hiw-v1-result-dot" style="background:${resultSwatch}"></div>
+            <span class="hiw-v1-result-name">${resultName}</span>
+          </div>
+          <div class="hiw-v1-palette-ill">
+            ${finalPaletteColors.map((color) => `<div class="hiw-v1-palette-card" style="background:${color}"></div>`).join('')}
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  return true;
+}
+
+function initColourGuideIntroCardHotfix() {
+  if (Theme?.template?.name !== 'page.colour-guide') {
+    return;
+  }
+
+  [0, 120, 400, 1200, 2600, 5000, 8000].forEach((delay) => {
+    window.setTimeout(() => {
+      rewriteColourGuideIntroCard();
+    }, delay);
+  });
+
+  window.addEventListener(
+    'load',
+    () => {
+      window.setTimeout(() => {
+        rewriteColourGuideIntroCard();
+      }, 900);
+    },
+    { once: true }
+  );
+}
+
 function initColourGuideSeedRescueShim() {
   if (Theme?.template?.name !== 'page.colour-guide') {
     return;
@@ -815,6 +959,7 @@ function initColourGuideSeedRescueShim() {
 onDocumentReady(() => {
   ensureColourGuideShopIndexShim();
   initColourGuideIntentShim();
+  initColourGuideIntroCardHotfix();
   initColourGuideSeedRescueShim();
   initSearchDropdown();
   initSharedSearchBar();
