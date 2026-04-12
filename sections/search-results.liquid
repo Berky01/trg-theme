@@ -228,10 +228,18 @@
                       {% liquid
                         assign group_label = color_group.color_raw | default: color_group.color_normalized | strip
                         assign group_hex = color_group.color_hex | default: '#ddd8cf'
+                        assign group_image = color_group.image_url | default: ''
                         assign group_variant_id = color_group.first_variant_id | default: color_group.source_variant_external_id | append: ''
+                        assign group_local_variant_id = color_group.shopify_first_variant_id | append: ''
                         assign group_url = product.url
                         assign group_query_value = group_label | url_encode
-                        if group_url contains '?'
+                        if group_local_variant_id != blank
+                          if group_url contains '?'
+                            assign group_url = group_url | append: '&variant=' | append: group_local_variant_id | append: '&trg_color=' | append: group_query_value
+                          else
+                            assign group_url = group_url | append: '?variant=' | append: group_local_variant_id | append: '&trg_color=' | append: group_query_value
+                          endif
+                        elsif group_url contains '?'
                           assign group_url = group_url | append: '&trg_color=' | append: group_query_value
                         else
                           assign group_url = group_url | append: '?trg_color=' | append: group_query_value
@@ -243,15 +251,17 @@
                           assign group_is_active = true
                         endif
                       %}
-                      <a
+                      <button
+                        type="button"
                         class="trg-plp-card-colour{% if group_is_active %} is-active{% endif %}"
-                        href="{{ group_url }}"
                         aria-label="{{ group_label | escape }}"
                         title="{{ group_label | escape }}"
+                        data-trg-colour-url="{{ group_url }}"
+                        data-trg-colour-image="{{ group_image }}"
                       >
                         <span class="trg-plp-card-colour__swatch" style="--trg-colour-swatch: {{ group_hex }};"></span>
                         <span class="visually-hidden">{{ group_label }}</span>
-                      </a>
+                      </button>
                     {% endfor %}
                   </div>
                 </div>

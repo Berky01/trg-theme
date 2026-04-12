@@ -1,8 +1,9 @@
 /**
- * TRG PDP Enhancements — v1
- * 1. Universal description parser (splits raw blob → Details / Materials+Care / Shipping)
+ * TRG PDP Enhancements -- v2
+ * 1. Thumbnail + chip handlers with color group awareness
  * 2. Gallery arrows + touch swipe
- * 3. Thumbnail & chip click handlers (replaces inline script)
+ * 3. Universal description parser
+ * 4. Color group switching: gallery filter, buy URL swap, price update
  */
 (function () {
   'use strict';
@@ -22,22 +23,31 @@
     });
   });
 
-  /* All images (unfiltered) — used by color gallery filter */
   var allImages = images.slice();
   var allThumbs = Array.prototype.slice.call(thumbs);
-  var activeColorFilter = null; /* null = show all */
+  var activeColorFilter = null;
   var priceEl = document.querySelector('.trg-pdp__price');
   var priceCaEl = document.querySelector('.trg-pdp__price-ca');
   var productData = parseProductData();
+  var colorGroups = (productData && Array.isArray(productData.colorGroups)) ? productData.colorGroups : [];
+  var baseBuyUrl = (productData && productData.buyUrl) ? productData.buyUrl : null;
   var optionNames = productData && Array.isArray(productData.options) ? productData.options : [];
   var colourOptionIndex = optionNames.findIndex(function (name) { return /colou?r/i.test(name || ''); });
-  var chips = Array.prototype.slice.call(document.querySelectorAll('.trg-pdp__chip[data-option-index]'));
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.trg-pdp__chip[data-option-index], .trg-pdp__chip[data-trg-grouped-colour="true"]'));
   var chipsByOption = {};
+  var groupedColourChips = [];
   var selectedOptions = [];
   var currentVariant = null;
   var lastDispatchedColour = null;
 
   chips.forEach(function (chip) {
+    if (chip.dataset.trgGroupedColour === 'true') {
+      groupedColourChips.push(chip);
+      chip.addEventListener('click', function () {
+        handleChipClick(chip);
+      });
+      return;
+    }
     var optionIndex = parseInt(chip.dataset.optionIndex, 10);
     if (!chipsByOption[optionIndex]) chipsByOption[optionIndex] = [];
     chipsByOption[optionIndex].push(chip);
@@ -59,8 +69,31 @@
     }
   }
 
+  /* ── Color group lookup ── */
+
+  function findColorGroup(colorName) {
+    if (!colorName || !colorGroups.length) return null;
+    var lower = colorName.toLowerCase();
+    for (var i = 0; i < colorGroups.length; i++) {
+      var g = colorGroups[i];
+      var raw = (g.color_raw || '').toLowerCase();
+      var norm = (g.color_normalized || '').toLowerCase();
+      if (raw === lower || norm === lower) return g;
+    }
+    return null;
+  }
+
+  /* ── Initialization ── */
+
   function initializeVariantState() {
-    if (!productData || !Array.isArray(productData.variants) || productData.variants.length === 0) {
+    var hasVariants = productData && Array.isArray(productData.variants) && productData.variants.length > 0;
+
+    if (!hasVariants && colorGroups.length > 1) {
+      initColorGroupOnly();
+      return;
+    }
+
+    if (!hasVariants) {
       applyRequestedColourFallback();
       return;
     }
@@ -82,14 +115,40 @@
     applyVariantState(resolvedVariant, { syncUrl: false, dispatchColour: true });
   }
 
+  function initColorGroupOnly() {
+    var requestedColor = getRequestedColor();
+    var targetGroup = null;
+
+    if (requestedColor) {
+      targetGroup = findColorGroup(requestedColor);
+    }
+    if (!targetGroup) {
+      targetGroup = colorGroups[0];
+    }
+
+    applyColorGroupState(targetGroup, { syncUrl: !!requestedColor, dispatchColour: true });
+  }
+
   function applyRequestedColourFallback() {
     try {
       var requestedColor = getRequestedColor();
       if (!requestedColor) return;
-      var preferredChip = Array.prototype.slice.call(document.querySelectorAll('.trg-pdp__chip[data-option-index="0"]')).find(function (chip) {
-        var colorVal = chip.dataset.value || chip.textContent.trim();
+      var preferredChip = groupedColourChips.find(function (chip) {
+        var colorVal = chip.dataset.trgShopifyOptionValue || chip.dataset.value || chip.textContent.trim();
         return colorVal && colorVal.toLowerCase() === requestedColor.toLowerCase();
       });
+      if (!preferredChip && colourOptionIndex >= 0) {
+        preferredChip = Array.prototype.slice.call(document.querySelectorAll('.trg-pdp__chip[data-option-index="' + colourOptionIndex + '"]')).find(function (chip) {
+          var colorVal = chip.dataset.value || chip.textContent.trim();
+          return colorVal && colorVal.toLowerCase() === requestedColor.toLowerCase();
+        });
+      }
+      if (!preferredChip) {
+        preferredChip = Array.prototype.slice.call(document.querySelectorAll('.trg-pdp__chip[data-option-index="0"]')).find(function (chip) {
+          var colorVal = chip.dataset.value || chip.textContent.trim();
+          return colorVal && colorVal.toLowerCase() === requestedColor.toLowerCase();
+        });
+      }
       if (preferredChip) handleChipClick(preferredChip);
     } catch (err) {
       console.warn('[TRG] Could not apply trg_color preselect:', err);
@@ -113,14 +172,32 @@
     }
   }
 
+  /* ── Chip click ── */
+
   function handleChipClick(chip) {
     if (!chip) return;
     if (chip.disabled || chip.classList.contains('is-unavailable')) return;
 
+    if (chip.dataset.trgGroupedColour === 'true') {
+      handleGroupedColourChip(chip);
+      return;
+    }
+
     var optionIndex = parseInt(chip.dataset.optionIndex, 10);
     var optionValue = chip.dataset.value || chip.textContent.trim();
+    var hasVariants = productData && Array.isArray(productData.variants) && productData.variants.length > 0;
 
-    if (!productData || !Array.isArray(productData.variants) || productData.variants.length === 0) {
+    /* Color chip on a color-group-only product (no native variants) */
+    if (!hasVariants && optionIndex === 0 && colorGroups.length > 1) {
+      var group = findColorGroup(optionValue);
+      if (group) {
+        applyColorGroupState(group, { syncUrl: true, dispatchColour: true });
+        return;
+      }
+    }
+
+    /* Fallback: no product data at all */
+    if (!hasVariants) {
       var parent = chip.closest('.trg-pdp__chips');
       if (parent) {
         parent.querySelectorAll('.trg-pdp__chip').forEach(function (sibling) {
@@ -132,13 +209,82 @@
       return;
     }
 
+    /* Normal variant-aware path */
     selectedOptions[optionIndex] = optionValue;
-
     var resolvedVariant = resolveVariant(optionIndex);
     if (!resolvedVariant) return;
-
     applyVariantState(resolvedVariant, { syncUrl: true, dispatchColour: true });
   }
+
+  function handleGroupedColourChip(chip) {
+    var hasVariants = productData && Array.isArray(productData.variants) && productData.variants.length > 0;
+    var colorValue = chip.dataset.trgShopifyOptionValue || chip.dataset.value || chip.textContent.trim();
+    var localVariantId = chip.dataset.trgShopifyVariantId || '';
+
+    if (!hasVariants) {
+      var group = findColorGroup(colorValue);
+      if (group) {
+        applyColorGroupState(group, { syncUrl: true, dispatchColour: true });
+      }
+      return;
+    }
+
+    var resolvedVariant = resolveGroupedColourVariant(colorValue, localVariantId);
+    if (resolvedVariant) {
+      if (colourOptionIndex >= 0 && colorValue) {
+        selectedOptions[colourOptionIndex] = colorValue;
+      }
+      applyVariantState(resolvedVariant, { syncUrl: true, dispatchColour: true });
+      return;
+    }
+
+    var fallbackGroup = findColorGroup(colorValue);
+    if (fallbackGroup) {
+      applyColorGroupState(fallbackGroup, { syncUrl: true, dispatchColour: true });
+    }
+  }
+
+  /* ── Color-group-only state (no native Color variants) ── */
+
+  function applyColorGroupState(group, options) {
+    if (!group) return;
+
+    var colorName = group.color_raw || group.color_normalized || '';
+
+    /* Sync active chip */
+    var colorChips = chipsByOption[0] || [];
+    colorChips.forEach(function (chip) {
+      var chipVal = chip.dataset.value || chip.textContent.trim();
+      chip.classList.toggle('active', chipVal.toLowerCase() === colorName.toLowerCase());
+    });
+
+    /* Gallery */
+    filterGalleryByColor(colorName);
+
+    /* Price */
+    syncColorGroupPrice(group);
+
+    /* Buy URL */
+    syncBuyUrl(group);
+
+    /* URL param */
+    if (options && options.syncUrl) {
+      syncColorUrlParam(colorName);
+    }
+
+    /* Colour guide module */
+    if (options && options.dispatchColour) {
+      if (colorName !== lastDispatchedColour) {
+        lastDispatchedColour = colorName;
+        syncGuideModule(colorName);
+        window.dispatchEvent(new CustomEvent('trg-swatch-change', {
+          detail: { name: colorName, variantId: group.first_variant_id || null }
+        }));
+      }
+    }
+  }
+
+  /* ── Variant resolution ── */
 
   function resolveVariant(changedOptionIndex) {
     if (!productData || !Array.isArray(productData.variants) || productData.variants.length === 0) return null;
@@ -188,6 +334,8 @@
     return score;
   }
 
+  /* ── Apply variant state (products with native variants) ── */
+
   function applyVariantState(variant, options) {
     if (!variant) return;
 
@@ -196,8 +344,17 @@
 
     syncActiveChips();
     syncChipAvailability();
-    syncPrice(variant);
     syncColourPresentation();
+
+    /* Price: prefer color group price, fall back to variant price */
+    var selectedColour = colourOptionIndex >= 0 ? selectedOptions[colourOptionIndex] : null;
+    var group = selectedColour ? findColorGroup(selectedColour) : null;
+    if (group) {
+      syncColorGroupPrice(group);
+      syncBuyUrl(group);
+    } else {
+      syncPrice(variant);
+    }
 
     if (options && options.syncUrl) {
       syncUrlState(variant);
@@ -215,6 +372,19 @@
         var chipValue = chip.dataset.value || chip.textContent.trim();
         chip.classList.toggle('active', selectedOptions[optionIndex] === chipValue);
       });
+    });
+
+    groupedColourChips.forEach(function (chip) {
+      var chipValue = chip.dataset.trgShopifyOptionValue || chip.dataset.value || chip.textContent.trim();
+      var chipVariantId = chip.dataset.trgShopifyVariantId || '';
+      var isActive = false;
+      if (colourOptionIndex >= 0 && selectedOptions[colourOptionIndex]) {
+        isActive = selectedOptions[colourOptionIndex] === chipValue;
+      }
+      if (!isActive && chipVariantId && currentVariant && String(currentVariant.id) === String(chipVariantId)) {
+        isActive = true;
+      }
+      chip.classList.toggle('active', isActive);
     });
   }
 
@@ -236,7 +406,29 @@
         chip.classList.toggle('is-unavailable', !available);
       });
     });
+
+    groupedColourChips.forEach(function (chip) {
+      var chipValue = chip.dataset.trgShopifyOptionValue || chip.dataset.value || chip.textContent.trim();
+      var available = true;
+
+      if (colourOptionIndex >= 0 && productData && Array.isArray(productData.variants)) {
+        var nextSelections = selectedOptions.slice();
+        nextSelections[colourOptionIndex] = chipValue;
+        available = productData.variants.some(function (variant) {
+          if (!variant.available) return false;
+          return nextSelections.every(function (value, index) {
+            return !value || index === colourOptionIndex || variantOptionValue(variant, index) === value;
+          }) && variantOptionValue(variant, colourOptionIndex) === chipValue;
+        });
+      }
+
+      chip.disabled = !available;
+      chip.setAttribute('aria-disabled', available ? 'false' : 'true');
+      chip.classList.toggle('is-unavailable', !available);
+    });
   }
+
+  /* ── Price sync ── */
 
   function syncPrice(variant) {
     if (priceEl && typeof variant.price === 'number') {
@@ -250,8 +442,41 @@
     }
   }
 
+  function syncColorGroupPrice(group) {
+    if (!group || group.price === null || group.price === undefined) return;
+    var cents = parseFloat(group.price);
+    if (isNaN(cents) || cents <= 0) return;
+    /* Color group prices from FM are in dollars (not cents) */
+    var dollars = cents;
+    if (priceEl) priceEl.textContent = '$' + Math.floor(dollars);
+    if (priceCaEl) priceCaEl.textContent = '~CA$' + Math.floor(dollars * 1.37);
+  }
+
+  /* ── Buy URL sync ── */
+
+  function syncBuyUrl(group) {
+    if (!group) return;
+    var url = group.url || baseBuyUrl;
+    if (!url) return;
+
+    var primaryLinks = document.querySelectorAll('.trg-pdp__market--us .trg-pdp__btn-primary');
+    primaryLinks.forEach(function (link) {
+      link.href = url;
+    });
+  }
+
+  /* ── Gallery + colour presentation ── */
+
   function syncColourPresentation() {
     var selectedColour = colourOptionIndex >= 0 ? selectedOptions[colourOptionIndex] : null;
+    if (!selectedColour && currentVariant && groupedColourChips.length) {
+      var matchedChip = groupedColourChips.find(function (chip) {
+        return chip.dataset.trgShopifyVariantId && String(chip.dataset.trgShopifyVariantId) === String(currentVariant.id);
+      });
+      if (matchedChip) {
+        selectedColour = matchedChip.dataset.trgShopifyOptionValue || matchedChip.dataset.value || matchedChip.textContent.trim();
+      }
+    }
 
     if (selectedColour) {
       filterGalleryByColor(selectedColour);
@@ -259,6 +484,8 @@
       resetGallery();
     }
   }
+
+  /* ── URL state ── */
 
   function syncUrlState(variant) {
     if (!window.history || !window.history.replaceState) return;
@@ -281,8 +508,31 @@
     }
   }
 
+  function syncColorUrlParam(colorName) {
+    if (!window.history || !window.history.replaceState) return;
+    try {
+      var url = new URL(window.location.href);
+      if (colorName) {
+        url.searchParams.set('trg_color', colorName);
+      } else {
+        url.searchParams.delete('trg_color');
+      }
+      window.history.replaceState({}, '', url.toString());
+    } catch (err) {}
+  }
+
+  /* ── Colour change dispatch ── */
+
   function dispatchColourChange() {
     var selectedColour = colourOptionIndex >= 0 ? selectedOptions[colourOptionIndex] : null;
+    if (!selectedColour && currentVariant && groupedColourChips.length) {
+      var matchedChip = groupedColourChips.find(function (chip) {
+        return chip.dataset.trgShopifyVariantId && String(chip.dataset.trgShopifyVariantId) === String(currentVariant.id);
+      });
+      if (matchedChip) {
+        selectedColour = matchedChip.dataset.trgShopifyOptionValue || matchedChip.dataset.value || matchedChip.textContent.trim();
+      }
+    }
     if (!selectedColour) return;
     if (selectedColour === lastDispatchedColour) return;
 
@@ -310,6 +560,8 @@
     if (guideSubStrong) guideSubStrong.textContent = colourName;
   }
 
+  /* ── Variant helpers ── */
+
   function findVariantById(id) {
     if (!id || !productData || !Array.isArray(productData.variants)) return null;
     var idString = String(id);
@@ -320,6 +572,26 @@
 
   function firstAvailableVariant() {
     return productData.variants.find(function (variant) { return !!variant.available; }) || productData.variants[0] || null;
+  }
+
+  function resolveGroupedColourVariant(colorValue, localVariantId) {
+    var preferredVariant = localVariantId ? findVariantById(localVariantId) : null;
+    if (colourOptionIndex < 0) {
+      return preferredVariant || firstAvailableVariant();
+    }
+
+    var requestedSelections = selectedOptions.slice();
+    requestedSelections[colourOptionIndex] = colorValue;
+    var colorMatches = productData.variants.filter(function (variant) {
+      return variantOptionValue(variant, colourOptionIndex) === colorValue;
+    });
+    var retainedMatch = pickBestVariant(colorMatches.filter(function (variant) {
+      return requestedSelections.every(function (value, index) {
+        return !value || index === colourOptionIndex || variantOptionValue(variant, index) === value;
+      });
+    }));
+
+    return retainedMatch || preferredVariant || pickBestVariant(colorMatches) || null;
   }
 
   function variantToOptions(variant) {
@@ -343,13 +615,12 @@
 
   /**
    * Filter gallery thumbnails + images array by color alt text.
-   * Hides non-matching thumbs, rebuilds `images` array, jumps to first match.
    */
   function filterGalleryByColor(color) {
     if (!color || allImages.length <= 1) return;
 
     var hasColorTags = allImages.some(function (img) { return img.alt && img.alt !== ''; });
-    if (!hasColorTags) return; /* No alt tags set — skip filtering */
+    if (!hasColorTags) return;
 
     activeColorFilter = color;
     var filtered = [];
@@ -365,7 +636,6 @@
       }
     });
 
-    /* If no images match this color (no alt tags for it), show all */
     if (filtered.length === 0) {
       allThumbs.forEach(function (t) { t.style.display = ''; });
       images = allImages.slice();
@@ -397,11 +667,9 @@
       galleryImg.src = images[currentIndex].src;
       galleryImg.alt = images[currentIndex].alt;
     }
-    /* Highlight active thumb among visible thumbs only */
     thumbs.forEach(function (t, i) {
       t.classList.toggle('active', i === currentIndex);
     });
-    /* De-activate hidden thumbs too */
     allThumbs.forEach(function (t) {
       if (t.style.display === 'none') t.classList.remove('active');
     });
@@ -413,7 +681,6 @@
   var galleryMain = document.getElementById('trg-gallery-main');
 
   if (galleryMain && images.length > 1) {
-    // — Arrows —
     var prevBtn = document.createElement('button');
     prevBtn.className = 'trg-pdp__gallery-arrow trg-pdp__gallery-arrow--prev';
     prevBtn.type = 'button';
@@ -432,20 +699,17 @@
     prevBtn.addEventListener('click', function (e) { e.stopPropagation(); goToImage(currentIndex - 1); });
     nextBtn.addEventListener('click', function (e) { e.stopPropagation(); goToImage(currentIndex + 1); });
 
-    // — Counter pill —
     var counter = document.createElement('span');
     counter.className = 'trg-pdp__gallery-counter';
     counter.textContent = '1 / ' + images.length;
     galleryMain.appendChild(counter);
 
-    // Update counter on navigation
     var _orig = goToImage;
     goToImage = function (idx) {
       _orig(idx);
       counter.textContent = (currentIndex + 1) + ' / ' + images.length;
     };
 
-    // — Touch swipe —
     var startX = 0, startY = 0;
     galleryMain.addEventListener('touchstart', function (e) {
       startX = e.touches[0].clientX;
@@ -461,7 +725,6 @@
       }
     }, { passive: true });
 
-    // — Keyboard —
     galleryMain.setAttribute('tabindex', '0');
     galleryMain.addEventListener('keydown', function (e) {
       if (e.key === 'ArrowLeft') { goToImage(currentIndex - 1); e.preventDefault(); }
@@ -471,26 +734,13 @@
 
   /* ═══════════════════════════════════════════
      3. UNIVERSAL DESCRIPTION PARSER
-     ═══════════════════════════════════════════
-     Works across sources:
-     - Shopify fetch: bullet-separated (•) with size chart + shipping appended
-     - Affiliate feeds: typically cleaner, but may still dump everything in one field
-     - HTML descriptions: strips tags first, then parses tokens
-     
-     Populates:
-     - Details accordion (clean product bullets only)
-     - Materials + Care accordion (composition + care instructions)
-     - Shipping accordion (shipping/returns text)
-     - Meta grid material value (if metafield was empty)
-  */
+     ═══════════════════════════════════════════ */
   var descEl = document.querySelector('.trg-pdp__acc-desc');
   var matBody = document.getElementById('trg-acc-materials');
   var shipBody = document.getElementById('trg-acc-shipping');
   var metaMatItem = document.getElementById('trg-meta-material');
   var metaMatVal = document.getElementById('trg-meta-material-val');
 
-  // Skip parsing if metafields already populated the accordions server-side.
-  // Detect by checking if Materials accordion does NOT contain the placeholder text.
   var matPlaceholder = 'Care instructions vary by product';
   var shipPlaceholder = 'Shipping policies vary by brand';
   var matAlreadySet = matBody && matBody.textContent.indexOf(matPlaceholder) === -1;
@@ -501,12 +751,11 @@
   }
 
   function parseAndDistribute(skipMat, skipShip) {
-    // Get text, strip any HTML tags
     var raw = descEl.textContent.trim();
     if (!raw || raw.length < 20) return;
 
     var tokens = tokenize(raw);
-    if (tokens.length < 2) return; // Can't reliably parse single-blob text
+    if (tokens.length < 2) return;
 
     var sections = { details: [], material: [], care: [], sizeChart: '', shipping: '' };
     var inSizeChart = false;
@@ -515,9 +764,6 @@
     for (var i = 0; i < tokens.length; i++) {
       var t = tokens[i];
 
-      // — Size chart onset detection —
-      // Look for "SIZE" followed by measurement headers (all-caps words)
-      // or common size labels like S, M, L, XL, XXL as column headers
       if (!inSizeChart) {
         var sizeOnset = findSizeChartOnset(t);
         if (sizeOnset >= 0) {
@@ -537,7 +783,6 @@
       classifyToken(t, sections);
     }
 
-    // Split size chart blob from shipping text
     if (sizeShipBlob) {
       var shipOnset = sizeShipBlob.search(
         /\b(All orders|Free shipping|Ships in|This item ships|Complimentary|Standard shipping|We offer|Shipping and|Please note|Estimated delivery|International shipping|Domestic shipping|Express shipping|Returns|Return policy|Exchange)/i
@@ -550,7 +795,6 @@
       }
     }
 
-    // — Render Details —
     if (sections.details.length > 0) {
       var ul = document.createElement('ul');
       sections.details.forEach(function (d) {
@@ -562,7 +806,6 @@
       descEl.appendChild(ul);
     }
 
-    // — Render Materials + Care (skip if metafields already set server-side) —
     if (!skipMat && matBody && (sections.material.length || sections.care.length)) {
       var html = '';
       if (sections.material.length) {
@@ -574,92 +817,67 @@
       matBody.innerHTML = html;
     }
 
-    // — Render Shipping (skip if metafields already set server-side) —
     if (!skipShip && shipBody && sections.shipping) {
       shipBody.textContent = sections.shipping;
     }
 
-    // — Populate meta grid material if empty —
     if (metaMatItem && metaMatVal && !metaMatVal.textContent.trim() && sections.material.length) {
       metaMatVal.textContent = sections.material.join(', ');
       metaMatItem.classList.remove('trg-pdp__meta-item--hidden');
     }
   }
 
-  /**
-   * Tokenize raw description text.
-   * Strategy: try bullet split first (•·), then <br>/newline, then sentence split.
-   */
   function tokenize(raw) {
-    // Bullet characters: •, ·, ●
     if (/[•·●]/.test(raw)) {
       return raw.split(/\s*[•·●]\s*/).map(function (s) { return s.trim(); }).filter(Boolean);
     }
-    // Line breaks (might come from HTML <br> that got converted to \n)
     if (raw.indexOf('\n') >= 0) {
       var lines = raw.split('\n').map(function (s) { return s.trim(); }).filter(Boolean);
       if (lines.length > 2) return lines;
     }
-    // Dash-separated lists (common in some feeds): " - " or " – "
-    if (/\s[-–]\s/.test(raw) && (raw.match(/\s[-–]\s/g) || []).length >= 3) {
-      return raw.split(/\s[-–]\s/).map(function (s) { return s.trim(); }).filter(Boolean);
+    if (/\s[-\u2013]\s/.test(raw) && (raw.match(/\s[-\u2013]\s/g) || []).length >= 3) {
+      return raw.split(/\s[-\u2013]\s/).map(function (s) { return s.trim(); }).filter(Boolean);
     }
-    // Fallback: return as single blob (parser won't modify it)
     return [raw];
   }
 
-  /**
-   * Detect where a size chart begins inside a token.
-   * Returns character index of onset, or -1.
-   */
   function findSizeChartOnset(t) {
-    // Pattern: "SIZE" followed by all-caps measurement word(s) and numbers
     var m = t.match(/\bSIZE\s+(?:WAIST|CHEST|SHOULDER|INSEAM|LENGTH|BODY|NECK|SLEEVE|HIP|FRONT|RISE|LEG|S\s+M\s+L\s+XL)/i);
     if (m) return t.indexOf(m[0]);
 
-    // Pattern: explicit size chart header
     var h = t.match(/\b(SIZE CHART|SIZE GUIDE|SIZING|Measurements)\s*[:|\-]/i);
     if (h) return t.indexOf(h[0]);
 
     return -1;
   }
 
-  /**
-   * Classify a single token into details, material, or care.
-   */
   function classifyToken(text, sections) {
     var t = text.trim();
     if (!t) return;
 
-    // Composition: "100% Cotton", "60% Wool, 40% Cashmere", "Cotton/Linen blend"
     if (/\d+%/.test(t) && hasFiber(t) && t.length < 80) {
       sections.material.push(t);
       return;
     }
-    // Short composition: "100% Cotton" standalone
     if (/^\d+%\s+\w+(\s+\w+)?$/.test(t)) {
       sections.material.push(t);
       return;
     }
-    // Slash-composition: "Cotton/Polyester" but only short ones
     if (/^\w+\/\w+$/.test(t) && hasFiber(t)) {
       sections.material.push(t);
       return;
     }
 
-    // Care instructions
     if (isCareInstruction(t)) {
       sections.care.push(t);
       return;
     }
 
-    // Shipping snuck into regular bullets
     if (/\b(free shipping|ships within|delivery|business days|tracking number)\b/i.test(t) && t.length < 100) {
       sections.shipping = sections.shipping ? sections.shipping + ' ' + t : t;
       return;
     }
 
-    // Default: product detail
     sections.details.push(t);
   }
 
