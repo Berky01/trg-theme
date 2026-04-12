@@ -8,7 +8,7 @@
 >
   <head>
     <meta charset="utf-8">
-  <!-- codex-cache-bust: homepage-editorial-megamenu 2026-04-12 00:41:41 UTC -->
+  <!-- codex-cache-bust: homepage-editorial-runtime 2026-04-12 00:36:52 UTC -->
 <script>
 /* TRG focus fix - must load before Dwell's focus.js to win capture phase */
 document.addEventListener('focusin',function(e){
@@ -237,7 +237,7 @@ document.addEventListener('focusin',function(e){
 
     {% render 'search-modal' %}
 
-    {% if settings.quick_add or settings.mobile_quick_add %}
+    {% if template != 'page.colour-guide' and (settings.quick_add or settings.mobile_quick_add) %}
       {% render 'quick-add-modal' %}
     {% endif %}
     {% if template.name == 'collection' %}
@@ -413,11 +413,6 @@ document.addEventListener('focusin',function(e){
     <script src="{{ 'trg-colour-guide-seed-hotfix.js' | asset_url | append: '&cv=20260411i' }}" defer></script>
     {%- render 'trg-cookie-consent' -%}
     <script src="{{ 'trg-cookie-consent.js' | asset_url }}" defer></script>
-<!-- codex-colour-guide-refine 2026-04-12T01:32:11Z -->
-<!-- codex-colour-guide-section-bust 2026-04-12T01:37:19Z -->
-<!-- codex-colour-guide-template-bust 2026-04-12T01:40:10Z -->
-<!-- codex-colour-guide-overlap-fix 2026-04-12T01:53:21Z -->
-<!-- codex-colour-guide-step1-rebuild 2026-04-12T02:05:07Z -->
 </body>
 </html>
 <!-- trg-cache-bust: 2026-04-03c -->
@@ -436,7 +431,3 @@ document.addEventListener('focusin',function(e){
 <!-- TRG-CACHE-BUST: 2026-04-11 16:21:54 -->
 
 <!-- trg-cache-bust 2026-04-11T17:16:32 -->
-
-<!-- codex-preview-refresh:2026-04-11T21:21:55 -->
-
-<!-- codex colour guide reset 2026-04-11T21:15:00Z -->

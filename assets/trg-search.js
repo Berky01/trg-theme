@@ -49,6 +49,23 @@ function isColourGuidePage() {
   return path === '/pages/colour-guide' || document.getElementById('hiw-v1') instanceof HTMLElement;
 }
 
+function needsColourGuideIntroCardRewrite(root) {
+  if (!(root instanceof HTMLElement)) {
+    return false;
+  }
+
+  if (root.querySelector('.hiw-visual-shell')) {
+    return false;
+  }
+
+  return Boolean(
+    root.querySelector('.hiw-v1-depth-meta')
+    || root.querySelector('.hiw-v1-result')
+    || root.querySelector('.hiw-v1-caption')
+    || root.querySelector('.hiw-v1-label')
+  );
+}
+
 function buildFormSearchUrl(form, query) {
   const action = form.getAttribute('action') || Theme?.routes?.search_url || '/search';
   const url = new URL(action, window.location.origin);
@@ -758,7 +775,7 @@ function rewriteColourGuideIntroCard() {
   }
 
   const root = document.getElementById('hiw-v1');
-  if (!(root instanceof HTMLElement)) {
+  if (!needsColourGuideIntroCardRewrite(root)) {
     return false;
   }
 
@@ -805,31 +822,23 @@ function initColourGuideIntroCardHotfix() {
     return;
   }
 
-  [0, 120, 400, 1200, 2600, 5000, 8000].forEach((delay) => {
+  const root = document.getElementById('hiw-v1');
+  if (!needsColourGuideIntroCardRewrite(root)) {
+    return;
+  }
+
+  [0, 250, 1200].forEach((delay) => {
     window.setTimeout(() => {
       rewriteColourGuideIntroCard();
     }, delay);
   });
-
-  const observer = new MutationObserver(() => {
-    rewriteColourGuideIntroCard();
-  });
-
-  observer.observe(document.documentElement, {
-    childList: true,
-    subtree: true,
-  });
-
-  window.setTimeout(() => {
-    observer.disconnect();
-  }, 12000);
 
   window.addEventListener(
     'load',
     () => {
       window.setTimeout(() => {
         rewriteColourGuideIntroCard();
-      }, 900);
+      }, 500);
     },
     { once: true }
   );
