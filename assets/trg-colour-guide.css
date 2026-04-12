@@ -30,11 +30,11 @@
 ══════════════════════════════════════════════════ */
 .trg-colour-guide .hiw{margin-top:-4.2rem;padding:0 2rem 2.5rem;position:relative;z-index:2}
 .trg-colour-guide .hiw-inner{max-width:1120px;margin:0 auto;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem}
-.trg-colour-guide .hiw-card{background:var(--card);border:1px solid rgba(221,216,207,.9);border-radius:12px;overflow:hidden;transition:border-color .2s,box-shadow .2s,transform .2s;cursor:pointer;box-shadow:0 18px 50px rgba(16,14,11,.1);display:grid;grid-template-rows:208px minmax(228px,1fr);height:100%}
+.trg-colour-guide .hiw-card{background:var(--card);border:1px solid rgba(221,216,207,.9);border-radius:12px;overflow:hidden;transition:border-color .2s,box-shadow .2s,transform .2s;cursor:pointer;box-shadow:0 18px 50px rgba(16,14,11,.1);display:grid;grid-template-rows:228px minmax(228px,1fr);height:100%}
 .trg-colour-guide .hiw-card:hover{box-shadow:0 22px 56px rgba(16,14,11,.13);transform:translateY(-4px);border-color:rgba(196,86,42,.35)}
 .trg-colour-guide .hiw-card:focus-visible{outline:2px solid rgba(196,86,42,.55);outline-offset:3px}
 /* Visual preview area at top of each card */
-.trg-colour-guide .hiw-visual{height:208px;min-height:208px;position:relative;overflow:hidden;display:flex;align-items:stretch;justify-content:flex-start;padding:1rem .96rem .98rem;box-sizing:border-box}
+.trg-colour-guide .hiw-visual{height:228px;min-height:228px;position:relative;overflow:hidden;display:flex;align-items:stretch;justify-content:flex-start;padding:1.08rem .96rem 1.06rem;box-sizing:border-box}
 .trg-colour-guide .hiw-visual-shell{display:grid;grid-template-rows:minmax(2em,auto) 1fr;gap:1rem;width:100%;align-content:stretch}
 .trg-colour-guide .hiw-visual-label{display:block;min-height:1.8em;font-size:.68rem;line-height:1.3;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:rgba(245,241,235,.72)}
 /* Step 1 visual: diagnosis -> palette */
@@ -87,8 +87,8 @@
 .trg-colour-guide .hiw-mini-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:4px;position:relative;z-index:1;width:100%}
 .trg-colour-guide .hiw-mini-cell{aspect-ratio:1;border-radius:4px;opacity:1;box-shadow:inset 0 1px 0 rgba(255,255,255,.08)}
 
-.trg-colour-guide .hiw-body{padding:1.3rem 1.35rem 1.3rem;display:grid;grid-template-rows:auto minmax(2.7em,auto) minmax(4.8em,1fr) auto;align-content:stretch;box-sizing:border-box}
-.trg-colour-guide .hiw-num{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:var(--ink);color:var(--paper);font-size:.5rem;font-weight:700;margin-bottom:.65rem}
+.trg-colour-guide .hiw-body{padding:1.52rem 1.35rem 1.3rem;display:grid;grid-template-rows:auto minmax(2.7em,auto) minmax(4.8em,1fr) auto;align-content:stretch;box-sizing:border-box}
+.trg-colour-guide .hiw-num{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:var(--ink);color:var(--paper);font-size:.62rem;font-weight:700;margin-bottom:.8rem}
 .trg-colour-guide .hiw-title{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:400;color:var(--ink);margin-bottom:.45rem;align-self:start}
 .trg-colour-guide .hiw-desc{font-size:.75rem;font-weight:300;color:var(--mid);line-height:1.6;margin-bottom:.95rem;align-self:start}
 .trg-colour-guide .hiw-footer{display:flex;justify-content:space-between;align-items:center;gap:.75rem;flex-wrap:wrap}
@@ -514,12 +514,13 @@
   .trg-colour-guide .pb-legend{margin-left:0;gap:.6rem}
   .trg-colour-guide .hiw{margin-top:-3rem;padding:0 1rem 1.85rem}
   .trg-colour-guide .hiw-inner{grid-template-columns:1fr;gap:.85rem}
-  .trg-colour-guide .hiw-card{grid-template-rows:214px minmax(214px,1fr)}
-  .trg-colour-guide .hiw-visual{height:214px;min-height:214px;padding:1.02rem .72rem 1rem}
-  .trg-colour-guide .hiw-body{padding:1.08rem 1.02rem 1.12rem;grid-template-rows:auto minmax(2.5em,auto) minmax(4.6em,1fr) auto}
+  .trg-colour-guide .hiw-card{grid-template-rows:228px minmax(214px,1fr)}
+  .trg-colour-guide .hiw-visual{height:228px;min-height:228px;padding:1.08rem .72rem 1.06rem}
+  .trg-colour-guide .hiw-body{padding:1.24rem 1.02rem 1.12rem;grid-template-rows:auto minmax(2.5em,auto) minmax(4.6em,1fr) auto}
   .trg-colour-guide .hiw-footer{align-items:flex-start;flex-direction:column;gap:.45rem}
   .trg-colour-guide .hiw-visual-shell{gap:.92rem}
   .trg-colour-guide .hiw-visual-label{min-height:2em;font-size:.61rem;line-height:1.32}
+  .trg-colour-guide .hiw-num{width:26px;height:26px;font-size:.58rem;margin-bottom:.72rem}
   .trg-colour-guide .hiw-v1-flow{display:flex;align-items:center;justify-content:center;gap:16px;max-width:none;margin:0;padding:.18rem 0 0}
   .trg-colour-guide .hiw-v1-stage{width:auto;flex:0 0 104px}
   .trg-colour-guide .hiw-v1-output{width:auto;min-width:0;gap:14px;flex:0 0 126px}
