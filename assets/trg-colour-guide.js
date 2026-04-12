@@ -97,7 +97,7 @@ function renderHeroRibbon() {
 function renderHIWVisuals() {
   // Step 1: diagnosis flow -> palette result
   const v1 = document.getElementById('hiw-v1');
-  const fanColors = ['Navy','Teal','Burgundy','Cobalt','Mustard','Forest'];
+  const fanColors = ['Teal','Burgundy','Mustard','Forest','Slate','Cobalt'];
   v1.innerHTML = `
     <div class="hiw-visual-shell">
       <span class="hiw-visual-label">Finder input to palette result</span>
