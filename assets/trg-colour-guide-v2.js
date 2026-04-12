@@ -100,7 +100,7 @@ function renderHIWVisuals() {
   const fanColors = ['Teal','Burgundy','Mustard','Forest','Slate','Cobalt'];
   v1.innerHTML = `
     <div class="hiw-visual-shell">
-      <span class="hiw-visual-label">Finder input to palette result</span>
+      <span class="hiw-visual-label">Match skin tone to palette</span>
       <div class="hiw-v1-flow">
         <div class="hiw-v1-stage">
           <div class="hiw-v1-depth">
