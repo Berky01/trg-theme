@@ -721,7 +721,7 @@ function ensureColourGuideIntroCardHotfixStyle() {
   style.textContent = `
     .trg-colour-guide .trg-hiw-v1-hotfix{min-height:208px!important;padding:1rem .96rem .98rem!important}
     .trg-colour-guide .trg-hiw-v1-hotfix .hiw-visual-shell{display:flex!important;flex-direction:column!important;gap:.96rem!important;width:100%!important;justify-content:center!important}
-    .trg-colour-guide .trg-hiw-v1-hotfix .hiw-visual-label{font-size:.61rem!important;font-weight:700!important;letter-spacing:.11em!important;text-transform:uppercase!important;color:rgba(245,241,235,.72)!important}
+    .trg-colour-guide .trg-hiw-v1-hotfix .hiw-visual-label{display:block!important;min-height:1.8em!important;font-size:.68rem!important;line-height:1.3!important;font-weight:700!important;letter-spacing:.11em!important;text-transform:uppercase!important;color:rgba(245,241,235,.72)!important}
     .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-flow{display:flex!important;gap:16px!important;align-items:center!important;justify-content:center!important;width:100%!important;padding:.12rem 0 0!important}
     .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-stage{display:flex!important;flex-direction:column!important;align-items:flex-start!important;justify-content:center!important;gap:0!important;min-width:0!important;flex:0 0 126px!important}
     .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-depth{display:flex!important;flex-direction:row!important;align-items:center!important;gap:0!important;min-width:0!important;width:100%!important}
@@ -747,7 +747,7 @@ function ensureColourGuideIntroCardHotfixStyle() {
     @media (max-width: 749px){
       .trg-colour-guide .trg-hiw-v1-hotfix{min-height:214px!important;padding:1.02rem .72rem 1rem!important}
       .trg-colour-guide .trg-hiw-v1-hotfix .hiw-visual-shell{gap:.92rem!important}
-      .trg-colour-guide .trg-hiw-v1-hotfix .hiw-visual-label{font-size:.56rem!important}
+      .trg-colour-guide .trg-hiw-v1-hotfix .hiw-visual-label{min-height:2em!important;font-size:.61rem!important;line-height:1.32!important}
       .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-flow{display:flex!important;align-items:center!important;justify-content:center!important;gap:16px!important;padding:.18rem 0 0!important}
       .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-stage{width:auto!important;flex:0 0 104px!important}
       .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-output{width:auto!important;min-width:0!important;gap:14px!important;flex:0 0 126px!important}
