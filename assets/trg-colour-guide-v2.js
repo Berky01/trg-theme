@@ -97,70 +97,53 @@ function renderHeroRibbon() {
 function renderHIWVisuals() {
   // Step 1: diagnosis flow -> palette result
   const v1 = document.getElementById('hiw-v1');
-  const fanColors = ['Teal','Burgundy','Mustard','Forest','Slate','Cobalt'];
+  const palettePreview = ['Teal','Burgundy','Mustard','Forest','Slate','Cobalt'];
   v1.innerHTML = `
     <div class="hiw-visual-shell">
-      <span class="hiw-visual-label">Match skin tone to palette</span>
       <div class="hiw-v1-flow">
         <div class="hiw-v1-stage">
-          <div class="hiw-v1-depth">
-            <div class="hiw-v1-tone-row">
-              <div class="hiw-v1-skin sm" style="background:${DEPTHS[0].color}"></div>
-              <div class="hiw-v1-skin md active" style="background:${DEPTHS[3].color}"></div>
-              <div class="hiw-v1-skin lg" style="background:${DEPTHS[5].color}"></div>
-            </div>
+          <div class="hiw-v1-tone-row">
+            <div class="hiw-v1-skin sm" style="background:${DEPTHS[0].color}"></div>
+            <div class="hiw-v1-skin md active" style="background:${DEPTHS[3].color}"></div>
+            <div class="hiw-v1-skin lg" style="background:${DEPTHS[5].color}"></div>
           </div>
         </div>
         <div class="hiw-v1-divider"></div>
         <div class="hiw-v1-output">
           <div class="hiw-v1-palette-ill">
-            ${fanColors.map(name => `<div class="hiw-v1-palette-card" style="background:${C[name]}" title="${name}"></div>`).join('')}
+            ${palettePreview.map(name => `<div class="hiw-v1-palette-card" style="background:${C[name]}" title="${name}"></div>`).join('')}
           </div>
         </div>
       </div>
     </div>
   `;
 
-  // Step 2: simplified outfit builder story
+  // Step 2: abstract outfit assignment story
   const outfitVis = document.getElementById('hiw-outfit-vis');
-  const outfitSlots = [
-    {slot:'shirt',color:'White'},
-    {slot:'jacket',color:'Navy',active:true},
-    {slot:'trousers',color:'Charcoal'},
-    {slot:'shoes',color:'Cognac'}
+  const assignmentColour = 'Mustard';
+  const garmentIcons = {
+    shirt: '<svg viewBox="0 0 96 72" fill="currentColor" aria-hidden="true"><path d="M28 16L38 8H58L68 16L80 22L72 36L64 32V64H32V32L24 36L16 22Z"/></svg>',
+    jacket: '<svg viewBox="0 0 96 72" fill="currentColor" aria-hidden="true"><path d="M30 12L40 8H56L66 12L78 22L70 36L62 32L58 64H38L34 32L26 36L18 22Z"/></svg>',
+    trousers: '<svg viewBox="0 0 96 72" fill="currentColor" aria-hidden="true"><path d="M30 10H66L58 64H46L42 36L38 64H26Z"/></svg>',
+    shoes: '<svg viewBox="0 0 96 72" fill="currentColor" aria-hidden="true"><path d="M20 44C27 41 33 41 39 43L47 48V56H12V50C14 46 16 45 20 44ZM57 44C64 41 70 41 76 43L84 48V56H49V50C51 46 53 45 57 44Z"/></svg>'
+  };
+  const garments = [
+    {type:'shirt'},
+    {type:'jacket',active:true,color:assignmentColour},
+    {type:'trousers'},
+    {type:'shoes'}
   ];
-  const leftSlots = outfitSlots.slice(0,2);
-  const rightSlots = outfitSlots.slice(2);
   outfitVis.innerHTML = `
     <div class="hiw-visual-shell">
-      <span class="hiw-visual-label">Assign colour to garment slots</span>
       <div class="hiw-builder-story">
-        <div class="hiw-builder-rail">
-          ${leftSlots.map(({slot,color,active})=>`
-            <div class="hiw-builder-chip${active?' active':''}">
-              <span class="hiw-builder-chip-name">${slot}</span>
-              <div class="hiw-builder-chip-bar" style="background:${C[color]}"></div>
-            </div>
-          `).join('')}
+        <div class="hiw-builder-input">
+          <div class="hiw-builder-input-chip" style="background:${C[assignmentColour]}" title="${assignmentColour}"></div>
         </div>
-        <div class="hiw-builder-figure">
-          <div class="hiw-builder-head"></div>
-          <div class="hiw-builder-torso">
-            <div class="hiw-builder-neck"></div>
-            <div class="hiw-builder-jacket" style="background:${C['Navy']}"></div>
-            <div class="hiw-builder-shirt" style="background:${C['White']}"></div>
-          </div>
-          <div class="hiw-builder-trousers" style="background:${C['Charcoal']}"></div>
-          <div class="hiw-builder-shoes">
-            <div class="hiw-builder-shoe" style="background:${C['Cognac']}"></div>
-            <div class="hiw-builder-shoe" style="background:${C['Cognac']}"></div>
-          </div>
-        </div>
-        <div class="hiw-builder-rail">
-          ${rightSlots.map(({slot,color})=>`
-            <div class="hiw-builder-chip">
-              <span class="hiw-builder-chip-name">${slot}</span>
-              <div class="hiw-builder-chip-bar" style="background:${C[color]}"></div>
+        <div class="hiw-builder-arrow" aria-hidden="true"></div>
+        <div class="hiw-builder-garments">
+          ${garments.map(({type,active,color})=>`
+            <div class="hiw-garment${active?' is-active':''}"${active ? ` style="--hiw-garment-color:${C[color]}"` : ''}>
+              ${garmentIcons[type]}
             </div>
           `).join('')}
         </div>
@@ -168,18 +151,20 @@ function renderHIWVisuals() {
     </div>
   `;
 
-  // Step 3: sorted mini colour field
+  // Step 3: filtered mini colour field
   const gridVis = document.getElementById('hiw-grid-vis');
   gridVis.innerHTML = '';
   const gridShell = document.createElement('div');
   gridShell.className = 'hiw-visual-shell';
-  const gridLabel = document.createElement('span');
-  gridLabel.className = 'hiw-visual-label';
-  gridLabel.textContent = 'Browse full colour field';
-  gridShell.appendChild(gridLabel);
+  const gridStory = document.createElement('div');
+  gridStory.className = 'hiw-grid-story';
+  const sortIcon = document.createElement('div');
+  sortIcon.className = 'hiw-grid-sort';
+  sortIcon.innerHTML = '<svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 5h12M6.5 10h7M9 15h2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M14.5 4.5l2 2-2 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   const gridEl = document.createElement('div');
   gridEl.className = 'hiw-mini-grid';
   const sortedPreviewProfile = PROFILES['medium-warm'];
+  const highlightedNames = ['Teal','Burgundy','Mustard'];
   const grouped = [
     ...sortedPreviewProfile.core.slice(0, 6),
     ...sortedPreviewProfile.best.slice(0, 16),
@@ -189,10 +174,17 @@ function renderHIWVisuals() {
   grouped.forEach(name => {
     const cell = document.createElement('div');
     cell.className = 'hiw-mini-cell';
+    if (highlightedNames.includes(name)) {
+      cell.classList.add('is-highlight');
+    } else if (sortedPreviewProfile.best.includes(name) || sortedPreviewProfile.core.includes(name)) {
+      cell.classList.add('is-match');
+    }
     cell.style.background = C[name];
     gridEl.appendChild(cell);
   });
-  gridShell.appendChild(gridEl);
+  gridStory.appendChild(sortIcon);
+  gridStory.appendChild(gridEl);
+  gridShell.appendChild(gridStory);
   gridVis.appendChild(gridShell);
 }
 
