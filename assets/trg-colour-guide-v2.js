@@ -105,7 +105,7 @@ function renderHIWVisuals() {
         <div class="hiw-v1-stage">
           <div class="hiw-v1-depth">
             <div class="hiw-v1-tone-row">
-              <div class="hiw-v1-skin sm" style="background:${DEPTHS[2].color}"></div>
+              <div class="hiw-v1-skin sm" style="background:${DEPTHS[0].color}"></div>
               <div class="hiw-v1-skin md active" style="background:${DEPTHS[3].color}"></div>
               <div class="hiw-v1-skin lg" style="background:${DEPTHS[5].color}"></div>
             </div>
