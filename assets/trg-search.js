@@ -722,7 +722,7 @@ function ensureColourGuideIntroCardHotfixStyle() {
     .trg-colour-guide .trg-hiw-v1-hotfix{min-height:208px!important;padding:1rem 1.08rem .98rem!important}
     .trg-colour-guide .trg-hiw-v1-hotfix .hiw-visual-shell{display:flex!important;flex-direction:column!important;gap:.96rem!important;width:100%!important}
     .trg-colour-guide .trg-hiw-v1-hotfix .hiw-visual-label{font-size:.5rem!important;font-weight:700!important;letter-spacing:.11em!important;text-transform:uppercase!important;color:rgba(245,241,235,.72)!important}
-    .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-flow{display:grid!important;grid-template-columns:118px minmax(0,1fr)!important;gap:18px!important;align-items:center!important;width:100%!important;padding:.12rem .12rem 0!important}
+    .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-flow{display:flex!important;gap:18px!important;align-items:center!important;width:100%!important;padding:.12rem .12rem 0!important}
     .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-stage{display:flex!important;flex-direction:column!important;align-items:flex-start!important;justify-content:center!important;gap:0!important;min-width:0!important}
     .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-depth{display:flex!important;flex-direction:row!important;align-items:center!important;gap:0!important;min-width:0!important;width:100%!important}
     .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-tone-row{display:flex!important;align-items:center!important;gap:12px!important;min-width:0!important}
@@ -734,7 +734,7 @@ function ensureColourGuideIntroCardHotfixStyle() {
     .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-depth-meta{display:none!important}
     .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-divider{width:30px!important;flex:0 0 30px!important;height:2px!important;background:linear-gradient(90deg,rgba(245,241,235,.14),rgba(245,241,235,.84))!important;position:relative!important}
     .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-divider::after{content:''!important;position:absolute!important;right:-1px!important;top:50%!important;width:9px!important;height:9px!important;border-top:2px solid rgba(245,241,235,.84)!important;border-right:2px solid rgba(245,241,235,.84)!important;transform:translateY(-50%) rotate(45deg)!important}
-    .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-output{display:flex!important;gap:16px!important;min-width:0!important;align-items:center!important;justify-content:flex-start!important;width:100%!important}
+    .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-output{display:flex!important;gap:16px!important;min-width:0!important;align-items:center!important;justify-content:flex-start!important;flex:1 1 auto!important}
     .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-result{display:none!important}
     .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-palette-ill{position:relative!important;height:94px!important;width:136px!important;margin:0!important;flex:0 0 136px!important}
     .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-palette-card{position:absolute!important;bottom:0!important;width:34px!important;height:82px!important;border-radius:8px 8px 4px 4px!important;border:1px solid rgba(255,255,255,.08)!important;box-shadow:0 14px 24px rgba(0,0,0,.22)!important;transform-origin:bottom center!important}
@@ -747,7 +747,7 @@ function ensureColourGuideIntroCardHotfixStyle() {
     @media (max-width: 749px){
       .trg-colour-guide .trg-hiw-v1-hotfix{min-height:182px!important;padding:.92rem .88rem .9rem!important}
       .trg-colour-guide .trg-hiw-v1-hotfix .hiw-visual-label{font-size:.43rem!important}
-      .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-flow{display:grid!important;grid-template-columns:86px minmax(0,1fr)!important;align-items:center!important;gap:12px!important;padding:.02rem 0 0!important}
+      .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-flow{display:flex!important;align-items:center!important;gap:12px!important;padding:.02rem 0 0!important}
       .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-stage,.trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-output{width:auto!important}
       .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-depth{gap:0!important}
       .trg-colour-guide .trg-hiw-v1-hotfix .hiw-v1-tone-row{gap:7px!important}

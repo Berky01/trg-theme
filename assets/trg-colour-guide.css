@@ -39,7 +39,7 @@
 .trg-colour-guide .hiw-visual-label{font-size:.52rem;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:rgba(245,241,235,.72)}
 /* Step 1 visual: diagnosis -> palette */
 .trg-colour-guide .hiw-visual-1,.trg-colour-guide .hiw-visual-2,.trg-colour-guide .hiw-visual-3{background:radial-gradient(circle at 24% 0,rgba(196,86,42,.18),transparent 34%),linear-gradient(180deg,#1f1c17,#151310)}
-.trg-colour-guide .hiw-v1-flow{display:grid;grid-template-columns:118px minmax(0,1fr);gap:18px;align-items:center;width:100%;padding:.12rem .12rem 0}
+.trg-colour-guide .hiw-v1-flow{display:flex;align-items:center;gap:18px;width:100%;padding:.12rem .12rem 0}
 .trg-colour-guide .hiw-v1-stage{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:0;min-width:0}
 .trg-colour-guide .hiw-v1-label{font-size:.4rem;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:rgba(245,241,235,.42)}
 .trg-colour-guide .hiw-v1-depth{display:flex;flex-direction:row;align-items:center;gap:0;min-width:0;width:100%}
@@ -54,7 +54,7 @@
 .trg-colour-guide .hiw-v1-depth-note{display:none}
 .trg-colour-guide .hiw-v1-divider{width:30px;flex:0 0 30px;height:2px;background:linear-gradient(90deg,rgba(245,241,235,.14),rgba(245,241,235,.84));position:relative}
 .trg-colour-guide .hiw-v1-divider::after{content:'';position:absolute;right:-1px;top:50%;width:9px;height:9px;border-top:2px solid rgba(245,241,235,.84);border-right:2px solid rgba(245,241,235,.84);transform:translateY(-50%) rotate(45deg)}
-.trg-colour-guide .hiw-v1-output{display:flex;gap:16px;min-width:0;align-items:center;justify-content:flex-start;width:100%}
+.trg-colour-guide .hiw-v1-output{display:flex;gap:16px;min-width:0;align-items:center;justify-content:flex-start;flex:1 1 auto}
 .trg-colour-guide .hiw-v1-result{display:none}
 .trg-colour-guide .hiw-v1-result-dot{width:13px;height:13px;border-radius:50%;border:1.5px solid rgba(255,255,255,.12)}
 .trg-colour-guide .hiw-v1-result-name{font-size:.58rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(245,241,235,.84)}
@@ -519,7 +519,7 @@
   .trg-colour-guide .hiw-footer{align-items:flex-start;flex-direction:column;gap:.45rem}
   .trg-colour-guide .hiw-visual-shell{gap:.78rem}
   .trg-colour-guide .hiw-visual-label{font-size:.43rem}
-  .trg-colour-guide .hiw-v1-flow{display:grid;grid-template-columns:86px minmax(0,1fr);align-items:center;gap:12px;max-width:none;margin:0;padding:.02rem 0 0}
+  .trg-colour-guide .hiw-v1-flow{display:flex;align-items:center;gap:12px;max-width:none;margin:0;padding:.02rem 0 0}
   .trg-colour-guide .hiw-v1-stage,.trg-colour-guide .hiw-v1-output{width:auto}
   .trg-colour-guide .hiw-v1-depth{gap:0}
   .trg-colour-guide .hiw-v1-tone-row{gap:7px}
