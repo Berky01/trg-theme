@@ -30,6 +30,7 @@
   var priceCaEl = document.querySelector('.trg-pdp__price-ca');
   var productData = parseProductData();
   var colorGroups = (productData && Array.isArray(productData.colorGroups)) ? productData.colorGroups : [];
+  var variantMediaMode = (productData && productData.variantMediaMode) ? productData.variantMediaMode : '';
   var baseBuyUrl = (productData && productData.buyUrl) ? productData.buyUrl : null;
   var optionNames = productData && Array.isArray(productData.options) ? productData.options : [];
   var colourOptionIndex = optionNames.findIndex(function (name) { return /colou?r/i.test(name || ''); });
@@ -617,6 +618,10 @@
    * Filter gallery thumbnails + images array by color alt text.
    */
   function filterGalleryByColor(color) {
+    if (variantMediaMode === 'shared_gallery') {
+      resetGallery();
+      return;
+    }
     if (!color || allImages.length <= 1) return;
 
     var hasColorTags = allImages.some(function (img) { return img.alt && img.alt !== ''; });

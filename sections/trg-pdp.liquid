@@ -75,11 +75,15 @@
   assign retailer_url_ca  = p.metafields.trg.retailer_url_ca.value  | default: p.metafields.trg.retailer_url_ca
 
   assign trg_variant_color_data = p.metafields.trg.variant_color_data.value
+  assign trg_color_ui_mode = p.metafields.trg.color_ui_mode.value | default: p.metafields.trg.color_ui_mode | default: 'hidden' | strip | downcase
+  assign trg_variant_media_mode = p.metafields.trg.variant_media_mode.value | default: p.metafields.trg.variant_media_mode | strip | downcase
 
   assign trg_source_variant_id = p.metafields.trg.source_variant_external_id.value | default: p.metafields.trg.source_variant_external_id | append: ''
   assign trg_local_variant_id = p.selected_or_first_available_variant.id | append: ''
   assign trg_local_colour_option_index = ''
   assign trg_grouped_colours_have_local_variants = false
+  assign trg_has_native_colour_option = false
+  assign trg_show_color_ui = false
 
   assign trg_has_grouped_colours = false
 
@@ -103,6 +107,7 @@
     assign opt_lower = option.name | downcase
 
     if opt_lower == 'color' or opt_lower == 'colour'
+      assign trg_has_native_colour_option = true
 
       assign selected_colour = option.selected_value | default: p.selected_or_first_available_variant.option1 | strip
       assign trg_local_colour_option_index = forloop.index0 | append: ''
@@ -112,6 +117,10 @@
     endif
 
   endfor
+
+  if trg_color_ui_mode == 'enabled'
+    assign trg_show_color_ui = true
+  endif
 
   assign eff_retailer_name_ca = retailer_name_ca
 
@@ -344,7 +353,7 @@
 
     {%- comment -%} Grouped colour selector (from variant_color_data metafield) {%- endcomment -%}
 
-    {%- if false and trg_has_grouped_colours -%}
+    {%- if trg_show_color_ui and trg_has_grouped_colours and trg_has_native_colour_option == false -%}
 
       <div class="trg-pdp__selector">
 
@@ -409,7 +418,9 @@
         {%- assign _opt_name_lower = option.name | downcase -%}
         {%- assign _hide_native_colour_option = false -%}
         {%- if _opt_name_lower == 'color' or _opt_name_lower == 'colour' -%}
-          {%- assign _hide_native_colour_option = true -%}
+          {%- if trg_show_color_ui == false -%}
+            {%- assign _hide_native_colour_option = true -%}
+          {%- endif -%}
         {%- endif -%}
         {%- if _hide_native_colour_option -%}{%- continue -%}{%- endif -%}
 
@@ -1192,9 +1203,11 @@
   {
     "handle": {{ p.handle | json }},
     "url": {{ p.url | json }},
-    "options": {{ p.options | json }},
-    "selectedVariantId": {{ p.selected_or_first_available_variant.id | json }},
-    "variants": [
+  "options": {{ p.options | json }},
+  "selectedVariantId": {{ p.selected_or_first_available_variant.id | json }},
+  "colorUiMode": {{ trg_color_ui_mode | json }},
+  "variantMediaMode": {{ trg_variant_media_mode | json }},
+  "variants": [
       {%- for variant in p.variants -%}
         {
           "id": {{ variant.id | json }},
