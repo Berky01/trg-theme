@@ -122,10 +122,10 @@ function renderHIWVisuals() {
   const outfitVis = document.getElementById('hiw-outfit-vis');
   const assignmentColour = 'Mustard';
   const garmentIcons = {
-    shirt: '<svg viewBox="0 0 96 72" fill="currentColor" aria-hidden="true"><path d="M28 16L38 8H58L68 16L80 22L72 36L64 32V64H32V32L24 36L16 22Z"/></svg>',
-    jacket: '<svg viewBox="0 0 96 72" fill="currentColor" aria-hidden="true"><path d="M30 12L40 8H56L66 12L78 22L70 36L62 32L58 64H38L34 32L26 36L18 22Z"/></svg>',
-    trousers: '<svg viewBox="0 0 96 72" fill="currentColor" aria-hidden="true"><path d="M30 10H66L58 64H46L42 36L38 64H26Z"/></svg>',
-    shoes: '<svg viewBox="0 0 96 72" fill="currentColor" aria-hidden="true"><path d="M20 44C27 41 33 41 39 43L47 48V56H12V50C14 46 16 45 20 44ZM57 44C64 41 70 41 76 43L84 48V56H49V50C51 46 53 45 57 44Z"/></svg>'
+    shirt: '<svg viewBox="0 0 96 72" fill="currentColor" aria-hidden="true"><path d="M26 18L38 8H58L70 18L80 24L72 36L64 31V64H32V31L24 36L16 24Z"/></svg>',
+    jacket: '<svg viewBox="0 0 96 72" fill="currentColor" aria-hidden="true"><path d="M30 10L40 6H56L66 10L78 21L70 35L62 31L58 64H38L34 31L26 35L18 21Z"/></svg>',
+    trousers: '<svg viewBox="0 0 96 72" fill="currentColor" aria-hidden="true"><path d="M32 8H64L58 64H48L44 34L40 64H30Z"/></svg>',
+    shoes: '<svg viewBox="0 0 96 40" fill="currentColor" aria-hidden="true"><path d="M16 24C21 20 28 19 35 21L44 25V34H8V29C10 26 12 25 16 24ZM55 24C60 20 67 19 74 21L83 25V34H47V29C49 26 51 25 55 24Z"/></svg>'
   };
   const garments = [
     {type:'shirt'},
@@ -142,7 +142,7 @@ function renderHIWVisuals() {
         <div class="hiw-builder-arrow" aria-hidden="true"></div>
         <div class="hiw-builder-garments">
           ${garments.map(({type,active,color})=>`
-            <div class="hiw-garment${active?' is-active':''}"${active ? ` style="--hiw-garment-color:${C[color]}"` : ''}>
+            <div class="hiw-garment${active?' is-active':''}" data-garment="${type}"${active ? ` style="--hiw-garment-color:${C[color]}"` : ''}>
               ${garmentIcons[type]}
             </div>
           `).join('')}

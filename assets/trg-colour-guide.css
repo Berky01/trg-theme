@@ -39,43 +39,47 @@
 .trg-colour-guide .hiw-visual-label{display:none}
 /* Step 1 visual: diagnosis -> palette */
 .trg-colour-guide .hiw-visual-1,.trg-colour-guide .hiw-visual-2,.trg-colour-guide .hiw-visual-3{background:radial-gradient(circle at 24% 0,rgba(196,86,42,.18),transparent 34%),linear-gradient(180deg,#1f1c17,#151310)}
-.trg-colour-guide .hiw-v1-flow{display:grid;grid-template-columns:minmax(0,1fr) 36px minmax(0,1fr);align-items:center;gap:10px;width:100%;max-width:304px}
+.trg-colour-guide .hiw-v1-flow{display:grid;grid-template-columns:minmax(0,1fr) 34px minmax(0,1fr);align-items:center;gap:8px;width:100%;max-width:310px}
 .trg-colour-guide .hiw-v1-stage,.trg-colour-guide .hiw-v1-output{display:flex;align-items:center;justify-content:center;min-width:0}
 .trg-colour-guide .hiw-v1-tone-row{display:flex;align-items:center;justify-content:center;min-width:0}
-.trg-colour-guide .hiw-v1-skin{border-radius:50%;border:1.5px solid rgba(255,255,255,.08);opacity:.78;box-shadow:inset 0 1px 0 rgba(255,255,255,.08)}
-.trg-colour-guide .hiw-v1-skin + .hiw-v1-skin{margin-left:-18px}
-.trg-colour-guide .hiw-v1-skin.sm{width:56px;height:56px}
-.trg-colour-guide .hiw-v1-skin.md{width:70px;height:70px;z-index:2}
-.trg-colour-guide .hiw-v1-skin.lg{width:62px;height:62px}
+.trg-colour-guide .hiw-v1-skin{border-radius:50%;border:1.5px solid rgba(255,255,255,.08);opacity:.82;box-shadow:inset 0 1px 0 rgba(255,255,255,.08)}
+.trg-colour-guide .hiw-v1-skin + .hiw-v1-skin{margin-left:-22px}
+.trg-colour-guide .hiw-v1-skin.sm{width:58px;height:58px}
+.trg-colour-guide .hiw-v1-skin.md{width:74px;height:74px;z-index:2}
+.trg-colour-guide .hiw-v1-skin.lg{width:64px;height:64px}
 .trg-colour-guide .hiw-v1-skin.active{opacity:1;box-shadow:0 0 0 4px rgba(196,86,42,.18),inset 0 1px 0 rgba(255,255,255,.14)}
-.trg-colour-guide .hiw-v1-divider{width:36px;flex:0 0 36px;height:2px;background:linear-gradient(90deg,rgba(245,241,235,.08),rgba(245,241,235,.75));position:relative}
+.trg-colour-guide .hiw-v1-divider{width:34px;flex:0 0 34px;height:2px;background:linear-gradient(90deg,rgba(245,241,235,.08),rgba(245,241,235,.75));position:relative}
 .trg-colour-guide .hiw-v1-divider::after{content:'';position:absolute;right:-1px;top:50%;width:8px;height:8px;border-top:2px solid rgba(245,241,235,.75);border-right:2px solid rgba(245,241,235,.75);transform:translateY(-50%) rotate(45deg)}
-.trg-colour-guide .hiw-v1-palette-ill{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:0;width:132px;height:68px;padding:8px;background:rgba(245,241,235,.05);border:1px solid rgba(255,255,255,.08);border-radius:8px;box-shadow:0 12px 24px rgba(0,0,0,.14)}
-.trg-colour-guide .hiw-v1-palette-card{height:100%;border-top:1px solid rgba(255,255,255,.1);border-bottom:1px solid rgba(0,0,0,.12);border-left:1px solid rgba(255,255,255,.06)}
-.trg-colour-guide .hiw-v1-palette-card:first-child{border-left:0;border-radius:3px 0 0 3px}
-.trg-colour-guide .hiw-v1-palette-card:last-child{border-radius:0 3px 3px 0}
+.trg-colour-guide .hiw-v1-palette-ill{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:4px;width:118px;height:56px;padding:0;background:transparent;border:0;border-radius:0;box-shadow:none}
+.trg-colour-guide .hiw-v1-palette-card{height:100%;border-radius:4px;border:1px solid rgba(255,255,255,.08);box-shadow:inset 0 1px 0 rgba(255,255,255,.08)}
+.trg-colour-guide .hiw-card:first-child:hover .hiw-v1-palette-card{transform:translateY(-1px)}
 .trg-colour-guide .hiw-v1-caption{display:none}
 
 /* Step 2 visual: simplified outfit assignment story */
-.trg-colour-guide .hiw-builder-story{display:grid;grid-template-columns:52px 34px minmax(0,1fr);gap:14px;align-items:center;width:100%;max-width:304px}
+.trg-colour-guide .hiw-builder-story{display:grid;grid-template-columns:52px 34px minmax(0,1fr);gap:16px;align-items:center;width:100%;max-width:310px}
 .trg-colour-guide .hiw-builder-input{display:flex;align-items:center;justify-content:center}
-.trg-colour-guide .hiw-builder-input-chip{width:42px;height:42px;border-radius:8px;border:1px solid rgba(255,255,255,.12);box-shadow:0 10px 20px rgba(0,0,0,.16),inset 0 1px 0 rgba(255,255,255,.18)}
+.trg-colour-guide .hiw-builder-input-chip{width:42px;height:42px;border-radius:8px;border:1px solid rgba(255,255,255,.12);box-shadow:0 8px 18px rgba(0,0,0,.14),inset 0 1px 0 rgba(255,255,255,.18)}
 .trg-colour-guide .hiw-builder-arrow{width:34px;height:2px;background:linear-gradient(90deg,rgba(245,241,235,.12),rgba(245,241,235,.8));position:relative}
 .trg-colour-guide .hiw-builder-arrow::after{content:'';position:absolute;right:-1px;top:50%;width:8px;height:8px;border-top:2px solid rgba(245,241,235,.8);border-right:2px solid rgba(245,241,235,.8);transform:translateY(-50%) rotate(45deg)}
-.trg-colour-guide .hiw-builder-garments{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.trg-colour-guide .hiw-garment{height:64px;border-radius:9px;border:1px solid rgba(255,255,255,.08);background:rgba(245,241,235,.04);display:flex;align-items:center;justify-content:center;transition:border-color .18s,background .18s}
-.trg-colour-guide .hiw-garment svg{width:70%;height:70%;color:rgba(245,241,235,.28);display:block}
-.trg-colour-guide .hiw-garment.is-active{background:rgba(245,241,235,.08);border-color:rgba(255,255,255,.16);box-shadow:0 0 0 1px rgba(196,86,42,.18)}
+.trg-colour-guide .hiw-builder-garments{position:relative;width:168px;height:110px}
+.trg-colour-guide .hiw-garment{position:absolute;display:flex;align-items:center;justify-content:center;transition:transform .18s,opacity .18s}
+.trg-colour-guide .hiw-garment svg{width:100%;height:100%;color:rgba(245,241,235,.3);display:block}
+.trg-colour-guide .hiw-garment[data-garment='shirt']{top:0;left:6px;width:42px;height:42px}
+.trg-colour-guide .hiw-garment[data-garment='jacket']{top:-2px;right:10px;width:54px;height:54px}
+.trg-colour-guide .hiw-garment[data-garment='trousers']{bottom:8px;left:40px;width:34px;height:42px}
+.trg-colour-guide .hiw-garment[data-garment='shoes']{bottom:4px;right:6px;width:48px;height:22px}
+.trg-colour-guide .hiw-garment:not(.is-active){opacity:.7}
+.trg-colour-guide .hiw-garment.is-active{transform:translateY(-1px) scale(1.02)}
 .trg-colour-guide .hiw-garment.is-active svg{color:var(--hiw-garment-color,#c8a030)}
-.trg-colour-guide .hiw-card:nth-child(2):hover .hiw-garment.is-active{background:rgba(245,241,235,.1)}
+.trg-colour-guide .hiw-card:nth-child(2):hover .hiw-garment.is-active{transform:translateY(-2px) scale(1.03)}
 /* Mini grid for step 3 */
 .trg-colour-guide .hiw-grid-story{position:relative;width:100%;max-width:304px}
-.trg-colour-guide .hiw-grid-sort{position:absolute;top:-4px;right:0;width:24px;height:24px;border:1px solid rgba(255,255,255,.12);border-radius:6px;background:rgba(245,241,235,.04);display:flex;align-items:center;justify-content:center;color:rgba(245,241,235,.68)}
-.trg-colour-guide .hiw-grid-sort svg{display:block;width:14px;height:14px}
+.trg-colour-guide .hiw-grid-sort{position:absolute;top:-2px;right:0;width:18px;height:18px;display:flex;align-items:center;justify-content:center;color:rgba(245,241,235,.42)}
+.trg-colour-guide .hiw-grid-sort svg{display:block;width:12px;height:12px}
 .trg-colour-guide .hiw-mini-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:5px;position:relative;z-index:1;width:100%;padding-top:16px}
-.trg-colour-guide .hiw-mini-cell{aspect-ratio:1;border-radius:4px;opacity:.24;box-shadow:inset 0 1px 0 rgba(255,255,255,.06);transform:scale(.92);transition:transform .18s,opacity .18s,box-shadow .18s}
-.trg-colour-guide .hiw-mini-cell.is-match{opacity:.5;transform:scale(.96)}
-.trg-colour-guide .hiw-mini-cell.is-highlight{opacity:1;transform:scale(1.08);box-shadow:0 0 0 1px rgba(255,255,255,.2),0 10px 18px rgba(0,0,0,.18)}
+.trg-colour-guide .hiw-mini-cell{aspect-ratio:1;border-radius:4px;opacity:.14;box-shadow:inset 0 1px 0 rgba(255,255,255,.04);transform:scale(.9);transition:transform .18s,opacity .18s,box-shadow .18s}
+.trg-colour-guide .hiw-mini-cell.is-match{opacity:.38;transform:scale(.95)}
+.trg-colour-guide .hiw-mini-cell.is-highlight{opacity:1;transform:scale(1.14);box-shadow:0 0 0 1px rgba(255,255,255,.2),0 8px 14px rgba(0,0,0,.16)}
 
 .trg-colour-guide .hiw-body{padding:1.52rem 1.35rem 1.3rem;display:grid;grid-template-rows:auto minmax(2.7em,auto) minmax(4.8em,1fr) auto;align-content:stretch;box-sizing:border-box}
 .trg-colour-guide .hiw-num{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:var(--ink);color:var(--paper);font-size:.62rem;font-weight:700;margin-bottom:.8rem}
@@ -509,21 +513,24 @@
   .trg-colour-guide .hiw-body{padding:1.24rem 1.02rem 1.12rem;grid-template-rows:auto minmax(2.5em,auto) minmax(4.6em,1fr) auto}
   .trg-colour-guide .hiw-footer{align-items:flex-start;flex-direction:column;gap:.45rem}
   .trg-colour-guide .hiw-num{width:26px;height:26px;font-size:.58rem;margin-bottom:.72rem}
-  .trg-colour-guide .hiw-v1-flow{grid-template-columns:minmax(0,1fr) 28px minmax(0,1fr);gap:8px;max-width:272px}
-  .trg-colour-guide .hiw-v1-skin + .hiw-v1-skin{margin-left:-16px}
-  .trg-colour-guide .hiw-v1-skin.sm{width:46px;height:46px}
-  .trg-colour-guide .hiw-v1-skin.md{width:60px;height:60px}
-  .trg-colour-guide .hiw-v1-skin.lg{width:52px;height:52px}
+  .trg-colour-guide .hiw-v1-flow{grid-template-columns:minmax(0,1fr) 26px minmax(0,1fr);gap:8px;max-width:272px}
+  .trg-colour-guide .hiw-v1-skin + .hiw-v1-skin{margin-left:-18px}
+  .trg-colour-guide .hiw-v1-skin.sm{width:48px;height:48px}
+  .trg-colour-guide .hiw-v1-skin.md{width:62px;height:62px}
+  .trg-colour-guide .hiw-v1-skin.lg{width:54px;height:54px}
   .trg-colour-guide .hiw-v1-skin.active{box-shadow:0 0 0 3px rgba(196,86,42,.18),inset 0 1px 0 rgba(255,255,255,.12)}
-  .trg-colour-guide .hiw-v1-divider{width:28px;flex-basis:28px}
-  .trg-colour-guide .hiw-v1-palette-ill{width:116px;height:60px;padding:7px}
-  .trg-colour-guide .hiw-builder-story{grid-template-columns:46px 28px minmax(0,1fr);gap:10px;max-width:272px}
+  .trg-colour-guide .hiw-v1-divider{width:26px;flex-basis:26px}
+  .trg-colour-guide .hiw-v1-palette-ill{width:112px;height:52px;gap:3px}
+  .trg-colour-guide .hiw-builder-story{grid-template-columns:42px 26px minmax(0,1fr);gap:10px;max-width:272px}
   .trg-colour-guide .hiw-builder-input-chip{width:36px;height:36px}
   .trg-colour-guide .hiw-builder-arrow{width:28px}
-  .trg-colour-guide .hiw-builder-garments{gap:8px}
-  .trg-colour-guide .hiw-garment{height:54px}
+  .trg-colour-guide .hiw-builder-garments{width:148px;height:98px}
+  .trg-colour-guide .hiw-garment[data-garment='shirt']{width:38px;height:38px;left:2px}
+  .trg-colour-guide .hiw-garment[data-garment='jacket']{width:48px;height:48px;right:8px}
+  .trg-colour-guide .hiw-garment[data-garment='trousers']{width:30px;height:38px;left:34px;bottom:8px}
+  .trg-colour-guide .hiw-garment[data-garment='shoes']{width:42px;height:18px;right:4px;bottom:6px}
   .trg-colour-guide .hiw-grid-story{max-width:272px}
-  .trg-colour-guide .hiw-grid-sort{top:-2px;width:22px;height:22px}
+  .trg-colour-guide .hiw-grid-sort{top:-1px;width:16px;height:16px}
   .trg-colour-guide .hiw-mini-grid{gap:4px;padding-top:14px}
   .trg-colour-guide .hiw-title{font-size:1.14rem}
   .trg-colour-guide .hiw-desc{font-size:.72rem}
