@@ -266,11 +266,26 @@ function initSharedSearchBar() {
   const field = form.querySelector('.trg-search-bar__field');
   const totalCount = count instanceof HTMLElement ? Number(count.dataset.trgTotalCount || '0') : 0;
   const hasPredictiveSearch = predictiveRoot instanceof HTMLElement;
+  const itemSearchIndex = new WeakMap();
 
   const getItems = () => Array.from(document.querySelectorAll('[data-trg-search-item]'));
   const hasCollectionSearch = count instanceof HTMLElement && getItems().length > 0;
   let predictiveAbortController = null;
   let predictiveCloseTimer = 0;
+
+  const getItemHaystack = (item) => {
+    if (!(item instanceof HTMLElement)) {
+      return '';
+    }
+
+    if (itemSearchIndex.has(item)) {
+      return itemSearchIndex.get(item);
+    }
+
+    const haystack = normalize(item.dataset.trgSearchText || item.textContent || '');
+    itemSearchIndex.set(item, haystack);
+    return haystack;
+  };
 
   const applyCollectionFilter = () => {
     if (!hasCollectionSearch) {
@@ -286,7 +301,7 @@ function initSharedSearchBar() {
         return;
       }
 
-      const haystack = normalize(item.dataset.trgSearchText || item.textContent || '');
+      const haystack = getItemHaystack(item);
       const isMatch = tokens.every((token) => haystack.includes(token));
 
       item.hidden = !isMatch;
