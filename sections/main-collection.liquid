@@ -92,6 +92,11 @@
           width: 100% !important;
           background: #fff !important;
         }
+        .trg-plp-body .card-gallery.trg-plp-gallery--static slideshow-arrows,
+        .trg-plp-body .card-gallery.trg-plp-gallery--static slideshow-thumbnails,
+        .trg-plp-body .card-gallery.trg-plp-gallery--static slideshow-bullets {
+          display: none !important;
+        }
         .trg-plp-body .card-gallery a.contents,
         .trg-plp-body .card-gallery slideshow-component,
         .trg-plp-body .card-gallery slideshow-container,
@@ -126,8 +131,63 @@
           object-position: center center !important;
           background: #fff !important;
         }
+        .trg-plp-body .card-gallery.trg-plp-gallery--static slideshow-slides {
+          overflow: hidden !important;
+          scroll-snap-type: none !important;
+          scrollbar-width: none !important;
+        }
+        .trg-plp-body .card-gallery.trg-plp-gallery--static slideshow-slides::-webkit-scrollbar {
+          display: none !important;
+        }
       `;
       target.appendChild(style);
+    };
+
+    const freezeCardGalleryStatic = (gallery) => {
+      if (!(gallery instanceof HTMLElement)) return;
+
+      gallery.classList.add('trg-plp-gallery--static');
+      gallery.removeAttribute('on:pointerenter');
+      gallery.removeAttribute('on:pointerleave');
+
+      const slideshow = gallery.querySelector('slideshow-component');
+      const scroller = gallery.querySelector('slideshow-slides');
+      const arrows = gallery.querySelector('slideshow-arrows');
+
+      if (slideshow instanceof HTMLElement) {
+        slideshow.setAttribute('disabled', 'true');
+        slideshow.setAttribute('initial-slide', '0');
+        slideshow.removeAttribute('infinite');
+        setImportantStyle(slideshow, 'display', 'block');
+        setImportantStyle(slideshow, 'width', '100%');
+      }
+
+      if (scroller instanceof HTMLElement) {
+        setImportantStyle(scroller, 'display', 'block');
+        setImportantStyle(scroller, 'width', '100%');
+        setImportantStyle(scroller, 'overflow-x', 'hidden');
+        setImportantStyle(scroller, 'scroll-snap-type', 'none');
+        scroller.scrollLeft = 0;
+      }
+
+      if (arrows instanceof HTMLElement) {
+        arrows.setAttribute('hidden', 'hidden');
+        setImportantStyle(arrows, 'display', 'none');
+      }
+
+      Array.from(gallery.querySelectorAll('slideshow-slide')).forEach((slide, index) => {
+        if (!(slide instanceof HTMLElement)) return;
+        if (index === 0) {
+          slide.removeAttribute('hidden');
+          slide.setAttribute('aria-hidden', 'false');
+          setImportantStyle(slide, 'display', 'block');
+          setImportantStyle(slide, 'width', '100%');
+          return;
+        }
+        slide.setAttribute('hidden', 'hidden');
+        slide.setAttribute('aria-hidden', 'true');
+        setImportantStyle(slide, 'display', 'none');
+      });
     };
 
     const repairCardGalleryLayout = (root = document) => {
@@ -138,6 +198,7 @@
           : document;
 
       scope.querySelectorAll('.trg-plp-body .card-gallery').forEach((gallery) => {
+        freezeCardGalleryStatic(gallery);
         setImportantStyle(gallery, 'display', 'block');
         setImportantStyle(gallery, 'width', '100%');
         setImportantStyle(gallery, 'background', '#fff');

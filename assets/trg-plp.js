@@ -27,6 +27,9 @@
     style.id = 'trg-plp-runtime-hotfix';
     style.textContent =
       '.trg-plp-body .card-gallery{display:block!important;width:100%!important;background:#fff!important;}' +
+      '.trg-plp-body .card-gallery.trg-plp-gallery--static slideshow-arrows,' +
+      '.trg-plp-body .card-gallery.trg-plp-gallery--static slideshow-thumbnails,' +
+      '.trg-plp-body .card-gallery.trg-plp-gallery--static slideshow-bullets{display:none!important;}' +
       '.trg-plp-body .card-gallery a.contents,' +
       '.trg-plp-body .card-gallery slideshow-component,' +
       '.trg-plp-body .card-gallery slideshow-container,' +
@@ -40,7 +43,9 @@
       '.trg-plp-body .card-gallery slideshow-slide,' +
       '.trg-plp-body .card-gallery .product-media-container{display:block!important;flex:0 0 100%!important;min-width:100%!important;height:100%!important;min-height:100%!important;}' +
       '.trg-plp-body .card-gallery .product-media{background:#fff!important;box-sizing:border-box!important;}' +
-      '.trg-plp-body .card-gallery.trg-img-contain .product-media{padding:clamp(.9rem,1.6vw,1.4rem)!important;}';
+      '.trg-plp-body .card-gallery.trg-img-contain .product-media{padding:clamp(.9rem,1.6vw,1.4rem)!important;}' +
+      '.trg-plp-body .card-gallery.trg-plp-gallery--static slideshow-slides{overflow:hidden!important;scroll-snap-type:none!important;scroll-behavior:auto!important;scrollbar-width:none!important;}' +
+      '.trg-plp-body .card-gallery.trg-plp-gallery--static slideshow-slides::-webkit-scrollbar{display:none!important;}';
     target.appendChild(style);
   }
 
@@ -101,6 +106,53 @@
     if (!(gallery instanceof HTMLElement)) return;
     gallery.classList.remove('trg-img-contain');
     delete gallery.dataset.trgFitChecked;
+  }
+
+  function freezeStaticGallery(gallery) {
+    if (!(gallery instanceof HTMLElement)) return;
+
+    gallery.classList.add('trg-plp-gallery--static');
+    gallery.removeAttribute('on:pointerenter');
+    gallery.removeAttribute('on:pointerleave');
+
+    var slideshow = gallery.querySelector('slideshow-component');
+    var scroller = gallery.querySelector('slideshow-slides');
+    var arrows = gallery.querySelector('slideshow-arrows');
+
+    if (slideshow instanceof HTMLElement) {
+      slideshow.setAttribute('disabled', 'true');
+      slideshow.setAttribute('initial-slide', '0');
+      slideshow.removeAttribute('infinite');
+      slideshow.style.setProperty('display', 'block', 'important');
+      slideshow.style.setProperty('width', '100%', 'important');
+    }
+
+    if (scroller instanceof HTMLElement) {
+      scroller.style.setProperty('display', 'block', 'important');
+      scroller.style.setProperty('width', '100%', 'important');
+      scroller.style.setProperty('overflow-x', 'hidden', 'important');
+      scroller.style.setProperty('scroll-snap-type', 'none', 'important');
+      scroller.scrollLeft = 0;
+    }
+
+    if (arrows instanceof HTMLElement) {
+      arrows.setAttribute('hidden', 'hidden');
+      arrows.style.setProperty('display', 'none', 'important');
+    }
+
+    Array.from(gallery.querySelectorAll('slideshow-slide')).forEach(function (slide, index) {
+      if (!(slide instanceof HTMLElement)) return;
+      if (index === 0) {
+        slide.removeAttribute('hidden');
+        slide.setAttribute('aria-hidden', 'false');
+        slide.style.setProperty('display', 'block', 'important');
+        slide.style.setProperty('width', '100%', 'important');
+        return;
+      }
+      slide.setAttribute('hidden', 'hidden');
+      slide.setAttribute('aria-hidden', 'true');
+      slide.style.setProperty('display', 'none', 'important');
+    });
   }
 
   function evaluateGalleryFit(gallery) {
@@ -169,6 +221,7 @@
   function setupGallery(gallery) {
     if (!(gallery instanceof HTMLElement)) return;
 
+    freezeStaticGallery(gallery);
     unhideVariantSlides(gallery);
 
     if (!observedGalleries.has(gallery)) {
@@ -225,6 +278,7 @@
     if (src) img.src = src;
     img.removeAttribute('loading');
 
+    freezeStaticGallery(gallery);
     resetGalleryFit(gallery);
     prepareCardMedia(gallery);
   }

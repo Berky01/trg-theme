@@ -82,6 +82,20 @@ body.filters-hidden .trg-plp-body .collection-wrapper > .trg-plp-main-column {
 .trg-plp-body .card-gallery slideshow-slides::-webkit-scrollbar {
   display: none !important;
 }
+.trg-plp-body .card-gallery.trg-plp-gallery--static slideshow-arrows,
+.trg-plp-body .card-gallery.trg-plp-gallery--static slideshow-thumbnails,
+.trg-plp-body .card-gallery.trg-plp-gallery--static slideshow-bullets {
+  display: none !important;
+}
+.trg-plp-body .card-gallery.trg-plp-gallery--static slideshow-slides {
+  overflow: hidden !important;
+  scroll-snap-type: none !important;
+  scroll-behavior: auto !important;
+  scrollbar-width: none !important;
+}
+.trg-plp-body .card-gallery.trg-plp-gallery--static slideshow-slide[hidden] {
+  display: none !important;
+}
 
 /* ════ TOOLBAR ════ */
 .trg-plp-body .trg-collection-controls {
