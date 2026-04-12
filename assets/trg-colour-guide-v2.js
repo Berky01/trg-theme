@@ -121,28 +121,49 @@ function renderHIWVisuals() {
     </div>
   `;
 
-  // Step 2: mini builder with garment slots
+  // Step 2: simplified outfit builder story
   const outfitVis = document.getElementById('hiw-outfit-vis');
-  const slotIcons = window.TRG_CG ? window.TRG_CG.IC : {};
   const outfitSlots = [
     {slot:'shirt',color:'White'},
+    {slot:'jacket',color:'Navy',active:true},
     {slot:'trousers',color:'Charcoal'},
-    {slot:'knit',color:'Burgundy'},
-    {slot:'jacket',color:'Navy'},
-    {slot:'coat',color:'Camel'},
     {slot:'shoes',color:'Cognac'}
   ];
+  const leftSlots = outfitSlots.slice(0,2);
+  const rightSlots = outfitSlots.slice(2);
   outfitVis.innerHTML = `
     <div class="hiw-visual-shell">
       <span class="hiw-visual-label">Assign colour to garment slots</span>
-      <div class="hiw-builder-mini">
-        ${outfitSlots.map(({slot,color},idx)=>`
-          <div class="hiw-slot-card${idx===0?' active':''}">
-            <div class="hiw-slot-icon">${slotIcons[slot]}</div>
-            <span class="hiw-slot-name">${slot}</span>
-            <div class="hiw-slot-swatch" style="background:${C[color]}"></div>
+      <div class="hiw-builder-story">
+        <div class="hiw-builder-rail">
+          ${leftSlots.map(({slot,color,active})=>`
+            <div class="hiw-builder-chip${active?' active':''}">
+              <span class="hiw-builder-chip-name">${slot}</span>
+              <div class="hiw-builder-chip-bar" style="background:${C[color]}"></div>
+            </div>
+          `).join('')}
+        </div>
+        <div class="hiw-builder-figure">
+          <div class="hiw-builder-head"></div>
+          <div class="hiw-builder-torso">
+            <div class="hiw-builder-neck"></div>
+            <div class="hiw-builder-jacket" style="background:${C['Navy']}"></div>
+            <div class="hiw-builder-shirt" style="background:${C['White']}"></div>
           </div>
-        `).join('')}
+          <div class="hiw-builder-trousers" style="background:${C['Charcoal']}"></div>
+          <div class="hiw-builder-shoes">
+            <div class="hiw-builder-shoe" style="background:${C['Cognac']}"></div>
+            <div class="hiw-builder-shoe" style="background:${C['Cognac']}"></div>
+          </div>
+        </div>
+        <div class="hiw-builder-rail">
+          ${rightSlots.map(({slot,color})=>`
+            <div class="hiw-builder-chip">
+              <span class="hiw-builder-chip-name">${slot}</span>
+              <div class="hiw-builder-chip-bar" style="background:${C[color]}"></div>
+            </div>
+          `).join('')}
+        </div>
       </div>
     </div>
   `;
