@@ -8,7 +8,7 @@
    ═══════════════════════════════════════ */
 
 /* ── Progress bar ── */
-.trg-art-progress{position:fixed;top:0;left:0;width:0%;height:2px;background:var(--accent,#c4562a);z-index:1000;transition:width 60ms linear;pointer-events:none;}
+.trg-art-progress{position:fixed;top:0;left:0;width:0%;height:2px;background:var(--accent,#c4562a);z-index:var(--trg-z-progress,500);transition:width 60ms linear;pointer-events:none;}
 
 /* ── Page shell ── */
 .trg-art-page{max-width:1100px;margin:0 auto;padding:0 2rem 5rem;font-family:'DM Sans',sans-serif;color:var(--ink,#1a1a18);}
@@ -225,7 +225,7 @@
   .trg-art-nl-inp{font-size:16px;padding:0.6rem 0;}
 
   /* wishlist always visible on touch */
-  .trg-art-pcard-wish{opacity:1!important;}
+  .trg-art.trg-art .trg-art-pcard-wish{opacity:1;}
 
   /* floating TOC pill */
   .trg-art-toc-pill{
@@ -236,7 +236,7 @@
     padding:0 16px;height:40px;border-radius:20px;
     align-items:center;gap:8px;
     font-size:11px;letter-spacing:0.1em;text-transform:uppercase;
-    cursor:pointer;z-index:900;
+    cursor:pointer;z-index:var(--trg-z-lightbox,210);
     box-shadow:0 4px 20px rgba(0,0,0,0.25);
     -webkit-tap-highlight-color:transparent;
     transition:opacity 0.3s,transform 0.3s;white-space:nowrap;
@@ -248,7 +248,7 @@
   /* TOC drawer */
   .trg-art-toc-overlay{
     display:block;position:fixed;inset:0;
-    background:rgba(26,26,24,0.3);z-index:940;
+    background:rgba(26,26,24,0.3);z-index:var(--trg-z-overlay,200);
     opacity:0;pointer-events:none;transition:opacity 0.3s;
   }
   .trg-art-toc-overlay.open{opacity:1;pointer-events:auto;}
@@ -256,7 +256,7 @@
     display:block;position:fixed;bottom:0;left:0;right:0;
     background:var(--paper,#f5f1eb);border-top:1px solid var(--border,#d8d4cc);
     padding:1.25rem 1rem calc(1.25rem + env(safe-area-inset-bottom,0px));
-    z-index:950;transform:translateY(100%);
+    z-index:var(--trg-z-lightbox,210);transform:translateY(100%);
     transition:transform 0.3s cubic-bezier(0.32,0.72,0,1);
     box-shadow:0 -8px 30px rgba(0,0,0,0.12);border-radius:16px 16px 0 0;
   }
@@ -286,7 +286,7 @@
 
 /* ━━━ DESKTOP 990+ ━━━ */
 @media(min-width:990px){
-  .trg-art-toc-pill,.trg-art-toc-drawer,.trg-art-toc-overlay,.trg-art-bottom-bar{display:none!important;}
-  .trg-art-strip-scroll,.trg-art-edit-scroll,.trg-art-related-scroll{display:none!important;}
-  .trg-art-strip-grid,.trg-art-edit-grid,.trg-art-related-grid{display:grid!important;}
+  .trg-art.trg-art .trg-art-toc-pill,.trg-art.trg-art .trg-art-toc-drawer,.trg-art.trg-art .trg-art-toc-overlay,.trg-art.trg-art .trg-art-bottom-bar{display:none;}
+  .trg-art.trg-art .trg-art-strip-scroll,.trg-art.trg-art .trg-art-edit-scroll,.trg-art.trg-art .trg-art-related-scroll{display:none;}
+  .trg-art.trg-art .trg-art-strip-grid,.trg-art.trg-art .trg-art-edit-grid,.trg-art.trg-art .trg-art-related-grid{display:grid;}
 }

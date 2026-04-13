@@ -26,40 +26,38 @@
 
 /* ─── 4. POLISH: Brand card monogram refinement ─── */
 /* Make monogram placeholders look more intentional while images are missing */
-.brand-card__logo-placeholder,
-.product-card .placeholder-svg,
-[class*="brand-logo-fallback"] {
-  background: linear-gradient(135deg, var(--ink) 0%, #2d2d2a 100%) !important;
+#MainContent .brand-card__logo-placeholder,
+#MainContent .product-card .placeholder-svg,
+#MainContent [class*="brand-logo-fallback"] {
+  background: linear-gradient(135deg, var(--ink) 0%, #2d2d2a 100%);
   border: 1px solid rgba(245, 241, 235, 0.08);
-  font-family: 'Playfair Display', serif !important;
-  font-weight: 400 !important;
+  font-family: 'Playfair Display', serif;
+  font-weight: 400;
   letter-spacing: 0.02em;
-  color: rgba(245, 241, 235, 0.7) !important;
+  color: rgba(245, 241, 235, 0.7);
 }
 
 /* ─── 5. POLISH: Newsletter section — only show once per page ─── */
 /* Hide the second newsletter section when it appears as a duplicate */
-.shopify-section + .shopify-section [class*="newsletter"],
-.shopify-section + .shopify-section [class*="email-signup"] {
+.shopify-section + .shopify-section .trg-newsletter,
+.shopify-section + .shopify-section .trg-email-signup {
   /* Don't hide by default — but this selector can be fine-tuned
      once we identify the exact section IDs */
 }
 
-/* ─── 6. POLISH: Footer link states ─── */
-footer a,
-.footer a,
-[class*="footer"] a {
+/* ─── 6. POLISH: Footer link states (Phase 3: scoped to .trg-footer) ─── */
+.trg-footer a,
+footer.trg-footer a {
   transition: color 0.15s ease;
 }
-footer a:hover,
-.footer a:hover,
-[class*="footer"] a:hover {
-  color: var(--trg-accent, var(--accent)) !important;
+.trg-footer a:hover,
+footer.trg-footer a:hover {
+  color: var(--trg-accent, var(--accent));
 }
 
 /* ─── 7. POLISH: Breadcrumb styling consistency ─── */
-.breadcrumb,
-[class*="breadcrumb"] {
+#MainContent .breadcrumb,
+#MainContent [class*="breadcrumb"] {
   font-size: 0.75rem;
   color: var(--trg-mid, var(--mid));
   letter-spacing: 0.02em;
@@ -126,8 +124,8 @@ footer a:hover,
 }
 
 /* ─── 9. POLISH: Tag/badge consistency ─── */
-.badge,
-[class*="badge-"],
+#MainContent .badge,
+#MainContent [class*="badge-"],
 .trg-badge {
   font-family: 'DM Sans', sans-serif;
   font-size: 0.62rem;
@@ -228,38 +226,37 @@ body[data-region="CA"] section.canada-only {
   margin-bottom: 0.75rem;
 }
 
-/* ─── 13. POLISH: Typography scale consistency ─── */
+/* ─── 13. POLISH: Typography scale consistency (Phase 3: scoped to #MainContent) ─── */
 /* Ensure Playfair is used for all headings, DM Sans for body */
-h1, h2, h3,
-.h1, .h2, .h3,
-[class*="heading"],
-[class*="title"]:not(input):not(button) {
+#MainContent h1, #MainContent h2, #MainContent h3,
+#MainContent .h1, #MainContent .h2, #MainContent .h3 {
   font-family: 'Playfair Display', serif;
 }
 /* Italic accent in headings */
-h1 em, h2 em, h3 em,
-.h1 em, .h2 em, .h3 em {
+#MainContent h1 em, #MainContent h2 em, #MainContent h3 em,
+#MainContent .h1 em, #MainContent .h2 em, #MainContent .h3 em {
   font-style: italic;
   color: var(--trg-accent, var(--accent));
 }
 
-/* ─── 14. POLISH: Link styles ─── */
-a {
+/* ─── 14. POLISH: Link styles (Phase 3: scoped to #MainContent) ─── */
+#MainContent a:not(nav a):not([class*="btn"]) {
   color: inherit;
   text-decoration-color: var(--trg-border, var(--border));
   text-underline-offset: 0.15em;
   transition: color 0.15s ease, text-decoration-color 0.15s ease;
 }
-a:hover {
+#MainContent a:not(nav a):not([class*="btn"]):hover {
   color: var(--trg-accent, var(--accent));
   text-decoration-color: var(--trg-accent, var(--accent));
 }
-/* Remove underline from nav links, buttons, cards */
-nav a,
-button a,
-.card a,
-[class*="card"] a,
-[class*="btn"] {
+/* Remove underline from TRG-owned links */
+.trg-plp-body .product-card a,
+.trg-search-plp .product-card a,
+.trg-bdir a,
+.trg-footer nav a,
+#MainContent .card a,
+#MainContent [class*="btn"] {
   text-decoration: none;
 }
 
@@ -282,7 +279,8 @@ button a,
 }
 
 /* ─── 17. POLISH: Focus styles for accessibility ─── */
-*:focus-visible {
+#MainContent *:focus-visible,
+.trg-mob *:focus-visible {
   outline: 2px solid var(--trg-accent, var(--accent));
   outline-offset: 2px;
 }
@@ -297,7 +295,7 @@ input:focus-visible {
 @media (max-width: 749px) {
   /* Tighter spacing on mobile */
   .section-heading {
-    font-size: 1.6rem !important;
+    font-size: 1.6rem;
   }
   
   /* Stack CTAs on mobile */
@@ -332,14 +330,14 @@ input:focus-visible {
   .trg-nav-wishlist {
     display: none !important;
   }
-  .header__icon--account {
-    padding: .3rem .6rem !important;
+  #header-group .header__icon--account {
+    padding: .3rem .6rem;
     white-space: nowrap;
   }
-  .header__icon--account .account-button__text,
-  .header__icon--account .header-actions__text-style {
-    font-size: .6rem !important;
-    letter-spacing: .04em !important;
+  #header-group .header__icon--account .account-button__text,
+  #header-group .header__icon--account .header-actions__text-style {
+    font-size: .6rem;
+    letter-spacing: .04em;
   }
 }
 
@@ -347,7 +345,7 @@ input:focus-visible {
 @media print {
   nav, footer, .newsletter-section, .scroll-to-top,
   .trg-mega-menu, .search-overlay {
-    display: none !important;
+    display: none;
   }
   body {
     background: white;
@@ -376,10 +374,10 @@ body:not(.template-index) .shopify-section[id*="newsletter"]:not([id*="footer"])
 
 /* ─── 20. FIX: Hide duplicate newsletter on interior pages ─── */
 /* The footer-group newsletter stays; body newsletter only shows on homepage */
-body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"]) [class*="newsletter"],
-body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"]) [class*="email-signup"] {
+body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"]) .trg-newsletter,
+body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"]) .trg-email-signup {
   /* Uncomment below to hide body newsletter on non-homepage: */
-  /* display: none !important; */
+  /* display: none; */
 }
 
 /* ─── MEGA MENU MOBILE: Dark theme for Dwell mobile drawer ─── */
@@ -494,8 +492,8 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
 
 
 /* ─── ACCOUNT SYSTEM: Show Sign In button ─── */
-.header__icon--account {
-  display: inline-flex !important;
+#header-group .header__icon--account {
+  display: inline-flex;
 }
 
 /* Nav wishlist heart (loads via trg-account.css once CDN recompiles, 
@@ -552,7 +550,7 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
   font-family: "DM Sans", sans-serif;
   font-size: 0.75rem; font-weight: 400;
   box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-  z-index: 999;
+  z-index: var(--trg-z-toast, 400);
   transform: translateY(100%); opacity: 0;
   transition: transform 0.3s ease, opacity 0.3s ease;
   pointer-events: none;
@@ -562,10 +560,10 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
 
 /* Wishlist button on product cards — always visible on mobile */
 .trg-plp-card-wishlist.trg-wishlist-btn {
-  opacity: 1 !important;
+  opacity: 1;
 }
 .trg-plp-card-wishlist.trg-wishlist-btn.saved {
-  color: var(--accent) !important;
+  color: var(--accent);
 }
 .trg-plp-card-wishlist.trg-wishlist-btn.saved svg path {
   fill: var(--accent);
@@ -587,11 +585,11 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
 
 
 /* ─── PDP: Remove gallery image border ─── */
-.product-information__media,
-.product-information .product-information__media {
-  border: none !important;
-  outline: none !important;
-  box-shadow: none !important;
+#MainContent .product-information.product-information .product-information__media,
+#MainContent .product-information__media.product-information__media {
+  border: none;
+  outline: none;
+  box-shadow: none;
 }
 
 
@@ -628,11 +626,11 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
   .trg-cg-tip,
   [class*="trg-cg"][class*="tip"],
   .trg-cg-chip-tip {
-    max-width: calc(100vw - 2rem) !important;
-    left: 50% !important;
-    right: auto !important;
-    transform: translateX(-50%) !important;
-    white-space: normal !important;
+    max-width: calc(100vw - 2rem);
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    white-space: normal;
     word-break: break-word;
   }
 }
@@ -641,37 +639,37 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
 @media screen and (max-width: 749px) {
   /* Single-column layout */
   .trg-acct__grid {
-    grid-template-columns: 1fr !important;
+    grid-template-columns: 1fr;
   }
   /* Full-width cards */
   .trg-acct__card,
   .trg-acct__brand-card,
   .trg-acct__wish-card {
-    width: 100% !important;
+    width: 100%;
   }
   /* Stack brand cards in 2-col grid */
   .trg-acct__brand-grid {
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 0.5rem !important;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
   }
   /* Wishlist cards 1-col on phone */
   .trg-acct__wish-grid {
-    grid-template-columns: 1fr !important;
-    gap: 0.75rem !important;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
   }
   /* Hero section tighter */
   .trg-acct__hero {
-    padding: 1.25rem 1rem !important;
+    padding: 1.25rem 1rem;
   }
   .trg-acct__hero h1 {
-    font-size: 1.3rem !important;
+    font-size: 1.3rem;
   }
   /* Tabs horizontal scroll */
   .trg-acct__tabs {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
-    gap: 0 !important;
+    gap: 0;
   }
   .trg-acct__tabs::-webkit-scrollbar {
     display: none;
@@ -679,12 +677,12 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
   .trg-acct__tab {
     white-space: nowrap;
     flex-shrink: 0;
-    padding: 0.65rem 0.75rem !important;
-    font-size: 0.7rem !important;
+    padding: 0.65rem 0.75rem;
+    font-size: 0.7rem;
   }
   /* Settings form full-width */
   .trg-acct__settings-form {
-    max-width: 100% !important;
+    max-width: 100%;
   }
 }
 
@@ -693,7 +691,7 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
   .trg-search-bar__pill,
   .trg-search-bar__mobile-filter,
   .mobile-filter-btn {
-    min-height: 44px !important;
+    min-height: 44px;
     min-width: 44px;
     display: inline-flex;
     align-items: center;
@@ -701,14 +699,14 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
   }
   .trg-search-bar__sort,
   .trg-search-bar__form select {
-    min-height: 44px !important;
+    min-height: 44px;
   }
   .trg-search-bar__active-tags {
     flex-wrap: wrap;
     gap: 0.35rem;
   }
   .trg-search-bar__active-tags .trg-search-bar__pill {
-    min-height: 36px !important;
+    min-height: 36px;
     padding: 0.35rem 0.75rem;
     font-size: 0.72rem;
   }
@@ -718,7 +716,7 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
 @media screen and (max-width: 749px) {
   .trg-bdir .trg-bdir__body,
   .trg-bdir .trg-bdir__body2 {
-    min-height: 8rem !important;
+    min-height: 8rem;
   }
 }
 
@@ -734,10 +732,10 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
 /* ─── #20 MEDIUM: About page — phone spacing ─── */
 @media screen and (max-width: 480px) {
   .trg-split-layout {
-    gap: 16px !important;
+    gap: 16px;
   }
   .trg-sidebar-card {
-    padding: 1rem !important;
+    padding: 1rem;
   }
   .trg-principles {
     gap: 8px;
@@ -747,10 +745,10 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
     gap: 6px;
   }
   .trg-main-block__heading {
-    font-size: 1.4rem !important;
+    font-size: 1.4rem;
   }
   .trg-main-block__quote {
-    font-size: 0.95rem !important;
+    font-size: 0.95rem;
     padding-left: 1rem;
   }
 }
@@ -758,7 +756,7 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
 /* ─── #21 MEDIUM: Submit Brand — full-width form on mobile ─── */
 @media screen and (max-width: 749px) {
   .trg-embed-frame iframe {
-    width: 100% !important;
+    width: 100%;
     min-height: 600px;
   }
   .trg-checklist__item {
@@ -772,9 +770,9 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
   .trg-footer input[type="email"],
   .trg-footer .trg-footer__email-input,
   .trg-footer .newsletter-form__field-wrapper input {
-    min-height: 44px !important;
-    font-size: 0.85rem !important;
-    padding: 0.6rem 0.75rem !important;
+    min-height: 44px;
+    font-size: 0.85rem;
+    padding: 0.6rem 0.75rem;
   }
 }
 
@@ -782,7 +780,7 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
 @media screen and (max-width: 749px) {
   .trg-newsletter .button,
   .trg-newsletter--footer_row .button {
-    white-space: normal !important;
+    white-space: normal;
     overflow-wrap: break-word;
     word-break: break-word;
   }
@@ -826,19 +824,16 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
 }
 
 
-/* ── Global mobile overflow safety (2026-03-21T20:01:26.262534) (2026-03-21) ── */
+/* ── Mobile overflow safety — scoped to TRG containers (H13 fix) ── */
 @media (max-width: 989px) {
-  html { overflow-x: hidden; }
-  .content-for-layout,
-  .shopify-section,
-  .section {
+  .trg-plp-body,
+  .trg-bdir,
+  .trg-mob,
+  [class*="trg-"] {
     max-width: 100vw;
     overflow-x: hidden;
   }
-  [class*="trg-"] {
-    max-width: 100vw;
-  }
-  img, svg, video, iframe, table {
+  #MainContent img, #MainContent svg, #MainContent video, #MainContent iframe, #MainContent table {
     max-width: 100%;
     height: auto;
   }
@@ -846,16 +841,16 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
 
 /* ═══ #20 Brand PLP mobile: clean fix ═══ */
 @media screen and (max-width: 989px) {
-  body:has([data-template="page.brands-directory"]) {
-    background: var(--paper) !important;
+  html body:has([data-template="page.brands-directory"]) {
+    background: var(--paper);
   }
-  body:has([data-template="page.brands-directory"]) footer,
-  body:has([data-template="page.brands-directory"]) .footer {
-    background: var(--paper) !important;
+  html body:has([data-template="page.brands-directory"]) footer,
+  html body:has([data-template="page.brands-directory"]) .footer {
+    background: var(--paper);
   }
-  body:has([data-template="page.brands-directory"]) .header__navigation-bar-row {
-    display: none !important;
-    height: 0 !important;
+  html body:has([data-template="page.brands-directory"]) .header__navigation-bar-row.header__navigation-bar-row {
+    display: none;
+    height: 0;
   }
 }
 
@@ -889,59 +884,55 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
     overflow: hidden !important;
   }
   .trg-bdir .trg-bdir__body2 {
-    overflow: hidden !important;
+    overflow: hidden;
     position: relative;
   }
   .trg-bdir .trg-bdir__side {
-    border: none !important;
+    border: none;
   }
     .trg-bdir .trg-bdir__cta {
-    display: none !important;
-    height: 0 !important;
-    min-height: 0 !important;
-    visibility: hidden !important;
+    display: none;
+    height: 0;
+    min-height: 0;
+    visibility: hidden;
   }
 }
 
 /* ═══ #27 Brand PLP mobile: close black gap between header and content ═══ */
 @media screen and (max-width: 989px) {
   /* Collapse navigation-bar-row completely */
-  .header__navigation-bar-row {
-    display: none !important;
-    height: 0 !important;
-    min-height: 0 !important;
-    overflow: hidden !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    border: none !important;
+  #header-group .header__navigation-bar-row.header__navigation-bar-row {
+    display: none;
+    height: 0;
+    min-height: 0;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+    border: none;
   }
   /* Collapse mega-menu shell — visibility:hidden not display:none
      so the fixed-position mobile drawer (#trg-mob) still renders */
   .shopify-section-group-header-group.trg-mega-menu-shell,
   .shopify-section.trg-mega-menu-shell {
-    height: 0 !important;
-    min-height: 0 !important;
-    overflow: hidden !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    visibility: hidden !important;
+    height: 0;
+    min-height: 0;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+    visibility: hidden;
   }
   /* Kill any header-group gap — only the header-component should have height */
   #header-group > .shopify-section:not(.header-section) {
-    height: 0 !important;
-    min-height: 0 !important;
-    overflow: hidden !important;
-    visibility: hidden !important;
+    height: 0;
+    min-height: 0;
+    overflow: hidden;
+    visibility: hidden;
   }
   /* Re-enable the mobile drawer inside the collapsed mega-menu */
   .trg-mob {
-    visibility: visible !important;
+    visibility: visible;
   }
-  /* Content-for-layout: no top gap */
-  .content-for-layout {
-    margin-top: 0 !important;
-    padding-top: 0 !important;
-  }
+  /* H14: content-for-layout offset preserved for Dwell sticky header */
 }
 
 /* ─── HP Hero mosaic — mobile height matching desktop proportions ─── */
