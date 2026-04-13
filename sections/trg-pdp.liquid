@@ -1,4 +1,4 @@
-﻿{%- liquid
+{%- liquid
 
   comment
 
@@ -767,6 +767,10 @@
 
             data-src="{{ media | image_url: width: 900 }}"
 
+            data-srcset="{{ media | image_url: width: 450 }} 450w, {{ media | image_url: width: 900 }} 900w, {{ media | image_url: width: 1200 }} 1200w"
+
+            data-sizes="(min-width: 990px) 45vw, (min-width: 750px) 50vw, calc(100vw - 2rem)"
+
             data-alt="{{ media.alt | default: p.title | escape }}"
 
             type="button"
@@ -778,20 +782,6 @@
           </button>
 
         {%- endfor -%}
-
-      </div>
-
-    {%- else -%}
-
-      <div class="trg-pdp__thumbs">
-
-        <div class="trg-pdp__thumb active"><div class="trg-pdp__thumb-ph">Front</div></div>
-
-        <div class="trg-pdp__thumb"><div class="trg-pdp__thumb-ph">Back</div></div>
-
-        <div class="trg-pdp__thumb"><div class="trg-pdp__thumb-ph">Detail</div></div>
-
-        <div class="trg-pdp__thumb"><div class="trg-pdp__thumb-ph">On Model</div></div>
 
       </div>
 
@@ -1274,21 +1264,6 @@
 
 {%- comment -%} PDP ENHANCEMENTS JS {%- endcomment -%}
 
-<style data-trg-pdp-inline-hotfix>
-  .trg-pdp__chips--colours {
-    gap: 0.9rem !important;
-  }
-  .trg-pdp__chip--colour {
-    width: 7rem !important;
-    height: 7rem !important;
-    min-width: 7rem !important;
-  }
-  .trg-pdp__chip-swatch {
-    width: 4.75rem !important;
-    height: 4.75rem !important;
-  }
-</style>
-
 <script src="{{ 'trg-pdp-enhance.js' | asset_url }}" defer></script>
 
 {% endif %}
@@ -1413,7 +1388,7 @@
 
     aspect-ratio: 4/5;
 
-    background: #e8e3db;
+    background: #fff;
 
     border-radius: 3px;
 
@@ -1429,7 +1404,7 @@
 
     height: 100%;
 
-    object-fit: cover;
+    object-fit: contain;
 
     display: block;
 
@@ -1503,7 +1478,7 @@
 
     height: 90px;
 
-    background: #e8e3db;
+    background: #fff;
 
     border-radius: 2px;
 
@@ -1533,7 +1508,7 @@
 
     height: 100%;
 
-    object-fit: cover;
+    object-fit: contain;
 
     display: block;
 
@@ -1797,7 +1772,7 @@
 
   .trg-pdp__chips--colours {
 
-    gap: 0.9rem;
+    gap: 0.55rem;
 
   }
 
@@ -1837,11 +1812,11 @@
 
     justify-content: center;
 
-    width: 7rem;
+    width: 2.75rem;
 
-    height: 7rem;
+    height: 2.75rem;
 
-    min-width: 7rem;
+    min-width: 2.75rem;
 
     padding: 0;
 
@@ -1853,9 +1828,9 @@
 
   .trg-pdp__chip-swatch {
 
-    width: 4.75rem;
+    width: 1.75rem;
 
-    height: 4.75rem;
+    height: 1.75rem;
 
     border-radius: 999px;
 

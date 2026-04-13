@@ -1,4 +1,4 @@
-﻿/**
+/**
  * TRG PDP Enhancements -- v2
  * 1. Thumbnail + chip handlers with color group awareness
  * 2. Gallery arrows + touch swipe
@@ -8,22 +8,6 @@
 (function () {
   'use strict';
 
-  function ensureRuntimeStyles() {
-    if (document.getElementById('trg-pdp-runtime-hotfix')) return;
-    var target = document.head || document.documentElement;
-    if (!target) return;
-
-    var style = document.createElement('style');
-    style.id = 'trg-pdp-runtime-hotfix';
-    style.textContent =
-      '.trg-pdp__chips--colours{gap:.9rem!important;}' +
-      '.trg-pdp__chip--colour{width:7rem!important;height:7rem!important;min-width:7rem!important;}' +
-      '.trg-pdp__chip-swatch{width:4.75rem!important;height:4.75rem!important;}';
-    target.appendChild(style);
-  }
-
-  ensureRuntimeStyles();
-
   /* ═══════════════════════════════════════════
      1. THUMBNAIL + CHIP HANDLERS
      ═══════════════════════════════════════════ */
@@ -31,9 +15,15 @@
   var galleryImg = document.getElementById('trg-gallery-img');
   var currentIndex = 0;
   var images = [];
+  var imagePreloadCache = Object.create(null);
 
   thumbs.forEach(function (thumb, i) {
-    images.push({ src: thumb.dataset.src, alt: thumb.dataset.alt || '' });
+    images.push({
+      src: thumb.dataset.src,
+      srcset: thumb.dataset.srcset || '',
+      sizes: thumb.dataset.sizes || '',
+      alt: thumb.dataset.alt || ''
+    });
     thumb.addEventListener('click', function () {
       goToImage(i);
     });
@@ -132,11 +122,43 @@
     return -1;
   }
 
-  function setMainImage(src, alt) {
-    if (!galleryImg || galleryImg.tagName !== 'IMG' || !src) return;
-    galleryImg.removeAttribute('srcset');
-    galleryImg.src = src;
-    if (alt) galleryImg.alt = alt;
+  function normalizeImage(imageOrSrc, alt) {
+    if (!imageOrSrc) return null;
+    if (typeof imageOrSrc === 'object') return imageOrSrc;
+    return { src: imageOrSrc, alt: alt || '', srcset: '', sizes: '' };
+  }
+
+  function preloadImage(imageOrSrc, alt) {
+    var image = normalizeImage(imageOrSrc, alt);
+    if (!image || !image.src) return Promise.resolve();
+    if (imagePreloadCache[image.src]) return imagePreloadCache[image.src];
+    imagePreloadCache[image.src] = new Promise(function (resolve) {
+      var probe = new Image();
+      if (image.srcset) probe.srcset = image.srcset;
+      if (image.sizes) probe.sizes = image.sizes;
+      probe.onload = function () {
+        if (typeof probe.decode === 'function') {
+          probe.decode().catch(function () {}).finally(resolve);
+          return;
+        }
+        resolve();
+      };
+      probe.onerror = function () {
+        resolve();
+      };
+      probe.src = image.src;
+    });
+    return imagePreloadCache[image.src];
+  }
+
+  function setMainImage(imageOrSrc, alt) {
+    var image = normalizeImage(imageOrSrc, alt);
+    if (!galleryImg || galleryImg.tagName !== 'IMG' || !image || !image.src) return;
+    if (image.srcset) galleryImg.srcset = image.srcset;
+    else galleryImg.removeAttribute('srcset');
+    if (image.sizes) galleryImg.sizes = image.sizes;
+    galleryImg.src = image.src;
+    if (image.alt) galleryImg.alt = image.alt;
   }
 
   function getPreferredImageForSelection(colorName) {
@@ -778,23 +800,31 @@
   function goToImage(idx) {
     if (!images.length) return;
     currentIndex = ((idx % images.length) + images.length) % images.length;
-    if (galleryImg && galleryImg.tagName === 'IMG') {
-      galleryImg.removeAttribute('srcset');
-      galleryImg.src = images[currentIndex].src;
-      galleryImg.alt = images[currentIndex].alt;
-    }
+    var nextImage = images[currentIndex];
+    preloadImage(nextImage).finally(function () {
+      setMainImage(nextImage);
+    });
     thumbs.forEach(function (t, i) {
       t.classList.toggle('active', i === currentIndex);
     });
     allThumbs.forEach(function (t) {
       if (t.style.display === 'none') t.classList.remove('active');
     });
+    if (images.length > 1) {
+      preloadImage(images[(currentIndex + 1) % images.length]);
+      preloadImage(images[(currentIndex - 1 + images.length) % images.length]);
+    }
   }
 
   /* ═══════════════════════════════════════════
      2. GALLERY ARROWS + SWIPE
      ═══════════════════════════════════════════ */
   var galleryMain = document.getElementById('trg-gallery-main');
+
+  if (images.length) {
+    preloadImage(images[0]);
+    if (images.length > 1) preloadImage(images[1]);
+  }
 
   if (galleryMain && images.length > 1) {
     var prevBtn = document.createElement('button');
