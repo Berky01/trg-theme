@@ -186,29 +186,29 @@ footer.trg-footer a:hover {
 
 /* ─── 11. CANADA CONDITIONAL: Only show when data-region=CA ─── */
 /* These elements should be hidden by default and shown via geo JS */
-.canada-only,
-[data-ca-only],
-.trg-canada-strip,
-.badge-ships-ca:not([data-always-show]),
-.trg-ca-cta {
-  display: none !important;
+html body .canada-only,
+html body [data-ca-only],
+html body .trg-canada-strip,
+html body .badge-ships-ca:not([data-always-show]),
+html body .trg-ca-cta {
+  display: none;
 }
-body[data-region="CA"] .canada-only,
-body[data-region="CA"] [data-ca-only],
-body[data-region="CA"] .trg-canada-strip,
-body[data-region="CA"] .badge-ships-ca,
-body[data-region="CA"] .trg-ca-cta {
-  display: flex !important;
+html body[data-region="CA"] .canada-only,
+html body[data-region="CA"] [data-ca-only],
+html body[data-region="CA"] .trg-canada-strip,
+html body[data-region="CA"] .badge-ships-ca,
+html body[data-region="CA"] .trg-ca-cta {
+  display: flex;
 }
 /* For inline elements */
-body[data-region="CA"] span.canada-only,
-body[data-region="CA"] span[data-ca-only] {
-  display: inline !important;
+html body[data-region="CA"] span.canada-only,
+html body[data-region="CA"] span[data-ca-only] {
+  display: inline;
 }
 /* For block elements */
-body[data-region="CA"] div.canada-only,
-body[data-region="CA"] section.canada-only {
-  display: block !important;
+html body[data-region="CA"] div.canada-only,
+html body[data-region="CA"] section.canada-only {
+  display: block;
 }
 
 /* ─── 12. POLISH: Collection page filter panel ─── */
@@ -317,18 +317,18 @@ input:focus-visible {
 
   /* Fix account button + search overlap on mobile */
   /* Dwell mobile grid: leftA(44) leftB(44) center(1fr) rightA(44) rightB(44) */
-  .header__columns .search-action {
-    grid-area: leftB !important;
+  #header-group .header__columns .search-action.search-action {
+    grid-area: leftB;
   }
-  .header__columns header-actions {
-    grid-column: 4 / 6 !important;
-    grid-row: 1 !important;
+  #header-group .header__columns header-actions {
+    grid-column: 4 / 6;
+    grid-row: 1;
     justify-self: end;
     margin-right: 0.5rem;
   }
   /* Hide wishlist heart on mobile — accessible from account page */
-  .trg-nav-wishlist {
-    display: none !important;
+  #header-group .trg-nav-wishlist {
+    display: none;
   }
   #header-group .header__icon--account {
     padding: .3rem .6rem;
@@ -385,108 +385,108 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
 /* Override Dwell mobile menu to match TRG dark editorial theme */
 @media (max-width: 989px) {
   /* Mobile drawer / dialog background */
-  header-menu,
-  .header__submenu,
-  .menu-drawer,
-  .menu-drawer__inner,
-  .dialog-component,
-  .dialog-component__content,
-  [data-dialog-type="side-panel"],
-  .header .menu-list,
-  .header .menu-list__submenu,
-  .header .overflow-menu,
-  .header dialog,
-  .header [role="dialog"],
-  .header-menu .menu-list__submenu {
-    background-color: var(--ink) !important;
-    background: var(--ink) !important;
-    color: var(--paper) !important;
+  #header-group header-menu,
+  #header-group .header__submenu,
+  #header-group .menu-drawer,
+  #header-group .menu-drawer__inner,
+  #header-group .dialog-component,
+  #header-group .dialog-component__content,
+  #header-group [data-dialog-type="side-panel"],
+  #header-group .header .menu-list,
+  #header-group .header .menu-list__submenu,
+  #header-group .header .overflow-menu,
+  #header-group .header dialog,
+  #header-group .header [role="dialog"],
+  #header-group .header-menu .menu-list__submenu {
+    background-color: var(--ink);
+    background: var(--ink);
+    color: var(--paper);
   }
 
   /* Mobile menu links */
-  .menu-drawer a,
-  .menu-list__item a,
-  .header-menu a,
-  header-menu a,
-  .header .menu-list a,
-  .header dialog a,
-  .dialog-component a {
-    color: rgba(245, 241, 235, 0.7) !important;
-    text-decoration: none !important;
+  #header-group .menu-drawer a,
+  #header-group .menu-list__item a,
+  #header-group .header-menu a,
+  #header-group header-menu a,
+  #header-group .header .menu-list a,
+  #header-group .header dialog a,
+  #header-group .dialog-component a {
+    color: rgba(245, 241, 235, 0.7);
+    text-decoration: none;
   }
-  .menu-drawer a:hover,
-  .menu-list__item a:hover,
-  .header-menu a:hover,
-  header-menu a:hover,
-  .header .menu-list a:hover,
-  .dialog-component a:hover {
-    color: var(--paper) !important;
+  #header-group .menu-drawer a:hover,
+  #header-group .menu-list__item a:hover,
+  #header-group .header-menu a:hover,
+  #header-group header-menu a:hover,
+  #header-group .header .menu-list a:hover,
+  #header-group .dialog-component a:hover {
+    color: var(--paper);
   }
 
   /* Active/expanded state */
-  .menu-list__item--active > a,
-  .menu-list__item[aria-expanded="true"] > a,
-  header-menu .menu-list__item--active a {
-    color: var(--paper) !important;
+  #header-group .menu-list__item--active > a,
+  #header-group .menu-list__item[aria-expanded="true"] > a,
+  #header-group header-menu .menu-list__item--active a {
+    color: var(--paper);
   }
 
   /* Submenu panel */
-  .menu-list__submenu,
-  .header-menu .menu-list__submenu,
-  .menu-drawer__submenu {
-    background: #242422 !important;
-    border-color: #35332f !important;
+  #header-group .menu-list__submenu,
+  #header-group .header-menu .menu-list__submenu,
+  #header-group .menu-drawer__submenu {
+    background: #242422;
+    border-color: #35332f;
   }
 
   /* Hamburger icon */
-  .header__icon--menu svg,
-  .header__icon--menu path,
-  .menu-drawer__close svg {
-    color: var(--paper) !important;
-    stroke: var(--paper) !important;
+  #header-group .header__icon--menu svg,
+  #header-group .header__icon--menu path,
+  #header-group .menu-drawer__close svg {
+    color: var(--paper);
+    stroke: var(--paper);
   }
 
   /* Remove beige/paper backgrounds from header area on mobile */
-  .header__wrapper,
-  .header-group .shopify-section-group-header-group,
-  header.header {
-    background-color: var(--ink) !important;
+  #header-group .header__wrapper,
+  #header-group.header-group .shopify-section-group-header-group,
+  #header-group header.header {
+    background-color: var(--ink);
   }
 
   /* Menu separator lines */
-  .menu-list__item + .menu-list__item,
-  .menu-drawer__nav-item {
-    border-color: #35332f !important;
+  #header-group .menu-list__item + .menu-list__item,
+  #header-group .menu-drawer__nav-item {
+    border-color: #35332f;
   }
 
   /* Category/section labels in mobile menu */
-  .menu-list__item--heading,
-  .menu-drawer__heading {
-    color: rgba(245, 241, 235, 0.4) !important;
-    font-size: 0.68rem !important;
-    letter-spacing: 0.08em !important;
-    text-transform: uppercase !important;
+  #header-group .menu-list__item--heading,
+  #header-group .menu-drawer__heading {
+    color: rgba(245, 241, 235, 0.4);
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
   }
 
   /* Close button */
-  .menu-drawer__close,
-  .dialog-component__close,
-  [data-dialog-close] {
-    color: rgba(245, 241, 235, 0.6) !important;
+  #header-group .menu-drawer__close,
+  #header-group .dialog-component__close,
+  #header-group [data-dialog-close] {
+    color: rgba(245, 241, 235, 0.6);
   }
 
   /* Search in mobile menu */
-  .menu-drawer__search input,
-  .header__search input {
-    background: #242422 !important;
-    border-color: #35332f !important;
-    color: var(--paper) !important;
+  #header-group .menu-drawer__search input,
+  #header-group .header__search input {
+    background: #242422;
+    border-color: #35332f;
+    color: var(--paper);
   }
 
   /* Sign In and other utility links */
-  .header__utility a,
-  .header__account-link {
-    color: rgba(245, 241, 235, 0.6) !important;
+  #header-group .header__utility a,
+  #header-group .header__account-link {
+    color: rgba(245, 241, 235, 0.6);
   }
 }
 
@@ -596,8 +596,8 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
 /* ─── PDP: Column gap handled by Dwell grid natively ─── */
 
 /* ─── PDP: Space between product section and brand strip ─── */
-.product-information.section-page-width {
-  padding-block-end: 2rem !important;
+#MainContent .product-information.section-page-width.product-information.section-page-width {
+  padding-block-end: 2rem;
 }
 
 
@@ -941,9 +941,9 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
     height: clamp(260px, 65vw, 380px);
     grid-template-rows: 1fr 1fr;
   }
-  .trg-mosaic__item {
-    background-size: cover !important;
-    background-position: center !important;
+  .trg-mosaic__item.trg-mosaic__item {
+    background-size: cover;
+    background-position: center;
   }
 }
 
