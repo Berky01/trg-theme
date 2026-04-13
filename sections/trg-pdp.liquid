@@ -1298,15 +1298,23 @@
 
     margin: 0 auto;
 
+    width: 100%;
+
     display: flex;
 
     align-items: center;
 
     gap: 0.5rem;
 
+    flex-wrap: nowrap;
+
+    overflow: hidden;
+
     font-size: 0.72rem;
 
     color: #8a8478;
+
+    line-height: 1.25;
 
   }
 
@@ -1315,6 +1323,10 @@
     color: #8a8478;
 
     text-decoration: none;
+
+    white-space: nowrap;
+
+    flex-shrink: 0;
 
   }
 
@@ -1328,6 +1340,10 @@
 
     opacity: 0.4;
 
+    white-space: nowrap;
+
+    flex-shrink: 0;
+
   }
 
   .trg-pdp-bc__current {
@@ -1335,6 +1351,16 @@
     color: #1a1a18;
 
     font-weight: 500;
+
+    min-width: 0;
+
+    max-width: min(48vw, 34rem);
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
 
   }
 
