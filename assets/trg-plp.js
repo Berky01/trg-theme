@@ -8,10 +8,10 @@
   var FIT_TOLERANCE = 0.12;
   var GALLERY_SELECTOR = '.trg-plp-body .card-gallery';
   var VARIANT_SLIDE_SELECTOR = 'slideshow-slide[variant-image]';
-  var PRODUCT_CROP_SCALES = {
-    '10280187527447': '1.08',
-    '10280187330839': '1.18',
-    '10280088535319': '1.14'
+  var PRODUCT_CROP_CONFIG = {
+    '10280187527447': { scale: '1.28', origin: '48% 57%' },
+    '10280187330839': { scale: '1.46', origin: '52% 63%' },
+    '10280088535319': { scale: '1.36', origin: '51% 59%' }
   };
   var observedGalleries = new WeakSet();
   var mobileQuery = window.matchMedia('(max-width: 749px)');
@@ -200,15 +200,15 @@
     var img = gallery.querySelector('img');
     if (!(img instanceof HTMLImageElement)) return;
 
-    var scale = PRODUCT_CROP_SCALES[gallery.getAttribute('data-product-id') || ''];
-    if (!scale) {
+    var crop = PRODUCT_CROP_CONFIG[gallery.getAttribute('data-product-id') || ''];
+    if (!crop) {
       img.style.removeProperty('transform');
       img.style.removeProperty('transform-origin');
       return;
     }
 
-    img.style.setProperty('transform', 'scale(' + scale + ')', 'important');
-    img.style.setProperty('transform-origin', 'center center', 'important');
+    img.style.setProperty('transform', 'scale(' + crop.scale + ')', 'important');
+    img.style.setProperty('transform-origin', crop.origin, 'important');
   }
 
   var galleryMorphGuard = { active: false, fixCount: 0, lastFixTime: 0 };

@@ -738,25 +738,25 @@ body.filters-hidden .trg-plp-body .trg-plp-show-filters-btn { display: flex; }
 
 .trg-plp-body .card-gallery[data-product-id="10280187527447"] img {
 
-  transform: scale(1.08) !important;
+  transform: scale(1.28) !important;
 
-  transform-origin: center center !important;
+  transform-origin: 48% 57% !important;
 
 }
 
 .trg-plp-body .card-gallery[data-product-id="10280187330839"] img {
 
-  transform: scale(1.18) !important;
+  transform: scale(1.46) !important;
 
-  transform-origin: center center !important;
+  transform-origin: 52% 63% !important;
 
 }
 
 .trg-plp-body .card-gallery[data-product-id="10280088535319"] img {
 
-  transform: scale(1.14) !important;
+  transform: scale(1.36) !important;
 
-  transform-origin: center center !important;
+  transform-origin: 51% 59% !important;
 
 }
 
