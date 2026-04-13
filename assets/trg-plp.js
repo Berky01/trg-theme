@@ -7,11 +7,6 @@
   var CARD_IMAGE_WIDTHS = [200, 300, 400, 500, 600, 700, 800];
   var GALLERY_SELECTOR = '.trg-plp-body .card-gallery';
   var VARIANT_SLIDE_SELECTOR = 'slideshow-slide[variant-image]';
-  var PRODUCT_CROP_CONFIG = {
-    '10280187527447': { scale: '1.28', origin: '48% 57%' },
-    '10280187330839': { scale: '1.46', origin: '52% 63%' },
-    '10280088535319': { scale: '1.36', origin: '51% 59%' }
-  };
   var observedGalleries = new WeakSet();
 
   ['trg-pcf', 'trg-pcf-v2', 'trg-plp-card-fix-css', 'trg-plp-master', 'trg-plp-v7', 'trg-plp-v8'].forEach(
@@ -139,23 +134,6 @@
     });
   }
 
-  function applyGalleryCrop(gallery) {
-    if (!(gallery instanceof HTMLElement)) return;
-
-    var img = gallery.querySelector('img');
-    if (!(img instanceof HTMLImageElement)) return;
-
-    var crop = PRODUCT_CROP_CONFIG[gallery.getAttribute('data-product-id') || ''];
-    if (!crop) {
-      img.style.removeProperty('transform');
-      img.style.removeProperty('transform-origin');
-      return;
-    }
-
-    img.style.setProperty('transform', 'scale(' + crop.scale + ')', 'important');
-    img.style.setProperty('transform-origin', crop.origin, 'important');
-  }
-
   var galleryMorphGuard = { active: false, fixCount: 0, lastFixTime: 0 };
   document.addEventListener('shopify:section:load', function () {
     galleryMorphGuard.active = true;
@@ -197,7 +175,6 @@
 
     freezeStaticGallery(gallery);
     unhideVariantSlides(gallery);
-    applyGalleryCrop(gallery);
 
     if (!observedGalleries.has(gallery)) {
       observedGalleries.add(gallery);

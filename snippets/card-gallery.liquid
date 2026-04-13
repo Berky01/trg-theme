@@ -70,11 +70,21 @@
       assign media_fit = block_settings.constrain_to_viewport
     endif
   endif
+
+  assign trg_plp_media_fit_mode = 'cover'
+  if is_trg_plp_surface and product.media.size > 0
+    assign trg_primary_media = product.featured_media | default: product.media.first
+    assign trg_primary_ratio = trg_primary_media.preview_image.aspect_ratio | default: 1 | plus: 0
+
+    if trg_primary_media.media_type == 'image' and trg_primary_ratio >= 0.95
+      assign trg_plp_media_fit_mode = 'contain'
+    endif
+  endif
 %}
 
 <div
   ref="cardGallery"
-  class="card-gallery card-gallery-{{ block.id }} spacing-style border-style{% if has_badges %} card-gallery--badge-{{ badge_position }}{% endif %}"
+  class="card-gallery card-gallery-{{ block.id }} spacing-style border-style{% if has_badges %} card-gallery--badge-{{ badge_position }}{% endif %}{% if is_trg_plp_surface and product.media.size > 0 %} trg-plp-fit-{{ trg_plp_media_fit_mode }}{% endif %}"
   style="
     {% render 'border-override', settings: block_settings %}
     {% render 'spacing-style', settings: block_settings %}
@@ -91,13 +101,14 @@
   data-image-ratio="{{ block_settings.image_ratio }}"
   {% if is_trg_plp_surface %}
     data-trg-static-gallery="true"
+    data-trg-media-fit="{{ trg_plp_media_fit_mode }}"
   {% endif %}
   {{ block.shopify_attributes }}
 >
   {%- if product.media.size > 0 -%}
     {% if is_trg_plp_surface %}
       {% liquid
-        assign primary_media = product.featured_media | default: product.media.first
+        assign primary_media = trg_primary_media | default: product.featured_media | default: product.media.first
         assign loading = 'lazy'
         assign sizes = 'auto, ' | append: image_sizes
 

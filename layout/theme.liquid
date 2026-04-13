@@ -1,3 +1,4 @@
+<!-- codex-cache-bust: plp-fit-fix 2026-04-13 19:39:16.288 UTC theme 186604257559 -->
 <!-- codex-cache-bust: plp-live-fix 2026-04-13 19:28:27.262 UTC theme 186604257559 -->
 <!-- trg-cache:1774197888 -->
 <!doctype html>
@@ -58,41 +59,6 @@ document.addEventListener('focusin',function(e){
     {% if template == 'page.colour-guide' %}{{ 'trg-colour-guide.css' | asset_url | stylesheet_tag }}{% endif %}
     <script src="{{ 'trg-account.js' | asset_url }}" defer></script>
     <script src="{{ 'trg-plp.js' | asset_url }}" defer></script>
-    <script>
-      window.__trgWalletCropConfig = {
-        '10280187527447': { scale: '1.28', origin: '48% 57%' },
-        '10280187330839': { scale: '1.46', origin: '52% 63%' },
-        '10280088535319': { scale: '1.36', origin: '51% 59%' }
-      };
-      (function () {
-        function applyTrgWalletCrop() {
-          if (!document.querySelector('.trg-plp-body')) return;
-          Object.entries(window.__trgWalletCropConfig).forEach(function (entry) {
-            var id = entry[0];
-            var crop = entry[1];
-            document.querySelectorAll('.card-gallery[data-product-id="' + id + '"] img').forEach(function (img) {
-              img.style.setProperty('transform', 'scale(' + crop.scale + ')', 'important');
-              img.style.setProperty('transform-origin', crop.origin, 'important');
-            });
-          });
-        }
-
-        var cropObserver;
-        function scheduleTrgWalletCrop() {
-          requestAnimationFrame(applyTrgWalletCrop);
-          setTimeout(applyTrgWalletCrop, 120);
-          setTimeout(applyTrgWalletCrop, 500);
-          if (!cropObserver && document.documentElement) {
-            cropObserver = new MutationObserver(applyTrgWalletCrop);
-            cropObserver.observe(document.documentElement, { childList: true, subtree: true });
-          }
-        }
-
-        document.addEventListener('DOMContentLoaded', scheduleTrgWalletCrop);
-        window.addEventListener('load', scheduleTrgWalletCrop);
-      })();
-    </script>
-<!-- legacy-wallet-crop-hotfix 2026-04-13T01:21:27.451Z -->
 <!-- important-pass-1 2026-04-13T02:06:41.077Z -->
 </head>
 
