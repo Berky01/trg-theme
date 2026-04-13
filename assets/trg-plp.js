@@ -1,4 +1,4 @@
-// TRG PLP DOM Controller — split-layout, gallery, and swatch runtime
+// TRG PLP DOM Controller â€” split-layout, gallery, and swatch runtime
 // CSS is in trg-plp.css. This file owns shared collection/search PLP behavior.
 (function () {
   if (window.__trg_plp_ready) return;
@@ -8,6 +8,11 @@
   var FIT_TOLERANCE = 0.12;
   var GALLERY_SELECTOR = '.trg-plp-body .card-gallery';
   var VARIANT_SLIDE_SELECTOR = 'slideshow-slide[variant-image]';
+  var PRODUCT_CROP_SCALES = {
+    '10280187527447': '1.08',
+    '10280187330839': '1.18',
+    '10280088535319': '1.14'
+  };
   var observedGalleries = new WeakSet();
   var mobileQuery = window.matchMedia('(max-width: 749px)');
 
@@ -45,7 +50,11 @@
       '.trg-plp-body .card-gallery .product-media{background:#fff!important;box-sizing:border-box!important;}' +
       '.trg-plp-body .card-gallery.trg-img-contain .product-media{padding:clamp(.9rem,1.6vw,1.4rem)!important;}' +
       '.trg-plp-body .card-gallery.trg-plp-gallery--static slideshow-slides{overflow:hidden!important;scroll-snap-type:none!important;scroll-behavior:auto!important;scrollbar-width:none!important;}' +
-      '.trg-plp-body .card-gallery.trg-plp-gallery--static slideshow-slides::-webkit-scrollbar{display:none!important;}';
+      '.trg-plp-body .card-gallery.trg-plp-gallery--static slideshow-slides::-webkit-scrollbar{display:none!important;}' +
+      '.trg-plp-body .card-gallery.trg-plp-gallery--static slideshow-component{display:block!important;width:100%!important;}' +
+      '.trg-plp-body .card-gallery.trg-plp-gallery--static slideshow-component[infinite]{pointer-events:none!important;}' +
+      '.trg-plp-body .card-gallery.trg-plp-gallery--static slideshow-slide:first-child{display:block!important;width:100%!important;}' +
+      '.trg-plp-body .card-gallery.trg-plp-gallery--static slideshow-slide:not(:first-child){display:none!important;}';
     target.appendChild(style);
   }
 
@@ -112,8 +121,7 @@
     if (!(gallery instanceof HTMLElement)) return;
 
     gallery.classList.add('trg-plp-gallery--static');
-    gallery.removeAttribute('on:pointerenter');
-    gallery.removeAttribute('on:pointerleave');
+    gallery.setAttribute('data-skip-subtree-update', '');
 
     var slideshow = gallery.querySelector('slideshow-component');
     var scroller = gallery.querySelector('slideshow-slides');
@@ -122,22 +130,14 @@
     if (slideshow instanceof HTMLElement) {
       slideshow.setAttribute('disabled', 'true');
       slideshow.setAttribute('initial-slide', '0');
-      slideshow.removeAttribute('infinite');
-      slideshow.style.setProperty('display', 'block', 'important');
-      slideshow.style.setProperty('width', '100%', 'important');
     }
 
     if (scroller instanceof HTMLElement) {
-      scroller.style.setProperty('display', 'block', 'important');
-      scroller.style.setProperty('width', '100%', 'important');
-      scroller.style.setProperty('overflow-x', 'hidden', 'important');
-      scroller.style.setProperty('scroll-snap-type', 'none', 'important');
       scroller.scrollLeft = 0;
     }
 
     if (arrows instanceof HTMLElement) {
       arrows.setAttribute('hidden', 'hidden');
-      arrows.style.setProperty('display', 'none', 'important');
     }
 
     Array.from(gallery.querySelectorAll('slideshow-slide')).forEach(function (slide, index) {
@@ -145,13 +145,10 @@
       if (index === 0) {
         slide.removeAttribute('hidden');
         slide.setAttribute('aria-hidden', 'false');
-        slide.style.setProperty('display', 'block', 'important');
-        slide.style.setProperty('width', '100%', 'important');
         return;
       }
       slide.setAttribute('hidden', 'hidden');
       slide.setAttribute('aria-hidden', 'true');
-      slide.style.setProperty('display', 'none', 'important');
     });
   }
 
@@ -197,7 +194,40 @@
     }
   }
 
+  function applyGalleryCrop(gallery) {
+    if (!(gallery instanceof HTMLElement)) return;
+
+    var img = gallery.querySelector('img');
+    if (!(img instanceof HTMLImageElement)) return;
+
+    var scale = PRODUCT_CROP_SCALES[gallery.getAttribute('data-product-id') || ''];
+    if (!scale) {
+      img.style.removeProperty('transform');
+      img.style.removeProperty('transform-origin');
+      return;
+    }
+
+    img.style.setProperty('transform', 'scale(' + scale + ')', 'important');
+    img.style.setProperty('transform-origin', 'center center', 'important');
+  }
+
+  var galleryMorphGuard = { active: false, fixCount: 0, lastFixTime: 0 };
+  document.addEventListener('shopify:section:load', function () {
+    galleryMorphGuard.active = true;
+    requestAnimationFrame(function () { galleryMorphGuard.active = false; });
+  });
+
   var galleryMutationObserver = new MutationObserver(function (mutations) {
+    if (galleryMorphGuard.active) return;
+    var now = Date.now();
+    if (now - galleryMorphGuard.lastFixTime < 1000) {
+      galleryMorphGuard.fixCount++;
+      if (galleryMorphGuard.fixCount > 3) return;
+    } else {
+      galleryMorphGuard.fixCount = 0;
+    }
+    galleryMorphGuard.lastFixTime = now;
+
     mutations.forEach(function (mutation) {
       if (mutation.type === 'attributes' && mutation.attributeName === 'hidden') {
         var target = mutation.target;
@@ -223,6 +253,7 @@
 
     freezeStaticGallery(gallery);
     unhideVariantSlides(gallery);
+    applyGalleryCrop(gallery);
 
     if (!observedGalleries.has(gallery)) {
       observedGalleries.add(gallery);
@@ -308,7 +339,6 @@
     if (!(swatch.closest('.trg-plp-body') instanceof HTMLElement)) return;
 
     event.preventDefault();
-    event.stopPropagation();
     handleColourSwatchClick(swatch);
   }
 
@@ -379,7 +409,8 @@
     Array.from(controls.children).forEach(function (child) {
       if (!(child instanceof HTMLElement)) return;
       if (child.matches('style[data-shopify], .main-collection-grid')) {
-        main.insertBefore(child, controls.nextSibling);
+        child.setAttribute('data-skip-node-update', '');
+        child.setAttribute('data-skip-subtree-update', '');
       }
     });
 
@@ -398,7 +429,10 @@
 
     controls.querySelectorAll('.facets--filters-title, .trg-collection-controls__active-filters, .facets-remove').forEach(
       function (node) {
-        node.remove();
+        if (!(node instanceof HTMLElement)) return;
+        node.style.display = 'none';
+        node.setAttribute('aria-hidden', 'true');
+        node.setAttribute('data-skip-node-update', '');
       }
     );
 
@@ -424,7 +458,11 @@
     if (cw) {
       var isMobile = window.matchMedia('(max-width: 989px)').matches;
       var facetsToggle = cw.querySelector(':scope > .facets-toggle');
-      if (facetsToggle && !isMobile) facetsToggle.remove();
+      if (facetsToggle && !isMobile) {
+        facetsToggle.style.display = 'none';
+        facetsToggle.setAttribute('aria-hidden', 'true');
+        facetsToggle.setAttribute('data-skip-node-update', '');
+      }
 
       var dialog = cw.querySelector(':scope > dialog-component');
       if (dialog instanceof HTMLElement) {
@@ -453,15 +491,25 @@
     mobileQuery.addListener(recheckAllGalleryFits);
   }
 
+  /* Phase 10: single fix() + debounced MutationObserver replaces 5x setTimeout cascade */
   fix();
-  [50, 200, 600, 1500, 3000].forEach(function (ms) {
-    setTimeout(fix, ms);
-  });
 
   var cw = document.querySelector('.trg-plp-body .collection-wrapper');
   if (cw) {
+    var fixTimer = null;
+    var fixRunCount = 0;
+    var fixRunWindow = 0;
     new MutationObserver(function () {
-      fix();
+      if (fixTimer) clearTimeout(fixTimer);
+      var now = Date.now();
+      if (now - fixRunWindow < 1000) {
+        fixRunCount++;
+        if (fixRunCount > 3) return;
+      } else {
+        fixRunCount = 0;
+        fixRunWindow = now;
+      }
+      fixTimer = setTimeout(fix, 200);
     }).observe(cw, { childList: true, subtree: true });
   }
 
@@ -481,5 +529,5 @@
     },
     true
   );
-  document.addEventListener('click', handleSwatchClick, true);
+  document.addEventListener('click', handleSwatchClick);
 })();
