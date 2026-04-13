@@ -1,11 +1,5 @@
-﻿{% comment %}trg-bulletproof-v3-2026-04-12T21:23:00Z{% endcomment %}
-{% comment %}codex-pdp-swatch-media-2026-04-12T20:33:46.041Z-theme-187505606935{% endcomment %}
-
-<!-- codex-cache-bust: plp-static-card-gallery 2026-04-12 23:09:10 UTC -->
-<!-- trg-cache-bust: 2026-04-12T15:17:06.170Z -->
-<!-- trg-plp-v27-2026-04-12T10:53 -->
+<!-- trg-cache:1774197888 -->
 <!doctype html>
-<!-- CDN-bust 2026-04-12T15:35:45.035Z -->
 <html
   {% if request.design_mode %}
     class="shopify-design-mode"
@@ -13,11 +7,8 @@
   lang="{{ request.locale.iso_code }}"
 >
   <head>
-    <meta charset="utf-8">
-  
-
 <script>
-/* TRG focus fix - must load before Dwell's focus.js to win capture phase */
+/* TRG focus fix — must load before Dwell's focus.js to win capture phase */
 document.addEventListener('focusin',function(e){
   if(e.target&&e.target.closest&&e.target.closest('#trg-mob,#trg-mob-search-float,#trg-body-search')){
     e.stopImmediatePropagation();
@@ -43,22 +34,9 @@ document.addEventListener('focusin',function(e){
     {% endif %}
 
     {%- render 'meta-tags' -%}
-{%- comment -%}TRG SEO â€” OG/Twitter (G1), meta description fallback (G2){%- endcomment -%}
-{%- capture _trg_desc -%}{%- if template.name == 'collection' -%}Shop {{ collection.title }} at The Right Garment â€” curated menswear from 470+ vetted brands.{%- elsif template.name == 'product' -%}{{ product.title }} by {{ product.vendor }}. Discover more at The Right Garment.{%- elsif template.name == 'article' -%}{{ article.title }} â€” The Right Garment Journal.{%- else -%}The Right Garment â€” curated menswear brand directory. 470+ brands, vetted and organised.{%- endif -%}{%- endcapture -%}
-{%- assign _trg_meta_desc = page_description | default: _trg_desc | strip | truncate: 160 -%}
-{%- unless page_description -%}<meta name="description" content="{{ _trg_meta_desc | escape }}">{%- endunless -%}
-<meta property="og:site_name" content="The Right Garment">
-<meta property="og:url" content="{{ canonical_url }}">
-<meta property="og:type" content="{%- if template.name == 'product' -%}product{%- elsif template.name == 'article' -%}article{%- else -%}website{%- endif -%}">
-<meta property="og:title" content="{{ page_title | escape }}">
-<meta property="og:description" content="{{ _trg_meta_desc | escape }}">
-{%- if page_image -%}<meta property="og:image" content="{{ page_image | image_url: width: 1200 }}"><meta property="og:image:width" content="1200">{%- endif -%}
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="{{ page_title | escape }}">
-<meta name="twitter:description" content="{{ _trg_meta_desc | escape }}">
-{%- if page_image -%}<meta name="twitter:image" content="{{ page_image | image_url: width: 1200 }}">{%- endif -%}
     {%- render 'stylesheets' -%}
     {{ 'trg-mega-menu.css' | asset_url | stylesheet_tag }}
+    {{ 'trg-brand-pdp.css' | asset_url | stylesheet_tag }}
     {%- render 'fonts' -%}
     {%- render 'scripts' -%}
     {%- render 'theme-styles-variables' -%}
@@ -68,122 +46,54 @@ document.addEventListener('focusin',function(e){
       {%- render 'theme-editor' -%}
     {% endif %}
 
+    {% if template == 'page.brands-directory' %}<link href="{{ 'trg-brand-directory.css' | asset_url }}" as="style" rel="preload">{% endif %}
     {{ content_for_header }}
-    {{ 'trg-card-shared.css' | asset_url | stylesheet_tag }}
     {{ 'trg-audit-fixes.css' | asset_url | stylesheet_tag }}
-    {%- if request.page_type == 'product' -%}{{ 'trg-pdp-v1.css' | asset_url | stylesheet_tag }}{%- endif -%}
-    {%- if customer or template == 'customers/account' or template == 'customers/login' -%}<link rel="stylesheet" href="{{ 'trg-account.css' | asset_url }}" media="print" onload="this.media='all'">{%- endif -%}
-    {%- if template.name == 'collection' or template.name == 'search' -%}{{ 'trg-plp.css' | asset_url | stylesheet_tag }}{%- endif -%}
-    {%- if template.name == 'collection' -%}{{ 'trg-theme-overrides.css' | asset_url | stylesheet_tag }}{%- endif -%}
-    {%- if template.name == 'collection' or template.name == 'search' or request.page_type == 'product' -%}
-      <style id="trg-live-hotfix-20260412">
-        {%- if template.name == 'collection' or template.name == 'search' -%}
-          .trg-plp-body .card-gallery {
-            display: block !important;
-            width: 100% !important;
-          }
-          .trg-plp-body .card-gallery a.contents,
-          .trg-plp-body .card-gallery slideshow-component,
-          .trg-plp-body .card-gallery slideshow-container,
-          .trg-plp-body .card-gallery slideshow-slides,
-          .trg-plp-body .card-gallery slideshow-slide,
-          .trg-plp-body .card-gallery .product-media-container,
-          .trg-plp-body .card-gallery .product-media {
-            width: 100% !important;
-            max-width: 100% !important;
-          }
-          .trg-plp-body .card-gallery slideshow-component,
-          .trg-plp-body .card-gallery slideshow-container,
-          .trg-plp-body .card-gallery slideshow-slides,
-          .trg-plp-body .card-gallery slideshow-slide,
-          .trg-plp-body .card-gallery .product-media-container {
-            flex: 0 0 100% !important;
-            min-width: 100% !important;
-          }
-        {%- endif -%}
-        {%- if request.page_type == 'product' -%}
-          .trg-pdp__chips--colours {
-            gap: 0.65rem !important;
-          }
-          .trg-pdp__chip--colour {
-            width: 3.5rem !important;
-            height: 3.5rem !important;
-            min-width: 3.5rem !important;
-          }
-          .trg-pdp__chip-swatch {
-            width: 2.35rem !important;
-            height: 2.35rem !important;
-          }
-        {%- endif -%}
-      </style>
-    {%- endif -%}
+    {{ 'trg-pdp-v1.css' | asset_url | stylesheet_tag }}
+    {{ 'trg-account.css' | asset_url | stylesheet_tag }}
+    {{ 'trg-plp.css' | asset_url | stylesheet_tag }}
     {% if template == 'page.brands-directory' %}{{ 'trg-brand-directory.css' | asset_url | stylesheet_tag }}{% endif %}
 
     {% if template == 'page.colour-guide' %}{{ 'trg-colour-guide.css' | asset_url | stylesheet_tag }}{% endif %}
-    {%- if customer -%}<script src="{{ 'trg-customer-state.js' | asset_url }}" defer></script>{%- endif -%}
-    {%- if customer or template == 'customers/account' or template == 'customers/login' -%}<script src="{{ 'trg-account.js' | asset_url }}" defer></script>{%- endif -%}
-    {%- if template.name == 'collection' or template.name == 'search' -%}<script src="{{ 'trg-plp.js' | asset_url }}" defer></script>{%- endif -%}
-    {%- comment -%}TRG SEO — noindex non-public pages (G8){%- endcomment -%}
-    {%- if template == 'customers/account' or template == 'customers/login' or template == 'customers/register' or template == 'customers/order' or template == 'customers/addresses' or template == 'page.my-account' or template == 'page.newsletter' or collection.handle == 'brand-test1' -%}<meta name=”robots” content=”noindex, nofollow”>{%- endif -%}
-{%- comment -%}TRG SEO — Organization + WebSite structured data (G9){%- endcomment -%}
-<script type=”application/ld+json”>
-{
-  “@context”: “https://schema.org”,
-  “@graph”: [
-    {
-      “@type”: “Organization”,
-      “@id”: “https://therightgarment.com/#organization”,
-      “name”: “The Right Garment”,
-      “url”: “https://therightgarment.com”,
-      “description”: “Curated menswear brand directory. 470+ vetted brands, organised by style, price, and origin.”,
-      “logo��: {
-        “@type”: “ImageObject”,
-        “url”: “https://therightgarment.com/cdn/shop/files/trg-logo.svg”,
-        “width”: 200,
-        “height”: 40
-      }
-    },
-    {
-      “@type”: “WebSite”,
-      “@id”: “https://therightgarment.com/#website”,
-      “url”: “https://therightgarment.com”,
-      “name”: “The Right Garment”,
-      “publisher”: { “@id”: ��https://therightgarment.com/#organization” },
-      “potentialAction”: {
-        “@type”: “SearchAction”,
-        “target”: { “@type”: “EntryPoint”, “urlTemplate”: “https://therightgarment.com/search?q={search_term_string}” },
-        “query-input”: “required name=search_term_string”
-      }
-    }
-  ]
-}
-</script>
+    <script src="{{ 'trg-account.js' | asset_url }}" defer></script>
+    <script src="{{ 'trg-plp.js' | asset_url }}" defer></script>
+    <script>
+      window.__trgWalletCropConfig = {
+        '10280187527447': { scale: '1.28', origin: '48% 57%' },
+        '10280187330839': { scale: '1.46', origin: '52% 63%' },
+        '10280088535319': { scale: '1.36', origin: '51% 59%' }
+      };
+      (function () {
+        function applyTrgWalletCrop() {
+          if (!document.querySelector('.trg-plp-body')) return;
+          Object.entries(window.__trgWalletCropConfig).forEach(function (entry) {
+            var id = entry[0];
+            var crop = entry[1];
+            document.querySelectorAll('.card-gallery[data-product-id="' + id + '"] img').forEach(function (img) {
+              img.style.setProperty('transform', 'scale(' + crop.scale + ')', 'important');
+              img.style.setProperty('transform-origin', crop.origin, 'important');
+            });
+          });
+        }
 
-<!-- TRG cache bust: 2026-04-05 11:38:07 -->
-  <!-- colour-guide-shell-bust 2026-04-11 23:03:14 -->
-  <!-- colour-guide-step2-bust 2026-04-11 23:09:12 -->
-<!-- v26-final 1776005111325 -->
-<!-- cache-bust: 2026-04-12T15:36:19.106Z -->
-<!-- trg-plp-wallet-crop 2026-04-13T01:07:24.591Z -->
+        var cropObserver;
+        function scheduleTrgWalletCrop() {
+          requestAnimationFrame(applyTrgWalletCrop);
+          setTimeout(applyTrgWalletCrop, 120);
+          setTimeout(applyTrgWalletCrop, 500);
+          if (!cropObserver && document.documentElement) {
+            cropObserver = new MutationObserver(applyTrgWalletCrop);
+            cropObserver.observe(document.documentElement, { childList: true, subtree: true });
+          }
+        }
+
+        document.addEventListener('DOMContentLoaded', scheduleTrgWalletCrop);
+        window.addEventListener('load', scheduleTrgWalletCrop);
+      })();
+    </script>
 </head>
 
   <body class="page-width-{{ settings.page_width }} card-hover-effect-{{ settings.card_hover_effect }} trg-card-style-{{ settings.trg_card_style | default: 'outlined' }} trg-reveal-enabled-{{ settings.trg_enable_reveal | default: true }}">
-<script>
-/* TRG geo-region detection ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬ï¿½ sets body[data-region=CA] for Canadian visitors */
-(function(){
-  var r=sessionStorage.getItem('trg_region');
-  if(r){if(r==='CA')document.body.dataset.region='CA';return}
-  fetch('/browsing_context_suggestions.json')
-    .then(function(res){return res.json()})
-    .then(function(d){
-      var c=d&&d.detected_values&&d.detected_values.country;
-      var code=c?(c.handle||'').toUpperCase():'';
-      sessionStorage.setItem('trg_region',code||'US');
-      if(code==='CA')document.body.dataset.region='CA';
-    })
-    .catch(function(){sessionStorage.setItem('trg_region','US')});
-})();
-</script>
   {%- comment -%}TRG Account: inject customer data for JS{%- endcomment -%}
   {% if customer %}
     <div data-trg-customer-id="{{ customer.id }}" style="display:none"></div>
@@ -192,12 +102,6 @@ document.addEventListener('focusin',function(e){
     {% endif %}
     {% if customer.metafields.trg.wishlist %}
       <div data-trg-meta-wishlist='{{ customer.metafields.trg.wishlist.value | json }}' style="display:none"></div>
-    {% endif %}
-    {% if customer.metafields.trg.colour_profile %}
-      <div data-trg-meta-colour_profile="{{ customer.metafields.trg.colour_profile.value }}" style="display:none"></div>
-    {% endif %}
-    {% if customer.metafields.trg.colour_intent %}
-      <div data-trg-meta-colour_intent='{{ customer.metafields.trg.colour_intent.value | json }}' style="display:none"></div>
     {% endif %}
   {% endif %}
 
@@ -291,10 +195,260 @@ document.addEventListener('focusin',function(e){
 
     {% render 'search-modal' %}
 
-    {% if template != 'page.colour-guide' and (settings.quick_add or settings.mobile_quick_add) %}
+    {% if settings.quick_add or settings.mobile_quick_add %}
       {% render 'quick-add-modal' %}
     {% endif %}
     {% if template.name == 'collection' %}
+      <style>
+        #MainContent[data-template*='collection'] .trg-plp-body .facets--vertical:not(.facets--drawer) {
+          top: calc(var(--chrome) + 0.75rem);
+          max-height: calc(100vh - var(--chrome) - 1.5rem);
+        }
+
+        #MainContent[data-template*='collection'] .trg-plp-body .trg-facets-sidebar-header {
+          margin-bottom: 0.5rem;
+          padding-top: 0.125rem;
+        }
+
+        #MainContent[data-template*='collection'] .trg-plp-body .facets--vertical:not(.facets--drawer) .facets__item {
+          padding-top: 0.65rem;
+          padding-bottom: 0;
+        }
+
+        #MainContent[data-template*='collection'] .trg-plp-body .facets--vertical:not(.facets--drawer) .facets__panel-content {
+          padding-top: 0.3rem;
+        }
+
+        #MainContent[data-template*='collection'] .trg-plp-body .facets--vertical:not(.facets--drawer) .checkbox__label {
+          gap: 0.4rem;
+          padding: 0.14rem 0.2rem;
+          font-size: 0.75rem;
+          line-height: 1.15;
+        }
+
+        #MainContent[data-template*='collection'] .trg-plp-body .trg-facet-count {
+          font-size: 0.6rem;
+        }
+
+        #MainContent[data-template*='collection'] .trg-plp-body .facets--vertical:not(.facets--drawer) .price-facet__inputs-wrapper {
+          grid-template-columns: minmax(64px, 1fr) auto minmax(64px, 1fr);
+          gap: 5px;
+        }
+
+        #MainContent[data-template*='collection'] .trg-plp-body .facets--vertical:not(.facets--drawer) .price-facet__field .field__input {
+          min-height: 30px;
+          padding-left: 23px;
+          font-size: 0.74rem;
+        }
+
+        #MainContent[data-template*='collection'] .trg-plp-body .facets--vertical:not(.facets--drawer) .price-facet__highest-price {
+          max-width: none;
+          padding-top: 0.2rem;
+          font-size: 0.6rem;
+          line-height: 1.2;
+        }
+
+        #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-toggle-filters {
+          gap: 0.25rem;
+          padding-top: 0.55rem;
+        }
+
+        #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-toggle-option {
+          padding: 0.14rem 0.2rem;
+        }
+
+        #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-toggle-label {
+          gap: 0.3rem;
+          font-size: 0.75rem;
+          line-height: 1.15;
+        }
+
+        #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls {
+          display: flex !important;
+          align-items: center !important;
+          justify-content: flex-start !important;
+          gap: 0.75rem !important;
+          width: 100% !important;
+          min-height: 34px !important;
+          padding: 0 !important;
+          margin: 0 0 0.625rem !important;
+          position: static !important;
+          flex-wrap: nowrap !important;
+          border: 0 !important;
+          background: transparent !important;
+          box-shadow: none !important;
+        }
+
+        #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls .facets--filters-title,
+        #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls .trg-collection-controls__active-filters {
+          display: none !important;
+        }
+
+        #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls > style[data-shopify],
+        #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls > .main-collection-grid {
+          display: none !important;
+        }
+
+        #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls .products-count-wrapper {
+          display: block !important;
+          height: auto !important;
+          margin: 0;
+          position: static !important;
+          flex: 1 1 auto !important;
+          inset: auto !important;
+          text-align: center !important;
+          transform: none !important;
+          pointer-events: none;
+        }
+
+        #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls .products-count-wrapper span {
+          display: block;
+          color: #8c847b;
+          font-size: 0.68rem;
+          font-weight: 500;
+          letter-spacing: 0.14em;
+          line-height: 1;
+        }
+
+        #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls > .trg-plp-sort-shell,
+        #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls > .trg-plp-sort-shell-bridge,
+        #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls .sorting-filter {
+          margin: 0 !important;
+          display: flex !important;
+          align-items: center !important;
+          justify-content: flex-end !important;
+          flex: 0 0 auto;
+        }
+
+        #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls .sorting-filter__container {
+          display: flex !important;
+          align-items: center !important;
+        }
+
+        #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls .sorting-filter .facets__label,
+        #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls .sorting-filter .icon-caret {
+          display: none !important;
+        }
+
+        #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls .sorting-filter__select-wrapper {
+          position: static;
+        }
+
+        #MainContent[data-template*='collection'] .trg-plp-sort-shell-bridge {
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+        }
+
+        #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls .sorting-filter__select,
+        #MainContent[data-template*='collection'] .trg-plp-sort-select-bridge {
+          min-width: 118px;
+          min-height: 32px;
+          padding: 0.3rem 0.7rem;
+          border: 1px solid #d8d3ca;
+          border-radius: 2px;
+          background: #fff;
+          color: #2f2b27;
+          font: inherit;
+          font-size: 0.76rem;
+          line-height: 1.15;
+          cursor: pointer;
+          appearance: auto;
+        }
+
+        #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls .trg-plp-show-filters-btn[hidden] {
+          display: none !important;
+        }
+
+        #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls .trg-plp-show-filters-btn:not([hidden]) {
+          display: inline-flex !important;
+          margin: 0 !important;
+          white-space: nowrap;
+        }
+
+        @media screen and (max-width: 989px) {
+          #MainContent[data-template*='collection'] .trg-plp-body .collection-wrapper {
+            padding-inline: 1rem !important;
+          }
+
+          #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls {
+            justify-content: space-between !important;
+            gap: 0.625rem !important;
+            min-height: 40px !important;
+            margin: 0.25rem 0 0.875rem !important;
+            padding: 0 !important;
+            padding-top: 0.625rem !important;
+            padding-bottom: 0.5rem !important;
+            padding-block-start: 0.625rem !important;
+            padding-block-end: 0.5rem !important;
+            --padding-block-start: 0px !important;
+            --padding-block-end: 0px !important;
+            --padding-inline-start: 0px !important;
+            --padding-inline-end: 0px !important;
+            --section-top-offset: 0px !important;
+          }
+
+          #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls .trg-plp-show-filters-btn:not([hidden]) {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 0.45rem !important;
+            margin: 0 !important;
+            padding: 0.5rem 0.85rem !important;
+            border: 1px solid #d8d3ca !important;
+            border-radius: 2px !important;
+            background: #fff !important;
+            color: #8c847b !important;
+            font-size: 0.72rem !important;
+            font-weight: 500 !important;
+            letter-spacing: 0.08em !important;
+            text-transform: uppercase !important;
+            white-space: nowrap !important;
+            flex: 0 0 auto !important;
+          }
+
+          #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls .trg-plp-show-filters-btn .svg-wrapper,
+          #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls .trg-plp-show-filters-btn svg {
+            width: 14px;
+            height: 14px;
+            flex-shrink: 0;
+          }
+
+          #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls .products-count-wrapper {
+            display: block !important;
+            flex: 1 1 auto !important;
+            text-align: center !important;
+          }
+
+          #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls .products-count-wrapper span {
+            font-size: 0.62rem;
+            letter-spacing: 0.14em;
+          }
+
+          #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls > .trg-plp-sort-shell,
+          #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls > .trg-plp-sort-shell-bridge,
+          #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls .sorting-filter {
+            margin-left: auto !important;
+          }
+
+          #MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls .sorting-filter__select,
+          #MainContent[data-template*='collection'] .trg-plp-sort-select-bridge {
+            min-width: 0 !important;
+            max-width: 130px !important;
+            min-height: 36px !important;
+            padding: 0.5rem 1.9rem 0.5rem 0.75rem !important;
+            font-size: 0.75rem !important;
+          }
+        }
+
+        @media screen and (min-width: 750px) {
+          #MainContent[data-template*='collection'] .sorting-filter__container.desktop\:hidden,
+          #MainContent[data-template*='collection'] .sorting-filter__container.desktop:hidden,
+          #MainContent[data-template*='collection'] .facets__floating-filter-controls.desktop\:hidden,
+          #MainContent[data-template*='collection'] .facets__floating-filter-controls.desktop:hidden {
+            display: none !important;
+          }
+        }
+      </style>
       <script>
         (() => {
           const selector = "#MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls";
@@ -429,68 +583,14 @@ document.addEventListener('focusin',function(e){
         })();
       </script>
     {% endif %}
-    <script>
-      (function () {
-        var ICON_MAP = {
-          '\u2316': '<svg class="trg-pillar__icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="6"></circle><path d="M12 3v3"></path><path d="M12 18v3"></path><path d="M3 12h3"></path><path d="M18 12h3"></path></svg>',
-          '\u00e2\u0152\u2013': '<svg class="trg-pillar__icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="6"></circle><path d="M12 3v3"></path><path d="M12 18v3"></path><path d="M3 12h3"></path><path d="M18 12h3"></path></svg>',
-          '\u25ef': '<svg class="trg-pillar__icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="7"></circle></svg>',
-          '\u00e2\u2014\u00af': '<svg class="trg-pillar__icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="7"></circle></svg>',
-          '\u2691': '<svg class="trg-pillar__icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v16"></path><path d="M8 5h8l-2.6 3 2.6 3H8"></path></svg>',
-          '\u00e2\u0161\u2018': '<svg class="trg-pillar__icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v16"></path><path d="M8 5h8l-2.6 3 2.6 3H8"></path></svg>'
-        };
-
-        function fixEditorialIcons(root) {
-          var scope = root && root.querySelectorAll ? root : document;
-          var icons = scope.querySelectorAll('.trg-pillar__icon');
-          for (var i = 0; i < icons.length; i += 1) {
-            var icon = icons[i];
-            if (icon.querySelector('svg')) continue;
-            var glyph = (icon.textContent || '').trim();
-            var markup = ICON_MAP[glyph];
-            if (!markup) continue;
-            icon.innerHTML = markup;
-            icon.setAttribute('aria-hidden', 'true');
-          }
-        }
-
-        fixEditorialIcons(document);
-        document.addEventListener('DOMContentLoaded', function () { fixEditorialIcons(document); });
-        window.addEventListener('load', function () { fixEditorialIcons(document); });
-        document.addEventListener('shopify:section:load', function (event) { fixEditorialIcons(event.target || document); });
-        window.setTimeout(function () { fixEditorialIcons(document); }, 250);
-        window.setTimeout(function () { fixEditorialIcons(document); }, 1200);
-      })();
-    </script>
     <script src="{{ 'trg-mega-menu-v2.js' | asset_url }}" defer></script>
     <script src="{{ 'trg-mob-v2.js' | asset_url }}" defer></script>
-    <script src="{{ 'trg-colour-guide-seed-hotfix.js' | asset_url | append: '&cv=20260411i' }}" defer></script>
-    {%- render 'trg-cookie-consent' -%}
-    <script src="{{ 'trg-cookie-consent.js' | asset_url }}" defer></script>
+<script src="{{ 'trg-brand-pdp.js' | asset_url }}" defer></script>
+  <!-- trg-cache-1774144579 -->
 </body>
-<!-- plp-v25 2026-04-12T14:16:33.405Z -->
 </html>
+<!-- trg-recompile-1774043073 -->
+<!-- TRG bust 2026-03-22T23:35:42.076106 -->
 
-
-<!-- trg-skill-bust 2026-04-05T09:36:11-04:00 -->
-
-<!-- trg-bust 2026-04-07T15:48 -->
-
-
-
-
-
-
-
-
-
-
-<!-- trg-cache-bust 2026-04-11T17:16:32 -->
-
-<!-- codex colour guide speed reset 2026-04-11T22:10:00Z theme 187505606935 -->
-<!-- TRG-CACHE-BUST: 2026-04-12 10:06:26 colour-guide-block-2-3 -->
-
-<!-- codex-cache-bust:2026-04-12T16:41:20Z -->
-
-{% comment %}codex-color-ui-live-2026-04-12T16:25:00-04:00 theme 187505606935{% endcomment %}
-<!-- cache-bust 2026-04-12T20:59:19.046Z -->
+{% comment %} trg-plp-cache-bust 2026-03-23T21:34:43-04:00 {% endcomment %}
+{% comment %} trg-plp-cache-bust 2026-03-23T21:38:11-04:00 {% endcomment %}
