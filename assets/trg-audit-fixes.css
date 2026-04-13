@@ -66,6 +66,47 @@ footer.trg-footer a:hover {
   color: var(--trg-accent, var(--accent));
 }
 
+/* PDP breadcrumb must override compiled theme CSS consistently */
+#MainContent .trg-pdp-bc {
+  padding: 0.75rem 2rem !important;
+  border-bottom: 1px solid #ddd8cf !important;
+  background: #faf8f4 !important;
+}
+#MainContent .trg-pdp-bc__inner {
+  max-width: 1320px !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  flex-wrap: nowrap !important;
+  overflow: hidden !important;
+  font-size: 0.72rem !important;
+  line-height: 1.25 !important;
+  color: #8a8478 !important;
+}
+#MainContent .trg-pdp-bc a,
+#MainContent .trg-pdp-bc__sep {
+  white-space: nowrap !important;
+  flex-shrink: 0 !important;
+}
+#MainContent .trg-pdp-bc a {
+  color: #8a8478 !important;
+  text-decoration: none !important;
+}
+#MainContent .trg-pdp-bc a:hover {
+  color: #1a1a18 !important;
+}
+#MainContent .trg-pdp-bc__current {
+  color: #1a1a18 !important;
+  font-weight: 500 !important;
+  white-space: nowrap !important;
+  min-width: 0 !important;
+  max-width: min(48vw, 34rem) !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
 /* ─── 8. POLISH: CTA button hierarchy on Brand PDP ─── */
 /* Primary CTA (Shop Direct) */
 .btn-shop-direct,
