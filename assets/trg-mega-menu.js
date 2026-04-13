@@ -190,11 +190,33 @@
     });
   }
 
+  function watchWalletGalleryCrop() {
+    if (window.__trgWalletGalleryCropWatch) return;
+    window.__trgWalletGalleryCropWatch = true;
+
+    var observer = new MutationObserver(function () {
+      fixWalletGalleryCrop();
+    });
+
+    observer.observe(document.documentElement, {
+      subtree: true,
+      childList: true,
+      attributes: true,
+      attributeFilter: ['style', 'class']
+    });
+
+    window.addEventListener('load', fixWalletGalleryCrop, { once: true });
+    window.setTimeout(fixWalletGalleryCrop, 1200);
+    window.setTimeout(fixWalletGalleryCrop, 3200);
+    window.setTimeout(fixWalletGalleryCrop, 6000);
+  }
+
   function runLegacySurfaceHotfixes() {
     fixCookieBanner();
     fix404Page();
     fixHomepageCategoryGrid();
     fixWalletGalleryCrop();
+    watchWalletGalleryCrop();
   }
 
   function scheduleLegacySurfaceHotfixes() {
