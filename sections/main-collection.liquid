@@ -1,4 +1,4 @@
-﻿
+
 
 <script
   src="{{ 'results-list.js' | asset_url }}"
@@ -6,1070 +6,52 @@
   fetchpriority="low"
 ></script>
 
-<style data-trg-plp-inline-hotfix>
-  .trg-plp-body .card-gallery {
-    display: block !important;
-    width: 100% !important;
+
+<script>
+/* Neutralize Dwell variant-image hiding on PLP */
+(function(){
+  var selector = '.trg-plp-body .card-gallery slideshow-slide[variant-image]';
+  function unhideAll(){
+    document.querySelectorAll(selector + '[hidden]').forEach(function(s){ s.removeAttribute('hidden'); });
   }
-  .trg-plp-body .card-gallery a.contents,
-  .trg-plp-body .card-gallery slideshow-component,
-  .trg-plp-body .card-gallery slideshow-container,
-  .trg-plp-body .card-gallery slideshow-slides,
-  .trg-plp-body .card-gallery slideshow-slide,
-  .trg-plp-body .card-gallery .product-media-container,
-  .trg-plp-body .card-gallery .product-media {
-    width: 100% !important;
-    max-width: 100% !important;
-  }
-  .trg-plp-body .card-gallery slideshow-component,
-  .trg-plp-body .card-gallery slideshow-container,
-  .trg-plp-body .card-gallery slideshow-slides,
-  .trg-plp-body .card-gallery slideshow-slide,
-  .trg-plp-body .card-gallery .product-media-container {
-    flex: 0 0 100% !important;
-    min-width: 100% !important;
-  }
-</style>
-
-{% javascript %}
-  (() => {
-    const url = new URL(window.location.href);
-    if (url.hash) {
-      document.addEventListener(
-        'DOMContentLoaded',
-        () => {
-          const card = document.getElementById(url.hash.slice(1));
-          if (card) {
-            card.scrollIntoView({ behavior: 'instant' });
-          }
-        },
-        { once: true }
-      );
-    }
-
-    const FILTER_STORAGE_KEY = 'trg_filters_open';
-    const WISHLIST_STORAGE_KEY = 'trg_plp_saved_products';
-    const COLOUR_INTENT_STORAGE_KEY = 'trg_colour_intent';
-    const LOCAL_SEARCH_INPUT_DEBOUNCE_MS = 160;
-    const LOAD_MORE_MAX_PAGES = 8;
-    const LOAD_MORE_MAX_CARDS = 192;
-    const CONTROLLER_REGISTRY_KEY = '__trgPlpControllers';
-    const PLP_LAYOUT_STYLE_ID = 'trg-plp-section-layout-hotfix';
-    const COLOUR_INTENT_SLOT_HANDLES = {
-      shirt: 'shirts',
-      trousers: 'trousers',
-      knitwear: 'knitwear',
-      jacket: 'jackets',
-      coat: 'outerwear',
-      shoes: 'footwear'
-    };
-
-    const normalizeText = (value) => (value || '').toString().trim().toLowerCase();
-    const escapeHtml = (value) =>
-      (value || '')
-        .toString()
-        .replaceAll('&', '&amp;')
-        .replaceAll('<', '&lt;')
-        .replaceAll('>', '&gt;')
-        .replaceAll('"', '&quot;')
-        .replaceAll("'", '&#39;');
-
-    const setImportantStyle = (node, property, value) => {
-      if (!(node instanceof HTMLElement) || !value) return;
-      node.style.setProperty(property, value, 'important');
-    };
-
-    const ensurePlpLayoutStyles = () => {
-      if (document.getElementById(PLP_LAYOUT_STYLE_ID)) return;
-      const target = document.head || document.documentElement;
-      if (!(target instanceof HTMLElement)) return;
-
-      const style = document.createElement('style');
-      style.id = PLP_LAYOUT_STYLE_ID;
-      style.textContent = `
-        .trg-plp-body .card-gallery {
-          display: block !important;
-          width: 100% !important;
-          background: #fff !important;
-        }
-        .trg-plp-body .card-gallery.trg-plp-gallery--static slideshow-arrows,
-        .trg-plp-body .card-gallery.trg-plp-gallery--static slideshow-thumbnails,
-        .trg-plp-body .card-gallery.trg-plp-gallery--static slideshow-bullets {
-          display: none !important;
-        }
-        .trg-plp-body .card-gallery a.contents,
-        .trg-plp-body .card-gallery slideshow-component,
-        .trg-plp-body .card-gallery slideshow-container,
-        .trg-plp-body .card-gallery slideshow-slides,
-        .trg-plp-body .card-gallery slideshow-slide,
-        .trg-plp-body .card-gallery .product-media-container,
-        .trg-plp-body .card-gallery .product-media {
-          display: block !important;
-          width: 100% !important;
-          max-width: 100% !important;
-          min-width: 100% !important;
-        }
-        .trg-plp-body .card-gallery slideshow-component,
-        .trg-plp-body .card-gallery slideshow-container,
-        .trg-plp-body .card-gallery slideshow-slides,
-        .trg-plp-body .card-gallery slideshow-slide,
-        .trg-plp-body .card-gallery .product-media-container {
-          flex: 0 0 100% !important;
-          height: 100% !important;
-          min-height: 100% !important;
-        }
-        .trg-plp-body .card-gallery .product-media {
-          background: #fff !important;
-          box-sizing: border-box !important;
-        }
-        .trg-plp-body .card-gallery.trg-img-contain .product-media {
-          padding: clamp(0.9rem, 1.6vw, 1.4rem) !important;
-        }
-        .trg-plp-body .card-gallery.trg-img-contain img,
-        .trg-plp-body .card-gallery.trg-img-contain video {
-          object-fit: contain !important;
-          object-position: center center !important;
-          background: #fff !important;
-        }
-        .trg-plp-body .card-gallery.trg-plp-gallery--static slideshow-slides {
-          overflow: hidden !important;
-          scroll-snap-type: none !important;
-          scrollbar-width: none !important;
-        }
-        .trg-plp-body .card-gallery.trg-plp-gallery--static slideshow-slides::-webkit-scrollbar {
-          display: none !important;
-        }
-      `;
-      target.appendChild(style);
-    };
-
-    const freezeCardGalleryStatic = (gallery) => {
-      if (!(gallery instanceof HTMLElement)) return;
-
-      gallery.classList.add('trg-plp-gallery--static');
-      gallery.removeAttribute('on:pointerenter');
-      gallery.removeAttribute('on:pointerleave');
-
-      const slideshow = gallery.querySelector('slideshow-component');
-      const scroller = gallery.querySelector('slideshow-slides');
-      const arrows = gallery.querySelector('slideshow-arrows');
-
-      if (slideshow instanceof HTMLElement) {
-        slideshow.setAttribute('disabled', 'true');
-        slideshow.setAttribute('initial-slide', '0');
-        slideshow.removeAttribute('infinite');
-        setImportantStyle(slideshow, 'display', 'block');
-        setImportantStyle(slideshow, 'width', '100%');
-      }
-
-      if (scroller instanceof HTMLElement) {
-        setImportantStyle(scroller, 'display', 'block');
-        setImportantStyle(scroller, 'width', '100%');
-        setImportantStyle(scroller, 'overflow-x', 'hidden');
-        setImportantStyle(scroller, 'scroll-snap-type', 'none');
-        scroller.scrollLeft = 0;
-      }
-
-      if (arrows instanceof HTMLElement) {
-        arrows.setAttribute('hidden', 'hidden');
-        setImportantStyle(arrows, 'display', 'none');
-      }
-
-      Array.from(gallery.querySelectorAll('slideshow-slide')).forEach((slide, index) => {
-        if (!(slide instanceof HTMLElement)) return;
-        if (index === 0) {
-          slide.removeAttribute('hidden');
-          slide.setAttribute('aria-hidden', 'false');
-          setImportantStyle(slide, 'display', 'block');
-          setImportantStyle(slide, 'width', '100%');
-          return;
-        }
-        slide.setAttribute('hidden', 'hidden');
-        slide.setAttribute('aria-hidden', 'true');
-        setImportantStyle(slide, 'display', 'none');
-      });
-    };
-
-    const repairCardGalleryLayout = (root = document) => {
-      ensurePlpLayoutStyles();
-      const scope =
-        root instanceof HTMLElement || root instanceof Document || root instanceof DocumentFragment
-          ? root
-          : document;
-
-      scope.querySelectorAll('.trg-plp-body .card-gallery').forEach((gallery) => {
-        freezeCardGalleryStatic(gallery);
-        setImportantStyle(gallery, 'display', 'block');
-        setImportantStyle(gallery, 'width', '100%');
-        setImportantStyle(gallery, 'background', '#fff');
-
-        const selectors = [
-          'a.contents',
-          'slideshow-component',
-          'slideshow-container',
-          'slideshow-slides',
-          'slideshow-slide',
-          '.product-media-container'
-        ];
-
-        selectors.forEach((selector) => {
-          gallery.querySelectorAll(selector).forEach((node) => {
-            setImportantStyle(node, 'display', 'block');
-            setImportantStyle(node, 'width', '100%');
-            setImportantStyle(node, 'max-width', '100%');
-            setImportantStyle(node, 'min-width', '100%');
-            setImportantStyle(node, 'height', '100%');
-            setImportantStyle(node, 'min-height', '100%');
-            setImportantStyle(node, 'flex', '0 0 100%');
-          });
-        });
-
-        gallery.querySelectorAll('.product-media').forEach((media) => {
-          setImportantStyle(media, 'display', 'flex');
-          setImportantStyle(media, 'align-items', 'center');
-          setImportantStyle(media, 'justify-content', 'center');
-          setImportantStyle(media, 'width', '100%');
-          setImportantStyle(media, 'height', '100%');
-          setImportantStyle(media, 'background', '#fff');
-          setImportantStyle(media, 'box-sizing', 'border-box');
-          setImportantStyle(
-            media,
-            'padding',
-            gallery.classList.contains('trg-img-contain') ? 'clamp(0.9rem, 1.6vw, 1.4rem)' : '0'
-          );
-        });
-      });
-    };
-
-    const scheduleCardGalleryRepair = (root = document) => {
-      [0, 120, 400, 1000].forEach((delay) => {
-        window.setTimeout(() => repairCardGalleryLayout(root), delay);
-      });
-    };
-
-    const readColourIntent = () => {
-      try {
-        const parsed = JSON.parse(window.localStorage.getItem(COLOUR_INTENT_STORAGE_KEY) || 'null');
-        if (!parsed || typeof parsed !== 'object') return null;
-        if (!Array.isArray(parsed.slots)) parsed.slots = [];
-        return parsed;
-      } catch (_) {
-        return null;
-      }
-    };
-
-    const resolveColourIntentSlot = (intent, collectionHandle) => {
-      if (!intent) return null;
-      const safeHandle = normalizeText(collectionHandle);
-      if (safeHandle) {
-        const matchedSlot = intent.slots.find((slot) => normalizeText(slot.handle) === safeHandle);
-        if (matchedSlot) return matchedSlot;
-        const matchedGarment = Object.keys(COLOUR_INTENT_SLOT_HANDLES).find(
-          (slot) => COLOUR_INTENT_SLOT_HANDLES[slot] === safeHandle
-        );
-        if (matchedGarment) {
-          return intent.slots.find((slot) => normalizeText(slot.slot) === matchedGarment) || null;
-        }
-      }
-      return intent.anchor || intent.slots[0] || null;
-    };
-
-    class TrgPlpController {
-      constructor(root) {
-        this.root = root;
-        this.syncTimeout = null;
-        this.searchInputTimeout = null;
-        this.cardSearchIndex = new WeakMap();
-        this.handleClick = this.handleClick.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-        this.handleInput = this.handleInput.bind(this);
-        this.handleScroll = this.handleScroll.bind(this);
-        this.handleUrlChange = this.handleUrlChange.bind(this);
-      }
-
-      connect() {
-        if (this.root.dataset.trgPlpReady === 'true') return;
-
-        this.root.dataset.trgPlpReady = 'true';
-        ensurePlpLayoutStyles();
-        scheduleCardGalleryRepair(this.root);
-        this.installHistoryHooks();
-        this.restoreFilterState();
-
-        document.addEventListener('click', this.handleClick);
-        document.addEventListener('change', this.handleChange, true);
-        document.addEventListener('input', this.handleInput, true);
-        window.addEventListener('scroll', this.handleScroll, { passive: true });
-        window.addEventListener('trg:url-changed', this.handleUrlChange);
-        document.addEventListener('shopify:section:load', this.handleUrlChange);
-
-        this.normalizeBrandBanner();
-        this.syncSortSelect();
-        this.syncDesktopFilterToggle();
-        this.renderActiveTags();
-        this.applySearch();
-        this.syncColourIntentBanner();
-        this.syncWishlistState();
-        this.updateBackToTop();
-      }
-
-      disconnect() {
-        if (this.root.dataset.trgPlpReady !== 'true') return;
-
-        document.removeEventListener('click', this.handleClick);
-        document.removeEventListener('change', this.handleChange, true);
-        document.removeEventListener('input', this.handleInput, true);
-        window.removeEventListener('scroll', this.handleScroll);
-        window.removeEventListener('trg:url-changed', this.handleUrlChange);
-        document.removeEventListener('shopify:section:load', this.handleUrlChange);
-
-        window.clearTimeout(this.syncTimeout);
-        window.clearTimeout(this.searchInputTimeout);
-        this.root.dataset.trgPlpReady = 'false';
-      }
-
-      normalizeBrandBanner() {
-        const mainColumn = this.root.querySelector('.trg-plp-main-column');
-        if (!(mainColumn instanceof HTMLElement)) return;
-
-        const currentBanner = mainColumn.querySelector('.trg-bch');
-        if (currentBanner instanceof HTMLElement) {
-          currentBanner.classList.add('trg-bch--inline');
-        }
-
-        const externalBanner = Array.from(document.querySelectorAll('.trg-bch')).find((banner) => !mainColumn.contains(banner));
-        if (!(externalBanner instanceof HTMLElement)) return;
-
-        const externalSection = externalBanner.closest('.trg-bch-section, [id^="shopify-section-"]');
-        const controls = mainColumn.querySelector('.trg-collection-controls');
-        const preserveExternalBannerStyles = () => {
-          if (!(externalSection instanceof HTMLElement)) return;
-
-          externalSection.querySelectorAll('link[rel="stylesheet"], style').forEach((node) => {
-            if (!(node instanceof HTMLElement)) return;
-
-            if (node.tagName === 'LINK') {
-              const href = node.getAttribute('href');
-              if (!href) return;
-
-              const alreadyLoaded = Array.from(document.querySelectorAll('link[rel="stylesheet"]')).some(
-                (existing) => existing !== node && existing.getAttribute('href') === href
-              );
-
-              if (!alreadyLoaded) {
-                document.head.appendChild(node.cloneNode(true));
-              }
-              return;
-            }
-
-            const cssText = (node.textContent || '').trim();
-            if (!cssText) return;
-
-            const alreadyLoaded = Array.from(document.querySelectorAll('style')).some(
-              (existing) => existing !== node && (existing.textContent || '').trim() === cssText
-            );
-
-            if (!alreadyLoaded) {
-              document.head.appendChild(node.cloneNode(true));
-            }
-          });
-        };
-
-        if (!(currentBanner instanceof HTMLElement)) {
-          preserveExternalBannerStyles();
-          externalBanner.classList.add('trg-bch--inline');
-          if (controls instanceof HTMLElement) {
-            mainColumn.insertBefore(externalBanner, controls);
-          } else {
-            mainColumn.insertBefore(externalBanner, mainColumn.firstChild);
-          }
-        } else {
-          preserveExternalBannerStyles();
-          externalSection?.remove();
-          return;
-        }
-
-        externalSection?.remove();
-      }
-
-      installHistoryHooks() {
-        if (window.__trgPlpHistoryPatched) return;
-
-        window.__trgPlpHistoryPatched = true;
-        const dispatch = () => window.dispatchEvent(new Event('trg:url-changed'));
-
-        for (const method of ['pushState', 'replaceState']) {
-          const original = history[method];
-          history[method] = function patchedHistoryState(...args) {
-            const result = original.apply(this, args);
-            dispatch();
-            return result;
-          };
-        }
-
-        window.addEventListener('popstate', dispatch);
-      }
-
-      restoreFilterState() {
-        const storedState = window.localStorage.getItem(FILTER_STORAGE_KEY);
-        document.body.classList.toggle('filters-hidden', storedState === '0');
-        this.syncDesktopFilterToggle();
-      }
-
-      handleUrlChange() {
-        scheduleCardGalleryRepair(this.root);
-        this.scheduleSync();
-      }
-
-      handleInput(event) {
-        if (event.target instanceof HTMLInputElement && event.target.matches('[data-trg-search-input]')) {
-          this.scheduleApplySearch();
-        }
-      }
-
-      handleChange(event) {
-        const target = event.target;
-        if (!(target instanceof HTMLElement)) return;
-
-        if (target.matches('[data-trg-plp-sort]')) {
-          const sortValue = target.value;
-          const nextUrl = new URL(window.location.href);
-          nextUrl.searchParams.delete('page');
-          if (sortValue) {
-            nextUrl.searchParams.set('sort_by', sortValue);
-          } else {
-            nextUrl.searchParams.delete('sort_by');
-          }
-          window.location.assign(nextUrl.toString());
-          return;
-        }
-
-        if (
-          target.matches(
-            '.facets input, .facets select, .sorting-filter input, .sorting-filter select, .price-facet input'
-          )
-        ) {
-          this.scheduleSync();
-        }
-      }
-
-      handleClick(event) {
-        const target = event.target instanceof Element ? event.target : null;
-        if (!target) return;
-        const clearColourIntent = target.closest('[data-trg-colour-intent-clear]');
-        if (clearColourIntent instanceof HTMLButtonElement) {
-          event.preventDefault();
-          window.localStorage.removeItem(COLOUR_INTENT_STORAGE_KEY);
-          this.syncColourIntentBanner();
-          return;
-        }
-
-        const toggleButton = target.closest('[data-trg-plp-filter-toggle]');
-        if (toggleButton) {
-          event.preventDefault();
-          if (window.matchMedia('(max-width: 989px)').matches) {
-            const dialog = document.querySelector('dialog-component#filters-drawer');
-            if (dialog && typeof dialog.showDialog === 'function') {
-              dialog.showDialog();
-            } else {
-              document.querySelector('.facets-toggle__button')?.click();
-            }
-            return;
-          }
-          const hidden = !document.body.classList.contains('filters-hidden');
-          document.body.classList.toggle('filters-hidden', hidden);
-          window.localStorage.setItem(FILTER_STORAGE_KEY, hidden ? '0' : '1');
-          this.syncDesktopFilterToggle();
-          return;
-        }
-
-        const mobileFilterButton = target.closest('[data-trg-plp-mobile-filter-button]');
-        if (mobileFilterButton) {
-          event.preventDefault();
-          const dialog = document.querySelector('dialog-component#filters-drawer');
-          if (dialog && typeof dialog.showDialog === 'function') {
-            dialog.showDialog();
-          } else {
-            document.querySelector('.facets-toggle__button')?.click();
-          }
-          return;
-        }
-
-        const searchPill = target.closest('[data-trg-search-pill]');
-        if (searchPill instanceof HTMLElement) {
-          event.preventDefault();
-          const searchInput = document.querySelector('[data-trg-search-input]');
-          if (searchInput instanceof HTMLInputElement) {
-            searchInput.value = searchPill.dataset.trgSearchPill || '';
-            searchInput.dispatchEvent(new Event('input', { bubbles: true }));
-            searchInput.focus();
-          }
-          return;
-        }
-
-        const activeTag = target.closest('[data-trg-active-tag]');
-        if (activeTag instanceof HTMLElement) {
-          event.preventDefault();
-          this.removeActiveTag(activeTag.dataset);
-          return;
-        }
-
-        const toggleFilter = target.closest('[data-trg-toggle]');
-        if (toggleFilter instanceof HTMLButtonElement) {
-          event.preventDefault();
-          const isPressed = toggleFilter.getAttribute('aria-pressed') === 'true';
-          toggleFilter.setAttribute('aria-pressed', String(!isPressed));
-          this.renderActiveTags();
-          this.applySearch();
-          return;
-        }
-
-        const loadMoreButton = target.closest('[data-trg-load-more-btn]');
-        if (loadMoreButton instanceof HTMLAnchorElement) {
-          event.preventDefault();
-          this.loadMore(loadMoreButton);
-          return;
-        }
-
-        const wishlistButton = target.closest('[data-trg-wishlist]');
-        if (wishlistButton instanceof HTMLButtonElement) {
-          event.preventDefault();
-          event.stopPropagation();
-          this.toggleWishlist(wishlistButton);
-          return;
-        }
-
-        const backToTop = target.closest('[data-trg-back-to-top]');
-        if (backToTop instanceof HTMLButtonElement) {
-          event.preventDefault();
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-      }
-
-      scheduleSync() {
-        window.clearTimeout(this.syncTimeout);
-        this.syncTimeout = window.setTimeout(() => {
-          this.normalizeBrandBanner();
-          this.syncSortSelect();
-          this.syncDesktopFilterToggle();
-          this.renderActiveTags();
-          this.applySearch();
-        }, 90);
-      }
-
-      scheduleApplySearch() {
-        window.clearTimeout(this.searchInputTimeout);
-        this.searchInputTimeout = window.setTimeout(() => {
-          this.applySearch();
-        }, LOCAL_SEARCH_INPUT_DEBOUNCE_MS);
-      }
-
-      syncSortSelect() {
-        const sortSelect = document.querySelector('[data-trg-plp-sort]');
-        if (!(sortSelect instanceof HTMLSelectElement)) return;
-
-        const sourceSelect =
-          Array.from(document.querySelectorAll('select[name="sort_by"]')).find((select) => !select.disabled) ||
-          document.querySelector('select[name="sort_by"]');
-        if (!(sourceSelect instanceof HTMLSelectElement)) return;
-
-        const sourceSignature = Array.from(sourceSelect.options)
-          .map((option) => `${option.value}:${option.textContent?.trim()}`)
-          .join('|');
-
-        if (sortSelect.dataset.sourceSignature !== sourceSignature) {
-          sortSelect.innerHTML = '';
-          for (const option of sourceSelect.options) {
-            sortSelect.append(
-              new Option(option.textContent?.trim() || option.value, option.value, option.selected, option.selected)
-            );
-          }
-          sortSelect.dataset.sourceSignature = sourceSignature;
-        }
-
-        const currentSort = new URL(window.location.href).searchParams.get('sort_by') || sourceSelect.value;
-        sortSelect.value = currentSort;
-      }
-
-      syncDesktopFilterToggle() {
-        const isMobile = window.matchMedia('(max-width: 989px)').matches;
-        const shouldShow = isMobile || document.body.classList.contains('filters-hidden');
-        for (const button of this.root.querySelectorAll('.trg-plp-main-column .trg-plp-show-filters-btn')) {
-          if (!(button instanceof HTMLButtonElement)) continue;
-          button.hidden = !shouldShow;
-          if (shouldShow) {
-            button.removeAttribute('aria-hidden');
-          } else {
-            button.setAttribute('aria-hidden', 'true');
-          }
-          button.setAttribute('aria-label', isMobile ? 'Filters' : 'Show filters');
-        }
-      }
-
-      getSearchCards() {
-        return Array.from(this.root.querySelectorAll('[data-trg-search-item]'));
-      }
-
-      getCardSearchText(card) {
-        if (!(card instanceof HTMLElement)) return '';
-        if (this.cardSearchIndex.has(card)) return this.cardSearchIndex.get(card);
-        const normalized = normalizeText(card.getAttribute('data-trg-search-text'));
-        this.cardSearchIndex.set(card, normalized);
-        return normalized;
-      }
-
-      parsePositiveNumber(value, fallback) {
-        const parsed = Number(value);
-        return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback;
-      }
-
-      getLoadMoreLimits(loadMoreZone) {
-        const pageFromUrl = new URL(window.location.href).searchParams.get('page');
-        const currentPage = this.parsePositiveNumber(loadMoreZone?.dataset.currentPage || pageFromUrl || '1', 1);
-        const visibleCount = this.parsePositiveNumber(loadMoreZone?.dataset.visibleCount || this.getSearchCards().length || 0, 0);
-        const pageSize = this.parsePositiveNumber(loadMoreZone?.dataset.pageSize || 24, 24);
-        const maxPages = this.parsePositiveNumber(this.root.dataset.trgMaxAppendedPages || LOAD_MORE_MAX_PAGES, LOAD_MORE_MAX_PAGES);
-        const maxCards = this.parsePositiveNumber(
-          this.root.dataset.trgMaxAppendedCards || pageSize * maxPages || LOAD_MORE_MAX_CARDS,
-          LOAD_MORE_MAX_CARDS
-        );
-
-        return { currentPage, visibleCount, maxPages, maxCards };
-      }
-
-      getExistingParentKeys(grid) {
-        const seen = new Set();
-        if (!(grid instanceof HTMLElement)) return seen;
-
-        for (const card of grid.querySelectorAll('.product-grid__item')) {
-          if (!(card instanceof HTMLElement)) continue;
-          const mode = (card.dataset.trgPlpDisplayMode || '').trim();
-          const parentKey = (card.dataset.trgSourceParentId || '').trim();
-          if (mode === 'parent_card' && parentKey) seen.add(parentKey);
-        }
-
-        return seen;
-      }
-
-      getActiveToggles() {
-        const active = new Set();
-
-        for (const button of document.querySelectorAll('[data-trg-toggle]')) {
-          if (!(button instanceof HTMLButtonElement)) continue;
-          if (button.getAttribute('aria-pressed') === 'true' && button.dataset.trgToggle) {
-            active.add(button.dataset.trgToggle);
-          }
-        }
-
-        return active;
-      }
-
-      getToggleLabel(toggleName) {
-        const label = document.querySelector(`[data-trg-toggle="${toggleName}"] .trg-plp-toggle-label`);
-        return label?.textContent?.trim() || '';
-      }
-
-      matchesToggleFilters(card, activeToggles) {
-        if (activeToggles.size === 0) return true;
-        if (activeToggles.has('ships-ca') && card.dataset.trgShipsCa !== 'true') return false;
-        if (activeToggles.has('on-sale') && card.dataset.trgOnSale !== 'true') return false;
-        if (activeToggles.has('new-arrivals') && card.dataset.trgNewArrivals !== 'true') return false;
-        return true;
-      }
-
-      applySearch() {
-        const searchInput = document.querySelector('[data-trg-search-input]');
-        const query = normalizeText(searchInput?.value);
-        const cards = this.getSearchCards();
-        const activeToggles = this.getActiveToggles();
-        let visibleCount = 0;
-
-        for (const card of cards) {
-          const cardText = this.getCardSearchText(card);
-          const matchesQuery = query === '' || cardText.includes(query);
-          const matches = matchesQuery && this.matchesToggleFilters(card, activeToggles);
-          card.hidden = !matches;
-          if (matches) visibleCount += 1;
-        }
-
-        const searchEmpty = document.querySelector('[data-trg-search-empty]');
-        if (searchEmpty instanceof HTMLElement) {
-          searchEmpty.hidden = visibleCount !== 0 || query === '';
-        }
-        this.syncColourIntentBanner(visibleCount);
-      }
-
-      syncColourIntentBanner(visibleCount) {
-
-        const mainColumn = this.root.querySelector('.trg-plp-main-column');
-
-        if (!(mainColumn instanceof HTMLElement)) return;
-
-
-
-        const intent = readColourIntent();
-
-        let banner = mainColumn.querySelector('.trg-colour-intent-banner');
-
-        if (!intent) {
-
-          banner?.remove();
-
-          return;
-
-        }
-
-
-
-        const activeSlot = resolveColourIntentSlot(intent, this.root.dataset.trgCollectionHandle);
-
-        const cards = this.getSearchCards();
-
-        const visibleCards = cards.filter((card) => !card.hidden);
-
-        const colourNeedle = normalizeText(activeSlot && activeSlot.color);
-
-        const colourMatchCount = colourNeedle
-
-          ? visibleCards.filter((card) => this.getCardSearchText(card).includes(colourNeedle)).length
-
-          : 0;
-
-        const totalVisible = Number.isFinite(visibleCount) ? visibleCount : visibleCards.length;
-
-        const profileLabel = intent.profile_archetype || intent.profile_name || '';
-
-        const title = activeSlot
-
-          ? `${activeSlot.color} ${activeSlot.singular || activeSlot.slot}`
-
-          : profileLabel
-
-            ? `${profileLabel} profile active`
-
-            : 'Saved colour brief';
-
-        const note = activeSlot
-
-          ? `${colourMatchCount} of ${totalVisible} visible cards mention ${activeSlot.color}. This is a text match, not a strict colour filter.`
-
-          : profileLabel
-
-            ? `Your saved profile is ${profileLabel}. Return to the guide to assign colours to garment slots.`
-
-            : 'Return to the guide to set an outfit brief.';
-
-        const query = activeSlot
-
-          ? `?source=plp&base_colour=${encodeURIComponent(activeSlot.color)}&base_garment=${encodeURIComponent(activeSlot.slot)}`
-
-          : '';
-
-        const chips = intent.slots.slice(0, 4).map((slot) => `
-          <span class="trg-colour-intent-chip">
-            <span class="trg-colour-intent-chip__swatch" style="background:${escapeHtml(slot.hex || '#ddd8cf')}"></span>
-            ${escapeHtml(slot.color)} ${escapeHtml(slot.singular || slot.slot)}
-          </span>
-        `).join('');
-
-
-
-        if (!(banner instanceof HTMLElement)) {
-
-          banner = document.createElement('div');
-
-          banner.className = 'trg-colour-intent-banner';
-
-          const controls = mainColumn.querySelector('.trg-collection-controls');
-
-          if (controls instanceof HTMLElement) {
-
-            mainColumn.insertBefore(banner, controls);
-
-          } else {
-
-            mainColumn.insertBefore(banner, mainColumn.firstChild);
-
-          }
-
-        }
-
-
-
-        banner.innerHTML = `
-          <div class="trg-colour-intent-banner__head">
-            <div>
-              <p class="trg-colour-intent-banner__kicker">Saved colour brief</p>
-              <h3 class="trg-colour-intent-banner__title">${escapeHtml(title)}</h3>
-              <p class="trg-colour-intent-banner__note">${escapeHtml(note)}</p>
-            </div>
-            <div class="trg-colour-intent-banner__actions">
-              <a class="trg-colour-intent-banner__link" href="/pages/colour-guide${query}">Open guide</a>
-              <button type="button" class="trg-colour-intent-banner__clear" data-trg-colour-intent-clear>Clear</button>
-            </div>
-          </div>
-          ${chips ? `<div class="trg-colour-intent-banner__chips">${chips}</div>` : ''}
-        `;
-
-      }
-
-
-
-      resolveInputLabel(input) {
-        if (input instanceof HTMLInputElement && input.dataset.label) return input.dataset.label;
-
-        if (!(input instanceof HTMLInputElement)) return '';
-
-        if (input.id) {
-          const parentLabel = document.querySelector(`label[for="${input.id}"]`);
-          const textTarget =
-            parentLabel?.querySelector('.checkbox__label-text, .facets__pill-label, .facets__swatch-label') ||
-            parentLabel;
-          return textTarget?.textContent?.trim() || '';
-        }
-
-        return '';
-      }
-
-      renderActiveTags() {
-        const container = document.querySelector('[data-trg-active-tags]');
-        if (!(container instanceof HTMLElement)) return;
-
-        const chips = [];
-        const filterInputs = document.querySelectorAll(
-          '.facets--vertical input[type="checkbox"]:checked, .facets--vertical input[type="radio"]:checked'
-        );
-
-        for (const input of filterInputs) {
-          const label = this.resolveInputLabel(input);
-          if (label) {
-            chips.push({
-              kind: 'input',
-              label,
-              name: input.name,
-              value: input.value
-            });
-          }
-        }
-
-        const minPriceInput = document.querySelector('input[name="filter.v.price.gte"]');
-        const maxPriceInput = document.querySelector('input[name="filter.v.price.lte"]');
-        if (minPriceInput instanceof HTMLInputElement && minPriceInput.value.trim() !== '') {
-          chips.push({
-            kind: 'price-min',
-            label: `Min $${minPriceInput.value.trim()}`
-          });
-        }
-        if (maxPriceInput instanceof HTMLInputElement && maxPriceInput.value.trim() !== '') {
-          chips.push({
-            kind: 'price-max',
-            label: `Max $${maxPriceInput.value.trim()}`
-          });
-        }
-
-        for (const toggle of this.getActiveToggles()) {
-          const label = this.getToggleLabel(toggle);
-          if (!label) continue;
-          chips.push({
-            kind: 'toggle',
-            label,
-            toggle
-          });
-        }
-
-        container.innerHTML = chips
-          .map((chip) => {
-            const attrs = Object.entries(chip)
-              .map(([key, value]) => `data-${key === 'kind' ? 'kind' : key}="${escapeHtml(value)}"`)
-              .join(' ');
-            return `<button type="button" class="button-unstyled trg-search-bar__active-tag" data-trg-active-tag ${attrs}>${escapeHtml(
-              chip.label
-            )}<span>✕</span></button>`;
-          })
-          .join('');
-      }
-
-      removeActiveTag(data) {
-        const kind = data.kind || '';
-        if (kind === 'toggle') {
-          const toggleName = data.toggle || '';
-          const button = document.querySelector(`[data-trg-toggle="${toggleName}"]`);
-          if (button instanceof HTMLButtonElement) {
-            button.setAttribute('aria-pressed', 'false');
-            this.renderActiveTags();
-            this.applySearch();
-          }
-          return;
-        }
-
-        if (kind === 'price-min' || kind === 'price-max') {
-          const selector = kind === 'price-min' ? 'input[name="filter.v.price.gte"]' : 'input[name="filter.v.price.lte"]';
-          const input = document.querySelector(selector);
-          if (input instanceof HTMLInputElement) {
-            input.value = '';
-            input.dispatchEvent(new Event('change', { bubbles: true }));
-          }
-          return;
-        }
-
-        const name = data.name || '';
-        const value = data.value || '';
-        if (!name) return;
-
-        const matchingInput = Array.from(document.querySelectorAll('input')).find(
-          (input) => input instanceof HTMLInputElement && input.name === name && input.value === value
-        );
-
-        if (matchingInput instanceof HTMLInputElement) {
-          matchingInput.checked = false;
-          matchingInput.dispatchEvent(new Event('change', { bubbles: true }));
-        }
-      }
-
-      async loadMore(button) {
-        if (button.dataset.loading === 'true') return;
-
-        const nextUrl = button.href;
-        if (!nextUrl) return;
-
-        const loadMoreZone = this.root.querySelector('[data-trg-load-more-zone]');
-        const { currentPage, visibleCount, maxPages, maxCards } = this.getLoadMoreLimits(loadMoreZone);
-        const reachedPageLimit = Number.isFinite(maxPages) && currentPage >= maxPages;
-        const reachedCardLimit = Number.isFinite(maxCards) && visibleCount >= maxCards;
-        if (reachedPageLimit || reachedCardLimit) {
-          window.location.assign(nextUrl);
-          return;
-        }
-
-        button.dataset.loading = 'true';
-        button.setAttribute('aria-busy', 'true');
-        const originalLabel = button.textContent;
-        button.textContent = 'Loading...';
-
-        try {
-          const response = await fetch(nextUrl, { credentials: 'same-origin' });
-          if (!response.ok) return;
-
-          const html = await response.text();
-          const nextDocument = new DOMParser().parseFromString(html, 'text/html');
-          const nextItems = nextDocument.querySelectorAll('#ResultsList .product-grid__item');
-          const grid = this.root.querySelector('.product-grid');
-          if (!(grid instanceof HTMLElement)) return;
-
-          const seenParentKeys = this.getExistingParentKeys(grid);
-          const fragment = document.createDocumentFragment();
-
-          for (const item of nextItems) {
-            if (!(item instanceof HTMLElement)) continue;
-            const mode = (item.dataset.trgPlpDisplayMode || '').trim();
-            const parentKey = (item.dataset.trgSourceParentId || '').trim();
-            if (mode === 'parent_card' && parentKey) {
-              if (seenParentKeys.has(parentKey)) continue;
-              seenParentKeys.add(parentKey);
-            }
-
-            fragment.appendChild(item.cloneNode(true));
-          }
-
-          if (fragment.childNodes.length > 0) {
-            grid.appendChild(fragment);
-          }
-
-          const nextZone = nextDocument.querySelector('[data-trg-load-more-zone]');
-          const currentZone = this.root.querySelector('[data-trg-load-more-zone]');
-          if (nextZone && currentZone) {
-            currentZone.replaceWith(nextZone);
-          }
-
-          const pushedUrl = new URL(nextUrl, window.location.href);
-          history.replaceState({}, '', `${pushedUrl.pathname}${pushedUrl.search}${pushedUrl.hash}`);
-          this.syncWishlistState();
-          this.scheduleSync();
-        } catch (error) {
-          console.error('Failed to load more products.', error);
-          button.textContent = originalLabel || 'Load more';
-        } finally {
-
-          if (button.isConnected) {
-            button.textContent = originalLabel || 'Load more';
-          }
-
-          button.dataset.loading = 'false';
-          button.removeAttribute('aria-busy');
-        }
-      }
-
-      getWishlistIds() {
-        try {
-          return JSON.parse(window.localStorage.getItem(WISHLIST_STORAGE_KEY) || '[]');
-        } catch (error) {
-          return [];
-        }
-      }
-
-      syncWishlistState() {
-        const savedIds = new Set(this.getWishlistIds().map(String));
-        for (const button of document.querySelectorAll('[data-trg-wishlist]')) {
-          if (!(button instanceof HTMLButtonElement)) continue;
-          const productId = button.dataset.productId || '';
-          const isSaved = savedIds.has(productId);
-          button.classList.toggle('saved', isSaved);
-          button.setAttribute('aria-pressed', String(isSaved));
-        }
-      }
-
-      toggleWishlist(button) {
-        const productId = button.dataset.productId;
-        if (!productId) return;
-
-        const savedIds = new Set(this.getWishlistIds().map(String));
-        if (savedIds.has(productId)) {
-          savedIds.delete(productId);
-        } else {
-          savedIds.add(productId);
-        }
-
-        window.localStorage.setItem(WISHLIST_STORAGE_KEY, JSON.stringify(Array.from(savedIds)));
-        this.syncWishlistState();
-      }
-
-      updateBackToTop() {
-        const button = document.querySelector('[data-trg-back-to-top]');
-        if (!(button instanceof HTMLButtonElement)) return;
-        button.classList.toggle('visible', window.scrollY > window.innerHeight * 1.5);
-      }
-
-      handleScroll() {
-        this.updateBackToTop();
+  var mo = new MutationObserver(function(mutations){
+    for(var i=0;i<mutations.length;i++){
+      var m=mutations[i];
+      if(m.type==='attributes'&&m.attributeName==='hidden'){
+        var el=m.target;
+        if(el.matches&&el.matches(selector)&&el.hasAttribute('hidden')) el.removeAttribute('hidden');
       }
     }
+  });
+  function init(){
+    unhideAll();
+    document.querySelectorAll('.trg-plp-body .card-gallery').forEach(function(gallery){
+      mo.observe(gallery,{attributes:true,attributeFilter:['hidden'],subtree:true});
+    });
+  }
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',init,{once:true});
+  }else{
+    init();
+  }
+  document.addEventListener('shopify:section:load',init);
+})();
+</script>
 
-    const initializeTrgPlp = () => {
-      ensurePlpLayoutStyles();
-      scheduleCardGalleryRepair(document);
-      const existingControllers = window[CONTROLLER_REGISTRY_KEY];
-      if (existingControllers instanceof Set) {
-        for (const controller of existingControllers) {
-          controller.disconnect();
-        }
-        existingControllers.clear();
-      }
+<script>
+/* Hash-scroll to card */
+(function(){
+  var url = new URL(window.location.href);
+  if(url.hash){
+    document.addEventListener('DOMContentLoaded',function(){
+      var card = document.getElementById(url.hash.slice(1));
+      if(card) card.scrollIntoView({behavior:'instant'});
+    },{once:true});
+  }
+})();
+</script>
 
-      const nextControllers = existingControllers instanceof Set ? existingControllers : new Set();
-      document.querySelectorAll('.trg-plp-body').forEach((root) => {
-        const controller = new TrgPlpController(root);
-        controller.connect();
-        nextControllers.add(controller);
-      });
 
-      window[CONTROLLER_REGISTRY_KEY] = nextControllers;
-    };
-
-    document.addEventListener('DOMContentLoaded', initializeTrgPlp, { once: true });
-    document.addEventListener('shopify:section:load', initializeTrgPlp);
-  })();
-
-{% endjavascript %}
 
 {% liquid
   assign live_catalog = collections['all']
@@ -1323,7 +305,7 @@
             {% # theme-check-disable %}
             {% content_for 'block', type: '_product-card', id: 'product-card', closest.product: product %}
             {% # theme-check-enable %}
-            {% if variant_color_groups != blank and variant_color_groups.size > 1 and trg_plp_display_mode == 'variant_cards' %}
+            {% if false and variant_color_groups != blank and variant_color_groups.size > 1 and trg_plp_display_mode == 'variant_cards' %}
               <div class="trg-plp-card-colours" aria-label="Available colours">
                 <span class="trg-plp-card-colours__label">{{ variant_color_groups.size }} colours</span>
                 <div class="trg-plp-card-colours__list">
@@ -1363,7 +345,7 @@
                       data-trg-colour-image="{{ group_image }}"
                       style="--trg-colour-swatch: {{ group_hex }};"
                     >
-                      <span class="trg-plp-card-colour__swatch{% if group_image != blank %} trg-plp-card-colour__swatch--image{% endif %}"{% if group_image != blank %} style="background-image:url('{{ group_image | escape }}');"{% endif %}></span>
+                      <span class="trg-plp-card-colour__swatch"></span>
                       <span class="visually-hidden">{{ group_label }}</span>
                     </button>
                   {% endfor %}
@@ -2284,12 +1266,12 @@
     appearance: auto;
   }
 
-  .trg-plp-body .trg-plp-main-column .trg-plp-show-filters-btn[hidden] {
-    display: none !important;
+  #MainContent .trg-plp-body.trg-plp-body .trg-plp-main-column .trg-plp-show-filters-btn[hidden] {
+    display: none;
   }
 
-  .trg-plp-body .trg-plp-main-column .trg-plp-show-filters-btn:not([hidden]) {
-    display: inline-flex !important;
+  #MainContent .trg-plp-body.trg-plp-body .trg-plp-main-column .trg-plp-show-filters-btn:not([hidden]) {
+    display: inline-flex;
     margin-right: auto;
   }
 
@@ -2307,8 +1289,8 @@
     width: 100%;
   }
 
-  .trg-plp-body .product-grid {
-    --product-grid-gap: 1.25rem !important;
+  #MainContent .trg-plp-body.trg-plp-body .product-grid {
+    --product-grid-gap: 1.25rem;
     background: transparent;
   }
 
@@ -2320,11 +1302,11 @@
     animation-delay: var(--trg-plp-card-delay, 0ms);
   }
 
-  .trg-plp-body .product-grid__card {
-    gap: 0 !important;
+  #MainContent .trg-plp-body.trg-plp-body .product-grid__card {
+    gap: 0;
     background: transparent;
     min-height: 100%;
-    justify-content: flex-start !important;
+    justify-content: flex-start;
   }
 
   .trg-plp-body .product-grid-view-zoom-out--details,
@@ -2518,22 +1500,22 @@
     transform: translateY(0);
   }
 
-  .trg-plp-body .group-block {
+  #MainContent .trg-plp-body.trg-plp-body .group-block {
     display: flex;
     flex: 0 0 auto;
     flex-direction: column;
-    padding: 0 !important;
+    padding: 0;
     position: relative;
     overflow: hidden;
     background: var(--trg-plp-caption-background);
     border-top: 1px solid var(--trg-plp-border-color);
   }
 
-  .trg-plp-body .group-block-content {
+  #MainContent .trg-plp-body.trg-plp-body .group-block-content {
     flex: 1 1 auto;
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: flex-start !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
     padding: 0.6rem 0.875rem 0.75rem;
     background: var(--trg-plp-caption-background);
   }
@@ -2756,8 +1738,8 @@
       display: none !important;
     }
 
-    .trg-plp-body .collection-wrapper > .facets-toggle {
-      display: none !important;
+    #MainContent .trg-plp-body.trg-plp-body .collection-wrapper > .facets-toggle {
+      display: none;
     }
 
     .trg-plp-body .collection-wrapper > dialog-component#filters-drawer {
@@ -2769,118 +1751,118 @@
       grid-row: auto !important;
     }
 
-    .trg-plp-body .trg-plp-main-column > .trg-collection-controls.trg-collection-controls {
-      margin: 0.25rem 0 0.875rem !important;
+    #MainContent .trg-plp-body.trg-plp-body .trg-plp-main-column > .trg-collection-controls.trg-collection-controls {
+      margin: 0.25rem 0 0.875rem;
     }
 
-    .trg-plp-body .trg-plp-main-column > .main-collection-grid {
+    #MainContent .trg-plp-body.trg-plp-body .trg-plp-main-column > .main-collection-grid {
       width: 100%;
       min-width: 0;
-      margin: 0 !important;
-      padding-top: 0 !important;
+      margin: 0;
+      padding-top: 0;
     }
 
-    .trg-plp-body .trg-collection-controls.trg-collection-controls {
-      display: flex !important;
+    #MainContent .trg-plp-body.trg-plp-body .trg-collection-controls.trg-collection-controls {
+      display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 0.625rem;
-      height: auto !important;
-      max-height: none !important;
+      height: auto;
+      max-height: none;
       width: 100%;
       max-width: none;
       top: auto;
       bottom: auto;
       align-self: start;
       min-height: 40px;
-      margin: 0.25rem 0 0.875rem !important;
-      padding: 0 !important;
-      padding-top: 0.625rem !important;
-      padding-bottom: 0.5rem !important;
-      padding-block-start: 0.625rem !important;
-      padding-block-end: 0.5rem !important;
+      margin: 0.25rem 0 0.875rem;
+      padding: 0;
+      padding-top: 0.625rem;
+      padding-bottom: 0.5rem;
+      padding-block-start: 0.625rem;
+      padding-block-end: 0.5rem;
       --padding-block-start: 0px !important;
       --padding-block-end: 0px !important;
       --padding-inline-start: 0px !important;
       --padding-inline-end: 0px !important;
       --section-top-offset: 0px !important;
-      position: static !important;
+      position: static;
     }
 
-    .trg-plp-body .trg-plp-show-filters-btn:not([hidden]) {
-      display: inline-flex !important;
-      align-items: center !important;
-      gap: 0.45rem !important;
-      margin: 0 !important;
-      padding: 0.5rem 0.85rem !important;
-      border: 1px solid var(--trg-plp-border-color, #ddd8cf) !important;
-      border-radius: 2px !important;
-      background: #fff !important;
-      color: var(--trg-plp-muted-color, #8a8478) !important;
-      font-family: 'DM Sans', sans-serif !important;
-      font-size: 0.72rem !important;
-      font-weight: 500 !important;
-      letter-spacing: 0.08em !important;
-      text-transform: uppercase !important;
-      white-space: nowrap !important;
-      flex: 0 0 auto !important;
+    #MainContent .trg-plp-body.trg-plp-body .trg-plp-show-filters-btn:not([hidden]) {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      margin: 0;
+      padding: 0.5rem 0.85rem;
+      border: 1px solid var(--trg-plp-border-color, #ddd8cf);
+      border-radius: 2px;
+      background: #fff;
+      color: var(--trg-plp-muted-color, #8a8478);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      flex: 0 0 auto;
     }
 
-    .trg-plp-body .trg-plp-show-filters-btn .svg-wrapper,
-    .trg-plp-body .trg-plp-show-filters-btn svg {
-      width: 14px !important;
-      height: 14px !important;
-      flex-shrink: 0 !important;
+    #MainContent .trg-plp-body.trg-plp-body .trg-plp-show-filters-btn .svg-wrapper,
+    #MainContent .trg-plp-body.trg-plp-body .trg-plp-show-filters-btn svg {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
     }
 
-    .trg-plp-body .products-count-wrapper {
-      display: block !important;
-      position: static !important;
-      inset: auto !important;
-      margin: 0 !important;
-      transform: none !important;
-      flex: 1 1 auto !important;
-      text-align: center !important;
-      pointer-events: none !important;
+    #MainContent .trg-plp-body.trg-plp-body .products-count-wrapper {
+      display: block;
+      position: static;
+      inset: auto;
+      margin: 0;
+      transform: none;
+      flex: 1 1 auto;
+      text-align: center;
+      pointer-events: none;
     }
 
-    .trg-plp-body .products-count-wrapper span {
-      font-size: 0.62rem !important;
-      letter-spacing: 0.14em !important;
+    #MainContent .trg-plp-body.trg-plp-body .products-count-wrapper span {
+      font-size: 0.62rem;
+      letter-spacing: 0.14em;
     }
 
-    .trg-plp-body .trg-collection-controls .trg-plp-sort-shell,
-    .trg-plp-body .trg-collection-controls .sorting-filter {
-      margin-left: auto !important;
-      flex: 0 0 auto !important;
+    #MainContent .trg-plp-body.trg-plp-body .trg-collection-controls .trg-plp-sort-shell,
+    #MainContent .trg-plp-body.trg-plp-body .trg-collection-controls .sorting-filter {
+      margin-left: auto;
+      flex: 0 0 auto;
     }
 
-    .trg-plp-body .trg-plp-sort-select,
-    .trg-plp-body .trg-collection-controls .sorting-filter__select {
-      min-width: 0 !important;
-      max-width: 130px !important;
-      min-height: 36px !important;
-      padding: 0.5rem 1.9rem 0.5rem 0.75rem !important;
-      font-size: 0.75rem !important;
+    #MainContent .trg-plp-body.trg-plp-body .trg-plp-sort-select,
+    #MainContent .trg-plp-body.trg-plp-body .trg-collection-controls .sorting-filter__select {
+      min-width: 0;
+      max-width: 130px;
+      min-height: 36px;
+      padding: 0.5rem 1.9rem 0.5rem 0.75rem;
+      font-size: 0.75rem;
     }
 
-    .trg-plp-body .product-grid {
-      --product-grid-gap: 0.75rem !important;
+    #MainContent .trg-plp-body.trg-plp-body .product-grid {
+      --product-grid-gap: 0.75rem;
     }
 
-    .trg-plp-body .product-card:hover {
-      transform: none !important;
-      box-shadow: none !important;
+    #MainContent .trg-plp-body.trg-plp-body .product-card:hover {
+      transform: none;
+      box-shadow: none;
     }
 
-    .trg-plp-body .trg-plp-card-wishlist {
-      width: 30px !important;
-      height: 30px !important;
-      top: 10px !important;
-      right: 10px !important;
-      opacity: 1 !important;
-      pointer-events: auto !important;
-      transform: none !important;
+    #MainContent .trg-plp-body.trg-plp-body .trg-plp-card-wishlist {
+      width: 30px;
+      height: 30px;
+      top: 10px;
+      right: 10px;
+      opacity: 1;
+      pointer-events: auto;
+      transform: none;
     }
   }
 
@@ -3330,5 +2312,3 @@
 }
 {% endschema %}
 
-
-{% comment %} trg-plp-wallet-crop 2026-04-13T01:07:25.356Z {% endcomment %}
