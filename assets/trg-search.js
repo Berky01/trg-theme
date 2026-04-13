@@ -974,11 +974,52 @@ function initColourGuideSeedRescueShim() {
   }, 30000);
 }
 
+function initWalletGalleryCropRescue() {
+  const cropConfig = {
+    '10280187527447': { scale: '1.28', origin: '48% 57%' },
+    '10280187330839': { scale: '1.46', origin: '52% 63%' },
+    '10280088535319': { scale: '1.36', origin: '51% 59%' }
+  };
+
+  const applyCrop = () => {
+    Object.entries(cropConfig).forEach(([productId, config]) => {
+      const image = document.querySelector(`.card-gallery[data-product-id="${productId}"] .product-media__image`);
+      if (!(image instanceof HTMLElement)) {
+        return;
+      }
+
+      image.style.setProperty('transform', `scale(${config.scale})`, 'important');
+      image.style.setProperty('transform-origin', config.origin, 'important');
+    });
+  };
+
+  applyCrop();
+  [250, 900, 1800, 3200, 5200, 8000].forEach((delay) => {
+    window.setTimeout(applyCrop, delay);
+  });
+
+  const observer = new MutationObserver(() => {
+    applyCrop();
+  });
+
+  observer.observe(document.documentElement, {
+    subtree: true,
+    childList: true,
+    attributes: true,
+    attributeFilter: ['style', 'class']
+  });
+
+  window.setTimeout(() => {
+    observer.disconnect();
+  }, 30000);
+}
+
 onDocumentReady(() => {
   ensureColourGuideShopIndexShim();
   initColourGuideIntentShim();
   initColourGuideIntroCardHotfix();
   initColourGuideSeedRescueShim();
+  initWalletGalleryCropRescue();
   initSearchDropdown();
   initSharedSearchBar();
 });
