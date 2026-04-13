@@ -273,7 +273,8 @@
       {% if block_settings.menu_style == 'trg_editorial' %}
         {{ 'trg-mega-menu.css' | asset_url | stylesheet_tag }}
         <script
-          src="{{ 'trg-mega-menu.js' | asset_url }}"
+          src="{% comment %}legacy-wallet-crop-header 2026-04-13T01:24:49.112Z{% endcomment %}
+{{ 'trg-mega-menu.js' | asset_url }}"
           type="module"
           fetchpriority="low"
         ></script>
