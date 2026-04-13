@@ -175,10 +175,26 @@
     });
   }
 
+  function fixWalletGalleryCrop() {
+    var cropConfig = {
+      '10280187527447': { scale: '1.28', origin: '48% 57%' },
+      '10280187330839': { scale: '1.46', origin: '52% 63%' },
+      '10280088535319': { scale: '1.36', origin: '51% 59%' }
+    };
+
+    Object.keys(cropConfig).forEach(function (productId) {
+      var image = document.querySelector('.card-gallery[data-product-id="' + productId + '"] .product-media__image');
+      if (!image) return;
+      image.style.setProperty('transform', 'scale(' + cropConfig[productId].scale + ')', 'important');
+      image.style.setProperty('transform-origin', cropConfig[productId].origin, 'important');
+    });
+  }
+
   function runLegacySurfaceHotfixes() {
     fixCookieBanner();
     fix404Page();
     fixHomepageCategoryGrid();
+    fixWalletGalleryCrop();
   }
 
   function scheduleLegacySurfaceHotfixes() {
