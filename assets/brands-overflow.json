@@ -2,7 +2,7 @@
   {
     "handle": "032c",
     "name": "032C",
-    "url": "\/collections\/032c",
+    "url": "/collections/032c",
     "country": "Germany",
     "madeIn": "Germany",
     "madeInGroup": "Europe",
@@ -35,7 +35,7 @@
   {
     "handle": "100-hands",
     "name": "100 Hands",
-    "url": "\/collections\/100-hands",
+    "url": "/collections/100-hands",
     "country": "Netherlands",
     "madeIn": "India",
     "madeInGroup": "Asia-Pacific",
@@ -68,8 +68,8 @@
   },
   {
     "handle": "11-11-eleven-eleven",
-    "name": "11.11 \/ eleven eleven",
-    "url": "\/collections\/11-11-eleven-eleven",
+    "name": "11.11 / eleven eleven",
+    "url": "/collections/11-11-eleven-eleven",
     "country": "",
     "madeIn": "",
     "madeInGroup": "",
@@ -95,7 +95,7 @@
   {
     "handle": "18-east",
     "name": "18 East",
-    "url": "\/collections\/18-east",
+    "url": "/collections/18-east",
     "country": "",
     "madeIn": "",
     "madeInGroup": "",
@@ -121,7 +121,7 @@
   {
     "handle": "3sixteen",
     "name": "3sixteen",
-    "url": "\/collections\/3sixteen",
+    "url": "/collections/3sixteen",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -155,7 +155,7 @@
   {
     "handle": "73london",
     "name": "73London",
-    "url": "\/collections\/73london",
+    "url": "/collections/73london",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -187,9 +187,9 @@
   {
     "handle": "a-days-march",
     "name": "A Day's March",
-    "url": "\/collections\/a-days-march",
+    "url": "/collections/a-days-march",
     "country": "Sweden",
-    "madeIn": "Portugal \/ various",
+    "madeIn": "Portugal / various",
     "madeInGroup": "Europe",
     "primaryCategoryRaw": "Shirts & Tops",
     "category": "shirts-tops",
@@ -225,7 +225,7 @@
   {
     "handle": "a-kind-of-guise",
     "name": "A Kind of Guise",
-    "url": "\/collections\/a-kind-of-guise",
+    "url": "/collections/a-kind-of-guise",
     "country": "Germany",
     "madeIn": "Germany",
     "madeInGroup": "Europe",
@@ -258,7 +258,7 @@
   {
     "handle": "a-p-c",
     "name": "A.P.C.",
-    "url": "\/collections\/a-p-c",
+    "url": "/collections/a-p-c",
     "country": "France",
     "madeIn": "France",
     "madeInGroup": "Europe",
@@ -290,7 +290,7 @@
   {
     "handle": "a-presse",
     "name": "A.PRESSE",
-    "url": "\/collections\/a-presse",
+    "url": "/collections/a-presse",
     "country": "Japan",
     "madeIn": "Japan",
     "madeInGroup": "Asia-Pacific",
@@ -326,11 +326,11 @@
   {
     "handle": "abaga",
     "name": "Abaga",
-    "url": "\/collections\/abaga",
+    "url": "/collections/abaga",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
-    "primaryCategoryRaw": "Contemporary \/ Designer",
+    "primaryCategoryRaw": "Contemporary / Designer",
     "category": "accessories",
     "priceRange": "$$$",
     "buyPath": "Direct",
@@ -354,7 +354,7 @@
   {
     "handle": "ace-marks",
     "name": "Ace Marks",
-    "url": "\/collections\/ace-marks",
+    "url": "/collections/ace-marks",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -387,7 +387,7 @@
   {
     "handle": "acne-studios",
     "name": "Acne Studios",
-    "url": "\/collections\/acne-studios",
+    "url": "/collections/acne-studios",
     "country": "Sweden",
     "madeIn": "Various",
     "madeInGroup": "Various",
@@ -424,7 +424,7 @@
   {
     "handle": "after-pray",
     "name": "After Pray",
-    "url": "\/collections\/after-pray",
+    "url": "/collections/after-pray",
     "country": "",
     "madeIn": "",
     "madeInGroup": "",
@@ -450,7 +450,7 @@
   {
     "handle": "agolde",
     "name": "Agolde",
-    "url": "\/collections\/agolde",
+    "url": "/collections/agolde",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -488,7 +488,7 @@
   {
     "handle": "aime-leon-dore",
     "name": "Aime Leon Dore",
-    "url": "\/collections\/aime-leon-dore",
+    "url": "/collections/aime-leon-dore",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -520,9 +520,9 @@
   {
     "handle": "albam",
     "name": "Albam",
-    "url": "\/collections\/albam",
+    "url": "/collections/albam",
     "country": "UK",
-    "madeIn": "UK \/ Portugal",
+    "madeIn": "UK / Portugal",
     "madeInGroup": "Europe",
     "primaryCategoryRaw": "Shirts & Tops",
     "category": "shirts-tops",
@@ -556,7 +556,7 @@
   {
     "handle": "albert-baucet",
     "name": "Albert Baucet",
-    "url": "\/collections\/albert-baucet",
+    "url": "/collections/albert-baucet",
     "country": "France",
     "madeIn": "France",
     "madeInGroup": "Europe",
@@ -592,7 +592,7 @@
   {
     "handle": "alden",
     "name": "Alden",
-    "url": "\/collections\/alden",
+    "url": "/collections/alden",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -626,7 +626,7 @@
   {
     "handle": "alex-mill",
     "name": "Alex Mill",
-    "url": "\/collections\/alex-mill",
+    "url": "/collections/alex-mill",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -660,7 +660,7 @@
   {
     "handle": "allen-edmonds",
     "name": "Allen Edmonds",
-    "url": "\/collections\/allen-edmonds",
+    "url": "/collections/allen-edmonds",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -693,7 +693,7 @@
   {
     "handle": "ambrosi-napoli",
     "name": "Ambrosi Napoli",
-    "url": "\/collections\/ambrosi-napoli",
+    "url": "/collections/ambrosi-napoli",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -727,7 +727,7 @@
   {
     "handle": "american-giant",
     "name": "American Giant",
-    "url": "\/collections\/american-giant",
+    "url": "/collections/american-giant",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -760,7 +760,7 @@
   {
     "handle": "american-trench",
     "name": "American Trench",
-    "url": "\/collections\/american-trench",
+    "url": "/collections/american-trench",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -791,7 +791,7 @@
   {
     "handle": "an-irrational-element",
     "name": "An Irrational Element",
-    "url": "\/collections\/an-irrational-element",
+    "url": "/collections/an-irrational-element",
     "country": "Belgium",
     "madeIn": "Belgium",
     "madeInGroup": "Europe",
@@ -819,7 +819,7 @@
   {
     "handle": "anderson-and-sheppard",
     "name": "Anderson and Sheppard",
-    "url": "\/collections\/anderson-and-sheppard",
+    "url": "/collections/anderson-and-sheppard",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -853,7 +853,7 @@
   {
     "handle": "anglo-italian",
     "name": "Anglo-Italian",
-    "url": "\/collections\/anglo-italian",
+    "url": "/collections/anglo-italian",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -886,11 +886,11 @@
   {
     "handle": "anonymous-ism",
     "name": "Anonymous Ism",
-    "url": "\/collections\/anonymous-ism",
+    "url": "/collections/anonymous-ism",
     "country": "Japan",
     "madeIn": "Japan",
     "madeInGroup": "Asia",
-    "primaryCategoryRaw": "Socks \/ Hosiery",
+    "primaryCategoryRaw": "Socks / Hosiery",
     "category": "accessories",
     "priceRange": "$",
     "buyPath": "Direct",
@@ -914,7 +914,7 @@
   {
     "handle": "another-aspect",
     "name": "Another Aspect",
-    "url": "\/collections\/another-aspect",
+    "url": "/collections/another-aspect",
     "country": "Denmark",
     "madeIn": "Denmark",
     "madeInGroup": "Europe",
@@ -947,7 +947,7 @@
   {
     "handle": "anovair",
     "name": "Anovair",
-    "url": "\/collections\/anovair",
+    "url": "/collections/anovair",
     "country": "Netherlands",
     "madeIn": "Various",
     "madeInGroup": "Various",
@@ -983,7 +983,7 @@
   {
     "handle": "anthology",
     "name": "Anthology",
-    "url": "\/collections\/anthology",
+    "url": "/collections/anthology",
     "country": "Singapore",
     "madeIn": "Singapore",
     "madeInGroup": "Asia-Pacific",
@@ -1016,7 +1016,7 @@
   {
     "handle": "anthony-garcon",
     "name": "Anthony GarÃ§on",
-    "url": "\/collections\/anthony-garcon",
+    "url": "/collections/anthony-garcon",
     "country": "France",
     "madeIn": "France",
     "madeInGroup": "Europe",
@@ -1050,7 +1050,7 @@
   {
     "handle": "aran-sweater-market",
     "name": "Aran Sweater Market",
-    "url": "\/collections\/aran-sweater-market",
+    "url": "/collections/aran-sweater-market",
     "country": "Ireland",
     "madeIn": "Ireland",
     "madeInGroup": "Europe",
@@ -1082,7 +1082,7 @@
   {
     "handle": "arpenteur",
     "name": "Arpenteur",
-    "url": "\/collections\/arpenteur",
+    "url": "/collections/arpenteur",
     "country": "France",
     "madeIn": "France",
     "madeInGroup": "Europe",
@@ -1118,7 +1118,7 @@
   {
     "handle": "ascot-chang",
     "name": "Ascotchang",
-    "url": "\/collections\/ascot-chang",
+    "url": "/collections/ascot-chang",
     "country": "Hong Kong",
     "madeIn": "Hong Kong",
     "madeInGroup": "Asia-Pacific",
@@ -1152,7 +1152,7 @@
   {
     "handle": "asket",
     "name": "Asket",
-    "url": "\/collections\/asket",
+    "url": "/collections/asket",
     "country": "Sweden",
     "madeIn": "Sweden",
     "madeInGroup": "Europe",
@@ -1186,7 +1186,7 @@
   {
     "handle": "aspesi",
     "name": "Aspesi",
-    "url": "\/collections\/aspesi",
+    "url": "/collections/aspesi",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -1219,7 +1219,7 @@
   {
     "handle": "astorflex",
     "name": "Astorflex",
-    "url": "\/collections\/astorflex",
+    "url": "/collections/astorflex",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -1254,7 +1254,7 @@
   {
     "handle": "ateliers-de-nimes",
     "name": "Ateliers de Nimes",
-    "url": "\/collections\/ateliers-de-nimes",
+    "url": "/collections/ateliers-de-nimes",
     "country": "",
     "madeIn": "",
     "madeInGroup": "",
@@ -1280,7 +1280,7 @@
   {
     "handle": "athison",
     "name": "Athison",
-    "url": "\/collections\/athison",
+    "url": "/collections/athison",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -1315,7 +1315,7 @@
   {
     "handle": "aubercy",
     "name": "Aubercy",
-    "url": "\/collections\/aubercy",
+    "url": "/collections/aubercy",
     "country": "France",
     "madeIn": "France",
     "madeInGroup": "Europe",
@@ -1349,7 +1349,7 @@
   {
     "handle": "august-special",
     "name": "August Special",
-    "url": "\/collections\/august-special",
+    "url": "/collections/august-special",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -1382,7 +1382,7 @@
   {
     "handle": "auralee",
     "name": "Auralee",
-    "url": "\/collections\/auralee",
+    "url": "/collections/auralee",
     "country": "Japan",
     "madeIn": "Japan",
     "madeInGroup": "Asia-Pacific",
@@ -1414,9 +1414,9 @@
   {
     "handle": "aurelien",
     "name": "Aurelien",
-    "url": "\/collections\/aurelien",
+    "url": "/collections/aurelien",
     "country": "Belgium",
-    "madeIn": "Italy \/ Spain \/ Portugal",
+    "madeIn": "Italy / Spain / Portugal",
     "madeInGroup": "Europe",
     "primaryCategoryRaw": "Footwear",
     "category": "footwear",
@@ -1448,7 +1448,7 @@
   {
     "handle": "avvattev",
     "name": "AvVattev",
-    "url": "\/collections\/avvattev",
+    "url": "/collections/avvattev",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -1481,7 +1481,7 @@
   {
     "handle": "ayr",
     "name": "AYR",
-    "url": "\/collections\/ayr",
+    "url": "/collections/ayr",
     "country": "USA",
     "madeIn": "Various",
     "madeInGroup": "Various",
@@ -1517,7 +1517,7 @@
   {
     "handle": "balibaris",
     "name": "Balibaris",
-    "url": "\/collections\/balibaris",
+    "url": "/collections/balibaris",
     "country": "France",
     "madeIn": "Various",
     "madeInGroup": "Various",
@@ -1550,9 +1550,43 @@
     "priority": "Medium"
   },
   {
+    "handle": "bana-new-york",
+    "name": "Bana New York",
+    "url": "/collections/bana-new-york",
+    "country": "USA",
+    "madeIn": "USA",
+    "madeInGroup": "North America",
+    "primaryCategoryRaw": "Suits & Tailoring",
+    "category": "suits-tailoring",
+    "priceRange": "Premium",
+    "buyPath": "Direct",
+    "bestRetailerNa": "",
+    "bestRetailerCa": "",
+    "affiliateProgram": false,
+    "affiliateNetwork": "No",
+    "commission": null,
+    "shipsToCanada": true,
+    "ddpDuties": false,
+    "naturalMaterials": "",
+    "canadianBrand": "No",
+    "brandPositioning": [
+      "Heritage Tailoring"
+    ],
+    "tags": [
+      "new-york",
+      "made-in-usa",
+      "vintage-inspired",
+      "tailoring",
+      "menswear"
+    ],
+    "description": "Founded in 2025 by husband and wife duo Jim and Emily Larsen. Made in New York, crafted with fabrics sourced from Italy and Japan.",
+    "logoUrl": "",
+    "priority": "Medium"
+  },
+  {
     "handle": "banana-republic",
     "name": "Banana Republic",
-    "url": "\/collections\/banana-republic",
+    "url": "/collections/banana-republic",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -1587,9 +1621,9 @@
   {
     "handle": "baracuta",
     "name": "Baracuta",
-    "url": "\/collections\/baracuta",
+    "url": "/collections/baracuta",
     "country": "UK",
-    "madeIn": "UK \/ Portugal",
+    "madeIn": "UK / Portugal",
     "madeInGroup": "Europe",
     "primaryCategoryRaw": "Outerwear & Jackets",
     "category": "outerwear-jackets",
@@ -1623,7 +1657,7 @@
   {
     "handle": "barbanera",
     "name": "Barbanera",
-    "url": "\/collections\/barbanera",
+    "url": "/collections/barbanera",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -1658,7 +1692,7 @@
   {
     "handle": "barbarian",
     "name": "Barbarian",
-    "url": "\/collections\/barbarian",
+    "url": "/collections/barbarian",
     "country": "Canada",
     "madeIn": "Canada",
     "madeInGroup": "North America",
@@ -1694,7 +1728,7 @@
   {
     "handle": "barbour",
     "name": "Barbour",
-    "url": "\/collections\/barbour",
+    "url": "/collections/barbour",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -1725,7 +1759,7 @@
   {
     "handle": "barena-venezia",
     "name": "Barena Venezia",
-    "url": "\/collections\/barena-venezia",
+    "url": "/collections/barena-venezia",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -1762,7 +1796,7 @@
   {
     "handle": "barker",
     "name": "Barker",
-    "url": "\/collections\/barker",
+    "url": "/collections/barker",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -1795,7 +1829,7 @@
   {
     "handle": "bather",
     "name": "Bather",
-    "url": "\/collections\/bather",
+    "url": "/collections/bather",
     "country": "Canada",
     "madeIn": "Canada",
     "madeInGroup": "North America",
@@ -1826,7 +1860,7 @@
   {
     "handle": "batoner",
     "name": "Batoner",
-    "url": "\/collections\/batoner",
+    "url": "/collections/batoner",
     "country": "Japan",
     "madeIn": "Japan",
     "madeInGroup": "Asia-Pacific",
@@ -1864,7 +1898,7 @@
   {
     "handle": "baudoin-and-lange",
     "name": "Baudoin and Lange",
-    "url": "\/collections\/baudoin-and-lange",
+    "url": "/collections/baudoin-and-lange",
     "country": "UK",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -1898,7 +1932,7 @@
   {
     "handle": "beams-plus",
     "name": "Beams Plus",
-    "url": "\/collections\/beams-plus",
+    "url": "/collections/beams-plus",
     "country": "Japan",
     "madeIn": "Japan",
     "madeInGroup": "Asia-Pacific",
@@ -1932,7 +1966,7 @@
   {
     "handle": "beckett-simonon",
     "name": "Beckett Simonon",
-    "url": "\/collections\/beckett-simonon",
+    "url": "/collections/beckett-simonon",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -1965,7 +1999,7 @@
   {
     "handle": "begg-and-co",
     "name": "Begg & Co",
-    "url": "\/collections\/begg-and-co",
+    "url": "/collections/begg-and-co",
     "country": "Scotland",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -2004,7 +2038,7 @@
   {
     "handle": "bellief",
     "name": "Bellief",
-    "url": "\/collections\/bellief",
+    "url": "/collections/bellief",
     "country": "South Korea",
     "madeIn": "South Korea",
     "madeInGroup": "Asia-Pacific",
@@ -2038,7 +2072,7 @@
   {
     "handle": "belstaff",
     "name": "Belstaff",
-    "url": "\/collections\/belstaff",
+    "url": "/collections/belstaff",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -2069,11 +2103,11 @@
   {
     "handle": "bennett-winch",
     "name": "Bennett Winch",
-    "url": "\/collections\/bennett-winch",
+    "url": "/collections/bennett-winch",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
-    "primaryCategoryRaw": "Bags \/ Leather Goods",
+    "primaryCategoryRaw": "Bags / Leather Goods",
     "category": "accessories",
     "priceRange": "$$$$",
     "buyPath": "Direct",
@@ -2097,7 +2131,7 @@
   {
     "handle": "berg-and-berg",
     "name": "Berg & Berg",
-    "url": "\/collections\/berg-and-berg",
+    "url": "/collections/berg-and-berg",
     "country": "Sweden",
     "madeIn": "Sweden",
     "madeInGroup": "Europe",
@@ -2131,9 +2165,9 @@
   {
     "handle": "berluti",
     "name": "Berluti",
-    "url": "\/collections\/berluti",
+    "url": "/collections/berluti",
     "country": "France",
-    "madeIn": "France \/ Italy",
+    "madeIn": "France / Italy",
     "madeInGroup": "Europe",
     "primaryCategoryRaw": "Footwear",
     "category": "footwear",
@@ -2167,7 +2201,7 @@
   {
     "handle": "berwick-1707",
     "name": "Berwick 1707",
-    "url": "\/collections\/berwick-1707",
+    "url": "/collections/berwick-1707",
     "country": "Spain",
     "madeIn": "Spain",
     "madeInGroup": "Europe",
@@ -2204,9 +2238,9 @@
   {
     "handle": "bexley",
     "name": "Bexley",
-    "url": "\/collections\/bexley",
+    "url": "/collections/bexley",
     "country": "France",
-    "madeIn": "France\/Portugal",
+    "madeIn": "France/Portugal",
     "madeInGroup": "Europe",
     "primaryCategoryRaw": "Footwear",
     "category": "footwear",
@@ -2239,7 +2273,7 @@
   {
     "handle": "bigi",
     "name": "Bigi",
-    "url": "\/collections\/bigi",
+    "url": "/collections/bigi",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -2275,7 +2309,7 @@
   {
     "handle": "billy-reid",
     "name": "Billy Reid",
-    "url": "\/collections\/billy-reid",
+    "url": "/collections/billy-reid",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -2307,11 +2341,11 @@
   {
     "handle": "billykirk",
     "name": "Billykirk",
-    "url": "\/collections\/billykirk",
+    "url": "/collections/billykirk",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
-    "primaryCategoryRaw": "Bags \/ Leather Goods",
+    "primaryCategoryRaw": "Bags / Leather Goods",
     "category": "accessories",
     "priceRange": "$$$",
     "buyPath": "Direct",
@@ -2325,7 +2359,7 @@
     "naturalMaterials": "",
     "canadianBrand": "No",
     "brandPositioning": [
-      "Artisan\/Maker"
+      "Artisan/Maker"
     ],
     "tags": [],
     "description": "",
@@ -2335,7 +2369,7 @@
   {
     "handle": "birkenstock",
     "name": "Birkenstock",
-    "url": "\/collections\/birkenstock",
+    "url": "/collections/birkenstock",
     "country": "Germany",
     "madeIn": "Germany",
     "madeInGroup": "Europe",
@@ -2363,11 +2397,11 @@
   {
     "handle": "bleu-de-chauffe",
     "name": "Bleu De Chauffe",
-    "url": "\/collections\/bleu-de-chauffe",
+    "url": "/collections/bleu-de-chauffe",
     "country": "France",
     "madeIn": "France",
     "madeInGroup": "Europe",
-    "primaryCategoryRaw": "Bags \/ Leather Goods",
+    "primaryCategoryRaw": "Bags / Leather Goods",
     "category": "accessories",
     "priceRange": "$$$",
     "buyPath": "Direct",
@@ -2381,7 +2415,7 @@
     "naturalMaterials": "",
     "canadianBrand": "No",
     "brandPositioning": [
-      "Artisan\/Maker"
+      "Artisan/Maker"
     ],
     "tags": [],
     "description": "",
@@ -2391,7 +2425,7 @@
   {
     "handle": "bleu-de-paname",
     "name": "Bleu de Paname",
-    "url": "\/collections\/bleu-de-paname",
+    "url": "/collections/bleu-de-paname",
     "country": "France",
     "madeIn": "France",
     "madeInGroup": "Europe",
@@ -2428,7 +2462,7 @@
   {
     "handle": "blkbrd-shoemaker",
     "name": "Blkbrd Shoemaker",
-    "url": "\/collections\/blkbrd-shoemaker",
+    "url": "/collections/blkbrd-shoemaker",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -2461,7 +2495,7 @@
   {
     "handle": "blue-blue-japan",
     "name": "Blue Blue Japan",
-    "url": "\/collections\/blue-blue-japan",
+    "url": "/collections/blue-blue-japan",
     "country": "Japan",
     "madeIn": "Japan",
     "madeInGroup": "Asia-Pacific",
@@ -2479,7 +2513,7 @@
     "naturalMaterials": "",
     "canadianBrand": "No",
     "brandPositioning": [
-      "Casualwear \/ Artisanal"
+      "Casualwear / Artisanal"
     ],
     "tags": [
       "japanese",
@@ -2493,7 +2527,7 @@
   {
     "handle": "blue-sakura",
     "name": "Blue Sakura",
-    "url": "\/collections\/blue-sakura",
+    "url": "/collections/blue-sakura",
     "country": "",
     "madeIn": "",
     "madeInGroup": "",
@@ -2519,7 +2553,7 @@
   {
     "handle": "blundstone",
     "name": "Blundstone",
-    "url": "\/collections\/blundstone",
+    "url": "/collections/blundstone",
     "country": "Australia",
     "madeIn": "Australia",
     "madeInGroup": "Asia-Pacific",
@@ -2551,7 +2585,7 @@
   {
     "handle": "boglioli",
     "name": "Boglioli",
-    "url": "\/collections\/boglioli",
+    "url": "/collections/boglioli",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -2585,7 +2619,7 @@
   {
     "handle": "bonobos",
     "name": "Bonobos",
-    "url": "\/collections\/bonobos",
+    "url": "/collections/bonobos",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -2617,7 +2651,7 @@
   {
     "handle": "bontoni",
     "name": "Bontoni",
-    "url": "\/collections\/bontoni",
+    "url": "/collections/bontoni",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -2652,7 +2686,7 @@
   {
     "handle": "bordon-boots",
     "name": "Bordon Boots",
-    "url": "\/collections\/bordon-boots",
+    "url": "/collections/bordon-boots",
     "country": "Colombia",
     "madeIn": "Colombia",
     "madeInGroup": "Latin America",
@@ -2684,7 +2718,7 @@
   {
     "handle": "bosie-knitwear",
     "name": "Bosie Knitwear",
-    "url": "\/collections\/bosie-knitwear",
+    "url": "/collections/bosie-knitwear",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -2716,7 +2750,7 @@
   {
     "handle": "bottega-veneta",
     "name": "Bottega Veneta",
-    "url": "\/collections\/bottega-veneta",
+    "url": "/collections/bottega-veneta",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -2734,7 +2768,7 @@
     "naturalMaterials": "",
     "canadianBrand": "No",
     "brandPositioning": [
-      "Luxury \/ Leather Goods"
+      "Luxury / Leather Goods"
     ],
     "tags": [
       "italian",
@@ -2753,7 +2787,7 @@
   {
     "handle": "brador",
     "name": "BRADOR",
-    "url": "\/collections\/brador",
+    "url": "/collections/brador",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -2781,7 +2815,7 @@
   {
     "handle": "brass-tokyo",
     "name": "Brass Tokyo",
-    "url": "\/collections\/brass-tokyo",
+    "url": "/collections/brass-tokyo",
     "country": "Japan",
     "madeIn": "Japan",
     "madeInGroup": "Asia-Pacific",
@@ -2814,7 +2848,7 @@
   {
     "handle": "bresciani",
     "name": "Bresciani",
-    "url": "\/collections\/bresciani",
+    "url": "/collections/bresciani",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -2842,7 +2876,7 @@
   {
     "handle": "bridlen",
     "name": "Bridlen",
-    "url": "\/collections\/bridlen",
+    "url": "/collections/bridlen",
     "country": "Japan",
     "madeIn": "Japan",
     "madeInGroup": "Asia-Pacific",
@@ -2876,7 +2910,7 @@
   {
     "handle": "bright-shoemakers",
     "name": "BRIGHT SHOEMAKERS",
-    "url": "\/collections\/bright-shoemakers",
+    "url": "/collections/bright-shoemakers",
     "country": "Denmark",
     "madeIn": "Spain",
     "madeInGroup": "Europe",
@@ -2904,7 +2938,7 @@
   {
     "handle": "bronson-mfg-co",
     "name": "Bronson Mfg. Co.",
-    "url": "\/collections\/bronson-mfg-co",
+    "url": "/collections/bronson-mfg-co",
     "country": "China",
     "madeIn": "China",
     "madeInGroup": "Asia-Pacific",
@@ -2939,7 +2973,7 @@
   {
     "handle": "brooks-brothers",
     "name": "Brooks Brothers",
-    "url": "\/collections\/brooks-brothers",
+    "url": "/collections/brooks-brothers",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -2973,7 +3007,7 @@
   {
     "handle": "brunello-cucinelli",
     "name": "Brunello Cucinelli",
-    "url": "\/collections\/brunello-cucinelli",
+    "url": "/collections/brunello-cucinelli",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -3006,7 +3040,7 @@
   {
     "handle": "brut",
     "name": "Brut",
-    "url": "\/collections\/brut",
+    "url": "/collections/brut",
     "country": "France",
     "madeIn": "France",
     "madeInGroup": "Europe",
@@ -3039,9 +3073,9 @@
   {
     "handle": "brycelands",
     "name": "Bryceland's",
-    "url": "\/collections\/brycelands",
-    "country": "Japan \/ Hong Kong",
-    "madeIn": "Japan \/ Hong Kong",
+    "url": "/collections/brycelands",
+    "country": "Japan / Hong Kong",
+    "madeIn": "Japan / Hong Kong",
     "madeInGroup": "Asia-Pacific",
     "primaryCategoryRaw": "Shirts & Tops",
     "category": "shirts-tops",
@@ -3070,7 +3104,7 @@
   {
     "handle": "buck-mason",
     "name": "Buck Mason",
-    "url": "\/collections\/buck-mason",
+    "url": "/collections/buck-mason",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -3104,7 +3138,7 @@
   {
     "handle": "budd-shirtmakers",
     "name": "Budd Shirtmakers",
-    "url": "\/collections\/budd-shirtmakers",
+    "url": "/collections/budd-shirtmakers",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -3139,7 +3173,7 @@
   {
     "handle": "buzz-ricksons",
     "name": "Buzz Rickson's",
-    "url": "\/collections\/buzz-ricksons",
+    "url": "/collections/buzz-ricksons",
     "country": "Japan",
     "madeIn": "Japan",
     "madeInGroup": "Asia-Pacific",
@@ -3170,7 +3204,7 @@
   {
     "handle": "cableami",
     "name": "Cableami",
-    "url": "\/collections\/cableami",
+    "url": "/collections/cableami",
     "country": "Japan",
     "madeIn": "Japan",
     "madeInGroup": "Asia",
@@ -3198,9 +3232,9 @@
   {
     "handle": "cad-and-the-dandy",
     "name": "Cad & The Dandy",
-    "url": "\/collections\/cad-and-the-dandy",
+    "url": "/collections/cad-and-the-dandy",
     "country": "UK",
-    "madeIn": "UK \/ India",
+    "madeIn": "UK / India",
     "madeInGroup": "Various",
     "primaryCategoryRaw": "Suits & Tailoring",
     "category": "suits-tailoring",
@@ -3232,7 +3266,7 @@
   {
     "handle": "calabrese",
     "name": "Calabrese",
-    "url": "\/collections\/calabrese",
+    "url": "/collections/calabrese",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -3260,7 +3294,7 @@
   {
     "handle": "camoshita",
     "name": "Camoshita",
-    "url": "\/collections\/camoshita",
+    "url": "/collections/camoshita",
     "country": "Japan",
     "madeIn": "Japan",
     "madeInGroup": "Asia-Pacific",
@@ -3278,7 +3312,7 @@
     "naturalMaterials": "",
     "canadianBrand": "No",
     "brandPositioning": [
-      "Smart Casual \/ Tailoring"
+      "Smart Casual / Tailoring"
     ],
     "tags": [
       "japanese",
@@ -3292,7 +3326,7 @@
   {
     "handle": "canada-goose",
     "name": "Canada Goose",
-    "url": "\/collections\/canada-goose",
+    "url": "/collections/canada-goose",
     "country": "Canada",
     "madeIn": "Canada",
     "madeInGroup": "North America",
@@ -3323,7 +3357,7 @@
   {
     "handle": "canali",
     "name": "Canali",
-    "url": "\/collections\/canali",
+    "url": "/collections/canali",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -3357,9 +3391,9 @@
   {
     "handle": "carhartt-wip",
     "name": "Carhartt WIP",
-    "url": "\/collections\/carhartt-wip",
-    "country": "USA\/Germany",
-    "madeIn": "USA\/Germany",
+    "url": "/collections/carhartt-wip",
+    "country": "USA/Germany",
+    "madeIn": "USA/Germany",
     "madeInGroup": "Various",
     "primaryCategoryRaw": "Shirts & Tops",
     "category": "shirts-tops",
@@ -3389,7 +3423,7 @@
   {
     "handle": "carlos-santos",
     "name": "Carlos Santos",
-    "url": "\/collections\/carlos-santos",
+    "url": "/collections/carlos-santos",
     "country": "Portugal",
     "madeIn": "Portugal",
     "madeInGroup": "Europe",
@@ -3421,7 +3455,7 @@
   {
     "handle": "carmina",
     "name": "Carmina",
-    "url": "\/collections\/carmina",
+    "url": "/collections/carmina",
     "country": "Spain",
     "madeIn": "Spain",
     "madeInGroup": "Europe",
@@ -3454,7 +3488,7 @@
   {
     "handle": "carne-bollente",
     "name": "Carne Bollente",
-    "url": "\/collections\/carne-bollente",
+    "url": "/collections/carne-bollente",
     "country": "",
     "madeIn": "",
     "madeInGroup": "",
@@ -3480,7 +3514,7 @@
   {
     "handle": "carnet-archive",
     "name": "Carnet Archive",
-    "url": "\/collections\/carnet-archive",
+    "url": "/collections/carnet-archive",
     "country": "",
     "madeIn": "",
     "madeInGroup": "",
@@ -3506,7 +3540,7 @@
   {
     "handle": "caruso",
     "name": "Caruso",
-    "url": "\/collections\/caruso",
+    "url": "/collections/caruso",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -3541,9 +3575,9 @@
   {
     "handle": "casatlantic",
     "name": "Casatlantic",
-    "url": "\/collections\/casatlantic",
-    "country": "Sweden \/ Morocco",
-    "madeIn": "Sweden \/ Morocco",
+    "url": "/collections/casatlantic",
+    "country": "Sweden / Morocco",
+    "madeIn": "Sweden / Morocco",
     "madeInGroup": "Europe",
     "primaryCategoryRaw": "Trousers & Bottoms",
     "category": "trousers-bottoms",
@@ -3571,7 +3605,7 @@
   {
     "handle": "castaner",
     "name": "Castaner",
-    "url": "\/collections\/castaner",
+    "url": "/collections/castaner",
     "country": "Spain",
     "madeIn": "Spain",
     "madeInGroup": "Europe",
@@ -3599,7 +3633,7 @@
   {
     "handle": "cavour",
     "name": "Cavour",
-    "url": "\/collections\/cavour",
+    "url": "/collections/cavour",
     "country": "Australia",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -3632,7 +3666,7 @@
   {
     "handle": "cesare-attolini",
     "name": "Cesare Attolini",
-    "url": "\/collections\/cesare-attolini",
+    "url": "/collections/cesare-attolini",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -3668,7 +3702,7 @@
   {
     "handle": "chamula",
     "name": "Chamula",
-    "url": "\/collections\/chamula",
+    "url": "/collections/chamula",
     "country": "Mexico",
     "madeIn": "Mexico",
     "madeInGroup": "North America",
@@ -3686,7 +3720,7 @@
     "naturalMaterials": "",
     "canadianBrand": "No",
     "brandPositioning": [
-      "Artisan\/Maker"
+      "Artisan/Maker"
     ],
     "tags": [],
     "description": "",
@@ -3696,7 +3730,7 @@
   {
     "handle": "charles-tyrwhitt",
     "name": "Charles Tyrwhitt",
-    "url": "\/collections\/charles-tyrwhitt",
+    "url": "/collections/charles-tyrwhitt",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -3731,7 +3765,7 @@
   {
     "handle": "cheaney",
     "name": "Cheaney",
-    "url": "\/collections\/cheaney",
+    "url": "/collections/cheaney",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -3768,9 +3802,9 @@
   {
     "handle": "christian-dior",
     "name": "Christian Dior",
-    "url": "\/collections\/christian-dior",
+    "url": "/collections/christian-dior",
     "country": "France",
-    "madeIn": "France \/ Italy",
+    "madeIn": "France / Italy",
     "madeInGroup": "Europe",
     "primaryCategoryRaw": "Shirts & Tops",
     "category": "shirts-tops",
@@ -3801,7 +3835,7 @@
   {
     "handle": "christian-kimber",
     "name": "Christian Kimber",
-    "url": "\/collections\/christian-kimber",
+    "url": "/collections/christian-kimber",
     "country": "Australia",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -3835,7 +3869,7 @@
   {
     "handle": "chrysalis",
     "name": "Chrysalis",
-    "url": "\/collections\/chrysalis",
+    "url": "/collections/chrysalis",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -3863,11 +3897,11 @@
   {
     "handle": "chup-socks",
     "name": "CHUP Socks",
-    "url": "\/collections\/chup-socks",
+    "url": "/collections/chup-socks",
     "country": "Japan",
     "madeIn": "Japan",
     "madeInGroup": "Asia",
-    "primaryCategoryRaw": "Socks \/ Hosiery",
+    "primaryCategoryRaw": "Socks / Hosiery",
     "category": "accessories",
     "priceRange": "$$",
     "buyPath": "Direct",
@@ -3891,7 +3925,7 @@
   {
     "handle": "churchs",
     "name": "Church's",
-    "url": "\/collections\/churchs",
+    "url": "/collections/churchs",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -3925,9 +3959,9 @@
   {
     "handle": "cifonelli",
     "name": "Cifonelli",
-    "url": "\/collections\/cifonelli",
+    "url": "/collections/cifonelli",
     "country": "France",
-    "madeIn": "France \/ Italy",
+    "madeIn": "France / Italy",
     "madeInGroup": "Europe",
     "primaryCategoryRaw": "Suits & Tailoring",
     "category": "suits-tailoring",
@@ -3962,7 +3996,7 @@
   {
     "handle": "ciota",
     "name": "CIOTA",
-    "url": "\/collections\/ciota",
+    "url": "/collections/ciota",
     "country": "Japan",
     "madeIn": "Japan",
     "madeInGroup": "Asia",
@@ -3990,7 +4024,7 @@
   {
     "handle": "citizens-of-humanity",
     "name": "Citizens of Humanity",
-    "url": "\/collections\/citizens-of-humanity",
+    "url": "/collections/citizens-of-humanity",
     "country": "USA",
     "madeIn": "Multiple",
     "madeInGroup": "",
@@ -4018,7 +4052,7 @@
   {
     "handle": "closed",
     "name": "Closed",
-    "url": "\/collections\/closed",
+    "url": "/collections/closed",
     "country": "Germany",
     "madeIn": "Italy (Candiani denim)",
     "madeInGroup": "Various",
@@ -4057,7 +4091,7 @@
   {
     "handle": "club-monaco",
     "name": "Club Monaco",
-    "url": "\/collections\/club-monaco",
+    "url": "/collections/club-monaco",
     "country": "Canada",
     "madeIn": "Canada",
     "madeInGroup": "North America",
@@ -4089,7 +4123,7 @@
   {
     "handle": "cobbler-union",
     "name": "Cobbler Union",
-    "url": "\/collections\/cobbler-union",
+    "url": "/collections/cobbler-union",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -4122,7 +4156,7 @@
   {
     "handle": "coherence",
     "name": "Coherence",
-    "url": "\/collections\/coherence",
+    "url": "/collections/coherence",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -4155,7 +4189,7 @@
   {
     "handle": "colhays",
     "name": "Colhay's",
-    "url": "\/collections\/colhays",
+    "url": "/collections/colhays",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -4188,7 +4222,7 @@
   {
     "handle": "common-projects",
     "name": "Common Projects",
-    "url": "\/collections\/common-projects",
+    "url": "/collections/common-projects",
     "country": "USA",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -4216,7 +4250,7 @@
   {
     "handle": "cookman",
     "name": "Cookman",
-    "url": "\/collections\/cookman",
+    "url": "/collections/cookman",
     "country": "Japan",
     "madeIn": "Japan",
     "madeInGroup": "Asia-Pacific",
@@ -4252,7 +4286,7 @@
   {
     "handle": "corneliani",
     "name": "Corneliani",
-    "url": "\/collections\/corneliani",
+    "url": "/collections/corneliani",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -4286,11 +4320,11 @@
   {
     "handle": "corridor",
     "name": "Corridor",
-    "url": "\/collections\/corridor",
+    "url": "/collections/corridor",
     "country": "USA",
     "madeIn": "Multiple",
     "madeInGroup": "",
-    "primaryCategoryRaw": "Casualwear \/ Shirting",
+    "primaryCategoryRaw": "Casualwear / Shirting",
     "category": "accessories",
     "priceRange": "$$$",
     "buyPath": "Direct",
@@ -4314,7 +4348,7 @@
   {
     "handle": "corthay",
     "name": "Corthay",
-    "url": "\/collections\/corthay",
+    "url": "/collections/corthay",
     "country": "France",
     "madeIn": "France",
     "madeInGroup": "Europe",
@@ -4351,7 +4385,7 @@
   {
     "handle": "cos",
     "name": "COS",
-    "url": "\/collections\/cos",
+    "url": "/collections/cos",
     "country": "Sweden",
     "madeIn": "Sweden",
     "madeInGroup": "Europe",
@@ -4382,7 +4416,7 @@
   {
     "handle": "cp-company",
     "name": "CP Company",
-    "url": "\/collections\/cp-company",
+    "url": "/collections/cp-company",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -4419,7 +4453,7 @@
   {
     "handle": "cravat-club",
     "name": "Cravat Club",
-    "url": "\/collections\/cravat-club",
+    "url": "/collections/cravat-club",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -4454,7 +4488,7 @@
   {
     "handle": "crescent-down-works",
     "name": "Crescent Down Works",
-    "url": "\/collections\/crescent-down-works",
+    "url": "/collections/crescent-down-works",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -4492,7 +4526,7 @@
   {
     "handle": "crockett-and-jones",
     "name": "Crockett & Jones",
-    "url": "\/collections\/crockett-and-jones",
+    "url": "/collections/crockett-and-jones",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -4525,7 +4559,7 @@
   {
     "handle": "crown-northampton",
     "name": "Crown Northampton",
-    "url": "\/collections\/crown-northampton",
+    "url": "/collections/crown-northampton",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -4558,7 +4592,7 @@
   {
     "handle": "dahlman-1807",
     "name": "DAHLMAN 1807",
-    "url": "\/collections\/dahlman-1807",
+    "url": "/collections/dahlman-1807",
     "country": "Denmark",
     "madeIn": "Denmark",
     "madeInGroup": "Europe",
@@ -4586,7 +4620,7 @@
   {
     "handle": "dale-of-norway",
     "name": "Dale of Norway",
-    "url": "\/collections\/dale-of-norway",
+    "url": "/collections/dale-of-norway",
     "country": "Norway",
     "madeIn": "Norway",
     "madeInGroup": "Europe",
@@ -4624,7 +4658,7 @@
   {
     "handle": "danner",
     "name": "Danner",
-    "url": "\/collections\/danner",
+    "url": "/collections/danner",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -4660,7 +4694,7 @@
   {
     "handle": "danton",
     "name": "Danton",
-    "url": "\/collections\/danton",
+    "url": "/collections/danton",
     "country": "France",
     "madeIn": "France",
     "madeInGroup": "Europe",
@@ -4697,7 +4731,7 @@
   {
     "handle": "de-bonne-facture",
     "name": "De Bonne Facture",
-    "url": "\/collections\/de-bonne-facture",
+    "url": "/collections/de-bonne-facture",
     "country": "France",
     "madeIn": "France",
     "madeInGroup": "Europe",
@@ -4731,11 +4765,11 @@
   {
     "handle": "decka",
     "name": "Decka",
-    "url": "\/collections\/decka",
+    "url": "/collections/decka",
     "country": "Japan",
     "madeIn": "Japan",
     "madeInGroup": "Asia",
-    "primaryCategoryRaw": "Socks \/ Hosiery",
+    "primaryCategoryRaw": "Socks / Hosiery",
     "category": "accessories",
     "priceRange": "$$",
     "buyPath": "Direct",
@@ -4759,7 +4793,7 @@
   {
     "handle": "dehen-1920",
     "name": "Dehen 1920",
-    "url": "\/collections\/dehen-1920",
+    "url": "/collections/dehen-1920",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -4793,7 +4827,7 @@
   {
     "handle": "dents-gloves",
     "name": "Dents Gloves",
-    "url": "\/collections\/dents-gloves",
+    "url": "/collections/dents-gloves",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -4821,9 +4855,9 @@
   {
     "handle": "derek-rose",
     "name": "Derek Rose",
-    "url": "\/collections\/derek-rose",
+    "url": "/collections/derek-rose",
     "country": "UK",
-    "madeIn": "UK \/ various",
+    "madeIn": "UK / various",
     "madeInGroup": "Europe",
     "primaryCategoryRaw": "Shirts & Tops",
     "category": "shirts-tops",
@@ -4857,7 +4891,7 @@
   {
     "handle": "document",
     "name": "Document",
-    "url": "\/collections\/document",
+    "url": "/collections/document",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -4889,7 +4923,7 @@
   {
     "handle": "doppiaa",
     "name": "Doppiaa",
-    "url": "\/collections\/doppiaa",
+    "url": "/collections/doppiaa",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -4922,11 +4956,11 @@
   {
     "handle": "dore-dore",
     "name": "Dore Dore",
-    "url": "\/collections\/dore-dore",
+    "url": "/collections/dore-dore",
     "country": "France",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
-    "primaryCategoryRaw": "Socks \/ Hosiery",
+    "primaryCategoryRaw": "Socks / Hosiery",
     "category": "accessories",
     "priceRange": "$$",
     "buyPath": "Direct",
@@ -4950,7 +4984,7 @@
   {
     "handle": "drakes",
     "name": "Drakes",
-    "url": "\/collections\/drakes",
+    "url": "/collections/drakes",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -4985,7 +5019,7 @@
   {
     "handle": "drumohr",
     "name": "Drumohr",
-    "url": "\/collections\/drumohr",
+    "url": "/collections/drumohr",
     "country": "Scotland",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -5022,9 +5056,9 @@
   {
     "handle": "drole-de-monsieur",
     "name": "DrÃ´le de Monsieur",
-    "url": "\/collections\/drole-de-monsieur",
+    "url": "/collections/drole-de-monsieur",
     "country": "France",
-    "madeIn": "Portugal \/ various",
+    "madeIn": "Portugal / various",
     "madeInGroup": "Europe",
     "primaryCategoryRaw": "Shirts & Tops",
     "category": "shirts-tops",
@@ -5058,11 +5092,11 @@
   {
     "handle": "duray",
     "name": "Duray",
-    "url": "\/collections\/duray",
+    "url": "/collections/duray",
     "country": "Canada",
     "madeIn": "Canada",
     "madeInGroup": "North America",
-    "primaryCategoryRaw": "Socks \/ Hosiery",
+    "primaryCategoryRaw": "Socks / Hosiery",
     "category": "accessories",
     "priceRange": "$$",
     "buyPath": "Direct",
@@ -5086,7 +5120,7 @@
   {
     "handle": "e-marinella",
     "name": "E. Marinella",
-    "url": "\/collections\/e-marinella",
+    "url": "/collections/e-marinella",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -5123,7 +5157,7 @@
   {
     "handle": "east-harbour-surplus",
     "name": "East Harbour Surplus",
-    "url": "\/collections\/east-harbour-surplus",
+    "url": "/collections/east-harbour-surplus",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -5160,7 +5194,7 @@
   {
     "handle": "eastlogue",
     "name": "Eastlogue",
-    "url": "\/collections\/eastlogue",
+    "url": "/collections/eastlogue",
     "country": "South Korea",
     "madeIn": "South Korea",
     "madeInGroup": "Asia-Pacific",
@@ -5190,7 +5224,7 @@
   {
     "handle": "eckhauslatta",
     "name": "eckhauslatta",
-    "url": "\/collections\/eckhauslatta",
+    "url": "/collections/eckhauslatta",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -5224,7 +5258,7 @@
   {
     "handle": "ede-and-ravenscroft",
     "name": "Ede & Ravenscroft",
-    "url": "\/collections\/ede-and-ravenscroft",
+    "url": "/collections/ede-and-ravenscroft",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -5258,7 +5292,7 @@
   {
     "handle": "edward-green",
     "name": "Edward Green",
-    "url": "\/collections\/edward-green",
+    "url": "/collections/edward-green",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -5291,7 +5325,7 @@
   {
     "handle": "edward-sexton",
     "name": "Edward Sexton",
-    "url": "\/collections\/edward-sexton",
+    "url": "/collections/edward-sexton",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -5326,7 +5360,7 @@
   {
     "handle": "edwin",
     "name": "Edwin",
-    "url": "\/collections\/edwin",
+    "url": "/collections/edwin",
     "country": "Japan",
     "madeIn": "Japan",
     "madeInGroup": "Asia-Pacific",
@@ -5360,11 +5394,11 @@
   {
     "handle": "eleventy",
     "name": "Eleventy",
-    "url": "\/collections\/eleventy",
+    "url": "/collections/eleventy",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
-    "primaryCategoryRaw": "Smart Casual \/ Tailoring",
+    "primaryCategoryRaw": "Smart Casual / Tailoring",
     "category": "accessories",
     "priceRange": "$$$",
     "buyPath": "Both",
@@ -5388,7 +5422,7 @@
   {
     "handle": "emma-willis",
     "name": "Emma Willis",
-    "url": "\/collections\/emma-willis",
+    "url": "/collections/emma-willis",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -5423,7 +5457,7 @@
   {
     "handle": "engineered-garments",
     "name": "Engineered Garments",
-    "url": "\/collections\/engineered-garments",
+    "url": "/collections/engineered-garments",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -5454,7 +5488,7 @@
   {
     "handle": "enzo-bonafe",
     "name": "Enzo Bonafe",
-    "url": "\/collections\/enzo-bonafe",
+    "url": "/collections/enzo-bonafe",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -5488,7 +5522,7 @@
   {
     "handle": "epaulet",
     "name": "Epaulet",
-    "url": "\/collections\/epaulet",
+    "url": "/collections/epaulet",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -5521,7 +5555,7 @@
   {
     "handle": "eton-shirts",
     "name": "Eton Shirts",
-    "url": "\/collections\/eton-shirts",
+    "url": "/collections/eton-shirts",
     "country": "Sweden",
     "madeIn": "Sweden",
     "madeInGroup": "Europe",
@@ -5555,7 +5589,7 @@
   {
     "handle": "ettinger",
     "name": "Ettinger",
-    "url": "\/collections\/ettinger",
+    "url": "/collections/ettinger",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -5583,7 +5617,7 @@
   {
     "handle": "evan-kinori",
     "name": "Evan Kinori",
-    "url": "\/collections\/evan-kinori",
+    "url": "/collections/evan-kinori",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -5615,7 +5649,7 @@
   {
     "handle": "everlane",
     "name": "Everlane",
-    "url": "\/collections\/everlane",
+    "url": "/collections/everlane",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -5649,7 +5683,7 @@
   {
     "handle": "faherty-brand",
     "name": "Faherty Brand",
-    "url": "\/collections\/faherty-brand",
+    "url": "/collections/faherty-brand",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -5680,7 +5714,7 @@
   {
     "handle": "falconeri",
     "name": "Falconeri",
-    "url": "\/collections\/falconeri",
+    "url": "/collections/falconeri",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -5714,9 +5748,9 @@
   {
     "handle": "far-afield",
     "name": "Far Afield",
-    "url": "\/collections\/far-afield",
+    "url": "/collections/far-afield",
     "country": "UK",
-    "madeIn": "Portugal \/ India",
+    "madeIn": "Portugal / India",
     "madeInGroup": "Various",
     "primaryCategoryRaw": "Shirts & Tops",
     "category": "shirts-tops",
@@ -5750,7 +5784,7 @@
   {
     "handle": "father-and-sons",
     "name": "Father and Sons",
-    "url": "\/collections\/father-and-sons",
+    "url": "/collections/father-and-sons",
     "country": "France",
     "madeIn": "Various",
     "madeInGroup": "Various",
@@ -5784,7 +5818,7 @@
   {
     "handle": "fedeli",
     "name": "Fedeli",
-    "url": "\/collections\/fedeli",
+    "url": "/collections/fedeli",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -5821,11 +5855,11 @@
   {
     "handle": "feit",
     "name": "Feit",
-    "url": "\/collections\/feit",
+    "url": "/collections/feit",
     "country": "USA",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
-    "primaryCategoryRaw": "Footwear \/ Luxury Sneakers",
+    "primaryCategoryRaw": "Footwear / Luxury Sneakers",
     "category": "accessories",
     "priceRange": "$$$$",
     "buyPath": "Direct",
@@ -5839,7 +5873,7 @@
     "naturalMaterials": "",
     "canadianBrand": "No",
     "brandPositioning": [
-      "Artisan\/Maker"
+      "Artisan/Maker"
     ],
     "tags": [],
     "description": "",
@@ -5849,7 +5883,7 @@
   {
     "handle": "felix-green",
     "name": "Felix Green",
-    "url": "\/collections\/felix-green",
+    "url": "/collections/felix-green",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -5877,7 +5911,7 @@
   {
     "handle": "figaret",
     "name": "Figaret",
-    "url": "\/collections\/figaret",
+    "url": "/collections/figaret",
     "country": "France",
     "madeIn": "France",
     "madeInGroup": "Europe",
@@ -5912,7 +5946,7 @@
   {
     "handle": "filson",
     "name": "Filson",
-    "url": "\/collections\/filson",
+    "url": "/collections/filson",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -5945,7 +5979,7 @@
   {
     "handle": "finamore",
     "name": "Finamore",
-    "url": "\/collections\/finamore",
+    "url": "/collections/finamore",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -5981,7 +6015,7 @@
   {
     "handle": "fisherman-out-of-ireland",
     "name": "Fisherman Out of Ireland",
-    "url": "\/collections\/fisherman-out-of-ireland",
+    "url": "/collections/fisherman-out-of-ireland",
     "country": "Ireland",
     "madeIn": "Ireland",
     "madeInGroup": "Europe",
@@ -6013,7 +6047,7 @@
   {
     "handle": "fitted-underground",
     "name": "Fitted Underground",
-    "url": "\/collections\/fitted-underground",
+    "url": "/collections/fitted-underground",
     "country": "",
     "madeIn": "",
     "madeInGroup": "",
@@ -6039,7 +6073,7 @@
   {
     "handle": "flint-and-tinder",
     "name": "Flint and Tinder",
-    "url": "\/collections\/flint-and-tinder",
+    "url": "/collections/flint-and-tinder",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -6073,7 +6107,7 @@
   {
     "handle": "folk",
     "name": "Folk",
-    "url": "\/collections\/folk",
+    "url": "/collections/folk",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -6105,7 +6139,7 @@
   {
     "handle": "foret",
     "name": "ForÃ©t",
-    "url": "\/collections\/foret",
+    "url": "/collections/foret",
     "country": "Denmark",
     "madeIn": "Various (responsible)",
     "madeInGroup": "Various",
@@ -6143,7 +6177,7 @@
   {
     "handle": "foster-and-son",
     "name": "Foster And Son",
-    "url": "\/collections\/foster-and-son",
+    "url": "/collections/foster-and-son",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -6177,7 +6211,7 @@
   {
     "handle": "fottners",
     "name": "Fottners",
-    "url": "\/collections\/fottners",
+    "url": "/collections/fottners",
     "country": "",
     "madeIn": "",
     "madeInGroup": "",
@@ -6203,7 +6237,7 @@
   {
     "handle": "fox-umbrellas",
     "name": "Fox Umbrellas",
-    "url": "\/collections\/fox-umbrellas",
+    "url": "/collections/fox-umbrellas",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -6231,7 +6265,7 @@
   {
     "handle": "frank-and-oak",
     "name": "Frank And Oak",
-    "url": "\/collections\/frank-and-oak",
+    "url": "/collections/frank-and-oak",
     "country": "Canada",
     "madeIn": "Canada",
     "madeInGroup": "North America",
@@ -6263,7 +6297,7 @@
   {
     "handle": "frank-leder",
     "name": "Frank Leder",
-    "url": "\/collections\/frank-leder",
+    "url": "/collections/frank-leder",
     "country": "Germany",
     "madeIn": "Germany",
     "madeInGroup": "Europe",
@@ -6294,7 +6328,7 @@
   {
     "handle": "freenote-cloth",
     "name": "Freenote Cloth",
-    "url": "\/collections\/freenote-cloth",
+    "url": "/collections/freenote-cloth",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -6329,7 +6363,7 @@
   {
     "handle": "frescobol-carioca",
     "name": "Frescobol Carioca",
-    "url": "\/collections\/frescobol-carioca",
+    "url": "/collections/frescobol-carioca",
     "country": "Brazil",
     "madeIn": "Brazil",
     "madeInGroup": "Latin America",
@@ -6359,7 +6393,7 @@
   {
     "handle": "frizmworks",
     "name": "FrizmWORKS",
-    "url": "\/collections\/frizmworks",
+    "url": "/collections/frizmworks",
     "country": "South Korea",
     "madeIn": "South Korea",
     "madeInGroup": "Asia-Pacific",
@@ -6389,7 +6423,7 @@
   {
     "handle": "fujito",
     "name": "Fujito",
-    "url": "\/collections\/fujito",
+    "url": "/collections/fujito",
     "country": "Japan",
     "madeIn": "Japan",
     "madeInGroup": "Asia-Pacific",
@@ -6424,7 +6458,7 @@
   {
     "handle": "fullcount",
     "name": "Fullcount",
-    "url": "\/collections\/fullcount",
+    "url": "/collections/fullcount",
     "country": "Japan",
     "madeIn": "Japan",
     "madeInGroup": "Asia-Pacific",
@@ -6458,9 +6492,9 @@
   {
     "handle": "fursac",
     "name": "Fursac",
-    "url": "\/collections\/fursac",
+    "url": "/collections/fursac",
     "country": "France",
-    "madeIn": "France\/Portugal",
+    "madeIn": "France/Portugal",
     "madeInGroup": "Europe",
     "primaryCategoryRaw": "Suits & Tailoring",
     "category": "suits-tailoring",
@@ -6493,7 +6527,7 @@
   {
     "handle": "gammarelli",
     "name": "Gammarelli",
-    "url": "\/collections\/gammarelli",
+    "url": "/collections/gammarelli",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -6521,7 +6555,7 @@
   {
     "handle": "gaziano-and-girling",
     "name": "Gaziano & Girling",
-    "url": "\/collections\/gaziano-and-girling",
+    "url": "/collections/gaziano-and-girling",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -6555,7 +6589,7 @@
   {
     "handle": "george-cleverley",
     "name": "georgecleverley",
-    "url": "\/collections\/george-cleverley",
+    "url": "/collections/george-cleverley",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -6589,11 +6623,11 @@
   {
     "handle": "ghiaia-cashmere",
     "name": "Ghiaia Cashmere",
-    "url": "\/collections\/ghiaia-cashmere",
+    "url": "/collections/ghiaia-cashmere",
     "country": "USA",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
-    "primaryCategoryRaw": "Knitwear \/ Luxury",
+    "primaryCategoryRaw": "Knitwear / Luxury",
     "category": "accessories",
     "priceRange": "$$$$",
     "buyPath": "Direct",
@@ -6617,7 +6651,7 @@
   {
     "handle": "gitman-vintage",
     "name": "Gitman Vintage",
-    "url": "\/collections\/gitman-vintage",
+    "url": "/collections/gitman-vintage",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -6648,7 +6682,7 @@
   {
     "handle": "giuliva-heritage",
     "name": "Giuliva Heritage",
-    "url": "\/collections\/giuliva-heritage",
+    "url": "/collections/giuliva-heritage",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -6682,7 +6716,7 @@
   {
     "handle": "gizemo",
     "name": "Gizemo",
-    "url": "\/collections\/gizemo",
+    "url": "/collections/gizemo",
     "country": "Finland",
     "madeIn": "Finland",
     "madeInGroup": "Europe",
@@ -6710,7 +6744,7 @@
   {
     "handle": "glanshirt",
     "name": "Glanshirt",
-    "url": "\/collections\/glanshirt",
+    "url": "/collections/glanshirt",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -6747,7 +6781,7 @@
   {
     "handle": "good-man-brand",
     "name": "Good Man Brand",
-    "url": "\/collections\/good-man-brand",
+    "url": "/collections/good-man-brand",
     "country": "USA",
     "madeIn": "Various",
     "madeInGroup": "Various",
@@ -6785,7 +6819,7 @@
   {
     "handle": "goral",
     "name": "GORAL",
-    "url": "\/collections\/goral",
+    "url": "/collections/goral",
     "country": "Poland",
     "madeIn": "Poland",
     "madeInGroup": "Various",
@@ -6818,7 +6852,7 @@
   {
     "handle": "gran-sasso",
     "name": "Gran Sasso",
-    "url": "\/collections\/gran-sasso",
+    "url": "/collections/gran-sasso",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -6855,7 +6889,7 @@
   {
     "handle": "grant-stone",
     "name": "Grant Stone",
-    "url": "\/collections\/grant-stone",
+    "url": "/collections/grant-stone",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -6888,7 +6922,7 @@
   {
     "handle": "graph-zero",
     "name": "Graph Zero",
-    "url": "\/collections\/graph-zero",
+    "url": "/collections/graph-zero",
     "country": "Japan",
     "madeIn": "Japan",
     "madeInGroup": "Asia-Pacific",
@@ -6922,7 +6956,7 @@
   {
     "handle": "grenson",
     "name": "Grenson",
-    "url": "\/collections\/grenson",
+    "url": "/collections/grenson",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -6959,7 +6993,7 @@
   {
     "handle": "gustin",
     "name": "Gustin",
-    "url": "\/collections\/gustin",
+    "url": "/collections/gustin",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -6992,7 +7026,7 @@
   {
     "handle": "hamilton-shirts",
     "name": "Hamilton Shirts",
-    "url": "\/collections\/hamilton-shirts",
+    "url": "/collections/hamilton-shirts",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -7027,9 +7061,9 @@
   {
     "handle": "hansen-garments",
     "name": "Hansen Garments",
-    "url": "\/collections\/hansen-garments",
+    "url": "/collections/hansen-garments",
     "country": "Denmark",
-    "madeIn": "Denmark \/ Portugal",
+    "madeIn": "Denmark / Portugal",
     "madeInGroup": "Europe",
     "primaryCategoryRaw": "Shirts & Tops",
     "category": "shirts-tops",
@@ -7063,7 +7097,7 @@
   {
     "handle": "harago",
     "name": "Harago",
-    "url": "\/collections\/harago",
+    "url": "/collections/harago",
     "country": "",
     "madeIn": "",
     "madeInGroup": "",
@@ -7089,9 +7123,9 @@
   {
     "handle": "harris-wharf-london",
     "name": "Harris Wharf London",
-    "url": "\/collections\/harris-wharf-london",
+    "url": "/collections/harris-wharf-london",
     "country": "UK",
-    "madeIn": "UK \/ Italy",
+    "madeIn": "UK / Italy",
     "madeInGroup": "Europe",
     "primaryCategoryRaw": "Outerwear & Jackets",
     "category": "outerwear-jackets",
@@ -7125,7 +7159,7 @@
   {
     "handle": "haven",
     "name": "HAVEN",
-    "url": "\/collections\/haven",
+    "url": "/collections/haven",
     "country": "Canada",
     "madeIn": "Canada",
     "madeInGroup": "North America",
@@ -7156,7 +7190,7 @@
   {
     "handle": "hawes-and-curtis",
     "name": "Hawes & Curtis",
-    "url": "\/collections\/hawes-and-curtis",
+    "url": "/collections/hawes-and-curtis",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -7192,7 +7226,7 @@
   {
     "handle": "heimat-textil",
     "name": "Heimat Textil",
-    "url": "\/collections\/heimat-textil",
+    "url": "/collections/heimat-textil",
     "country": "Germany",
     "madeIn": "Germany",
     "madeInGroup": "Europe",
@@ -7230,11 +7264,11 @@
   {
     "handle": "hemen-biarritz",
     "name": "HEMEN BIARRITZ",
-    "url": "\/collections\/hemen-biarritz",
+    "url": "/collections/hemen-biarritz",
     "country": "France",
     "madeIn": "Portugal",
     "madeInGroup": "Europe",
-    "primaryCategoryRaw": "Underwear \/ Loungewear",
+    "primaryCategoryRaw": "Underwear / Loungewear",
     "category": "accessories",
     "priceRange": "$$",
     "buyPath": "Direct",
@@ -7258,7 +7292,7 @@
   {
     "handle": "hender-scheme",
     "name": "Hender Scheme",
-    "url": "\/collections\/hender-scheme",
+    "url": "/collections/hender-scheme",
     "country": "Japan",
     "madeIn": "Japan",
     "madeInGroup": "Asia",
@@ -7276,7 +7310,7 @@
     "naturalMaterials": "",
     "canadianBrand": "No",
     "brandPositioning": [
-      "Artisan\/Maker"
+      "Artisan/Maker"
     ],
     "tags": [],
     "description": "",
@@ -7286,7 +7320,7 @@
   {
     "handle": "herill",
     "name": "Herill",
-    "url": "\/collections\/herill",
+    "url": "/collections/herill",
     "country": "Japan",
     "madeIn": "Japan",
     "madeInGroup": "Asia-Pacific",
@@ -7318,7 +7352,7 @@
   {
     "handle": "herno",
     "name": "Herno",
-    "url": "\/collections\/herno",
+    "url": "/collections/herno",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -7352,7 +7386,7 @@
   {
     "handle": "herring-shoes",
     "name": "Herring Shoes",
-    "url": "\/collections\/herring-shoes",
+    "url": "/collections/herring-shoes",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -7385,7 +7419,7 @@
   {
     "handle": "heschung",
     "name": "Heschung",
-    "url": "\/collections\/heschung",
+    "url": "/collections/heschung",
     "country": "France",
     "madeIn": "France",
     "madeInGroup": "Europe",
@@ -7421,9 +7455,9 @@
   {
     "handle": "hestra",
     "name": "Hestra",
-    "url": "\/collections\/hestra",
+    "url": "/collections/hestra",
     "country": "Sweden",
-    "madeIn": "Sweden \/ various",
+    "madeIn": "Sweden / various",
     "madeInGroup": "Europe",
     "primaryCategoryRaw": "Accessories",
     "category": "accessories",
@@ -7458,7 +7492,7 @@
   {
     "handle": "hilditch-and-key",
     "name": "Hilditch & Key",
-    "url": "\/collections\/hilditch-and-key",
+    "url": "/collections/hilditch-and-key",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -7493,7 +7527,7 @@
   {
     "handle": "hiro-yanagimachi",
     "name": "Hiro Yanagimachi",
-    "url": "\/collections\/hiro-yanagimachi",
+    "url": "/collections/hiro-yanagimachi",
     "country": "Japan",
     "madeIn": "Japan",
     "madeInGroup": "Asia-Pacific",
@@ -7528,7 +7562,7 @@
   {
     "handle": "holzweiler",
     "name": "Holzweiler",
-    "url": "\/collections\/holzweiler",
+    "url": "/collections/holzweiler",
     "country": "Norway",
     "madeIn": "Various",
     "madeInGroup": "Various",
@@ -7566,7 +7600,7 @@
   {
     "handle": "house-of-blanks",
     "name": "House of Blanks",
-    "url": "\/collections\/house-of-blanks",
+    "url": "/collections/house-of-blanks",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -7599,7 +7633,7 @@
   {
     "handle": "howlin",
     "name": "Howlin'",
-    "url": "\/collections\/howlin",
+    "url": "/collections/howlin",
     "country": "Belgium",
     "madeIn": "Scotland",
     "madeInGroup": "Europe",
@@ -7627,7 +7661,7 @@
   {
     "handle": "husbands",
     "name": "Husbands",
-    "url": "\/collections\/husbands",
+    "url": "/collections/husbands",
     "country": "France",
     "madeIn": "France",
     "madeInGroup": "Europe",
@@ -7661,11 +7695,11 @@
   {
     "handle": "il-bisonte",
     "name": "Il Bisonte",
-    "url": "\/collections\/il-bisonte",
+    "url": "/collections/il-bisonte",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
-    "primaryCategoryRaw": "Bags \/ Leather Goods",
+    "primaryCategoryRaw": "Bags / Leather Goods",
     "category": "accessories",
     "priceRange": "$$$",
     "buyPath": "Direct",
@@ -7689,7 +7723,7 @@
   {
     "handle": "imogene-willie",
     "name": "Imogene + Willie",
-    "url": "\/collections\/imogene-willie",
+    "url": "/collections/imogene-willie",
     "country": "",
     "madeIn": "",
     "madeInGroup": "",
@@ -7715,11 +7749,11 @@
   {
     "handle": "in-situ",
     "name": "In Situ",
-    "url": "\/collections\/in-situ",
+    "url": "/collections/in-situ",
     "country": "Canada",
     "madeIn": "Canada",
     "madeInGroup": "North America",
-    "primaryCategoryRaw": "Basics \/ Essentials",
+    "primaryCategoryRaw": "Basics / Essentials",
     "category": "accessories",
     "priceRange": "$$",
     "buyPath": "Direct",
@@ -7743,7 +7777,7 @@
   {
     "handle": "incotex",
     "name": "Incotex",
-    "url": "\/collections\/incotex",
+    "url": "/collections/incotex",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -7779,7 +7813,7 @@
   {
     "handle": "informale",
     "name": "Informale",
-    "url": "\/collections\/informale",
+    "url": "/collections/informale",
     "country": "Australia",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -7812,7 +7846,7 @@
   {
     "handle": "inis-meain",
     "name": "Inis MeÃ¡in",
-    "url": "\/collections\/inis-meain",
+    "url": "/collections/inis-meain",
     "country": "Ireland",
     "madeIn": "Ireland",
     "madeInGroup": "Europe",
@@ -7845,7 +7879,7 @@
   {
     "handle": "inverallan",
     "name": "Inverallan",
-    "url": "\/collections\/inverallan",
+    "url": "/collections/inverallan",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -7877,7 +7911,7 @@
   {
     "handle": "irelandseye",
     "name": "IrelandsEye",
-    "url": "\/collections\/irelandseye",
+    "url": "/collections/irelandseye",
     "country": "Ireland",
     "madeIn": "Ireland",
     "madeInGroup": "Europe",
@@ -7909,7 +7943,7 @@
   {
     "handle": "iron-heart",
     "name": "Iron Heart",
-    "url": "\/collections\/iron-heart",
+    "url": "/collections/iron-heart",
     "country": "Japan",
     "madeIn": "Japan",
     "madeInGroup": "Asia-Pacific",
@@ -7943,7 +7977,7 @@
   {
     "handle": "isaia",
     "name": "Isaia",
-    "url": "\/collections\/isaia",
+    "url": "/collections/isaia",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -7978,7 +8012,7 @@
   {
     "handle": "j-fitzpatrick",
     "name": "J. FitzPatrick",
-    "url": "\/collections\/j-fitzpatrick",
+    "url": "/collections/j-fitzpatrick",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -8011,7 +8045,7 @@
   {
     "handle": "j-press",
     "name": "J. Press",
-    "url": "\/collections\/j-press",
+    "url": "/collections/j-press",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -8048,11 +8082,11 @@
   {
     "handle": "j-stark",
     "name": "J. Stark",
-    "url": "\/collections\/j-stark",
+    "url": "/collections/j-stark",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
-    "primaryCategoryRaw": "Bags \/ Leather Goods",
+    "primaryCategoryRaw": "Bags / Leather Goods",
     "category": "accessories",
     "priceRange": "$$",
     "buyPath": "Direct",
@@ -8066,7 +8100,7 @@
     "naturalMaterials": "",
     "canadianBrand": "No",
     "brandPositioning": [
-      "Artisan\/Maker"
+      "Artisan/Maker"
     ],
     "tags": [],
     "description": "",
@@ -8076,7 +8110,7 @@
   {
     "handle": "j-crew",
     "name": "J.Crew",
-    "url": "\/collections\/j-crew",
+    "url": "/collections/j-crew",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -8108,7 +8142,7 @@
   {
     "handle": "j-m-weston",
     "name": "J.M. Weston",
-    "url": "\/collections\/j-m-weston",
+    "url": "/collections/j-m-weston",
     "country": "France",
     "madeIn": "France",
     "madeInGroup": "Europe",
@@ -8144,7 +8178,7 @@
   {
     "handle": "jacob-cohen",
     "name": "Jacob CohÃ«n",
-    "url": "\/collections\/jacob-cohen",
+    "url": "/collections/jacob-cohen",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -8180,7 +8214,7 @@
   {
     "handle": "jacquemus",
     "name": "Jacquemus",
-    "url": "\/collections\/jacquemus",
+    "url": "/collections/jacquemus",
     "country": "France",
     "madeIn": "France",
     "madeInGroup": "Europe",
@@ -8212,7 +8246,7 @@
   {
     "handle": "jacques-soloviere",
     "name": "Jacques Soloviere",
-    "url": "\/collections\/jacques-soloviere",
+    "url": "/collections/jacques-soloviere",
     "country": "France",
     "madeIn": "EU",
     "madeInGroup": "",
@@ -8240,9 +8274,9 @@
   {
     "handle": "james-coward",
     "name": "James Coward",
-    "url": "\/collections\/james-coward",
+    "url": "/collections/james-coward",
     "country": "Canada",
-    "madeIn": "Canada \/ Various",
+    "madeIn": "Canada / Various",
     "madeInGroup": "North America",
     "primaryCategoryRaw": "Shirts & Tops",
     "category": "shirts-tops",
@@ -8278,7 +8312,7 @@
   {
     "handle": "japan-blue-jeans",
     "name": "Japan Blue Jeans",
-    "url": "\/collections\/japan-blue-jeans",
+    "url": "/collections/japan-blue-jeans",
     "country": "Japan",
     "madeIn": "Japan",
     "madeInGroup": "Asia-Pacific",
@@ -8312,7 +8346,7 @@
   {
     "handle": "jil-sander",
     "name": "Jil Sander",
-    "url": "\/collections\/jil-sander",
+    "url": "/collections/jil-sander",
     "country": "Germany",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -8346,7 +8380,7 @@
   {
     "handle": "jim-green",
     "name": "Jim Green",
-    "url": "\/collections\/jim-green",
+    "url": "/collections/jim-green",
     "country": "South Africa",
     "madeIn": "South Africa",
     "madeInGroup": "Africa",
@@ -8378,7 +8412,7 @@
   {
     "handle": "john-henric",
     "name": "John Henric",
-    "url": "\/collections\/john-henric",
+    "url": "/collections/john-henric",
     "country": "Sweden",
     "madeIn": "Various",
     "madeInGroup": "Various",
@@ -8414,7 +8448,7 @@
   {
     "handle": "john-lobb",
     "name": "John Lobb",
-    "url": "\/collections\/john-lobb",
+    "url": "/collections/john-lobb",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -8448,7 +8482,7 @@
   {
     "handle": "john-lofgren",
     "name": "John Lofgren",
-    "url": "\/collections\/john-lofgren",
+    "url": "/collections/john-lofgren",
     "country": "Japan",
     "madeIn": "Japan",
     "madeInGroup": "Asia-Pacific",
@@ -8482,7 +8516,7 @@
   {
     "handle": "john-smedley",
     "name": "John Smedley",
-    "url": "\/collections\/john-smedley",
+    "url": "/collections/john-smedley",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -8515,7 +8549,7 @@
   {
     "handle": "johnstons-of-elgin",
     "name": "Johnstons of Elgin",
-    "url": "\/collections\/johnstons-of-elgin",
+    "url": "/collections/johnstons-of-elgin",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -8550,7 +8584,7 @@
   {
     "handle": "joseph-cheaney",
     "name": "Joseph Cheaney",
-    "url": "\/collections\/joseph-cheaney",
+    "url": "/collections/joseph-cheaney",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -8583,7 +8617,7 @@
   {
     "handle": "justo-gimeno",
     "name": "Justo Gimeno",
-    "url": "\/collections\/justo-gimeno",
+    "url": "/collections/justo-gimeno",
     "country": "Spain",
     "madeIn": "Spain",
     "madeInGroup": "Europe",
@@ -8620,7 +8654,7 @@
   {
     "handle": "kai-d",
     "name": "KAI D",
-    "url": "\/collections\/kai-d",
+    "url": "/collections/kai-d",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -8638,7 +8672,7 @@
     "naturalMaterials": "",
     "canadianBrand": "No",
     "brandPositioning": [
-      "Artisan\/Maker"
+      "Artisan/Maker"
     ],
     "tags": [],
     "description": "",
@@ -8648,11 +8682,11 @@
   {
     "handle": "kamakura",
     "name": "Kamakura",
-    "url": "\/collections\/kamakura",
+    "url": "/collections/kamakura",
     "country": "Japan",
     "madeIn": "Japan",
     "madeInGroup": "Asia",
-    "primaryCategoryRaw": "Shirts \/ Tailoring",
+    "primaryCategoryRaw": "Shirts / Tailoring",
     "category": "accessories",
     "priceRange": "$$",
     "buyPath": "Direct",
@@ -8676,7 +8710,7 @@
   {
     "handle": "kanata",
     "name": "Kanata",
-    "url": "\/collections\/kanata",
+    "url": "/collections/kanata",
     "country": "Canada",
     "madeIn": "Canada",
     "madeInGroup": "North America",
@@ -8709,7 +8743,7 @@
   {
     "handle": "kaptain-sunshine",
     "name": "Kaptain Sunshine",
-    "url": "\/collections\/kaptain-sunshine",
+    "url": "/collections/kaptain-sunshine",
     "country": "Japan",
     "madeIn": "Japan",
     "madeInGroup": "Asia-Pacific",
@@ -8742,7 +8776,7 @@
   {
     "handle": "kartik-research",
     "name": "Kartik Research",
-    "url": "\/collections\/kartik-research",
+    "url": "/collections/kartik-research",
     "country": "India",
     "madeIn": "India",
     "madeInGroup": "Asia-Pacific",
@@ -8773,7 +8807,7 @@
   {
     "handle": "kent-wang",
     "name": "Kent Wang",
-    "url": "\/collections\/kent-wang",
+    "url": "/collections/kent-wang",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -8808,9 +8842,9 @@
   {
     "handle": "kestin",
     "name": "KESTIN",
-    "url": "\/collections\/kestin",
+    "url": "/collections/kestin",
     "country": "UK",
-    "madeIn": "UK \/ Portugal",
+    "madeIn": "UK / Portugal",
     "madeInGroup": "Europe",
     "primaryCategoryRaw": "Shirts & Tops",
     "category": "shirts-tops",
@@ -8844,7 +8878,7 @@
   {
     "handle": "kiko-kostadinov",
     "name": "Kiko Kostadinov",
-    "url": "\/collections\/kiko-kostadinov",
+    "url": "/collections/kiko-kostadinov",
     "country": "UK",
     "madeIn": "Various",
     "madeInGroup": "Various",
@@ -8877,7 +8911,7 @@
   {
     "handle": "kith",
     "name": "Kith",
-    "url": "\/collections\/kith",
+    "url": "/collections/kith",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -8909,7 +8943,7 @@
   {
     "handle": "kiton",
     "name": "Kiton",
-    "url": "\/collections\/kiton",
+    "url": "/collections/kiton",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -8945,11 +8979,11 @@
   {
     "handle": "knickerbocker",
     "name": "Knickerbocker",
-    "url": "\/collections\/knickerbocker",
+    "url": "/collections/knickerbocker",
     "country": "USA",
     "madeIn": "Multiple",
     "madeInGroup": "",
-    "primaryCategoryRaw": "Basics \/ Vintage",
+    "primaryCategoryRaw": "Basics / Vintage",
     "category": "accessories",
     "priceRange": "$$$",
     "buyPath": "Direct",
@@ -8973,7 +9007,7 @@
   {
     "handle": "kojima-genes",
     "name": "Kojima Genes",
-    "url": "\/collections\/kojima-genes",
+    "url": "/collections/kojima-genes",
     "country": "",
     "madeIn": "",
     "madeInGroup": "",
@@ -8999,7 +9033,7 @@
   {
     "handle": "kotn",
     "name": "Kotn",
-    "url": "\/collections\/kotn",
+    "url": "/collections/kotn",
     "country": "Canada",
     "madeIn": "Canada",
     "madeInGroup": "North America",
@@ -9032,7 +9066,7 @@
   {
     "handle": "lestrange-london",
     "name": "L'Estrange London",
-    "url": "\/collections\/lestrange-london",
+    "url": "/collections/lestrange-london",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -9067,7 +9101,7 @@
   {
     "handle": "l-b-m-1911",
     "name": "L.B.M. 1911",
-    "url": "\/collections\/l-b-m-1911",
+    "url": "/collections/l-b-m-1911",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -9103,7 +9137,7 @@
   {
     "handle": "la-botte-gardiane",
     "name": "La Botte Gardiane",
-    "url": "\/collections\/la-botte-gardiane",
+    "url": "/collections/la-botte-gardiane",
     "country": "France",
     "madeIn": "France",
     "madeInGroup": "Europe",
@@ -9138,7 +9172,7 @@
   {
     "handle": "la-faurie-paris",
     "name": "La Faurie Paris",
-    "url": "\/collections\/la-faurie-paris",
+    "url": "/collections/la-faurie-paris",
     "country": "France",
     "madeIn": "France",
     "madeInGroup": "Europe",
@@ -9173,7 +9207,7 @@
   {
     "handle": "la-paz",
     "name": "La Paz",
-    "url": "\/collections\/la-paz",
+    "url": "/collections/la-paz",
     "country": "Portugal",
     "madeIn": "Portugal",
     "madeInGroup": "Europe",
@@ -9208,11 +9242,11 @@
   {
     "handle": "la-portegna",
     "name": "La Portegna",
-    "url": "\/collections\/la-portegna",
+    "url": "/collections/la-portegna",
     "country": "Spain",
     "madeIn": "Spain",
     "madeInGroup": "Europe",
-    "primaryCategoryRaw": "Bags \/ Leather Goods",
+    "primaryCategoryRaw": "Bags / Leather Goods",
     "category": "accessories",
     "priceRange": "$$$",
     "buyPath": "Direct",
@@ -9226,7 +9260,7 @@
     "naturalMaterials": "",
     "canadianBrand": "No",
     "brandPositioning": [
-      "Artisan\/Maker"
+      "Artisan/Maker"
     ],
     "tags": [],
     "description": "",
@@ -9236,7 +9270,7 @@
   {
     "handle": "labeless",
     "name": "Labeless",
-    "url": "\/collections\/labeless",
+    "url": "/collections/labeless",
     "country": "",
     "madeIn": "",
     "madeInGroup": "",
@@ -9262,7 +9296,7 @@
   {
     "handle": "labour-union",
     "name": "Labour Union",
-    "url": "\/collections\/labour-union",
+    "url": "/collections/labour-union",
     "country": "China",
     "madeIn": "China",
     "madeInGroup": "Asia-Pacific",
@@ -9293,7 +9327,7 @@
   {
     "handle": "lady-white-co",
     "name": "Lady White Co.",
-    "url": "\/collections\/lady-white-co",
+    "url": "/collections/lady-white-co",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -9327,7 +9361,7 @@
   {
     "handle": "lardini",
     "name": "Lardini",
-    "url": "\/collections\/lardini",
+    "url": "/collections/lardini",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -9361,11 +9395,11 @@
   {
     "handle": "launer",
     "name": "Launer",
-    "url": "\/collections\/launer",
+    "url": "/collections/launer",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
-    "primaryCategoryRaw": "Bags \/ Leather Goods",
+    "primaryCategoryRaw": "Bags / Leather Goods",
     "category": "accessories",
     "priceRange": "$$$$",
     "buyPath": "Direct",
@@ -9389,7 +9423,7 @@
   {
     "handle": "lavenham",
     "name": "Lavenham",
-    "url": "\/collections\/lavenham",
+    "url": "/collections/lavenham",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -9424,7 +9458,7 @@
   {
     "handle": "le-laboureur",
     "name": "Le Laboureur",
-    "url": "\/collections\/le-laboureur",
+    "url": "/collections/le-laboureur",
     "country": "France",
     "madeIn": "France",
     "madeInGroup": "Europe",
@@ -9459,7 +9493,7 @@
   {
     "handle": "lee",
     "name": "Lee",
-    "url": "\/collections\/lee",
+    "url": "/collections/lee",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -9494,7 +9528,7 @@
   {
     "handle": "left-field-nyc",
     "name": "Left Field NYC",
-    "url": "\/collections\/left-field-nyc",
+    "url": "/collections/left-field-nyc",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -9529,7 +9563,7 @@
   {
     "handle": "lemaire",
     "name": "Lemaire",
-    "url": "\/collections\/lemaire",
+    "url": "/collections/lemaire",
     "country": "France",
     "madeIn": "France",
     "madeInGroup": "Europe",
@@ -9561,7 +9595,7 @@
   {
     "handle": "levis-vintage-clothing",
     "name": "Levi's Vintage Clothing",
-    "url": "\/collections\/levis-vintage-clothing",
+    "url": "/collections/levis-vintage-clothing",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -9594,7 +9628,7 @@
   {
     "handle": "ll-bean",
     "name": "LL Bean",
-    "url": "\/collections\/ll-bean",
+    "url": "/collections/ll-bean",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -9625,7 +9659,7 @@
   {
     "handle": "loake",
     "name": "Loake",
-    "url": "\/collections\/loake",
+    "url": "/collections/loake",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -9658,7 +9692,7 @@
   {
     "handle": "loro-piana",
     "name": "Loro Piana",
-    "url": "\/collections\/loro-piana",
+    "url": "/collections/loro-piana",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -9692,7 +9726,7 @@
   {
     "handle": "ludwig-reiter",
     "name": "Ludwig Reiter",
-    "url": "\/collections\/ludwig-reiter",
+    "url": "/collections/ludwig-reiter",
     "country": "Austria",
     "madeIn": "Austria",
     "madeInGroup": "Europe",
@@ -9729,7 +9763,7 @@
   {
     "handle": "luigi-bianchi-mantova",
     "name": "Luigi Bianchi Mantova",
-    "url": "\/collections\/luigi-bianchi-mantova",
+    "url": "/collections/luigi-bianchi-mantova",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -9765,7 +9799,7 @@
   {
     "handle": "luigi-borrelli",
     "name": "Luigi Borrelli",
-    "url": "\/collections\/luigi-borrelli",
+    "url": "/collections/luigi-borrelli",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -9802,7 +9836,7 @@
   {
     "handle": "mackintosh",
     "name": "Mackintosh",
-    "url": "\/collections\/mackintosh",
+    "url": "/collections/mackintosh",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -9834,7 +9868,7 @@
   {
     "handle": "madewell",
     "name": "Madewell",
-    "url": "\/collections\/madewell",
+    "url": "/collections/madewell",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -9868,7 +9902,7 @@
   {
     "handle": "magee-1866",
     "name": "Magee 1866",
-    "url": "\/collections\/magee-1866",
+    "url": "/collections/magee-1866",
     "country": "Ireland",
     "madeIn": "Ireland",
     "madeInGroup": "Europe",
@@ -9899,7 +9933,7 @@
   {
     "handle": "maglia-francesco",
     "name": "Maglia Francesco",
-    "url": "\/collections\/maglia-francesco",
+    "url": "/collections/maglia-francesco",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -9927,7 +9961,7 @@
   {
     "handle": "man-1924",
     "name": "MAN 1924",
-    "url": "\/collections\/man-1924",
+    "url": "/collections/man-1924",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -9963,7 +9997,7 @@
   {
     "handle": "mango-man",
     "name": "Mango Man",
-    "url": "\/collections\/mango-man",
+    "url": "/collections/mango-man",
     "country": "Spain",
     "madeIn": "Spain",
     "madeInGroup": "Europe",
@@ -9995,7 +10029,7 @@
   {
     "handle": "marc-lauwers",
     "name": "Marc Lauwers",
-    "url": "\/collections\/marc-lauwers",
+    "url": "/collections/marc-lauwers",
     "country": "France",
     "madeIn": "France",
     "madeInGroup": "Europe",
@@ -10030,7 +10064,7 @@
   {
     "handle": "margaret-howell",
     "name": "Margaret Howell",
-    "url": "\/collections\/margaret-howell",
+    "url": "/collections/margaret-howell",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -10062,11 +10096,11 @@
   {
     "handle": "marka",
     "name": "Marka",
-    "url": "\/collections\/marka",
+    "url": "/collections/marka",
     "country": "Japan",
     "madeIn": "Japan",
     "madeInGroup": "Asia",
-    "primaryCategoryRaw": "Contemporary \/ Casualwear",
+    "primaryCategoryRaw": "Contemporary / Casualwear",
     "category": "accessories",
     "priceRange": "$$",
     "buyPath": "Direct",
@@ -10090,7 +10124,7 @@
   {
     "handle": "masons",
     "name": "Mason's",
-    "url": "\/collections\/masons",
+    "url": "/collections/masons",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -10126,7 +10160,7 @@
   {
     "handle": "massimo-alba",
     "name": "Massimo Alba",
-    "url": "\/collections\/massimo-alba",
+    "url": "/collections/massimo-alba",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -10164,7 +10198,7 @@
   {
     "handle": "massimo-dutti",
     "name": "Massimo Dutti",
-    "url": "\/collections\/massimo-dutti",
+    "url": "/collections/massimo-dutti",
     "country": "Spain",
     "madeIn": "Various",
     "madeInGroup": "Various",
@@ -10200,7 +10234,7 @@
   {
     "handle": "maurizio-baldassari",
     "name": "Maurizio Baldassari",
-    "url": "\/collections\/maurizio-baldassari",
+    "url": "/collections/maurizio-baldassari",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -10236,7 +10270,7 @@
   {
     "handle": "maximum-henry",
     "name": "Maximum Henry",
-    "url": "\/collections\/maximum-henry",
+    "url": "/collections/maximum-henry",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -10254,7 +10288,7 @@
     "naturalMaterials": "",
     "canadianBrand": "No",
     "brandPositioning": [
-      "Artisan\/Maker"
+      "Artisan/Maker"
     ],
     "tags": [],
     "description": "",
@@ -10264,9 +10298,9 @@
   {
     "handle": "mazarin",
     "name": "Mazarin",
-    "url": "\/collections\/mazarin",
+    "url": "/collections/mazarin",
     "country": "France",
-    "madeIn": "Italy \/ France",
+    "madeIn": "Italy / France",
     "madeInGroup": "Europe",
     "primaryCategoryRaw": "Accessories",
     "category": "accessories",
@@ -10292,7 +10326,7 @@
   {
     "handle": "meccariello",
     "name": "Meccariello",
-    "url": "\/collections\/meccariello",
+    "url": "/collections/meccariello",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -10326,7 +10360,7 @@
   {
     "handle": "meermin",
     "name": "Meermin",
-    "url": "\/collections\/meermin",
+    "url": "/collections/meermin",
     "country": "Spain",
     "madeIn": "Spain",
     "madeInGroup": "Europe",
@@ -10359,7 +10393,7 @@
   {
     "handle": "merz-b-schwanen",
     "name": "Merz b. Schwanen",
-    "url": "\/collections\/merz-b-schwanen",
+    "url": "/collections/merz-b-schwanen",
     "country": "Germany",
     "madeIn": "Germany",
     "madeInGroup": "Europe",
@@ -10391,9 +10425,9 @@
   {
     "handle": "mes-chaussettes-rouges",
     "name": "Mes Chaussettes Rouges",
-    "url": "\/collections\/mes-chaussettes-rouges",
+    "url": "/collections/mes-chaussettes-rouges",
     "country": "France",
-    "madeIn": "Italy \/ France",
+    "madeIn": "Italy / France",
     "madeInGroup": "Europe",
     "primaryCategoryRaw": "Accessories",
     "category": "accessories",
@@ -10419,11 +10453,11 @@
   {
     "handle": "mismo",
     "name": "MISMO",
-    "url": "\/collections\/mismo",
+    "url": "/collections/mismo",
     "country": "Denmark",
     "madeIn": "Denmark",
     "madeInGroup": "Europe",
-    "primaryCategoryRaw": "Bags \/ Leather Goods",
+    "primaryCategoryRaw": "Bags / Leather Goods",
     "category": "accessories",
     "priceRange": "$$$",
     "buyPath": "Direct",
@@ -10447,7 +10481,7 @@
   {
     "handle": "mister-freedom",
     "name": "Mister Freedom",
-    "url": "\/collections\/mister-freedom",
+    "url": "/collections/mister-freedom",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -10465,7 +10499,7 @@
     "naturalMaterials": "",
     "canadianBrand": "No",
     "brandPositioning": [
-      "Vintage Repro \/ Heritage"
+      "Vintage Repro / Heritage"
     ],
     "tags": [
       "heritage",
@@ -10478,7 +10512,7 @@
   {
     "handle": "molebo",
     "name": "MOLEBO",
-    "url": "\/collections\/molebo",
+    "url": "/collections/molebo",
     "country": "Denmark",
     "madeIn": "Denmark",
     "madeInGroup": "Europe",
@@ -10506,7 +10540,7 @@
   {
     "handle": "momotaro",
     "name": "Momotaro",
-    "url": "\/collections\/momotaro",
+    "url": "/collections/momotaro",
     "country": "Japan",
     "madeIn": "Japan",
     "madeInGroup": "Asia",
@@ -10534,7 +10568,7 @@
   {
     "handle": "monitaly",
     "name": "Monitaly",
-    "url": "\/collections\/monitaly",
+    "url": "/collections/monitaly",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -10566,7 +10600,7 @@
   {
     "handle": "moorer",
     "name": "MooRER",
-    "url": "\/collections\/moorer",
+    "url": "/collections/moorer",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -10602,7 +10636,7 @@
   {
     "handle": "moreschi",
     "name": "Moreschi",
-    "url": "\/collections\/moreschi",
+    "url": "/collections/moreschi",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -10635,7 +10669,7 @@
   {
     "handle": "mott-and-bow",
     "name": "Mott & Bow",
-    "url": "\/collections\/mott-and-bow",
+    "url": "/collections/mott-and-bow",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -10671,7 +10705,7 @@
   {
     "handle": "muji",
     "name": "Muji",
-    "url": "\/collections\/muji",
+    "url": "/collections/muji",
     "country": "Japan",
     "madeIn": "Japan",
     "madeInGroup": "Asia-Pacific",
@@ -10705,7 +10739,7 @@
   {
     "handle": "muttonhead",
     "name": "Muttonhead",
-    "url": "\/collections\/muttonhead",
+    "url": "/collections/muttonhead",
     "country": "Canada",
     "madeIn": "Canada",
     "madeInGroup": "North America",
@@ -10737,7 +10771,7 @@
   {
     "handle": "myrqvist",
     "name": "Myrqvist",
-    "url": "\/collections\/myrqvist",
+    "url": "/collections/myrqvist",
     "country": "Sweden",
     "madeIn": "Sweden",
     "madeInGroup": "Europe",
@@ -10770,7 +10804,7 @@
   {
     "handle": "n-hoolywood",
     "name": "N. Hoolywood",
-    "url": "\/collections\/n-hoolywood",
+    "url": "/collections/n-hoolywood",
     "country": "Japan",
     "madeIn": "Japan",
     "madeInGroup": "Asia-Pacific",
@@ -10803,7 +10837,7 @@
   {
     "handle": "n-peal",
     "name": "N.Peal",
-    "url": "\/collections\/n-peal",
+    "url": "/collections/n-peal",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -10837,7 +10871,7 @@
   {
     "handle": "naked-and-famous",
     "name": "Naked & Famous",
-    "url": "\/collections\/naked-and-famous",
+    "url": "/collections/naked-and-famous",
     "country": "Canada",
     "madeIn": "Canada",
     "madeInGroup": "North America",
@@ -10870,7 +10904,7 @@
   {
     "handle": "natalino",
     "name": "Natalino",
-    "url": "\/collections\/natalino",
+    "url": "/collections/natalino",
     "country": "Netherlands",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -10904,7 +10938,7 @@
   {
     "handle": "nicks-boots",
     "name": "Nicks Boots",
-    "url": "\/collections\/nicks-boots",
+    "url": "/collections/nicks-boots",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -10937,9 +10971,9 @@
   {
     "handle": "nigel-cabourn",
     "name": "Nigel Cabourn",
-    "url": "\/collections\/nigel-cabourn",
+    "url": "/collections/nigel-cabourn",
     "country": "UK",
-    "madeIn": "UK \/ Japan",
+    "madeIn": "UK / Japan",
     "madeInGroup": "Various",
     "primaryCategoryRaw": "Outerwear & Jackets",
     "category": "outerwear-jackets",
@@ -10973,7 +11007,7 @@
   {
     "handle": "nitto-knitwear",
     "name": "Nitto Knitwear",
-    "url": "\/collections\/nitto-knitwear",
+    "url": "/collections/nitto-knitwear",
     "country": "Japan",
     "madeIn": "Japan",
     "madeInGroup": "Asia-Pacific",
@@ -11006,9 +11040,9 @@
   {
     "handle": "nn07",
     "name": "NN07",
-    "url": "\/collections\/nn07",
+    "url": "/collections/nn07",
     "country": "Denmark",
-    "madeIn": "Portugal \/ various",
+    "madeIn": "Portugal / various",
     "madeInGroup": "Europe",
     "primaryCategoryRaw": "Shirts & Tops",
     "category": "shirts-tops",
@@ -11043,7 +11077,7 @@
   {
     "handle": "noah-nyc",
     "name": "Noah NYC",
-    "url": "\/collections\/noah-nyc",
+    "url": "/collections/noah-nyc",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -11074,7 +11108,7 @@
   {
     "handle": "nomanwalksalone",
     "name": "NoManWalksAlone",
-    "url": "\/collections\/nomanwalksalone",
+    "url": "/collections/nomanwalksalone",
     "country": "Japan",
     "madeIn": "Japan",
     "madeInGroup": "Asia-Pacific",
@@ -11107,7 +11141,7 @@
   {
     "handle": "nonnative",
     "name": "Nonnative",
-    "url": "\/collections\/nonnative",
+    "url": "/collections/nonnative",
     "country": "Japan",
     "madeIn": "Japan",
     "madeInGroup": "Asia-Pacific",
@@ -11139,7 +11173,7 @@
   {
     "handle": "norda",
     "name": "Norda",
-    "url": "\/collections\/norda",
+    "url": "/collections/norda",
     "country": "Canada",
     "madeIn": "Canada",
     "madeInGroup": "North America",
@@ -11173,9 +11207,9 @@
   {
     "handle": "norhla",
     "name": "Norhla",
-    "url": "\/collections\/norhla",
-    "country": "Tibet \/ France",
-    "madeIn": "Tibet \/ France",
+    "url": "/collections/norhla",
+    "country": "Tibet / France",
+    "madeIn": "Tibet / France",
     "madeInGroup": "Various",
     "primaryCategoryRaw": "Knitwear",
     "category": "knitwear",
@@ -11206,7 +11240,7 @@
   {
     "handle": "norse-projects",
     "name": "Norse Projects",
-    "url": "\/collections\/norse-projects",
+    "url": "/collections/norse-projects",
     "country": "Denmark",
     "madeIn": "Denmark",
     "madeInGroup": "Europe",
@@ -11238,9 +11272,9 @@
   {
     "handle": "nudie-jeans",
     "name": "Nudie Jeans",
-    "url": "\/collections\/nudie-jeans",
+    "url": "/collections/nudie-jeans",
     "country": "Sweden",
-    "madeIn": "Portugal \/ Italy",
+    "madeIn": "Portugal / Italy",
     "madeInGroup": "Europe",
     "primaryCategoryRaw": "Denim",
     "category": "denim",
@@ -11274,7 +11308,7 @@
   {
     "handle": "oak-street-bootmakers",
     "name": "Oak Street Bootmakers",
-    "url": "\/collections\/oak-street-bootmakers",
+    "url": "/collections/oak-street-bootmakers",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -11308,7 +11342,7 @@
   {
     "handle": "oas-company",
     "name": "OAS Company",
-    "url": "\/collections\/oas-company",
+    "url": "/collections/oas-company",
     "country": "Sweden",
     "madeIn": "Sweden",
     "madeInGroup": "Europe",
@@ -11339,7 +11373,7 @@
   {
     "handle": "octobre-editions",
     "name": "Octobre Ã‰ditions",
-    "url": "\/collections\/octobre-editions",
+    "url": "/collections/octobre-editions",
     "country": "France",
     "madeIn": "France",
     "madeInGroup": "Europe",
@@ -11371,7 +11405,7 @@
   {
     "handle": "officine-creative",
     "name": "Officine Creative",
-    "url": "\/collections\/officine-creative",
+    "url": "/collections/officine-creative",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -11407,7 +11441,7 @@
   {
     "handle": "officine-generale",
     "name": "Officine GÃ©nÃ©rale",
-    "url": "\/collections\/officine-generale",
+    "url": "/collections/officine-generale",
     "country": "France",
     "madeIn": "France",
     "madeInGroup": "Europe",
@@ -11440,11 +11474,11 @@
   {
     "handle": "okochi-meriyasu",
     "name": "Okochi Meriyasu",
-    "url": "\/collections\/okochi-meriyasu",
+    "url": "/collections/okochi-meriyasu",
     "country": "Japan",
     "madeIn": "Japan",
     "madeInGroup": "Asia",
-    "primaryCategoryRaw": "Socks \/ Hosiery",
+    "primaryCategoryRaw": "Socks / Hosiery",
     "category": "accessories",
     "priceRange": "$$",
     "buyPath": "Direct",
@@ -11468,7 +11502,7 @@
   {
     "handle": "oliver-spencer",
     "name": "Oliver Spencer",
-    "url": "\/collections\/oliver-spencer",
+    "url": "/collections/oliver-spencer",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -11501,7 +11535,7 @@
   {
     "handle": "oni-denim",
     "name": "Oni Denim",
-    "url": "\/collections\/oni-denim",
+    "url": "/collections/oni-denim",
     "country": "Japan",
     "madeIn": "Japan",
     "madeInGroup": "Asia-Pacific",
@@ -11535,7 +11569,7 @@
   {
     "handle": "orazio-luciano",
     "name": "Orazio Luciano",
-    "url": "\/collections\/orazio-luciano",
+    "url": "/collections/orazio-luciano",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -11571,7 +11605,7 @@
   {
     "handle": "ordinary-fits",
     "name": "Ordinary Fits",
-    "url": "\/collections\/ordinary-fits",
+    "url": "/collections/ordinary-fits",
     "country": "",
     "madeIn": "",
     "madeInGroup": "",
@@ -11597,7 +11631,7 @@
   {
     "handle": "orlebar-brown",
     "name": "Orlebar Brown",
-    "url": "\/collections\/orlebar-brown",
+    "url": "/collections/orlebar-brown",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -11628,7 +11662,7 @@
   {
     "handle": "orslow",
     "name": "Orslow",
-    "url": "\/collections\/orslow",
+    "url": "/collections/orslow",
     "country": "Japan",
     "madeIn": "Japan",
     "madeInGroup": "Asia-Pacific",
@@ -11660,7 +11694,7 @@
   {
     "handle": "our-legacy",
     "name": "Our Legacy",
-    "url": "\/collections\/our-legacy",
+    "url": "/collections/our-legacy",
     "country": "Sweden",
     "madeIn": "Sweden",
     "madeInGroup": "Europe",
@@ -11692,7 +11726,7 @@
   {
     "handle": "outclass",
     "name": "Outclass",
-    "url": "\/collections\/outclass",
+    "url": "/collections/outclass",
     "country": "Canada",
     "madeIn": "Canada",
     "madeInGroup": "North America",
@@ -11727,7 +11761,7 @@
   {
     "handle": "outlier",
     "name": "Outlier",
-    "url": "\/collections\/outlier",
+    "url": "/collections/outlier",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -11759,7 +11793,7 @@
   {
     "handle": "outstanding-and-co",
     "name": "Outstanding & Co.",
-    "url": "\/collections\/outstanding-and-co",
+    "url": "/collections/outstanding-and-co",
     "country": "South Korea",
     "madeIn": "South Korea",
     "madeInGroup": "Asia-Pacific",
@@ -11790,11 +11824,11 @@
   {
     "handle": "pampeano",
     "name": "PAMPEANO",
-    "url": "\/collections\/pampeano",
+    "url": "/collections/pampeano",
     "country": "Argentina",
     "madeIn": "Argentina",
     "madeInGroup": "South America",
-    "primaryCategoryRaw": "Bags \/ Leather Goods",
+    "primaryCategoryRaw": "Bags / Leather Goods",
     "category": "accessories",
     "priceRange": "$$$",
     "buyPath": "Direct",
@@ -11808,7 +11842,7 @@
     "naturalMaterials": "",
     "canadianBrand": "No",
     "brandPositioning": [
-      "Artisan\/Maker"
+      "Artisan/Maker"
     ],
     "tags": [],
     "description": "",
@@ -11818,11 +11852,11 @@
   {
     "handle": "pantherella",
     "name": "PANTHERELLA",
-    "url": "\/collections\/pantherella",
+    "url": "/collections/pantherella",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
-    "primaryCategoryRaw": "Socks \/ Hosiery",
+    "primaryCategoryRaw": "Socks / Hosiery",
     "category": "accessories",
     "priceRange": "$$",
     "buyPath": "Direct",
@@ -11846,7 +11880,7 @@
   {
     "handle": "paraboot",
     "name": "Paraboot",
-    "url": "\/collections\/paraboot",
+    "url": "/collections/paraboot",
     "country": "France",
     "madeIn": "France",
     "madeInGroup": "Europe",
@@ -11880,7 +11914,7 @@
   {
     "handle": "parel-studio",
     "name": "Parel Studio",
-    "url": "\/collections\/parel-studio",
+    "url": "/collections/parel-studio",
     "country": "Netherlands",
     "madeIn": "Portugal",
     "madeInGroup": "Europe",
@@ -11913,7 +11947,7 @@
   {
     "handle": "parkhurst",
     "name": "Parkhurst",
-    "url": "\/collections\/parkhurst",
+    "url": "/collections/parkhurst",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -11946,7 +11980,7 @@
   {
     "handle": "pasotti",
     "name": "Pasotti",
-    "url": "\/collections\/pasotti",
+    "url": "/collections/pasotti",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -11983,7 +12017,7 @@
   {
     "handle": "patagonia",
     "name": "Patagonia",
-    "url": "\/collections\/patagonia",
+    "url": "/collections/patagonia",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -12016,7 +12050,7 @@
   {
     "handle": "paul-and-shark",
     "name": "Paul & Shark",
-    "url": "\/collections\/paul-and-shark",
+    "url": "/collections/paul-and-shark",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -12053,7 +12087,7 @@
   {
     "handle": "paul-smith",
     "name": "Paul Smith",
-    "url": "\/collections\/paul-smith",
+    "url": "/collections/paul-smith",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -12085,7 +12119,7 @@
   {
     "handle": "pendleton",
     "name": "Pendleton",
-    "url": "\/collections\/pendleton",
+    "url": "/collections/pendleton",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -12116,7 +12150,7 @@
   {
     "handle": "percival",
     "name": "Percival",
-    "url": "\/collections\/percival",
+    "url": "/collections/percival",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -12149,7 +12183,7 @@
   {
     "handle": "peter-millar",
     "name": "Peter Millar",
-    "url": "\/collections\/peter-millar",
+    "url": "/collections/peter-millar",
     "country": "USA",
     "madeIn": "Various",
     "madeInGroup": "Various",
@@ -12185,7 +12219,7 @@
   {
     "handle": "petru-and-claymoor",
     "name": "Petru & Claymoor",
-    "url": "\/collections\/petru-and-claymoor",
+    "url": "/collections/petru-and-claymoor",
     "country": "Romania",
     "madeIn": "Romania",
     "madeInGroup": "Various",
@@ -12218,9 +12252,9 @@
   {
     "handle": "pike-brothers",
     "name": "Pike Brothers",
-    "url": "\/collections\/pike-brothers",
+    "url": "/collections/pike-brothers",
     "country": "Germany",
-    "madeIn": "Germany \/ Portugal",
+    "madeIn": "Germany / Portugal",
     "madeInGroup": "Europe",
     "primaryCategoryRaw": "Denim",
     "category": "denim",
@@ -12253,7 +12287,7 @@
   {
     "handle": "pini-parma",
     "name": "Pini Parma",
-    "url": "\/collections\/pini-parma",
+    "url": "/collections/pini-parma",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -12289,7 +12323,7 @@
   {
     "handle": "pool-house-new-york",
     "name": "Pool House New York",
-    "url": "\/collections\/pool-house-new-york",
+    "url": "/collections/pool-house-new-york",
     "country": "",
     "madeIn": "",
     "madeInGroup": "",
@@ -12315,7 +12349,7 @@
   {
     "handle": "portuguese-flannel",
     "name": "Portuguese Flannel",
-    "url": "\/collections\/portuguese-flannel",
+    "url": "/collections/portuguese-flannel",
     "country": "Portugal",
     "madeIn": "Portugal",
     "madeInGroup": "Europe",
@@ -12347,7 +12381,7 @@
   {
     "handle": "poszetka",
     "name": "Poszetka",
-    "url": "\/collections\/poszetka",
+    "url": "/collections/poszetka",
     "country": "Poland",
     "madeIn": "Poland",
     "madeInGroup": "Various",
@@ -12380,7 +12414,7 @@
   {
     "handle": "prada",
     "name": "Prada",
-    "url": "\/collections\/prada",
+    "url": "/collections/prada",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -12417,7 +12451,7 @@
   {
     "handle": "pringle-of-scotland",
     "name": "Pringlescotland",
-    "url": "\/collections\/pringle-of-scotland",
+    "url": "/collections/pringle-of-scotland",
     "country": "UK",
     "madeIn": "Scotland",
     "madeInGroup": "Europe",
@@ -12451,7 +12485,7 @@
   {
     "handle": "private-white-v-c",
     "name": "Private White V.C.",
-    "url": "\/collections\/private-white-v-c",
+    "url": "/collections/private-white-v-c",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -12482,7 +12516,7 @@
   {
     "handle": "proper-cloth",
     "name": "Proper Cloth",
-    "url": "\/collections\/proper-cloth",
+    "url": "/collections/proper-cloth",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -12516,7 +12550,7 @@
   {
     "handle": "province-of-canada",
     "name": "Province of Canada",
-    "url": "\/collections\/province-of-canada",
+    "url": "/collections/province-of-canada",
     "country": "Canada",
     "madeIn": "Canada",
     "madeInGroup": "North America",
@@ -12548,8 +12582,8 @@
   },
   {
     "handle": "pt01-pt-torino",
-    "name": "PT01 \/ PT Torino",
-    "url": "\/collections\/pt01-pt-torino",
+    "name": "PT01 / PT Torino",
+    "url": "/collections/pt01-pt-torino",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -12585,7 +12619,7 @@
   {
     "handle": "pure-blue-japan",
     "name": "Pure Blue Japan",
-    "url": "\/collections\/pure-blue-japan",
+    "url": "/collections/pure-blue-japan",
     "country": "Japan",
     "madeIn": "Japan",
     "madeInGroup": "Asia-Pacific",
@@ -12619,7 +12653,7 @@
   {
     "handle": "raised-by-wolves",
     "name": "Raised by Wolves",
-    "url": "\/collections\/raised-by-wolves",
+    "url": "/collections/raised-by-wolves",
     "country": "Canada",
     "madeIn": "Canada",
     "madeInGroup": "North America",
@@ -12654,7 +12688,7 @@
   {
     "handle": "rancourt-and-co",
     "name": "Rancourt & Co",
-    "url": "\/collections\/rancourt-and-co",
+    "url": "/collections/rancourt-and-co",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -12687,7 +12721,7 @@
   {
     "handle": "re-hash",
     "name": "Re-HasH",
-    "url": "\/collections\/re-hash",
+    "url": "/collections/re-hash",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -12722,7 +12756,7 @@
   {
     "handle": "red-wing",
     "name": "Red Wing",
-    "url": "\/collections\/red-wing",
+    "url": "/collections/red-wing",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -12755,7 +12789,7 @@
   {
     "handle": "red-wing-heritage",
     "name": "Red Wing Heritage",
-    "url": "\/collections\/red-wing-heritage",
+    "url": "/collections/red-wing-heritage",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -12788,7 +12822,7 @@
   {
     "handle": "reigning-champ",
     "name": "Reigning Champ",
-    "url": "\/collections\/reigning-champ",
+    "url": "/collections/reigning-champ",
     "country": "Canada",
     "madeIn": "Canada",
     "madeInGroup": "North America",
@@ -12822,7 +12856,7 @@
   {
     "handle": "relwen",
     "name": "Relwen",
-    "url": "\/collections\/relwen",
+    "url": "/collections/relwen",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -12853,7 +12887,7 @@
   {
     "handle": "resolute",
     "name": "Resolute",
-    "url": "\/collections\/resolute",
+    "url": "/collections/resolute",
     "country": "Japan",
     "madeIn": "Japan",
     "madeInGroup": "Asia-Pacific",
@@ -12889,7 +12923,7 @@
   {
     "handle": "ring-jacket",
     "name": "Ring Jacket",
-    "url": "\/collections\/ring-jacket",
+    "url": "/collections/ring-jacket",
     "country": "Japan",
     "madeIn": "Japan",
     "madeInGroup": "Asia-Pacific",
@@ -12923,7 +12957,7 @@
   {
     "handle": "rivieras",
     "name": "Rivieras",
-    "url": "\/collections\/rivieras",
+    "url": "/collections/rivieras",
     "country": "France",
     "madeIn": "Spain",
     "madeInGroup": "Europe",
@@ -12951,7 +12985,7 @@
   {
     "handle": "rm-williams",
     "name": "RM Williams",
-    "url": "\/collections\/rm-williams",
+    "url": "/collections/rm-williams",
     "country": "Australia",
     "madeIn": "Australia",
     "madeInGroup": "Oceania",
@@ -12979,9 +13013,9 @@
   {
     "handle": "rocky-mountain-featherbed",
     "name": "Rocky Mountain Featherbed",
-    "url": "\/collections\/rocky-mountain-featherbed",
-    "country": "USA \/ Japan",
-    "madeIn": "USA \/ Japan",
+    "url": "/collections/rocky-mountain-featherbed",
+    "country": "USA / Japan",
+    "madeIn": "USA / Japan",
     "madeInGroup": "Various",
     "primaryCategoryRaw": "Outerwear & Jackets",
     "category": "outerwear-jackets",
@@ -13009,9 +13043,9 @@
   {
     "handle": "rodd-and-gunn",
     "name": "Rodd & Gunn",
-    "url": "\/collections\/rodd-and-gunn",
+    "url": "/collections/rodd-and-gunn",
     "country": "New Zealand",
-    "madeIn": "New Zealand \/ Various",
+    "madeIn": "New Zealand / Various",
     "madeInGroup": "Various",
     "primaryCategoryRaw": "Shirts & Tops",
     "category": "shirts-tops",
@@ -13047,7 +13081,7 @@
   {
     "handle": "rogue-territory",
     "name": "Rogue Territory",
-    "url": "\/collections\/rogue-territory",
+    "url": "/collections/rogue-territory",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -13081,7 +13115,7 @@
   {
     "handle": "roots",
     "name": "Roots",
-    "url": "\/collections\/roots",
+    "url": "/collections/roots",
     "country": "Canada",
     "madeIn": "Canada",
     "madeInGroup": "North America",
@@ -13112,7 +13146,7 @@
   {
     "handle": "rota",
     "name": "Rota",
-    "url": "\/collections\/rota",
+    "url": "/collections/rota",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -13146,7 +13180,7 @@
   {
     "handle": "rrd",
     "name": "RRD",
-    "url": "\/collections\/rrd",
+    "url": "/collections/rrd",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -13182,7 +13216,7 @@
   {
     "handle": "rrl-ralph-lauren",
     "name": "RRL (Ralph Lauren)",
-    "url": "\/collections\/rrl-ralph-lauren",
+    "url": "/collections/rrl-ralph-lauren",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -13217,7 +13251,7 @@
   {
     "handle": "rubinacci",
     "name": "Rubinacci",
-    "url": "\/collections\/rubinacci",
+    "url": "/collections/rubinacci",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -13253,7 +13287,7 @@
   {
     "handle": "russell-moccasin",
     "name": "Russell Moccasin",
-    "url": "\/collections\/russell-moccasin",
+    "url": "/collections/russell-moccasin",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -13285,8 +13319,8 @@
   },
   {
     "handle": "sagara-ambiorix",
-    "name": "Sagara \/ Ambiorix",
-    "url": "\/collections\/sagara-ambiorix",
+    "name": "Sagara / Ambiorix",
+    "url": "/collections/sagara-ambiorix",
     "country": "Belgium",
     "madeIn": "Belgium",
     "madeInGroup": "Europe",
@@ -13321,7 +13355,7 @@
   {
     "handle": "sage-de-cret",
     "name": "Sage de Cret",
-    "url": "\/collections\/sage-de-cret",
+    "url": "/collections/sage-de-cret",
     "country": "Japan",
     "madeIn": "Japan",
     "madeInGroup": "Asia-Pacific",
@@ -13358,7 +13392,7 @@
   {
     "handle": "sage-nation",
     "name": "Sage Nation",
-    "url": "\/collections\/sage-nation",
+    "url": "/collections/sage-nation",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -13390,9 +13424,9 @@
   {
     "handle": "saint-crispins",
     "name": "Saint Crispin's",
-    "url": "\/collections\/saint-crispins",
-    "country": "Austria\/Romania",
-    "madeIn": "Austria\/Romania",
+    "url": "/collections/saint-crispins",
+    "country": "Austria/Romania",
+    "madeIn": "Austria/Romania",
     "madeInGroup": "Europe",
     "primaryCategoryRaw": "Footwear",
     "category": "footwear",
@@ -13422,7 +13456,7 @@
   {
     "handle": "salvatore-piccolo",
     "name": "Salvatore Piccolo",
-    "url": "\/collections\/salvatore-piccolo",
+    "url": "/collections/salvatore-piccolo",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -13460,7 +13494,7 @@
   {
     "handle": "saman-amel",
     "name": "Saman Amel",
-    "url": "\/collections\/saman-amel",
+    "url": "/collections/saman-amel",
     "country": "Sweden",
     "madeIn": "Sweden",
     "madeInGroup": "Europe",
@@ -13496,7 +13530,7 @@
   {
     "handle": "samuelsohn",
     "name": "Samuelsohn",
-    "url": "\/collections\/samuelsohn",
+    "url": "/collections/samuelsohn",
     "country": "Canada",
     "madeIn": "Canada",
     "madeInGroup": "North America",
@@ -13533,7 +13567,7 @@
   {
     "handle": "sanders-and-sanders",
     "name": "Sanders & Sanders",
-    "url": "\/collections\/sanders-and-sanders",
+    "url": "/collections/sanders-and-sanders",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -13566,7 +13600,7 @@
   {
     "handle": "sandqvist",
     "name": "Sandqvist",
-    "url": "\/collections\/sandqvist",
+    "url": "/collections/sandqvist",
     "country": "Sweden",
     "madeIn": "Various",
     "madeInGroup": "Various",
@@ -13604,7 +13638,7 @@
   {
     "handle": "sandro",
     "name": "Sandro",
-    "url": "\/collections\/sandro",
+    "url": "/collections/sandro",
     "country": "France",
     "madeIn": "France",
     "madeInGroup": "Europe",
@@ -13637,7 +13671,7 @@
   {
     "handle": "santoni",
     "name": "Santoni",
-    "url": "\/collections\/santoni",
+    "url": "/collections/santoni",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -13671,7 +13705,7 @@
   {
     "handle": "sartoria-partenopea",
     "name": "Sartoria Partenopea",
-    "url": "\/collections\/sartoria-partenopea",
+    "url": "/collections/sartoria-partenopea",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -13706,7 +13740,7 @@
   {
     "handle": "sartorio-napoli",
     "name": "Sartorio Napoli",
-    "url": "\/collections\/sartorio-napoli",
+    "url": "/collections/sartorio-napoli",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -13742,7 +13776,7 @@
   {
     "handle": "sassafras",
     "name": "Sassafras",
-    "url": "\/collections\/sassafras",
+    "url": "/collections/sassafras",
     "country": "Japan",
     "madeIn": "Japan",
     "madeInGroup": "Asia-Pacific",
@@ -13774,7 +13808,7 @@
   {
     "handle": "saturdays-nyc",
     "name": "Saturdays NYC",
-    "url": "\/collections\/saturdays-nyc",
+    "url": "/collections/saturdays-nyc",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -13805,7 +13839,7 @@
   {
     "handle": "save-khaki-united",
     "name": "Save Khaki United",
-    "url": "\/collections\/save-khaki-united",
+    "url": "/collections/save-khaki-united",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -13839,7 +13873,7 @@
   {
     "handle": "scarosso",
     "name": "Scarosso",
-    "url": "\/collections\/scarosso",
+    "url": "/collections/scarosso",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -13873,7 +13907,7 @@
   {
     "handle": "schott-nyc",
     "name": "Schott NYC",
-    "url": "\/collections\/schott-nyc",
+    "url": "/collections/schott-nyc",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -13905,7 +13939,7 @@
   {
     "handle": "scott-fraser",
     "name": "Scott Fraser",
-    "url": "\/collections\/scott-fraser",
+    "url": "/collections/scott-fraser",
     "country": "UK",
     "madeIn": "Scotland",
     "madeInGroup": "Europe",
@@ -13938,7 +13972,7 @@
   {
     "handle": "sease",
     "name": "Sease",
-    "url": "\/collections\/sease",
+    "url": "/collections/sease",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -13972,7 +14006,7 @@
   {
     "handle": "sebago",
     "name": "Sebago",
-    "url": "\/collections\/sebago",
+    "url": "/collections/sebago",
     "country": "USA",
     "madeIn": "Multiple",
     "madeInGroup": "",
@@ -14000,7 +14034,7 @@
   {
     "handle": "septieme-largeur",
     "name": "SeptiÃ¨me Largeur",
-    "url": "\/collections\/septieme-largeur",
+    "url": "/collections/septieme-largeur",
     "country": "France",
     "madeIn": "France",
     "madeInGroup": "Europe",
@@ -14034,7 +14068,7 @@
   {
     "handle": "settefili-cashmere",
     "name": "Settefili Cashmere",
-    "url": "\/collections\/settefili-cashmere",
+    "url": "/collections/settefili-cashmere",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -14071,7 +14105,7 @@
   {
     "handle": "seuvas",
     "name": "Seuvas",
-    "url": "\/collections\/seuvas",
+    "url": "/collections/seuvas",
     "country": "Japan",
     "madeIn": "Japan",
     "madeInGroup": "Asia",
@@ -14099,7 +14133,7 @@
   {
     "handle": "shibumi-firenze",
     "name": "Shibumi Firenze",
-    "url": "\/collections\/shibumi-firenze",
+    "url": "/collections/shibumi-firenze",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -14133,7 +14167,7 @@
   {
     "handle": "shinya-kozuka",
     "name": "Shinya Kozuka",
-    "url": "\/collections\/shinya-kozuka",
+    "url": "/collections/shinya-kozuka",
     "country": "",
     "madeIn": "",
     "madeInGroup": "",
@@ -14159,7 +14193,7 @@
   {
     "handle": "shockoe-atelier",
     "name": "Shockoe Atelier",
-    "url": "\/collections\/shockoe-atelier",
+    "url": "/collections/shockoe-atelier",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -14194,7 +14228,7 @@
   {
     "handle": "sid-mashburn",
     "name": "Sid Mashburn",
-    "url": "\/collections\/sid-mashburn",
+    "url": "/collections/sid-mashburn",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -14227,7 +14261,7 @@
   {
     "handle": "silvano-sassetti",
     "name": "Silvano Sassetti",
-    "url": "\/collections\/silvano-sassetti",
+    "url": "/collections/silvano-sassetti",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -14255,7 +14289,7 @@
   {
     "handle": "simmons-bilt",
     "name": "Simmons Bilt",
-    "url": "\/collections\/simmons-bilt",
+    "url": "/collections/simmons-bilt",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -14273,7 +14307,7 @@
     "naturalMaterials": "",
     "canadianBrand": "No",
     "brandPositioning": [
-      "Artisan\/Maker"
+      "Artisan/Maker"
     ],
     "tags": [],
     "description": "",
@@ -14283,7 +14317,7 @@
   {
     "handle": "simonnot-godard",
     "name": "Simonnot Godard",
-    "url": "\/collections\/simonnot-godard",
+    "url": "/collections/simonnot-godard",
     "country": "France",
     "madeIn": "France",
     "madeInGroup": "Europe",
@@ -14311,11 +14345,11 @@
   {
     "handle": "slowear",
     "name": "Slowear",
-    "url": "\/collections\/slowear",
+    "url": "/collections/slowear",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
-    "primaryCategoryRaw": "Contemporary \/ Designer",
+    "primaryCategoryRaw": "Contemporary / Designer",
     "category": "accessories",
     "priceRange": "$$$",
     "buyPath": "Direct",
@@ -14339,7 +14373,7 @@
   {
     "handle": "solovair",
     "name": "Solovair",
-    "url": "\/collections\/solovair",
+    "url": "/collections/solovair",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -14372,7 +14406,7 @@
   {
     "handle": "son-of-a-tailor",
     "name": "Son of a Tailor",
-    "url": "\/collections\/son-of-a-tailor",
+    "url": "/collections/son-of-a-tailor",
     "country": "Denmark",
     "madeIn": "Portugal",
     "madeInGroup": "Europe",
@@ -14410,7 +14444,7 @@
   {
     "handle": "spencer-badu",
     "name": "Spencer Badu",
-    "url": "\/collections\/spencer-badu",
+    "url": "/collections/spencer-badu",
     "country": "Canada",
     "madeIn": "Canada",
     "madeInGroup": "North America",
@@ -14449,7 +14483,7 @@
   {
     "handle": "sperry",
     "name": "Sperry",
-    "url": "\/collections\/sperry",
+    "url": "/collections/sperry",
     "country": "USA",
     "madeIn": "Multiple",
     "madeInGroup": "",
@@ -14477,7 +14511,7 @@
   {
     "handle": "spier-and-mackay",
     "name": "Spier & Mackay",
-    "url": "\/collections\/spier-and-mackay",
+    "url": "/collections/spier-and-mackay",
     "country": "Canada",
     "madeIn": "Canada",
     "madeInGroup": "North America",
@@ -14511,11 +14545,11 @@
   {
     "handle": "ssstein",
     "name": "ssstein",
-    "url": "\/collections\/ssstein",
+    "url": "/collections/ssstein",
     "country": "Japan",
     "madeIn": "Japan",
     "madeInGroup": "Asia",
-    "primaryCategoryRaw": "Contemporary \/ Designer",
+    "primaryCategoryRaw": "Contemporary / Designer",
     "category": "accessories",
     "priceRange": "$$$",
     "buyPath": "Direct",
@@ -14539,7 +14573,7 @@
   {
     "handle": "stan-ray",
     "name": "Stan Ray",
-    "url": "\/collections\/stan-ray",
+    "url": "/collections/stan-ray",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -14572,7 +14606,7 @@
   {
     "handle": "standard-types",
     "name": "Standard Types",
-    "url": "\/collections\/standard-types",
+    "url": "/collections/standard-types",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -14604,7 +14638,7 @@
   {
     "handle": "stefano-bemer",
     "name": "Stefano Bemer",
-    "url": "\/collections\/stefano-bemer",
+    "url": "/collections/stefano-bemer",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -14639,7 +14673,7 @@
   {
     "handle": "sterlingwear",
     "name": "Sterlingwear",
-    "url": "\/collections\/sterlingwear",
+    "url": "/collections/sterlingwear",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -14670,7 +14704,7 @@
   {
     "handle": "stevenson-overall-co",
     "name": "Stevenson Overall Co.",
-    "url": "\/collections\/stevenson-overall-co",
+    "url": "/collections/stevenson-overall-co",
     "country": "USA",
     "madeIn": "Japan",
     "madeInGroup": "Asia-Pacific",
@@ -14705,7 +14739,7 @@
   {
     "handle": "still-by-hand",
     "name": "Still by Hand",
-    "url": "\/collections\/still-by-hand",
+    "url": "/collections/still-by-hand",
     "country": "Japan",
     "madeIn": "Japan",
     "madeInGroup": "Asia-Pacific",
@@ -14741,7 +14775,7 @@
   {
     "handle": "stoffa",
     "name": "Stoffa",
-    "url": "\/collections\/stoffa",
+    "url": "/collections/stoffa",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -14775,7 +14809,7 @@
   {
     "handle": "story-mfg",
     "name": "Story Mfg.",
-    "url": "\/collections\/story-mfg",
+    "url": "/collections/story-mfg",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -14807,7 +14841,7 @@
   {
     "handle": "strike-gold",
     "name": "Strike Gold",
-    "url": "\/collections\/strike-gold",
+    "url": "/collections/strike-gold",
     "country": "Japan",
     "madeIn": "Japan",
     "madeInGroup": "Asia-Pacific",
@@ -14841,7 +14875,7 @@
   {
     "handle": "studio-dartisan",
     "name": "Studio D'Artisan",
-    "url": "\/collections\/studio-dartisan",
+    "url": "/collections/studio-dartisan",
     "country": "Japan",
     "madeIn": "Japan",
     "madeInGroup": "Asia-Pacific",
@@ -14875,7 +14909,7 @@
   {
     "handle": "studio-donegal",
     "name": "Studio Donegal",
-    "url": "\/collections\/studio-donegal",
+    "url": "/collections/studio-donegal",
     "country": "Ireland",
     "madeIn": "Ireland",
     "madeInGroup": "Europe",
@@ -14907,7 +14941,7 @@
   {
     "handle": "studio-nicholson",
     "name": "Studio Nicholson",
-    "url": "\/collections\/studio-nicholson",
+    "url": "/collections/studio-nicholson",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -14939,9 +14973,9 @@
   {
     "handle": "stutterheim",
     "name": "Stutterheim",
-    "url": "\/collections\/stutterheim",
+    "url": "/collections/stutterheim",
     "country": "Sweden",
-    "madeIn": "Sweden \/ Poland",
+    "madeIn": "Sweden / Poland",
     "madeInGroup": "Europe",
     "primaryCategoryRaw": "Outerwear & Jackets",
     "category": "outerwear-jackets",
@@ -14974,7 +15008,7 @@
   {
     "handle": "sugar-cane",
     "name": "Sugar Cane",
-    "url": "\/collections\/sugar-cane",
+    "url": "/collections/sugar-cane",
     "country": "Japan",
     "madeIn": "Japan",
     "madeInGroup": "Asia-Pacific",
@@ -15008,7 +15042,7 @@
   {
     "handle": "suitsupply",
     "name": "Suitsupply",
-    "url": "\/collections\/suitsupply",
+    "url": "/collections/suitsupply",
     "country": "Netherlands",
     "madeIn": "Netherlands",
     "madeInGroup": "Europe",
@@ -15041,7 +15075,7 @@
   {
     "handle": "sun-surf",
     "name": "Sun Surf",
-    "url": "\/collections\/sun-surf",
+    "url": "/collections/sun-surf",
     "country": "Japan",
     "madeIn": "Japan",
     "madeInGroup": "Asia-Pacific",
@@ -15073,7 +15107,7 @@
   {
     "handle": "sunflower",
     "name": "Sunflower",
-    "url": "\/collections\/sunflower",
+    "url": "/collections/sunflower",
     "country": "Denmark",
     "madeIn": "Denmark",
     "madeInGroup": "Europe",
@@ -15104,7 +15138,7 @@
   {
     "handle": "sunspel",
     "name": "Sunspel",
-    "url": "\/collections\/sunspel",
+    "url": "/collections/sunspel",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -15137,7 +15171,7 @@
   {
     "handle": "sefr",
     "name": "SÃ©fr",
-    "url": "\/collections\/sefr",
+    "url": "/collections/sefr",
     "country": "Sweden",
     "madeIn": "Sweden",
     "madeInGroup": "Europe",
@@ -15169,7 +15203,7 @@
   {
     "handle": "tanuki",
     "name": "Tanuki",
-    "url": "\/collections\/tanuki",
+    "url": "/collections/tanuki",
     "country": "Japan",
     "madeIn": "Japan",
     "madeInGroup": "Asia-Pacific",
@@ -15205,7 +15239,7 @@
   {
     "handle": "taylor-stitch",
     "name": "Taylor Stitch",
-    "url": "\/collections\/taylor-stitch",
+    "url": "/collections/taylor-stitch",
     "country": "USA",
     "madeIn": "USA, Portugal",
     "madeInGroup": "Various",
@@ -15240,7 +15274,7 @@
   {
     "handle": "tcb-jeans",
     "name": "TCB Jeans",
-    "url": "\/collections\/tcb-jeans",
+    "url": "/collections/tcb-jeans",
     "country": "Japan",
     "madeIn": "Japan",
     "madeInGroup": "Asia-Pacific",
@@ -15274,7 +15308,7 @@
   {
     "handle": "tecovas",
     "name": "Tecovas",
-    "url": "\/collections\/tecovas",
+    "url": "/collections/tecovas",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -15307,7 +15341,7 @@
   {
     "handle": "ted-baker",
     "name": "Ted Baker",
-    "url": "\/collections\/ted-baker",
+    "url": "/collections/ted-baker",
     "country": "UK",
     "madeIn": "Various",
     "madeInGroup": "Various",
@@ -15343,7 +15377,7 @@
   {
     "handle": "tellason",
     "name": "Tellason",
-    "url": "\/collections\/tellason",
+    "url": "/collections/tellason",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -15377,7 +15411,7 @@
   {
     "handle": "ten-c",
     "name": "Ten C",
-    "url": "\/collections\/ten-c",
+    "url": "/collections/ten-c",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -15409,7 +15443,7 @@
   {
     "handle": "the-anthology",
     "name": "The Anthology",
-    "url": "\/collections\/the-anthology",
+    "url": "/collections/the-anthology",
     "country": "Singapore",
     "madeIn": "Various",
     "madeInGroup": "Various",
@@ -15442,9 +15476,9 @@
   {
     "handle": "the-armoury",
     "name": "The Armoury",
-    "url": "\/collections\/the-armoury",
-    "country": "USA \/ Hong Kong",
-    "madeIn": "USA \/ Hong Kong",
+    "url": "/collections/the-armoury",
+    "country": "USA / Hong Kong",
+    "madeIn": "USA / Hong Kong",
     "madeInGroup": "Various",
     "primaryCategoryRaw": "Suits & Tailoring",
     "category": "suits-tailoring",
@@ -15475,7 +15509,7 @@
   {
     "handle": "the-elder-statesman",
     "name": "The Elder Statesman",
-    "url": "\/collections\/the-elder-statesman",
+    "url": "/collections/the-elder-statesman",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -15511,7 +15545,7 @@
   {
     "handle": "the-flat-head",
     "name": "The Flat Head",
-    "url": "\/collections\/the-flat-head",
+    "url": "/collections/the-flat-head",
     "country": "Japan",
     "madeIn": "Japan",
     "madeInGroup": "Asia-Pacific",
@@ -15548,7 +15582,7 @@
   {
     "handle": "the-gigi",
     "name": "The Gigi",
-    "url": "\/collections\/the-gigi",
+    "url": "/collections/the-gigi",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -15585,7 +15619,7 @@
   {
     "handle": "the-iron-snail",
     "name": "The Iron Snail",
-    "url": "\/collections\/the-iron-snail",
+    "url": "/collections/the-iron-snail",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -15617,7 +15651,7 @@
   {
     "handle": "the-nines",
     "name": "The Nines",
-    "url": "\/collections\/the-nines",
+    "url": "/collections/the-nines",
     "country": "France",
     "madeIn": "Various",
     "madeInGroup": "Various",
@@ -15651,7 +15685,7 @@
   {
     "handle": "the-real-mccoys",
     "name": "The Real McCoy's",
-    "url": "\/collections\/the-real-mccoys",
+    "url": "/collections/the-real-mccoys",
     "country": "Japan",
     "madeIn": "Japan",
     "madeInGroup": "Asia-Pacific",
@@ -15682,7 +15716,7 @@
   {
     "handle": "the-unbranded-brand",
     "name": "The Unbranded Brand",
-    "url": "\/collections\/the-unbranded-brand",
+    "url": "/collections/the-unbranded-brand",
     "country": "USA",
     "madeIn": "Japan",
     "madeInGroup": "Asia-Pacific",
@@ -15717,7 +15751,7 @@
   {
     "handle": "thursday-boot-co",
     "name": "Thursday Boot Co.",
-    "url": "\/collections\/thursday-boot-co",
+    "url": "/collections/thursday-boot-co",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -15750,7 +15784,7 @@
   {
     "handle": "tie-your-tie",
     "name": "Tie Your Tie",
-    "url": "\/collections\/tie-your-tie",
+    "url": "/collections/tie-your-tie",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -15778,7 +15812,7 @@
   {
     "handle": "tlb-mallorca",
     "name": "Tlb Mallorca",
-    "url": "\/collections\/tlb-mallorca",
+    "url": "/collections/tlb-mallorca",
     "country": "Spain",
     "madeIn": "Spain",
     "madeInGroup": "Europe",
@@ -15811,7 +15845,7 @@
   {
     "handle": "to-boot-new-york",
     "name": "To Boot New York",
-    "url": "\/collections\/to-boot-new-york",
+    "url": "/collections/to-boot-new-york",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -15844,11 +15878,11 @@
   {
     "handle": "toad-co",
     "name": "Toad&Co",
-    "url": "\/collections\/toad-co",
+    "url": "/collections/toad-co",
     "country": "USA",
     "madeIn": "Multiple",
     "madeInGroup": "",
-    "primaryCategoryRaw": "Casualwear \/ Sustainable",
+    "primaryCategoryRaw": "Casualwear / Sustainable",
     "category": "accessories",
     "priceRange": "$$",
     "buyPath": "Both",
@@ -15872,7 +15906,7 @@
   {
     "handle": "todd-snyder",
     "name": "Todd Snyder",
-    "url": "\/collections\/todd-snyder",
+    "url": "/collections/todd-snyder",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -15905,11 +15939,11 @@
   {
     "handle": "tony-shirtmakers",
     "name": "Tony Shirtmakers",
-    "url": "\/collections\/tony-shirtmakers",
+    "url": "/collections/tony-shirtmakers",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
-    "primaryCategoryRaw": "Shirts \/ Tailoring",
+    "primaryCategoryRaw": "Shirts / Tailoring",
     "category": "accessories",
     "priceRange": "$$$$",
     "buyPath": "Direct",
@@ -15923,7 +15957,7 @@
     "naturalMaterials": "",
     "canadianBrand": "No",
     "brandPositioning": [
-      "Artisan\/Maker"
+      "Artisan/Maker"
     ],
     "tags": [],
     "description": "",
@@ -15933,7 +15967,7 @@
   {
     "handle": "trickers",
     "name": "Tricker's",
-    "url": "\/collections\/trickers",
+    "url": "/collections/trickers",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -15967,7 +16001,7 @@
   {
     "handle": "truman-boot-co",
     "name": "Truman Boot Co.",
-    "url": "\/collections\/truman-boot-co",
+    "url": "/collections/truman-boot-co",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -16000,7 +16034,7 @@
   {
     "handle": "ts-s",
     "name": "ts(s)",
-    "url": "\/collections\/ts-s",
+    "url": "/collections/ts-s",
     "country": "Japan",
     "madeIn": "Japan",
     "madeInGroup": "Asia-Pacific",
@@ -16032,7 +16066,7 @@
   {
     "handle": "turnbull-and-asser",
     "name": "Turnbull & Asser",
-    "url": "\/collections\/turnbull-and-asser",
+    "url": "/collections/turnbull-and-asser",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -16067,7 +16101,7 @@
   {
     "handle": "undercoverism",
     "name": "Undercoverism",
-    "url": "\/collections\/undercoverism",
+    "url": "/collections/undercoverism",
     "country": "Japan",
     "madeIn": "Japan",
     "madeInGroup": "Asia-Pacific",
@@ -16100,7 +16134,7 @@
   {
     "handle": "uniform-bridge",
     "name": "Uniform Bridge",
-    "url": "\/collections\/uniform-bridge",
+    "url": "/collections/uniform-bridge",
     "country": "South Korea",
     "madeIn": "South Korea",
     "madeInGroup": "Asia-Pacific",
@@ -16131,7 +16165,7 @@
   {
     "handle": "uniqlo",
     "name": "Uniqlo",
-    "url": "\/collections\/uniqlo",
+    "url": "/collections/uniqlo",
     "country": "Japan",
     "madeIn": "Japan",
     "madeInGroup": "Asia-Pacific",
@@ -16165,7 +16199,7 @@
   {
     "handle": "universal-works",
     "name": "Universal Works",
-    "url": "\/collections\/universal-works",
+    "url": "/collections/universal-works",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -16197,7 +16231,7 @@
   {
     "handle": "valstar",
     "name": "Valstar",
-    "url": "\/collections\/valstar",
+    "url": "/collections/valstar",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -16230,7 +16264,7 @@
   {
     "handle": "velasca",
     "name": "Velasca",
-    "url": "\/collections\/velasca",
+    "url": "/collections/velasca",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",
@@ -16264,7 +16298,7 @@
   {
     "handle": "vetra",
     "name": "Vetra",
-    "url": "\/collections\/vetra",
+    "url": "/collections/vetra",
     "country": "France",
     "madeIn": "France",
     "madeInGroup": "Europe",
@@ -16299,7 +16333,7 @@
   {
     "handle": "viberg",
     "name": "Viberg",
-    "url": "\/collections\/viberg",
+    "url": "/collections/viberg",
     "country": "Canada",
     "madeIn": "Canada",
     "madeInGroup": "North America",
@@ -16333,7 +16367,7 @@
   {
     "handle": "vicomte-a",
     "name": "Vicomte A.",
-    "url": "\/collections\/vicomte-a",
+    "url": "/collections/vicomte-a",
     "country": "France",
     "madeIn": "Various",
     "madeInGroup": "Various",
@@ -16351,7 +16385,7 @@
     "naturalMaterials": "",
     "canadianBrand": "No",
     "brandPositioning": [
-      "Smart Casual \/ Tailoring"
+      "Smart Casual / Tailoring"
     ],
     "tags": [
       "french",
@@ -16369,7 +16403,7 @@
   {
     "handle": "visvim",
     "name": "Visvim",
-    "url": "\/collections\/visvim",
+    "url": "/collections/visvim",
     "country": "Japan",
     "madeIn": "Japan",
     "madeInGroup": "Asia-Pacific",
@@ -16402,7 +16436,7 @@
   {
     "handle": "vuori",
     "name": "Vuori",
-    "url": "\/collections\/vuori",
+    "url": "/collections/vuori",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -16420,7 +16454,7 @@
     "naturalMaterials": "",
     "canadianBrand": "No",
     "brandPositioning": [
-      "Activewear \/ Athleisure"
+      "Activewear / Athleisure"
     ],
     "tags": [
       "technical",
@@ -16434,11 +16468,11 @@
   {
     "handle": "wales-bonner",
     "name": "Wales Bonner",
-    "url": "\/collections\/wales-bonner",
+    "url": "/collections/wales-bonner",
     "country": "UK",
     "madeIn": "Multiple",
     "madeInGroup": "",
-    "primaryCategoryRaw": "Contemporary \/ Designer",
+    "primaryCategoryRaw": "Contemporary / Designer",
     "category": "accessories",
     "priceRange": "$$$",
     "buyPath": "Both",
@@ -16462,7 +16496,7 @@
   {
     "handle": "walker-slater",
     "name": "Walker Slater",
-    "url": "\/collections\/walker-slater",
+    "url": "/collections/walker-slater",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -16495,7 +16529,7 @@
   {
     "handle": "want-les-essentiels",
     "name": "WANT Les Essentiels",
-    "url": "\/collections\/want-les-essentiels",
+    "url": "/collections/want-les-essentiels",
     "country": "Canada",
     "madeIn": "Canada",
     "madeInGroup": "North America",
@@ -16526,7 +16560,7 @@
   {
     "handle": "warehouse-and-co",
     "name": "Warehouse & Co.",
-    "url": "\/collections\/warehouse-and-co",
+    "url": "/collections/warehouse-and-co",
     "country": "Japan",
     "madeIn": "Japan",
     "madeInGroup": "Asia-Pacific",
@@ -16561,7 +16595,7 @@
   {
     "handle": "wax-london",
     "name": "Wax London",
-    "url": "\/collections\/wax-london",
+    "url": "/collections/wax-london",
     "country": "UK",
     "madeIn": "UK",
     "madeInGroup": "Europe",
@@ -16593,11 +16627,11 @@
   {
     "handle": "western-rise",
     "name": "Western Rise",
-    "url": "\/collections\/western-rise",
+    "url": "/collections/western-rise",
     "country": "USA",
     "madeIn": "Multiple",
     "madeInGroup": "",
-    "primaryCategoryRaw": "Casualwear \/ Technical",
+    "primaryCategoryRaw": "Casualwear / Technical",
     "category": "accessories",
     "priceRange": "$$",
     "buyPath": "Direct",
@@ -16621,7 +16655,7 @@
   {
     "handle": "whites-boots",
     "name": "White's Boots",
-    "url": "\/collections\/whites-boots",
+    "url": "/collections/whites-boots",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -16655,7 +16689,7 @@
   {
     "handle": "whitesville",
     "name": "Whitesville",
-    "url": "\/collections\/whitesville",
+    "url": "/collections/whitesville",
     "country": "Japan",
     "madeIn": "Japan",
     "madeInGroup": "Asia-Pacific",
@@ -16688,7 +16722,7 @@
   {
     "handle": "wings-horns",
     "name": "Wings+Horns",
-    "url": "\/collections\/wings-horns",
+    "url": "/collections/wings-horns",
     "country": "Canada",
     "madeIn": "Canada",
     "madeInGroup": "North America",
@@ -16722,7 +16756,7 @@
   {
     "handle": "wolf-vs-goat",
     "name": "Wolf vs Goat",
-    "url": "\/collections\/wolf-vs-goat",
+    "url": "/collections/wolf-vs-goat",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -16758,7 +16792,7 @@
   {
     "handle": "wonder-looper",
     "name": "Wonder Looper",
-    "url": "\/collections\/wonder-looper",
+    "url": "/collections/wonder-looper",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -16791,7 +16825,7 @@
   {
     "handle": "woolrich",
     "name": "Woolrich",
-    "url": "\/collections\/woolrich",
+    "url": "/collections/woolrich",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -16822,7 +16856,7 @@
   {
     "handle": "wrangler",
     "name": "Wrangler",
-    "url": "\/collections\/wrangler",
+    "url": "/collections/wrangler",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -16857,7 +16891,7 @@
   {
     "handle": "wythe",
     "name": "Wythe",
-    "url": "\/collections\/wythe",
+    "url": "/collections/wythe",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -16889,9 +16923,9 @@
   {
     "handle": "ymc",
     "name": "YMC",
-    "url": "\/collections\/ymc",
+    "url": "/collections/ymc",
     "country": "UK",
-    "madeIn": "Portugal \/ UK",
+    "madeIn": "Portugal / UK",
     "madeInGroup": "Europe",
     "primaryCategoryRaw": "Shirts & Tops",
     "category": "shirts-tops",
@@ -16924,7 +16958,7 @@
   {
     "handle": "yuketen",
     "name": "Yuketen",
-    "url": "\/collections\/yuketen",
+    "url": "/collections/yuketen",
     "country": "USA",
     "madeIn": "USA",
     "madeInGroup": "North America",
@@ -16960,7 +16994,7 @@
   {
     "handle": "zegna",
     "name": "Zegna",
-    "url": "\/collections\/zegna",
+    "url": "/collections/zegna",
     "country": "Italy",
     "madeIn": "Italy",
     "madeInGroup": "Europe",

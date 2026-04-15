@@ -10,7 +10,7 @@
     "category": "shirts-tops"
   },
   {
-    "name": "11.11 \/ eleven eleven",
+    "name": "11.11 / eleven eleven",
     "slug": "11-11-eleven-eleven",
     "category": "accessories"
   },
@@ -232,6 +232,11 @@
   {
     "name": "Balibaris",
     "slug": "balibaris",
+    "category": "suits-tailoring"
+  },
+  {
+    "name": "Bana New York",
+    "slug": "bana-new-york",
     "category": "suits-tailoring"
   },
   {
@@ -1910,7 +1915,7 @@
     "category": "shirts-tops"
   },
   {
-    "name": "PT01 \/ PT Torino",
+    "name": "PT01 / PT Torino",
     "slug": "pt01-pt-torino",
     "category": "suits-tailoring"
   },
@@ -2020,7 +2025,7 @@
     "category": "footwear"
   },
   {
-    "name": "Sagara \/ Ambiorix",
+    "name": "Sagara / Ambiorix",
     "slug": "sagara-ambiorix",
     "category": "footwear---dress-shoes"
   },
