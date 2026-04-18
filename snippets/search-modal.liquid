@@ -1,0 +1,218 @@
+{% assign suggestion_queries = 'Workwear|Heritage|Made in Canada|Under $200|Minimalist' | split: '|' %}
+
+<div class="trg-search-dropdown" data-trg-search-dropdown>
+  <form
+    action="{{ routes.search_url }}"
+    method="get"
+    class="trg-search-dropdown__inner"
+    role="search"
+  >
+    <input
+      type="hidden"
+      name="options[prefix]"
+      value="last"
+    >
+
+    <div class="trg-search-dropdown__row">
+      <span class="svg-wrapper trg-search-dropdown__icon" aria-hidden="true">
+        {{ 'icon-search.svg' | inline_asset_content }}
+      </span>
+      <label class="visually-hidden" for="TrgSearchDropdownInput">
+        {{ 'content.search_input_label' | t }}
+      </label>
+      <input
+        id="TrgSearchDropdownInput"
+        class="trg-search-dropdown__input"
+        type="search"
+        name="q"
+        placeholder="Brands, styles, fabrics..."
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="off"
+        data-trg-search-dropdown-input
+      >
+      <button
+        type="button"
+        class="button-unstyled trg-search-dropdown__close"
+        aria-label="{{ 'actions.close' | t }}"
+        data-trg-search-dropdown-close
+      >
+        <span class="svg-wrapper" aria-hidden="true">
+          {{ 'icon-close.svg' | inline_asset_content }}
+        </span>
+      </button>
+    </div>
+
+    <div class="trg-search-dropdown__hints">
+      <span class="trg-search-dropdown__hint-label">Try</span>
+      <div class="trg-search-dropdown__pills">
+        {% for suggestion_query in suggestion_queries %}
+          <button
+            type="button"
+            class="button-unstyled trg-search-dropdown__pill"
+            data-trg-search-dropdown-pill="{{ suggestion_query | escape }}"
+          >
+            {{ suggestion_query | escape }}
+          </button>
+        {% endfor %}
+      </div>
+    </div>
+  </form>
+</div>
+
+{% stylesheet %}
+  .trg-search-dropdown {
+    position: fixed;
+    top: var(--header-height, 56px);
+    left: 0;
+    right: 0;
+    z-index: calc(var(--layer-sticky) - 1);
+    background: #1a1a18;
+    border-bottom: 2px solid #b8491f;
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease;
+  }
+
+  .trg-search-dropdown.is-open {
+    max-height: 140px;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .trg-search-dropdown__inner {
+    width: min(calc(100% - 32px), 1320px);
+    margin: 0 auto;
+    padding: 1.5rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .trg-search-dropdown__row {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    border-bottom: 1px solid rgb(245 241 235 / 0.12);
+    padding-bottom: 1.25rem;
+  }
+
+  .trg-search-dropdown__icon {
+    width: 18px;
+    height: 18px;
+    color: rgb(245 241 235 / 0.4);
+    flex-shrink: 0;
+  }
+
+  .trg-search-dropdown__icon svg,
+  .trg-search-dropdown__close svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .trg-search-dropdown__input {
+    flex: 1 1 auto;
+    min-width: 0;
+    background: transparent;
+    border: 0;
+    color: #f5f1eb;
+    font-family: var(--font-heading--family);
+    font-size: 1.25rem;
+    font-style: italic;
+    line-height: 1.2;
+    box-shadow: none;
+  }
+
+  .trg-search-dropdown__input::placeholder {
+    color: rgb(245 241 235 / 0.25);
+  }
+
+  .trg-search-dropdown__input:focus {
+    outline: none;
+  }
+
+  .trg-search-dropdown__close {
+    width: 16px;
+    height: 16px;
+    color: rgb(245 241 235 / 0.4);
+    flex-shrink: 0;
+    transition: color 0.15s ease;
+  }
+
+  .trg-search-dropdown__close:hover {
+    color: #f5f1eb;
+  }
+
+  .trg-search-dropdown__hints {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .trg-search-dropdown__hint-label {
+    color: rgb(245 241 235 / 0.25);
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .trg-search-dropdown__pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .trg-search-dropdown__pill {
+    padding: 0.22rem 0.55rem;
+    border: 1px solid rgb(245 241 235 / 0.15);
+    border-radius: 2px;
+    color: rgb(245 241 235 / 0.5);
+    font-family: var(--font-body--family);
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+
+  .trg-search-dropdown__pill:hover {
+    color: #f5f1eb;
+    border-color: rgb(245 241 235 / 0.4);
+  }
+
+  .trg-search-dropdown__close:focus-visible,
+  .trg-search-dropdown__pill:focus-visible,
+  .trg-search-dropdown__input:focus-visible {
+    outline: 2px solid #b8491f;
+    outline-offset: 2px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .trg-search-dropdown.is-open {
+      max-height: 220px;
+    }
+
+    .trg-search-dropdown__inner {
+      width: min(calc(100% - 24px), 1320px);
+      padding: 1rem 1rem 1.25rem;
+    }
+
+    .trg-search-dropdown__row {
+      gap: 0.9rem;
+      padding-bottom: 1rem;
+    }
+
+    .trg-search-dropdown__input {
+      font-size: 1rem;
+    }
+
+    .trg-search-dropdown__hints {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+  }
+{% endstylesheet %}

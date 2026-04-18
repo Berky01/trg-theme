@@ -1,0 +1,825 @@
+{% liquid
+  assign source_mode = section.settings.source_mode | default: 'manual_blocks'
+  assign metaobject_type = section.settings.metaobject_type | strip
+  assign auto_limit = section.settings.auto_limit | default: 6
+  assign fallback_link = section.settings.metaobject_fallback_link | default: section.settings.link_url
+
+  assign mo_title_key = section.settings.mo_title_field | default: 'name' | strip
+  assign mo_origin_key = section.settings.mo_origin_field | default: 'origin' | strip
+  assign mo_description_key = section.settings.mo_description_field | default: 'description' | strip
+  assign mo_price_key = section.settings.mo_price_field | default: 'price_range' | strip
+  assign mo_badge_primary_key = section.settings.mo_badge_primary_field | default: 'badge_primary' | strip
+  assign mo_badge_secondary_key = section.settings.mo_badge_secondary_field | default: 'badge_secondary' | strip
+  assign mo_logo_key = section.settings.mo_logo_field | default: 'logo' | strip
+  assign mo_logo_text_key = section.settings.mo_logo_text_field | default: 'logo_text' | strip
+  assign mo_link_key = section.settings.mo_link_field | default: 'url' | strip
+  assign mo_collection_key = section.settings.mo_collection_field | default: 'collection' | strip
+
+  assign metaobject_collection = blank
+  assign metaobject_values = blank
+  assign has_metaobjects = false
+
+  if metaobject_type != blank and shop.metaobjects[metaobject_type] != blank
+    assign metaobject_collection = shop.metaobjects[metaobject_type]
+    assign metaobject_values = metaobject_collection.values
+    assign has_metaobjects = true
+  endif
+%}
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<section class="section section--full-width color-{{ section.settings.color_scheme }} trg-section trg-featured-brands">
+  <div class="trg-shell">
+    {% render 'trg-section-header',
+      eyebrow: section.settings.eyebrow,
+      title: section.settings.title,
+      body: section.settings.body,
+      link_label: section.settings.link_label,
+      link_url: section.settings.link_url,
+      align: 'left',
+      reveal: true
+    %}
+
+    <div class="trg-brand-grid" style="--trg-brand-columns-desktop: {{ section.settings.columns_desktop }};">
+      {% assign rendered_cards = 0 %}
+
+      {% if source_mode == 'auto_metaobjects' and has_metaobjects %}
+        {% for brand_item in metaobject_values limit: auto_limit %}
+          {% liquid
+            assign card_title_field = brand_item[mo_title_key]
+            assign card_title = card_title_field.value | default: card_title_field
+            if card_title == blank
+              assign fallback_title_field = brand_item.name
+              assign card_title = fallback_title_field.value | default: fallback_title_field
+            endif
+            if card_title == blank
+              assign fallback_title_field = brand_item.title
+              assign card_title = fallback_title_field.value | default: fallback_title_field
+            endif
+            if card_title == blank
+              assign card_title = brand_item.handle | default: 'Brand'
+            endif
+
+            assign card_origin_field = brand_item[mo_origin_key]
+            assign card_origin = card_origin_field.value | default: card_origin_field
+            if card_origin == blank
+              assign fallback_origin_field = brand_item.origin
+              assign card_origin = fallback_origin_field.value | default: fallback_origin_field
+            endif
+
+            assign card_body_field = brand_item[mo_description_key]
+            assign card_body = card_body_field.value | default: card_body_field
+            if card_body == blank
+              assign fallback_body_field = brand_item.description
+              assign card_body = fallback_body_field.value | default: fallback_body_field
+            endif
+
+            assign card_price_field = brand_item[mo_price_key]
+            assign card_price_tag = card_price_field.value | default: card_price_field
+            if card_price_tag == blank
+              assign fallback_price_field = brand_item.price_range
+              assign card_price_tag = fallback_price_field.value | default: fallback_price_field
+            endif
+
+            assign card_badge_1_field = brand_item[mo_badge_primary_key]
+            assign card_badge_1 = card_badge_1_field.value | default: card_badge_1_field
+            if card_badge_1 == blank
+              assign fallback_badge_1_field = brand_item.badge
+              assign card_badge_1 = fallback_badge_1_field.value | default: fallback_badge_1_field
+            endif
+
+            assign card_badge_2_field = brand_item[mo_badge_secondary_key]
+            assign card_badge_2 = card_badge_2_field.value | default: card_badge_2_field
+            if card_badge_2 == blank
+              assign fallback_badge_2_field = brand_item.badge_secondary
+              assign card_badge_2 = fallback_badge_2_field.value | default: fallback_badge_2_field
+            endif
+
+            assign card_logo_field = brand_item[mo_logo_key]
+            assign card_logo = card_logo_field.value | default: card_logo_field
+            if card_logo == blank
+              assign fallback_logo_field = brand_item.logo
+              assign card_logo = fallback_logo_field.value | default: fallback_logo_field
+            endif
+            if card_logo != blank and card_logo.preview_image != blank
+              assign card_logo = card_logo.preview_image
+            endif
+
+            assign card_logo_text_field = brand_item[mo_logo_text_key]
+            assign card_logo_text = card_logo_text_field.value | default: card_logo_text_field
+            if card_logo_text == blank
+              assign fallback_logo_text_field = brand_item.logo_text
+              assign card_logo_text = fallback_logo_text_field.value | default: fallback_logo_text_field
+            endif
+
+            assign card_link_field = brand_item[mo_link_key]
+            assign card_link = card_link_field.value | default: card_link_field
+            if card_link != blank and card_link.url != blank
+              assign card_link = card_link.url
+            endif
+
+            if card_link == blank
+              assign collection_field = brand_item[mo_collection_key]
+              assign collection_value = collection_field.value | default: collection_field
+              if collection_value != blank and collection_value.url != blank
+                assign card_link = collection_value.url
+              endif
+            endif
+
+            if card_link == blank
+              assign fallback_link_field = brand_item.url
+              assign card_link = fallback_link_field.value | default: fallback_link_field
+              if card_link != blank and card_link.url != blank
+                assign card_link = card_link.url
+              endif
+            endif
+
+            if card_link == blank
+              capture brand_page_url
+                render 'trg-brand-page-url', brand_item: brand_item, fallback_url: fallback_link
+              endcapture
+              assign card_link = brand_page_url | strip
+            endif
+
+            if card_link == blank
+              assign card_link = fallback_link
+            endif
+
+            assign card_cta_label = section.settings.metaobject_cta_label | default: 'View'
+          %}
+
+          {% render 'trg-brand-card',
+            card_link: card_link,
+            card_badge_1: card_badge_1,
+            card_badge_2: card_badge_2,
+            card_logo: card_logo,
+            card_logo_text: card_logo_text,
+            card_title: card_title,
+            card_origin: card_origin,
+            card_body: card_body,
+            card_price_tag: card_price_tag,
+            card_cta_label: card_cta_label
+          %}
+          {% assign rendered_cards = rendered_cards | plus: 1 %}
+        {% endfor %}
+
+      {% elsif source_mode == 'curated_metaobjects' and has_metaobjects %}
+        {% for block in section.blocks %}
+          {% if block.type == 'brand' %}
+            {% liquid
+              assign mo_handle = block.settings.metaobject_handle | strip
+              assign brand_item = blank
+
+              if mo_handle != blank
+                assign brand_item = shop.metaobjects[metaobject_type][mo_handle]
+                if brand_item == blank and metaobject_values != blank
+                  for candidate in metaobject_values
+                    if candidate.handle == mo_handle
+                      assign brand_item = candidate
+                      break
+                    endif
+                  endfor
+                endif
+              endif
+            %}
+
+            {% if brand_item != blank %}
+              {% liquid
+                assign card_title_field = brand_item[mo_title_key]
+                assign card_title = card_title_field.value | default: card_title_field
+                if card_title == blank
+                  assign fallback_title_field = brand_item.name
+                  assign card_title = fallback_title_field.value | default: fallback_title_field
+                endif
+                if card_title == blank
+                  assign fallback_title_field = brand_item.title
+                  assign card_title = fallback_title_field.value | default: fallback_title_field
+                endif
+                if card_title == blank
+                  assign card_title = brand_item.handle | default: 'Brand'
+                endif
+
+                assign card_origin_field = brand_item[mo_origin_key]
+                assign card_origin = card_origin_field.value | default: card_origin_field
+                if card_origin == blank
+                  assign fallback_origin_field = brand_item.origin
+                  assign card_origin = fallback_origin_field.value | default: fallback_origin_field
+                endif
+
+                assign card_body_field = brand_item[mo_description_key]
+                assign card_body = card_body_field.value | default: card_body_field
+                if card_body == blank
+                  assign fallback_body_field = brand_item.description
+                  assign card_body = fallback_body_field.value | default: fallback_body_field
+                endif
+
+                assign card_price_field = brand_item[mo_price_key]
+                assign card_price_tag = card_price_field.value | default: card_price_field
+                if card_price_tag == blank
+                  assign fallback_price_field = brand_item.price_range
+                  assign card_price_tag = fallback_price_field.value | default: fallback_price_field
+                endif
+
+                assign card_badge_1_field = brand_item[mo_badge_primary_key]
+                assign card_badge_1 = card_badge_1_field.value | default: card_badge_1_field
+                if card_badge_1 == blank
+                  assign fallback_badge_1_field = brand_item.badge
+                  assign card_badge_1 = fallback_badge_1_field.value | default: fallback_badge_1_field
+                endif
+
+                assign card_badge_2_field = brand_item[mo_badge_secondary_key]
+                assign card_badge_2 = card_badge_2_field.value | default: card_badge_2_field
+                if card_badge_2 == blank
+                  assign fallback_badge_2_field = brand_item.badge_secondary
+                  assign card_badge_2 = fallback_badge_2_field.value | default: fallback_badge_2_field
+                endif
+
+                assign card_logo_field = brand_item[mo_logo_key]
+                assign card_logo = card_logo_field.value | default: card_logo_field
+                if card_logo == blank
+                  assign fallback_logo_field = brand_item.logo
+                  assign card_logo = fallback_logo_field.value | default: fallback_logo_field
+                endif
+                if card_logo != blank and card_logo.preview_image != blank
+                  assign card_logo = card_logo.preview_image
+                endif
+
+                assign card_logo_text_field = brand_item[mo_logo_text_key]
+                assign card_logo_text = card_logo_text_field.value | default: card_logo_text_field
+                if card_logo_text == blank
+                  assign fallback_logo_text_field = brand_item.logo_text
+                  assign card_logo_text = fallback_logo_text_field.value | default: fallback_logo_text_field
+                endif
+
+                assign card_link_field = brand_item[mo_link_key]
+                assign card_link = card_link_field.value | default: card_link_field
+                if card_link != blank and card_link.url != blank
+                  assign card_link = card_link.url
+                endif
+
+                if card_link == blank
+                  assign collection_field = brand_item[mo_collection_key]
+                  assign collection_value = collection_field.value | default: collection_field
+                  if collection_value != blank and collection_value.url != blank
+                    assign card_link = collection_value.url
+                  endif
+                endif
+
+                if card_link == blank
+                  assign fallback_link_field = brand_item.url
+                  assign card_link = fallback_link_field.value | default: fallback_link_field
+                  if card_link != blank and card_link.url != blank
+                    assign card_link = card_link.url
+                  endif
+                endif
+
+                if card_link == blank
+                  capture brand_page_url
+                    render 'trg-brand-page-url', brand_item: brand_item, fallback_url: fallback_link
+                  endcapture
+                  assign card_link = brand_page_url | strip
+                endif
+
+                if card_link == blank
+                  assign card_link = fallback_link
+                endif
+
+                assign card_cta_label = section.settings.metaobject_cta_label | default: 'View'
+
+                if block.settings.title != blank
+                  assign card_title = block.settings.title
+                endif
+                if block.settings.origin != blank
+                  assign card_origin = block.settings.origin
+                endif
+                if block.settings.body != blank
+                  assign card_body = block.settings.body
+                endif
+                if block.settings.price_tag != blank
+                  assign card_price_tag = block.settings.price_tag
+                endif
+                if block.settings.badge_1 != blank
+                  assign card_badge_1 = block.settings.badge_1
+                endif
+                if block.settings.badge_2 != blank
+                  assign card_badge_2 = block.settings.badge_2
+                endif
+                if block.settings.logo != blank
+                  assign card_logo = block.settings.logo
+                endif
+                if block.settings.logo_text != blank
+                  assign card_logo_text = block.settings.logo_text
+                endif
+                if block.settings.cta_label != blank
+                  assign card_cta_label = block.settings.cta_label
+                endif
+                if block.settings.link != blank
+                  assign card_link = block.settings.link
+                endif
+              %}
+
+              {% render 'trg-brand-card',
+                card_link: card_link,
+                card_badge_1: card_badge_1,
+                card_badge_2: card_badge_2,
+                card_logo: card_logo,
+                card_logo_text: card_logo_text,
+                card_title: card_title,
+                card_origin: card_origin,
+                card_body: card_body,
+                card_price_tag: card_price_tag,
+                card_cta_label: card_cta_label,
+                shopify_attributes: block.shopify_attributes
+              %}
+              {% assign rendered_cards = rendered_cards | plus: 1 %}
+            {% elsif block.settings.title != blank %}
+              {% render 'trg-brand-card',
+                card_link: block.settings.link,
+                card_badge_1: block.settings.badge_1,
+                card_badge_2: block.settings.badge_2,
+                card_logo: block.settings.logo,
+                card_logo_text: block.settings.logo_text,
+                card_title: block.settings.title,
+                card_origin: block.settings.origin,
+                card_body: block.settings.body,
+                card_price_tag: block.settings.price_tag,
+                card_cta_label: block.settings.cta_label,
+                card_positioning: block.settings.positioning,
+                card_gradient_start: block.settings.gradient_start,
+                card_gradient_end: block.settings.gradient_end,
+                shopify_attributes: block.shopify_attributes
+              %}
+              {% assign rendered_cards = rendered_cards | plus: 1 %}
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+
+      {% else %}
+        {% for block in section.blocks %}
+          {% if block.type == 'brand' %}
+            {% render 'trg-brand-card',
+              card_link: block.settings.link,
+              card_badge_1: block.settings.badge_1,
+              card_badge_2: block.settings.badge_2,
+              card_logo: block.settings.logo,
+              card_logo_text: block.settings.logo_text,
+              card_title: block.settings.title,
+              card_origin: block.settings.origin,
+              card_body: block.settings.body,
+              card_price_tag: block.settings.price_tag,
+              card_cta_label: block.settings.cta_label,
+              card_positioning: block.settings.positioning,
+              card_gradient_start: block.settings.gradient_start,
+              card_gradient_end: block.settings.gradient_end,
+              shopify_attributes: block.shopify_attributes
+            %}
+            {% assign rendered_cards = rendered_cards | plus: 1 %}
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+    </div>
+
+    {% if request.design_mode and rendered_cards == 0 %}
+      <p class="trg-brand-grid__note">
+        No cards rendered. If you use metaobjects, verify the metaobject type handle and field keys in this section settings.
+      </p>
+    {% endif %}
+  </div>
+</section>
+
+{% stylesheet %}
+  .trg-featured-brands .trg-section-header { align-items: start; }
+  .trg-featured-brands .trg-section-header__content { gap: 8px; }
+  .trg-featured-brands .trg-section-header .trg-heading { font-size: clamp(1.7rem, 2.6vw, 2.25rem); }
+  .trg-featured-brands .trg-section-header .trg-lead { color: var(--trg-muted-color); font-size: 0.86rem; line-height: 1.7; }
+
+  .trg-brand-grid {
+    display: grid;
+    gap: clamp(14px, 2vw, 20px);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media screen and (min-width: 990px) {
+    .trg-brand-grid {
+      grid-template-columns: repeat(var(--trg-brand-columns-desktop, 3), minmax(0, 1fr));
+    }
+  }
+
+  .trg-brand-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--trg-border-color);
+    border-radius: var(--trg-card-radius);
+    background: rgb(var(--color-background-rgb));
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .trg-brand-card:hover {
+    border-color: rgb(var(--color-foreground-rgb) / 0.18);
+    box-shadow: 0 2px 16px rgba(26,26,24,0.06);
+  }
+
+  .trg-brand-card__hero {
+    position: relative;
+    height: 96px;
+  }
+  .trg-brand-card__gradient {
+    position: absolute; inset: 0; opacity: 0.14;
+    background: linear-gradient(135deg, var(--bc-g1, #706a60), var(--bc-g2, #b0a89c));
+  }
+  .trg-brand-card__pattern {
+    position: absolute; inset: 0; opacity: 0.035;
+    background: repeating-linear-gradient(135deg, transparent, transparent 8px, rgba(26,26,24,0.35) 8px, rgba(26,26,24,0.35) 9px);
+  }
+
+  .trg-brand-card__logo {
+    position: absolute;
+    bottom: -28px; left: 20px;
+    width: 64px; height: 64px;
+    border-radius: 10px;
+    border: 3px solid rgb(var(--color-background-rgb));
+    background: rgb(var(--color-background-rgb));
+    display: grid; place-items: center;
+    box-shadow: 0 1px 6px rgba(26,26,24,0.1);
+    z-index: 5;
+  }
+  .trg-brand-card__logo img {
+    width: 100%; height: 100%;
+    object-fit: contain; padding: 4px;
+    filter: none; opacity: 1;
+    transition: transform 0.2s;
+  }
+  .trg-brand-card:hover .trg-brand-card__logo img {
+    transform: scale(1.05);
+  }
+  .trg-brand-card__logo span {
+    font-family: var(--font-heading--family);
+    font-size: 0.85rem; font-weight: 600;
+    color: var(--trg-muted-color);
+  }
+
+  .trg-brand-card__body {
+    padding: 36px 20px 16px;
+    display: flex; flex-direction: column; flex: 1;
+  }
+  .trg-brand-card__positioning {
+    font-size: 0.6rem; font-weight: 500;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--trg-accent-color); margin-bottom: 6px;
+  }
+  .trg-brand-name {
+    margin: 0 0 3px;
+    color: var(--trg-heading-color);
+    font-family: var(--font-heading--family);
+    font-size: 1.1rem; line-height: 1.25;
+  }
+  .trg-brand-origin {
+    margin: 0 0 10px;
+    color: var(--trg-muted-color);
+    font-size: 0.74rem; line-height: 1.4;
+  }
+  .trg-brand-body {
+    margin: 0;
+    color: var(--trg-body-color);
+    font-size: 0.8rem; line-height: 1.6;
+    flex: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .trg-brand-footer {
+    display: flex; align-items: center;
+    justify-content: space-between; gap: 12px;
+    margin-top: auto;
+    padding: 13px 20px;
+    border-top: 1px solid rgb(var(--color-border-rgb) / 0.5);
+  }
+  .trg-brand-price {
+    font-size: 0.6rem; font-weight: 500;
+    letter-spacing: 0.03em; text-transform: uppercase;
+    border: 1px solid var(--trg-border-color);
+    border-radius: 2px; padding: 3px 8px;
+    color: var(--trg-heading-color);
+  }
+  .trg-brand-cta {
+    display: inline-flex; align-items: center; gap: 0.3rem;
+    color: var(--trg-heading-color);
+    font-size: 0.72rem; font-weight: 500;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    transition: color 0.15s;
+  }
+  .trg-brand-card:hover .trg-brand-cta {
+    color: var(--trg-accent-color, var(--color-primary));
+  }
+
+  /* Mobile 2-col */
+  @media screen and (max-width: 749px) {
+    .trg-brand-card__hero { height: 64px; }
+    .trg-brand-card__logo {
+      bottom: -22px; left: 12px;
+      width: 52px; height: 52px; border-radius: 8px;
+    }
+    .trg-brand-card__logo img { padding: 4px; }
+    .trg-brand-card__body { padding: 28px 12px 10px; }
+    .trg-brand-card__positioning { font-size: 0.52rem; margin-bottom: 3px; }
+    .trg-brand-name { font-size: 0.92rem; }
+    .trg-brand-origin { font-size: 0.67rem; margin-bottom: 6px; }
+    .trg-brand-body { font-size: 0.72rem; }
+    .trg-brand-footer { padding: 10px 12px; }
+    .trg-brand-price { font-size: 0.56rem; }
+    .trg-brand-cta { font-size: 0.66rem; }
+  }
+
+  .trg-brand-grid__note {
+    margin: 12px 0 0;
+    color: var(--trg-muted-color);
+    font-size: 0.78rem;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "TRG Featured Brands",
+  "tag": "section",
+  "class": "trg-featured-brands-section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Featured"
+    },
+    {
+      "type": "richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "<p>Featured <em>Brands</em></p>"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Body",
+      "default": "<p>Handpicked brands with verified affiliate and shipping context.</p>"
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "label": "Header link label",
+      "default": "All brands"
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "Header link"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Desktop columns",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "header",
+      "content": "Content source"
+    },
+    {
+      "type": "select",
+      "id": "source_mode",
+      "label": "Source mode",
+      "options": [
+        {
+          "value": "manual_blocks",
+          "label": "Manual blocks"
+        },
+        {
+          "value": "auto_metaobjects",
+          "label": "Auto from metaobjects"
+        },
+        {
+          "value": "curated_metaobjects",
+          "label": "Selected metaobjects by block"
+        }
+      ],
+      "default": "manual_blocks"
+    },
+    {
+      "type": "text",
+      "id": "metaobject_type",
+      "label": "Metaobject type handle",
+      "default": "brand"
+    },
+    {
+      "type": "range",
+      "id": "auto_limit",
+      "label": "Auto mode card limit",
+      "min": 1,
+      "max": 12,
+      "step": 1,
+      "default": 6
+    },
+    {
+      "type": "text",
+      "id": "metaobject_cta_label",
+      "label": "Metaobject CTA label",
+      "default": "View"
+    },
+    {
+      "type": "url",
+      "id": "metaobject_fallback_link",
+      "label": "Metaobject fallback link"
+    },
+    {
+      "type": "header",
+      "content": "Metaobject field keys"
+    },
+    {
+      "type": "text",
+      "id": "mo_title_field",
+      "label": "Title field key",
+      "default": "name"
+    },
+    {
+      "type": "text",
+      "id": "mo_origin_field",
+      "label": "Origin/meta field key",
+      "default": "origin"
+    },
+    {
+      "type": "text",
+      "id": "mo_description_field",
+      "label": "Description field key",
+      "default": "description"
+    },
+    {
+      "type": "text",
+      "id": "mo_price_field",
+      "label": "Price tag field key",
+      "default": "price_range"
+    },
+    {
+      "type": "text",
+      "id": "mo_badge_primary_field",
+      "label": "Primary badge field key",
+      "default": "badge_primary"
+    },
+    {
+      "type": "text",
+      "id": "mo_badge_secondary_field",
+      "label": "Secondary badge field key",
+      "default": "badge_secondary"
+    },
+    {
+      "type": "text",
+      "id": "mo_logo_field",
+      "label": "Logo field key",
+      "default": "logo"
+    },
+    {
+      "type": "text",
+      "id": "mo_logo_text_field",
+      "label": "Logo text field key",
+      "default": "logo_text"
+    },
+    {
+      "type": "text",
+      "id": "mo_link_field",
+      "label": "Brand link field key",
+      "default": "url"
+    },
+    {
+      "type": "text",
+      "id": "mo_collection_field",
+      "label": "Collection reference field key",
+      "default": "collection"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "brand",
+      "name": "Brand card",
+      "limit": 12,
+      "settings": [
+        {
+          "type": "text",
+          "id": "metaobject_handle",
+          "label": "Metaobject handle (curated mode)"
+        },
+        {
+          "type": "image_picker",
+          "id": "logo",
+          "label": "Logo image"
+        },
+        {
+          "type": "text",
+          "id": "logo_text",
+          "label": "Logo fallback text",
+          "default": "VB"
+        },
+        {
+          "type": "text",
+          "id": "badge_1",
+          "label": "Badge 1",
+          "default": "Canadian"
+        },
+        {
+          "type": "text",
+          "id": "badge_2",
+          "label": "Badge 2",
+          "default": "Affiliate"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Viberg"
+        },
+        {
+          "type": "text",
+          "id": "origin",
+          "label": "Origin / Meta",
+          "default": "Footwear · Victoria, BC"
+        },
+        {
+          "type": "textarea",
+          "id": "body",
+          "label": "Body",
+          "default": "Heirloom-quality boots with durable construction and Canadian craftsmanship."
+        },
+        {
+          "type": "text",
+          "id": "price_tag",
+          "label": "Price tag",
+          "default": "Luxury"
+        },
+        {
+          "type": "text",
+          "id": "cta_label",
+          "label": "CTA label",
+          "default": "View"
+        },
+        {
+          "type": "text",
+          "id": "positioning",
+          "label": "Positioning tag",
+          "info": "e.g. Heritage Footwear, Workshop Essentials"
+        },
+        {
+          "type": "color",
+          "id": "gradient_start",
+          "label": "Hero gradient start",
+          "default": "#706a60"
+        },
+        {
+          "type": "color",
+          "id": "gradient_end",
+          "label": "Hero gradient end",
+          "default": "#b0a89c"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "TRG Featured Brands",
+      "blocks": [
+        {
+          "type": "brand"
+        },
+        {
+          "type": "brand"
+        },
+        {
+          "type": "brand"
+        },
+        {
+          "type": "brand"
+        },
+        {
+          "type": "brand"
+        },
+        {
+          "type": "brand"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

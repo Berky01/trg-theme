@@ -1,0 +1,543 @@
+{%- assign pillars = section.blocks | where: 'type', 'pillar' -%}
+{%- assign tags = section.blocks | where: 'type', 'tag' -%}
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<section
+  class="section section--full-width color-{{ section.settings.color_scheme }} trg-section trg-editorial-wrap trg-editorial-wrap--{{ section.settings.layout_variant }}"
+  style="
+    --trg-editorial-accent: {{ section.settings.accent_color }};
+    --trg-editorial-panel-bg: {{ section.settings.panel_background_color }};
+    --trg-editorial-panel-text: {{ section.settings.panel_text_color }};
+    --trg-editorial-panel-muted: {{ section.settings.panel_muted_color }};
+    --trg-editorial-panel-border: {{ section.settings.panel_border_color }};
+    --trg-editorial-pill-icon-bg: {{ section.settings.pillar_icon_bg_color }};
+    --trg-editorial-pill-icon-color: {{ section.settings.pillar_icon_color }};
+    --trg-editorial-button-bg: {{ section.settings.button_bg_color }};
+    --trg-editorial-button-text: {{ section.settings.button_text_color }};
+  "
+>
+  <div class="trg-shell trg-editorial">
+    <div data-trg-reveal>
+      <p class="trg-eyebrow">{{ section.settings.eyebrow | escape }}</p>
+      <div class="trg-heading">{{ section.settings.heading }}</div>
+      <div class="trg-lead">{{ section.settings.body }}</div>
+
+      {% if pillars.size > 0 %}
+        <div class="trg-pillars">
+          {% for block in pillars %}
+            <div class="trg-pillar" {{ block.shopify_attributes }}>
+              {% assign pillar_icon = block.settings.icon | strip %}
+              {% if pillar_icon != blank %}
+                <div class="trg-pillar__icon" aria-hidden="true">
+                  {% if pillar_icon == '⌖' or pillar_icon == 'âŒ–' %}
+                    <svg class="trg-pillar__icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="12" cy="12" r="6"></circle>
+                      <path d="M12 3v3"></path>
+                      <path d="M12 18v3"></path>
+                      <path d="M3 12h3"></path>
+                      <path d="M18 12h3"></path>
+                    </svg>
+                  {% elsif pillar_icon == '◯' or pillar_icon == 'â—¯' %}
+                    <svg class="trg-pillar__icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                      <circle cx="12" cy="12" r="7"></circle>
+                    </svg>
+                  {% elsif pillar_icon == '⚑' or pillar_icon == 'âš‘' %}
+                    <svg class="trg-pillar__icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M7 4v16"></path>
+                      <path d="M8 5h8l-2.6 3 2.6 3H8"></path>
+                    </svg>
+                  {% else %}
+                    <span>{{ pillar_icon | escape }}</span>
+                  {% endif %}
+                </div>
+              {% endif %}
+              <div class="trg-pillar__copy">
+                <p class="trg-pillar__title">{{ block.settings.title | escape }}</p>
+                <p class="trg-pillar__body">{{ block.settings.body | escape }}</p>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="trg-feature{% if section.settings.layout_variant == 'mockup' %} trg-feature--mockup{% else %} trg-surface{% endif %}" data-trg-reveal>
+      <p class="trg-quote">{{ section.settings.quote }}</p>
+      {% if section.settings.quote_source != blank %}
+        <p class="trg-muted-note trg-feature__source">{{ section.settings.quote_source | escape }}</p>
+      {% endif %}
+
+      <a class="trg-feature__brand" href="{{ section.settings.feature_button_link | default: '#' }}">
+        <div class="trg-feature__logo">
+          {% if section.settings.feature_logo_image != blank %}
+            {{
+              section.settings.feature_logo_image
+              | image_url: width: 120
+              | image_tag:
+                loading: 'lazy',
+                widths: '60, 80, 120',
+                sizes: '44px',
+                alt: section.settings.feature_title
+            }}
+          {% else %}
+            <span>{{ section.settings.feature_logo_text | default: section.settings.feature_title | slice: 0, 2 | upcase }}</span>
+          {% endif %}
+        </div>
+        <div>
+          <h3 class="trg-feature__title">{{ section.settings.feature_title | escape }}</h3>
+          {% if section.settings.feature_meta != blank %}
+            <p class="trg-feature__meta">{{ section.settings.feature_meta | escape }}</p>
+          {% endif %}
+        </div>
+      </a>
+
+      {% if tags.size > 0 %}
+        <div class="trg-tag-row">
+          {% for block in tags %}
+            <span class="trg-tag" {{ block.shopify_attributes }}>{{ block.settings.label | escape }}</span>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      {% if section.settings.feature_button_label != blank %}
+        <a class="trg-feature__button" href="{{ section.settings.feature_button_link | default: '#' }}">{{ section.settings.feature_button_label | escape }}</a>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .trg-editorial-wrap--mockup {
+    border-top: 1px solid var(--trg-border-color);
+    border-bottom: 1px solid var(--trg-border-color);
+  }
+
+  .trg-editorial-wrap--mockup .trg-eyebrow {
+    display: inline-flex;
+    gap: 0.6rem;
+    align-items: center;
+  }
+
+  .trg-editorial-wrap--mockup .trg-eyebrow::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--trg-editorial-accent, var(--trg-accent-color, var(--color-primary)));
+  }
+
+  .trg-editorial-wrap--mockup .trg-heading {
+    font-size: clamp(2rem, 3.2vw, 2.6rem);
+  }
+
+  .trg-editorial-wrap--mockup .trg-lead {
+    color: var(--trg-muted-color);
+    font-size: 0.9rem;
+    line-height: 1.75;
+  }
+
+  .trg-editorial-wrap--mockup .trg-pillars {
+    gap: 1rem;
+  }
+
+  .trg-editorial-wrap--mockup .trg-pillar {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem;
+    border: 1px solid var(--trg-border-color);
+    border-left: 1px solid var(--trg-border-color);
+    background: rgb(var(--color-background-rgb));
+  }
+
+  .trg-editorial-wrap--mockup .trg-pillar__icon {
+    width: 32px;
+    height: 32px;
+    display: grid;
+    place-items: center;
+    border-radius: 3px;
+    background: var(--trg-editorial-pill-icon-bg, rgb(var(--color-primary-rgb) / 0.1));
+    color: var(--trg-editorial-pill-icon-color, var(--trg-editorial-accent, var(--trg-accent-color, var(--color-primary))));
+    flex-shrink: 0;
+    font-size: 0.82rem;
+  }
+
+  .trg-pillar__icon-svg {
+    width: 16px;
+    height: 16px;
+    display: block;
+  }
+
+  .trg-pillar__icon span {
+    line-height: 1;
+  }
+
+  .trg-editorial-wrap--mockup .trg-pillar__title {
+    margin-bottom: 0.2rem;
+    font-size: 0.82rem;
+  }
+
+  .trg-editorial-wrap--mockup .trg-pillar__body {
+    font-size: 0.78rem;
+    line-height: 1.55;
+  }
+
+  .trg-feature--mockup {
+    position: relative;
+    overflow: hidden;
+    padding: clamp(1.8rem, 3vw, 2.5rem);
+    border-radius: 3px;
+    background: var(--trg-editorial-panel-bg, #1a1a18);
+  }
+
+  .trg-feature--mockup::before {
+    content: '"';
+    position: absolute;
+    top: -1rem;
+    right: 1.5rem;
+    font-family: var(--font-heading--family);
+    font-size: 10rem;
+    line-height: 1;
+    color: rgb(245 241 235 / 0.04);
+    pointer-events: none;
+  }
+
+  .trg-feature--mockup .trg-quote {
+    margin: 0;
+    border-left: 0;
+    padding-left: 0;
+    color: var(--trg-editorial-panel-text, #f5f1eb);
+    font-family: var(--font-heading--family);
+    font-size: clamp(1.1rem, 2vw, 1.35rem);
+    line-height: 1.5;
+    font-style: normal;
+  }
+
+  .trg-feature--mockup .trg-quote em {
+    color: var(--trg-editorial-accent, var(--trg-accent-color, var(--color-primary)));
+    font-style: italic;
+  }
+
+  .trg-feature--mockup .trg-feature__source {
+    margin: 1.1rem 0 1.4rem;
+    padding-bottom: 1.4rem;
+    border-bottom: 1px solid var(--trg-editorial-panel-border, rgb(245 241 235 / 0.08));
+    color: var(--trg-editorial-panel-muted, rgb(245 241 235 / 0.45));
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+  }
+
+  .trg-feature__brand {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    margin-bottom: 1.4rem;
+    text-decoration: none;
+  }
+
+  .trg-feature__logo {
+    width: 44px;
+    height: 44px;
+    border-radius: 4px;
+    background: rgb(245 241 235 / 0.08);
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    color: var(--trg-editorial-panel-text, #f5f1eb);
+    font-family: var(--font-heading--family);
+    font-size: 1rem;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  .trg-feature__logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .trg-feature__title {
+    margin: 0 0 0.2rem;
+    color: var(--trg-editorial-panel-text, #f5f1eb);
+    font-family: var(--font-heading--family);
+    font-size: 1rem;
+    line-height: 1.1;
+  }
+
+  .trg-feature__meta {
+    margin: 0;
+    color: var(--trg-editorial-panel-muted, rgb(245 241 235 / 0.5));
+    font-size: 0.75rem;
+  }
+
+  .trg-feature--mockup .trg-tag {
+    border-color: var(--trg-editorial-panel-border, rgb(245 241 235 / 0.12));
+    color: var(--trg-editorial-panel-muted, rgb(245 241 235 / 0.52));
+  }
+
+  .trg-feature__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40px;
+    padding: 0 1.4rem;
+    border-radius: 2px;
+    background: var(--trg-editorial-button-bg, var(--trg-editorial-accent, var(--trg-accent-color, var(--color-primary))));
+    border: 1px solid var(--trg-editorial-button-bg, var(--trg-editorial-accent, var(--trg-accent-color, var(--color-primary))));
+    color: var(--trg-editorial-button-text, #fff);
+    text-decoration: none;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* Undo CSS leak from sections/trg-home-pillars.liquid (`.trg-pillars` declared with cream bg + padding there) */
+  .trg-editorial-wrap .trg-pillars {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+    border: 0;
+  }
+
+  /* ─── Dark-scheme overrides (Plan B) ─── */
+  .trg-editorial-wrap.color-scheme-header-ink .trg-heading {
+    color: rgb(var(--color-foreground-rgb));
+  }
+  .trg-editorial-wrap.color-scheme-header-ink .trg-lead,
+  .trg-editorial-wrap.color-scheme-header-ink .trg-lead > * {
+    color: rgb(var(--color-foreground-rgb) / 0.58);
+  }
+  .trg-editorial-wrap--mockup.color-scheme-header-ink .trg-pillar {
+    background: rgb(var(--color-foreground-rgb) / 0.04);
+    border-color: rgb(var(--color-foreground-rgb) / 0.1);
+  }
+  .trg-editorial-wrap--mockup.color-scheme-header-ink .trg-pillar__title {
+    color: rgb(var(--color-foreground-rgb));
+  }
+  .trg-editorial-wrap--mockup.color-scheme-header-ink .trg-pillar__body {
+    color: rgb(var(--color-foreground-rgb) / 0.62);
+  }
+  .trg-editorial-wrap--mockup.color-scheme-header-ink .trg-feature--mockup {
+    background: #252521;
+    border: 1px solid rgb(var(--color-foreground-rgb) / 0.08);
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "TRG Editorial Split",
+  "tag": "section",
+  "class": "trg-editorial-split",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Our approach"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "<p>Built for the guy who <em>already knows</em> what he wants</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Body",
+      "default": "<p>Use this section for the editorial stance and positioning statement behind your curation.</p>"
+    },
+    {
+      "type": "select",
+      "id": "layout_variant",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "mockup",
+          "label": "Mockup"
+        },
+        {
+          "value": "default",
+          "label": "Default"
+        }
+      ],
+      "default": "mockup"
+    },
+    {
+      "type": "header",
+      "content": "Color tuning"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#b8491f"
+    },
+    {
+      "type": "color",
+      "id": "panel_background_color",
+      "label": "Feature panel background",
+      "default": "#1a1a18"
+    },
+    {
+      "type": "color",
+      "id": "panel_text_color",
+      "label": "Feature panel text",
+      "default": "#f5f1eb"
+    },
+    {
+      "type": "color",
+      "id": "panel_muted_color",
+      "label": "Feature panel muted text",
+      "default": "#8a847c"
+    },
+    {
+      "type": "color",
+      "id": "panel_border_color",
+      "label": "Feature panel border",
+      "default": "#35332f"
+    },
+    {
+      "type": "color",
+      "id": "pillar_icon_bg_color",
+      "label": "Pillar icon background",
+      "default": "#f5e8df"
+    },
+    {
+      "type": "color",
+      "id": "pillar_icon_color",
+      "label": "Pillar icon color",
+      "default": "#b8491f"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Button background",
+      "default": "#b8491f"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "textarea",
+      "id": "quote",
+      "label": "Quote",
+      "default": "The best wardrobe isn't the biggest one. It's the one where everything fits and nothing was a mistake."
+    },
+    {
+      "type": "text",
+      "id": "quote_source",
+      "label": "Quote source",
+      "default": "The Right Garment editorial principle"
+    },
+    {
+      "type": "text",
+      "id": "feature_title",
+      "label": "Feature title",
+      "default": "Viberg"
+    },
+    {
+      "type": "text",
+      "id": "feature_meta",
+      "label": "Feature meta",
+      "default": "Brand of the Month · Heritage Footwear"
+    },
+    {
+      "type": "image_picker",
+      "id": "feature_logo_image",
+      "label": "Feature logo image"
+    },
+    {
+      "type": "text",
+      "id": "feature_logo_text",
+      "label": "Feature logo fallback",
+      "default": "VB"
+    },
+    {
+      "type": "text",
+      "id": "feature_button_label",
+      "label": "Button label",
+      "default": "View brand"
+    },
+    {
+      "type": "url",
+      "id": "feature_button_link",
+      "label": "Button link"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "pillar",
+      "name": "Pillar",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Icon",
+          "default": "✦"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Canada-first intelligence"
+        },
+        {
+          "type": "textarea",
+          "id": "body",
+          "label": "Body",
+          "default": "Duty transparency, return terms, and practical shipping context for Canadian buyers."
+        }
+      ]
+    },
+    {
+      "type": "tag",
+      "name": "Tag",
+      "limit": 10,
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Made in Canada"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "TRG Editorial Split",
+      "blocks": [
+        {
+          "type": "pillar"
+        },
+        {
+          "type": "pillar"
+        },
+        {
+          "type": "pillar"
+        },
+        {
+          "type": "tag"
+        },
+        {
+          "type": "tag"
+        },
+        {
+          "type": "tag"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+

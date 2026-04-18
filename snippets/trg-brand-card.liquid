@@ -1,0 +1,47 @@
+<a class="trg-brand-card" href="{{ card_link | default: '#' }}" data-trg-reveal
+  {% if card_gradient_start != blank %}style="--bc-g1: {{ card_gradient_start }}; --bc-g2: {{ card_gradient_end | default: card_gradient_start }};"{% endif %}
+  {% if shopify_attributes != blank %}{{ shopify_attributes }}{% endif %}>
+
+  <div class="trg-brand-card__hero">
+    <div class="trg-brand-card__gradient"></div>
+    <div class="trg-brand-card__pattern"></div>
+    <div class="trg-brand-card__logo">
+      {% if card_logo != blank %}
+        {{
+          card_logo
+          | image_url: width: 120
+          | image_tag:
+            loading: 'lazy',
+            widths: '60, 80, 120',
+            sizes: '52px',
+            alt: card_title
+        }}
+      {% else %}
+        <span>{{ card_logo_text | default: card_title | slice: 0, 2 | upcase }}</span>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="trg-brand-card__body">
+    {% if card_positioning != blank %}
+      <p class="trg-brand-card__positioning">{{ card_positioning | escape }}</p>
+    {% endif %}
+    <h3 class="trg-brand-name">{{ card_title | escape }}</h3>
+    {% if card_origin != blank %}
+      <p class="trg-brand-origin">{{ card_origin | escape }}</p>
+    {% endif %}
+    {% if card_body != blank %}
+      <p class="trg-brand-body">{{ card_body | escape }}</p>
+    {% endif %}
+  </div>
+
+  <div class="trg-brand-footer">
+    {% if card_price_tag != blank %}
+      <span class="trg-brand-price">{{ card_price_tag | escape }}</span>
+    {% endif %}
+    <span class="trg-brand-cta">
+      {{ card_cta_label | default: 'View' | escape }}
+      <span aria-hidden="true">&rarr;</span>
+    </span>
+  </div>
+</a>

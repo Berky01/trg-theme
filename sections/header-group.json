@@ -1,0 +1,707 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "type": "header",
+  "name": "Header",
+  "sections": {
+    "header_announcements_pbXTDf": {
+      "type": "header-announcements",
+      "blocks": {
+        "announcement_KMAGKG": {
+          "type": "_announcement",
+          "settings": {
+            "text": "Shop the bedroom event - on now!",
+            "link": "shopify://collections/all",
+            "font": "var(--font-accent--family)",
+            "font_size": "0.75rem",
+            "weight": "",
+            "letter_spacing": "loose",
+            "case": "uppercase"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "announcement_KMAGKG"
+      ],
+      "disabled": true,
+      "name": "t:names.announcement_bar",
+      "settings": {
+        "speed": 5,
+        "section_width": "full-width",
+        "color_scheme": "scheme-2",
+        "divider_width": 0,
+        "padding-block-start": 15,
+        "padding-block-end": 15
+      }
+    },
+    "header_section": {
+      "type": "header",
+      "blocks": {
+        "header-logo": {
+          "type": "_header-logo",
+          "static": true,
+          "settings": {
+            "hide_logo_on_home_page": false,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "header-menu": {
+          "type": "_header-menu",
+          "static": true,
+          "settings": {
+            "menu": "main-menu",
+            "color_scheme": "scheme-header-ink",
+            "type_font_primary_size": "0.875rem",
+            "menu_font_style": "inverse",
+            "type_font_primary_link": "body",
+            "type_case_primary_link": "uppercase",
+            "menu_style": "trg_editorial",
+            "featured_products_aspect_ratio": "4 / 5",
+            "featured_collections_aspect_ratio": "16 / 9",
+            "image_border_radius": 0,
+            "trg_brand_menu_match": "brands",
+            "trg_all_brands_match": "all",
+            "trg_shop_sidebar_label": "Product family",
+            "trg_brand_sidebar_label": "Browse by",
+            "trg_featured_label": "Featured brand",
+            "trg_quick_links_label": "Quick links",
+            "trg_quick_links_menu": "",
+            "trg_featured_metaobject_type": "brand",
+            "trg_featured_brand_handle": "viberg",
+            "trg_featured_eyebrow": "Brand Spotlight",
+            "trg_featured_title": "Viberg",
+            "trg_featured_body": "Handwelted since 1931. The benchmark for North American heritage boots.",
+            "trg_featured_cta_label": "View brand profile",
+            "trg_featured_link": "",
+            "navigation_bar": false,
+            "color_scheme_navigation_bar": "scheme-header-ink",
+            "drawer_accordion": false,
+            "drawer_accordion_expand_first": false,
+            "drawer_dividers": false
+          },
+          "blocks": {}
+        }
+      },
+      "settings": {
+        "logo_position": "left",
+        "menu_position": "center",
+        "menu_row": "top",
+        "customer_account_menu": "customer-account-main-menu",
+        "show_search": true,
+        "search_position": "right",
+        "search_row": "top",
+        "show_country": false,
+        "country_selector_style": true,
+        "show_language": false,
+        "localization_font": "heading",
+        "localization_font_size": "0.875rem",
+        "localization_position": "right",
+        "localization_row": "top",
+        "section_width": "page-width",
+        "section_height": "compact",
+        "enable_sticky_header": "always",
+        "divider_width": 0,
+        "divider_size": "page-width",
+        "border_width": 0,
+        "actions_display_style": "text",
+        "actions_font_size": "0.875rem",
+        "actions_font": "body",
+        "actions_text_case": "none",
+        "color_scheme_top": "scheme-header-ink",
+        "color_scheme_bottom": "",
+        "color_scheme_transparent": "scheme-6",
+        "enable_transparent_header_home": false,
+        "home_color_scheme": "default",
+        "enable_transparent_header_product": false,
+        "product_color_scheme": "default",
+        "enable_transparent_header_collection": false,
+        "collection_color_scheme": "default"
+      }
+    },
+    "trg_mega_menu_TpK7cN": {
+      "type": "trg-mega-menu",
+      "blocks": {
+        "72118f7c4567": {
+          "type": "family",
+          "settings": {
+            "title_override": "Shirts & Tops",
+            "subtitle": "194 brands",
+            "chips": "All|/collections/shirts, Casual|/collections/shirts?filter.p.tag=casual, Dress|/collections/shirts?filter.p.tag=dress, Camp Collar|/collections/shirts?filter.p.tag=camp-collar, Flannel|/collections/shirts?filter.p.tag=flannel, Linen|/collections/shirts?filter.p.tag=linen"
+          }
+        },
+        "8f030230f668": {
+          "type": "subcategory",
+          "settings": {
+            "title_override": "Casual Shirts",
+            "count": "38"
+          }
+        },
+        "0bc6770a4aca": {
+          "type": "subcategory",
+          "settings": {
+            "title_override": "Dress Shirts",
+            "count": "22"
+          }
+        },
+        "0dabd7ccff14": {
+          "type": "subcategory",
+          "settings": {
+            "title_override": "T-Shirts",
+            "count": "31"
+          }
+        },
+        "fb5e25eea27d": {
+          "type": "subcategory",
+          "settings": {
+            "title_override": "Polos",
+            "count": "17"
+          }
+        },
+        "c5946454a664": {
+          "type": "subcategory",
+          "settings": {
+            "title_override": "Overshirts",
+            "count": "20"
+          }
+        },
+        "89c3b5a2386d": {
+          "type": "subcategory",
+          "settings": {
+            "title_override": "Camp Collar",
+            "count": "16"
+          }
+        },
+        "f6aac74ad8a4": {
+          "type": "subcategory",
+          "settings": {
+            "title_override": "Henleys",
+            "count": "8"
+          }
+        },
+        "4213dc9855a2": {
+          "type": "subcategory",
+          "settings": {
+            "title_override": "Linen & Summer",
+            "count": "14"
+          }
+        },
+        "77c34c374b5e": {
+          "type": "family",
+          "settings": {
+            "title_override": "Outerwear & Jackets",
+            "subtitle": "115 brands",
+            "chips": "All|/collections/outerwear, Heritage|/collections/outerwear?filter.p.tag=heritage, Technical|/collections/outerwear?filter.p.tag=technical, Military|/collections/outerwear?filter.p.tag=military, Tailored|/collections/outerwear?filter.p.tag=tailored"
+          }
+        },
+        "340400a9255c": {
+          "type": "subcategory",
+          "settings": {
+            "title_override": "Field & Barn Jacket",
+            "count": "12"
+          }
+        },
+        "8ac5e412be1e": {
+          "type": "subcategory",
+          "settings": {
+            "title_override": "Waxed Cotton",
+            "count": "8"
+          }
+        },
+        "8c87d36ac81c": {
+          "type": "subcategory",
+          "settings": {
+            "title_override": "Down & Insulated",
+            "count": "10"
+          }
+        },
+        "290086c60189": {
+          "type": "subcategory",
+          "settings": {
+            "title_override": "Raincoat & Mac",
+            "count": "7"
+          }
+        },
+        "c3dcf87d5d16": {
+          "type": "subcategory",
+          "settings": {
+            "title_override": "Harrington & Bomber",
+            "count": "9"
+          }
+        },
+        "aa9ae1054a20": {
+          "type": "subcategory",
+          "settings": {
+            "title_override": "Parka",
+            "count": "8"
+          }
+        },
+        "cc422a9cffa4": {
+          "type": "subcategory",
+          "settings": {
+            "title_override": "Leather Jacket",
+            "count": "7"
+          }
+        },
+        "f871071ea3cd": {
+          "type": "subcategory",
+          "settings": {
+            "title_override": "Overcoat & Topcoat",
+            "count": "9"
+          }
+        },
+        "53bac02e2d19": {
+          "type": "family",
+          "settings": {
+            "title_override": "Trousers & Bottoms",
+            "subtitle": "131 brands",
+            "chips": "All|/collections/bottoms, Casual|/collections/bottoms?filter.p.tag=casual, Dress|/collections/bottoms?filter.p.tag=dress, Technical|/collections/bottoms?filter.p.tag=technical"
+          }
+        },
+        "3679eac682cf": {
+          "type": "subcategory",
+          "settings": {
+            "title_override": "Chinos",
+            "count": "28"
+          }
+        },
+        "736a5a41f08b": {
+          "type": "subcategory",
+          "settings": {
+            "title_override": "Dress Trousers",
+            "count": "18"
+          }
+        },
+        "8ba55bed798d": {
+          "type": "subcategory",
+          "settings": {
+            "title_override": "Shorts",
+            "count": "19"
+          }
+        },
+        "824008439977": {
+          "type": "subcategory",
+          "settings": {
+            "title_override": "Sweatpants & Joggers",
+            "count": "12"
+          }
+        },
+        "d752dd938c26": {
+          "type": "subcategory",
+          "settings": {
+            "title_override": "Corduroy",
+            "count": "8"
+          }
+        },
+        "33841806efa8": {
+          "type": "subcategory",
+          "settings": {
+            "title_override": "Cargo & Utility",
+            "count": "6"
+          }
+        },
+        "597117c1f4c9": {
+          "type": "family",
+          "settings": {
+            "title_override": "Footwear",
+            "subtitle": "97 brands",
+            "chips": "All|/collections/footwear, Heritage|/collections/footwear?filter.p.tag=heritage, Dress|/collections/footwear?filter.p.tag=dress, Casual|/collections/footwear?filter.p.tag=casual, Bespoke|/collections/footwear?filter.p.tag=bespoke, Technical|/collections/footwear?filter.p.tag=technical"
+          }
+        },
+        "8eb32edb3688": {
+          "type": "subcategory",
+          "settings": {
+            "title_override": "Boots",
+            "count": "24"
+          }
+        },
+        "b7963ced70c3": {
+          "type": "subcategory",
+          "settings": {
+            "title_override": "Oxford & Derby",
+            "count": "22"
+          }
+        },
+        "3994dff75af3": {
+          "type": "subcategory",
+          "settings": {
+            "title_override": "Loafers",
+            "count": "15"
+          }
+        },
+        "24856f41a7f2": {
+          "type": "subcategory",
+          "settings": {
+            "title_override": "Sneakers",
+            "count": "12"
+          }
+        },
+        "5256962d57b9": {
+          "type": "subcategory",
+          "settings": {
+            "title_override": "Moccasins",
+            "count": "6"
+          }
+        },
+        "241d9d533db1": {
+          "type": "subcategory",
+          "settings": {
+            "title_override": "Sandals",
+            "count": "4"
+          }
+        },
+        "3a448e069a95": {
+          "type": "subcategory",
+          "settings": {
+            "title_override": "Bespoke & MTO",
+            "count": "8"
+          }
+        },
+        "a9676ac6429c": {
+          "type": "family",
+          "settings": {
+            "title_override": "Knitwear",
+            "subtitle": "63 brands",
+            "chips": "All|/collections/knitwear, British Isles|/collections/knitwear?filter.p.tag=british-isles, Italian|/collections/knitwear?filter.p.tag=italian, Japanese|/collections/knitwear?filter.p.tag=japanese, Cashmere|/collections/knitwear?filter.p.tag=cashmere"
+          }
+        },
+        "235fc24dc61e": {
+          "type": "subcategory",
+          "settings": {
+            "title_override": "Crewneck",
+            "count": "22"
+          }
+        },
+        "ac2b9b7dda5c": {
+          "type": "subcategory",
+          "settings": {
+            "title_override": "Cardigan",
+            "count": "18"
+          }
+        },
+        "b5ca0ddd4224": {
+          "type": "subcategory",
+          "settings": {
+            "title_override": "Turtleneck",
+            "count": "15"
+          }
+        },
+        "eb26d96931a5": {
+          "type": "subcategory",
+          "settings": {
+            "title_override": "Fisherman & Cable",
+            "count": "8"
+          }
+        },
+        "8db2ac349cd7": {
+          "type": "subcategory",
+          "settings": {
+            "title_override": "Cashmere",
+            "count": "11"
+          }
+        },
+        "90b00153ffca": {
+          "type": "subcategory",
+          "settings": {
+            "title_override": "Merino",
+            "count": "14"
+          }
+        },
+        "f44802d1be89": {
+          "type": "family",
+          "settings": {
+            "title_override": "Denim",
+            "subtitle": "60 brands",
+            "chips": "All|/collections/denim, Japanese Selvedge|/collections/denim?filter.p.tag=japanese-selvedge, American Heritage|/collections/denim?filter.p.tag=american-heritage, Raw|/collections/denim?filter.p.tag=raw, European|/collections/denim?filter.p.tag=european"
+          }
+        },
+        "8eabfa5c5724": {
+          "type": "subcategory",
+          "settings": {
+            "title_override": "Jeans",
+            "count": "28"
+          }
+        },
+        "41e341f96eb6": {
+          "type": "subcategory",
+          "settings": {
+            "title_override": "Denim Jacket",
+            "count": "16"
+          }
+        },
+        "1a8d2e81b933": {
+          "type": "subcategory",
+          "settings": {
+            "title_override": "Raw & Selvedge",
+            "count": "14"
+          }
+        },
+        "255774b15d21": {
+          "type": "subcategory",
+          "settings": {
+            "title_override": "Slim & Tapered",
+            "count": "20"
+          }
+        },
+        "9381ad9c147f": {
+          "type": "subcategory",
+          "settings": {
+            "title_override": "Straight & Relaxed",
+            "count": "18"
+          }
+        },
+        "22a22b031583": {
+          "type": "family",
+          "settings": {
+            "title_override": "Suits & Tailoring",
+            "subtitle": "59 brands",
+            "chips": "All|/collections/tailoring, Neapolitan|/collections/tailoring?filter.p.tag=neapolitan, British|/collections/tailoring?filter.p.tag=british, Italian|/collections/tailoring?filter.p.tag=italian, Bespoke|/collections/tailoring?filter.p.tag=bespoke"
+          }
+        },
+        "8c8c564783bc": {
+          "type": "subcategory",
+          "settings": {
+            "title_override": "Suits",
+            "count": "29"
+          }
+        },
+        "0247b121250b": {
+          "type": "subcategory",
+          "settings": {
+            "title_override": "Sport Coats & Blazers",
+            "count": "24"
+          }
+        },
+        "3706e9a6c976": {
+          "type": "subcategory",
+          "settings": {
+            "title_override": "Tuxedo & Black Tie",
+            "count": "6"
+          }
+        },
+        "a4025c0e185b": {
+          "type": "subcategory",
+          "settings": {
+            "title_override": "Bespoke & MTM",
+            "count": "11"
+          }
+        },
+        "c45e3e188d36": {
+          "type": "subcategory",
+          "settings": {
+            "title_override": "Waistcoats",
+            "count": "8"
+          }
+        },
+        "ac5b3d294a20": {
+          "type": "family",
+          "settings": {
+            "title_override": "Accessories",
+            "subtitle": "26 brands",
+            "chips": "All|/collections/accessories, Leather Goods|/collections/accessories?filter.p.tag=leather-goods, Neckwear|/collections/accessories?filter.p.tag=neckwear, Headwear|/collections/accessories?filter.p.tag=headwear"
+          }
+        },
+        "f6e50ad74c7f": {
+          "type": "subcategory",
+          "settings": {
+            "title_override": "Ties & Pocket Squares",
+            "count": "14"
+          }
+        },
+        "423523e7119d": {
+          "type": "subcategory",
+          "settings": {
+            "title_override": "Belts",
+            "count": "10"
+          }
+        },
+        "689f6aa04824": {
+          "type": "subcategory",
+          "settings": {
+            "title_override": "Bags & Leather Goods",
+            "count": "8"
+          }
+        },
+        "28dcb112e31e": {
+          "type": "subcategory",
+          "settings": {
+            "title_override": "Scarves & Hats",
+            "count": "6"
+          }
+        },
+        "9ccabf93d74e": {
+          "type": "subcategory",
+          "settings": {
+            "title_override": "Socks & Underwear",
+            "count": "8"
+          }
+        },
+        "f2cf7cbf6bfd": {
+          "type": "featured_brand",
+          "settings": {
+            "brand_name": "Viberg",
+            "brand_eyebrow": "Footwear · Victoria",
+            "brand_description": "Handwelted since 1931. The benchmark for North American heritage boots.",
+            "brand_url": "/pages/viberg",
+            "link_1_text": "Made in Canada",
+            "link_1_url": "/pages/brands",
+            "link_2_text": "Has affiliate program",
+            "link_2_url": "/pages/brands",
+            "link_3_text": "Ships to Canada",
+            "link_3_url": "/pages/brands"
+          }
+        },
+        "6cde3bab46d0": {
+          "type": "featured_brand_shop",
+          "settings": {
+            "brand_name": "Viberg",
+            "brand_eyebrow": "Footwear · Victoria",
+            "brand_description": "Handwelted since 1931. The benchmark for North American heritage boots.",
+            "brand_url": "/pages/viberg",
+            "link_1_text": "Under $200 entry point",
+            "link_1_url": "/collections/all",
+            "link_2_text": "Ships duty-free to CA",
+            "link_2_url": "/pages/brands",
+            "link_3_text": "Submit a brand",
+            "link_3_url": "/pages/submit-brand"
+          }
+        },
+        "42db7bee3678": {
+          "type": "brand_category",
+          "settings": {
+            "title_override": "Shirts & Tops"
+          }
+        },
+        "9b64b7ef3937": {
+          "type": "brand_category",
+          "settings": {
+            "title_override": "Outerwear & Jackets"
+          }
+        },
+        "b4a8b7c0e8cb": {
+          "type": "brand_category",
+          "settings": {
+            "title_override": "Trousers & Bottoms"
+          }
+        },
+        "53c1952df4f0": {
+          "type": "brand_category",
+          "settings": {
+            "title_override": "Footwear"
+          }
+        },
+        "8f0f983a300b": {
+          "type": "brand_category",
+          "settings": {
+            "title_override": "Knitwear"
+          }
+        },
+        "18d6761946a4": {
+          "type": "brand_category",
+          "settings": {
+            "title_override": "Denim"
+          }
+        },
+        "1f358f990f2d": {
+          "type": "brand_category",
+          "settings": {
+            "title_override": "Suits & Tailoring"
+          }
+        },
+        "16bc57aac4da": {
+          "type": "brand_category",
+          "settings": {
+            "title_override": "Accessories"
+          }
+        }
+      },
+      "block_order": [
+        "72118f7c4567",
+        "8f030230f668",
+        "0bc6770a4aca",
+        "0dabd7ccff14",
+        "fb5e25eea27d",
+        "c5946454a664",
+        "89c3b5a2386d",
+        "f6aac74ad8a4",
+        "4213dc9855a2",
+        "77c34c374b5e",
+        "340400a9255c",
+        "8ac5e412be1e",
+        "8c87d36ac81c",
+        "290086c60189",
+        "c3dcf87d5d16",
+        "aa9ae1054a20",
+        "cc422a9cffa4",
+        "f871071ea3cd",
+        "53bac02e2d19",
+        "3679eac682cf",
+        "736a5a41f08b",
+        "8ba55bed798d",
+        "824008439977",
+        "d752dd938c26",
+        "33841806efa8",
+        "597117c1f4c9",
+        "8eb32edb3688",
+        "b7963ced70c3",
+        "3994dff75af3",
+        "24856f41a7f2",
+        "5256962d57b9",
+        "241d9d533db1",
+        "3a448e069a95",
+        "a9676ac6429c",
+        "235fc24dc61e",
+        "ac2b9b7dda5c",
+        "b5ca0ddd4224",
+        "eb26d96931a5",
+        "8db2ac349cd7",
+        "90b00153ffca",
+        "f44802d1be89",
+        "8eabfa5c5724",
+        "41e341f96eb6",
+        "1a8d2e81b933",
+        "255774b15d21",
+        "9381ad9c147f",
+        "22a22b031583",
+        "8c8c564783bc",
+        "0247b121250b",
+        "3706e9a6c976",
+        "a4025c0e185b",
+        "c45e3e188d36",
+        "ac5b3d294a20",
+        "f6e50ad74c7f",
+        "423523e7119d",
+        "689f6aa04824",
+        "28dcb112e31e",
+        "9ccabf93d74e",
+        "f2cf7cbf6bfd",
+        "6cde3bab46d0",
+        "42db7bee3678",
+        "9b64b7ef3937",
+        "b4a8b7c0e8cb",
+        "53c1952df4f0",
+        "8f0f983a300b",
+        "18d6761946a4",
+        "1f358f990f2d",
+        "16bc57aac4da"
+      ],
+      "settings": {}
+    }
+  },
+  "order": [
+    "header_announcements_pbXTDf",
+    "header_section",
+    "trg_mega_menu_TpK7cN"
+  ]
+}

@@ -1,0 +1,100 @@
+{% liquid
+  assign product = closest.product
+  assign material = blank
+  assign color = blank
+
+  if product != blank
+    assign material = product.metafields.custom.material.value | default: product.metafields.custom.material
+    if material == blank
+      assign material = product.metafields.custom.fabric.value | default: product.metafields.custom.fabric
+    endif
+    if material == blank
+      assign material = product.metafields.details.material.value | default: product.metafields.details.material
+    endif
+    if material == blank
+      assign material = product.metafields.custom.primary_material.value | default: product.metafields.custom.primary_material
+    endif
+
+    if block.settings.show_color
+      assign color = product.metafields.custom.color.value | default: product.metafields.custom.color
+      if color == blank
+        assign color = product.metafields.details.color.value | default: product.metafields.details.color
+      endif
+    endif
+
+    if material == blank and block.settings.fallback_to_tags
+      for tag in product.tags
+        assign normalized_tag = tag | downcase | strip
+        case normalized_tag
+          when 'merino'
+            assign material = 'Merino Wool'
+          when 'wool'
+            assign material = 'Wool'
+          when 'cotton'
+            assign material = 'Cotton'
+          when 'linen'
+            assign material = 'Linen'
+          when 'leather'
+            assign material = 'Leather'
+          when 'fleece'
+            assign material = 'Fleece'
+          when 'gore-tex'
+            assign material = 'GORE-TEX'
+          when 'nylon'
+            assign material = 'Nylon'
+          when 'terry'
+            assign material = 'Terry'
+          when 'twill'
+            assign material = 'Twill'
+          when 'chambray'
+            assign material = 'Chambray'
+        endcase
+
+        if material != blank
+          break
+        endif
+      endfor
+    endif
+  endif
+
+  capture meta_line
+    if color != blank and material != blank
+      echo color
+      echo ' · '
+      echo material
+    elsif material != blank
+      echo material
+    elsif color != blank
+      echo color
+    endif
+  endcapture
+
+  assign meta_line = meta_line | strip
+%}
+
+{% if meta_line != blank %}
+  <p class="trg-plp-card-material" {{ block.shopify_attributes }}>
+    {{ meta_line }}
+  </p>
+{% endif %}
+
+{% schema %}
+{
+  "name": "TRG product material",
+  "tag": null,
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_color",
+      "label": "Show color if available",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "fallback_to_tags",
+      "label": "Fallback to product tags",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

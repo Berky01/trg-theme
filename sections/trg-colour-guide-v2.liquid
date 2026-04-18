@@ -1,0 +1,307 @@
+{%- comment -%}
+  TRG Colour Guide v21
+  Pushed via Admin API
+{%- endcomment -%}
+
+<link rel="stylesheet" href="{{ 'trg-colour-guide.css' | asset_url }}&cv=20260415a">
+
+<div class="trg-colour-guide" data-colour-data="{{ 'trg-colour-data.json' | asset_url }}" data-shop-index="{{ 'trg-colour-shop-index-v2.json' | asset_url }}">
+
+<!-- ═══════════════════════════════════════════
+     v16 HERO — unified editorial opening
+═══════════════════════════════════════════ -->
+<header class="hero">
+  <div class="hero-inner">
+    <div class="hero-copy">
+      <p class="hero-ey">The Right Garment</p>
+      <h1>Colour Guide</h1>
+      <p class="hero-sub">A permanent reference for dressing in colour: find your palette, build an outfit around it, then shop by hue.</p>
+      <div class="hero-stats">
+        <div class="hero-stat"><div class="hero-stat-num">76</div><div class="hero-stat-label">Colours</div></div>
+        <div class="hero-stat"><div class="hero-stat-num">8</div><div class="hero-stat-label">Families</div></div>
+        <div class="hero-stat"><div class="hero-stat-num">9</div><div class="hero-stat-label">Profiles</div></div>
+      </div>
+    </div>
+    <div class="hero-ribbon-wrap">
+      <div class="hero-ribbon-meta">
+        <span class="hero-ribbon-kicker">From cream to oxblood</span>
+        <span class="hero-ribbon-count">All 76 colours at a glance</span>
+      </div>
+      <div class="hero-ribbon" id="hero-ribbon">
+        <span class="hero-ribbon-label">Browse the whole field. Personalise it below.</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════════════════
+     v16 HOW IT WORKS — section map
+═══════════════════════════════════════════ -->
+<div class="hiw" id="hiw">
+  <div class="hiw-inner">
+    <div class="hiw-card" data-target="st-wrap" role="button" tabindex="0">
+      <div class="hiw-visual hiw-visual-1" id="hiw-v1"></div>
+      <div class="hiw-body">
+        <div class="hiw-num">1</div>
+        <h3 class="hiw-title">Find your palette</h3>
+        <p class="hiw-desc">Choose the skin tone closest to yours, then let the guide pull your strongest colours forward.</p>
+        <div class="hiw-footer">
+          <span class="hiw-tag">Begin here</span>
+          <span class="hiw-link">Start the quiz &rarr;</span>
+        </div>
+      </div>
+    </div>
+    <div class="hiw-card" data-target="builder-workspace" role="button" tabindex="0">
+      <div class="hiw-visual hiw-visual-2" id="hiw-outfit-vis"></div>
+      <div class="hiw-body">
+        <div class="hiw-num">2</div>
+        <h3 class="hiw-title">Build an outfit</h3>
+        <p class="hiw-desc">Assign colours to actual garment slots, then refine the combination piece by piece.</p>
+        <div class="hiw-footer">
+          <span class="hiw-tag">Works standalone</span>
+          <span class="hiw-link">Jump to builder &rarr;</span>
+        </div>
+      </div>
+    </div>
+    <div class="hiw-card" data-target="grid-anchor" role="button" tabindex="0">
+      <div class="hiw-visual hiw-visual-3" id="hiw-grid-vis"></div>
+      <div class="hiw-body">
+        <div class="hiw-num">3</div>
+        <h3 class="hiw-title">Browse all colours</h3>
+        <p class="hiw-desc">The complete reference, grouped by family and re-sorted by your palette when you have one.</p>
+        <div class="hiw-footer">
+          <span class="hiw-tag">Reference view</span>
+          <span class="hiw-link">See the grid &rarr;</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Sticky section nav -->
+<nav class="sticky-nav" id="sticky-nav">
+  <div class="sticky-nav-inner">
+    <button class="sticky-nav-link on" data-target="st-wrap">Find your palette</button>
+    <span class="sticky-nav-dot">&middot;</span>
+    <button class="sticky-nav-link" data-target="builder-workspace">Build an outfit</button>
+    <span class="sticky-nav-dot">&middot;</span>
+    <button class="sticky-nav-link" data-target="grid-anchor">All colours</button>
+  </div>
+</nav>
+
+  <!-- ── SKIN TONE FINDER ── -->
+  <div class="st-wrap" id="st-wrap">
+
+    <div class="steps-bar">
+      <div class="step-item active" data-step="1"><div class="step-num">1</div><span class="step-label">Your depth</span></div>
+      <div class="step-connector"></div>
+      <div class="step-item" data-step="2"><div class="step-num">2</div><span class="step-label">Your undertone</span></div>
+      <div class="step-connector"></div>
+      <div class="step-item" data-step="3"><div class="step-num">3</div><span class="step-label">Your palette</span></div>
+    </div>
+
+    <!-- Step 1 summary -->
+    <div class="step-summary" id="step1-summary">
+      <div class="step-summary-num">1</div>
+      <div class="step-summary-circle" id="s1-circle"></div>
+      <div class="step-summary-text" id="s1-text"></div>
+      <button class="step-summary-change" id="s1-change">Change</button>
+    </div>
+
+    <!-- STEP 1 -->
+    <section class="step-section active" id="step-1">
+      <div class="step-intro">
+        <p class="step-eyebrow">Step 1 of 3</p>
+        <h2>How deep is your skin tone?</h2>
+        <p>Check in natural daylight. Look at your inner forearm or the back of your hand.</p>
+
+        <!-- v14: Visual teaser showing palette payoff -->
+        <div class="palette-teaser" id="palette-teaser">
+          <div class="palette-teaser-swatches" id="palette-teaser-swatches"></div>
+          <div class="palette-teaser-text"><strong>Your result:</strong> a personalised edit of the full 76-colour field, ordered by what flatters you first.</div>
+        </div>
+
+        <div class="skip-row">
+          <button class="skip-btn" id="skip-to-builder">Jump to outfit builder <span class="arrow">&#8595;</span></button>
+          <span class="skip-or">or</span>
+          <button class="skip-btn" id="skip-to-grid">Browse all 76 colours <span class="arrow">&#8595;</span></button>
+        </div>
+      </div>
+      <div class="depth-grid" id="depth-grid" role="radiogroup" aria-label="Skin tone depth"></div>
+      <div class="step-cta-row">
+        <button class="btn-primary" id="step1-next" aria-describedby="step1-error">Continue &#8594;</button>
+        <p class="step-error" id="step1-error" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <!-- Step 2 summary -->
+    <div class="step-summary" id="step2-summary">
+      <div class="step-summary-num">2</div>
+      <div class="step-summary-dots" id="s2-dots"></div>
+      <div class="step-summary-text" id="s2-text"></div>
+      <button class="step-summary-change" id="s2-change">Change</button>
+    </div>
+
+    <!-- STEP 2 -->
+    <section class="step-section" id="step-2">
+      <div class="step-intro">
+        <p class="step-eyebrow">Step 2 of 3</p>
+        <h2>Read the undertone, not the noise</h2>
+        <p>Three quick checks, weighted toward the vein test. We are looking for direction, not laboratory certainty.</p>
+      </div>
+      <div class="step-rail">
+        <span class="step-rail-item">Veins carry the most weight</span>
+        <span class="step-rail-item">Majority signal wins</span>
+        <span class="step-rail-item">Neutral is a real result</span>
+      </div>
+      <div class="quiz-grid">
+        <div class="quiz-col"><div class="quiz-col-head"><p class="quiz-col-num">Test 1 / Most reliable</p><h3 class="quiz-col-title">The Vein Test</h3><p class="quiz-col-desc">Inside of your wrist, natural light. What colour are your veins?</p></div><div class="quiz-options" role="radiogroup" aria-label="Vein undertone test"><div class="quiz-opt" data-q="vein" data-signal="cool"><div class="quiz-opt-visual" style="background:linear-gradient(135deg,#8090d0,#9898e0)"></div><div class="quiz-opt-text"><span class="quiz-opt-label">Blue or purple</span><span class="quiz-opt-hint">Clearly bluish or violet</span></div></div><div class="quiz-opt" data-q="vein" data-signal="neutral"><div class="quiz-opt-visual" style="background:linear-gradient(135deg,#6898aa,#7aaa9a)"></div><div class="quiz-opt-text"><span class="quiz-opt-label">Blue-green, hard to tell</span><span class="quiz-opt-hint">A mix, shifts with light</span></div></div><div class="quiz-opt" data-q="vein" data-signal="warm"><div class="quiz-opt-visual" style="background:linear-gradient(135deg,#78b068,#90c078)"></div><div class="quiz-opt-text"><span class="quiz-opt-label">Green</span><span class="quiz-opt-hint">Clearly green or olive-toned</span></div></div></div></div>
+        <div class="quiz-col"><div class="quiz-col-head"><p class="quiz-col-num">Test 2</p><h3 class="quiz-col-title">The Metal Test</h3><p class="quiz-col-desc">Silver vs gold next to bare skin. Which looks more natural?</p></div><div class="quiz-options" role="radiogroup" aria-label="Metal undertone test"><div class="quiz-opt" data-q="metal" data-signal="cool"><div class="quiz-opt-visual" style="background:linear-gradient(135deg,#c8ccd8,#b0b4c0)"></div><div class="quiz-opt-text"><span class="quiz-opt-label">Silver</span><span class="quiz-opt-hint">Silver looks bright, gold looks brassy</span></div></div><div class="quiz-opt" data-q="metal" data-signal="neutral"><div class="quiz-opt-visual" style="background:linear-gradient(to right,#c0c4d0 50%,#c8a840 50%)"></div><div class="quiz-opt-text"><span class="quiz-opt-label">Both equally</span><span class="quiz-opt-hint">Both feel natural</span></div></div><div class="quiz-opt" data-q="metal" data-signal="warm"><div class="quiz-opt-visual" style="background:linear-gradient(135deg,#c8a840,#d4b050)"></div><div class="quiz-opt-text"><span class="quiz-opt-label">Gold</span><span class="quiz-opt-hint">Gold looks warm, silver looks cold</span></div></div></div></div>
+        <div class="quiz-col"><div class="quiz-col-head"><p class="quiz-col-num">Test 3</p><h3 class="quiz-col-title">The Sun Test</h3><p class="quiz-col-desc">Without protection, what happens in direct sun?</p></div><div class="quiz-options" role="radiogroup" aria-label="Sun undertone test"><div class="quiz-opt" data-q="sun" data-signal="cool"><div class="quiz-opt-visual" style="background:linear-gradient(135deg,#f0c0b0,#e8b0a0)"></div><div class="quiz-opt-text"><span class="quiz-opt-label">Burns easily, stays pink</span><span class="quiz-opt-hint">Tans minimally or not at all</span></div></div><div class="quiz-opt" data-q="sun" data-signal="neutral"><div class="quiz-opt-visual" style="background:linear-gradient(135deg,#d4a880,#c89870)"></div><div class="quiz-opt-text"><span class="quiz-opt-label">Burns first, then tans</span><span class="quiz-opt-hint">Develops a tan gradually</span></div></div><div class="quiz-opt" data-q="sun" data-signal="warm"><div class="quiz-opt-visual" style="background:linear-gradient(135deg,#c09050,#b88040)"></div><div class="quiz-opt-text"><span class="quiz-opt-label">Tans quickly, rarely burns</span><span class="quiz-opt-hint">Goes golden or olive</span></div></div></div></div>
+      </div>
+      <div class="ut-tally"><div class="ut-tally-block"><div class="ut-tally-count" id="tally-cool">0</div><div class="ut-tally-lbl">Cool</div></div><div class="ut-divider"></div><div class="ut-tally-block"><div class="ut-tally-count" id="tally-neutral">0</div><div class="ut-tally-lbl">Neutral</div></div><div class="ut-divider"></div><div class="ut-tally-block"><div class="ut-tally-count" id="tally-warm">0</div><div class="ut-tally-lbl">Warm</div></div><div class="ut-divider"></div><div class="ut-status-block"><p class="ut-status-text" id="ut-status" aria-live="polite">Answer all three tests to see your undertone</p></div></div>
+      <div class="step-cta-row">
+        <button class="btn-secondary" id="step2-back">&#8592; Back</button>
+        <button class="btn-primary" id="step2-next" aria-describedby="step2-error">See my palette &#8594;</button>
+        <p class="step-error" id="step2-error" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <!-- STEP 3 -->
+    <section class="step-section" id="step-3">
+      <div id="result-wrap"></div>
+      <div class="result-footer" style="display:flex;flex-direction:column;align-items:center;gap:.75rem;text-align:center">
+        <button class="btn-primary on" id="step3-builder" style="font-size:.7rem;padding:.8rem 2rem">Build with this palette &#8595;</button>
+        <div style="display:flex;gap:1rem;align-items:center">
+          <button class="btn-secondary" id="step3-scroll">Browse the full field &#8595;</button>
+          <button class="btn-secondary" id="step3-reset">Start over</button>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ══════════════════════════════════════════════════
+       OUTFIT BUILDER
+  ══════════════════════════════════════════════════ -->
+  <div class="section-intro section-intro-builder" id="builder-anchor">
+    <p class="section-kicker">Section 2</p>
+    <h2 class="section-title">Build an outfit with a point of view</h2>
+    <p class="section-sub">Start with a TRG combination or build piece by piece. The finder sharpens the choices, but nothing here is gated behind it.</p>
+    <div class="section-pills">
+      <span class="section-pill">10 preset outfits</span>
+      <span class="section-pill">6 garment slots</span>
+      <span class="section-pill">Works without the quiz</span>
+    </div>
+  </div>
+
+  <div class="presets-section">
+    <div class="presets-head">
+      <p class="presets-label">Start with a combination</p>
+      <p class="presets-sub">Load one of the house outfits as a base, then tune it garment by garment.</p>
+    </div>
+    <div class="presets-row" id="presets-row"></div>
+  </div>
+
+  <div class="ob-wrap" id="builder-workspace">
+    <div class="ob-left">
+      <p class="ob-sec-label">Outfit Builder</p>
+      <div class="ob-slots" id="ob-slots">
+        <div class="ob-slot on" data-slot="shirt"><div class="ob-slot-main"><div class="ob-slot-icon"><svg viewBox="0 0 512 512" fill="currentColor"><path d="M290.293,256.534h-0.086c-4.427,0-7.974,3.589-7.974,8.017s3.632,8.017,8.06,8.017s8.017-3.589,8.017-8.017S294.72,256.534,290.293,256.534z"/><path d="M290.378,376.251h-0.086c-4.427,0-7.974,3.589-7.974,8.017c0,4.427,3.632,8.017,8.06,8.017c4.427,0,8.017-3.589,8.017-8.017C298.395,379.84,294.806,376.251,290.378,376.251z"/><path d="M290.293,196.676h-0.086c-4.427,0-7.974,3.589-7.974,8.017s3.632,8.017,8.06,8.017s8.017-3.589,8.017-8.017S294.72,196.676,290.293,196.676z"/><path d="M290.293,316.393h-0.086c-4.427,0-7.974,3.589-7.974,8.017s3.632,8.017,8.059,8.017s8.017-3.589,8.017-8.017S294.72,316.393,290.293,316.393z"/><path d="M477.626,386.505l-7.437-275.179c-0.656-24.286-16.47-46.094-39.349-54.266L346.71,27.014L331.082,3.57c-1.281-1.921-3.326-3.196-5.615-3.5c-0.352-0.047-0.703-0.062-1.055-0.062V0H187.593v0.008c-0.351,0-0.702,0.015-1.055,0.062c-2.289,0.304-4.335,1.58-5.615,3.5l-15.628,23.443L81.161,57.061c-22.879,8.172-38.692,29.979-39.348,54.265l-7.437,275.179c-0.186,6.894,3.927,13.158,10.275,15.764l-1.52,26.598c-0.415,7.243,3.862,13.844,10.641,16.428l48.875,18.625c0.309,7.195,5.258,13.429,12.269,15.298l121.92,32.513c0.681,0.181,1.375,0.27,2.065,0.27c1.57,0,3.122-0.462,4.453-1.35c1.917-1.281,3.19-3.323,3.494-5.607l9.156-68.669l9.155,68.669c0.305,2.284,1.578,4.327,3.494,5.607c1.917,1.279,4.291,1.673,6.518,1.08l121.926-32.514c7.01-1.869,11.96-8.104,12.269-15.3l48.866-18.621c6.779-2.583,11.056-9.185,10.641-16.427l-1.52-26.598C473.699,399.664,477.813,393.4,477.626,386.505z M331.972,33.81L297.05,89.683c-0.034,0.056-0.127,0.203-0.362,0.244c-0.237,0.042-0.372-0.068-0.423-0.109l-27.773-22.219l54.32-47.53L331.972,33.81z M189.194,20.068l54.32,47.53l-27.773,22.219c-0.051,0.041-0.186,0.151-0.423,0.109c-0.236-0.041-0.328-0.187-0.363-0.244L180.033,33.81L189.194,20.068z M102.616,446.75l-43.135-16.437c-0.219-0.083-0.357-0.296-0.343-0.53l1.233-21.594l42.245,15.846V446.75z M247.987,375.192h-0.001l-15.827,118.696l-113.111-30.163c-0.234-0.062-0.398-0.275-0.398-0.516V153.386c0-4.427-3.589-8.017-8.017-8.017c-4.427,0-8.017,3.589-8.017,8.017v253.524l-51.867-19.457c-0.214-0.08-0.353-0.286-0.346-0.515l7.437-275.179c0.479-17.722,12.019-33.636,28.714-39.599l80.558-28.771l34.245,54.793c2.503,4.006,6.61,6.759,11.267,7.552c0.924,0.157,1.852,0.235,2.778,0.235c3.736,0,7.398-1.265,10.354-3.63l22.23-17.784V375.192z M256.003,57.222L208.93,16.033h94.146L256.003,57.222z M452.521,430.312l-43.11,16.428l0.022-22.724l42.197-15.829l1.234,21.595C452.878,430.016,452.739,430.229,452.521,430.312z M461.253,387.454l-51.803,19.432l0.248-253.492c0.004-4.427-3.582-8.02-8.009-8.024c-0.002,0-0.005,0-0.007,0c-4.424,0-8.012,3.584-8.017,8.009l-0.302,309.829c0,0.242-0.164,0.454-0.397,0.515l-113.119,30.165l-15.827-118.711V84.554l22.23,17.784c2.957,2.365,6.619,3.63,10.354,3.63c0.925,0,1.853-0.078,2.778-0.235c4.657-0.793,8.764-3.545,11.267-7.551l34.245-54.793l80.555,28.77c16.696,5.963,28.235,21.877,28.714,39.599l7.437,275.179C461.605,387.167,461.466,387.373,461.253,387.454z"/><path d="M213.247,145.37h-68.409c-4.427,0-8.017,3.589-8.017,8.017v59.858c0,13.851,11.268,25.119,25.119,25.119h34.205c13.851,0,25.119-11.268,25.119-25.119v-59.858C221.264,148.959,217.674,145.37,213.247,145.37z M205.23,213.244c0,5.01-4.076,9.086-9.086,9.086H161.94c-5.01,0-9.086-4.076-9.086-9.086v-19.345c2.82,1.099,5.882,1.708,9.086,1.708h34.205c3.203,0,6.266-0.609,9.086-1.708V213.244z M205.23,170.489c0,5.01-4.076,9.086-9.086,9.086H161.94c-5.01,0-9.086-4.076-9.086-9.086v-9.086h52.376V170.489z"/><circle cx="290.205" cy="144.835" r="8.017"/></svg></div><div class="ob-slot-body"><div class="ob-slot-name">Shirt</div><div class="ob-slot-hint">+ add</div><div class="ob-slot-color"></div></div><div class="ob-slot-dot"></div></div><span class="ob-slot-rm" title="Remove">&times;</span></div>
+        <div class="ob-slot" data-slot="trousers"><div class="ob-slot-main"><div class="ob-slot-icon"><svg viewBox="0 0 512 512" fill="currentColor"><path d="M300.27,0h-16.165h-57.751H211.73H94.318v48.511v20.014V512h147.952L256,352.018L269.729,512h147.953V68.525V48.511V0H300.27z M227.128,15.398h57.744v37.729h-57.744V15.398z M109.716,15.398h101.239v37.729H109.716V15.398z M109.716,63.909h52.262c-0.443,23.015-7.676,44.202-18.632,59.518c-5.654,7.917-12.262,14.262-19.3,18.563c-4.639,2.835-9.443,4.706-14.33,5.714V63.909z M228.135,496.602H109.716V158.727c7.007-1.127,13.737-3.729,19.955-7.541c12.721-7.804,23.435-20.458,31.06-35.992c7.308-14.917,11.638-32.564,11.984-51.285h58.646v164.103h19.827L228.135,496.602z M242.143,217.23V63.909h27.714V217.23H242.143z M402.283,496.602h-118.42l-23.052-268.59h19.827V63.909h58.6c0.474,25.24,8.286,48.458,20.646,65.782c6.376,8.924,13.962,16.3,22.444,21.495c6.218,3.812,12.947,6.414,19.955,7.541V496.602z M402.283,147.705c-4.888-1.008-9.7-2.88-14.33-5.714c-10.556-6.443-20.143-17.518-27-31.533c-6.572-13.406-10.556-29.488-10.894-46.548h52.225V147.705z M402.283,53.127h-102.78V15.398h102.78V53.127z"/></svg></div><div class="ob-slot-body"><div class="ob-slot-name">Trousers</div><div class="ob-slot-hint">+ add</div><div class="ob-slot-color"></div></div><div class="ob-slot-dot"></div></div><span class="ob-slot-rm">&times;</span></div>
+        <div class="ob-slot" data-slot="knitwear"><div class="ob-slot-main"><div class="ob-slot-icon"><svg viewBox="-56.4 -56.4 512 512" fill="currentColor"><path d="M354.334,118.897c-11.729-51.721-25.311-75.372-25.311-75.372C301.385,18.658,256.984,1.211,254.81,0.351c-1.539-0.609-3.279-0.417-4.65,0.515c-0.379,0.258-11.037,10.668-50.561,10.668h-0.002l0,0c-39.627,0-50.223-10.439-50.561-10.668c-1.371-0.932-3.113-1.124-4.65-0.515C142.213,1.21,94.488,18.658,70.17,43.522c-0.762,0.779-13.578,23.654-25.307,75.375c-10.734,47.333-22.34,129.157-16.695,250.19v25.111c0,2.76,2.238,5,5,5h45.336c2.416,0,4.486-1.729,4.918-4.105l4.568-25.082l9.141-38.57c1.355,5.461,2.895,10.711,4.635,15.709l4.525,25.914c0.418,2.393,2.496,4.141,4.926,4.141H287.98c2.43,0,4.508-1.748,4.926-4.141l4.525-25.914c1.74-4.998,3.279-10.248,4.635-15.711l9.139,38.572l4.568,25.082c0.434,2.377,2.504,4.105,4.92,4.105h45.338c2.762,0,5-2.24,5-5v-25.111C376.676,248.054,365.068,166.23,354.334,118.897z M199.597,21.533L199.597,21.533h0.002c23.824,0,38.176-3.4,46.559-6.779c-5.727,15.147-24.424,26.286-46.559,26.286h-0.002l0,0c-22.135,0-40.832-11.139-46.557-26.286C161.424,18.133,175.773,21.533,199.597,21.533z M210.361,50.254l-10.764,11.517l-10.762-11.517c3.488,0.515,7.086,0.786,10.762,0.786l0,0h0.002C203.275,51.04,206.871,50.769,210.361,50.254z M74.332,389.199H38.168v-15.215h38.934L74.332,389.199z M94.793,126.687c-4.342,47.976-11.029,121.925-2.295,180.933L79.14,363.984H37.947c-5.066-116.893,6.127-196.08,16.498-242.118c8.771-38.941,18.416-61.26,22.438-69.556c6.85,3.216,20.727,12.565,20.727,35.573C97.609,95.57,96.367,109.302,94.793,126.687z M115.418,367.204l-2.842-16.287h174.045l-2.844,16.287H115.418z M296.705,306.87c-0.018,0.086-4.371,23.752-7.721,34.047H110.213c-3.35-10.291-7.703-33.963-7.723-34.06c-8.717-57.789-2.057-131.547,2.262-179.268c1.596-17.636,2.857-31.567,2.857-39.706c0-25.794-14.723-38.092-24.143-43.32c16.563-13.689,45.807-26.953,58.471-32.365c2.756,13.782,13.293,25.549,27.938,32.412l26.07,27.899c0.984,1.054,2.318,1.586,3.654,1.586c1.223,0,2.449-0.446,3.414-1.347c0.084-0.079,26.307-28.139,26.307-28.139c14.646-6.862,25.184-18.631,27.939-32.413c12.662,5.41,41.9,18.667,58.471,32.365c-9.42,5.228-24.141,17.527-24.141,43.321c0,8.139,1.26,22.068,2.855,39.704C298.765,175.311,305.426,249.077,296.705,306.87z M361.031,389.199h-36.166l-2.771-15.215h38.938V389.199z M361.25,363.984h-41.195l-13.355-56.367c8.736-59.006,2.047-132.956-2.295-180.93c-1.572-17.385-2.814-31.116-2.814-38.803c0-23.015,13.885-32.363,20.721-35.573C331.474,71.278,369.935,163.781,361.25,363.984z"/></svg></div><div class="ob-slot-body"><div class="ob-slot-name">Knitwear</div><div class="ob-slot-hint">+ add</div><div class="ob-slot-color"></div></div><div class="ob-slot-dot"></div></div><span class="ob-slot-rm">&times;</span></div>
+        <div class="ob-slot" data-slot="jacket"><div class="ob-slot-main"><div class="ob-slot-icon"><svg viewBox="0 0 512 512" fill="currentColor"><path d="M461.495,110.789c-0.564-24.267-15.596-45.503-38.297-54.099l-56.714-21.478c-10.13-17.101-25.558-26.183-35.546-30.54C324.031,1.659,315.639,0,307.307,0H204.694c-8.33,0-16.721,1.659-23.627,4.672c-9.938,4.335-25.263,13.345-35.394,30.281L88.696,56.658C66.061,65.281,51.071,86.5,50.508,110.716l-7.615,327.443c-0.158,6.802,3.781,12.931,10.035,15.612l49.667,21.293l-0.002,28.919c0,2.126,0.844,4.165,2.347,5.669c1.504,1.504,3.542,2.348,5.669,2.348h119.737c3.733,0,6.971-2.577,7.811-6.213L256,428.472l17.841,77.315c0.84,3.637,4.078,6.213,7.811,6.213h120.005c4.427,0,8.017-3.588,8.017-8.017l0.002-29.038l49.396-21.175c6.255-2.681,10.195-8.81,10.036-15.612L461.495,110.789z M313.181,16.591c-0.055-0.072-0.114-0.138-0.17-0.209c4.155,0.493,8.118,1.503,11.514,2.984c11.793,5.146,26.397,15.147,32.816,34.15l-26.321,6.58c-2.803,0.701-5.011,2.854-5.782,5.637c-0.771,2.783,0.015,5.767,2.058,7.809l21.495,21.492l-70.178,134.505l41.785-176.348C323.834,40.432,321.206,27.1,313.181,16.591z M211.56,26.325c4.997-6.539,12.583-10.291,20.813-10.291h47.254c8.23,0,15.815,3.752,20.811,10.291c1.849,2.421,3.232,5.084,4.137,7.88h-97.152C208.328,31.408,209.711,28.746,211.56,26.325z M187.479,19.367c3.395-1.482,7.358-2.492,11.511-2.984c-0.056,0.072-0.114,0.138-0.17,0.209c-8.025,10.507-10.653,23.84-7.217,36.599l41.78,176.336l-70.17-134.491l21.495-21.492c2.043-2.043,2.828-5.025,2.058-7.809c-0.771-2.783-2.98-4.937-5.782-5.637l-26.322-6.58C161.082,34.513,175.686,24.512,187.479,19.367z M247.984,391.91L223.97,495.967H118.627l0.02-325.478c0-4.427-3.588-8.017-8.017-8.017c-4.427,0-8.017,3.588-8.017,8.017l-0.018,287.133l-43.35-18.585c-0.202-0.087-0.329-0.284-0.324-0.504l7.615-327.443c0.41-17.671,11.349-33.156,27.867-39.448l43.131-16.431c-0.197,0.837-0.388,1.68-0.56,2.542c-0.839,4.196,1.765,8.312,5.917,9.35l20.467,5.117L147.716,87.86c-2.477,2.476-3.059,6.272-1.44,9.377l101.707,194.939V391.91z M255.999,255.441L207.38,50.238h97.243L255.999,255.441z M452.755,439.035l-43.077,18.466l0.018-287.013c0-4.427-3.588-8.017-8.017-8.017c-4.427,0-8.017,3.588-8.017,8.017l-0.02,325.478H288.031L264.017,391.9v-99.721L365.728,97.237c1.62-3.105,1.037-6.902-1.44-9.377l-15.643-15.641l20.467-5.117c4.152-1.038,6.757-5.153,5.917-9.35c-0.159-0.798-0.338-1.578-0.518-2.355l43.008,16.287c16.566,6.273,27.536,21.769,27.947,39.479l7.614,327.37C453.084,438.751,452.957,438.949,452.755,439.035z"/><path d="M369.98,385.313l-68.409-25.653c-4.146-1.555-8.767,0.546-10.321,4.691c-1.555,4.145,0.546,8.767,4.691,10.321l68.409,25.653c0.928,0.347,1.878,0.512,2.813,0.512c3.246,0,6.301-1.985,7.507-5.204C376.226,391.488,374.126,386.867,369.98,385.313z"/><path d="M220.751,364.352c-1.554-4.147-6.178-6.247-10.32-4.692l-68.409,25.653c-4.145,1.554-6.247,6.175-4.691,10.321c1.207,3.218,4.262,5.204,7.507,5.204c0.935,0,1.887-0.165,2.813-0.512l68.409-25.653C220.204,373.119,222.306,368.498,220.751,364.352z"/><path d="M273.096,68.409h-34.198c-4.427,0-8.017,3.589-8.017,8.017s3.589,8.017,8.017,8.017h34.198c4.427,0,8.017-3.589,8.017-8.017S277.524,68.409,273.096,68.409z"/></svg></div><div class="ob-slot-body"><div class="ob-slot-name">Jacket</div><div class="ob-slot-hint">+ add</div><div class="ob-slot-color"></div></div><div class="ob-slot-dot"></div></div><span class="ob-slot-rm">&times;</span></div>
+        <div class="ob-slot" data-slot="coat"><div class="ob-slot-main"><div class="ob-slot-icon"><svg viewBox="-15 0 222 288" fill="currentColor"><path d="M56.371384,37.218559 C57.995903,36.642784 59.225483,35.975552 60.518764,35.811977 C66.197807,35.093700 69.383942,31.745504 70.737198,26.413080 C72.140060,20.885204 76.110168,18.425615 81.259094,16.965269 C91.600716,14.032166 101.610916,14.959168 111.598091,18.625734 C116.096443,20.277206 117.051231,24.341261 118.435295,27.907812 C120.153000,32.334103 122.733688,34.678455 127.457985,35.973221 C133.677887,37.677883 139.541336,40.670033 145.581406,43.049309 C148.638245,44.253441 150.369202,46.448883 151.112671,49.605392 C157.068497,74.891739 162.103271,100.280258 162.423126,126.430420 C162.636932,143.909256 163.016800,161.432388 164.603622,178.818741 C165.056213,183.777557 166.687210,188.336563 164.360977,193.137817 C164.099258,193.677948 164.326309,194.453903 164.323318,195.120483 C164.290527,202.432648 163.647705,203.098053 156.422913,203.301025 C146.366974,203.583542 146.493118,203.574921 147.171249,213.503418 C148.293945,229.940399 149.144867,246.396179 150.314529,262.829498 C150.626587,267.213989 148.926743,269.594208 144.959137,271.169830 C136.029373,274.716034 126.660973,276.171448 117.229134,277.131134 C97.088791,279.180450 76.987617,278.539612 57.008694,275.227905 C52.090542,274.412689 47.278156,273.033783 42.661465,271.039886 C39.207745,269.548279 37.409473,267.203186 37.716583,263.291992 C38.927582,247.869202 39.706699,232.402435 41.342331,217.026062 C42.734287,203.940506 43.177090,203.756317 30.502293,202.653275 C25.621847,202.228546 24.090239,200.278046 24.569090,195.693817 C24.856693,192.940491 25.094904,190.097321 22.492565,187.873367 C21.119871,186.700256 21.001383,184.508011 22.428068,183.386246 C25.177500,181.224380 24.619549,178.390274 24.705805,175.625504 C25.406933,153.152786 25.582136,130.648468 26.944187,108.216110 C28.176399,87.922180 32.859806,68.110283 37.957161,48.447254 C38.630413,45.850178 40.179726,44.025055 42.656555,42.983624 C47.107685,41.112038 51.556168,39.234161 56.371384,37.218559z"/><path d="M70.082596,149.478455 C69.702080,146.744278 70.606667,145.171326 73.116547,145.016449 C74.548576,144.928085 75.705559,145.684616 76.240196,147.064331 C76.767677,148.425568 76.565308,149.798859 75.361557,150.673050 C73.449287,152.061798 71.639252,151.891800 70.082596,149.478455z"/><path d="M74.438972,120.043884 C71.822495,120.845673 70.183540,120.166626 69.575279,117.764030 C69.221466,116.366470 69.616684,115.086166 70.913124,114.330185 C72.327194,113.505615 73.842659,113.546974 75.032280,114.702530 C76.829582,116.448364 76.431229,118.224228 74.438972,120.043884z"/><path d="M106.211517,85.581131 C105.453415,83.033997 105.785034,81.219208 108.295639,80.586449 C109.666359,80.240990 110.987068,80.583397 111.808769,81.820763 C112.726364,83.202522 112.701675,84.740417 111.575928,85.943169 C109.940804,87.690102 108.129105,87.684341 106.211517,85.581131z"/></svg></div><div class="ob-slot-body"><div class="ob-slot-name">Coat</div><div class="ob-slot-hint">+ add</div><div class="ob-slot-color"></div></div><div class="ob-slot-dot"></div></div><span class="ob-slot-rm">&times;</span></div>
+        <div class="ob-slot" data-slot="shoes"><div class="ob-slot-main"><div class="ob-slot-icon"><svg viewBox="10 -80 412 412" fill="currentColor"><path d="M433.000000,158.531586 C431.035950,161.295563 428.775726,163.085602 425.952271,164.370819 C396.323669,177.857346 365.295074,186.334625 333.016144,190.149307 C313.594788,192.444489 294.141022,191.508896 274.710938,189.730255 C257.657257,188.169144 240.596161,186.674057 223.523438,185.340378 C201.474960,183.617996 179.413055,182.065582 157.353531,180.487488 C153.036972,180.178696 148.690323,180.243423 144.384781,179.843002 C141.176544,179.544632 140.410187,180.927536 140.313568,183.840210 C140.095215,190.423386 139.094086,191.338470 132.635834,191.343460 C98.815620,191.369629 64.995361,191.373215 31.175156,191.344193 C24.898457,191.338806 23.533651,190.065292 23.661030,183.630798 C23.887873,172.171936 22.602448,160.673111 24.656534,149.251740 C25.233097,146.045868 23.741598,143.014038 22.695303,140.069656 C19.057573,129.832657 18.986727,119.510651 21.747341,109.135124 C25.762659,94.043915 28.682236,78.615524 35.467838,64.363998 C38.867626,57.223564 40.741627,56.452984 47.742649,60.262291 C67.371788,70.942642 87.932777,77.682747 110.670349,76.932274 C127.817635,76.366302 142.890701,70.749115 156.304092,60.333675 C165.398178,53.272156 173.615097,45.201962 181.831848,37.177990 C186.346664,32.769100 190.753113,31.794483 196.701950,33.976471 C222.415649,43.408047 245.809937,56.962593 267.795776,73.118736 C269.943024,74.696617 272.100983,76.259888 274.250061,77.835281 C276.026459,79.137459 278.135010,80.675873 278.227539,82.775635 C278.548615,90.060577 284.290375,92.066895 289.278076,94.774483 C302.501190,101.952698 316.050476,108.711792 331.196198,110.235840 C343.920319,111.516205 356.791473,111.371590 369.600372,111.764107 C383.481964,112.189507 397.109375,113.696922 410.148438,119.046692 C416.459290,121.635956 421.693481,125.217682 424.355072,131.543045 C425.985443,135.417633 429.823914,136.190048 432.713501,138.814331 C433.000000,145.354401 433.000000,151.708786 433.000000,158.531586 M204.012543,51.795750 C204.335022,51.026627 204.761993,50.204796 204.205246,49.431545 C201.025665,45.015575 191.242783,44.000225 187.177032,47.703651 C182.129318,52.301556 177.178329,57.005676 172.129944,61.602848 C147.276093,84.235344 118.474487,92.581810 85.374405,85.745987 C72.738159,83.136360 60.831299,78.453346 48.998020,73.553871 C44.935692,71.871887 43.132870,72.745613 41.843182,76.974113 C38.494438,87.953682 34.384071,98.705368 32.530563,110.107788 C30.804329,120.727257 30.023449,131.254974 34.171860,141.595322 C35.844242,145.763901 38.323856,148.138535 43.117180,147.963196 C49.435394,147.732025 55.758595,148.394745 62.066010,148.529877 C87.371300,149.071991 112.681229,149.383209 137.965424,150.641464 C141.518967,150.818283 143.909592,149.678711 145.610031,146.376053 C150.700378,136.489441 158.933456,129.994324 168.829117,125.278053 C186.713760,116.754219 205.735321,114.349205 225.242157,114.652847 C237.222595,114.839333 249.201035,115.283669 261.173248,115.782852 C264.408569,115.917755 265.616638,114.799690 265.731781,111.569359 C265.921051,106.257812 266.366150,100.945015 266.951599,95.660233 C268.005341,86.148384 266.375641,83.415588 257.032166,79.779907 C255.724213,80.470985 255.404938,81.827850 254.933899,83.041855 C253.510727,86.709801 251.032150,88.639328 247.171860,86.964867 C243.365997,85.314018 243.903412,82.047684 244.947235,78.829552 C247.191650,71.910004 247.192566,71.895370 240.782867,67.959663 C239.537292,67.194855 238.513809,65.957825 236.556473,65.938042 C235.391479,67.969032 234.207016,70.134026 232.926575,72.240662 C231.354599,74.826935 229.090546,76.128464 226.188889,74.721779 C223.264191,73.303925 222.328384,70.954468 223.430725,67.650177 C224.303635,65.033623 226.336349,62.778992 226.140686,59.628719 C222.693436,57.698723 219.524673,55.286999 215.393951,54.643940 C214.647705,55.806026 213.981155,56.746834 213.413483,57.743938 C209.944351,63.837357 207.344376,65.568047 204.159531,63.439148 C199.161621,60.098289 202.099411,56.189079 204.012543,51.795750 M285.223877,163.018448 C287.710205,163.243500 290.192169,163.574844 292.683533,163.677155 C317.133911,164.681213 341.226929,162.152313 364.996094,156.358643 C380.390564,152.606262 395.483124,147.875763 410.372833,142.489487 C415.963379,140.467148 416.461975,138.465591 412.800201,133.802002 C411.548737,132.208160 410.016479,130.909409 408.177979,130.054047 C403.950745,128.087341 399.723785,125.991638 395.071960,125.314148 C379.068085,122.983368 362.922272,122.659363 346.795471,121.981377 C338.174500,121.618942 329.515198,121.615692 320.993591,119.649673 C307.515411,116.540123 295.460785,110.137939 283.275787,103.980637 C281.573486,103.120430 280.037628,101.572289 277.774292,102.176636 C276.067780,108.389786 276.683075,114.794495 275.761963,121.026596 C274.915955,126.750755 272.613953,128.362122 267.029358,128.066330 C247.120804,127.011887 227.287216,124.191010 207.251175,126.221313 C192.793045,127.686386 179.054672,131.140594 166.695435,138.964371 C162.246078,141.780945 158.418243,145.396606 155.953674,151.198563 C161.283661,151.785950 165.846054,152.342148 170.419571,152.783157 C186.653427,154.348572 202.878372,156.027191 219.130371,157.378250 C240.854614,159.184280 262.491913,162.004196 285.223877,163.018448 M261.356476,177.930237 C273.932892,179.373077 286.565826,180.422409 299.203339,180.507645 C326.147827,180.689438 352.618896,176.861435 378.679840,170.009109 C391.748688,166.572845 404.640045,162.658539 417.058014,157.299179 C419.805786,156.113297 422.568176,154.754120 421.251801,150.870300 C420.631805,150.807236 420.269989,150.664612 419.986084,150.758240 C417.616058,151.539871 415.225830,152.277115 412.905426,153.189896 C363.207153,172.739563 311.826843,178.189514 258.918427,172.253265 C231.330994,169.158020 203.663101,166.701080 175.990128,164.469452 C148.614853,162.261856 121.206566,160.463791 93.716232,160.108582 C75.901962,159.878403 58.092030,159.112885 40.288609,158.381424 C35.853535,158.199203 33.752041,159.342834 34.292549,164.187286 C34.678188,167.643723 34.663631,171.209000 34.296894,174.669449 C33.806011,179.301254 35.537006,180.707153 40.125622,180.679367 C68.286415,180.508835 96.448990,180.527374 124.610207,180.653854 C128.418671,180.670959 130.092697,179.677963 129.959274,175.630005 C129.831970,171.767593 131.260529,168.697418 135.964340,168.773590 C143.793564,168.900375 151.658661,168.574142 159.446152,169.207413 C193.121445,171.945831 226.774048,174.963181 261.356476,177.930237 z"/></svg></div><div class="ob-slot-body"><div class="ob-slot-name">Shoes</div><div class="ob-slot-hint">+ add</div><div class="ob-slot-color"></div></div><div class="ob-slot-dot"></div></div><span class="ob-slot-rm">&times;</span></div>
+      </div>
+
+      <div class="ob-gauge">
+        <div class="ob-gauge-ring">
+          <svg viewBox="0 0 60 60"><circle class="ob-gauge-bg" cx="30" cy="30" r="26"/><circle class="ob-gauge-fill" id="ob-gauge-fill" cx="30" cy="30" r="26"/></svg>
+          <div class="ob-gauge-pct" id="ob-gauge-pct">Pick your<br>first piece</div>
+        </div>
+        <div class="ob-gauge-meta">
+          <p class="ob-gauge-label" id="ob-gauge-label">Colour Harmony</p>
+          <p class="ob-gauge-desc" id="ob-gauge-desc" aria-live="polite">Tap a garment, then choose a colour.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="ob-right">
+      <div class="ob-profile-link" id="ob-profile-link">
+        <div class="ob-pl-swatch" id="ob-pl-swatch" style="background:var(--border)"></div>
+        <div class="ob-pl-text" id="ob-pl-text">Take the skin tone quiz to get personalised colour picks for each garment slot.</div>
+        <button class="ob-pl-cta" id="ob-pl-cta">Personalise &rarr;</button>
+      </div>
+
+      <div class="ob-suggest" id="ob-suggest">
+        <div class="ob-suggest-head">
+          <span class="ob-suggest-label">Suggested for you</span>
+          <span class="ob-suggest-hint" id="ob-suggest-hint"></span>
+        </div>
+        <div class="ob-suggest-chips" id="ob-suggest-chips"></div>
+      </div>
+
+      <div class="ob-shop-rail" id="ob-shop-rail">
+        <div class="ob-shop-head">
+          <span class="ob-shop-kicker">Shopping handoff</span>
+          <h3 class="ob-shop-title">Take this into the catalogue</h3>
+        </div>
+        <p class="ob-shop-summary" id="ob-shop-summary">Choose a piece and the guide will open the relevant category pages here.</p>
+        <div class="ob-shop-actions" id="ob-shop-actions"></div>
+      </div>
+
+      <div id="ob-families"></div>
+    </div>
+  </div>
+
+  <!-- Transition: builder to grid -->
+  <div class="section-transition">
+    <p>Once the outfit feels right, drop into the full field and see the rest of the colour story.</p>
+    <a class="cg-btn-secondary" href="#grid-anchor" id="transition-to-grid">All 76 colours &#8595;</a>
+  </div>
+
+  <!-- ── COLOUR FAMILIES GRID ── -->
+  <div class="section-intro section-intro-grid" id="grid-anchor">
+    <p class="section-kicker">Section 3</p>
+    <h2 class="section-title">The full 76-colour field</h2>
+    <p class="section-sub">Browse by family with no profile at all, or let your palette pull the strongest colours to the top and soften the weaker ones.</p>
+    <div class="section-pills">
+      <span class="section-pill">8 colour families</span>
+      <span class="section-pill">Sorted when personalised</span>
+      <span class="section-pill">Permanent reference</span>
+    </div>
+  </div>
+
+  <div class="profile-bar" id="profile-bar">
+    <div class="pb-swatch" id="pb-swatch"></div>
+    <span class="pb-name" id="pb-name"></span>
+    <span class="pb-summary" id="pb-summary"></span>
+    <div class="pb-dots" id="pb-dots"></div>
+    <div class="pb-legend">
+      <div class="pb-legend-item"><div class="pb-legend-dot" style="background:var(--match)"></div> In your palette</div>
+      <div class="pb-legend-item"><div class="pb-legend-dot" style="background:var(--caution-c);opacity:.5"></div> With care</div>
+    </div>
+  </div>
+
+  <div class="guide-wrap" id="guide-wrap"></div>
+
+  <div class="section-transition">
+    <p>Want the grid sorted to your skin tone rather than shown flat? Head back to the finder.</p>
+    <a class="cg-btn-secondary" href="#st-wrap" id="transition-to-quiz">Find your palette &#8593;</a>
+  </div>
+
+<footer class="credit">The Right Garment / <a href="#">Colour Guide</a></footer>
+
+</div>
+
+<script src="{{ 'trg-colour-engine.js' | asset_url }}&cv=20260415a" defer></script>
+<script src="{{ 'trg-colour-guide-v2.js' | asset_url }}&cv=20260415a" defer></script>
+
+{% schema %}
+{
+  "name": "TRG Colour Guide v2",
+  "class": "trg-colour-guide",
+  "settings": []
+}
+{% endschema %}

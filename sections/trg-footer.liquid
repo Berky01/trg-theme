@@ -1,0 +1,1566 @@
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+{% liquid
+  assign contact_page = pages['contact']
+  assign privacy_page = pages['privacy-policy']
+  assign affiliate_page = pages['affiliate-disclosure']
+  assign tos_page = pages['terms-of-service']
+%}
+<section
+  class="section section--full-width color-{{ section.settings.color_scheme }} trg-footer trg-footer--{{ section.settings.skin }}"
+  style="--padding-block-start: {{ section.settings.padding_block_start }}px; --padding-block-end: {{ section.settings.padding_block_end }}px;"
+>
+  <div class="trg-shell">
+
+    <div class="trg-footer__main" data-trg-reveal>
+
+      <div class="trg-footer__brand">
+
+        {% if section.settings.logo_image != blank %}
+
+          {{
+
+            section.settings.logo_image
+
+            | image_url: width: 900
+
+            | image_tag:
+
+              loading: 'lazy',
+
+              widths: '160, 240, 360, 540, 720, 900',
+
+              sizes: '(min-width: 990px) 360px, 220px',
+
+              style: '--trg-footer-logo-width: [width]px;' | replace: '[width]', section.settings.logo_width,
+
+              class: 'trg-footer__logo',
+
+              alt: section.settings.brand_name
+
+          }}
+
+        {% else %}
+
+          {% liquid
+
+            assign brand_name_value = section.settings.brand_name | default: shop.name
+
+            assign brand_accent_word = section.settings.brand_accent_word | strip
+
+            assign brand_name_markup = brand_name_value | escape
+
+
+
+            if brand_accent_word != blank and brand_name_value contains brand_accent_word
+
+              assign accent_escaped = brand_accent_word | escape
+
+              assign accent_markup = '<span class="trg-footer__brand-accent">[accent]</span>' | replace: '[accent]', accent_escaped
+
+              assign brand_name_markup = brand_name_markup | replace: accent_escaped, accent_markup
+
+            endif
+
+          %}
+
+          <h3 class="trg-footer__brand-name">{{ brand_name_markup }}</h3>
+
+        {% endif %}
+
+
+
+        {% if section.settings.brand_tagline != blank %}
+
+          <div class="trg-body-copy trg-footer__tagline">{{ section.settings.brand_tagline }}</div>
+
+        {% endif %}
+
+
+
+        {% if section.settings.show_social %}
+
+          <div class="trg-footer__socials">
+
+            {% if section.settings.instagram_url != blank %}<a href="{{ section.settings.instagram_url }}" target="_blank" rel="noopener">Instagram</a>{% endif %}
+
+            {% if section.settings.youtube_url != blank %}<a href="{{ section.settings.youtube_url }}" target="_blank" rel="noopener">YouTube</a>{% endif %}
+
+            {% if section.settings.tiktok_url != blank %}<a href="{{ section.settings.tiktok_url }}" target="_blank" rel="noopener">TikTok</a>{% endif %}
+
+            {% if section.settings.facebook_url != blank %}<a href="{{ section.settings.facebook_url }}" target="_blank" rel="noopener">Facebook</a>{% endif %}
+
+            {% if section.settings.x_url != blank %}<a href="{{ section.settings.x_url }}" target="_blank" rel="noopener">X</a>{% endif %}
+
+          </div>
+
+        {% endif %}
+
+      </div>
+
+
+
+      <div class="trg-footer__columns">
+
+        {% for block in section.blocks %}
+
+          {% case block.type %}
+
+            {% when 'menu_column' %}
+
+              <nav class="trg-footer__col" {{ block.shopify_attributes }}>
+
+                {% if block.settings.heading != blank %}<p class="trg-footer__col-title">{{ block.settings.heading | escape }}</p>{% endif %}
+
+                {% if block.settings.menu != blank and linklists[block.settings.menu].links.size > 0 %}
+
+                  {% assign menu_has_real_links = false %}
+
+                  {% for link in linklists[block.settings.menu].links %}
+
+                    {% unless link.url == '/search' %}{% assign menu_has_real_links = true %}{% endunless %}
+
+                  {% endfor %}
+
+                  {% if menu_has_real_links %}
+                    {% liquid
+                      assign about_menu_has_contact = false
+                      assign about_menu_has_privacy = false
+                    %}
+                    <ul class="trg-footer__links" role="list">
+                      {% for link in linklists[block.settings.menu].links %}
+                        {% if block.settings.heading == 'About' %}
+                          {% if link.url == '/pages/contact' %}
+                            {% assign about_menu_has_contact = true %}
+                          {% endif %}
+                          {% if link.url == '/pages/privacy-policy' %}
+                            {% assign about_menu_has_privacy = true %}
+                          {% endif %}
+                        {% endif %}
+                        <li><a href="{{ link.url }}">{{ link.title | escape }}</a></li>
+                      {% endfor %}
+                      {% if block.settings.heading == 'About' and contact_page != blank and about_menu_has_contact == false %}
+                        <li><a href="{{ contact_page.url }}">{{ contact_page.title | escape }}</a></li>
+                      {% endif %}
+                      {% if block.settings.heading == 'About' and privacy_page != blank and about_menu_has_privacy == false %}
+                        <li><a href="{{ privacy_page.url }}">{{ privacy_page.title | escape }}</a></li>
+                      {% endif %}
+                    </ul>
+                  {% else %}
+                    {%- comment -%}Fallback links when menu has only /search placeholders{%- endcomment -%}
+                    {% if block.settings.heading == 'Directory' %}
+                      <ul class="trg-footer__links" role="list">
+
+                        <li><a href="/pages/brands">All Brands</a></li>
+
+                        <li><a href="/collections/footwear">Footwear</a></li>
+
+                        <li><a href="/collections/outerwear">Outerwear</a></li>
+
+                        <li><a href="/collections/casualwear">Casualwear</a></li>
+
+                        <li><a href="/collections/denim">Denim</a></li>
+
+                        <li><a href="/collections/knitwear">Knitwear</a></li>
+
+                        <li><a href="/collections/tailoring">Tailoring</a></li>
+
+                      </ul>
+
+                    {% elsif block.settings.heading == 'Categories' %}
+
+                      <ul class="trg-footer__links" role="list">
+
+                        <li><a href="/collections/outerwear">Outerwear</a></li>
+
+                        <li><a href="/collections/footwear">Footwear</a></li>
+
+                        <li><a href="/collections/casualwear">Casualwear</a></li>
+
+                        <li><a href="/collections/denim">Denim</a></li>
+
+                        <li><a href="/collections/knitwear">Knitwear</a></li>
+
+                        <li><a href="/collections/formalwear">Formalwear</a></li>
+
+                        <li><a href="/collections/workwear">Workwear</a></li>
+
+                      </ul>
+
+                    {% elsif block.settings.heading == 'About' %}
+                      <ul class="trg-footer__links" role="list">
+                        <li><a href="/pages/about">About TRG</a></li>
+                        {% if contact_page != blank %}
+                          <li><a href="{{ contact_page.url }}">{{ contact_page.title | escape }}</a></li>
+                        {% endif %}
+                        <li><a href="/pages/affiliate-disclosure">Affiliate Disclosure</a></li>
+                        <li><a href="/pages/submit-brand">Submit a Brand</a></li>
+                        <li><a href="/blogs/news">Journal</a></li>
+                        {% if privacy_page != blank %}
+                          <li><a href="{{ privacy_page.url }}">{{ privacy_page.title | escape }}</a></li>
+                        {% endif %}
+                        {% if tos_page != blank %}
+                          <li><a href="{{ tos_page.url }}">{{ tos_page.title | escape }}</a></li>
+                        {% endif %}
+                      </ul>
+                    {% endif %}
+                  {% endif %}
+                {% else %}
+                  {%- comment -%}No menu set â€” show fallback based on heading{%- endcomment -%}
+
+                  {% if block.settings.heading == 'Directory' %}
+
+                    <ul class="trg-footer__links" role="list">
+
+                      <li><a href="/pages/brands">All Brands</a></li>
+
+                      <li><a href="/collections/footwear">Footwear</a></li>
+
+                      <li><a href="/collections/outerwear">Outerwear</a></li>
+
+                      <li><a href="/collections/casualwear">Casualwear</a></li>
+
+                      <li><a href="/collections/denim">Denim</a></li>
+
+                      <li><a href="/collections/knitwear">Knitwear</a></li>
+
+                      <li><a href="/collections/tailoring">Tailoring</a></li>
+
+                    </ul>
+
+                  {% elsif block.settings.heading == 'Categories' %}
+
+                    <ul class="trg-footer__links" role="list">
+
+                      <li><a href="/collections/outerwear">Outerwear</a></li>
+
+                      <li><a href="/collections/footwear">Footwear</a></li>
+
+                      <li><a href="/collections/casualwear">Casualwear</a></li>
+
+                      <li><a href="/collections/denim">Denim</a></li>
+
+                      <li><a href="/collections/knitwear">Knitwear</a></li>
+
+                      <li><a href="/collections/formalwear">Formalwear</a></li>
+
+                      <li><a href="/collections/workwear">Workwear</a></li>
+
+                    </ul>
+
+                  {% elsif block.settings.heading == 'About' %}
+                    <ul class="trg-footer__links" role="list">
+                      <li><a href="/pages/about">About TRG</a></li>
+                      {% if contact_page != blank %}
+                        <li><a href="{{ contact_page.url }}">{{ contact_page.title | escape }}</a></li>
+                      {% endif %}
+                      <li><a href="/pages/affiliate-disclosure">Affiliate Disclosure</a></li>
+                      <li><a href="/pages/submit-brand">Submit a Brand</a></li>
+                      <li><a href="/blogs/news">Journal</a></li>
+                      {% if privacy_page != blank %}
+                        <li><a href="{{ privacy_page.url }}">{{ privacy_page.title | escape }}</a></li>
+                      {% endif %}
+                      {% if tos_page != blank %}
+                        <li><a href="{{ tos_page.url }}">{{ tos_page.title | escape }}</a></li>
+                      {% endif %}
+                    </ul>
+                  {% endif %}
+                {% endif %}
+              </nav>
+
+
+            {% when 'text_column' %}
+
+              <div class="trg-footer__col" {{ block.shopify_attributes }}>
+
+                {% if block.settings.heading != blank %}<p class="trg-footer__col-title">{{ block.settings.heading | escape }}</p>{% endif %}
+
+                {% if block.settings.body != blank %}<div class="trg-body-copy">{{ block.settings.body }}</div>{% endif %}
+
+                {% if block.settings.link_label != blank and block.settings.link_url != blank %}
+
+                  <a class="trg-link" href="{{ block.settings.link_url }}">{{ block.settings.link_label | escape }}</a>
+
+                {% endif %}
+
+              </div>
+
+          {% endcase %}
+
+        {% endfor %}
+
+      </div>
+
+    </div>
+
+
+
+    <div class="trg-footer__bottom" data-trg-reveal>
+
+      <p class="trg-footer__bottom-note">
+
+        &copy; {{ 'now' | date: '%Y' }} {{ shop.name }}
+
+        {% if section.settings.show_powered_by %}
+
+          , {{ powered_by_link }}
+
+        {% endif %}
+
+      </p>
+
+
+      <div class="trg-footer__bottom-links">
+        {% liquid
+          assign has_policy_links = false
+          assign has_contact_legal_link = false
+          assign has_privacy_legal_link = false
+          assign has_affiliate_legal_link = false
+
+          if section.settings.show_policy_links
+            for policy in shop.policies
+              if policy != blank
+                assign has_policy_links = true
+              endif
+            endfor
+          endif
+
+          for block in section.blocks
+            if block.type == 'legal_link' and block.settings.url != blank
+              if block.settings.url == '/pages/contact'
+                assign has_contact_legal_link = true
+              endif
+              if block.settings.url == '/pages/privacy-policy'
+                assign has_privacy_legal_link = true
+              endif
+              if block.settings.url == '/pages/affiliate-disclosure'
+                assign has_affiliate_legal_link = true
+              endif
+            endif
+          endfor
+        %}
+
+        {% if section.settings.show_policy_links %}
+          {% for policy in shop.policies %}
+            {% if policy != blank %}<a href="{{ policy.url }}">{{ policy.title | escape }}</a>{% endif %}
+          {% endfor %}
+        {% endif %}
+
+
+        {% for block in section.blocks %}
+
+          {% if block.type == 'legal_link' and block.settings.label != blank and block.settings.url != blank %}
+            <a href="{{ block.settings.url }}" {{ block.shopify_attributes }}>{{ block.settings.label | escape }}</a>
+          {% endif %}
+        {% endfor %}
+
+        {% if has_contact_legal_link == false and contact_page != blank %}
+          <a href="{{ contact_page.url }}">Contact</a>
+        {% endif %}
+
+        {% if has_policy_links == false and has_privacy_legal_link == false and privacy_page != blank %}
+          <a href="{{ privacy_page.url }}">{{ privacy_page.title | escape }}</a>
+        {% endif %}
+
+        {% if has_affiliate_legal_link == false and affiliate_page != blank %}
+          <a href="{{ affiliate_page.url }}">{{ affiliate_page.title | escape }}</a>
+        {% endif %}
+      </div>
+    </div>
+
+
+    {% if section.settings.disclosure_note != blank %}
+
+      <p class="trg-muted-note trg-footer__disclosure" data-trg-reveal>{{ section.settings.disclosure_note | escape }}</p>
+
+    {% endif %}
+
+  </div>
+
+</section>
+
+
+
+{% stylesheet %}
+
+  .trg-footer {
+
+    padding-top: calc(var(--trg-section-space-mobile) + var(--padding-block-start, 0px));
+
+    padding-bottom: calc(var(--trg-section-space-mobile) + var(--padding-block-end, 0px));
+
+    border-top: 1px solid var(--trg-border-color);
+
+  }
+
+
+
+  @media screen and (min-width: 750px) {
+
+    .trg-footer {
+
+      padding-top: calc(var(--trg-section-space) + var(--padding-block-start, 0px));
+
+      padding-bottom: calc(var(--trg-section-space) + var(--padding-block-end, 0px));
+
+    }
+
+  }
+
+
+
+  .trg-footer__main {
+
+    display: grid;
+
+    gap: 24px;
+
+  }
+
+
+
+  @media screen and (min-width: 990px) {
+
+    .trg-footer__main {
+
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.2fr);
+
+      align-items: start;
+
+    }
+
+  }
+
+
+
+  .trg-footer__logo {
+
+    width: min(var(--trg-footer-logo-width, 360px), 100%);
+
+    height: auto;
+
+    display: block;
+
+  }
+
+
+
+  .trg-footer__brand-name {
+
+    margin: 0;
+
+    color: var(--trg-heading-color);
+
+    font-size: clamp(2rem, 5vw, 4rem);
+
+    line-height: 0.95;
+
+  }
+
+
+
+  .trg-footer__brand-accent {
+
+    color: var(--trg-accent-color, var(--color-primary));
+
+    font-style: italic;
+
+  }
+
+
+
+  .trg-footer__tagline {
+
+    margin-top: 10px;
+
+    max-width: 560px;
+
+  }
+
+
+
+  .trg-footer__socials {
+
+    margin-top: 14px;
+
+    display: flex;
+
+    gap: 10px;
+
+    flex-wrap: wrap;
+
+  }
+
+
+
+  .trg-footer__socials a {
+
+    color: var(--trg-muted-color);
+
+    text-decoration: none;
+
+    font-size: 0.75rem;
+
+    letter-spacing: 0.08em;
+
+    text-transform: uppercase;
+
+  }
+
+
+
+  .trg-footer__columns {
+
+    display: grid;
+
+    gap: 14px;
+
+  }
+
+
+
+  @media screen and (min-width: 750px) {
+
+    .trg-footer__columns {
+
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+
+      gap: 16px;
+
+    }
+
+  }
+
+
+
+  .trg-footer__col {
+
+    padding-left: 12px;
+
+    border-left: 1px solid var(--trg-border-color);
+
+  }
+
+
+
+  .trg-footer__col-title {
+
+    margin: 0 0 8px;
+
+    color: var(--trg-heading-color);
+
+    font-size: 0.72rem;
+
+    letter-spacing: 0.08em;
+
+    text-transform: uppercase;
+
+  }
+
+
+
+  .trg-footer__links {
+
+    margin: 0;
+
+    padding: 0;
+
+    list-style: none;
+
+    display: grid;
+
+    gap: 6px;
+
+  }
+
+
+
+  .trg-footer__links a,
+
+  .trg-footer__bottom-links a,
+
+  .trg-footer__bottom-note a {
+
+    color: var(--trg-muted-color);
+
+    text-decoration: none;
+
+    font-size: 0.8rem;
+
+  }
+
+
+
+  .trg-footer__bottom {
+
+    margin-top: 22px;
+
+    padding-top: 14px;
+
+    border-top: 1px solid var(--trg-border-color);
+
+    display: grid;
+
+    gap: 10px;
+
+  }
+
+
+
+  @media screen and (min-width: 750px) {
+
+    .trg-footer__bottom {
+
+      grid-template-columns: 1fr auto;
+
+      align-items: center;
+
+    }
+
+  }
+
+
+
+  .trg-footer__bottom-note {
+
+    margin: 0;
+
+    color: var(--trg-muted-color);
+
+    font-size: 0.75rem;
+
+  }
+
+
+
+  .trg-footer__bottom-links {
+
+    display: flex;
+
+    gap: 10px;
+
+    flex-wrap: wrap;
+
+    justify-content: flex-start;
+
+  }
+
+
+
+  @media screen and (min-width: 750px) {
+
+    .trg-footer__bottom-links {
+
+      justify-content: flex-end;
+
+    }
+
+  }
+
+
+
+  .trg-footer__disclosure {
+
+    margin-top: 8px;
+
+  }
+
+
+
+  .trg-footer--editorial_dark {
+
+    background: #141412;
+
+    border-top: 1px solid rgb(245 241 235 / 0.06);
+
+  }
+
+
+
+  .trg-footer--editorial_dark .trg-footer__brand-name {
+
+    color: #f5f1eb;
+
+    font-size: clamp(2.1rem, 5vw, 4.1rem);
+
+    line-height: 0.95;
+
+  }
+
+
+
+  .trg-footer--editorial_dark .trg-footer__tagline {
+
+    color: rgb(245 241 235 / 0.36);
+
+  }
+
+
+
+  .trg-footer--editorial_dark .trg-footer__socials a {
+
+    color: rgb(245 241 235 / 0.4);
+
+  }
+
+
+
+  .trg-footer--editorial_dark .trg-footer__col-title {
+
+    color: rgb(245 241 235 / 0.32);
+
+    font-size: 0.65rem;
+
+    letter-spacing: 0.13em;
+
+  }
+
+
+
+  .trg-footer--editorial_dark .trg-footer__links a,
+
+  .trg-footer--editorial_dark .trg-footer__bottom-links a,
+
+  .trg-footer--editorial_dark .trg-footer__bottom-note,
+
+  .trg-footer--editorial_dark .trg-footer__bottom-note a {
+
+    color: rgb(245 241 235 / 0.45);
+
+  }
+
+
+
+  .trg-footer--editorial_dark .trg-footer__links a:hover,
+
+  .trg-footer--editorial_dark .trg-footer__bottom-links a:hover {
+
+    color: #f5f1eb;
+
+  }
+
+
+
+  .trg-footer--editorial_dark .trg-footer__col {
+
+    border-left-color: rgb(245 241 235 / 0.08);
+
+  }
+
+
+
+  .trg-footer--editorial_dark .trg-footer__bottom {
+
+    border-top-color: rgb(245 241 235 / 0.08);
+
+  }
+
+
+
+  .trg-footer--editorial_dark .trg-footer__disclosure {
+
+    color: rgb(245 241 235 / 0.26);
+
+  }
+
+
+
+  /* â”€â”€â”€ MOBILE ACCORDION â”€â”€â”€ */
+
+  @media screen and (max-width: 749px) {
+
+    .trg-footer__main {
+
+      gap: 28px;
+
+    }
+
+
+
+    .trg-footer__columns {
+
+      gap: 0;
+
+    }
+
+
+
+    .trg-footer__col {
+
+      padding-left: 0;
+
+      border-left: none;
+
+      border-bottom: 1px solid var(--trg-border-color);
+
+    }
+
+
+
+    .trg-footer--editorial_dark .trg-footer__col {
+
+      border-bottom-color: rgb(245 241 235 / 0.08);
+
+      border-left: none;
+
+    }
+
+
+
+    .trg-footer__col:last-child {
+
+      border-bottom: none;
+
+    }
+
+
+
+    .trg-footer__col-title {
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      cursor: pointer;
+
+      min-height: 48px;
+
+      margin: 0;
+
+      -webkit-tap-highlight-color: transparent;
+
+      user-select: none;
+
+    }
+
+
+
+    .trg-footer__col-title::after {
+
+      content: '';
+
+      width: 10px;
+
+      height: 10px;
+
+      border-right: 1.5px solid currentColor;
+
+      border-bottom: 1.5px solid currentColor;
+
+      transform: rotate(45deg);
+
+      transition: transform 0.2s ease;
+
+      flex-shrink: 0;
+
+      opacity: 0.5;
+
+      margin-top: -3px;
+
+    }
+
+
+
+    .trg-footer__col.is-open .trg-footer__col-title::after {
+
+      transform: rotate(-135deg);
+
+      margin-top: 3px;
+
+    }
+
+
+
+    .trg-footer__links {
+
+      max-height: 0;
+
+      overflow: hidden;
+
+      transition: max-height 0.25s ease, padding 0.25s ease;
+
+      padding-bottom: 0;
+
+    }
+
+
+
+    .trg-footer__col.is-open .trg-footer__links {
+
+      max-height: 400px;
+
+      padding-bottom: 14px;
+
+    }
+
+
+
+    .trg-footer__bottom {
+
+      margin-top: 16px;
+
+    }
+
+
+
+    /* Brand area polish */
+
+    .trg-footer__brand-name,
+
+    .trg-footer--editorial_dark .trg-footer__brand-name {
+
+      font-size: 1.6rem;
+
+      line-height: 1;
+
+    }
+
+
+
+    .trg-footer__tagline,
+
+    .trg-footer--editorial_dark .trg-footer__tagline {
+
+      font-size: 0.78rem;
+
+      line-height: 1.55;
+
+      margin-top: 8px;
+
+    }
+
+
+
+    /* Link tap targets â€” 44px minimum */
+
+    .trg-footer__links {
+
+      gap: 0;
+
+    }
+
+
+
+    .trg-footer__links a {
+
+      display: block;
+
+      padding: 10px 0;
+
+      font-size: 0.82rem;
+
+    }
+
+
+
+    /* Bottom row */
+
+    .trg-footer__bottom-links {
+
+      gap: 14px;
+
+    }
+
+
+
+    .trg-footer__bottom-links a,
+
+    .trg-footer__bottom-note {
+
+      font-size: 0.72rem;
+
+    }
+
+
+
+    .trg-footer__disclosure {
+
+      font-size: 0.68rem;
+
+      line-height: 1.5;
+
+      margin-top: 12px;
+
+    }
+
+  }
+
+
+
+  /* â”€â”€â”€ SMALL TABLET 2-COL â”€â”€â”€ */
+
+  @media screen and (min-width: 480px) and (max-width: 749px) {
+
+    .trg-footer__columns {
+
+      display: grid;
+
+      grid-template-columns: 1fr 1fr;
+
+      gap: 0 20px;
+
+    }
+
+
+
+    .trg-footer__col:last-child {
+
+      grid-column: 1 / -1;
+
+      border-top: 1px solid var(--trg-border-color);
+
+    }
+
+
+
+    .trg-footer--editorial_dark .trg-footer__col:last-child {
+
+      border-top-color: rgb(245 241 235 / 0.08);
+
+    }
+
+  }
+
+{% endstylesheet %}
+
+
+
+{% javascript %}
+
+  (function() {
+
+    var mql = window.matchMedia('(max-width: 749px)');
+
+
+
+    function initAccordions() {
+
+      var cols = document.querySelectorAll('.trg-footer__col');
+
+      cols.forEach(function(col) {
+
+        var title = col.querySelector('.trg-footer__col-title');
+
+        if (!title || title.dataset.trfAccordion) return;
+
+        title.dataset.trfAccordion = '1';
+
+        title.addEventListener('click', function() {
+
+          if (!mql.matches) return;
+
+          var isOpen = col.classList.contains('is-open');
+
+          col.parentElement.querySelectorAll('.trg-footer__col.is-open').forEach(function(c) {
+
+            c.classList.remove('is-open');
+
+          });
+
+          if (!isOpen) col.classList.add('is-open');
+
+        });
+
+      });
+
+    }
+
+
+
+    if (document.readyState === 'loading') {
+
+      document.addEventListener('DOMContentLoaded', initAccordions);
+
+    } else {
+
+      initAccordions();
+
+    }
+
+    document.addEventListener('shopify:section:load', initAccordions);
+
+  })();
+
+{% endjavascript %}
+
+
+
+{% schema %}
+
+{
+
+  "name": "TRG Footer",
+
+  "enabled_on": {
+
+    "groups": ["footer"]
+
+  },
+
+  "settings": [
+
+    {
+
+      "type": "color_scheme",
+
+      "id": "color_scheme",
+
+      "label": "Color scheme",
+
+      "default": "scheme-4"
+
+    },
+
+    {
+
+      "type": "select",
+
+      "id": "skin",
+
+      "label": "Skin",
+
+      "options": [
+
+        {
+
+          "value": "editorial_dark",
+
+          "label": "Editorial dark"
+
+        },
+
+        {
+
+          "value": "default",
+
+          "label": "Default"
+
+        }
+
+      ],
+
+      "default": "editorial_dark"
+
+    },
+
+    {
+
+      "type": "header",
+
+      "content": "Brand"
+
+    },
+
+    {
+
+      "type": "image_picker",
+
+      "id": "logo_image",
+
+      "label": "Logo image"
+
+    },
+
+    {
+
+      "type": "range",
+
+      "id": "logo_width",
+
+      "label": "Logo width",
+
+      "min": 80,
+
+      "max": 640,
+
+      "step": 10,
+
+      "unit": "px",
+
+      "default": 360,
+
+      "visible_if": "{{ section.settings.logo_image != blank }}"
+
+    },
+
+    {
+
+      "type": "text",
+
+      "id": "brand_name",
+
+      "label": "Brand name fallback",
+
+      "default": "The Right Garment"
+
+    },
+
+    {
+
+      "type": "text",
+
+      "id": "brand_accent_word",
+
+      "label": "Accent word in brand name",
+
+      "default": "Garment"
+
+    },
+
+    {
+
+      "type": "richtext",
+
+      "id": "brand_tagline",
+
+      "label": "Brand tagline",
+
+      "default": "<p>A curated menswear directory for quality-conscious buyers in North America.</p>"
+
+    },
+
+    {
+
+      "type": "header",
+
+      "content": "Social links"
+
+    },
+
+    {
+
+      "type": "checkbox",
+
+      "id": "show_social",
+
+      "label": "Show social links",
+
+      "default": true
+
+    },
+
+    {
+
+      "type": "url",
+
+      "id": "instagram_url",
+
+      "label": "Instagram URL"
+
+    },
+
+    {
+
+      "type": "url",
+
+      "id": "youtube_url",
+
+      "label": "YouTube URL"
+
+    },
+
+    {
+
+      "type": "url",
+
+      "id": "tiktok_url",
+
+      "label": "TikTok URL"
+
+    },
+
+    {
+
+      "type": "url",
+
+      "id": "facebook_url",
+
+      "label": "Facebook URL"
+
+    },
+
+    {
+
+      "type": "url",
+
+      "id": "x_url",
+
+      "label": "X URL"
+
+    },
+
+    {
+
+      "type": "header",
+
+      "content": "Bottom row"
+
+    },
+
+    {
+
+      "type": "checkbox",
+
+      "id": "show_policy_links",
+
+      "label": "Show policy links",
+
+      "default": true
+
+    },
+
+    {
+
+      "type": "checkbox",
+
+      "id": "show_powered_by",
+
+      "label": "Show Powered by Shopify",
+
+      "default": false
+
+    },
+
+    {
+
+      "type": "text",
+
+      "id": "disclosure_note",
+
+      "label": "Disclosure note",
+
+      "default": "Purchases made through links may earn us a commission at no cost to you."
+
+    },
+
+    {
+
+      "type": "header",
+
+      "content": "Spacing"
+
+    },
+
+    {
+
+      "type": "range",
+
+      "id": "padding_block_start",
+
+      "label": "Top padding override",
+
+      "min": 0,
+
+      "max": 100,
+
+      "step": 4,
+
+      "unit": "px",
+
+      "default": 0
+
+    },
+
+    {
+
+      "type": "range",
+
+      "id": "padding_block_end",
+
+      "label": "Bottom padding override",
+
+      "min": 0,
+
+      "max": 100,
+
+      "step": 4,
+
+      "unit": "px",
+
+      "default": 0
+
+    }
+
+  ],
+
+  "blocks": [
+
+    {
+
+      "type": "menu_column",
+
+      "name": "Menu column",
+
+      "limit": 5,
+
+      "settings": [
+
+        {
+
+          "type": "text",
+
+          "id": "heading",
+
+          "label": "Heading",
+
+          "default": "Directory"
+
+        },
+
+        {
+
+          "type": "link_list",
+
+          "id": "menu",
+
+          "label": "Menu"
+
+        }
+
+      ]
+
+    },
+
+    {
+
+      "type": "text_column",
+
+      "name": "Text column",
+
+      "limit": 3,
+
+      "settings": [
+
+        {
+
+          "type": "text",
+
+          "id": "heading",
+
+          "label": "Heading",
+
+          "default": "About"
+
+        },
+
+        {
+
+          "type": "richtext",
+
+          "id": "body",
+
+          "label": "Body",
+
+          "default": "<p>Use this column for short explanatory footer content.</p>"
+
+        },
+
+        {
+
+          "type": "text",
+
+          "id": "link_label",
+
+          "label": "Link label"
+
+        },
+
+        {
+
+          "type": "url",
+
+          "id": "link_url",
+
+          "label": "Link"
+
+        }
+
+      ]
+
+    },
+
+    {
+
+      "type": "legal_link",
+
+      "name": "Bottom legal link",
+
+      "limit": 8,
+
+      "settings": [
+
+        {
+
+          "type": "text",
+
+          "id": "label",
+
+          "label": "Label",
+
+          "default": "Affiliate Disclosure"
+
+        },
+
+        {
+
+          "type": "url",
+
+          "id": "url",
+
+          "label": "Link"
+
+        }
+
+      ]
+
+    }
+
+  ],
+
+  "presets": [
+
+    {
+
+      "name": "TRG Footer",
+
+      "category": "Footer",
+
+      "blocks": [
+
+        {
+
+          "type": "menu_column"
+
+        },
+
+        {
+
+          "type": "menu_column"
+
+        },
+
+        {
+
+          "type": "menu_column"
+
+        },
+
+        {
+
+          "type": "legal_link"
+
+        }
+
+      ]
+
+    }
+
+  ]
+
+}
+
+{% endschema %}
+
+
+

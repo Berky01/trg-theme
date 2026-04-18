@@ -1,0 +1,309 @@
+{{ 'trg-submit-brand.css' | asset_url | stylesheet_tag }}
+
+{%- comment -%} ═══ HERO ═══ {%- endcomment -%}
+<div class="trg-sb-hero">
+  <div class="trg-sb-hero__inner">
+    <p class="trg-sb-eyebrow">Community</p>
+    <h1 class="trg-sb-title">Know a brand that<br>belongs <em>here?</em></h1>
+    <p class="trg-sb-lead">We review every submission. If it meets our criteria for quality, materials, and reputation, it joins the directory. No fees, no paid placements.</p>
+    <div class="trg-sb-stat">
+      <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <strong>467</strong>&thinsp;brands listed so far. Yours could be next
+    </div>
+  </div>
+</div>
+
+{%- comment -%} ═══ MAIN LAYOUT ═══ {%- endcomment -%}
+<div class="trg-sb-wrap">
+
+  {%- comment -%} ─── FORM COLUMN ─── {%- endcomment -%}
+  <div class="trg-sb-form">
+
+    <div class="trg-sb-note">
+      <div class="trg-sb-note__icon">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>
+      </div>
+      <div>
+        <strong>This is not a paid listing.</strong> Submitting a brand doesn't guarantee inclusion. We review every submission against our editorial criteria and add qualified brands on a rolling basis.
+      </div>
+    </div>
+
+    {%- comment -%} Section 1: The brand {%- endcomment -%}
+    <div class="trg-sb-section">
+      <div class="trg-sb-section__head">
+        <span class="trg-sb-section__num">1</span>
+        The brand
+        <span class="trg-sb-section__hint">Required unless noted</span>
+      </div>
+      <div class="trg-sb-row">
+        <div class="trg-sb-field">
+          <label class="trg-sb-label">Brand name <span class="req">*</span></label>
+          <input type="text" class="trg-sb-input" placeholder="e.g. Corridor NYC">
+        </div>
+        <div class="trg-sb-field">
+          <label class="trg-sb-label">Website <span class="req">*</span></label>
+          <input type="url" class="trg-sb-input" placeholder="https://corridornyc.com">
+        </div>
+      </div>
+      <div class="trg-sb-row">
+        <div class="trg-sb-field">
+          <label class="trg-sb-label">Country of origin</label>
+          <select class="trg-sb-select">
+            <option value="">Select country</option>
+            <option>USA</option>
+            <option>Canada</option>
+            <option>UK</option>
+            <option>Japan</option>
+            <option>Italy</option>
+            <option>France</option>
+            <option>Portugal</option>
+            <option>Denmark</option>
+            <option>Sweden</option>
+            <option>Spain</option>
+            <option>Germany</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="trg-sb-field">
+          <label class="trg-sb-label">Primary category</label>
+          <select class="trg-sb-select">
+            <option value="">Select category</option>
+            <option>Basics & Essentials</option>
+            <option>Shirting</option>
+            <option>Outerwear</option>
+            <option>Denim & Bottoms</option>
+            <option>Knitwear</option>
+            <option>Footwear</option>
+            <option>Tailoring & Formalwear</option>
+            <option>Workwear</option>
+            <option>Casualwear</option>
+            <option>Accessories</option>
+          </select>
+        </div>
+      </div>
+      <div class="trg-sb-row">
+        <div class="trg-sb-field">
+          <label class="trg-sb-label">Price tier</label>
+          <select class="trg-sb-select">
+            <option value="">Select tier</option>
+            <option>Budget (under $75)</option>
+            <option>Mid-range ($75 to $200)</option>
+            <option>Premium ($200 to $500)</option>
+            <option>Luxury ($500+)</option>
+          </select>
+        </div>
+        <div class="trg-sb-field">
+          <label class="trg-sb-label">Aesthetic <span class="opt">optional</span></label>
+          <input type="text" class="trg-sb-input" placeholder="e.g. Heritage, Minimalist, Smart Casual">
+        </div>
+      </div>
+    </div>
+
+    {%- comment -%} Section 2: Why it belongs {%- endcomment -%}
+    <div class="trg-sb-section">
+      <div class="trg-sb-section__head">
+        <span class="trg-sb-section__num">2</span>
+        Why it belongs
+      </div>
+      <div class="trg-sb-field">
+        <label class="trg-sb-label">What makes this brand worth including? <span class="req">*</span></label>
+        <textarea class="trg-sb-textarea" placeholder="Tell us about construction quality, materials, community reputation, or anything else that sets it apart. The more specific, the better."></textarea>
+        <p class="trg-sb-hint">A few sentences is plenty. What would convince a fellow menswear person?</p>
+      </div>
+      <div class="trg-sb-field">
+        <label class="trg-sb-label">Where did you hear about them? <span class="opt">optional</span></label>
+        <input type="text" class="trg-sb-input" placeholder="e.g. StyleForum, Reddit, personal purchase">
+      </div>
+    </div>
+
+    {%- comment -%} Section 3: Canada shipping (hidden by default, shown via body[data-region=CA]) {%- endcomment -%}
+    <div class="trg-sb-section trg-sb-section--ca">
+      <div class="trg-sb-section__head">
+        <span class="trg-sb-section__num">3</span>
+        Canadian shipping
+        <span class="trg-sb-section__hint">If you know</span>
+      </div>
+      <div class="trg-sb-checks" style="margin-bottom: 1.15rem;">
+        <label class="trg-sb-check">
+          <input type="checkbox">
+          <span class="trg-sb-check__label">Ships directly to Canada</span>
+        </label>
+        <label class="trg-sb-check">
+          <input type="checkbox">
+          <span class="trg-sb-check__label">Duties included (DDP), no surprise charges</span>
+        </label>
+        <label class="trg-sb-check">
+          <input type="checkbox">
+          <span class="trg-sb-check__label">Available through a Canadian retailer</span>
+        </label>
+        <label class="trg-sb-check">
+          <input type="checkbox">
+          <span class="trg-sb-check__label">Not sure</span>
+        </label>
+      </div>
+      <div class="trg-sb-field">
+        <label class="trg-sb-label">Canadian retailer, if known <span class="opt">optional</span></label>
+        <input type="text" class="trg-sb-input" placeholder="e.g. SSENSE, Harry Rosen, Simons">
+      </div>
+    </div>
+
+    {%- comment -%} Section 3/4: About you {%- endcomment -%}
+    <div class="trg-sb-section">
+      <div class="trg-sb-section__head">
+        <span class="trg-sb-section__num">3</span>
+        About you
+        <span class="trg-sb-section__hint">Optional, never shared</span>
+      </div>
+      <div class="trg-sb-row">
+        <div class="trg-sb-field">
+          <label class="trg-sb-label">Your name <span class="opt">optional</span></label>
+          <input type="text" class="trg-sb-input" placeholder="First name is fine">
+        </div>
+        <div class="trg-sb-field">
+          <label class="trg-sb-label">Email <span class="opt">optional</span></label>
+          <input type="email" class="trg-sb-input" placeholder="Only if you'd like a reply">
+        </div>
+      </div>
+      <div class="trg-sb-field">
+        <label class="trg-sb-label">Are you affiliated with this brand? <span class="req">*</span></label>
+        <select class="trg-sb-select">
+          <option value="">Please select</option>
+          <option>No, I'm a customer or enthusiast</option>
+          <option>Yes, I work for or own this brand</option>
+          <option>Yes, I'm a paid ambassador or affiliate</option>
+        </select>
+        <p class="trg-sb-hint">Disclosure doesn't affect our review, but transparency matters to us.</p>
+      </div>
+    </div>
+
+    <button class="trg-sb-submit" type="button">
+      Submit for Review
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </button>
+    <p class="trg-sb-disclaimer">Submissions are reviewed within 2 to 4 weeks. We don't confirm receipt individually, but if your brand is added you'll find it in the directory.</p>
+
+  </div>
+
+  {%- comment -%} ─── SIDEBAR ─── {%- endcomment -%}
+  <aside class="trg-sb-sidebar">
+
+    <div class="trg-sb-pull">
+      "The best recommendations come from people who actually wear the clothes, not from ad budgets."
+      <div class="trg-sb-pull__src">TRG Editorial</div>
+    </div>
+
+    <div class="trg-sb-card is-open" data-sb-accordion>
+      <div class="trg-sb-card__head">
+        <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        What we look for
+      </div>
+      <div class="trg-sb-card__body">
+        <div class="trg-sb-criteria">
+          <div class="trg-sb-criteria__item">
+            <div class="trg-sb-criteria__icon trg-sb-criteria__icon--pass">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div class="trg-sb-criteria__text"><strong>Construction quality.</strong> Durable stitching, considered details, built to last</div>
+          </div>
+          <div class="trg-sb-criteria__item">
+            <div class="trg-sb-criteria__icon trg-sb-criteria__icon--pass">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div class="trg-sb-criteria__text"><strong>Honest materials.</strong> Genuine sourcing, not vague marketing language</div>
+          </div>
+          <div class="trg-sb-criteria__item">
+            <div class="trg-sb-criteria__icon trg-sb-criteria__icon--pass">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div class="trg-sb-criteria__text"><strong>Community reputation.</strong> Trusted by people who actually know menswear</div>
+          </div>
+          <div class="trg-sb-criteria__item">
+            <div class="trg-sb-criteria__icon trg-sb-criteria__icon--fail">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </div>
+            <div class="trg-sb-criteria__text"><strong>No activewear or athleisure.</strong> Performance gear is out of scope</div>
+          </div>
+          <div class="trg-sb-criteria__item">
+            <div class="trg-sb-criteria__icon trg-sb-criteria__icon--fail">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </div>
+            <div class="trg-sb-criteria__text"><strong>No fast fashion.</strong> Trend-cycle, disposable garments aren't listed</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="trg-sb-card" data-sb-accordion>
+      <div class="trg-sb-card__head">
+        <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        What happens next
+      </div>
+      <div class="trg-sb-card__body">
+        <div class="trg-sb-timeline">
+          <div class="trg-sb-timeline__row">
+            <div class="trg-sb-timeline__num">1</div>
+            <div>
+              <div class="trg-sb-timeline__label">Submission received</div>
+              <div class="trg-sb-timeline__sub">Added to our review queue</div>
+            </div>
+          </div>
+          <div class="trg-sb-timeline__row">
+            <div class="trg-sb-timeline__num">2</div>
+            <div>
+              <div class="trg-sb-timeline__label">Editorial review</div>
+              <div class="trg-sb-timeline__sub">We research the brand against our criteria. Typically 2 to 4 weeks</div>
+            </div>
+          </div>
+          <div class="trg-sb-timeline__row">
+            <div class="trg-sb-timeline__num">3</div>
+            <div>
+              <div class="trg-sb-timeline__label">Added to the directory</div>
+              <div class="trg-sb-timeline__sub">Qualified brands appear in search and collections on a rolling basis</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="trg-sb-card trg-sb-card--rep" data-sb-accordion>
+      <div class="trg-sb-card__head">
+        <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+        Brand representatives
+      </div>
+      <div class="trg-sb-card__body">
+        <p class="trg-sb-card__note">You're welcome to submit your own brand. Please disclose your affiliation. It doesn't affect our review, but transparency matters.</p>
+        <p class="trg-sb-card__note">Listings are always free. We don't offer paid placements.</p>
+      </div>
+    </div>
+
+  </aside>
+</div>
+
+<script>
+  /* Mobile accordion for sidebar cards */
+  (function(){
+    if (window.innerWidth > 749) return;
+    document.querySelectorAll('[data-sb-accordion]').forEach(function(card) {
+      var head = card.querySelector('.trg-sb-card__head');
+      if (!head) return;
+      head.addEventListener('click', function() {
+        card.classList.toggle('is-open');
+      });
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "TRG Submit Brand",
+  "tag": "section",
+  "class": "trg-submit-brand-section",
+  "settings": [],
+  "blocks": [],
+  "presets": [
+    {
+      "name": "TRG Submit Brand"
+    }
+  ]
+}
+{% endschema %}

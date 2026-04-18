@@ -1,0 +1,15 @@
+/* TRG Card Shared — v2 2026-04-12 (Phase 3: scoped to PLP/search)
+   Hover effect for product cards on collection + search pages only.
+   No longer applies globally to avoid Dwell homepage card interference. */
+
+@media (prefers-reduced-motion: no-preference) {
+  .trg-plp-body .product-card,
+  .trg-search-plp .product-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .trg-plp-body .product-card:hover,
+  .trg-search-plp .product-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(26, 26, 24, 0.08);
+  }
+}

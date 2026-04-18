@@ -1,0 +1,128 @@
+{{ 'trg-search-brand-strip.css' | asset_url | stylesheet_tag }}
+{{ 'trg-search-page.css' | asset_url | stylesheet_tag }}
+
+{%- if search.performed and search.terms != blank -%}
+{%- assign search_lower = search.terms | downcase -%}
+
+{%- comment -%}
+  Strategy 1: Collect unique vendors from search results (products).
+  This finds brands that have products matching the search.
+{%- endcomment -%}
+{%- assign seen_vendors = "" -%}
+{%- assign vendor_list = "" -%}
+{%- assign vendor_count = 0 -%}
+
+{%- for item in search.results -%}
+  {%- if item.object_type == 'product' and vendor_count < 5 -%}
+    {%- assign v = item.vendor -%}
+    {%- assign v_check = seen_vendors | append: "||" -%}
+    {%- assign v_needle = "||" | append: v | append: "||" -%}
+    {%- unless v_check contains v_needle -%}
+      {%- assign seen_vendors = seen_vendors | append: "||" | append: v -%}
+      {%- assign vendor_count = vendor_count | plus: 1 -%}
+    {%- endunless -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{%- comment -%}
+  Strategy 2: Direct brand name match from metaobjects.
+  If the search term IS a brand name (e.g. "reigning champ"), find it.
+{%- endcomment -%}
+{%- assign direct_matches = "" -%}
+{%- assign direct_count = 0 -%}
+{%- for brand in shop.metaobjects.brand.values -%}
+  {%- if direct_count >= 3 -%}{%- break -%}{%- endif -%}
+  {%- assign bn = brand.name | downcase -%}
+  {%- if bn contains search_lower or search_lower contains bn -%}
+    {%- assign direct_matches = direct_matches | append: "||" | append: brand.name -%}
+    {%- assign direct_count = direct_count | plus: 1 -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{%- comment -%}Merge: direct matches first, then product vendors{%- endcomment -%}
+{%- assign final_brands = "" -%}
+{%- assign final_count = 0 -%}
+
+{%- if direct_count > 0 -%}
+  {%- assign direct_arr = direct_matches | remove_first: "||" | split: "||" -%}
+  {%- for dname in direct_arr -%}
+    {%- if final_count < 5 -%}
+      {%- assign final_brands = final_brands | append: "||" | append: dname -%}
+      {%- assign final_count = final_count | plus: 1 -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endif -%}
+
+{%- if vendor_count > 0 -%}
+  {%- assign vendor_arr = seen_vendors | remove_first: "||" | split: "||" -%}
+  {%- for vname in vendor_arr -%}
+    {%- if final_count < 5 -%}
+      {%- assign dup_check = final_brands | append: "||" -%}
+      {%- assign dup_needle = "||" | append: vname | append: "||" -%}
+      {%- unless dup_check contains dup_needle -%}
+        {%- assign final_brands = final_brands | append: "||" | append: vname -%}
+        {%- assign final_count = final_count | plus: 1 -%}
+      {%- endunless -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endif -%}
+
+{%- if final_count > 0 -%}
+{%- assign brand_arr = final_brands | remove_first: "||" | split: "||" -%}
+<div class="trg-bms">
+  <div class="trg-bms__inner">
+    <span class="trg-bms__label">Brands matching &ldquo;{{ search.terms }}&rdquo;</span>
+    <div class="trg-bms__cards">
+      {%- for bname in brand_arr -%}
+        {%- assign handle = bname | handleize -%}
+        {%- comment -%}Try to find the brand metaobject for logo + details{%- endcomment -%}
+        {%- assign found_brand = false -%}
+        {%- for brand in shop.metaobjects.brand.values -%}
+          {%- if brand.name == bname -%}
+            <a href="/collections/{{ brand.slug | default: handle }}" class="trg-bms__card">
+              <span class="trg-bms__logo">
+                {{ brand.name | slice: 0, 2 | upcase }}
+                {%- if brand.logo != blank -%}
+                  <img src="{{ brand.logo | image_url: width: 60 }}" alt="" loading="lazy"
+                       onerror="this.style.display='none'">
+                {%- endif -%}
+              </span>
+              <span class="trg-bms__info">
+                <span class="trg-bms__name">{{ brand.name }}</span>
+                <span class="trg-bms__cat">
+                  {{ brand.primary_category | default: 'Menswear' }}
+                  {%- if brand.made_in != blank %} &middot; Made in {{ brand.made_in }}{%- endif -%}
+                </span>
+              </span>
+              <svg class="trg-bms__arrow" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+            </a>
+            {%- assign found_brand = true -%}
+            {%- break -%}
+          {%- endif -%}
+        {%- endfor -%}
+        {%- unless found_brand -%}
+          {%- comment -%}Fallback: render card without metaobject data{%- endcomment -%}
+          <a href="/collections/{{ handle }}" class="trg-bms__card">
+            <span class="trg-bms__logo">{{ bname | slice: 0, 2 | upcase }}</span>
+            <span class="trg-bms__info">
+              <span class="trg-bms__name">{{ bname }}</span>
+              <span class="trg-bms__cat">Menswear</span>
+            </span>
+            <svg class="trg-bms__arrow" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg>
+          </a>
+        {%- endunless -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+{%- endif -%}
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Search Brand Strip",
+  "tag": "section",
+  "class": "trg-search-brand-strip-section",
+  "settings": []
+}
+{% endschema %}

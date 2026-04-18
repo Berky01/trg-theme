@@ -1,0 +1,23 @@
+{% liquid
+  assign resolved_handle = handle | default: brand_handle | strip
+
+  if resolved_handle == blank and brand_item != blank
+    assign resolved_handle = brand_item.handle | strip
+  endif
+
+  if resolved_handle == blank and brand_name != blank
+    assign resolved_handle = brand_name | handleize
+  endif
+
+  assign resolved_url = fallback_url
+  if resolved_url != blank and resolved_url.url != blank
+    assign resolved_url = resolved_url.url
+  endif
+
+  assign resolved_prefix = directory_prefix | default: '/collections/'
+  if resolved_handle != blank
+    assign resolved_url = resolved_prefix | append: resolved_handle
+  endif
+
+  echo resolved_url
+%}

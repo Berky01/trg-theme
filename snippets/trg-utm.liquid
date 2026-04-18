@@ -1,0 +1,64 @@
+{%- liquid
+  comment
+    TRG outbound link builder.
+    Inputs:
+      url       (required) raw brand destination URL
+      campaign  (required) brand handle (drives UTM + SubID + metaobject lookup)
+    Behavior:
+      1. Append UTM params to raw URL (GA4 attribution).
+      2. If brand metaobject has affiliate_network + affiliate_advertiser_id
+         AND shop has matching publisher ID, wrap in network deeplink.
+      3. Otherwise output UTM-decorated raw URL (works without any network).
+    Network support: awin | rakuten | impact | shareasale | direct | (blank)
+    Required shop.metafields.trg.*:
+      awin_publisher_id, rakuten_publisher_id,
+      impact_publisher_id, impact_tracking_domain,
+      shareasale_user_id
+    Required brand metaobject fields:
+      affiliate_network (single-line text)
+      affiliate_advertiser_id (single-line text)
+  endcomment
+
+  assign _u = url | default: ''
+  assign _c = campaign | default: 'unknown'
+
+  if _u == ''
+    assign _out = ''
+  else
+    if _u contains '?'
+      assign _sep = '&'
+    else
+      assign _sep = '?'
+    endif
+    assign _out = _u | append: _sep | append: 'utm_source=trg&utm_medium=affiliate&utm_campaign=' | append: _c
+
+    assign _bm = shop.metaobjects.brand[_c]
+    assign _net = _bm.affiliate_network.value | default: _bm.affiliate_network | default: '' | downcase | strip
+    assign _adv = _bm.affiliate_advertiser_id.value | default: _bm.affiliate_advertiser_id
+    assign _enc = _out | url_encode
+
+    if _net == 'awin' and _adv != blank
+      assign _pub = shop.metafields.trg.awin_publisher_id
+      if _pub != blank
+        assign _out = 'https://www.awin1.com/awclick.php?mid=' | append: _adv | append: '&id=' | append: _pub | append: '&clickref=' | append: _c | append: '&p=' | append: _enc
+      endif
+    elsif _net == 'rakuten' and _adv != blank
+      assign _pub = shop.metafields.trg.rakuten_publisher_id
+      if _pub != blank
+        assign _out = 'https://click.linksynergy.com/deeplink?id=' | append: _pub | append: '&mid=' | append: _adv | append: '&u1=' | append: _c | append: '&murl=' | append: _enc
+      endif
+    elsif _net == 'impact' and _adv != blank
+      assign _pub = shop.metafields.trg.impact_publisher_id
+      assign _dom = shop.metafields.trg.impact_tracking_domain | default: ''
+      if _pub != blank and _dom != blank
+        assign _out = 'https://' | append: _dom | append: '/c/' | append: _pub | append: '/' | append: _adv | append: '?subId1=' | append: _c | append: '&u=' | append: _enc
+      endif
+    elsif _net == 'shareasale' and _adv != blank
+      assign _pub = shop.metafields.trg.shareasale_user_id
+      if _pub != blank
+        assign _out = 'https://shareasale.com/r.cfm?b=0&u=' | append: _pub | append: '&m=' | append: _adv | append: '&afftrack=' | append: _c | append: '&urllink=' | append: _enc
+      endif
+    endif
+  endif
+  echo _out
+-%}

@@ -1,0 +1,445 @@
+{% comment %}trg-bulletproof-v3-2026-04-12T21:23:00Z{% endcomment %}
+{% comment %}codex-pdp-swatch-media-2026-04-12T20:33:46.041Z-theme-187505606935{% endcomment %}
+
+<!-- codex-cache-bust: global-swatch-suppression 2026-04-12 19:17:37 UTC -->
+<!-- trg-cache-bust: 2026-04-12T23:44:25.243Z -->
+<!-- trg-plp-v27-2026-04-12T10:53 -->
+<!doctype html>
+<!-- CDN-bust 2026-04-12T15:35:45.035Z -->
+<html
+  {% if request.design_mode %}
+    class="shopify-design-mode"
+  {% endif %}
+  lang="{{ request.locale.iso_code }}"
+>
+  <head>
+    <meta charset="utf-8">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MP3PR8XH6T"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-MP3PR8XH6T');
+    </script>
+
+<script>
+/* TRG focus fix - block Dwell focus traps only on search inputs (Phase 1) */
+document.addEventListener('focusin',function(e){
+  if(!e.target||!e.target.closest) return;
+  var c=e.target.closest('#trg-mob,#trg-mob-search-float,#trg-body-search');
+  if(!c) return;
+  if(e.target.matches('input[type="search"],input[name="q"],.field__input')){
+    e.stopPropagation();
+  }
+},true);
+</script>
+    {%- if settings.favicon != blank -%}
+      <link
+        rel="icon"
+        type="image/png"
+        href="{{ settings.favicon | image_url: width: 32, height: 32 }}"
+      >
+    {%- endif -%}
+
+    {% comment %} This a way to wait for main content to load when navigating to a new page so that the view transitions can work consistently {% endcomment %}
+    {% if settings.transition_to_main_product or settings.page_transition_enabled %}
+      <link
+        rel="expect"
+        href="#MainContent"
+        blocking="render"
+        id="view-transition-render-blocker"
+      >
+    {% endif %}
+
+    {%- render 'meta-tags' -%}
+{%- comment -%}TRG SEO â€” OG/Twitter (G1), meta description fallback (G2){%- endcomment -%}
+{%- capture _trg_desc -%}{%- if template.name == 'collection' -%}Shop {{ collection.title }} at The Right Garment â€” curated menswear from 470+ vetted brands.{%- elsif template.name == 'product' -%}{{ product.title }} by {{ product.vendor }}. Discover more at The Right Garment.{%- elsif template.name == 'article' -%}{{ article.title }} â€” The Right Garment Journal.{%- else -%}The Right Garment â€” curated menswear brand directory. 470+ brands, vetted and organised.{%- endif -%}{%- endcapture -%}
+{%- assign _trg_meta_desc = page_description | default: _trg_desc | strip | truncate: 160 -%}
+{%- unless page_description -%}<meta name="description" content="{{ _trg_meta_desc | escape }}">{%- endunless -%}
+<meta property="og:site_name" content="The Right Garment">
+<meta property="og:url" content="{{ canonical_url }}">
+<meta property="og:type" content="{%- if template.name == 'product' -%}product{%- elsif template.name == 'article' -%}article{%- else -%}website{%- endif -%}">
+<meta property="og:title" content="{{ page_title | escape }}">
+<meta property="og:description" content="{{ _trg_meta_desc | escape }}">
+{%- if page_image -%}<meta property="og:image" content="{{ page_image | image_url: width: 1200 }}"><meta property="og:image:width" content="1200">{%- endif -%}
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ page_title | escape }}">
+<meta name="twitter:description" content="{{ _trg_meta_desc | escape }}">
+{%- if page_image -%}<meta name="twitter:image" content="{{ page_image | image_url: width: 1200 }}">{%- endif -%}
+    {%- render 'stylesheets' -%}
+    {{ 'trg-mega-menu.css' | asset_url | stylesheet_tag }}
+    {%- render 'fonts' -%}
+    {%- render 'scripts' -%}
+    {%- render 'theme-styles-variables' -%}
+    {%- render 'color-schemes' -%}
+
+    {% if request.design_mode %}
+      {%- render 'theme-editor' -%}
+    {% endif %}
+
+    {{ content_for_header }}
+    {{ 'trg-card-shared.css' | asset_url | stylesheet_tag }}
+    {%- if request.page_type == 'product' -%}{{ 'trg-pdp-v1.css' | asset_url | stylesheet_tag }}{%- endif -%}
+    {%- if customer or template == 'customers/account' or template == 'customers/login' -%}{{ 'trg-account.css' | asset_url | stylesheet_tag }}{%- endif -%}
+    {%- if template.name == 'collection' or template.name == 'search' -%}{{ 'trg-plp.css' | asset_url | stylesheet_tag }}{%- endif -%}
+    {%- if template.name == 'collection' -%}{{ 'trg-theme-overrides.css' | asset_url | stylesheet_tag }}{%- endif -%}
+    {% if template == 'page.brands-directory' %}{{ 'trg-brand-directory.css' | asset_url | stylesheet_tag }}{% endif %}
+    {{ 'trg-audit-fixes.css' | asset_url | stylesheet_tag }}
+
+    {% if template == 'page.colour-guide' %}{{ 'trg-colour-guide.css' | asset_url | stylesheet_tag }}{% endif %}
+    {%- if customer -%}<script src="{{ 'trg-customer-state.js' | asset_url }}" defer></script>{%- endif -%}
+    {%- if customer or template == 'customers/account' or template == 'customers/login' -%}<script src="{{ 'trg-account.js' | asset_url }}" defer></script>{%- endif -%}
+    {%- if template.name == 'collection' or template.name == 'search' -%}<script src="{{ 'trg-plp.js' | asset_url }}" defer></script><script src="{{ 'trg-search-plp.js' | asset_url }}" defer></script>{%- endif -%}
+    {%- comment -%}TRG SEO — noindex non-public pages (G8){%- endcomment -%}
+    {%- if template == 'customers/account' or template == 'customers/login' or template == 'customers/register' or template == 'customers/order' or template == 'customers/addresses' or template == 'page.my-account' or template == 'page.newsletter' or template.name == 'search' -%}<meta name="robots" content="noindex, nofollow">{%- endif -%}
+{%- comment -%}TRG SEO — Organization + WebSite structured data (G9){%- endcomment -%}
+{%- if template == 'index' -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://therightgarment.com/#organization",
+      "name": "The Right Garment",
+      "url": "https://therightgarment.com",
+      "description": "Curated menswear brand directory. 470+ vetted brands, organised by style, price, and origin.",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://therightgarment.com/cdn/shop/files/trg-logo.svg",
+        "width": 200,
+        "height": 40
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://therightgarment.com/#website",
+      "url": "https://therightgarment.com",
+      "name": "The Right Garment",
+      "publisher": { "@id": "https://therightgarment.com/#organization" },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": { "@type": "EntryPoint", "urlTemplate": "https://therightgarment.com/search?q={search_term_string}" },
+        "query-input": "required name=search_term_string"
+      }
+    }
+  ]
+}
+</script>
+{%- endif -%}
+
+<!-- TRG cache bust: 2026-04-05 11:38:07 -->
+  <!-- colour-guide-shell-bust 2026-04-11 23:03:14 -->
+  <!-- colour-guide-step2-bust 2026-04-11 23:09:12 -->
+<!-- v26-final 1776005111325 -->
+<!-- cache-bust: 2026-04-12T15:36:19.106Z -->
+</head>
+
+  <body class="page-width-{{ settings.page_width }} card-hover-effect-{{ settings.card_hover_effect }} trg-card-style-{{ settings.trg_card_style | default: 'outlined' }} trg-reveal-enabled-{{ settings.trg_enable_reveal | default: true }}">
+<script>
+/* TRG geo-region detection ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬ï¿½ sets body[data-region=CA] for Canadian visitors */
+(function(){
+  var r=sessionStorage.getItem('trg_region');
+  if(r){if(r==='CA')document.body.dataset.region='CA';return}
+  fetch('/browsing_context_suggestions.json')
+    .then(function(res){return res.json()})
+    .then(function(d){
+      var c=d&&d.detected_values&&d.detected_values.country;
+      var code=c?(c.handle||'').toUpperCase():'';
+      sessionStorage.setItem('trg_region',code||'US');
+      if(code==='CA')document.body.dataset.region='CA';
+    })
+    .catch(function(){sessionStorage.setItem('trg_region','US')});
+})();
+</script>
+  {%- comment -%}TRG Account: inject customer data for JS{%- endcomment -%}
+  {% if customer %}
+    <div data-trg-customer-id="{{ customer.id }}" style="display:none"></div>
+    {% if customer.metafields.trg.followed_brands %}
+      <div data-trg-meta-followed_brands='{{ customer.metafields.trg.followed_brands.value | json }}' style="display:none"></div>
+    {% endif %}
+    {% if customer.metafields.trg.wishlist %}
+      <div data-trg-meta-wishlist='{{ customer.metafields.trg.wishlist.value | json }}' style="display:none"></div>
+    {% endif %}
+    {% if customer.metafields.trg.colour_profile %}
+      <div data-trg-meta-colour_profile="{{ customer.metafields.trg.colour_profile.value }}" style="display:none"></div>
+    {% endif %}
+    {% if customer.metafields.trg.colour_intent %}
+      <div data-trg-meta-colour_intent='{{ customer.metafields.trg.colour_intent.value | json }}' style="display:none"></div>
+    {% endif %}
+  {% endif %}
+
+    {% render 'skip-to-content-link', href: '#MainContent', text: 'accessibility.skip_to_text' %}
+    <div id="header-group">
+      {% sections 'header-group' %}
+    </div>
+
+    <script>
+      // Inline header height and menu style calculations to prevent layout shift
+      // Note: Updates in calculateHeaderGroupHeight(), updateTransparentHeaderOffset() and setHeaderMenuStyle() utilities.js should be kept in sync with this function
+      (function setHeaderHeighCustomProperties() {
+        /*
+         * Header calculation functions for maintaining CSS variables
+         * Mimic calculateHeaderGroupHeight() in utilities.js
+         */
+        const header = document.querySelector('header-component');
+        const headerGroup = document.querySelector('#header-group');
+        const hasHeaderSection = headerGroup?.querySelector('.header-section');
+
+        if (!header || !headerGroup) return;
+
+        const headerTopRow = header.querySelector('.header__row--top');
+        const headerHeight = header.offsetHeight;
+
+        // Calculate the total height of the header group
+        let headerGroupHeight = 0;
+        const children = headerGroup.children;
+        for (let i = 0; i < children.length; i++) {
+          const element = children[i];
+          if (element === header || !(element instanceof HTMLElement)) continue;
+          headerGroupHeight += element.offsetHeight;
+        }
+
+        // Check for transparent header special case
+        if (header.hasAttribute('transparent') && header.parentElement?.nextElementSibling) {
+          headerGroupHeight += headerHeight;
+        }
+
+        // Set CSS variables
+        document.body.style.setProperty('--header-height', `${headerHeight}px`);
+        document.body.style.setProperty('--header-group-height', `${headerGroupHeight}px`);
+
+        if (headerTopRow) {
+          window.requestAnimationFrame(function () {
+            document.body.style.setProperty('--top-row-height', `${headerTopRow.offsetHeight}px`);
+          });
+        }
+
+        /**
+         * Updates CSS custom properties for transparent header offset calculation
+         * Mimic updateTransparentHeaderOffset() in utilities.js
+         */
+
+        if (!hasHeaderSection || !header?.hasAttribute('transparent')) {
+          document.body.style.setProperty('--transparent-header-offset-boolean', '0');
+          return;
+        }
+
+        const hasImmediateSection = hasHeaderSection.nextElementSibling?.classList.contains('shopify-section');
+
+        const shouldApplyOffset = !hasImmediateSection ? '1' : '0';
+        document.body.style.setProperty('--transparent-header-offset-boolean', shouldApplyOffset);
+      })();
+
+      (function setHeaderMenuStyle() {
+        const headerComponent = document.querySelector('#header-component');
+        if (headerComponent) {
+          const isTouchDevice = 'ontouchstart' in window && navigator.maxTouchPoints > 0;
+          const overflowList = headerComponent?.querySelector('overflow-list');
+          const hasReachedMinimum = overflowList && overflowList.hasAttribute('minimum-reached');
+          headerComponent.dataset.menuStyle = isTouchDevice || hasReachedMinimum ? 'drawer' : 'menu';
+        }
+      })();
+    </script>
+
+    <main
+      id="MainContent"
+      class="content-for-layout"
+      role="main"
+      data-page-transition-enabled="{{ settings.page_transition_enabled }}"
+      data-product-transition="{{ settings.transition_to_main_product }}"
+      data-template="{{ template }}"
+    >
+      {{ content_for_layout }}
+    </main>
+
+    <footer>
+      {% sections 'footer-group' %}
+    </footer>
+
+    {% render 'search-modal' %}
+
+    {% if template != 'page.colour-guide' and (settings.quick_add or settings.mobile_quick_add) %}
+      {% render 'quick-add-modal' %}
+    {% endif %}
+    {% if template.name == 'collection' %}
+      <script>
+        /* Phase 4: Sort bridge — reduced listeners, no capture-phase change, no setTimeout cascade */
+        (() => {
+          const selector = "#MainContent[data-template*='collection'] .trg-plp-body .trg-plp-main-column > .trg-collection-controls";
+
+          const repairToolbarStructure = (controls) => {
+            if (!(controls instanceof HTMLElement)) return;
+            const mainColumn = controls.closest(".trg-plp-main-column");
+            if (!(mainColumn instanceof HTMLElement)) return;
+            const strayChildren = Array.from(controls.children).filter((child) =>
+              child instanceof HTMLElement && child.matches("style[data-shopify], .main-collection-grid")
+            );
+            if (strayChildren.length === 0) return;
+            const fragment = document.createDocumentFragment();
+            for (const child of strayChildren) fragment.appendChild(child);
+            mainColumn.insertBefore(fragment, controls.nextSibling);
+            controls.dataset.trgStructureRepaired = "true";
+          };
+
+          const syncCollectionToolbar = () => {
+            const controls = document.querySelector(selector);
+            if (!(controls instanceof HTMLElement)) return;
+
+            repairToolbarStructure(controls);
+
+            const legacySort = controls.querySelector("sorting-filter-component.sorting-filter");
+            const nativeSort = controls.querySelector(".trg-plp-sort-select, .trg-plp-sort-select-bridge");
+            const showButton = controls.querySelector(".trg-plp-show-filters-btn");
+            if (showButton instanceof HTMLButtonElement) {
+              const isMobile = window.matchMedia("(max-width: 989px)").matches;
+              const shouldShow = isMobile || document.body.classList.contains("filters-hidden");
+              showButton.hidden = !shouldShow;
+              shouldShow ? showButton.removeAttribute("aria-hidden") : showButton.setAttribute("aria-hidden", "true");
+            }
+
+            controls.dataset.trgControlsBridged = "true";
+            controls.querySelector(".facets--filters-title")?.remove();
+            controls.querySelector(".trg-collection-controls__active-filters")?.remove();
+            if (legacySort instanceof HTMLElement) {
+              legacySort.hidden = true;
+              legacySort.setAttribute("aria-hidden", "true");
+            }
+
+            if (nativeSort) return;
+
+            let sortShell = controls.querySelector(".trg-plp-sort-shell-bridge");
+            let sortSelect = controls.querySelector(".trg-plp-sort-select-bridge");
+            if (!(sortShell instanceof HTMLElement) || !(sortSelect instanceof HTMLSelectElement)) {
+              sortShell = document.createElement("div");
+              sortShell.className = "trg-plp-sort-shell-bridge";
+              const label = document.createElement("label");
+              label.className = "visually-hidden";
+              label.setAttribute("for", "TrgPlpSortBridge");
+              label.textContent = "Sort";
+              sortSelect = document.createElement("select");
+              sortSelect.id = "TrgPlpSortBridge";
+              sortSelect.className = "trg-plp-sort-select-bridge";
+              sortSelect.setAttribute("data-trg-plp-sort-bridge", "");
+              sortSelect.setAttribute("aria-label", "Sort");
+              sortShell.append(label, sortSelect);
+              controls.append(sortShell);
+            }
+
+            const sourceSelect = controls.querySelector("select[name='sort_by']") || document.querySelector("select[name='sort_by']");
+            if (!(sourceSelect instanceof HTMLSelectElement)) return;
+
+            const currentSort = new URL(window.location.href).searchParams.get("sort_by") || sourceSelect.value;
+            const nextSignature = Array.from(sourceSelect.options)
+              .map((o) => o.value + ":" + (o.textContent?.trim() || ""))
+              .join("|");
+
+            if (sortSelect.dataset.sourceSignature !== nextSignature) {
+              while (sortSelect.firstChild) sortSelect.removeChild(sortSelect.firstChild);
+              for (const option of sourceSelect.options) {
+                sortSelect.append(new Option(option.textContent?.trim() || option.value, option.value, false, false));
+              }
+              sortSelect.dataset.sourceSignature = nextSignature;
+            }
+            sortSelect.value = currentSort;
+          };
+
+          const handleBridgeSortChange = (event) => {
+            const target = event.target;
+            if (!(target instanceof HTMLSelectElement) || !target.matches("[data-trg-plp-sort-bridge]")) return;
+            const nextUrl = new URL(window.location.href);
+            nextUrl.searchParams.delete("page");
+            target.value ? nextUrl.searchParams.set("sort_by", target.value) : nextUrl.searchParams.delete("sort_by");
+            window.location.assign(nextUrl.toString());
+          };
+
+          const scheduleSync = () => requestAnimationFrame(syncCollectionToolbar);
+
+          /* Bubbling-phase change scoped to bridge select only */
+          document.addEventListener("change", handleBridgeSortChange);
+          document.addEventListener("shopify:section:load", scheduleSync);
+          window.addEventListener("trg:url-changed", scheduleSync);
+
+          if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded", scheduleSync, { once: true });
+          } else {
+            scheduleSync();
+          }
+        })();
+      </script>
+    {% endif %}
+    <script>
+      /* Phase 4: Editorial icons — single MutationObserver replaces 5 listeners + 2 timeouts */
+      (function () {
+        var ICON_MAP = {
+          '\u2316': '<svg class="trg-pillar__icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="6"></circle><path d="M12 3v3"></path><path d="M12 18v3"></path><path d="M3 12h3"></path><path d="M18 12h3"></path></svg>',
+          '\u00e2\u0152\u2013': '<svg class="trg-pillar__icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="6"></circle><path d="M12 3v3"></path><path d="M12 18v3"></path><path d="M3 12h3"></path><path d="M18 12h3"></path></svg>',
+          '\u25ef': '<svg class="trg-pillar__icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="7"></circle></svg>',
+          '\u00e2\u2014\u00af': '<svg class="trg-pillar__icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="7"></circle></svg>',
+          '\u2691': '<svg class="trg-pillar__icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v16"></path><path d="M8 5h8l-2.6 3 2.6 3H8"></path></svg>',
+          '\u00e2\u0161\u2018': '<svg class="trg-pillar__icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v16"></path><path d="M8 5h8l-2.6 3 2.6 3H8"></path></svg>'
+        };
+
+        function fixEditorialIcons(root) {
+          var scope = root && root.querySelectorAll ? root : document;
+          var icons = scope.querySelectorAll('.trg-pillar__icon');
+          for (var i = 0; i < icons.length; i += 1) {
+            var icon = icons[i];
+            if (icon.querySelector('svg')) continue;
+            var glyph = (icon.textContent || '').trim();
+            var markup = ICON_MAP[glyph];
+            if (!markup) continue;
+            icon.innerHTML = markup;
+            icon.setAttribute('aria-hidden', 'true');
+          }
+        }
+
+        fixEditorialIcons(document);
+        new MutationObserver(function (mutations) {
+          for (var i = 0; i < mutations.length; i++) {
+            var added = mutations[i].addedNodes;
+            for (var j = 0; j < added.length; j++) {
+              var node = added[j];
+              if (node.nodeType === 1 && (node.classList.contains('trg-pillar__icon') || node.querySelector('.trg-pillar__icon'))) {
+                fixEditorialIcons(node.parentElement || document);
+                return;
+              }
+            }
+          }
+        }).observe(document.body || document.documentElement, { childList: true, subtree: true });
+      })();
+    </script>
+    <script src="{{ 'trg-mega-menu-v2.js' | asset_url }}" defer></script>
+    <script src="{{ 'trg-mob-v2.js' | asset_url }}" defer></script>
+    <script src="{{ 'trg-colour-guide-seed-hotfix.js' | asset_url | append: '&cv=20260411i' }}" defer></script>
+    {%- render 'trg-cookie-consent' -%}
+    <script src="{{ 'trg-cookie-consent.js' | asset_url }}" defer></script>
+</body>
+<!-- plp-v25 2026-04-12T14:16:33.405Z -->
+</html>
+
+
+<!-- trg-skill-bust 2026-04-05T09:36:11-04:00 -->
+
+<!-- trg-bust 2026-04-07T15:48 -->
+
+
+
+
+
+
+
+
+
+
+<!-- trg-cache-bust 2026-04-11T17:16:32 -->
+
+<!-- codex colour guide speed reset 2026-04-11T22:10:00Z theme 187505606935 -->
+<!-- TRG-CACHE-BUST: 2026-04-12 10:06:26 colour-guide-block-2-3 -->
+
+<!-- codex-cache-bust:2026-04-12T16:41:20Z -->
+
+{% comment %}codex-color-ui-live-2026-04-12T16:25:00-04:00 theme 187505606935{% endcomment %}
+<!-- cache-bust 2026-04-12T20:59:19.046Z -->

@@ -1,0 +1,340 @@
+{% liquid
+  assign product = closest.product
+  assign brand_label = product.vendor | default: 'Brand'
+  assign buy_path = blank
+  assign retailer_name = blank
+  assign is_new = false
+  assign is_sale = false
+  assign is_trg_plp = false
+
+  if section.settings.trg_plp_shell_max_width != blank
+    assign is_trg_plp = true
+  endif
+
+  if product != blank
+    assign buy_path = product.metafields.custom.buy_path.value | default: product.metafields.custom.buy_path
+    if buy_path == blank
+      assign buy_path = product.metafields.custom.buyPath.value | default: product.metafields.custom.buyPath
+    endif
+    if buy_path == blank
+      assign buy_path = product.metafields.custom.purchase_path.value | default: product.metafields.custom.purchase_path
+    endif
+    if buy_path == blank
+      assign buy_path = product.metafields.custom.purchasePath.value | default: product.metafields.custom.purchasePath
+    endif
+
+    assign retailer_name = product.metafields.custom.retailer.value | default: product.metafields.custom.retailer
+    if retailer_name == blank
+      assign retailer_name = product.metafields.custom.retailer_name.value | default: product.metafields.custom.retailer_name
+    endif
+    if retailer_name == blank
+      assign retailer_name = product.metafields.custom.stockist.value | default: product.metafields.custom.stockist
+    endif
+    if retailer_name == blank
+      assign retailer_name = product.metafields.custom.retailerName.value | default: product.metafields.custom.retailerName
+    endif
+
+    assign new_flag = product.metafields.custom.is_new.value | default: product.metafields.custom.is_new
+    if new_flag == blank
+      assign new_flag = product.metafields.custom.new_arrival.value | default: product.metafields.custom.new_arrival
+    endif
+    if new_flag == blank
+      assign new_flag = product.metafields.custom.newArrival.value | default: product.metafields.custom.newArrival
+    endif
+
+    if new_flag == true or new_flag == 'true' or new_flag == '1'
+      assign is_new = true
+    endif
+
+    if buy_path == blank or retailer_name == blank or is_new == false
+      for tag in product.tags
+        assign normalized_tag = tag | downcase | strip
+
+        if buy_path == blank
+          if normalized_tag contains 'buy-path:'
+            assign buy_path = normalized_tag | remove: 'buy-path:' | strip
+          elsif normalized_tag contains 'buy path:'
+            assign buy_path = normalized_tag | remove: 'buy path:' | strip
+          elsif normalized_tag == 'direct' or normalized_tag == 'reseller'
+            assign buy_path = normalized_tag
+          endif
+        endif
+
+        if retailer_name == blank
+          if normalized_tag contains 'retailer:'
+            assign retailer_name = tag | remove_first: 'retailer:' | strip
+          elsif normalized_tag contains 'stockist:'
+            assign retailer_name = tag | remove_first: 'stockist:' | strip
+          endif
+        endif
+
+        if is_new == false
+          case normalized_tag
+            when 'new', 'new arrival', 'new-arrival', 'new arrivals', 'new-arrivals', 'new_arrival'
+              assign is_new = true
+          endcase
+        endif
+      endfor
+    endif
+
+    if buy_path == blank
+      assign buy_path = 'direct'
+    endif
+
+    if retailer_name == blank
+      assign retailer_name = brand_label
+    endif
+
+    if product.compare_at_price > product.price
+      assign is_sale = true
+    endif
+  endif
+%}
+
+{% capture children %}
+  {% unless product == blank %}
+    {% if is_new or is_sale %}
+      <div
+        class="product-badges product-badges--{{ settings.badge_position }}"
+        style="
+          --badge-border-radius: {{ settings.badge_corner_radius }}px;
+          --badge-font-family: var(--font-{{ settings.badge_font_family }}--family); --badge-font-weight: var(--font-{{ settings.badge_font_family }}--weight); --badge-text-transform: {{ settings.badge_text_transform }};
+        "
+      >
+        {% if is_new %}
+          <div class="product-badges__badge product-badges__badge--rectangle">New</div>
+        {% endif %}
+        {% if is_sale %}
+          <div class="product-badges__badge product-badges__badge--rectangle">Sale</div>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    {% if is_trg_plp %}
+      <button
+        type="button"
+        class="button-unstyled trg-plp-card-wishlist trg-wishlist-btn"
+        data-trg-wishlist
+        data-product-id="{{ product.id }}"
+        data-product="{{ product.handle }}"
+        aria-pressed="false"
+        aria-label="Save {{ product.title | escape }}"
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M12 21.35 10.55 20C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09A6.02 6.02 0 0 1 16.5 3C19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7"></path>
+        </svg>
+      </button>
+    {% endif %}
+
+    {% comment %} v24 #18 — image count badge {% endcomment %}
+    {% if is_trg_plp and product.media.size > 1 %}
+      <span class="trg-plp-img-count" aria-label="{{ product.media.size }} images">
+        <svg width="9" height="9" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+        {{ product.media.size }}
+      </span>
+    {% endif %}
+
+    {% comment %} TRG affiliate-only — skip quick-add on PLP + search (H9 Tier 3 #11, 2026-04-16). Saves ~6KB × cards-per-page. {% endcomment %}
+    {% if settings.quick_add or settings.mobile_quick_add %}
+      {% unless request.page_type == 'collection' or request.page_type == 'search' %}
+        {% render 'quick-add', product: product, section_id: section.id %}
+      {% endunless %}
+    {% endif %}
+  {% endunless %}
+{% endcapture %}
+
+{% render 'card-gallery', children: children %}
+
+{% # Title and price for the zoomed out grid view %}
+<div class="product-grid-view-zoom-out--details">
+  {% if product == blank %}
+    <h3 class="h4">{{ 'content.product_card_placeholder' | t }}</h3>
+  {% else %}
+    <h3 class="h4">{{ product.title }}</h3>
+  {% endif %}
+</div>
+
+{% stylesheet %}
+  .product-badges {
+    --badge-inset: max(var(--padding-xs), calc((var(--border-radius) + var(--padding-xs)) * (1 - cos(45deg))));
+
+    position: absolute;
+    z-index: var(--layer-flat);
+  }
+
+  .product-badges--bottom-left {
+    bottom: calc(var(--badge-inset) + var(--padding-block-start));
+    left: calc(var(--badge-inset) + var(--padding-inline-start));
+  }
+
+  .product-badges--top-left {
+    top: calc(var(--badge-inset) + var(--padding-block-start));
+    left: calc(var(--badge-inset) + var(--padding-inline-start));
+  }
+
+  .product-badges--top-right {
+    top: calc(var(--badge-inset) + var(--padding-block-start));
+    right: calc(var(--badge-inset) + var(--padding-inline-start));
+  }
+
+  .product-badges__badge {
+    --badge-font-size: var(--font-size--xs);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--color-foreground);
+    background: var(--color-background);
+    font-size: var(--badge-font-size);
+    font-family: var(--badge-font-family);
+    font-weight: var(--badge-font-weight);
+    text-transform: var(--badge-text-transform);
+    border-radius: var(--badge-border-radius);
+  }
+
+  .product-badges__badge--rectangle {
+    padding-block: var(--badge-rectangle-padding-block);
+    padding-inline: var(--badge-rectangle-padding-inline);
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:names.product_image",
+  "tag": null,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "t:content.resource_reference_product_media"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "options": [
+        {
+          "value": "adapt",
+          "label": "t:options.auto"
+        },
+        {
+          "value": "portrait",
+          "label": "t:options.portrait"
+        },
+        {
+          "value": "square",
+          "label": "t:options.square"
+        },
+        {
+          "value": "landscape",
+          "label": "t:options.landscape"
+        }
+      ],
+      "default": "portrait",
+      "label": "t:settings.aspect_ratio",
+      "info": "t:info.aspect_ratio_adjusted"
+    },
+    {
+      "type": "header",
+      "content": "t:content.borders"
+    },
+    {
+      "type": "select",
+      "id": "border",
+      "label": "t:settings.style",
+      "options": [
+        {
+          "value": "none",
+          "label": "t:options.none"
+        },
+        {
+          "value": "solid",
+          "label": "t:options.solid"
+        }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "range",
+      "id": "border_width",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "t:settings.thickness",
+      "default": 1,
+      "visible_if": "{{ block.settings.border != 'none' }}"
+    },
+    {
+      "type": "range",
+      "id": "border_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "t:settings.opacity",
+      "default": 100,
+      "visible_if": "{{ block.settings.border != 'none' }}"
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "t:settings.border_radius",
+      "min": 0,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "t:settings.left",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "t:settings.right",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.product_card_media",
+      "category": "t:categories.product"
+    }
+  ]
+}
+{% endschema %}

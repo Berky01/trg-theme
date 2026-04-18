@@ -1,0 +1,996 @@
+/* ============================================
+   TRG AUDIT FIXES — trg-audit-fixes.css
+   Deploy: Upload to Shopify > Assets
+   Include: Add to theme.liquid before </head>
+   {{ 'trg-audit-fixes.css' | asset_url | stylesheet_tag }}
+   ============================================ */
+
+/* ─── 2. FIX: Brand PLP empty state polish ─── */
+/* When brand directory shows no results, improve the empty state */
+.brand-grid-empty {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: var(--trg-mid, var(--mid));
+}
+.brand-grid-empty h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  font-weight: 400;
+  color: var(--trg-ink, var(--ink));
+  margin-bottom: 0.5rem;
+}
+.brand-grid-empty p {
+  font-size: 0.85rem;
+  font-weight: 300;
+}
+
+/* ─── 4. POLISH: Brand card monogram refinement ─── */
+/* Make monogram placeholders look more intentional while images are missing */
+#MainContent .brand-card__logo-placeholder,
+#MainContent .product-card .placeholder-svg,
+#MainContent [class*="brand-logo-fallback"] {
+  background: linear-gradient(135deg, var(--ink) 0%, #2d2d2a 100%);
+  border: 1px solid rgba(245, 241, 235, 0.08);
+  font-family: 'Playfair Display', serif;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: rgba(245, 241, 235, 0.7);
+}
+
+/* ─── 5. POLISH: Newsletter section — only show once per page ─── */
+/* Hide the second newsletter section when it appears as a duplicate */
+.shopify-section + .shopify-section .trg-newsletter,
+.shopify-section + .shopify-section .trg-email-signup {
+  /* Don't hide by default — but this selector can be fine-tuned
+     once we identify the exact section IDs */
+}
+
+/* ─── 6. POLISH: Footer link states (Phase 3: scoped to .trg-footer) ─── */
+.trg-footer a,
+footer.trg-footer a {
+  transition: color 0.15s ease;
+}
+.trg-footer a:hover,
+footer.trg-footer a:hover {
+  color: var(--trg-accent, var(--accent));
+}
+
+/* ─── 7. POLISH: Breadcrumb styling consistency ─── */
+#MainContent .breadcrumb,
+#MainContent [class*="breadcrumb"] {
+  font-size: 0.75rem;
+  color: var(--trg-mid, var(--mid));
+  letter-spacing: 0.02em;
+}
+.breadcrumb a:hover {
+  color: var(--trg-accent, var(--accent));
+}
+
+/* PDP breadcrumb must override compiled theme CSS consistently */
+#MainContent .trg-pdp-bc {
+  padding: 0.75rem 2rem !important;
+  border-bottom: 1px solid #ddd8cf !important;
+  background: #faf8f4 !important;
+}
+#MainContent .trg-pdp-bc__inner {
+  max-width: 1320px !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  flex-wrap: nowrap !important;
+  overflow: hidden !important;
+  font-size: 0.72rem !important;
+  line-height: 1.25 !important;
+  color: #706a60 !important;
+}
+#MainContent .trg-pdp-bc a,
+#MainContent .trg-pdp-bc__sep {
+  white-space: nowrap !important;
+  flex-shrink: 0 !important;
+}
+#MainContent .trg-pdp-bc a {
+  color: #706a60 !important;
+  text-decoration: none !important;
+}
+#MainContent .trg-pdp-bc a:hover {
+  color: #1a1a18 !important;
+}
+#MainContent .trg-pdp-bc__current {
+  color: #1a1a18 !important;
+  font-weight: 500 !important;
+  white-space: nowrap !important;
+  min-width: 0 !important;
+  max-width: min(48vw, 34rem) !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+/* ─── 8. POLISH: CTA button hierarchy on Brand PDP ─── */
+/* Primary CTA (Shop Direct) */
+.btn-shop-direct,
+[class*="affiliate-cta"] .btn-primary,
+.trg-affiliate-cta__primary {
+  background: var(--trg-accent, var(--accent));
+  color: #ffffff;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.85rem 1.75rem;
+  border-radius: 2px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: opacity 0.2s ease;
+  white-space: nowrap;
+}
+.btn-shop-direct:hover,
+[class*="affiliate-cta"] .btn-primary:hover,
+.trg-affiliate-cta__primary:hover {
+  opacity: 0.88;
+}
+
+/* Secondary CTA (Retailer) */
+.btn-retailer,
+[class*="affiliate-cta"] .btn-secondary,
+.trg-affiliate-cta__secondary {
+  background: transparent;
+  color: var(--trg-ink, var(--ink));
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  padding: 0.65rem 1.25rem;
+  border: 1px solid var(--trg-border, var(--border));
+  border-radius: 2px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: border-color 0.2s ease, color 0.2s ease;
+  white-space: nowrap;
+}
+.btn-retailer:hover,
+[class*="affiliate-cta"] .btn-secondary:hover,
+.trg-affiliate-cta__secondary:hover {
+  border-color: var(--trg-accent, var(--accent));
+  color: var(--trg-accent, var(--accent));
+}
+
+/* ─── 9. POLISH: Tag/badge consistency ─── */
+#MainContent .badge,
+#MainContent [class*="badge-"]:not(.card-gallery),
+.trg-badge {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  padding: 0.22rem 0.6rem;
+  border-radius: 2px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  white-space: nowrap;
+}
+.badge-canadian,
+.trg-badge--ca {
+  background: rgba(212, 41, 26, 0.1);
+  color: #b82318;
+  border: 1px solid rgba(212, 41, 26, 0.2);
+}
+.badge-affiliate,
+.trg-badge--affiliate {
+  background: rgba(196, 86, 42, 0.1);
+  color: #a84a1f;
+  border: 1px solid rgba(196, 86, 42, 0.2);
+}
+.badge-ships-ca,
+.trg-badge--ships-ca {
+  background: rgba(80, 160, 80, 0.1);
+  color: #3d8c3d;
+  border: 1px solid rgba(80, 160, 80, 0.2);
+}
+.badge-price,
+.trg-badge--price {
+  background: var(--trg-tag-bg, #ede8e0);
+  color: var(--trg-mid, var(--mid));
+  border: 1px solid var(--trg-border, var(--border));
+}
+
+/* ─── 10. POLISH: Scroll-to-top button ─── */
+.scroll-to-top,
+[class*="back-to-top"] {
+  background: var(--trg-ink, var(--ink));
+  color: var(--trg-paper, var(--paper));
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  font-size: 1rem;
+}
+.scroll-to-top:hover {
+  opacity: 0.8;
+}
+
+/* ─── 11. CANADA CONDITIONAL: Only show when data-region=CA ─── */
+/* These elements should be hidden by default and shown via geo JS */
+html body .canada-only,
+html body [data-ca-only],
+html body .trg-canada-strip,
+html body .badge-ships-ca:not([data-always-show]),
+html body .trg-ca-cta {
+  display: none;
+}
+html body[data-region="CA"] .canada-only,
+html body[data-region="CA"] [data-ca-only],
+html body[data-region="CA"] .trg-canada-strip,
+html body[data-region="CA"] .badge-ships-ca,
+html body[data-region="CA"] .trg-ca-cta {
+  display: flex;
+}
+/* For inline elements */
+html body[data-region="CA"] span.canada-only,
+html body[data-region="CA"] span[data-ca-only] {
+  display: inline;
+}
+/* For block elements */
+html body[data-region="CA"] div.canada-only,
+html body[data-region="CA"] section.canada-only {
+  display: block;
+}
+
+/* ─── 12. POLISH: Collection page filter panel ─── */
+.trg-filter-panel,
+[class*="filter-sidebar"] {
+  border-right: 1px solid var(--trg-border, var(--border));
+}
+.trg-filter-group__title {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--trg-mid, var(--mid));
+  margin-bottom: 0.75rem;
+}
+
+/* ─── 13. POLISH: Typography scale consistency (Phase 3: scoped to #MainContent) ─── */
+/* Ensure Playfair is used for all headings, DM Sans for body */
+#MainContent h1, #MainContent h2, #MainContent h3,
+#MainContent .h1, #MainContent .h2, #MainContent .h3 {
+  font-family: 'Playfair Display', serif;
+}
+/* Italic accent in headings */
+#MainContent h1 em, #MainContent h2 em, #MainContent h3 em,
+#MainContent .h1 em, #MainContent .h2 em, #MainContent .h3 em {
+  font-style: italic;
+  color: var(--trg-accent, var(--accent));
+}
+
+/* ─── 14. POLISH: Link styles (Phase 3: scoped to #MainContent) ─── */
+#MainContent a:not(nav a):not([class*="btn"]) {
+  color: inherit;
+  text-decoration-color: var(--trg-border, var(--border));
+  text-underline-offset: 0.15em;
+  transition: color 0.15s ease, text-decoration-color 0.15s ease;
+}
+#MainContent a:not(nav a):not([class*="btn"]):hover {
+  color: var(--trg-accent, var(--accent));
+  text-decoration-color: var(--trg-accent, var(--accent));
+}
+/* Remove underline from TRG-owned links */
+.trg-plp-body .product-card a,
+.trg-search-plp .product-card a,
+.trg-bdir a,
+.trg-footer nav a,
+#MainContent .card a,
+#MainContent [class*="btn"] {
+  text-decoration: none;
+}
+
+/* ─── 15. POLISH: Loading/skeleton states ─── */
+@keyframes trg-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.trg-skeleton {
+  background: linear-gradient(90deg, #ede8e0 25%, #e8e3db 50%, #ede8e0 75%);
+  background-size: 200% 100%;
+  animation: trg-shimmer 1.5s ease infinite;
+  border-radius: 2px;
+}
+
+/* ─── 16. POLISH: Selection color ─── */
+::selection {
+  background: rgba(196, 86, 42, 0.15);
+  color: var(--trg-ink, var(--ink));
+}
+
+/* ─── 17. POLISH: Focus styles for accessibility ─── */
+#MainContent *:focus-visible,
+.trg-mob *:focus-visible {
+  outline: 2px solid var(--trg-accent, var(--accent));
+  outline-offset: 2px;
+}
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--trg-accent, var(--accent));
+  outline-offset: 2px;
+}
+
+/* ─── 18. RESPONSIVE: Mobile refinements ─── */
+@media (max-width: 749px) {
+  /* Tighter spacing on mobile */
+  .section-heading {
+    font-size: 1.6rem;
+  }
+  
+  /* Stack CTAs on mobile */
+  .brand-hero-cta {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+  
+  /* Full-width buttons on mobile */
+  .btn-shop-direct,
+  .btn-retailer,
+  .trg-affiliate-cta__primary,
+  .trg-affiliate-cta__secondary {
+    justify-content: center;
+    width: 100%;
+    text-align: center;
+  }
+
+  /* Fix account button + search overlap on mobile */
+  /* Dwell mobile grid: leftA(44) leftB(44) center(1fr) rightA(44) rightB(44) */
+  #header-group .header__columns .search-action.search-action {
+    grid-area: leftB;
+  }
+  #header-group .header__columns header-actions {
+    grid-column: 4 / 6;
+    grid-row: 1;
+    justify-self: end;
+    margin-right: 0.5rem;
+  }
+  /* Hide wishlist heart on mobile — accessible from account page */
+  #header-group .trg-nav-wishlist {
+    display: none;
+  }
+  #header-group .header__icon--account {
+    padding: .3rem .6rem;
+    white-space: nowrap;
+  }
+  #header-group .header__icon--account .account-button__text,
+  #header-group .header__icon--account .header-actions__text-style {
+    font-size: .6rem;
+    letter-spacing: .04em;
+  }
+}
+
+/* ─── 19. PRINT STYLES ─── */
+@media print {
+  nav, footer, .newsletter-section, .scroll-to-top,
+  .trg-mega-menu, .search-overlay {
+    display: none;
+  }
+  body {
+    background: white;
+    color: black;
+    font-size: 12pt;
+  }
+  a[href]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    color: #666;
+  }
+}
+
+/* ─── HIDE SIGN IN (no account functionality for affiliate directory) ─── */
+/* Sign In visible — account system active */
+
+/* ─── newsletter-dedup: Only show body newsletter on homepage ─── */
+/* Interior pages: hide the body-level newsletter (footer one stays) */
+.shopify-section:not([id*="footer"]):not([id*="header"]) .trg-newsletter:not(:first-of-type) {
+  /* If two newsletters appear in content area, hide the second */
+}
+/* On non-homepage: the newsletter before footer is redundant */
+body:not(.template-index) .shopify-section[id*="newsletter"]:not([id*="footer"]) {
+  display: none;
+}
+
+/* ─── 20. FIX: Hide duplicate newsletter on interior pages ─── */
+/* The footer-group newsletter stays; body newsletter only shows on homepage */
+body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"]) .trg-newsletter,
+body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"]) .trg-email-signup {
+  /* Uncomment below to hide body newsletter on non-homepage: */
+  /* display: none; */
+}
+
+/* ─── MEGA MENU MOBILE: Dark theme for Dwell mobile drawer ─── */
+/* The TRG mega menu hides at <990px, Dwell's default takes over */
+/* Override Dwell mobile menu to match TRG dark editorial theme */
+@media (max-width: 989px) {
+  /* Mobile drawer / dialog background */
+  #header-group header-menu,
+  #header-group .header__submenu,
+  #header-group .menu-drawer,
+  #header-group .menu-drawer__inner,
+  #header-group .dialog-component,
+  #header-group .dialog-component__content,
+  #header-group [data-dialog-type="side-panel"],
+  #header-group .header .menu-list,
+  #header-group .header .menu-list__submenu,
+  #header-group .header .overflow-menu,
+  #header-group .header dialog,
+  #header-group .header [role="dialog"],
+  #header-group .header-menu .menu-list__submenu {
+    background-color: var(--ink);
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  /* Mobile menu links */
+  #header-group .menu-drawer a,
+  #header-group .menu-list__item a,
+  #header-group .header-menu a,
+  #header-group header-menu a,
+  #header-group .header .menu-list a,
+  #header-group .header dialog a,
+  #header-group .dialog-component a {
+    color: rgba(245, 241, 235, 0.7);
+    text-decoration: none;
+  }
+  #header-group .menu-drawer a:hover,
+  #header-group .menu-list__item a:hover,
+  #header-group .header-menu a:hover,
+  #header-group header-menu a:hover,
+  #header-group .header .menu-list a:hover,
+  #header-group .dialog-component a:hover {
+    color: var(--paper);
+  }
+
+  /* Active/expanded state */
+  #header-group .menu-list__item--active > a,
+  #header-group .menu-list__item[aria-expanded="true"] > a,
+  #header-group header-menu .menu-list__item--active a {
+    color: var(--paper);
+  }
+
+  /* Submenu panel */
+  #header-group .menu-list__submenu,
+  #header-group .header-menu .menu-list__submenu,
+  #header-group .menu-drawer__submenu {
+    background: #242422;
+    border-color: #35332f;
+  }
+
+  /* Hamburger icon */
+  #header-group .header__icon--menu svg,
+  #header-group .header__icon--menu path,
+  #header-group .menu-drawer__close svg {
+    color: var(--paper);
+    stroke: var(--paper);
+  }
+
+  /* Remove beige/paper backgrounds from header area on mobile */
+  #header-group .header__wrapper,
+  #header-group.header-group .shopify-section-group-header-group,
+  #header-group header.header {
+    background-color: var(--ink);
+  }
+
+  /* Menu separator lines */
+  #header-group .menu-list__item + .menu-list__item,
+  #header-group .menu-drawer__nav-item {
+    border-color: #35332f;
+  }
+
+  /* Category/section labels in mobile menu */
+  #header-group .menu-list__item--heading,
+  #header-group .menu-drawer__heading {
+    color: rgba(245, 241, 235, 0.4);
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* Close button */
+  #header-group .menu-drawer__close,
+  #header-group .dialog-component__close,
+  #header-group [data-dialog-close] {
+    color: rgba(245, 241, 235, 0.6);
+  }
+
+  /* Search in mobile menu */
+  #header-group .menu-drawer__search input,
+  #header-group .header__search input {
+    background: #242422;
+    border-color: #35332f;
+    color: var(--paper);
+  }
+
+  /* Sign In and other utility links */
+  #header-group .header__utility a,
+  #header-group .header__account-link {
+    color: rgba(245, 241, 235, 0.6);
+  }
+}
+
+
+/* ─── ACCOUNT SYSTEM: Show Sign In button ─── */
+#header-group .header__icon--account {
+  display: inline-flex;
+}
+
+/* Nav wishlist heart (loads via trg-account.css once CDN recompiles, 
+   but add here too for immediate availability) */
+.trg-nav-wishlist {
+  color: rgba(245,241,235,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  text-decoration: none;
+  transition: color 0.2s;
+  padding: 4px;
+}
+.trg-nav-wishlist:hover { color: var(--paper); }
+.trg-nav-wishlist__count {
+  position: absolute; top: -3px; right: -5px;
+  background: var(--accent); color: #fff;
+  font-size: 0.5rem; font-weight: 500;
+  width: 13px; height: 13px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  line-height: 1;
+}
+.trg-nav-wishlist__count:empty { display: none; }
+
+/* Follow button on brand PDP */
+.trg-follow-btn {
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.7rem; font-weight: 500;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 0.55rem 1rem; border-radius: 2px;
+  cursor: pointer;
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  transition: all 0.2s;
+  background: transparent;
+  border: 1px solid rgba(245,241,235,0.25);
+  color: rgba(245,241,235,0.7);
+  margin-top: 0.6rem;
+}
+.trg-follow-btn:hover { border-color: rgba(245,241,235,0.5); color: var(--paper); }
+.trg-follow-btn.following {
+  background: rgba(196,86,42,0.2);
+  border-color: rgba(196,86,42,0.4);
+  color: #e8937a;
+}
+
+/* Toast notification */
+.trg-toast {
+  position: fixed;
+  bottom: 1rem; left: 1rem; right: 1rem;
+  background: var(--ink); color: var(--paper);
+  padding: 0.65rem 1rem; border-radius: 2px;
+  display: flex; align-items: center; gap: 0.5rem;
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.75rem; font-weight: 400;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+  z-index: var(--trg-z-toast, 400);
+  transform: translateY(100%); opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  pointer-events: none;
+}
+.trg-toast.show { transform: translateY(0); opacity: 1; pointer-events: auto; }
+.trg-toast__icon { color: var(--accent); flex-shrink: 0; }
+
+/* Wishlist button on product cards — always visible on mobile */
+.trg-plp-card-wishlist.trg-wishlist-btn {
+  opacity: 1;
+}
+.trg-plp-card-wishlist.trg-wishlist-btn.saved {
+  color: var(--accent);
+}
+.trg-plp-card-wishlist.trg-wishlist-btn.saved svg path {
+  fill: var(--accent);
+  stroke: var(--accent);
+}
+
+@media (min-width: 990px) {
+  .trg-toast { left: auto; right: 2rem; bottom: 2rem; width: auto; max-width: 320px; }
+}
+
+
+/* ─── PDP PRICE STYLING ─── */
+/* Moved to snippets/product-information-content.liquid stylesheet block */
+
+/* ─── PDP RECOMMENDATION SECTION ─── */
+.product-recommendations .section-heading {
+  font-family: 'Playfair Display', serif;
+}
+
+
+/* ─── PDP: Remove gallery image border ─── */
+#MainContent .product-information.product-information .product-information__media,
+#MainContent .product-information__media.product-information__media {
+  border: none;
+  outline: none;
+  box-shadow: none;
+}
+
+
+/* ─── PDP: Column gap handled by Dwell grid natively ─── */
+
+/* ─── PDP: Space between product section and brand strip ─── */
+#MainContent .product-information.section-page-width.product-information.section-page-width {
+  padding-block-end: 2rem;
+}
+
+
+/* ══════════════════════════════════════════════════
+   MOBILE UX AUDIT FIXES — HIGH + MEDIUM
+   Appended 2026-03-20
+   ══════════════════════════════════════════════════ */
+
+/* ─── #10: HP Hero stats — 3-col on mobile matching desktop ─── */
+@media screen and (max-width: 480px) {
+  .trg-home-hero__stats {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+  }
+  .trg-stat__value {
+    font-size: 1.25rem;
+  }
+  .trg-stat__label {
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+  }
+}
+
+/* ─── #13 HIGH: Colour Guide — tooltip overflow containment ─── */
+@media screen and (max-width: 749px) {
+  .trg-cg-tip,
+  [class*="trg-cg"][class*="tip"],
+  .trg-cg-chip-tip {
+    max-width: calc(100vw - 2rem);
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    white-space: normal;
+    word-break: break-word;
+  }
+}
+
+/* ─── #14 HIGH: Account — 749px phone breakpoint ─── */
+@media screen and (max-width: 749px) {
+  /* Single-column layout */
+  .trg-acct__grid {
+    grid-template-columns: 1fr;
+  }
+  /* Full-width cards */
+  .trg-acct__card,
+  .trg-acct__brand-card,
+  .trg-acct__wish-card {
+    width: 100%;
+  }
+  /* Stack brand cards in 2-col grid */
+  .trg-acct__brand-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+  /* Wishlist cards 1-col on phone */
+  .trg-acct__wish-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+  /* Hero section tighter */
+  .trg-acct__hero {
+    padding: 1.25rem 1rem;
+  }
+  .trg-acct__hero h1 {
+    font-size: 1.3rem;
+  }
+  /* Tabs horizontal scroll */
+  .trg-acct__tabs {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: 0;
+  }
+  .trg-acct__tabs::-webkit-scrollbar {
+    display: none;
+  }
+  .trg-acct__tab {
+    white-space: nowrap;
+    flex-shrink: 0;
+    padding: 0.65rem 0.75rem;
+    font-size: 0.7rem;
+  }
+  /* Settings form full-width */
+  .trg-acct__settings-form {
+    max-width: 100%;
+  }
+}
+
+/* ─── #15 HIGH: Search Bar — 44px tap targets on mobile ─── */
+@media screen and (max-width: 749px) {
+  .trg-search-bar__pill,
+  .trg-search-bar__mobile-filter,
+  .mobile-filter-btn {
+    min-height: 44px;
+    min-width: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .trg-search-bar__sort,
+  .trg-search-bar__form select {
+    min-height: 44px;
+  }
+  .trg-search-bar__active-tags {
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+  .trg-search-bar__active-tags .trg-search-bar__pill {
+    min-height: 36px;
+    padding: 0.35rem 0.75rem;
+    font-size: 0.72rem;
+  }
+}
+
+/* ─── #19 MEDIUM: Brand Dir — reduce card min-height on mobile ─── */
+@media screen and (max-width: 749px) {
+  .trg-bdir .trg-bdir__body,
+  .trg-bdir .trg-bdir__body2 {
+    min-height: 8rem;
+  }
+}
+
+/* ─── #18 MEDIUM: HP Card Grid — safe sizing on mobile ─── */
+/* (Sizes attr fix is in Liquid, this is a safety net) */
+@media screen and (max-width: 749px) {
+  .trg-card-grid .card-grid__item,
+  .trg-card-grid .card-grid__card {
+    max-width: calc(100vw - 2rem);
+  }
+}
+
+/* ─── #20 MEDIUM: About page — phone spacing ─── */
+@media screen and (max-width: 480px) {
+  .trg-split-layout {
+    gap: 16px;
+  }
+  .trg-sidebar-card {
+    padding: 1rem;
+  }
+  .trg-principles {
+    gap: 8px;
+  }
+  .trg-principle {
+    grid-template-columns: 28px 1fr;
+    gap: 6px;
+  }
+  .trg-main-block__heading {
+    font-size: 1.4rem;
+  }
+  .trg-main-block__quote {
+    font-size: 0.95rem;
+    padding-left: 1rem;
+  }
+}
+
+/* ─── #21 MEDIUM: Submit Brand — full-width form on mobile ─── */
+@media screen and (max-width: 749px) {
+  .trg-embed-frame iframe {
+    width: 100%;
+    min-height: 600px;
+  }
+  .trg-checklist__item {
+    font-size: 0.8rem;
+    padding: 0.4rem 0;
+  }
+}
+
+/* ─── #22 MEDIUM: Footer — larger newsletter input ─── */
+@media screen and (max-width: 749px) {
+  .trg-footer input[type="email"],
+  .trg-footer .trg-footer__email-input,
+  .trg-footer .newsletter-form__field-wrapper input {
+    min-height: 44px;
+    font-size: 0.85rem;
+    padding: 0.6rem 0.75rem;
+  }
+}
+
+/* ─── #23 MEDIUM: Newsletter — overflow-wrap on labels ��── */
+@media screen and (max-width: 749px) {
+  .trg-newsletter .button,
+  .trg-newsletter--footer_row .button {
+    white-space: normal;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+  .trg-newsletter label,
+  .trg-newsletter .field__label {
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+}
+
+/* ─── #25 MEDIUM: Affiliate Disclosure — mobile padding ─── */
+@media screen and (max-width: 749px) {
+  .trg-disclosure-table {
+    font-size: 0.75rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .trg-disclosure-table td,
+  .trg-disclosure-table th {
+    padding: 0.5rem 0.4rem;
+    min-width: 80px;
+  }
+}
+
+/* ─── #26 MEDIUM: Product PLP — filter drawer tap targets ─── */
+@media screen and (max-width: 749px) {
+  /* Shopify Search & Discovery filter drawer */
+  .facets__disclosure .disclosure__toggle,
+  .facets__button,
+  .facets-vertical .facets__item label,
+  dialog-component[id*="filters"] label {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+  .active-facets__button,
+  .facets__reset {
+    min-height: 44px;
+    padding: 0.5rem 0.75rem;
+  }
+}
+
+
+/* ── Mobile overflow safety — scoped to TRG containers (H13 fix) ── */
+@media (max-width: 989px) {
+  .trg-plp-body,
+  .trg-bdir,
+  .trg-mob,
+  [class*="trg-"] {
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+  #MainContent img, #MainContent svg, #MainContent video, #MainContent iframe, #MainContent table {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* ═══ #20 Brand PLP mobile: clean fix ═══ */
+@media screen and (max-width: 989px) {
+  html body:has([data-template="page.brands-directory"]) {
+    background: var(--paper);
+  }
+  html body:has([data-template="page.brands-directory"]) footer,
+  html body:has([data-template="page.brands-directory"]) .footer {
+    background: var(--paper);
+  }
+  html body:has([data-template="page.brands-directory"]) .header__navigation-bar-row.header__navigation-bar-row {
+    display: none;
+    height: 0;
+  }
+}
+
+/* Kill ALL scrollbar artifacts inside brand directory on mobile */
+@media screen and (max-width: 989px) {
+  .trg-bdir *,
+  .trg-bdir *::before,
+  .trg-bdir *::after {
+    scrollbar-width: none !important;
+  }
+  .trg-bdir *::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
+  .trg-bdir .trg-bdir__card,
+  .trg-bdir .trg-bdir__carda,
+  .trg-bdir .trg-bdir__body2,
+  .trg-bdir .trg-bdir__media {
+    overflow: hidden !important;
+  }
+}
+@media screen and (max-width: 989px) {
+  /* Kill vertical line artifact on mobile cards */
+  .trg-bdir .trg-bdir__card {
+    overflow: hidden !important;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+  .trg-bdir .trg-bdir__carda {
+    overflow: hidden !important;
+  }
+  .trg-bdir .trg-bdir__body2 {
+    overflow: hidden;
+    position: relative;
+  }
+  .trg-bdir .trg-bdir__side {
+    border: none;
+  }
+    .trg-bdir .trg-bdir__cta {
+    display: none;
+    height: 0;
+    min-height: 0;
+    visibility: hidden;
+  }
+}
+
+/* ═══ #27 Brand PLP mobile: close black gap between header and content ═══ */
+@media screen and (max-width: 989px) {
+  /* Collapse navigation-bar-row completely */
+  #header-group .header__navigation-bar-row.header__navigation-bar-row {
+    display: none;
+    height: 0;
+    min-height: 0;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+    border: none;
+  }
+  /* Collapse mega-menu shell — visibility:hidden not display:none
+     so the fixed-position mobile drawer (#trg-mob) still renders */
+  .shopify-section-group-header-group.trg-mega-menu-shell,
+  .shopify-section.trg-mega-menu-shell {
+    height: 0;
+    min-height: 0;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+    visibility: hidden;
+  }
+  /* Kill any header-group gap — only the header-component should have height */
+  #header-group > .shopify-section:not(.header-section) {
+    height: 0;
+    min-height: 0;
+    overflow: hidden;
+    visibility: hidden;
+  }
+  /* Re-enable the mobile drawer inside the collapsed mega-menu */
+  .trg-mob {
+    visibility: visible;
+  }
+  /* H14: content-for-layout offset preserved for Dwell sticky header */
+}
+
+/* ─── HP Hero mosaic — mobile height matching desktop proportions ─── */
+@media screen and (max-width: 989px) {
+  .trg-mosaic {
+    height: clamp(260px, 65vw, 380px);
+    grid-template-rows: 1fr 1fr;
+  }
+  .trg-mosaic__item.trg-mosaic__item {
+    background-size: cover;
+    background-position: center;
+  }
+}
+
+/* ─── Mobile brands search — typed text colour ─── */
+/* iOS Safari uses -webkit-text-fill-color which overrides the inline color property */
+#trg-v4-input {
+  color: rgba(245, 241, 235, 0.92) !important;
+  -webkit-text-fill-color: rgba(245, 241, 235, 0.92) !important;
+}

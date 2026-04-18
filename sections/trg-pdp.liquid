@@ -1,0 +1,1350 @@
+{%- liquid
+
+  comment
+
+    ================================================================
+
+    TRG PRODUCT PDP - Self-contained section (v3)
+
+    Replaces Dwell's product-information section for full design control
+
+    ================================================================
+
+  endcomment
+
+
+
+  assign p = product
+
+
+
+  if request.visual_preview_mode and p == blank
+
+    assign p = collections.all.products.first
+
+  endif
+
+
+
+  assign vendor_name = p.vendor | default: 'Brand'
+
+  assign brand_handle = vendor_name | handleize
+
+  assign brand_meta = shop.metaobjects.brand[brand_handle]
+
+  if brand_meta == blank
+
+    assign alt_name = vendor_name | replace: '&', 'and'
+
+    assign alt_handle = alt_name | handleize
+
+    assign brand_meta = shop.metaobjects.brand[alt_handle]
+
+    if brand_meta != blank
+
+      assign brand_handle = alt_handle
+
+    endif
+
+  endif
+
+  assign brand_url = '/collections/' | append: brand_handle
+
+
+
+  assign buy_path = p.metafields.trg.buy_path.value | default: p.metafields.trg.buy_path | default: 'Direct' | strip
+
+  assign buy_path_normalized = buy_path | downcase
+
+
+
+  assign buy_url_us = p.metafields.trg.buy_url.value | default: p.metafields.trg.buy_url
+
+  assign buy_url_us = buy_url_us | default: p.metafields.trg.affiliate_link.value | default: p.metafields.trg.affiliate_link
+
+  assign buy_url_ca = p.metafields.trg.buy_url_ca.value | default: p.metafields.trg.buy_url_ca | default: buy_url_us
+
+
+
+  assign retailer_name_us = p.metafields.trg.retailer_name_us.value | default: p.metafields.trg.retailer_name_us
+
+  assign retailer_url_us  = p.metafields.trg.retailer_url_us.value  | default: p.metafields.trg.retailer_url_us
+
+  assign retailer_name_ca = p.metafields.trg.retailer_name_ca.value | default: p.metafields.trg.retailer_name_ca
+
+  assign retailer_url_ca  = p.metafields.trg.retailer_url_ca.value  | default: p.metafields.trg.retailer_url_ca
+
+  assign trg_variant_color_data = p.metafields.trg.variant_color_data.value
+  assign trg_color_ui_mode = p.metafields.trg.color_ui_mode.value | default: p.metafields.trg.color_ui_mode | default: 'hidden' | strip | downcase
+  assign trg_variant_media_mode = p.metafields.trg.variant_media_mode.value | default: p.metafields.trg.variant_media_mode | strip | downcase
+
+  assign trg_source_variant_id = p.metafields.trg.source_variant_external_id.value | default: p.metafields.trg.source_variant_external_id | append: ''
+  assign trg_local_variant_id = p.selected_or_first_available_variant.id | append: ''
+  assign trg_local_colour_option_index = ''
+  assign trg_grouped_colours_have_local_variants = false
+  assign trg_has_native_colour_option = false
+  assign trg_show_color_ui = false
+
+  assign trg_has_grouped_colours = false
+
+  if trg_variant_color_data != blank and trg_variant_color_data.size > 1
+
+    assign trg_has_grouped_colours = true
+    for color_group in trg_variant_color_data
+      assign local_group_variant_id = color_group.shopify_first_variant_id | append: ''
+      if local_group_variant_id != blank
+        assign trg_grouped_colours_have_local_variants = true
+        break
+      endif
+    endfor
+
+  endif
+
+  assign selected_colour = ''
+
+  for option in p.options_with_values
+
+    assign opt_lower = option.name | downcase
+
+    if opt_lower == 'color' or opt_lower == 'colour'
+      assign trg_has_native_colour_option = true
+
+      assign selected_colour = option.selected_value | default: p.selected_or_first_available_variant.option1 | strip
+      assign trg_local_colour_option_index = forloop.index0 | append: ''
+
+      break
+
+    endif
+
+  endfor
+
+  if trg_color_ui_mode == 'enabled'
+    assign trg_show_color_ui = true
+  endif
+
+  assign eff_retailer_name_ca = retailer_name_ca
+
+  assign eff_retailer_url_ca  = retailer_url_ca
+
+  if eff_retailer_url_ca == blank
+
+    assign eff_retailer_name_ca = retailer_name_us
+
+    assign eff_retailer_url_ca  = retailer_url_us
+
+  endif
+
+
+
+  assign is_direct   = false
+
+  assign is_both     = false
+
+  assign is_reseller = false
+
+  if buy_path_normalized == 'both'
+
+    assign is_both = true
+
+  elsif buy_path_normalized contains 'reseller'
+
+    assign is_reseller = true
+
+  else
+
+    assign is_direct = true
+
+  endif
+
+
+
+  assign material   = p.metafields.trg.material_type
+
+  assign care_inst  = p.metafields.trg.care_instructions
+
+  assign ship_info  = p.metafields.trg.shipping_info
+
+  assign made_in    = p.metafields.trg.made_in_country
+
+  assign style_aes  = p.metafields.trg.style_aesthetic
+
+  assign season     = p.metafields.trg.season
+
+  assign price_rng  = p.metafields.trg.price_range
+
+
+
+  assign made_in_str = made_in | downcase
+
+  assign is_na = false
+
+  if made_in_str contains 'usa' or made_in_str contains 'united states' or made_in_str contains 'canada' or made_in_str contains 'mexico'
+
+    assign is_na = true
+
+  endif
+
+
+
+  assign ships_raw = p.metafields.trg.ships_to_canada.value | default: p.metafields.trg.ships_to_canada
+
+  assign ships_to_ca = false
+
+  if ships_raw == 'Yes' or ships_raw == 'yes' or ships_raw == true
+
+    assign ships_to_ca = true
+
+  endif
+
+  assign duties_raw = p.metafields.trg.ca_duties_apply.value | default: p.metafields.trg.ca_duties_apply
+
+  assign duties_apply = false
+
+  if duties_raw == 'Yes' or duties_raw == 'yes' or duties_raw == true
+
+    assign duties_apply = true
+
+  endif
+
+  assign returns_window = p.metafields.trg.returns_window.value | default: p.metafields.trg.returns_window
+
+  assign also_available_raw = p.metafields.trg.also_available.value | default: p.metafields.trg.also_available | default: ''
+
+
+
+  assign has_affiliate = false
+
+  assign brand_aff_program = brand_meta.affiliate_program.value | default: ''
+
+  assign brand_aff_network = brand_meta.affiliate_network.value | default: ''
+
+  if brand_aff_program == 'Yes'
+
+    assign has_affiliate = true
+
+  elsif brand_aff_network != blank and brand_aff_network != 'No' and brand_aff_network != 'no'
+
+    assign has_affiliate = true
+
+  endif
+
+
+
+  assign price_cents = p.price
+
+  assign price_dollars = price_cents | divided_by: 100
+
+  assign price_remainder = price_cents | modulo: 100
+
+
+
+  assign bc_collection = nil
+
+  for col in p.collections
+
+    if col.handle != 'all' and col.handle != 'frontpage'
+
+      assign bc_collection = col
+
+      break
+
+    endif
+
+  endfor
+
+-%}
+
+{%- comment -%}TRG SEO - Product JSON-LD (G10){%- endcomment -%}
+{%- if product != blank -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": {{ product.title | json }},
+  "url": {{ canonical_url | json }},
+  "description": {{ product.description | strip_html | truncate: 500 | json }},
+  "brand": { "@type": "Brand", "name": {{ product.vendor | json }} }{% if product.featured_image %},
+  "image": {{ product.featured_image | image_url: width: 1200 | prepend: 'https:' | json }}{% endif %}{% if product.selected_or_first_available_variant %},
+  "offers": {
+    "@type": "Offer",
+    "url": {{ canonical_url | json }},
+    "priceCurrency": "{{ shop.currency }}",
+    "price": "{{ product.price_min | money_without_currency | remove: ',' | strip }}",
+    "availability": "https://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}"
+  }{% endif %}
+}
+</script>
+{%- endif -%}
+
+{% if p != blank %}
+
+{%- comment -%} BREADCRUMB {%- endcomment -%}
+
+<nav class="trg-pdp-bc" aria-label="Breadcrumb">
+
+  <div class="trg-pdp-bc__inner">
+
+    <a href="/">Home</a>
+
+    <span class="trg-pdp-bc__sep" aria-hidden="true">&#8250;</span>
+    <a href="/collections/all">Products</a>
+    {%- if bc_collection -%}
+      <span class="trg-pdp-bc__sep" aria-hidden="true">&#8250;</span>
+      <a href="{{ bc_collection.url }}">{{ bc_collection.title }}</a>
+    {%- endif -%}
+    <span class="trg-pdp-bc__sep" aria-hidden="true">&#8250;</span>
+    <span class="trg-pdp-bc__current">{{ p.title }}</span>
+  </div>
+</nav>
+{%- comment -%}TRG SEO - BreadcrumbList JSON-LD (G11){%- endcomment -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://therightgarment.com/" },
+    { "@type": "ListItem", "position": 2, "name": "Products", "item": "https://therightgarment.com/collections/all" }{% if bc_collection %},
+    { "@type": "ListItem", "position": 3, "name": {{ bc_collection.title | json }}, "item": {{ shop.url | append: bc_collection.url | json }} },
+    { "@type": "ListItem", "position": 4, "name": {{ p.title | json }}, "item": {{ canonical_url | json }} }{% else %},
+    { "@type": "ListItem", "position": 3, "name": {{ p.title | json }}, "item": {{ canonical_url | json }} }{% endif %}
+  ]
+}
+</script>
+
+{%- comment -%} MAIN 55/45 GRID {%- endcomment -%}
+
+<div class="trg-pdp" {{ section.shopify_attributes }}>
+
+  {%- comment -%} PRIMARY BUY BLOCK {%- endcomment -%}
+
+  <div class="trg-pdp__info trg-pdp__info--primary">
+
+    {%- comment -%} Brand link with arrow {%- endcomment -%}
+
+    <a class="trg-pdp__brand-link" href="{{ brand_url }}">
+
+      {{ vendor_name | escape }}
+
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+
+    </a>
+
+
+
+    {%- comment -%} Title {%- endcomment -%}
+
+    <h1 class="trg-pdp__title">{{ p.title }}</h1>
+
+
+
+    {%- comment -%} Price {%- endcomment -%}
+
+    <div class="trg-pdp__price-row">
+
+      <span class="trg-pdp__price">${{ price_dollars }}{%- if price_remainder > 0 -%}.{{ price_remainder | prepend: '00' | slice: -2, 2 }}{%- endif -%}</span>
+
+      <span class="trg-pdp__price-ca">~CA${{ price_dollars | times: 137 | divided_by: 100 }}</span>
+
+      <span class="trg-pdp__price-ca-badge">CA Estimate</span>
+
+    </div>
+
+
+
+    {%- comment -%} Grouped colour selector (from variant_color_data metafield) {%- endcomment -%}
+
+    {%- if trg_show_color_ui and trg_has_grouped_colours and trg_has_native_colour_option == false -%}
+
+      <div class="trg-pdp__selector">
+
+        <div class="trg-pdp__selector-label"><span>Colour</span><span class="trg-pdp__selector-value" data-trg-selected-color-label>{{ selected_colour | default: trg_variant_color_data.first.shopify_option_value | default: trg_variant_color_data.first.color_raw | default: trg_variant_color_data.first.color_normalized | escape }}</span></div>
+
+        <div class="trg-pdp__chips trg-pdp__chips--colours">
+
+          {%- for color_group in trg_variant_color_data -%}
+
+            {%- liquid
+              assign grouped_colour_value = color_group.color_raw | default: color_group.color_normalized | strip
+              assign grouped_colour_label = grouped_colour_value | default: color_group.color_normalized | strip
+              assign grouped_colour_hex = color_group.color_hex | default: '#ddd8cf'
+              assign grouped_colour_variant_id = color_group.first_variant_id | default: color_group.source_variant_external_id | append: ''
+              assign grouped_local_variant_id = color_group.shopify_first_variant_id | append: ''
+              assign grouped_shopify_option_value = color_group.shopify_option_value | default: grouped_colour_value | strip
+              assign grouped_colour_active = false
+              assign grouped_colour_swatch_image = ''
+              if trg_variant_media_mode == 'per_color'
+                assign grouped_colour_swatch_image = color_group.image_url | default: ''
+              endif
+              if grouped_local_variant_id != blank and grouped_local_variant_id == trg_local_variant_id
+                assign grouped_colour_active = true
+              elsif selected_colour != blank and grouped_shopify_option_value == selected_colour
+                assign grouped_colour_active = true
+              elsif trg_source_variant_id != blank and grouped_colour_variant_id == trg_source_variant_id
+                assign grouped_colour_active = true
+              elsif trg_source_variant_id == blank and forloop.first
+                assign grouped_colour_active = true
+              endif
+            -%}
+
+            <button
+
+              class="trg-pdp__chip trg-pdp__chip--colour{% if grouped_colour_active %} active{% endif %}"
+
+              type="button"
+
+              data-trg-grouped-colour="true"
+
+              data-option-index="{{ trg_local_colour_option_index | default: 0 }}"
+
+              data-value="{{ grouped_colour_value | escape }}"
+
+              data-trg-shopify-variant-id="{{ grouped_local_variant_id | escape }}"
+
+              data-trg-shopify-option-value="{{ grouped_shopify_option_value | escape }}"
+
+              title="{{ grouped_colour_label | escape }}"
+
+              aria-label="{{ grouped_colour_label | escape }}"
+
+            ><span class="trg-pdp__chip-swatch{% if grouped_colour_swatch_image != blank %} trg-pdp__chip-swatch--image{% endif %}"{% if grouped_colour_swatch_image != blank %} style="--trg-colour-swatch: {{ grouped_colour_hex }}; background-image:url('{{ grouped_colour_swatch_image | escape }}');"{% else %} style="--trg-colour-swatch: {{ grouped_colour_hex }};"{% endif %}></span><span class="visually-hidden">{{ grouped_colour_label }}</span></button>
+
+          {%- endfor -%}
+
+        </div>
+
+      </div>
+
+    {%- endif -%}
+
+    {%- comment -%} Variant picker (size chips) {%- endcomment -%}
+
+    {%- if p.has_only_default_variant == false -%}
+
+      {%- for option in p.options_with_values -%}
+        {%- assign _opt_name_lower = option.name | downcase -%}
+        {%- assign _hide_native_colour_option = false -%}
+        {%- if _opt_name_lower == 'color' or _opt_name_lower == 'colour' -%}
+          {%- if trg_show_color_ui == false -%}
+            {%- assign _hide_native_colour_option = true -%}
+          {%- endif -%}
+        {%- endif -%}
+        {%- if _hide_native_colour_option -%}{%- continue -%}{%- endif -%}
+
+        <div class="trg-pdp__selector">
+
+          <div class="trg-pdp__selector-label"><span>{{ option.name }}</span>{% if _opt_name_lower == 'color' or _opt_name_lower == 'colour' %}<span class="trg-pdp__selector-value" data-trg-selected-color-label>{{ option.selected_value | default: selected_colour | escape }}</span>{% endif %}</div>
+
+          <div class="trg-pdp__chips{% if _opt_name_lower == 'color' or _opt_name_lower == 'colour' %} trg-pdp__chips--colours{% endif %}">
+
+            {%- for val in option.values -%}
+              {%- if _opt_name_lower == 'color' or _opt_name_lower == 'colour' -%}
+                {%- liquid
+                  assign native_colour_hex = '#ddd8cf'
+                  assign native_colour_swatch_image = ''
+                  if trg_variant_color_data != blank
+                    for native_color_group in trg_variant_color_data
+                      assign native_group_option_value = native_color_group.shopify_option_value | default: native_color_group.color_raw | default: native_color_group.color_normalized | strip
+                      assign native_group_norm = native_color_group.color_normalized | strip
+                      assign native_group_raw = native_color_group.color_raw | strip
+                      if native_group_option_value == val or native_group_norm == val or native_group_raw == val
+                        assign native_colour_hex = native_color_group.color_hex | default: native_colour_hex
+                        if trg_variant_media_mode == 'per_color'
+                          assign native_colour_swatch_image = native_color_group.image_url | default: ''
+                        endif
+                        break
+                      endif
+                    endfor
+                  endif
+                  assign native_colour_active = false
+                  if option.selected_value != blank and option.selected_value == val
+                    assign native_colour_active = true
+                  elsif option.selected_value == blank and forloop.first
+                    assign native_colour_active = true
+                  endif
+                -%}
+                <button
+
+                  class="trg-pdp__chip trg-pdp__chip--colour{% if native_colour_active %} active{% endif %}"
+
+                  type="button"
+
+                  data-option-index="{{ forloop.parentloop.index0 }}"
+
+                  data-value="{{ val | escape }}"
+
+                  title="{{ val | escape }}"
+
+                  aria-label="{{ val | escape }}"
+
+                ><span class="trg-pdp__chip-swatch{% if native_colour_swatch_image != blank %} trg-pdp__chip-swatch--image{% endif %}"{% if native_colour_swatch_image != blank %} style="--trg-colour-swatch: {{ native_colour_hex }}; background-image:url('{{ native_colour_swatch_image | escape }}');"{% else %} style="--trg-colour-swatch: {{ native_colour_hex }};"{% endif %}></span><span class="visually-hidden">{{ val }}</span></button>
+              {%- else -%}
+                <button
+
+                  class="trg-pdp__chip{% if option.selected_value == val or option.selected_value == blank and forloop.first %} active{% endif %}"
+
+                  type="button"
+
+                  data-option-index="{{ forloop.parentloop.index0 }}"
+
+                  data-value="{{ val | escape }}"
+
+                >{{ val }}</button>
+              {%- endif -%}
+
+            {%- endfor -%}
+
+          </div>
+
+        </div>
+
+      {%- endfor -%}
+
+    {%- endif -%}
+
+
+
+    {%- comment -%} CTA SECTION {%- endcomment -%}
+
+    <div class="trg-pdp__cta-section">
+
+
+
+      {%- comment -%} US MARKET {%- endcomment -%}
+
+      <div class="trg-pdp__market trg-pdp__market--us">
+
+
+
+        {%- if is_direct and buy_url_us != blank -%}
+
+          <a href="{%- render 'trg-utm', url: buy_url_us, campaign: brand_handle -%}" target="_blank" rel="noopener sponsored" class="trg-pdp__btn-primary">
+
+            Buy at {{ vendor_name | escape }}
+
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+
+          </a>
+
+        {%- endif -%}
+
+
+
+        {%- if is_both -%}
+
+          {%- if buy_url_us != blank -%}
+
+            <a href="{%- render 'trg-utm', url: buy_url_us, campaign: brand_handle -%}" target="_blank" rel="noopener sponsored" class="trg-pdp__btn-primary">
+
+              Buy at {{ vendor_name | escape }}
+
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+
+            </a>
+
+          {%- endif -%}
+
+          {%- if retailer_name_us != blank and retailer_url_us != blank -%}
+
+            <div class="trg-pdp__cta-divider">Also sold at</div>
+
+            <a href="{%- render 'trg-utm', url: retailer_url_us, campaign: brand_handle -%}" target="_blank" rel="noopener sponsored" class="trg-pdp__btn-secondary">
+
+              Buy at {{ retailer_name_us | escape }}
+
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+
+            </a>
+
+          {%- endif -%}
+
+        {%- endif -%}
+
+
+
+        {%- if is_reseller and retailer_name_us != blank and retailer_url_us != blank -%}
+
+          <a href="{%- render 'trg-utm', url: retailer_url_us, campaign: brand_handle -%}" target="_blank" rel="noopener sponsored" class="trg-pdp__btn-primary trg-pdp__btn-primary--solid">
+
+            Buy at {{ retailer_name_us | escape }}
+
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+
+          </a>
+
+        {%- endif -%}
+
+
+
+        {%- comment -%} Fallback if no URL at all {%- endcomment -%}
+
+        {%- if is_direct and buy_url_us == blank -%}
+
+          {%- if is_both == false and is_reseller == false -%}
+
+            <p class="trg-pdp__no-link">No direct link available - search <strong>{{ p.title | escape }}</strong> at your preferred retailer.</p>
+
+          {%- endif -%}
+
+        {%- endif -%}
+
+      </div>
+
+
+
+      {%- comment -%} CA MARKET {%- endcomment -%}
+
+      <div class="trg-pdp__market trg-pdp__market--ca">
+
+
+
+        {%- if is_direct and buy_url_ca != blank -%}
+
+          <a href="{%- render 'trg-utm', url: buy_url_ca, campaign: brand_handle -%}" target="_blank" rel="noopener sponsored" class="trg-pdp__btn-primary">
+
+            Buy at {{ vendor_name | escape }}
+
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+
+          </a>
+
+          <p class="trg-pdp__ca-note">Ships directly to Canada. Duties may apply at checkout.</p>
+
+        {%- endif -%}
+
+
+
+        {%- if is_both -%}
+
+          {%- if buy_url_ca != blank -%}
+
+            <a href="{%- render 'trg-utm', url: buy_url_ca, campaign: brand_handle -%}" target="_blank" rel="noopener sponsored" class="trg-pdp__btn-primary">
+
+              Buy at {{ vendor_name | escape }}
+
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+
+            </a>
+
+          {%- endif -%}
+
+          {%- if eff_retailer_url_ca != blank -%}
+
+            <div class="trg-pdp__cta-divider">Also sold at</div>
+
+            <a href="{%- render 'trg-utm', url: eff_retailer_url_ca, campaign: brand_handle -%}" target="_blank" rel="noopener sponsored" class="trg-pdp__btn-secondary">
+
+              Buy at {{ eff_retailer_name_ca | escape }}
+
+              <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+
+            </a>
+
+          {%- endif -%}
+
+          <p class="trg-pdp__ca-note">Ships to Canada via retailer. Duties may apply at delivery.</p>
+
+        {%- endif -%}
+
+
+
+        {%- if is_reseller and eff_retailer_url_ca != blank -%}
+
+          <a href="{%- render 'trg-utm', url: eff_retailer_url_ca, campaign: brand_handle -%}" target="_blank" rel="noopener sponsored" class="trg-pdp__btn-primary trg-pdp__btn-primary--solid">
+
+            Buy at {{ eff_retailer_name_ca | escape }}
+
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+
+          </a>
+
+          <p class="trg-pdp__ca-note">Ships to Canada via {{ eff_retailer_name_ca | escape }}. Duties may apply at delivery.</p>
+
+        {%- endif -%}
+
+      </div>
+
+
+
+    </div>
+
+
+
+    {%- comment -%} ALSO AVAILABLE AT (dedup surfacing) {%- endcomment -%}
+
+    {%- if also_available_raw != blank and also_available_raw != '[]' -%}
+
+      <div class="trg-pdp__also-at" data-alts="{{ also_available_raw | escape }}">
+
+        <div class="trg-pdp__also-at__label">{{ section.settings.also_available_label | escape }}</div>
+
+        <div class="trg-pdp__also-at__links" id="trg-pdp-also-links"></div>
+
+      </div>
+
+    {%- endif -%}
+
+
+
+    {%- if has_affiliate -%}
+
+    <p class="trg-pdp__disclosure">Affiliate link - TRG may earn a commission at no extra cost to you</p>
+
+    {%- endif -%}
+
+
+
+    {%- comment -%} Wishlist {%- endcomment -%}
+
+    <button
+
+      class="trg-pdp__wishlist"
+
+      id="trg-pdp-wishlist"
+
+      type="button"
+
+      data-product="{{ p.handle }}"
+
+      data-trg-wishlist
+
+    >
+
+      <svg class="trg-pdp__wishlist-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+
+      <span class="trg-pdp__wishlist-text">{{ section.settings.wishlist_label | escape }}</span>
+
+    </button>
+
+  </div>
+
+  {%- comment -%} GALLERY {%- endcomment -%}
+
+  {%- liquid
+    assign pdp_source_ar = p.featured_media.preview_image.aspect_ratio | default: 0.8 | plus: 0
+    if pdp_source_ar < 0.6
+      assign pdp_source_ar = 0.6
+    elsif pdp_source_ar > 1.8
+      assign pdp_source_ar = 1.8
+    endif
+  -%}
+
+  <div class="trg-pdp__gallery">
+
+    <div class="trg-pdp__gallery-main" id="trg-gallery-main" style="--pdp-ar: {{ pdp_source_ar }};">
+
+      {%- if p.featured_media -%}
+
+        <img
+
+          src="{{ p.featured_media | image_url: width: 900 }}" srcset="{{ p.featured_media | image_url: width: 450 }} 450w, {{ p.featured_media | image_url: width: 900 }} 900w, {{ p.featured_media | image_url: width: 1200 }} 1200w" sizes="(min-width: 990px) 45vw, (min-width: 750px) 50vw, calc(100vw - 2rem)"
+
+          alt="{{ p.featured_media.alt | default: p.title | escape }}"
+
+          width="{{ p.featured_media.width }}"
+
+          height="{{ p.featured_media.height }}"
+
+          loading="eager"
+
+          fetchpriority="high"
+
+          id="trg-gallery-img"
+
+        >
+
+      {%- else -%}
+
+        <div class="trg-pdp__gallery-placeholder" id="trg-gallery-img">
+
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="m3 9 5-5 4 4 3-3 6 6"/><circle cx="8.5" cy="8.5" r="1.5"/></svg>
+
+          <span>Product Image</span>
+
+        </div>
+
+      {%- endif -%}
+
+    </div>
+
+    {%- if p.media.size > 1 -%}
+
+      <div class="trg-pdp__thumbs">
+
+        {%- for media in p.media -%}
+
+          <button
+
+            class="trg-pdp__thumb{% if forloop.first %} active{% endif %}"
+
+            data-src="{{ media | image_url: width: 900 }}"
+
+            data-srcset="{{ media | image_url: width: 450 }} 450w, {{ media | image_url: width: 900 }} 900w, {{ media | image_url: width: 1200 }} 1200w"
+
+            data-sizes="(min-width: 990px) 45vw, (min-width: 750px) 50vw, calc(100vw - 2rem)"
+
+            data-alt="{{ media.alt | default: p.title | escape }}"
+
+            type="button"
+
+          >
+
+            <img src="{{ media | image_url: width: 160 }}" srcset="{{ media | image_url: width: 80 }} 1x, {{ media | image_url: width: 160 }} 2x" sizes="72px" alt="" loading="lazy" width="72" height="72">
+
+          </button>
+
+        {%- endfor -%}
+
+      </div>
+
+    {%- endif -%}
+
+  </div>
+
+  {%- comment -%} DETAILS COLUMN {%- endcomment -%}
+
+  <div class="trg-pdp__info trg-pdp__info--details">
+
+
+    <div class="trg-pdp__canada" id="trg-canada-strip">
+
+      <button class="trg-pdp__canada-header" type="button" data-trg-toggle-closest=".trg-pdp__canada" data-trg-toggle-class="open">
+
+        <span class="trg-pdp__canada-title">
+
+          <span aria-hidden="true">CA</span> Canadian Buyers
+
+        </span>
+
+        <svg class="trg-pdp__canada-chevron" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 15l-6-6-6 6"/></svg>
+
+      </button>
+
+      <div class="trg-pdp__canada-body">
+
+        {%- if ships_to_ca -%}
+
+          <div class="trg-pdp__canada-fact">
+
+            <svg class="trg-pdp__canada-icon--ok" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+
+            <span><strong>Ships to Canada</strong> - direct from brand</span>
+
+          </div>
+
+        {%- else -%}
+
+          <div class="trg-pdp__canada-fact">
+
+            <svg class="trg-pdp__canada-icon--warn" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+
+            <span><strong>Shipping to Canada</strong> - check retailer</span>
+
+          </div>
+
+        {%- endif -%}
+
+        {%- if duties_apply -%}
+
+          <div class="trg-pdp__canada-fact">
+
+            <svg class="trg-pdp__canada-icon--warn" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+
+            <span><strong>Duties not prepaid</strong> - may apply at delivery</span>
+
+          </div>
+
+        {%- else -%}
+
+          <div class="trg-pdp__canada-fact">
+
+            <svg class="trg-pdp__canada-icon--ok" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+
+            <span><strong>No duties</strong> - DDP, price is final</span>
+
+          </div>
+
+        {%- endif -%}
+
+        {%- if returns_window != blank -%}
+
+          <div class="trg-pdp__canada-fact">
+
+            <svg class="trg-pdp__canada-icon--ok" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+
+            <span><strong>Returns:</strong> {{ returns_window }}</span>
+
+          </div>
+
+        {%- endif -%}
+
+      </div>
+
+    </div>
+
+
+
+    {%- comment -%} META GRID {%- endcomment -%}
+
+    <div class="trg-pdp__meta">
+
+      <div class="trg-pdp__meta-item{% if material == blank %} trg-pdp__meta-item--hidden{% endif %}" id="trg-meta-material">
+
+          <span class="trg-pdp__meta-key">Material</span>
+
+          <span class="trg-pdp__meta-val" id="trg-meta-material-val">{{ material }}</span>
+
+        </div>
+
+      {%- if made_in != blank -%}
+
+        <div class="trg-pdp__meta-item">
+
+          <span class="trg-pdp__meta-key">Made In</span>
+
+          <span class="trg-pdp__meta-val{% if is_na %} trg-pdp__meta-val--na{% endif %}">{{ made_in }}</span>
+
+        </div>
+
+      {%- endif -%}
+
+      {%- if style_aes != blank -%}
+
+        <div class="trg-pdp__meta-item">
+
+          <span class="trg-pdp__meta-key">Style</span>
+
+          <span class="trg-pdp__meta-val trg-pdp__meta-val--tag">{{ style_aes }}</span>
+
+        </div>
+
+      {%- endif -%}
+
+      {%- if season != blank -%}
+
+        <div class="trg-pdp__meta-item">
+
+          <span class="trg-pdp__meta-key">Season</span>
+
+          <span class="trg-pdp__meta-val">{{ season }}</span>
+
+        </div>
+
+      {%- endif -%}
+
+    </div>
+
+
+
+    {%- comment -%} ACCORDION {%- endcomment -%}
+
+    <div class="trg-pdp__accordion">
+
+
+
+      {%- if p.description != blank -%}
+
+      <div class="trg-pdp__acc-item open">
+
+        <button class="trg-pdp__acc-trigger" type="button" data-trg-toggle-closest=".trg-pdp__acc-item" data-trg-toggle-class="open">
+
+          <span class="trg-pdp__acc-label">Details</span>
+
+          <svg class="trg-pdp__acc-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
+
+        </button>
+
+        <div class="trg-pdp__acc-body">
+
+          <div class="trg-pdp__acc-desc">{{ p.description }}</div>
+
+        </div>
+
+      </div>
+
+      {%- endif -%}
+
+
+
+      <div class="trg-pdp__acc-item">
+
+        <button class="trg-pdp__acc-trigger" type="button" data-trg-toggle-closest=".trg-pdp__acc-item" data-trg-toggle-class="open">
+
+          <span class="trg-pdp__acc-label">Materials + Care</span>
+
+          <svg class="trg-pdp__acc-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
+
+        </button>
+
+        <div class="trg-pdp__acc-body" id="trg-acc-materials">
+
+          {%- if material != blank or care_inst != blank -%}
+
+            {%- if material != blank -%}<p class="trg-pdp__mat-line">{{ material }}</p>{%- endif -%}
+
+            {%- if care_inst != blank -%}<p class="trg-pdp__care-line">{{ care_inst }}</p>{%- endif -%}
+
+          {%- else -%}
+
+            Care instructions vary by product - check the brand's site for details.
+
+          {%- endif -%}
+
+        </div>
+
+      </div>
+
+
+
+      <div class="trg-pdp__acc-item">
+
+        <button class="trg-pdp__acc-trigger" type="button" data-trg-toggle-closest=".trg-pdp__acc-item" data-trg-toggle-class="open">
+
+          <span class="trg-pdp__acc-label">Shipping + Returns</span>
+
+          <svg class="trg-pdp__acc-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
+
+        </button>
+
+        <div class="trg-pdp__acc-body" id="trg-acc-shipping">
+
+          {%- if ship_info != blank -%}
+
+            {{ ship_info }}
+
+          {%- else -%}
+
+            Shipping policies vary by brand and retailer. Visit the brand's site for current rates and delivery times.
+
+          {%- endif -%}
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+  </div>
+
+
+
+
+
+
+
+  </div>
+{%- comment -%} COMPLETE THE LOOK - COLOUR GUIDE {%- endcomment -%}
+
+{%- liquid
+
+  assign ctl_colour = ''
+  assign selected_variant = p.selected_or_first_available_variant
+
+  for option in p.options_with_values
+
+    assign opt_lower = option.name | downcase
+
+    if opt_lower == 'color' or opt_lower == 'colour'
+
+      assign ctl_colour = option.selected_value | default: ''
+
+      if ctl_colour == blank and selected_variant != blank
+        case forloop.index
+          when 1
+            assign ctl_colour = selected_variant.option1
+          when 2
+            assign ctl_colour = selected_variant.option2
+          when 3
+            assign ctl_colour = selected_variant.option3
+        endcase
+      endif
+
+      if ctl_colour == blank
+        assign ctl_colour = option.values.first
+      endif
+
+      break
+
+    endif
+
+  endfor
+
+  if ctl_colour == blank
+
+    assign title_parts = p.title | split: ' - '
+
+    if title_parts.size > 1
+
+      assign ctl_colour = title_parts.last | strip
+
+    endif
+
+  endif
+
+  if ctl_colour == blank
+
+    assign title_parts = p.title | split: ' in '
+
+    if title_parts.size > 1
+
+      assign ctl_colour = title_parts.last | strip
+
+    endif
+
+  endif
+
+  if ctl_colour == blank
+
+    assign title_parts = p.title | split: ' - '
+
+    if title_parts.size > 1
+
+      assign ctl_colour = title_parts.last | strip
+
+    endif
+
+  endif
+
+
+
+  assign title_lower = p.title | downcase
+  assign desc_lower = p.description | strip_html | downcase
+  assign type_lower = p.type | downcase
+
+  assign ctl_garment = ''
+  assign ctl_garment_label = 'piece'
+  assign ctl_guide_url = '/pages/colour-guide?source=pdp'
+
+  if title_lower contains 'trouser' or title_lower contains 'pant' or title_lower contains 'chino' or title_lower contains 'jean'
+
+    assign ctl_garment = 'trousers'
+
+  elsif title_lower contains 'cardigan' or title_lower contains 'sweater' or title_lower contains 'jumper' or title_lower contains 'knit' or title_lower contains 'hoodie' or title_lower contains 'sweatshirt' or title_lower contains 'fleece' or title_lower contains 'rollneck' or title_lower contains 'turtleneck'
+
+    assign ctl_garment = 'knitwear'
+
+  elsif title_lower contains 'shirt' or title_lower contains 'polo' or title_lower contains 'henley' or title_lower contains 'tee' or title_lower contains 't-shirt' or title_lower contains 't shirt' or title_lower contains 'overshirt'
+
+    assign ctl_garment = 'shirt'
+
+  elsif title_lower contains 'boot' or title_lower contains 'shoe' or title_lower contains 'sneaker' or title_lower contains 'loafer' or title_lower contains 'derby' or title_lower contains 'oxford' or title_lower contains 'moccasin' or title_lower contains 'sandal' or title_lower contains 'footwear'
+
+    assign ctl_garment = 'shoes'
+
+  elsif title_lower contains 'overcoat' or title_lower contains 'topcoat' or title_lower contains 'peacoat' or title_lower contains 'duffle' or title_lower contains 'parka' or title_lower contains 'trench' or title_lower contains 'raincoat' or title_lower contains 'coat' or title_lower contains 'outerwear'
+
+    assign ctl_garment = 'coat'
+
+  elsif title_lower contains 'jacket' or title_lower contains 'blazer' or title_lower contains 'sport coat' or title_lower contains 'sportcoat' or title_lower contains 'suit'
+
+    assign ctl_garment = 'jacket'
+
+  elsif desc_lower contains 'the trousers' or desc_lower contains 'these trousers' or desc_lower contains 'pair of trousers' or desc_lower contains 'dress trousers'
+
+    assign ctl_garment = 'trousers'
+
+  elsif desc_lower contains 'this shirt' or desc_lower contains 'the shirt' or desc_lower contains 'this polo' or desc_lower contains 'the polo'
+
+    assign ctl_garment = 'shirt'
+
+  elsif desc_lower contains 'this sweater' or desc_lower contains 'this cardigan' or desc_lower contains 'the knit' or desc_lower contains 'this knit' or desc_lower contains 'the hoodie'
+
+    assign ctl_garment = 'knitwear'
+
+  elsif desc_lower contains 'this jacket' or desc_lower contains 'the jacket' or desc_lower contains 'this blazer' or desc_lower contains 'the blazer'
+
+    assign ctl_garment = 'jacket'
+
+  elsif desc_lower contains 'this coat' or desc_lower contains 'the coat' or desc_lower contains 'this parka' or desc_lower contains 'the parka' or desc_lower contains 'this overcoat'
+
+    assign ctl_garment = 'coat'
+
+  elsif desc_lower contains 'these boots' or desc_lower contains 'this shoe' or desc_lower contains 'these shoes' or desc_lower contains 'this loafer' or desc_lower contains 'these sneakers'
+
+    assign ctl_garment = 'shoes'
+
+  elsif type_lower contains 'pant' or type_lower contains 'chino' or type_lower contains 'jean' or type_lower contains 'trouser'
+
+    assign ctl_garment = 'trousers'
+
+  elsif type_lower contains 'knit' or type_lower contains 'sweater' or type_lower contains 'cardigan' or type_lower contains 'hoodie' or type_lower contains 'sweatshirt' or type_lower contains 'fleece'
+
+    assign ctl_garment = 'knitwear'
+
+  elsif type_lower contains 'shirt' or type_lower contains 'polo' or type_lower contains 'henley' or type_lower contains 'tee'
+
+    assign ctl_garment = 'shirt'
+
+  elsif type_lower contains 'jacket' or type_lower contains 'blazer' or type_lower contains 'suit'
+
+    assign ctl_garment = 'jacket'
+
+  elsif type_lower contains 'coat' or type_lower contains 'outerwear' or type_lower contains 'parka'
+
+    assign ctl_garment = 'coat'
+
+  elsif type_lower contains 'boot' or type_lower contains 'shoe' or type_lower contains 'sneaker' or type_lower contains 'loafer' or type_lower contains 'footwear'
+
+    assign ctl_garment = 'shoes'
+
+  endif
+
+  if ctl_garment == 'shirt'
+    assign ctl_garment_label = 'shirt'
+  elsif ctl_garment == 'trousers'
+    assign ctl_garment_label = 'trousers'
+  elsif ctl_garment == 'knitwear'
+    assign ctl_garment_label = 'knitwear'
+  elsif ctl_garment == 'jacket'
+    assign ctl_garment_label = 'jacket'
+  elsif ctl_garment == 'coat'
+    assign ctl_garment_label = 'coat'
+  elsif ctl_garment == 'shoes'
+    assign ctl_garment_label = 'shoes'
+  endif
+
+  if ctl_colour != blank
+    assign ctl_colour_param = ctl_colour | url_encode
+    assign ctl_guide_url = ctl_guide_url | append: '&base_colour=' | append: ctl_colour_param
+  endif
+
+  if ctl_garment != blank
+    assign ctl_garment_param = ctl_garment | url_encode
+    assign ctl_guide_url = ctl_guide_url | append: '&base_garment=' | append: ctl_garment_param
+  endif
+
+-%}
+
+
+
+{%- if ctl_colour != blank -%}
+
+{{ 'trg-colour-pdp.css' | asset_url | stylesheet_tag }}
+
+<div class="pdp-guide-module" data-colour="{{ ctl_colour | escape }}" data-garment="{{ ctl_garment }}">
+  <span id="ctl-colour-name" hidden>{{ ctl_colour | escape }}</span>
+  <div class="pdp-guide-pad">
+    <div class="pdp-guide-shell">
+      <div class="pdp-guide-head">
+        <div>
+          <div class="pdp-guide-kicker">Complete the look</div>
+          <h3 class="pdp-guide-title">Build around <em>{{ ctl_colour | escape }}</em></h3>
+          <p class="pdp-guide-sub">Build an outfit around your <strong>{{ ctl_colour | escape }}</strong> {{ ctl_garment_label }}.</p>
+        </div>
+        <a class="pdp-guide-link" href="{{ ctl_guide_url }}">Full Colour Guide &rarr;</a>
+      </div>
+      <div class="ob-wrap" id="cg-outfit-builder"></div>
+      <p class="pdp-guide-footnote">Colour combinations via the <a href="{{ ctl_guide_url }}">Wada palette system</a>.</p>
+    </div>
+  </div>
+</div>
+
+<script src="{{ 'trg-colour-engine.js' | asset_url }}" defer></script>
+<script src="{{ 'trg-colour-pdp.js' | asset_url }}" defer></script>
+
+{%- endif -%}
+
+
+
+{%- comment -%} PDP product data for JS variant switching {%- endcomment -%}
+<script type="application/json" id="trg-pdp-product-data">
+  {
+    "handle": {{ p.handle | json }},
+    "url": {{ p.url | json }},
+  "options": {{ p.options | json }},
+  "selectedVariantId": {{ p.selected_or_first_available_variant.id | json }},
+  "colorUiMode": {{ trg_color_ui_mode | json }},
+  "variantMediaMode": {{ trg_variant_media_mode | json }},
+  "variants": [
+      {%- for variant in p.variants -%}
+        {
+          "id": {{ variant.id | json }},
+          "available": {{ variant.available | json }},
+          "price": {{ variant.price | json }},
+          "option1": {{ variant.option1 | json }},
+          "option2": {{ variant.option2 | json }},
+          "option3": {{ variant.option3 | json }},
+          "featuredImage": {% if variant.featured_media %}{{ variant.featured_media | image_url: width: 900 | json }}{% else %}null{% endif %}
+        }{%- unless forloop.last -%},{%- endunless -%}
+      {%- endfor -%}
+    ],
+    "colorGroups": {% if trg_variant_color_data != blank %}{{ trg_variant_color_data | json }}{% else %}[]{% endif %},
+    "buyUrl": {{ buy_url_us | json }}
+  }
+</script>
+
+{%- comment -%} PDP ENHANCEMENTS JS {%- endcomment -%}
+
+<script src="{{ 'trg-pdp-enhance.js' | asset_url }}" defer></script>
+
+{% endif %}
+
+<script>
+(function(){
+  document.addEventListener('click', function(e){
+    var btn = e.target instanceof Element ? e.target.closest('[data-trg-wishlist], [data-trg-toggle-closest]') : null;
+    if (!btn) return;
+    if (btn.hasAttribute('data-trg-wishlist')) {
+      if (window.trgToggleWishlist) window.trgToggleWishlist(btn);
+      return;
+    }
+    var sel = btn.getAttribute('data-trg-toggle-closest');
+    var cls = btn.getAttribute('data-trg-toggle-class') || 'open';
+    var host = sel ? btn.closest(sel) : null;
+    if (host) host.classList.toggle(cls);
+  });
+})();
+</script>
+
+
+
+{% schema %}
+
+{
+
+  "name": "TRG Product PDP",
+
+  "tag": "section",
+
+  "class": "trg-pdp-section",
+
+  "enabled_on": {
+
+    "templates": ["product"]
+
+  },
+
+  "settings": [
+    {
+      "type": "header",
+      "content": "Labels"
+    },
+    {
+      "type": "text",
+      "id": "also_available_label",
+      "label": "Also available at",
+      "default": "Also available at"
+    },
+    {
+      "type": "text",
+      "id": "wishlist_label",
+      "label": "Wishlist button",
+      "default": "Save to Wishlist"
+    }
+  ],
+
+  "presets": [
+
+    {
+
+      "name": "TRG Product PDP"
+
+    }
+
+  ]
+
+}
+
+{% endschema %}
+
+

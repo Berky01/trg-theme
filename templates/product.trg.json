@@ -1,0 +1,87 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "trg_pdp": {
+      "type": "trg-pdp",
+      "settings": {}
+    },
+    "trg_brand_strip": {
+      "type": "trg-product-brand-strip",
+      "settings": {
+        "eyebrow": "Brand spotlight",
+        "button_label": "View Brand"
+      }
+    },
+    "product_recommendations_xmXAhw": {
+      "type": "product-recommendations",
+      "blocks": {
+        "text_R8dDRK": {
+          "type": "text",
+          "name": "t:names.header",
+          "settings": {
+            "text": "<h3><em>You might also like...</em></h3>",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "rte",
+            "font": "var(--font-primary--family)",
+            "font_size": "",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "static-product-card": {
+          "type": "_product-card",
+          "name": "t:names.product_card",
+          "static": true,
+          "settings": {
+            "product_card_gap": 16,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "text_R8dDRK"
+      ],
+      "settings": {
+        "section_width": "page-width",
+        "padding-block-start": 40,
+        "padding-block-end": 60
+      }
+    }
+  },
+  "order": [
+    "trg_pdp",
+    "trg_brand_strip",
+    "product_recommendations_xmXAhw"
+  ]
+}

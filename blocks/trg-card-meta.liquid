@@ -1,0 +1,98 @@
+{%- liquid
+  assign product = closest.product
+
+  if request.visual_preview_mode and product == blank
+    assign product = collections.all.products.first
+  endif
+
+  assign made_in = product.metafields.trg.made_in_country
+  assign retailer_na = product.metafields.trg.retailer_name_us.value | default: product.metafields.trg.retailer_name_us
+  assign buy_path_raw = product.metafields.trg.buy_path.value | default: product.metafields.trg.buy_path | default: '' | strip | downcase
+  assign retailer_label = retailer_na | default: product.vendor
+
+  if buy_path_raw contains 'reseller' and retailer_na != blank
+    assign retailer_tag = 'Retailer'
+  elsif buy_path_raw == 'both' and retailer_na != blank
+    assign retailer_tag = 'Direct + retailer'
+  else
+    assign retailer_tag = 'Brand direct'
+    assign retailer_label = product.vendor
+  endif
+-%}
+
+<div class="trg-card-meta" {{ block.shopify_attributes }}>
+  {%- if block.settings.show_origin and made_in != blank -%}
+    <div class="trg-card-meta__row trg-card-meta__row--origin">
+      <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      <span>Made in {{ made_in | escape }}</span>
+    </div>
+  {%- endif -%}
+
+  {%- if block.settings.show_retailer and retailer_label != blank -%}
+    <div class="trg-card-meta__row trg-card-meta__row--retailer">
+      <span class="trg-card-meta__retailer-label">{{ retailer_tag }}:</span>
+      <span class="trg-card-meta__retailer-name">{{ retailer_label | escape }}</span>
+    </div>
+  {%- endif -%}
+</div>
+
+{% stylesheet %}
+  .trg-card-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    font-size: 0.72rem;
+    color: #8a8478;
+    line-height: 1.3;
+    margin-top: 0.1rem;
+  }
+  .trg-card-meta__row {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+  .trg-card-meta__row--origin svg {
+    color: #1a1a18;
+    opacity: 0.5;
+    flex-shrink: 0;
+  }
+  .trg-card-meta__retailer-label {
+    font-weight: 600;
+    font-size: 0.66rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #b8491f;
+  }
+  .trg-card-meta__retailer-name {
+    color: #1a1a18;
+    font-weight: 500;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "TRG Card Meta",
+  "tag": null,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Drop this block into a product card to show origin and retailer tag."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_origin",
+      "label": "Show origin (Made in X)",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_retailer",
+      "label": "Show retailer tag",
+      "default": true
+    }
+  ],
+  "presets": [
+    { "name": "TRG Card Meta" }
+  ]
+}
+{% endschema %}

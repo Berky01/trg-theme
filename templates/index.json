@@ -1,0 +1,779 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "trg_search_bar_nVixRj": {
+      "type": "trg-search-bar",
+      "blocks": {
+        "suggestion_nr6Dw9": {
+          "type": "suggestion",
+          "settings": {
+            "label": "Workwear",
+            "query": "Workwear",
+            "url": ""
+          }
+        },
+        "suggestion_fPDwYN": {
+          "type": "suggestion",
+          "settings": {
+            "label": "Heritage",
+            "query": "Heritage",
+            "url": ""
+          }
+        },
+        "suggestion_gKytN7": {
+          "type": "suggestion",
+          "settings": {
+            "label": "Ships to Canada",
+            "query": "Ships to Canada",
+            "url": ""
+          }
+        }
+      },
+      "block_order": [
+        "suggestion_nr6Dw9",
+        "suggestion_fPDwYN",
+        "suggestion_gKytN7"
+      ],
+      "name": "TRG Search Bar",
+      "settings": {
+        "color_scheme": "scheme-header-ink",
+        "start_hidden": true,
+        "accent_border": false,
+        "show_filter_toggle": false,
+        "label": "",
+        "accessibility_label": "Search the store",
+        "placeholder": "Brands, styles, categories...",
+        "button_label": "Search",
+        "empty_message": "No pieces match this search.",
+        "max_width": 1320,
+        "content_padding_inline": 32,
+        "top_border_opacity": 8,
+        "bottom_border_width": 1,
+        "divider_opacity": 10,
+        "pill_border_opacity": 15,
+        "input_padding_y": 18,
+        "button_padding_y": 8,
+        "button_padding_x": 18,
+        "padding_block_start": 0,
+        "padding_block_end": 0
+      }
+    },
+    "trg_home_hero": {
+      "type": "trg-home-hero",
+      "blocks": {
+        "stat_1": {
+          "type": "stat",
+          "settings": {
+            "value": "315",
+            "suffix": "+",
+            "label": "Brands tracked",
+            "use_dynamic_brand_count": true
+          }
+        },
+        "stat_2": {
+          "type": "stat",
+          "settings": {
+            "value": "40",
+            "suffix": "+",
+            "label": "Ship to Canada",
+            "use_dynamic_brand_count": false
+          }
+        },
+        "stat_3": {
+          "type": "stat",
+          "settings": {
+            "value": "76",
+            "suffix": "",
+            "label": "Colours mapped",
+            "use_dynamic_brand_count": false
+          }
+        },
+        "mosaic_2": {
+          "type": "mosaic_card",
+          "settings": {
+            "title": "{{ metaobjects.brand[\"portuguese-flannel\"].name.value }}",
+            "meta": "{{ metaobjects.brand[\"portuguese-flannel\"].country.value }}",
+            "badge": "",
+            "image": "shopify:\/\/shop_images\/36.Cap_Store_Canvas_-_Navy_2.webp",
+            "zoom": 100,
+            "focal_x": 50,
+            "focal_y": 6,
+            "gradient_start": "#3f5274",
+            "gradient_end": "#1f2f50",
+            "height": "normal",
+            "link": "\/collections\/taylor-stitch"
+          }
+        },
+        "mosaic_3": {
+          "type": "mosaic_card",
+          "settings": {
+            "title": "{{ metaobjects.brand.casatlantic.name.value }}",
+            "meta": "{{ metaobjects.brand.casatlantic.country.value }}",
+            "badge": "",
+            "image": "shopify:\/\/shop_images\/SnapInsta.to_619210603_18070119131437761_2699822703743581036_n.jpg",
+            "zoom": 140,
+            "focal_x": 44,
+            "focal_y": 6,
+            "gradient_start": "#526850",
+            "gradient_end": "#1e3a2f",
+            "height": "tall",
+            "link": "\/collections\/norse-projects"
+          }
+        },
+        "mosaic_4": {
+          "type": "mosaic_card",
+          "settings": {
+            "title": "{{ metaobjects.brand[\"todd-snyder\"].name.value }}",
+            "meta": "{{ metaobjects.brand[\"todd-snyder\"].country.value }}",
+            "badge": "",
+            "image": "shopify:\/\/shop_images\/SnapInsta.to_483365310_18491238064038388_7044520128343581927_n.jpg",
+            "zoom": 100,
+            "focal_x": 14,
+            "focal_y": 43,
+            "gradient_start": "#2b3348",
+            "gradient_end": "#121722",
+            "height": "normal",
+            "link": "\/collections\/reigning-champ"
+          }
+        },
+        "mosaic_5": {
+          "type": "mosaic_card",
+          "settings": {
+            "title": "{{ metaobjects.brand.barbour.name.value }}",
+            "meta": "{{ metaobjects.brand.barbour.country.value }}",
+            "badge": "",
+            "image": "shopify:\/\/shop_images\/SnapInsta.to_564475268_18531320380047800_7687314681512306071_n.jpg",
+            "zoom": 100,
+            "focal_x": 50,
+            "focal_y": 39,
+            "gradient_start": "#9f8468",
+            "gradient_end": "#c5a783",
+            "height": "normal",
+            "link": "\/collections\/buck-mason"
+          }
+        },
+        "mosaic_1": {
+          "type": "mosaic_card",
+          "settings": {
+            "title": "{{ metaobjects.brand[\"septieme-largeur\"].name.value }}",
+            "meta": "{{ metaobjects.brand[\"septieme-largeur\"].country.value }}",
+            "badge": "",
+            "image": "shopify:\/\/shop_images\/SnapInsta.to_476874838_1017382700414655_8147940494628651969_n.jpg",
+            "zoom": 100,
+            "focal_x": 50,
+            "focal_y": 100,
+            "gradient_start": "#3b1d0f",
+            "gradient_end": "#552915",
+            "height": "normal",
+            "link": "shopify:\/\/collections\/septieme-largeur"
+          }
+        }
+      },
+      "block_order": [
+        "stat_1",
+        "stat_2",
+        "stat_3",
+        "mosaic_2",
+        "mosaic_3",
+        "mosaic_4",
+        "mosaic_5",
+        "mosaic_1"
+      ],
+      "settings": {
+        "color_scheme": "scheme-header-ink",
+        "layout_preset": "editorial-dark",
+        "fill_viewport": true,
+        "left_column_max": 420,
+        "hero_background": "#1a1a18",
+        "hero_text": "#f5f1eb",
+        "hero_accent": "#b8491f",
+        "eyebrow": "Curated Menswear Directory",
+        "heading": "<p>The brands worth knowing.<br\/><em>Editorially curated.<\/em><\/p>",
+        "body": "<p>Quality menswear brands, vetted and organized by style, price, and origin.<\/p>",
+        "primary_label": "Browse Brands",
+        "primary_link": "\/pages\/brands",
+        "primary_style": "primary",
+        "secondary_label": "Browse Live Products",
+        "secondary_link": "\/collections\/all",
+        "secondary_style": "secondary",
+        "padding_block_start": 0,
+        "padding_block_end": 0,
+        "mosaic_left": true
+      }
+    },
+    "trg_featured_brands": {
+      "type": "trg-featured-brands",
+      "blocks": {
+        "brand_1": {
+          "type": "brand",
+          "settings": {
+            "metaobject_handle": "viberg",
+            "logo_text": "VB",
+            "badge_1": "",
+            "badge_2": "",
+            "title": "Viberg",
+            "origin": "Footwear · Victoria, BC",
+            "body": "Heirloom-quality boots handcrafted in Canada with exceptional build integrity.",
+            "price_tag": "Luxury",
+            "cta_label": "View",
+            "positioning": "Heritage Footwear",
+            "gradient_start": "#3b1d0f",
+            "gradient_end": "#6b3518",
+            "link": "\/collections\/viberg"
+          }
+        },
+        "brand_2": {
+          "type": "brand",
+          "settings": {
+            "metaobject_handle": "taylor-stitch",
+            "logo_text": "TS",
+            "badge_1": "",
+            "badge_2": "",
+            "title": "Taylor Stitch",
+            "origin": "Workwear · San Francisco",
+            "body": "Workshop-grade essentials with sturdy materials and classic silhouettes.",
+            "price_tag": "Mid-range",
+            "cta_label": "View",
+            "positioning": "Workshop Essentials",
+            "gradient_start": "#3f5274",
+            "gradient_end": "#1f2f50",
+            "link": "\/collections\/taylor-stitch"
+          }
+        },
+        "brand_3": {
+          "type": "brand",
+          "settings": {
+            "metaobject_handle": "reigning-champ",
+            "logo_text": "RC",
+            "badge_1": "",
+            "badge_2": "",
+            "title": "Reigning Champ",
+            "origin": "Casualwear · Vancouver",
+            "body": "Quiet premium basics and fleece with reliable quality control.",
+            "price_tag": "Premium",
+            "cta_label": "View",
+            "positioning": "Premium Basics",
+            "gradient_start": "#2b3348",
+            "gradient_end": "#121722",
+            "link": "\/collections\/reigning-champ"
+          }
+        },
+        "brand_4": {
+          "type": "brand",
+          "settings": {
+            "metaobject_handle": "spier-and-mackay",
+            "logo_text": "SM",
+            "badge_1": "",
+            "badge_2": "",
+            "title": "Spier & Mackay",
+            "origin": "Formalwear · Toronto",
+            "body": "Strong tailoring value with thoughtful fabric and fit options.",
+            "price_tag": "Mid-range",
+            "cta_label": "View",
+            "positioning": "Modern Tailoring",
+            "gradient_start": "#282858",
+            "gradient_end": "#484878",
+            "link": "\/collections\/spier-and-mackay"
+          }
+        },
+        "brand_5": {
+          "type": "brand",
+          "settings": {
+            "metaobject_handle": "norse-projects",
+            "logo_text": "NP",
+            "badge_1": "",
+            "badge_2": "",
+            "title": "Norse Projects",
+            "origin": "Minimalist · Copenhagen",
+            "body": "Modern essentials with clean lines and durable fabrics.",
+            "price_tag": "Premium",
+            "cta_label": "View",
+            "positioning": "Scandinavian Minimalism",
+            "gradient_start": "#526850",
+            "gradient_end": "#1e3a2f",
+            "link": "\/collections\/norse-projects"
+          }
+        },
+        "brand_6": {
+          "type": "brand",
+          "settings": {
+            "metaobject_handle": "buck-mason",
+            "logo_text": "BM",
+            "badge_1": "",
+            "badge_2": "",
+            "title": "Buck Mason",
+            "origin": "Basics · Los Angeles",
+            "body": "Refined basics and staple layers with practical everyday fit.",
+            "price_tag": "Mid-range",
+            "cta_label": "View",
+            "positioning": "Everyday Staples",
+            "gradient_start": "#9f8468",
+            "gradient_end": "#c5a783",
+            "link": "\/collections\/buck-mason"
+          }
+        }
+      },
+      "block_order": [
+        "brand_1",
+        "brand_2",
+        "brand_3",
+        "brand_4",
+        "brand_5",
+        "brand_6"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "eyebrow": "Featured",
+        "title": "<p>Featured <em>Brands<\/em><\/p>",
+        "body": "<p>Six brands we'd start with.<\/p>",
+        "link_label": "All brands",
+        "link_url": "\/pages\/brands",
+        "columns_desktop": 3,
+        "source_mode": "curated_metaobjects",
+        "metaobject_type": "brand",
+        "auto_limit": 6,
+        "metaobject_cta_label": "View",
+        "metaobject_fallback_link": "\/pages\/brands",
+        "mo_title_field": "name",
+        "mo_origin_field": "origin",
+        "mo_description_field": "description",
+        "mo_price_field": "price_range",
+        "mo_badge_primary_field": "badge_primary",
+        "mo_badge_secondary_field": "badge_secondary",
+        "mo_logo_field": "logo",
+        "mo_logo_text_field": "logo_text",
+        "mo_link_field": "url",
+        "mo_collection_field": "collection"
+      }
+    },
+    "trg_category_grid_v2_hEjnMt": {
+      "type": "trg-category-grid-v2",
+      "blocks": {
+        "category_dRKmRd": {
+          "type": "category",
+          "settings": {
+            "icon": "",
+            "collection": "",
+            "name": "Outerwear & Jackets",
+            "count": "Catalog building",
+            "count_override": "",
+            "colour_tint": "#7a5028",
+            "link": "\/collections\/outerwear"
+          }
+        },
+        "category_RRr97H": {
+          "type": "category",
+          "settings": {
+            "icon": "",
+            "collection": "",
+            "name": "Shirts & Tops",
+            "count": "Catalog building",
+            "count_override": "",
+            "colour_tint": "#3464a8",
+            "link": "\/collections\/shirts"
+          }
+        },
+        "category_rw48tN": {
+          "type": "category",
+          "settings": {
+            "icon": "",
+            "collection": "",
+            "name": "Trousers & Bottoms",
+            "count": "Catalog building",
+            "count_override": "",
+            "colour_tint": "#5c4020",
+            "link": "\/collections\/bottoms"
+          }
+        },
+        "category_z8XNpT": {
+          "type": "category",
+          "settings": {
+            "icon": "",
+            "collection": "",
+            "name": "Footwear",
+            "count": "Catalog building",
+            "count_override": "",
+            "colour_tint": "#8b6834",
+            "link": "\/collections\/footwear"
+          }
+        },
+        "category_pzQycL": {
+          "type": "category",
+          "settings": {
+            "icon": "",
+            "collection": "",
+            "name": "Knitwear",
+            "count": "1 live product",
+            "count_override": "",
+            "colour_tint": "#305838",
+            "link": "\/collections\/knitwear"
+          }
+        },
+        "category_yAPjtD": {
+          "type": "category",
+          "settings": {
+            "icon": "",
+            "collection": "",
+            "name": "Denim",
+            "count": "Catalog building",
+            "count_override": "",
+            "colour_tint": "#2c3e6b",
+            "link": "\/collections\/denim"
+          }
+        },
+        "category_N6zeDe": {
+          "type": "category",
+          "settings": {
+            "icon": "",
+            "collection": "",
+            "name": "Suits & Tailoring",
+            "count": "Catalog building",
+            "count_override": "",
+            "colour_tint": "#282858",
+            "link": "\/collections\/tailoring"
+          }
+        },
+        "category_gGmQGM": {
+          "type": "category",
+          "settings": {
+            "icon": "",
+            "collection": "",
+            "name": "Accessories",
+            "count": "Catalog building",
+            "count_override": "",
+            "colour_tint": "#808078",
+            "link": "\/collections\/accessories"
+          }
+        }
+      },
+      "block_order": [
+        "category_dRKmRd",
+        "category_RRr97H",
+        "category_rw48tN",
+        "category_z8XNpT",
+        "category_pzQycL",
+        "category_yAPjtD",
+        "category_N6zeDe",
+        "category_gGmQGM"
+      ],
+      "name": "TRG Category Grid",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "eyebrow": "",
+        "title": "<p>Shop by <em>Category<\/em><\/p>",
+        "body": "<p>From outerwear to footwear, every corner of a quality wardrobe.<\/p>",
+        "link_label": "",
+        "link_url": "",
+        "columns_desktop": 4,
+        "source_mode": "manual_blocks",
+        "collection_count_mode": "manual",
+        "collection_count_suffix": "products",
+        "collection_icon_mode": "text",
+        "layout_variant": "uniform_grid"
+      }
+    },
+    "trg_colour_teaser": {
+      "type": "trg-colour-teaser",
+      "blocks": {
+        "fam_1": {
+          "type": "family",
+          "settings": {
+            "label": "Whites & Creams",
+            "count": "6 colours",
+            "colour_1": "#f8f6f3",
+            "colour_2": "#eae4d8",
+            "colour_3": "#f0e8d0"
+          }
+        },
+        "fam_2": {
+          "type": "family",
+          "settings": {
+            "label": "Sand & Khaki",
+            "count": "11 colours",
+            "colour_1": "#d09030",
+            "colour_2": "#c8b88a",
+            "colour_3": "#a09080"
+          }
+        },
+        "fam_3": {
+          "type": "family",
+          "settings": {
+            "label": "Browns",
+            "count": "10 colours",
+            "colour_1": "#b06828",
+            "colour_2": "#7a5028",
+            "colour_3": "#3c2010"
+          }
+        },
+        "fam_4": {
+          "type": "family",
+          "settings": {
+            "label": "Greens",
+            "count": "11 colours",
+            "colour_1": "#a0c8a0",
+            "colour_2": "#305838",
+            "colour_3": "#388888"
+          }
+        },
+        "fam_5": {
+          "type": "family",
+          "settings": {
+            "label": "Blues",
+            "count": "14 colours",
+            "colour_1": "#a0c4d8",
+            "colour_2": "#3464a8",
+            "colour_3": "#282858"
+          }
+        },
+        "fam_6": {
+          "type": "family",
+          "settings": {
+            "label": "Greys",
+            "count": "9 colours",
+            "colour_1": "#ccc8c0",
+            "colour_2": "#808078",
+            "colour_3": "#181818"
+          }
+        },
+        "fam_7": {
+          "type": "family",
+          "settings": {
+            "label": "Reds & Burgundy",
+            "count": "8 colours",
+            "colour_1": "#c09080",
+            "colour_2": "#a01028",
+            "colour_3": "#501828"
+          }
+        },
+        "fam_8": {
+          "type": "family",
+          "settings": {
+            "label": "Mauves",
+            "count": "6 colours",
+            "colour_1": "#c8a8a8",
+            "colour_2": "#9898b8",
+            "colour_3": "#502840"
+          }
+        }
+      },
+      "block_order": [
+        "fam_1",
+        "fam_2",
+        "fam_3",
+        "fam_4",
+        "fam_5",
+        "fam_6",
+        "fam_7",
+        "fam_8"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "eyebrow": "The Colour Guide",
+        "title": "<p>Dress in colour. <em>On purpose.<\/em><\/p>",
+        "body": "<p>Three steps. First, a three-test quiz identifies your undertone. Second, an outfit builder that assigns colours to real garment slots. Third, the full 76-colour field — re-sorted by your palette when you have one, flat and browsable when you don't.<\/p>",
+        "cta_label": "Open the Colour Guide",
+        "cta_link": "\/pages\/colour-guide",
+        "lede": "<p>A permanent reference for dressing in colour: find your palette, build an outfit around it, then shop by hue.<\/p>",
+        "stat_1_num": "76",
+        "stat_1_label": "Colours",
+        "stat_2_num": "8",
+        "stat_2_label": "Families",
+        "stat_3_num": "9",
+        "stat_3_label": "Profiles"
+      }
+    },
+    "trg_steps": {
+      "type": "trg-process-steps",
+      "blocks": {
+        "step_1": {
+          "type": "step",
+          "settings": {
+            "custom_number": "01",
+            "icon": "",
+            "title": "We vet every brand",
+            "body": "Editorial review of quality signals, provenance, and shipping clarity. No paid placements."
+          }
+        },
+        "step_2": {
+          "type": "step",
+          "settings": {
+            "custom_number": "02",
+            "icon": "",
+            "title": "You filter with real signals",
+            "body": "Ships to Canada, made in, price band, material — practical filters, not marketing fluff."
+          }
+        },
+        "step_3": {
+          "type": "step",
+          "settings": {
+            "custom_number": "03",
+            "icon": "",
+            "title": "You buy at the source",
+            "body": "Direct from the brand or through trusted retailers — with return windows and duties context."
+          }
+        }
+      },
+      "block_order": [
+        "step_1",
+        "step_2",
+        "step_3"
+      ],
+      "settings": {
+        "color_scheme": "scheme-header-ink",
+        "eyebrow": "How the directory works",
+        "title": "<p>Not a store. <em>A curated index.<\/em><\/p>",
+        "body": "<p>You shop direct at the brand or retailer. We don't sell anything — we vet who's worth buying from and surface the details you need to decide.<\/p>",
+        "layout_variant": "editorial_dark",
+        "accent_color": "#b8491f"
+      }
+    },
+    "trg_home_canada_strip": {
+      "type": "trg-home-canada-strip",
+      "blocks": {
+        "item_1": {
+          "type": "item",
+          "settings": {
+            "icon": "pin",
+            "label": "Ships-to-Canada filter"
+          }
+        },
+        "item_2": {
+          "type": "item",
+          "settings": {
+            "icon": "truck",
+            "label": "DDP & duty transparency"
+          }
+        },
+        "item_3": {
+          "type": "item",
+          "settings": {
+            "icon": "shield",
+            "label": "SSENSE, Harry Rosen, Simons routing"
+          }
+        },
+        "item_4": {
+          "type": "item",
+          "settings": {
+            "icon": "home",
+            "label": "Canadian brand highlights"
+          }
+        }
+      },
+      "block_order": [
+        "item_1",
+        "item_2",
+        "item_3",
+        "item_4"
+      ],
+      "settings": {
+        "color_scheme": "scheme-header-ink",
+        "lead": "Canada-Ready",
+        "padding_block_start": 0,
+        "padding_block_end": 0
+      }
+    },
+    "trg_editorial": {
+      "type": "trg-editorial-split",
+      "blocks": {
+        "pillar_1": {
+          "type": "pillar",
+          "settings": {
+            "icon": "âŒ–",
+            "title": "Practical buying intelligence",
+            "body": "Shipping context, retailer routing, and price transparency for every brand."
+          }
+        },
+        "pillar_2": {
+          "type": "pillar",
+          "settings": {
+            "icon": "â—¯",
+            "title": "No fast fashion, no filler",
+            "body": "Every brand passes an editorial quality bar with a strict scope."
+          }
+        },
+        "pillar_3": {
+          "type": "pillar",
+          "settings": {
+            "icon": "âš‘",
+            "title": "Real data, not affiliate fluff",
+            "body": "Commission networks, return terms, and practical signals surfaced clearly."
+          }
+        },
+        "tag_1": {
+          "type": "tag",
+          "settings": {
+            "label": "Made in Canada"
+          }
+        },
+        "tag_2": {
+          "type": "tag",
+          "settings": {
+            "label": "Heritage"
+          }
+        },
+        "tag_3": {
+          "type": "tag",
+          "settings": {
+            "label": "Ships to Canada"
+          }
+        }
+      },
+      "block_order": [
+        "pillar_1",
+        "pillar_2",
+        "pillar_3",
+        "tag_1",
+        "tag_2",
+        "tag_3"
+      ],
+      "settings": {
+        "color_scheme": "scheme-header-ink",
+        "eyebrow": "Our Approach",
+        "heading": "<p>Built for the guy who<br><em>already knows<\/em> what he wants<\/p>",
+        "body": "<p>The best wardrobe is composed, intentional, and resilient to trend cycles. Quality over quantity, always.<\/p>",
+        "layout_variant": "mockup",
+        "accent_color": "#b8491f",
+        "panel_background_color": "#1a1a18",
+        "panel_text_color": "#f5f1eb",
+        "panel_muted_color": "#8a847c",
+        "panel_border_color": "#35332f",
+        "pillar_icon_bg_color": "#f5e8df",
+        "pillar_icon_color": "#b8491f",
+        "button_bg_color": "#b8491f",
+        "button_text_color": "#ffffff",
+        "quote": "The best wardrobe isn't the biggest one. It's the one where everything fits, everything works, and nothing was a mistake.",
+        "quote_source": "The Right Garment editorial principle",
+        "feature_title": "Viberg",
+        "feature_meta": "Brand of the Month · Heritage Footwear",
+        "feature_logo_text": "VB",
+        "feature_button_label": "View brand",
+        "feature_button_link": "\/collections\/viberg"
+      }
+    },
+    "trg_newsletter": {
+      "type": "trg-newsletter",
+      "settings": {
+        "color_scheme": "scheme-header-ink"
+      }
+    }
+  },
+  "order": [
+    "trg_search_bar_nVixRj",
+    "trg_home_hero",
+    "trg_steps",
+    "trg_home_canada_strip",
+    "trg_colour_teaser",
+    "trg_featured_brands",
+    "trg_category_grid_v2_hEjnMt",
+    "trg_editorial",
+    "trg_newsletter"
+  ]
+}

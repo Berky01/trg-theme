@@ -1,0 +1,577 @@
+{% liquid
+  assign product_count = collection.all_products_count
+  assign live_catalog = collections['all']
+  assign live_catalog_count = 0
+  if live_catalog != blank
+    assign live_catalog_count = live_catalog.all_products_count
+  endif
+
+  assign limited_live_assortment = false
+  if collection.handle == 'all' and product_count > 0 and product_count <= 12
+    assign limited_live_assortment = true
+  endif
+
+  assign category_collection = false
+  if request.page_type == 'collection'
+    if collection.metafields.trg.brand.value == blank and collection.handle != 'all'
+      assign category_collection = true
+    endif
+  endif
+
+  assign staged_category_collection = false
+  if request.page_type == 'collection'
+    if collection.metafields.trg.brand.value == blank and collection.handle != 'all' and product_count == 0 and live_catalog_count > 0 and live_catalog_count <= 12
+      assign staged_category_collection = true
+    endif
+  endif
+
+  assign small_live_category_collection = false
+  if request.page_type == 'collection'
+    if collection.metafields.trg.brand.value == blank and collection.handle != 'all' and product_count > 0 and product_count <= 2 and live_catalog_count > 0 and live_catalog_count <= 12
+      assign small_live_category_collection = true
+    endif
+  endif
+
+  assign heading_html = section.settings.custom_title
+  if section.settings.title_source == 'collection' and collection.title != blank
+    assign heading_html = collection.title
+  endif
+  if category_collection
+    assign heading_html = collection.title
+  endif
+
+  assign count_label = section.settings.result_label | strip
+  if count_label == blank
+    assign count_label = 'products'
+  endif
+  assign resolved_count_label = count_label
+  if count_label == 'products'
+    if product_count == 1
+      assign resolved_count_label = 'product'
+    else
+      assign resolved_count_label = 'products'
+    endif
+  endif
+
+  assign show_product_count = section.settings.show_count
+  assign intro_body_html = blank
+
+  if limited_live_assortment
+    assign show_product_count = true
+    assign heading_html = section.settings.limited_live_heading
+    assign intro_body_html = section.settings.limited_live_body
+  endif
+
+  if staged_category_collection
+    assign show_product_count = false
+    assign heading_html = collection.title
+    capture intro_body_html
+      echo '<p>'
+      echo section.settings.staged_body_before | escape
+      echo ' '
+      echo live_catalog_count
+      echo ' live product'
+      unless live_catalog_count == 1
+        echo 's'
+      endunless
+      echo ' '
+      echo section.settings.staged_body_after | escape
+      echo '</p>'
+    endcapture
+  endif
+
+  if small_live_category_collection
+    assign show_product_count = true
+    assign heading_html = collection.title
+    capture intro_body_html
+      echo '<p>'
+      echo section.settings.small_body_before | escape
+      echo ' '
+      echo product_count
+      echo ' live product'
+      unless product_count == 1
+        echo 's'
+      endunless
+      echo ' '
+      echo section.settings.small_body_after | escape
+      echo '</p>'
+    endcapture
+  endif
+
+  if category_collection and staged_category_collection == false and small_live_category_collection == false
+    assign intro_body_html = blank
+  endif
+
+  assign render_supporting_copy = false
+  if show_product_count or intro_body_html != blank
+    assign render_supporting_copy = true
+  endif
+%}
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<section
+  class="section section--full-width color-{{ section.settings.color_scheme }} trg-collection-intro{% if render_supporting_copy %} trg-collection-intro--has-supporting-copy{% endif %}{% if limited_live_assortment %} trg-collection-intro--limited-live{% endif %}"
+  {{ section.shopify_attributes }}
+>
+  <div class="trg-collection-intro__bar">
+    <div class="trg-collection-intro__inner">
+      {% if section.settings.eyebrow != blank %}
+        <p class="trg-collection-intro__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+      {% endif %}
+
+      <div class="trg-collection-intro__copy">
+        <h1 class="trg-collection-intro__title">{{ heading_html }}</h1>
+
+        {% if render_supporting_copy %}
+          <div class="trg-collection-intro__support">
+            {% if show_product_count %}
+              <p class="trg-collection-intro__count">
+                {{ product_count }}
+                {% if limited_live_assortment or small_live_category_collection %}
+                  live {% if product_count == 1 %}product{% else %}products{% endif %}
+                {% else %}
+                  {{ resolved_count_label }}
+                {% endif %}
+              </p>
+            {% endif %}
+
+            {% if intro_body_html != blank %}
+              <div class="trg-collection-intro__body">{{ intro_body_html }}</div>
+            {% endif %}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+
+{% stylesheet %}
+
+  @keyframes trg-collection-fade-up {
+
+    from {
+
+      opacity: 0;
+
+      transform: translate3d(0, 10px, 0);
+
+    }
+
+
+
+    to {
+
+      opacity: 1;
+
+      transform: translate3d(0, 0, 0);
+
+    }
+
+  }
+
+
+
+  .trg-collection-intro {
+
+    padding-block: 0;
+
+    background: #1a1a18;
+
+    border-top: 1px solid rgb(245 241 235 / 0.08);
+
+    border-bottom: 1px solid rgb(245 241 235 / 0.08);
+
+  }
+
+
+
+  .trg-collection-intro__bar {
+
+    min-height: 72px;
+
+    display: flex;
+
+    align-items: center;
+
+    background: #1a1a18;
+
+  }
+
+
+
+  .trg-collection-intro__inner {
+    width: min(calc(100% - 64px), 1320px);
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 0;
+  }
+
+  .trg-collection-intro__copy {
+    padding-left: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+
+  .trg-collection-intro__eyebrow {
+    margin: 0;
+    padding-right: 1.5rem;
+    border-right: 1px solid rgb(245 241 235 / 0.12);
+    color: #e68b5a;
+
+    font-family: var(--font-body--family);
+
+    font-size: 0.6rem;
+
+    font-weight: 600;
+
+    letter-spacing: 0.2em;
+
+    line-height: 1;
+
+    text-transform: uppercase;
+
+    white-space: nowrap;
+
+    flex-shrink: 0;
+
+    animation: trg-collection-fade-up 0.4s 0.05s ease both;
+
+  }
+
+  .trg-collection-intro__title {
+    color: #f5f1eb;
+    font-family: var(--font-heading--family);
+    font-size: 1.9rem;
+    font-weight: 400;
+    line-height: 1;
+    white-space: normal;
+    animation: trg-collection-fade-up 0.4s 0.1s ease both;
+  }
+
+  .trg-collection-intro__title > * {
+    margin: 0;
+    font: inherit;
+
+    color: inherit;
+
+    line-height: inherit;
+
+  }
+
+
+
+  .trg-collection-intro__title em {
+    color: #b8491f;
+    font-style: italic;
+  }
+
+  .trg-collection-intro--has-supporting-copy .trg-collection-intro__bar {
+    min-height: auto;
+    padding-block: 1rem;
+  }
+
+  .trg-collection-intro--has-supporting-copy .trg-collection-intro__inner {
+    align-items: flex-start;
+  }
+
+  .trg-collection-intro__support {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem 0.9rem;
+  }
+
+  .trg-collection-intro__count {
+    margin: 0;
+    color: #b8491f;
+    font-family: var(--font-body--family);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    line-height: 1.2;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .trg-collection-intro__body {
+    max-width: 44rem;
+    color: rgb(245 241 235 / 0.78);
+    font-family: var(--font-body--family);
+    font-size: 0.88rem;
+    line-height: 1.45;
+  }
+
+  .trg-collection-intro__body > * {
+    margin: 0;
+  }
+
+  @media screen and (max-width: 900px) {
+    .trg-collection-intro__bar {
+      min-height: 52px;
+    }
+
+    .trg-collection-intro__inner {
+
+      width: min(calc(100% - 32px), 1320px);
+
+    }
+
+
+
+    .trg-collection-intro__eyebrow {
+      display: none;
+    }
+
+    .trg-collection-intro__copy {
+      padding-left: 0;
+      gap: 0.35rem;
+    }
+
+    .trg-collection-intro__title {
+      font-size: 1.4rem;
+      white-space: normal;
+    }
+
+    .trg-collection-intro--has-supporting-copy .trg-collection-intro__bar {
+      padding-block: 0.875rem;
+    }
+
+    .trg-collection-intro__support {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.25rem;
+    }
+
+    .trg-collection-intro__count {
+      font-size: 0.64rem;
+    }
+
+    .trg-collection-intro__body {
+      font-size: 0.8rem;
+      max-width: none;
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    .trg-collection-intro__inner {
+      width: min(calc(100% - 32px), 1320px);
+    }
+  }
+{% endstylesheet %}
+
+
+{% schema %}
+
+{
+
+  "name": "TRG Collection Intro",
+
+  "settings": [
+    {
+      "type": "header",
+      "content": "Live assortment state"
+    },
+    {
+      "type": "richtext",
+      "id": "limited_live_heading",
+      "label": "Heading",
+      "default": "<p>Browse the <em>Live<\/em> Assortment<\/p>"
+    },
+    {
+      "type": "richtext",
+      "id": "limited_live_body",
+      "label": "Body",
+      "default": "<p>Available now while the broader product catalog is still being staged.<\/p>"
+    },
+    {
+      "type": "header",
+      "content": "Staged category state"
+    },
+    {
+      "type": "text",
+      "id": "staged_body_before",
+      "label": "Body (before count)",
+      "default": "This category is staged for the wider catalog. Browse"
+    },
+    {
+      "type": "text",
+      "id": "staged_body_after",
+      "label": "Body (after count)",
+      "default": "or use the brand directory while products are still being published."
+    },
+    {
+      "type": "header",
+      "content": "Small live category state"
+    },
+    {
+      "type": "text",
+      "id": "small_body_before",
+      "label": "Body (before count)",
+      "default": "This category currently has"
+    },
+    {
+      "type": "text",
+      "id": "small_body_after",
+      "label": "Body (after count)",
+      "default": "while the broader assortment is still being staged."
+    },
+
+    {
+
+      "type": "color_scheme",
+
+      "id": "color_scheme",
+
+      "label": "Color scheme",
+
+      "default": "scheme-header-ink"
+
+    },
+
+    {
+
+      "type": "text",
+
+      "id": "eyebrow",
+
+      "label": "Eyebrow",
+
+      "default": "Product Catalogue"
+
+    },
+
+    {
+
+      "type": "select",
+
+      "id": "title_source",
+
+      "label": "Title source",
+
+      "options": [
+
+        {
+
+          "value": "collection",
+
+          "label": "Collection title"
+
+        },
+
+        {
+
+          "value": "custom",
+
+          "label": "Custom"
+
+        }
+
+      ],
+
+      "default": "custom"
+
+    },
+
+    {
+
+      "type": "richtext",
+
+      "id": "custom_title",
+
+      "label": "Custom title",
+
+      "default": "<p>Find the <em>Right</em> Piece</p>",
+
+      "visible_if": "{{ section.settings.title_source == 'custom' }}"
+
+    },
+
+    {
+
+      "type": "select",
+
+      "id": "body_source",
+
+      "label": "Body source",
+
+      "options": [
+
+        {
+
+          "value": "custom",
+
+          "label": "Custom"
+
+        },
+
+        {
+
+          "value": "collection_description",
+
+          "label": "Collection description"
+
+        }
+
+      ],
+
+      "default": "custom"
+
+    },
+
+    {
+
+      "type": "richtext",
+
+      "id": "custom_body",
+
+      "label": "Custom body",
+
+      "default": "<p>Curated menswear - quality goods across North America.</p>",
+
+      "visible_if": "{{ section.settings.body_source == 'custom' }}"
+
+    },
+
+    {
+
+      "type": "checkbox",
+
+      "id": "show_count",
+
+      "label": "Show product count",
+
+      "default": false
+
+    },
+
+    {
+
+      "type": "text",
+
+      "id": "result_label",
+
+      "label": "Result label",
+
+      "default": "products"
+
+    }
+
+  ],
+
+  "presets": [
+
+    {
+
+      "name": "TRG Collection Intro"
+
+    }
+
+  ]
+
+}
+
+{% endschema %}
+

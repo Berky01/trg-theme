@@ -1,0 +1,355 @@
+<div class="section-background color-scheme-1"></div>
+<section class="section section--page-width color-scheme-1 trg-contact-page">
+  <div class="trg-contact-page__grid">
+    <div class="trg-contact-page__intro">
+      <h1 class="trg-contact-page__title">{{ page.title | escape }}</h1>
+      <p class="trg-contact-page__lead">
+        Questions, corrections, retailer issues, and partnership inquiries all come through here.
+      </p>
+
+      {% if page.content != blank %}
+        <div class="trg-contact-page__content rte">
+          {{ page.content }}
+        </div>
+      {% endif %}
+
+      <div class="trg-contact-page__blocks">
+        <section class="trg-contact-page__block">
+          <h2>Use this form for</h2>
+          <ul>
+            <li>Brand corrections and broken links</li>
+            <li>Retailer or product feed issues</li>
+            <li>Partnership and press requests</li>
+            <li>Questions about the directory or colour guide</li>
+          </ul>
+        </section>
+
+        <section class="trg-contact-page__block">
+          <h2>To speed things up</h2>
+          <ul>
+            <li>Include the page or brand URL when relevant</li>
+            <li>Keep the issue specific and easy to reproduce</li>
+            <li>Add any retailer or product links that help</li>
+          </ul>
+        </section>
+
+        <section class="trg-contact-page__block">
+          <h2>Response window</h2>
+          <p>Most messages get a reply within two business days.</p>
+          <div class="trg-contact-page__links">
+            <a href="/pages/submit-brand">Submit a brand</a>
+            <a href="/pages/brands">Browse brands</a>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <div class="trg-contact-page__panel">
+      {% form 'contact', id: 'TrgContactForm', class: 'trg-contact-page__form' %}
+        {% if form.posted_successfully? %}
+          <div class="trg-contact-page__message trg-contact-page__message--success" tabindex="-1" autofocus>
+            Thanks. Your message was sent.
+          </div>
+        {% elsif form.errors %}
+          <div class="trg-contact-page__message trg-contact-page__message--error" tabindex="-1" autofocus>
+            Please check the form and try again.
+          </div>
+        {% endif %}
+
+        <div class="trg-contact-page__field-grid">
+          <div class="trg-contact-page__field">
+            <label for="TrgContactForm-name">Name</label>
+            <input
+              id="TrgContactForm-name"
+              type="text"
+              name="contact[name]"
+              autocomplete="name"
+              value="{{ form.name | default: customer.name | escape }}"
+            >
+          </div>
+
+          <div class="trg-contact-page__field">
+            <label for="TrgContactForm-email">Email</label>
+            <input
+              id="TrgContactForm-email"
+              type="email"
+              name="contact[email]"
+              autocomplete="email"
+              autocapitalize="off"
+              spellcheck="false"
+              value="{% if form.email %}{{ form.email | escape }}{% elsif customer %}{{ customer.email | escape }}{% endif %}"
+              aria-required="true"
+            >
+            {% if form.errors contains 'email' %}
+              <p class="trg-contact-page__error">{{ form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email }}.</p>
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="trg-contact-page__field">
+          <label for="TrgContactForm-phone">Phone</label>
+          <input
+            id="TrgContactForm-phone"
+            type="tel"
+            name="contact[phone]"
+            autocomplete="tel"
+            value="{{ form.phone | escape }}"
+          >
+        </div>
+
+        <div class="trg-contact-page__field">
+          <label for="TrgContactForm-body">Message</label>
+          <textarea
+            id="TrgContactForm-body"
+            name="contact[body]"
+            rows="10"
+          >{{ form.body }}</textarea>
+          {% if form.errors contains 'body' %}
+            <p class="trg-contact-page__error">{{ form.errors.translated_fields.body | capitalize }} {{ form.errors.messages.body }}.</p>
+          {% endif %}
+        </div>
+
+        <div class="trg-contact-page__actions">
+          <button type="submit" class="trg-contact-page__submit button">Send message</button>
+          <p class="trg-contact-page__note">For page corrections, include the exact URL.</p>
+        </div>
+      {% endform %}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .trg-contact-page {
+    --trg-contact-border: #ddd8cf;
+    --trg-contact-muted: #6f695f;
+    --trg-contact-panel: #faf8f4;
+    padding-block: clamp(28px, 5vw, 56px);
+    border-top: 1px solid var(--trg-contact-border);
+  }
+
+  .trg-contact-page__grid {
+    display: grid;
+    gap: 24px;
+  }
+
+  .trg-contact-page__intro {
+    min-width: 0;
+  }
+
+  .trg-contact-page__title {
+    margin: 0;
+    font-family: var(--font-heading--family);
+    font-size: clamp(2.2rem, 5vw, 4rem);
+    font-weight: 400;
+    line-height: 0.96;
+    letter-spacing: -0.02em;
+    color: #1a1a18;
+  }
+
+  .trg-contact-page__lead {
+    max-width: 34rem;
+    margin: 16px 0 0;
+    color: #332f2a;
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+
+  .trg-contact-page__content {
+    max-width: 34rem;
+    margin-top: 14px;
+    color: var(--trg-contact-muted);
+  }
+
+  .trg-contact-page__blocks {
+    display: grid;
+    gap: 14px;
+    margin-top: 28px;
+  }
+
+  .trg-contact-page__block {
+    border-top: 1px solid var(--trg-contact-border);
+    padding-top: 14px;
+    max-width: 34rem;
+  }
+
+  .trg-contact-page__block h2 {
+    margin: 0 0 8px;
+    font-family: var(--font-heading--family);
+    font-size: 1.05rem;
+    font-weight: 400;
+    color: #1a1a18;
+  }
+
+  .trg-contact-page__block p,
+  .trg-contact-page__block li {
+    color: var(--trg-contact-muted);
+    font-size: 0.92rem;
+    line-height: 1.65;
+  }
+
+  .trg-contact-page__block ul {
+    margin: 0;
+    padding-left: 18px;
+  }
+
+  .trg-contact-page__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 10px;
+  }
+
+  .trg-contact-page__links a {
+    color: #1a1a18;
+    text-decoration: none;
+    border-bottom: 1px solid var(--trg-contact-border);
+  }
+
+  .trg-contact-page__links a:hover {
+    color: #b8491f;
+    border-bottom-color: #b8491f;
+  }
+
+  .trg-contact-page__panel {
+    border: 1px solid var(--trg-contact-border);
+    background: var(--trg-contact-panel);
+    padding: 18px;
+  }
+
+  .trg-contact-page__form {
+    display: grid;
+    gap: 16px;
+  }
+
+  .trg-contact-page__message {
+    padding: 12px 14px;
+    border: 1px solid var(--trg-contact-border);
+    font-size: 0.88rem;
+    line-height: 1.5;
+  }
+
+  .trg-contact-page__message--success {
+    background: #f3efe7;
+    color: #1a1a18;
+  }
+
+  .trg-contact-page__message--error,
+  .trg-contact-page__error {
+    color: #8a2f1b;
+  }
+
+  .trg-contact-page__field-grid {
+    display: grid;
+    gap: 14px;
+  }
+
+  .trg-contact-page__field {
+    display: grid;
+    gap: 7px;
+  }
+
+  .trg-contact-page__field label {
+    color: #1a1a18;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .trg-contact-page__field input,
+  .trg-contact-page__field textarea {
+    width: 100%;
+    min-width: 0;
+    border: 1px solid var(--trg-contact-border);
+    border-radius: 0;
+    background: #fff;
+    color: #1a1a18;
+    font: inherit;
+    padding: 0.85rem 0.9rem;
+  }
+
+  .trg-contact-page__field textarea {
+    resize: vertical;
+    min-height: 200px;
+  }
+
+  .trg-contact-page__field input:focus,
+  .trg-contact-page__field textarea:focus {
+    outline: 2px solid #b8491f;
+    outline-offset: 1px;
+    border-color: #b8491f;
+  }
+
+  .trg-contact-page__error {
+    margin: 0;
+    font-size: 0.8rem;
+    line-height: 1.45;
+  }
+
+  .trg-contact-page__actions {
+    display: grid;
+    gap: 10px;
+    align-items: start;
+  }
+
+  .trg-contact-page__submit {
+    width: fit-content;
+    min-width: 180px;
+  }
+
+  .trg-contact-page__note {
+    margin: 0;
+    color: var(--trg-contact-muted);
+    font-size: 0.8rem;
+    line-height: 1.5;
+  }
+
+  @media screen and (min-width: 990px) {
+    .trg-contact-page__grid {
+      grid-template-columns: minmax(0, 1.2fr) minmax(360px, 0.9fr);
+      align-items: start;
+      gap: 36px;
+    }
+
+    .trg-contact-page__panel {
+      padding: 24px;
+      position: sticky;
+      top: 24px;
+    }
+
+    .trg-contact-page__field-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .trg-contact-page {
+      padding-block: 20px 36px;
+    }
+
+    .trg-contact-page__lead {
+      font-size: 0.92rem;
+      line-height: 1.6;
+    }
+
+    .trg-contact-page__block p,
+    .trg-contact-page__block li {
+      font-size: 0.88rem;
+    }
+
+    .trg-contact-page__panel {
+      padding: 14px;
+    }
+
+    .trg-contact-page__submit {
+      width: 100%;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "TRG Contact Page",
+  "settings": []
+}
+{% endschema %}

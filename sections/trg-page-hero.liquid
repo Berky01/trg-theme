@@ -1,0 +1,95 @@
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<section class="section section--full-width color-{{ section.settings.color_scheme }} trg-section trg-page-hero{% if section.settings.hero_style == 'dark' %} trg-page-hero--dark{% endif %}{% if section.settings.alignment == 'center' %} trg-page-hero--center{% endif %}">
+  {% if section.settings.show_pattern %}
+    <div class="trg-pattern-overlay"></div>
+  {% endif %}
+
+  <div class="trg-shell trg-page-hero__inner" data-trg-reveal>
+    {% if section.settings.eyebrow != blank %}<p class="trg-eyebrow">{{ section.settings.eyebrow | escape }}</p>{% endif %}
+    <div class="trg-heading">{{ section.settings.title }}</div>
+    {% if section.settings.body != blank %}<div class="trg-lead">{{ section.settings.body }}</div>{% endif %}
+    {% if section.settings.meta_text != blank %}<p class="trg-muted-note" style="margin-top: 14px;">{{ section.settings.meta_text | escape }}</p>{% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "TRG Page Hero",
+  "tag": "section",
+  "class": "trg-page-hero-section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "select",
+      "id": "hero_style",
+      "label": "Hero style",
+      "options": [
+        {
+          "value": "light",
+          "label": "Light"
+        },
+        {
+          "value": "dark",
+          "label": "Dark"
+        }
+      ],
+      "default": "light"
+    },
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "Content alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_pattern",
+      "label": "Show subtle background pattern",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Our Approach"
+    },
+    {
+      "type": "richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "<p>Page title</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Body"
+    },
+    {
+      "type": "text",
+      "id": "meta_text",
+      "label": "Meta text"
+    }
+  ],
+  "presets": [
+    {
+      "name": "TRG Page Hero"
+    }
+  ]
+}
+{% endschema %}
+

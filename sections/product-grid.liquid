@@ -1,0 +1,397 @@
+{% comment %}rc:1774227628{% endcomment %}
+{%- doc -%}
+  This snippet is used to render the product grid on collection and search pages.
+
+  @param {object} section - The section object
+  @param {object} paginate - Pagination object
+  @param {object} products - Array of product objects
+  @param {string} [title] - Header of the collection or search results
+  @param {string} children - List or grid of product cards
+  @param {boolean} [enable_infinite_scroll] - Whether to enable infinite scroll (default: true)
+{%- enddoc -%}
+
+{% capture product_card_size %}
+  {% render 'util-product-grid-card-size' section: section %}
+{% endcapture %}
+{% assign product_card_size = product_card_size | strip %}
+{% liquid
+  assign trg_plp_mode = false
+  assign collection_brand = blank
+  assign collection_brand_shop_url = ''
+  if section.settings.trg_plp_shell_max_width != blank
+    assign trg_plp_mode = true
+  endif
+  assign live_catalog = collections['all']
+  assign live_catalog_count = 0
+  assign live_catalog_label = 'Browse live products'
+  if live_catalog != blank
+    assign live_catalog_count = live_catalog.all_products_count | default: live_catalog.products_count
+  endif
+  if live_catalog_count > 0
+    capture live_catalog_label
+      echo 'Browse '
+      echo live_catalog_count
+      echo ' live product'
+      unless live_catalog_count == 1
+        echo 's'
+      endunless
+    endcapture
+  endif
+  if request.page_type == 'collection'
+    assign collection_brand = collection.metafields.trg.brand.value
+    if collection_brand
+      assign collection_brand_shop_url = collection_brand.retailer_url_na.value | default: collection_brand.retailer_url_na
+      if collection_brand_shop_url == blank
+        assign collection_brand_shop_url = collection_brand.affiliate_link | default: collection_brand.website
+      endif
+      if collection_brand_shop_url == blank
+        assign collection_brand_shop_url = collection_brand.retailer_url_ca.value | default: collection_brand.retailer_url_ca
+      endif
+    endif
+  endif
+%}
+
+{% style %}
+  @media screen and (min-width: 750px) {
+    {% case section.settings.layout_type %}
+      {% when 'grid' %}
+        {% if trg_plp_mode and section.settings.trg_plp_desktop_columns != 'auto' %}
+          .product-grid--{{ section.id }}:is(.product-grid--grid) {
+            --product-grid-columns-desktop: repeat({{ section.settings.trg_plp_desktop_columns }}, minmax(0, 1fr));
+          }
+        {% else %}
+          .product-grid--{{ section.id }}:is(.product-grid--grid) {
+            --product-grid-columns-desktop: repeat(auto-fill, minmax({{ product_card_size }}, 1fr));
+          }
+        {% endif %}
+
+
+      {% when 'organic' %}
+        {% assign large_span = 2 %}
+        {% assign row_cycle = 3 %}
+        {% assign product_cycle = row_cycle | times: 2 %}
+        {% assign right_large_start_col = 3 %}
+        .product-grid--{{ section.id }}:not([product-grid-view='zoom-out']):is(.product-grid--organic) .product-grid__item:nth-of-type({{ product_cycle }}n + 1) {
+          grid-column: 1 / span {{ large_span }};
+        }
+
+        .product-grid--{{ section.id }}:not([product-grid-view='zoom-out']):is(.product-grid--organic) .product-grid__item:nth-of-type({{ product_cycle }}n + 2),
+        .product-grid--{{ section.id }}:not([product-grid-view='zoom-out']):is(.product-grid--organic) .product-grid__item:nth-of-type({{ product_cycle }}n + 5) {
+          align-self: end;
+        }
+
+        .product-grid--{{ section.id }}:not([product-grid-view='zoom-out']):is(.product-grid--organic) .product-grid__item:nth-of-type({{ product_cycle }}n + {{ product_cycle }}) {
+          grid-column: {{ right_large_start_col }} / span {{ large_span }};
+        }
+
+        .product-grid--{{ section.id }}:not([product-grid-view='zoom-out']):is(.product-grid--organic) {
+          --product-grid-columns-desktop: repeat(4, 1fr);
+        }
+    {% endcase %}
+
+    /* This logic helps prevent displaying one column for an large or extra-large product card size on a small screen. We want it to display at least two columns. */
+    {% case section.settings.product_card_size %}
+      {% when 'extra-large' or 'large' %}
+        @container product-grid (max-width: calc({{ product_card_size }} * 3 + {{ section.settings.columns_gap_horizontal }}px * 2)) {
+          .product-grid--{{ section.id }}:is(.product-grid--grid) {
+            --product-grid-columns-desktop: repeat(2, 1fr);
+          }
+        }
+    {% endcase %}
+
+    /* When zoomed out, fit as many 100px-wide columns as possible */
+    .product-grid--{{ section.id }}[product-grid-view='zoom-out'] {
+      --product-grid-columns-desktop: repeat(auto-fill, minmax(6.25rem, 1fr));
+    }
+
+    .product-grid--{{ section.id }}[product-grid-view='zoom-out'] .product-grid-view-zoom-out--details {
+      display: block;
+    }
+
+    .product-grid--{{ section.id }}[product-grid-view='zoom-out'] .product-grid__card {
+      padding-inline-start: var(--zoom-out-padding-inline-start, 0);
+      padding-inline-end: var(--zoom-out-padding-inline-end, 0);
+      padding-block-start: var(--zoom-out-padding-block-start, 0);
+      padding-block-end: var(--zoom-out-padding-block-end, 0);
+    }
+  }
+{% endstyle %}
+<div
+  id="ResultsList"
+  class="
+    {% if trg_plp_mode == false %}grid {% endif %}main-collection-grid
+    {%- if section.settings.inherit_color_scheme == false %} color-{{ section.settings.color_scheme }}{% endif %}
+    {%- if trg_plp_mode == false and section.settings.product_grid_width == 'full-width' %} collection-wrapper--full-width{% endif %}
+    {%- if trg_plp_mode == false and section.settings.full_width_on_mobile == true %} collection-wrapper--full-width-on-mobile{% endif %}
+    spacing-style
+  "
+
+  style="
+    --grid--margin--mobile: 0{% if section.settings.product_grid_width == 'centered' and section.settings.full_width_on_mobile == false %} var(--margin-lg){% else %} 0{% endif %};
+    --grid-column--desktop: var(--{% if section.settings.product_grid_width == 'centered' %}centered{% else %}full-width{% endif %});
+    --grid-column--mobile: var(--{% if section.settings.full_width_on_mobile %}full-width{% else %}{% if section.settings.product_grid_width == 'centered' %}centered{% else %}full-width{% endif %}{% endif %});
+    --padding-inline-start: {{ section.settings.padding-inline-start }}px;
+    --padding-inline-end: {{ section.settings.padding-inline-end }}px;
+    "
+  >
+    <div
+      style="
+        grid-column: var(--full-width);
+      --product-grid-gap-mobile: {{ section.settings.columns_gap_vertical | at_most: 12 }}px {{ section.settings.columns_gap_horizontal | at_most: 12 }}px;
+      --product-grid-gap-desktop: {{ section.settings.columns_gap_vertical }}px {{ section.settings.columns_gap_horizontal }}px;
+      container-type: inline-size;
+      container-name: product-grid;
+    "
+    >
+      {% if products.size == 0 %}
+        <div class="main-collection-grid__empty">
+          {% if request.page_type == 'search' and search.performed %}
+            <h2 class="main-collection-grid__empty-title h2">
+              No products matched "{{ search.terms | escape }}"
+            </h2>
+            <p>
+              The storefront is currently showing {{ live_catalog_count }} live product{% unless live_catalog_count == 1 %}s{% endunless %} while the broader catalog is still being staged.
+            </p>
+            {% if search.results_count > 0 %}
+              <p class="main-collection-grid__empty-note">
+                We found related site results for this search, but there are no published product cards to show yet.
+              </p>
+            {% endif %}
+            <div class="main-collection-grid__empty-actions">
+              <a href="{{ routes.all_products_collection_url }}" class="main-collection-grid__empty-button">{{ live_catalog_label }}</a>
+              <a href="/pages/brands" class="main-collection-grid__empty-link">Open brand directory</a>
+            </div>
+          {% elsif request.page_type == 'collection' and collection.all_products_count == 0 %}
+            {% if collection_brand %}
+              <h2 class="main-collection-grid__empty-title h2">
+                No live products are published for {{ collection.title }}
+              </h2>
+              <p>
+                This brand is tracked in the directory, but TRG is not stocking its full product feed yet. Use the brand shop link to continue directly or browse the wider directory while imports remain limited.
+              </p>
+            {% else %}
+              <h2 class="main-collection-grid__empty-title h2">
+                This collection is staged, but products are not live yet
+              </h2>
+              <p>
+                Only {{ live_catalog_count }} live product{% unless live_catalog_count == 1 %}s{% endunless %} are currently available while the broader catalog is being loaded.
+              </p>
+            {% endif %}
+            <div class="main-collection-grid__empty-actions">
+              {% if collection_brand_shop_url != blank %}
+                <a href="{%- render 'trg-utm', url: collection_brand_shop_url, campaign: collection.handle -%}" class="main-collection-grid__empty-button" target="_blank" rel="nofollow noopener sponsored">Shop {{ collection.title }}</a>
+              {% else %}
+                <a href="{{ routes.all_products_collection_url }}" class="main-collection-grid__empty-button">{{ live_catalog_label }}</a>
+              {% endif %}
+              <a href="/pages/brands" class="main-collection-grid__empty-link">Browse brands instead</a>
+              {% if collection_brand_shop_url != blank %}
+                <a href="{{ routes.all_products_collection_url }}" class="main-collection-grid__empty-link">{{ live_catalog_label }}</a>
+              {% endif %}
+            </div>
+          {% else %}
+            <h2 class="main-collection-grid__empty-title h2">
+              {{ 'content.no_products_found' | t }}
+            </h2>
+            <p>
+              {{ 'content.use_fewer_filters_html' | t: link: collection.url, class: 'main-collection-grid__empty-link' }}
+            </p>
+          {% endif %}
+        </div>
+      {% else %}
+        {% if enable_infinite_scroll %}
+          <span ref="viewMorePrevious"></span>
+        {% endif %}
+
+      {% if title %}
+        <h4 class="main-collection-grid__title">{{ title }}</h4>
+      {% endif %}
+      <ul
+        class="product-grid product-grid--{{ section.id }} product-grid--{{ section.settings.layout_type }} {% if section.settings.mobile_product_card_size == 'large' %} product-grid-mobile--large{% endif %}"
+        data-testid="product-grid"
+        product-grid-view="default"
+        ref="grid"
+        role="list"
+        data-last-page="{{ paginate.pages }}"
+        data-product-card-size="{{ section.settings.product_card_size }}"
+        style="--mobile-columns: {% if section.settings.mobile_product_card_size == 'large' %}1{% else %}2{% endif %};"
+      >
+        {% comment %}
+          This script is used to set the grid view on the product grid stored in sessionStorage. Keeping it here helps us prevent seeing the default state.
+        {% endcomment %}
+        {% unless request.design_mode %}
+          <script>
+            (() => {
+              const grid = document.querySelector('.product-grid');
+              if (!grid) return;
+
+              const storedLayoutMobile = sessionStorage.getItem('product-grid-view-mobile') || 'default';
+              const storedLayoutDesktop = sessionStorage.getItem('product-grid-view-desktop') || 'default';
+
+              // No need to read the window width if no custom layouts were saved.
+              if (storedLayoutMobile === 'default' && storedLayoutDesktop === 'default') return;
+
+              const storedLayout = window.innerWidth >= 750 ? storedLayoutDesktop : storedLayoutMobile;
+              if (storedLayout === 'default') return;
+
+              grid.setAttribute('product-grid-view', storedLayout);
+
+              const options = document.querySelectorAll(
+                'input[type="radio"][name="grid"], input[type="radio"][name="grid-mobile"]'
+              );
+              for (const option of options) {
+                option.checked = option.value === storedLayout;
+              }
+            })();
+          </script>
+        {% endunless %}
+
+        {{ children }}
+      </ul>
+      {% if trg_plp_mode and enable_infinite_scroll == false %}
+        {% assign visible_count = paginate.current_offset | plus: products.size %}
+        {% assign progress_percentage = visible_count | times: 100.0 | divided_by: paginate.items %}
+        <div
+          class="trg-plp-progress-zone"
+          data-trg-load-more-zone
+          data-total-count="{{ paginate.items }}"
+          data-visible-count="{{ visible_count }}"
+          data-page-size="{{ paginate.page_size }}"
+          data-current-page="{{ paginate.current_page }}"
+        >
+          <div class="trg-plp-progress-text-row">
+            <span class="trg-plp-progress-text">
+              Showing <strong>{{ visible_count }}</strong> of <strong>{{ paginate.items }}</strong> products
+            </span>
+            <span class="trg-plp-progress-page">Page {{ paginate.current_page }}</span>
+          </div>
+          <div class="trg-plp-progress-bar">
+            <div class="trg-plp-progress-fill" style="width: {{ progress_percentage }}%;"></div>
+          </div>
+          {% if paginate.next %}
+            {% assign remaining_count = paginate.items | minus: visible_count %}
+            {% assign load_more_count = paginate.page_size %}
+            {% if remaining_count < load_more_count %}
+              {% assign load_more_count = remaining_count %}
+            {% endif %}
+            <a href="{{ paginate.next.url }}" class="trg-plp-load-more" data-trg-load-more-btn>
+              Load {{ load_more_count }} more products
+            </a>
+          {% endif %}
+        </div>
+      {% elsif enable_infinite_scroll != false %}
+        <span ref="viewMoreNext"></span>
+      {% else %}
+        {% render 'pagination-controls', paginate: paginate %}
+      {% endif %}
+    {% endif %}
+  </div>
+</div>
+
+{% stylesheet %}
+  .product-grid {
+    --product-grid-gap: var(--product-grid-gap-mobile);
+    --mobile-columns: 2; /* Default value */
+
+    isolation: isolate;
+
+    @media screen and (min-width: 750px) {
+      --product-grid-gap: var(--product-grid-gap-desktop);
+    }
+  }
+
+  .product-grid slideshow-arrows .slideshow-control {
+    display: none;
+
+    @media screen and (min-width: 750px) {
+      display: grid;
+    }
+  }
+
+  /* This triggers iOS < 16.4 */
+  @supports not (background-color: rgb(from red 150 g b / alpha)) {
+    /* Force aspect ratio to auto for iOS < 16.4 since it's not compatible with the infinite pagination */
+    .product-grid .product-media,
+    .product-grid .product-media-container {
+      aspect-ratio: auto;
+    }
+  }
+
+  .main-collection-grid {
+    padding: var(--grid--margin--mobile);
+
+    @media screen and (min-width: 750px) {
+      padding: var(--padding-block-start) var(--padding-inline-end) var(--padding-block-end) var(--padding-inline-start);
+    }
+  }
+
+  .main-collection-grid__empty {
+    padding-block: var(--padding-6xl);
+    padding-inline: var(--page-margin);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--padding-sm);
+  }
+
+  .main-collection-grid__empty-title {
+    margin: 0;
+  }
+
+  .main-collection-grid__empty p {
+    margin: 0;
+    max-width: 42rem;
+  }
+
+  .main-collection-grid__empty-note {
+    color: rgb(var(--color-foreground-rgb) / 0.68);
+  }
+
+  .main-collection-grid__empty-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+  }
+
+  .main-collection-grid__empty-button,
+  .main-collection-grid__empty-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.75rem;
+    padding: 0.7rem 1rem;
+    border-radius: 3px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  .main-collection-grid__empty-button {
+    background: rgb(var(--color-button) / 1);
+    border: 1px solid rgb(var(--color-button) / 1);
+    color: rgb(var(--color-button-text));
+  }
+
+  .main-collection-grid__empty-link {
+    border: 1px solid rgb(var(--color-border-rgb) / 0.5);
+    color: rgb(var(--color-foreground));
+  }
+
+  @media screen and (max-width: 749px) {
+    .main-collection-grid__empty-actions {
+      width: 100%;
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .main-collection-grid__empty-button,
+    .main-collection-grid__empty-link {
+      width: 100%;
+    }
+  }
+{% endstylesheet %}

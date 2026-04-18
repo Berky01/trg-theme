@@ -1,0 +1,938 @@
+{% assign suggestion_count = 0 %}
+{% for block in section.blocks %}
+  {% assign block_label = block.settings.label | strip %}
+  {% assign block_query = block.settings.query | strip %}
+  {% if block.settings.url != blank or block_label != blank or block_query != blank %}
+    {% assign suggestion_count = suggestion_count | plus: 1 %}
+  {% endif %}
+{% endfor %}
+
+{% liquid
+  assign is_collection_toolbar = false
+  assign show_filter_toggle = false
+  assign hide_for_empty_brand_collection = false
+  assign hide_for_staged_empty_category_collection = false
+  assign hide_for_small_live_category_collection = false
+  assign live_catalog = collections['all']
+  assign live_catalog_count = 0
+  if live_catalog != blank
+    assign live_catalog_count = live_catalog.all_products_count
+  endif
+  if collection != blank
+    assign is_collection_toolbar = true
+    if collection.metafields.trg.brand.value and collection.all_products_count == 0
+      assign hide_for_empty_brand_collection = true
+    endif
+    if collection.metafields.trg.brand.value == blank and collection.handle != 'all' and collection.all_products_count == 0 and live_catalog_count > 0 and live_catalog_count <= 12
+      assign hide_for_staged_empty_category_collection = true
+    endif
+    if collection.metafields.trg.brand.value == blank and collection.handle != 'all' and collection.all_products_count > 0 and collection.all_products_count <= 2 and live_catalog_count > 0 and live_catalog_count <= 12
+      assign hide_for_small_live_category_collection = true
+    endif
+  endif
+  if is_collection_toolbar and section.settings.show_filter_toggle and hide_for_empty_brand_collection == false and hide_for_staged_empty_category_collection == false and hide_for_small_live_category_collection == false
+    assign show_filter_toggle = true
+  endif
+%}
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<section
+  class="section section--full-width color-{{ section.settings.color_scheme }} trg-search-bar-section{% if section.settings.start_hidden %} trg-search-bar-section--collapsible{% endif %}{% if section.settings.start_hidden == false %} is-revealed{% endif %}{% if is_collection_toolbar %} trg-search-bar-section--collection{% endif %}"
+  style="
+    --trg-search-padding-top: {{ section.settings.padding_block_start }}px;
+    --trg-search-padding-bottom: {{ section.settings.padding_block_end }}px;
+    --trg-search-max-width: {{ section.settings.max_width }}px;
+    --trg-search-horizontal-padding: {{ section.settings.content_padding_inline }}px;
+    --trg-search-top-border-opacity: {{ section.settings.top_border_opacity | times: 0.01 }};
+    --trg-search-divider-opacity: {{ section.settings.divider_opacity | times: 0.01 }};
+    --trg-search-pill-border-opacity: {{ section.settings.pill_border_opacity | times: 0.01 }};
+    --trg-search-border-bottom-width: {{ section.settings.bottom_border_width }}px;
+    --trg-search-border-bottom-color: rgb(var(--color-border-rgb) / var(--trg-search-top-border-opacity));
+    --trg-search-input-padding-y: {{ section.settings.input_padding_y }}px;
+    --trg-search-submit-padding-y: {{ section.settings.button_padding_y }}px;
+    --trg-search-submit-padding-x: {{ section.settings.button_padding_x }}px;
+  "
+  data-trg-search-bar
+  {% if is_collection_toolbar %}
+    data-trg-plp-toolbar
+  {% endif %}
+  {% if hide_for_empty_brand_collection or hide_for_staged_empty_category_collection or hide_for_small_live_category_collection %}
+    aria-hidden="true"
+    hidden
+  {% elsif section.settings.start_hidden %}
+    data-trg-search-collapsible
+    aria-hidden="true"
+    hidden
+  {% else %}
+    aria-hidden="false"
+  {% endif %}
+  {{ section.shopify_attributes }}
+>
+  <div class="trg-search-bar__shell">
+    <form
+      action="{{ routes.search_url }}"
+      method="get"
+      role="search"
+      class="trg-search-bar__form"
+      data-trg-search-form
+    >
+      <input
+        type="hidden"
+        name="options[prefix]"
+        value="last"
+      >
+
+      {% if show_filter_toggle %}
+        <button
+          type="button"
+          class="button-unstyled trg-search-bar__mobile-filter mobile-filter-btn"
+          data-trg-plp-mobile-filter-button
+        >
+          <span class="svg-wrapper trg-search-bar__mobile-filter-icon" aria-hidden="true">
+            {{ 'icon-filter.svg' | inline_asset_content }}
+          </span>
+          Filters
+        </button>
+      {% endif %}
+
+      {% if section.settings.label != blank %}
+        <span class="trg-search-bar__label">{{ section.settings.label | escape }}</span>
+      {% endif %}
+
+      <div class="trg-search-bar__field">
+        <label
+          class="visually-hidden"
+          for="TrgSearchBar-{{ section.id }}"
+        >
+          {{ section.settings.accessibility_label | escape }}
+        </label>
+        <span class="svg-wrapper trg-search-bar__icon">
+          {{ 'icon-search.svg' | inline_asset_content }}
+        </span>
+
+        {% if is_collection_toolbar %}
+          <div class="trg-search-bar__active-tags" data-trg-active-tags></div>
+        {% endif %}
+
+        <input
+          id="TrgSearchBar-{{ section.id }}"
+          class="trg-search-bar__input"
+          type="search"
+          name="q"
+          value="{{ search.terms | escape }}"
+          placeholder="{{ section.settings.placeholder | escape }}"
+          autocorrect="off"
+          autocapitalize="off"
+          autocomplete="off"
+          role="combobox"
+          aria-expanded="false"
+          data-trg-search-input
+        >
+      </div>
+
+      {% if suggestion_count > 0 %}
+        <div
+          class="trg-search-bar__divider"
+          aria-hidden="true"
+        ></div>
+        <div class="trg-search-bar__pills">
+          {% for block in section.blocks %}
+            {% liquid
+              assign suggestion_label = block.settings.label | strip
+              assign suggestion_query = block.settings.query | strip
+              assign suggestion_url = block.settings.url
+
+              if suggestion_label == blank
+                assign suggestion_label = suggestion_query
+              endif
+
+              if suggestion_query == blank
+                assign suggestion_query = suggestion_label
+              endif
+            %}
+
+            {% if suggestion_label != blank %}
+              {% if suggestion_url != blank %}
+                <a
+                  class="trg-search-bar__pill"
+                  href="{{ suggestion_url }}"
+                  {{ block.shopify_attributes }}
+                >
+                  {{ suggestion_label | escape }}
+                </a>
+              {% else %}
+                <button
+                  type="button"
+                  class="button-unstyled trg-search-bar__pill"
+                  data-trg-search-pill="{{ suggestion_query | escape }}"
+                  {{ block.shopify_attributes }}
+                >
+                  {{ suggestion_label | escape }}
+                </button>
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      {% if section.settings.button_label != blank %}
+        <div class="trg-search-bar__divider" aria-hidden="true"></div>
+        <button
+          type="submit"
+          class="trg-search-bar__submit"
+          data-trg-search-submit
+        >
+          <span>{{ section.settings.button_label | escape }}</span>
+          <span class="svg-wrapper trg-search-bar__submit-icon">
+            {{ 'icon-arrow.svg' | inline_asset_content }}
+          </span>
+        </button>
+      {% endif %}
+    </form>
+
+    <div class="trg-search-bar__predictive" hidden data-trg-search-predictive></div>
+
+    <div class="trg-search-bar__empty" hidden data-trg-search-empty>
+      <span class="trg-search-bar__empty-text" data-trg-search-empty-text>No results</span>
+      <span class="trg-search-bar__empty-divider"></span>
+      <span class="trg-search-bar__empty-try">Try</span>
+      <div class="trg-search-bar__empty-chips">
+        {% for block in section.blocks %}
+          {% assign chip_label = block.settings.label | strip %}
+          {% assign chip_query = block.settings.query | strip %}
+          {% if chip_label == blank %}{% assign chip_label = chip_query %}{% endif %}
+          {% if chip_query == blank %}{% assign chip_query = chip_label %}{% endif %}
+          {% if chip_label != blank %}
+            <button type="button" class="trg-search-bar__empty-chip" data-trg-search-pill="{{ chip_query | escape }}">
+              {{ chip_label | escape }}
+            </button>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  :root {
+    --nav-h: 56px;
+    --search-h: 48px;
+    --chrome: calc(var(--nav-h) + var(--search-h));
+  }
+
+  .trg-search-bar-section {
+    padding-block: var(--trg-search-padding-top) var(--trg-search-padding-bottom);
+    border-top: 1px solid rgb(var(--color-border-rgb) / var(--trg-search-top-border-opacity));
+    border-bottom: var(--trg-search-border-bottom-width) solid var(--trg-search-border-bottom-color);
+    position: sticky;
+    top: var(--nav-h);
+    z-index: 90;
+    overflow: clip;
+    transition:
+      max-height 0.32s ease,
+      opacity 0.24s ease,
+      transform 0.24s ease,
+      border-color 0.2s ease,
+      padding 0.24s ease;
+  }
+
+  .trg-search-bar-section--collection {
+    background: var(--ink);
+    border-bottom-width: 0;
+  }
+
+  .trg-search-bar-section[hidden] {
+    display: none !important;
+  }
+
+  .trg-search-bar-section--collapsible {
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(-8px);
+    padding-block: 0;
+    border-top-color: transparent;
+    border-bottom-color: transparent;
+    pointer-events: none;
+  }
+
+  .trg-search-bar-section--collapsible.is-revealed {
+    max-height: 140px;
+    opacity: 1;
+    transform: translateY(0);
+    padding-block: var(--trg-search-padding-top) var(--trg-search-padding-bottom);
+    border-top-color: rgb(var(--color-border-rgb) / var(--trg-search-top-border-opacity));
+    border-bottom-color: var(--trg-search-border-bottom-color);
+    pointer-events: auto;
+  }
+
+  .trg-search-bar__shell {
+    box-sizing: border-box;
+    width: min(calc(100% - 32px), var(--trg-search-max-width));
+    margin-inline: auto;
+    padding-inline: var(--trg-search-horizontal-padding);
+    position: relative;
+  }
+
+  .trg-search-bar__form {
+    min-height: var(--search-h);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .trg-search-bar__mobile-filter {
+    display: none;
+    color: rgb(var(--color-foreground-rgb) / 0.55);
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+
+  .trg-search-bar__mobile-filter:hover {
+    color: rgb(var(--color-foreground-rgb));
+  }
+
+  .trg-search-bar__label {
+    padding: calc(var(--trg-search-input-padding-y) - 2px) 20px calc(var(--trg-search-input-padding-y) - 2px) 0;
+    border-right: 1px solid rgb(var(--color-border-rgb) / var(--trg-search-divider-opacity));
+    color: rgb(var(--color-foreground-rgb) / 0.58);
+    font-family: var(--font-heading--family);
+    font-size: clamp(0.98rem, 1vw, 1.04rem);
+    font-style: italic;
+    line-height: 1.1;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .trg-search-bar__field {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex: 1 1 auto;
+    min-width: 0;
+    align-self: stretch;
+    background: transparent;
+  }
+
+  .trg-search-bar__icon {
+    color: rgb(var(--color-foreground-rgb) / 0.35);
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
+  }
+
+  .trg-search-bar__icon svg,
+  .trg-search-bar__submit-icon svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .trg-search-bar__active-tags {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem;
+    min-width: 0;
+  }
+
+  .trg-search-bar__active-tags:empty {
+    display: none;
+  }
+
+  .trg-search-bar__active-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.25rem 0.5rem;
+    border: 1px solid rgb(var(--color-border-rgb) / 0.15);
+    border-radius: 2px;
+    background: rgb(var(--color-foreground-rgb) / 0.1);
+    color: rgb(var(--color-foreground-rgb) / 0.82);
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+
+  .trg-search-bar__active-tag span {
+    opacity: 0.55;
+    font-size: 0.82em;
+  }
+
+  .trg-search-bar__input {
+    -webkit-appearance: none;
+    appearance: none;
+    border: 0;
+    background: transparent;
+    background-color: transparent !important;
+    color: rgb(var(--color-foreground-rgb));
+    font-family: var(--font-heading--family);
+    font-size: clamp(1rem, 1.2vw, 1.08rem);
+    font-style: italic;
+    line-height: 1.25;
+    width: 100%;
+    min-width: 120px;
+    padding: var(--trg-search-input-padding-y) 0;
+    box-shadow: none;
+    border-radius: 0;
+  }
+
+  .trg-search-bar__input::placeholder {
+    color: rgb(var(--color-foreground-rgb) / 0.28);
+  }
+
+  .trg-search-bar__input:focus,
+  .trg-search-bar__input:focus-visible {
+    outline: none;
+  }
+
+  .trg-search-bar__divider {
+    width: 1px;
+    height: 1.25rem;
+    align-self: center;
+    background: rgb(var(--color-border-rgb) / var(--trg-search-divider-opacity));
+    flex-shrink: 0;
+  }
+
+  .trg-search-bar__pills {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  .trg-search-bar__pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 28px;
+    padding: 0.28rem 0.6rem;
+    border: 1px solid rgb(var(--color-border-rgb) / var(--trg-search-pill-border-opacity));
+    border-radius: 2px;
+    color: rgb(var(--color-foreground-rgb) / 0.5);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.65rem;
+    font-weight: 500;
+    transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
+    background: transparent;
+    white-space: nowrap;
+  }
+
+  .trg-search-bar__pill:hover {
+    color: rgb(var(--color-foreground-rgb));
+    border-color: rgb(var(--color-foreground-rgb) / 0.4);
+    background: rgb(var(--color-foreground-rgb) / 0.03);
+  }
+
+  .trg-search-bar__sort {
+    min-height: 34px;
+    min-width: 112px;
+    padding: 0 28px 0 12px;
+    border: 1px solid rgb(var(--color-border-rgb) / 0.18);
+    border-radius: 2px;
+    background:
+      linear-gradient(45deg, transparent 50%, rgb(var(--color-foreground-rgb) / 0.6) 50%) calc(100% - 15px) calc(50% - 1px) / 6px 6px
+        no-repeat,
+      linear-gradient(135deg, rgb(var(--color-foreground-rgb) / 0.6) 50%, transparent 50%) calc(100% - 11px) calc(50% - 1px) / 6px 6px
+        no-repeat,
+      rgb(var(--color-background-rgb) / 0.12);
+    color: rgb(var(--color-foreground-rgb) / 0.68);
+    font-family: var(--font-body--family);
+    font-size: 0.76rem;
+    font-weight: 500;
+    appearance: none;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  .trg-search-bar__sort:hover {
+    color: rgb(var(--color-foreground-rgb));
+  }
+
+  .trg-search-bar__sort:focus-visible,
+  .trg-search-bar__pill:focus-visible,
+  .trg-search-bar__submit:focus-visible,
+  .trg-search-bar__mobile-filter:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  .trg-search-bar__submit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: var(--trg-search-submit-padding-y) var(--trg-search-submit-padding-x);
+    border: 0;
+    border-radius: 2px;
+    background: #b8491f;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.7rem;
+    font-weight: 500;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background-color 0.15s ease, opacity 0.15s ease;
+  }
+
+  .trg-search-bar__submit:hover {
+    background: #a83d1f;
+    color: #ffffff;
+  }
+
+  .trg-search-bar__submit-icon {
+    width: 11px;
+    height: 11px;
+  }
+
+  .trg-search-bar__empty {
+    padding: 0.85rem 0 0.65rem;
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    flex-wrap: wrap;
+  }
+
+  .trg-search-bar__empty[hidden] { display: none !important; }
+
+  .trg-search-bar-section--collection .trg-search-bar__empty {
+    background: var(--ink);
+    margin-inline: calc(-1 * var(--trg-search-horizontal-padding, 32px));
+    padding-inline: var(--trg-search-horizontal-padding, 32px);
+  }
+
+  .trg-search-bar__empty-text {
+    font-size: 0.78rem;
+    color: rgb(var(--color-foreground-rgb) / 0.45);
+    font-style: italic;
+    font-family: var(--font-heading--family);
+  }
+
+  .trg-search-bar__empty-divider {
+    width: 1px;
+    height: 0.85rem;
+    background: rgb(var(--color-foreground-rgb) / 0.12);
+  }
+
+  .trg-search-bar__empty-try {
+    font-size: 0.62rem;
+    color: rgb(var(--color-foreground-rgb) / 0.3);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 500;
+  }
+
+  .trg-search-bar__empty-chips {
+    display: flex;
+    gap: 5px;
+  }
+
+  .trg-search-bar__empty-chip {
+    display: inline-flex;
+    padding: 0.22rem 0.5rem;
+    border: 1px solid rgb(var(--color-foreground-rgb) / 0.1);
+    border-radius: 2px;
+    color: rgb(var(--color-foreground-rgb) / 0.42);
+    font-size: 0.6rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    background: transparent;
+    font-family: var(--font-body--family);
+    transition: color 0.15s, border-color 0.15s;
+  }
+
+  .trg-search-bar__empty-chip:hover {
+    color: rgb(var(--color-foreground-rgb) / 0.75);
+    border-color: rgb(var(--color-foreground-rgb) / 0.22);
+  }
+
+  .trg-search-bar__predictive {
+    position: absolute;
+    inset-inline: 0;
+    top: calc(100% + 0.35rem);
+    z-index: 92;
+  }
+
+  .trg-search-bar__predictive[hidden] {
+    display: none !important;
+  }
+
+  .trg-search-bar__predictive .predictive-search-dropdown {
+    position: static;
+    border: 1px solid rgb(var(--color-border-rgb) / 0.16);
+    border-radius: 2px;
+    background: rgb(var(--color-background-rgb));
+    box-shadow: 0 16px 40px rgb(var(--color-foreground-rgb) / 0.12);
+    overflow: hidden;
+  }
+
+  .trg-search-bar__predictive .predictive-search-results__inner {
+    max-height: min(70vh, 32rem);
+    overflow: auto;
+  }
+
+  @media screen and (max-width: 900px) {
+    .trg-search-bar-section--collection {
+      overflow: visible;
+    }
+
+    .trg-search-bar,
+    [class*='search-bar'],
+    section[id*='search'] {
+      z-index: 90;
+    }
+
+    .trg-search-bar-section--collapsible.is-revealed {
+      max-height: 176px;
+    }
+
+    .trg-search-bar__shell {
+      width: min(100%, var(--trg-search-max-width));
+      padding-inline: 1rem;
+    }
+
+    .trg-search-bar__form {
+      gap: 0.6rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .trg-search-bar__field,
+    .trg-search-bar__input {
+      position: relative;
+      z-index: 1;
+    }
+
+    .trg-search-bar__input {
+      pointer-events: auto;
+      touch-action: manipulation;
+      -webkit-user-select: text;
+      user-select: text;
+    }
+
+    .trg-search-bar__label {
+      display: none;
+    }
+
+    .trg-search-bar__pills {
+      display: none !important;
+    }
+
+    .trg-search-bar__submit {
+      padding-block: 0.5rem;
+      padding-inline: 0.65rem;
+      flex-shrink: 0;
+    }
+
+    .trg-search-bar-section--collection .trg-search-bar__submit span:first-child {
+      display: inline;
+    }
+
+    .trg-search-bar-section--collection .trg-search-bar__mobile-filter {
+      display: none !important;
+    }
+
+    .trg-search-bar__mobile-filter-icon,
+    .trg-search-bar__mobile-filter-icon svg {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+    }
+
+    .trg-search-bar__divider {
+      display: none;
+    }
+
+    .trg-search-bar__sort {
+      min-width: 94px;
+    }
+
+    .trg-search-bar__input {
+      font-size: 0.95rem;
+      padding-block: 0.85rem;
+    }
+
+    .trg-search-bar__predictive {
+      top: calc(100% + 0.2rem);
+    }
+
+    .trg-search-bar__predictive .predictive-search-dropdown {
+      box-shadow: 0 12px 24px rgb(var(--color-foreground-rgb) / 0.12);
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .trg-search-bar__active-tags {
+      display: none;
+    }
+
+    .trg-search-bar__sort {
+      min-width: 84px;
+      padding-inline-start: 10px;
+    }
+
+    .trg-search-bar__empty {
+      padding: 0.6rem 0 0.5rem;
+      gap: 0.4rem;
+    }
+
+    .trg-search-bar__empty-divider { display: none; }
+
+    .trg-search-bar__empty-try { display: none; }
+
+    .trg-search-bar-section--collection .trg-search-bar__empty {
+      margin-inline: -1rem;
+      padding-inline: 1rem;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "TRG Search Bar",
+  "tag": "section",
+  "class": "trg-search-bar-wrapper",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "checkbox",
+      "id": "start_hidden",
+      "label": "Start hidden until header search is clicked",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "accent_border",
+      "label": "Use accent bottom border",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_filter_toggle",
+      "label": "Show filter toggle on collection toolbars",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Label",
+      "default": "Search"
+    },
+    {
+      "type": "text",
+      "id": "accessibility_label",
+      "label": "Accessibility label",
+      "default": "Search the store"
+    },
+    {
+      "type": "text",
+      "id": "placeholder",
+      "label": "Placeholder",
+      "default": "Brands, styles, categories..."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Search"
+    },
+    {
+      "type": "text",
+      "id": "empty_message",
+      "label": "Collection empty state message",
+      "default": "No pieces match this search."
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "label": "Content width",
+      "min": 960,
+      "max": 1600,
+      "step": 20,
+      "unit": "px",
+      "default": 1320
+    },
+    {
+      "type": "range",
+      "id": "content_padding_inline",
+      "label": "Horizontal content padding",
+      "min": 0,
+      "max": 48,
+      "step": 4,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "header",
+      "content": "Borders"
+    },
+    {
+      "type": "range",
+      "id": "top_border_opacity",
+      "label": "Top border opacity",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "unit": "%",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "bottom_border_width",
+      "label": "Bottom border width",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "unit": "px",
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "divider_opacity",
+      "label": "Divider opacity",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "unit": "%",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "pill_border_opacity",
+      "label": "Pill border opacity",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "%",
+      "default": 15
+    },
+    {
+      "type": "header",
+      "content": "Sizing"
+    },
+    {
+      "type": "range",
+      "id": "input_padding_y",
+      "label": "Input vertical padding",
+      "min": 8,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "button_padding_y",
+      "label": "Button vertical padding",
+      "min": 6,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "button_padding_x",
+      "label": "Button horizontal padding",
+      "min": 12,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_block_start",
+      "label": "Top padding",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_block_end",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "suggestion",
+      "name": "Suggestion pill",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Workwear"
+        },
+        {
+          "type": "text",
+          "id": "query",
+          "label": "Search query",
+          "default": "Workwear"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Custom link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "TRG Search Bar",
+      "blocks": [
+        {
+          "type": "suggestion",
+          "settings": {
+            "label": "Workwear",
+            "query": "Workwear"
+          }
+        },
+        {
+          "type": "suggestion",
+          "settings": {
+            "label": "Heritage",
+            "query": "Heritage"
+          }
+        },
+        {
+          "type": "suggestion",
+          "settings": {
+            "label": "Ships to Canada",
+            "query": "Ships to Canada"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

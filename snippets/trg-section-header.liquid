@@ -1,0 +1,29 @@
+{%- liquid
+  assign show_heading = false
+  if eyebrow != blank or title != blank or body != blank
+    assign show_heading = true
+  endif
+-%}
+
+{%- if show_heading -%}
+  <div class="trg-section-header{% if align == 'center' %} trg-section-header--center{% endif %}"{% if reveal %} data-trg-reveal{% endif %}>
+    <div class="trg-section-header__content">
+      {%- if eyebrow != blank -%}
+        <p class="trg-eyebrow">{{ eyebrow | escape }}</p>
+      {%- endif -%}
+      {%- if title != blank -%}
+        <div class="trg-heading">{{ title }}</div>
+      {%- endif -%}
+      {%- if body != blank -%}
+        <div class="trg-lead">{{ body }}</div>
+      {%- endif -%}
+    </div>
+
+    {%- if link_url != blank and link_label != blank -%}
+      <a class="trg-link" href="{{ link_url }}">
+        <span>{{ link_label | escape }}</span>
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+    {%- endif -%}
+  </div>
+{%- endif -%}

@@ -1,0 +1,370 @@
+/* ═══════════════════════════════════════════
+   TRG Affiliate Disclosure v2
+   Self-contained styles for /pages/affiliate-disclosure
+   ═══════════════════════════════════════════ */
+
+/* ─── Summary strip ─── */
+.trg-ad__summary {
+  background: #faf8f4;
+  border-bottom: 1px solid var(--border);
+  padding: 1.5rem 2rem;
+}
+.trg-ad__summary-inner {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+.trg-ad__summary-icon {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  background: var(--accent);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2px;
+}
+.trg-ad__summary-icon svg { width: 18px; height: 18px; }
+.trg-ad__summary-text {
+  font-size: 0.88rem;
+  font-weight: 400;
+  color: var(--ink);
+  line-height: 1.7;
+}
+.trg-ad__summary-text strong { font-weight: 600; }
+
+/* ─── Main layout ─── */
+.trg-ad__wrap {
+  max-width: 1060px;
+  margin: 0 auto;
+  padding: 3.5rem 2rem 5rem;
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+/* ─── Sidebar TOC ─── */
+.trg-ad__toc {
+  position: sticky;
+  top: 80px;
+}
+.trg-ad__toc-label {
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mid);
+  margin-bottom: 1rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid var(--border);
+}
+.trg-ad__toc-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+.trg-ad__toc-list a {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 400;
+  color: var(--mid);
+  text-decoration: none;
+  padding: 0.45rem 0 0.45rem 0.75rem;
+  border-left: 2px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
+  line-height: 1.4;
+}
+.trg-ad__toc-list a:hover,
+.trg-ad__toc-list a.active {
+  color: var(--ink);
+  border-left-color: var(--accent);
+}
+
+/* ─── Content column ─── */
+.trg-ad__content { max-width: 680px; }
+
+/* ─── How it works ─── */
+.trg-ad__hiw {
+  margin-bottom: 3.5rem;
+  padding-bottom: 3.5rem;
+  border-bottom: 1px solid var(--border);
+  scroll-margin-top: 90px;
+}
+.trg-ad__hiw-label {
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1.5rem;
+}
+.trg-ad__hiw-steps {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0;
+}
+.trg-ad__hiw-step {
+  text-align: center;
+  padding: 0 1rem;
+  position: relative;
+}
+.trg-ad__hiw-step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 22px;
+  width: 1px;
+  height: 24px;
+  background: var(--border);
+}
+.trg-ad__hiw-num {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--paper);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  margin-bottom: 0.85rem;
+}
+.trg-ad__hiw-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 0.95rem;
+  font-weight: 400;
+  margin-bottom: 0.4rem;
+  color: var(--ink);
+}
+.trg-ad__hiw-desc {
+  font-size: 0.78rem;
+  font-weight: 300;
+  color: var(--mid);
+  line-height: 1.55;
+}
+
+/* ─── Document sections ─── */
+.trg-ad__section {
+  margin-bottom: 2.8rem;
+  scroll-margin-top: 90px;
+}
+.trg-ad__section:last-of-type { margin-bottom: 0; }
+.trg-ad__h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: var(--ink);
+  margin-bottom: 0.85rem;
+  padding-bottom: 0.55rem;
+  border-bottom: 1px solid var(--border);
+}
+.trg-ad__body {
+  font-size: 0.88rem;
+  font-weight: 300;
+  color: var(--ink);
+  line-height: 1.85;
+}
+.trg-ad__body p + p { margin-top: 0.9em; }
+.trg-ad__body a { color: var(--accent); text-decoration: none; }
+.trg-ad__body a:hover { text-decoration: underline; }
+.trg-ad__body strong { font-weight: 500; color: var(--ink); }
+
+/* ─── Pull quote ─── */
+.trg-ad__pullquote {
+  background: var(--ink);
+  border-radius: 4px;
+  padding: 2rem 2.25rem;
+  margin-top: 1.25rem;
+  position: relative;
+  overflow: hidden;
+}
+.trg-ad__pullquote::before {
+  content: '\201C';
+  position: absolute;
+  top: -8px;
+  left: 14px;
+  font-family: 'Playfair Display', serif;
+  font-size: 5rem;
+  color: rgba(196,86,42,0.2);
+  line-height: 1;
+  pointer-events: none;
+}
+.trg-ad__pullquote-text {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.05rem;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--paper);
+  line-height: 1.65;
+  position: relative;
+  z-index: 1;
+}
+.trg-ad__pullquote-attr {
+  margin-top: 0.75rem;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+  position: relative;
+  z-index: 1;
+}
+
+/* ─── Network cards ─── */
+.trg-ad__networks {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+.trg-ad__net-card {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1rem 1.15rem;
+  transition: border-color 0.2s;
+}
+.trg-ad__net-card:hover { border-color: var(--accent); }
+.trg-ad__net-name {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 0.3rem;
+}
+.trg-ad__net-use {
+  font-size: 0.75rem;
+  font-weight: 300;
+  color: var(--mid);
+  line-height: 1.5;
+}
+.trg-ad__net-link {
+  display: inline-block;
+  margin-top: 0.5rem;
+  font-size: 0.68rem;
+  font-weight: 500;
+  color: var(--accent);
+  text-decoration: none;
+  letter-spacing: 0.03em;
+}
+.trg-ad__net-link:hover { text-decoration: underline; }
+.trg-ad__net-note {
+  margin-top: 1rem;
+  font-size: 0.78rem;
+  font-weight: 300;
+  color: var(--mid);
+  line-height: 1.6;
+  font-style: italic;
+}
+
+/* ─── Contact strip ─── */
+.trg-ad__contact {
+  background: var(--ink);
+  border-radius: 4px;
+  padding: 1.75rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-top: 3.5rem;
+}
+.trg-ad__contact-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.05rem;
+  color: var(--paper);
+  margin-bottom: 0.3rem;
+}
+.trg-ad__contact-text {
+  font-size: 0.8rem;
+  font-weight: 300;
+  color: rgba(245,241,235,0.5);
+  line-height: 1.5;
+}
+.trg-ad__contact-btn {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.6rem 1.4rem;
+  border-radius: 2px;
+  background: var(--accent);
+  color: white;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: opacity 0.2s;
+  display: inline-block;
+}
+.trg-ad__contact-btn:hover { opacity: 0.9; color: white; text-decoration: none; }
+
+/* ─── Mobile ─── */
+@media (max-width: 989px) {
+  .trg-ad__summary { padding: 1.15rem 1.25rem; }
+  .trg-ad__summary-inner { gap: 0.8rem; }
+  .trg-ad__summary-icon { width: 30px; height: 30px; }
+  .trg-ad__summary-icon svg { width: 15px; height: 15px; }
+  .trg-ad__summary-text { font-size: 0.82rem; }
+
+  .trg-ad__wrap {
+    grid-template-columns:minmax(0,1fr);
+    gap: 0;
+    padding: 2rem 1.25rem 3.5rem;
+  }
+  .trg-ad__toc { display: none; }
+
+  .trg-ad__hiw { margin-bottom: 2.5rem; padding-bottom: 2rem; }
+  .trg-ad__hiw-steps {
+    grid-template-columns:minmax(0,1fr);
+    gap: 1.25rem;
+  }
+  .trg-ad__hiw-step {
+    text-align: left;
+    padding: 0;
+    display: flex;
+    gap: 0.85rem;
+    align-items: flex-start;
+  }
+  .trg-ad__hiw-step:not(:last-child)::after { display: none; }
+  .trg-ad__hiw-num {
+    width: 34px; height: 34px;
+    font-size: 0.95rem;
+    flex-shrink: 0;
+    margin-bottom: 0;
+  }
+  .trg-ad__hiw-body { text-align: left; }
+
+  .trg-ad__networks { grid-template-columns:minmax(0,1fr); }
+
+  .trg-ad__pullquote { padding: 1.5rem; }
+  .trg-ad__pullquote-text { font-size: 0.95rem; }
+
+  .trg-ad__contact {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+    padding: 1.5rem;
+  }
+  .trg-ad__contact-inner { text-align: center; }
+}
+
+/* h1 page title */
+.trg-ad__title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.75rem;
+  font-weight: 400;
+  color: var(--ink);
+  text-align: center;
+  margin: 0;
+  padding: 2.5rem 2rem 0;
+}
+@media (max-width: 749px) {
+  .trg-ad__title { font-size: 1.35rem; padding: 2rem 1rem 0; }
+}

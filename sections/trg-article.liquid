@@ -1,0 +1,594 @@
+{% comment %}
+  TRG Article Section — sections/trg-article.liquid
+  Long-form journal template with product strips, sidebar TOC, mobile adaptations.
+  Template: article.trg.json
+{% endcomment %}
+
+{{ 'trg-article.css' | asset_url | stylesheet_tag }}
+
+{%- assign art = article -%}
+{%- assign blog_handle = blog.handle | default: 'news' -%}
+
+{%- comment -%} Collect block products by type {%- endcomment -%}
+{%- assign strip_products = '' -%}
+{%- assign edit_products = '' -%}
+
+<!-- Progress bar -->
+<div class="trg-art-progress" id="trgArtProgress"></div>
+
+<!-- Mobile TOC overlay -->
+<div class="trg-art-toc-overlay" id="trgArtOverlay"></div>
+
+<!-- Mobile TOC drawer (populated by JS) -->
+<div class="trg-art-toc-drawer" id="trgArtDrawer">
+  <div class="trg-art-toc-drawer-handle"></div>
+  <div class="trg-art-toc-drawer-items"></div>
+</div>
+
+<!-- Mobile floating TOC pill -->
+<div class="trg-art-toc-pill hidden" id="trgArtPill">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="15" y2="12"/><line x1="3" y1="18" x2="18" y2="18"/></svg>
+  <span class="trg-art-toc-pill-label"></span>
+</div>
+
+<!-- Mobile bottom bar -->
+<div class="trg-art-bottom-bar">
+  <div class="trg-art-bar-left">
+    <button class="trg-art-bar-btn" title="Share" onclick="navigator.share?navigator.share({title:document.title,url:location.href}):navigator.clipboard.writeText(location.href)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+    </button>
+    <button class="trg-art-bar-btn" title="Save">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+    </button>
+  </div>
+  <a href="#trg-art-shop-edit" class="trg-art-bar-shop">Shop the edit <span>&darr;</span></a>
+</div>
+
+
+<div class="trg-art-page">
+
+  <!-- Breadcrumb -->
+  <nav class="trg-art-bc" aria-label="Breadcrumb">
+    <a href="/blogs/{{ blog_handle }}">Journal</a>
+    <span class="trg-art-bc-sep" aria-hidden="true">/</span>
+    <span class="trg-art-bc-current">{{ art.title | truncate: 60 }}</span>
+  </nav>
+  {%- comment -%}TRG SEO — BreadcrumbList JSON-LD (G11){%- endcomment -%}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://therightgarment.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Journal", "item": "https://therightgarment.com/blogs/{{ blog_handle }}" },
+      { "@type": "ListItem", "position": 3, "name": {{ art.title | json }}, "item": {{ canonical_url | json }} }
+    ]
+  }
+  </script>
+
+  <div class="trg-art-layout">
+
+    <!-- ━━━ MAIN COLUMN ━━━ -->
+    <div class="trg-art-main">
+
+      {%- if art.tags.size > 0 -%}
+        <div class="trg-art-cat">{{ art.tags.first }}</div>
+      {%- endif -%}
+
+      <h1 class="trg-art-title">{{ art.title }}</h1>
+
+      {%- if art.excerpt != blank -%}
+        <p class="trg-art-deck">{{ art.excerpt | strip_html }}</p>
+      {%- endif -%}
+
+      <!-- Meta -->
+      <div class="trg-art-meta">
+        <div class="trg-art-avatar">
+          {%- assign initials = art.author | split: ' ' -%}
+          {%- for word in initials -%}{{ word | slice: 0 }}{%- endfor -%}
+        </div>
+        <div>
+          <div class="trg-art-author">{{ art.author }}</div>
+          <div class="trg-art-date">{{ art.published_at | date: '%B %e, %Y' }}</div>
+        </div>
+        <div class="trg-art-actions">
+          <div class="trg-art-read"><div class="trg-art-read-dot"></div><span class="trg-art-read-time">5 min read</span></div>
+          <button class="trg-art-icon-btn" title="Copy link" onclick="navigator.clipboard.writeText(location.href)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+          </button>
+          <button class="trg-art-icon-btn" title="Save to account">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Hero image -->
+      {%- if art.image -%}
+        <div class="trg-art-hero">
+          <div class="trg-art-hero-img">
+            <img
+              src="{{ art.image | image_url: width: 1200 }}"
+              srcset="{{ art.image | image_url: width: 600 }} 600w, {{ art.image | image_url: width: 900 }} 900w, {{ art.image | image_url: width: 1200 }} 1200w"
+              sizes="(max-width: 749px) 100vw, 66vw"
+              alt="{{ art.image.alt | escape }}"
+              loading="eager"
+              width="{{ art.image.width }}"
+              height="{{ art.image.height }}"
+            >
+          </div>
+          {%- if art.metafields.trg.hero_caption != blank -%}
+            <p class="trg-art-caption">{{ art.metafields.trg.hero_caption }}</p>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      <!-- Article body -->
+      <div class="trg-art-body">
+        {{ art.content }}
+      </div>
+
+      <!-- Brand callout blocks (render after body) -->
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'brand_callout' -%}
+          {%- assign bc_brand = block.settings.brand.value -%}
+          {%- if bc_brand -%}
+            <div class="trg-art-brand-callout" {{ block.shopify_attributes }}>
+              <div class="trg-art-bc-logo">
+                {%- if bc_brand.logo != blank -%}
+                  <img src="{{ bc_brand.logo | image_url: width: 80 }}" alt="{{ bc_brand.name }}" loading="lazy">
+                {%- endif -%}
+              </div>
+              <div>
+                <div class="trg-art-bc-label">Brand Spotlight</div>
+                <div class="trg-art-bc-name">{{ bc_brand.name }}</div>
+                <div class="trg-art-bc-meta">
+                  {{ bc_brand.country.value | default: bc_brand.country }}
+                  {%- if bc_brand.price_range != blank %} · {{ bc_brand.price_range.value | default: bc_brand.price_range }}{%- endif -%}
+                  {%- if bc_brand.buy_path != blank %} · {{ bc_brand.buy_path.value | default: bc_brand.buy_path }}{%- endif -%}
+                </div>
+                {%- assign bc_url = bc_brand.website | default: '#' -%}
+                {%- if bc_brand.slug != blank -%}
+                  {%- assign bc_url = '/collections/' | append: bc_brand.slug -%}
+                {%- endif -%}
+                <a href="{{ bc_url }}" class="trg-art-bc-btn">Shop {{ bc_brand.name }} &rarr;</a>
+              </div>
+            </div>
+          {%- endif -%}
+        {%- endif -%}
+      {%- endfor -%}
+
+      <!-- ── PRODUCT STRIP ── -->
+      {%- assign strip_count = 0 -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'strip_product' and block.settings.product != blank -%}
+          {%- assign strip_count = strip_count | plus: 1 -%}
+        {%- endif -%}
+      {%- endfor -%}
+
+      {%- if strip_count > 0 -%}
+        <div class="trg-art-strip">
+          <div class="trg-art-strip-label">{{ section.settings.strip_label | default: 'Our picks' }}</div>
+
+          {%- comment -%} Desktop grid {%- endcomment -%}
+          <div class="trg-art-strip-grid">
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'strip_product' -%}
+                {%- assign prod = block.settings.product -%}
+                {%- if prod != blank -%}
+                  <div class="trg-art-pcard" {{ block.shopify_attributes }}>
+                    <div class="trg-art-pcard-img">
+                      {%- if prod.featured_image -%}
+                        <img src="{{ prod.featured_image | image_url: width: 400 }}" alt="{{ prod.title | escape }}" loading="lazy">
+                      {%- endif -%}
+                      <button class="trg-art-pcard-wish" title="Save">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                      </button>
+                    </div>
+                    <div class="trg-art-pcard-brand">{{ prod.vendor }}</div>
+                    <div class="trg-art-pcard-name">{{ prod.title }}</div>
+                    <div class="trg-art-pcard-price">{{ prod.price | money }}</div>
+                    {%- assign buy_url = prod.metafields.trg.buy_url | default: prod.url -%}
+                    <a href="{{ buy_url }}" class="trg-art-pcard-cta" target="_blank" rel="noopener">Shop &rarr;</a>
+                  </div>
+                {%- endif -%}
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+
+          {%- comment -%} Mobile scroll {%- endcomment -%}
+          <div class="trg-art-strip-scroll trg-art-scroll-track">
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'strip_product' -%}
+                {%- assign prod = block.settings.product -%}
+                {%- if prod != blank -%}
+                  <div class="trg-art-pcard">
+                    <div class="trg-art-pcard-img">
+                      {%- if prod.featured_image -%}
+                        <img src="{{ prod.featured_image | image_url: width: 400 }}" alt="{{ prod.title | escape }}" loading="lazy">
+                      {%- endif -%}
+                      <button class="trg-art-pcard-wish" title="Save">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                      </button>
+                    </div>
+                    <div class="trg-art-pcard-brand">{{ prod.vendor }}</div>
+                    <div class="trg-art-pcard-name">{{ prod.title }}</div>
+                    <div class="trg-art-pcard-price">{{ prod.price | money }}</div>
+                    {%- assign buy_url = prod.metafields.trg.buy_url | default: prod.url -%}
+                    <a href="{{ buy_url }}" class="trg-art-pcard-cta" target="_blank" rel="noopener">Shop &rarr;</a>
+                  </div>
+                {%- endif -%}
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        </div>
+      {%- endif -%}
+
+      <!-- ── SHOP THE EDIT ── -->
+      {%- assign edit_count = 0 -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'edit_product' and block.settings.product != blank -%}
+          {%- assign edit_count = edit_count | plus: 1 -%}
+        {%- endif -%}
+      {%- endfor -%}
+
+      {%- if edit_count > 0 -%}
+        <div class="trg-art-edit" id="trg-art-shop-edit">
+          <div class="trg-art-edit-header">
+            <div class="trg-art-edit-title">Shop the edit</div>
+            <div class="trg-art-edit-sub">{{ section.settings.edit_subtitle | default: 'Every piece in this article' }}</div>
+          </div>
+
+          {%- comment -%} Desktop grid {%- endcomment -%}
+          <div class="trg-art-edit-grid">
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'edit_product' -%}
+                {%- assign prod = block.settings.product -%}
+                {%- if prod != blank -%}
+                  <div class="trg-art-pcard" {{ block.shopify_attributes }}>
+                    <div class="trg-art-pcard-img">
+                      {%- if prod.featured_image -%}
+                        <img src="{{ prod.featured_image | image_url: width: 400 }}" alt="{{ prod.title | escape }}" loading="lazy">
+                      {%- endif -%}
+                      <button class="trg-art-pcard-wish" title="Save">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                      </button>
+                    </div>
+                    <div class="trg-art-pcard-brand">{{ prod.vendor }}</div>
+                    <div class="trg-art-pcard-name">{{ prod.title }}</div>
+                    <div class="trg-art-pcard-price">{{ prod.price | money }}</div>
+                    {%- assign buy_url = prod.metafields.trg.buy_url | default: prod.url -%}
+                    <a href="{{ buy_url }}" class="trg-art-pcard-cta" target="_blank" rel="noopener">Shop &rarr;</a>
+                  </div>
+                {%- endif -%}
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+
+          {%- comment -%} Mobile scroll {%- endcomment -%}
+          <div class="trg-art-edit-scroll trg-art-scroll-track">
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'edit_product' -%}
+                {%- assign prod = block.settings.product -%}
+                {%- if prod != blank -%}
+                  <div class="trg-art-pcard">
+                    <div class="trg-art-pcard-img">
+                      {%- if prod.featured_image -%}
+                        <img src="{{ prod.featured_image | image_url: width: 400 }}" alt="{{ prod.title | escape }}" loading="lazy">
+                      {%- endif -%}
+                      <button class="trg-art-pcard-wish" title="Save">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                      </button>
+                    </div>
+                    <div class="trg-art-pcard-brand">{{ prod.vendor }}</div>
+                    <div class="trg-art-pcard-name">{{ prod.title }}</div>
+                    <div class="trg-art-pcard-price">{{ prod.price | money }}</div>
+                    {%- assign buy_url = prod.metafields.trg.buy_url | default: prod.url -%}
+                    <a href="{{ buy_url }}" class="trg-art-pcard-cta" target="_blank" rel="noopener">Shop &rarr;</a>
+                  </div>
+                {%- endif -%}
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+
+          <div class="trg-art-edit-footer">
+            <a href="/collections/all" class="trg-art-edit-viewall">View all recommended products &rarr;</a>
+          </div>
+        </div>
+      {%- endif -%}
+
+      <!-- Tags -->
+      {%- if art.tags.size > 0 -%}
+        <div class="trg-art-tags">
+          {%- for tag in art.tags -%}
+            <a href="/blogs/{{ blog_handle }}/tagged/{{ tag | handle }}" class="trg-art-tag">{{ tag }}</a>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      <!-- Related articles -->
+      {%- assign related = blog.articles | where: 'id', '!=' , art.id -%}
+      {%- assign related_count = 0 -%}
+      {%- assign max_related = 3 -%}
+      {%- assign has_related = false -%}
+      {%- for rel in blog.articles limit: 10 -%}
+        {%- if rel.id != art.id -%}
+          {%- assign has_related = true -%}
+          {%- break -%}
+        {%- endif -%}
+      {%- endfor -%}
+
+      {%- if has_related -%}
+        <div class="trg-art-related">
+          <div class="trg-art-related-label">More from the Journal</div>
+
+          {%- comment -%} Desktop grid {%- endcomment -%}
+          <div class="trg-art-related-grid">
+            {%- assign rc = 0 -%}
+            {%- for rel in blog.articles limit: 10 -%}
+              {%- if rel.id != art.id and rc < max_related -%}
+                <a href="{{ rel.url }}" class="trg-art-relcard">
+                  <div class="trg-art-relcard-img">
+                    {%- if rel.image -%}
+                      <img src="{{ rel.image | image_url: width: 500 }}" alt="{{ rel.title | escape }}" loading="lazy">
+                    {%- endif -%}
+                  </div>
+                  {%- if rel.tags.size > 0 -%}
+                    <div class="trg-art-relcard-cat">{{ rel.tags.first }}</div>
+                  {%- endif -%}
+                  <div class="trg-art-relcard-title">{{ rel.title }}</div>
+                </a>
+                {%- assign rc = rc | plus: 1 -%}
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+
+          {%- comment -%} Mobile scroll {%- endcomment -%}
+          <div class="trg-art-related-scroll trg-art-scroll-track">
+            {%- assign rc = 0 -%}
+            {%- for rel in blog.articles limit: 10 -%}
+              {%- if rel.id != art.id and rc < max_related -%}
+                <a href="{{ rel.url }}" class="trg-art-relcard">
+                  <div class="trg-art-relcard-img">
+                    {%- if rel.image -%}
+                      <img src="{{ rel.image | image_url: width: 500 }}" alt="{{ rel.title | escape }}" loading="lazy">
+                    {%- endif -%}
+                  </div>
+                  {%- if rel.tags.size > 0 -%}
+                    <div class="trg-art-relcard-cat">{{ rel.tags.first }}</div>
+                  {%- endif -%}
+                  <div class="trg-art-relcard-title">{{ rel.title }}</div>
+                </a>
+                {%- assign rc = rc | plus: 1 -%}
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        </div>
+      {%- endif -%}
+
+    </div>
+
+    <!-- ━━━ SIDEBAR ━━━ -->
+    <div class="trg-art-sidebar">
+      <div class="trg-art-sticky">
+
+        <!-- TOC (populated by JS from h2 headings) -->
+        <div class="trg-art-toc">
+          <div class="trg-art-toc-label">In this article</div>
+          <div class="trg-art-toc-items"></div>
+        </div>
+
+        <!-- Sidebar brands -->
+        {%- assign sb_count = 0 -%}
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'sidebar_brand' -%}
+            {%- assign sb_count = sb_count | plus: 1 -%}
+          {%- endif -%}
+        {%- endfor -%}
+
+        {%- if sb_count > 0 -%}
+          <div class="trg-art-sb-brands">
+            <div class="trg-art-sb-label">Brands in this article</div>
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'sidebar_brand' -%}
+                {%- assign sb = block.settings.brand.value -%}
+                {%- if sb -%}
+                  {%- assign sb_url = '/collections/' | append: sb.slug -%}
+                  <a href="{{ sb_url }}" class="trg-art-sb-row" {{ block.shopify_attributes }}>
+                    <div class="trg-art-sb-logo">
+                      {%- if sb.logo != blank -%}
+                        <img src="{{ sb.logo | image_url: width: 64 }}" alt="{{ sb.name }}" loading="lazy">
+                      {%- endif -%}
+                    </div>
+                    <div>
+                      <div class="trg-art-sb-name">{{ sb.name }}</div>
+                      <div class="trg-art-sb-tier">
+                        {{ sb.price_range.value | default: sb.price_range }}
+                        {%- if sb.primary_category != blank %} · {{ sb.primary_category.value | default: sb.primary_category }}{%- endif -%}
+                      </div>
+                    </div>
+                    <span class="trg-art-sb-link">Shop &rarr;</span>
+                  </a>
+                {%- endif -%}
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+
+        <!-- Newsletter -->
+        <div class="trg-art-nl">
+          <div class="trg-art-nl-ey">{{ section.settings.nl_eyebrow | default: 'The TRG Dispatch' }}</div>
+          <div class="trg-art-nl-h">{{ section.settings.nl_heading | default: 'New brands and one good read, every two weeks.' }}</div>
+          <form action="https://app.beehiiv.com/subscribe" method="POST">
+            <input class="trg-art-nl-inp" type="email" name="email" placeholder="your@email.com" required />
+            <button type="submit" class="trg-art-nl-btn">Subscribe</button>
+          </form>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="{{ 'trg-article.js' | asset_url }}" defer></script>
+
+{%- comment -%}
+  JS: Build TOC from h2 headings in article body.
+  Runs inline to populate before first paint, then trg-article.js handles scroll tracking.
+{%- endcomment -%}
+<script>
+(function(){
+  var body = document.querySelector('.trg-art-body');
+  if(!body) return;
+  var h2s = body.querySelectorAll('h2');
+  if(!h2s.length) return;
+
+  /* Add IDs to h2s if missing */
+  h2s.forEach(function(h, i){
+    if(!h.id) h.id = 'trg-s-' + i;
+  });
+
+  /* Build TOC items */
+  function buildToc(container, isDrawer){
+    h2s.forEach(function(h, i){
+      var a = document.createElement('a');
+      a.href = '#' + h.id;
+      a.className = 'trg-art-toc-item' + (i === 0 ? ' active' : '');
+      a.setAttribute('data-trg-toc', i);
+      var num = document.createElement('span');
+      num.className = 'trg-art-toc-num';
+      num.textContent = String(i + 1).padStart(2, '0');
+      a.appendChild(num);
+      a.appendChild(document.createTextNode(' ' + h.textContent.trim()));
+      container.appendChild(a);
+    });
+  }
+
+  /* Sidebar TOC */
+  var sidebarItems = document.querySelector('.trg-art-toc-items');
+  if(sidebarItems) buildToc(sidebarItems, false);
+
+  /* Drawer TOC */
+  var drawerItems = document.querySelector('.trg-art-toc-drawer-items');
+  if(drawerItems) buildToc(drawerItems, true);
+
+  /* Set pill initial label */
+  var pillLabel = document.querySelector('.trg-art-toc-pill-label');
+  if(pillLabel && h2s.length) pillLabel.textContent = h2s[0].textContent.trim();
+})();
+</script>
+
+{%- comment -%}TRG SEO — Article JSON-LD (G6){%- endcomment -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": {{ article.title | json }},
+  "url": {{ canonical_url | json }},
+  "datePublished": "{{ article.published_at | date: '%Y-%m-%dT%H:%M:%SZ' }}",
+  "dateModified": "{{ article.updated_at | date: '%Y-%m-%dT%H:%M:%SZ' }}",
+  "author": { "@type": "Organization", "name": "The Right Garment", "url": "https://therightgarment.com" },
+  "publisher": {
+    "@type": "Organization",
+    "name": "The Right Garment",
+    "url": "https://therightgarment.com"
+  }{% if article.excerpt_or_content %},
+  "description": {{ article.excerpt_or_content | strip_html | truncate: 200 | json }}{% endif %}{% if article.image %},
+  "image": {
+    "@type": "ImageObject",
+    "url": "{{ article.image | image_url: width: 1200 }}",
+    "width": 1200
+  }{% endif %},
+  "mainEntityOfPage": { "@type": "WebPage", "@id": {{ canonical_url | json }} }
+}
+</script>
+
+{% schema %}
+{
+  "name": "TRG Article",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "strip_label",
+      "label": "Product strip label",
+      "default": "Our picks"
+    },
+    {
+      "type": "text",
+      "id": "edit_subtitle",
+      "label": "Shop the Edit subtitle",
+      "default": "Every piece in this article"
+    },
+    {
+      "type": "text",
+      "id": "nl_eyebrow",
+      "label": "Newsletter eyebrow",
+      "default": "The TRG Dispatch"
+    },
+    {
+      "type": "text",
+      "id": "nl_heading",
+      "label": "Newsletter heading",
+      "default": "New brands and one good read, every two weeks."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "strip_product",
+      "name": "Strip product",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        }
+      ]
+    },
+    {
+      "type": "edit_product",
+      "name": "Shop the Edit product",
+      "limit": 9,
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        }
+      ]
+    },
+    {
+      "type": "brand_callout",
+      "name": "Brand callout",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "metaobject",
+          "id": "brand",
+          "label": "Brand",
+          "metaobject_type": "brand"
+        }
+      ]
+    },
+    {
+      "type": "sidebar_brand",
+      "name": "Sidebar brand",
+      "limit": 5,
+      "settings": [
+        {
+          "type": "metaobject",
+          "id": "brand",
+          "label": "Brand",
+          "metaobject_type": "brand"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "TRG Article"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,1168 @@
+<script
+
+  src="{{ 'results-list.js' | asset_url }}"
+
+  type="module"
+
+  fetchpriority="low"
+
+></script>
+
+{{ 'trg-plp.css' | asset_url | stylesheet_tag }}
+
+
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+
+
+
+{% assign products_per_page = 24 %}
+
+{% if section.settings.enable_infinite_scroll == false %}
+
+  {% assign products_per_page = section.settings.products_per_page %}
+
+{% endif %}
+
+
+
+{% liquid
+
+  assign live_catalog = collections['all']
+
+  assign live_catalog_count = 0
+
+  assign live_catalog_link_label = 'Browse live products'
+
+  if live_catalog != blank
+
+    assign live_catalog_count = live_catalog.all_products_count | default: live_catalog.products_count
+
+  endif
+
+  if live_catalog_count > 0
+
+    capture live_catalog_link_label
+
+      echo 'Browse '
+
+      echo live_catalog_count
+
+      echo ' live product'
+
+      unless live_catalog_count == 1
+
+        echo 's'
+
+      endunless
+
+    endcapture
+
+  endif
+
+%}
+
+
+
+{% capture search_reset_url %}{{ routes.search_url }}?q={{ search.terms | url_encode }}&options%5Bprefix%5D=last{% endcapture %}
+
+{%- if search.terms != blank -%}
+  <h1 class="visually-hidden">Search results for "{{ search.terms | escape }}"</h1>
+{%- else -%}
+  <h1 class="visually-hidden">Search The Right Garment</h1>
+{%- endif -%}
+
+{% paginate search.results by products_per_page %}
+
+  {% assign products = search.results | where: 'object_type', 'product' %}
+
+  {% assign products_count = products | size %}
+
+
+
+  <results-list
+
+    class="section product-grid-container trg-plp-body trg-search-plp spacing-style color-{{ section.settings.color_scheme }}"
+
+    style="
+
+      --padding-block-start: {{ section.settings.padding-block-start }}px;
+
+      --padding-block-end: {{ section.settings.padding-block-end }}px;
+
+      --trg-plp-shell-max-width: {{ section.settings.trg_plp_shell_max_width }}px;
+
+      --trg-plp-sidebar-width: {{ section.settings.trg_plp_sidebar_width }}px;
+
+      --trg-plp-page-background: #f5f1eb;
+
+      --trg-plp-panel-background: transparent;
+
+      --trg-plp-card-background: #ffffff;
+
+      --trg-plp-caption-background: #faf8f4;
+
+      --trg-plp-border-color: #ddd8cf;
+
+      --trg-plp-text-color: #1a1a18;
+
+      --trg-plp-muted-color: #706a60;
+
+      --trg-plp-accent-color: #b8491f;
+
+      --trg-plp-image-ratio: 3 / 4;
+
+      --trg-plp-image-position: top center;
+
+    "
+
+    section-id="{{ section.id }}"
+
+    infinite-scroll="{{ section.settings.enable_infinite_scroll }}"
+
+    data-trg-local-search="false"
+
+    data-trg-visible-count="{{ products_count }}"
+
+  >
+
+    {% render 'skip-to-content-link', href: '#ResultsList', text: 'accessibility.skip_to_results_list' %}
+
+
+
+    <div
+
+      class="collection-wrapper gap-style{% if section.settings.product_grid_width == 'full-width' %} collection-wrapper--grid-full-width{% endif %}"
+
+    >
+
+      <div class="trg-plp-sidebar-column" data-hydration-key="trg-sidebar">
+
+        {% content_for 'block',
+
+          type: 'filters',
+
+          id: 'filters',
+
+          results: search,
+
+          results_size: products_count,
+
+          trg_render_mode: 'sidebar'
+
+        %}
+
+      </div>
+
+
+
+      <div class="trg-plp-main-column" data-hydration-key="trg-main">
+
+        {% content_for 'block',
+
+          type: 'filters',
+
+          id: 'filters',
+
+          results: search,
+
+          results_size: products_count,
+
+          trg_render_mode: 'desktop_controls'
+
+        %}
+
+
+
+        {% assign trg_seen_parent_keys = '|' %}
+
+        {% capture children %}
+
+          {% for product in products %}
+
+            {% liquid
+
+              assign product_tags = product.tags | join: ' '
+
+              assign material_search = product.metafields.custom.material.value | default: product.metafields.custom.material
+
+              assign ships_to_canada = false
+
+              assign is_new_arrival = false
+
+              assign is_on_sale = false
+
+              if material_search == blank
+
+                assign material_search = product.metafields.custom.fabric.value | default: product.metafields.custom.fabric
+
+              endif
+
+              if material_search == blank
+
+                assign material_search = product.metafields.details.material.value | default: product.metafields.details.material
+
+              endif
+
+              if material_search == blank
+
+                assign material_search = product.metafields.custom.primary_material.value | default: product.metafields.custom.primary_material
+
+              endif
+
+              assign color_search = product.metafields.trg.color.value | default: product.metafields.trg.color
+
+              assign trg_plp_display_mode = product.metafields.trg.plp_display_mode.value | default: product.metafields.trg.plp_display_mode | strip
+
+              if trg_plp_display_mode == blank
+
+                assign trg_plp_display_mode = 'parent_card'
+
+              endif
+
+              assign trg_source_parent_id = product.metafields.trg.source_parent_external_id.value | default: product.metafields.trg.source_parent_external_id | append: ''
+
+              assign trg_source_variant_id = product.metafields.trg.source_variant_external_id.value | default: product.metafields.trg.source_variant_external_id | append: ''
+
+              assign trg_skip_card = false
+
+              if trg_plp_display_mode == 'parent_card' and trg_source_parent_id != blank
+
+                assign trg_parent_marker = '|' | append: trg_source_parent_id | append: '|'
+
+                if trg_seen_parent_keys contains trg_parent_marker
+
+                  assign trg_skip_card = true
+
+                else
+
+                  assign trg_seen_parent_keys = trg_seen_parent_keys | append: trg_source_parent_id | append: '|'
+
+                endif
+
+              endif
+
+              if color_search == blank
+
+                assign color_search = product.metafields.custom.color.value | default: product.metafields.custom.color
+
+              endif
+
+              if color_search == blank
+
+                assign color_search = product.metafields.details.color.value | default: product.metafields.details.color
+
+              endif
+
+              assign variant_color_groups = product.metafields.trg.variant_color_data.value
+
+              if variant_color_groups != blank
+
+                capture variant_color_search
+
+                  for color_group in variant_color_groups
+
+                    assign group_colour = color_group.color_normalized | default: color_group.color_raw | strip
+
+                    if group_colour != blank
+
+                      echo group_colour
+
+                      echo ' '
+
+                    endif
+
+                  endfor
+
+                endcapture
+
+                assign variant_color_search = variant_color_search | strip
+
+                if variant_color_search != blank
+
+                  if color_search == blank
+
+                    assign color_search = variant_color_search
+
+                  else
+
+                    assign color_search = color_search | append: ' ' | append: variant_color_search
+
+                  endif
+
+                endif
+
+              endif
+
+              assign ships_to_canada_meta = product.metafields.custom.ships_to_canada.value | default: product.metafields.custom.ships_to_canada
+
+              if ships_to_canada_meta == blank
+
+                assign ships_to_canada_meta = product.metafields.custom.shipsToCanada.value | default: product.metafields.custom.shipsToCanada
+
+              endif
+
+              if ships_to_canada_meta == blank
+
+                assign ships_to_canada_meta = product.metafields.custom.ships_canada.value | default: product.metafields.custom.ships_canada
+
+              endif
+
+              if ships_to_canada_meta == true or ships_to_canada_meta == 'true' or ships_to_canada_meta == '1'
+
+                assign ships_to_canada = true
+
+              endif
+
+              assign new_flag = product.metafields.custom.is_new.value | default: product.metafields.custom.is_new
+
+              if new_flag == blank
+
+                assign new_flag = product.metafields.custom.new_arrival.value | default: product.metafields.custom.new_arrival
+
+              endif
+
+              if new_flag == blank
+
+                assign new_flag = product.metafields.custom.newArrival.value | default: product.metafields.custom.newArrival
+
+              endif
+
+              if new_flag == true or new_flag == 'true' or new_flag == '1'
+
+                assign is_new_arrival = true
+
+              endif
+
+              if product.compare_at_price > product.price
+
+                assign is_on_sale = true
+
+              endif
+
+              if ships_to_canada == false or is_new_arrival == false
+
+                for tag in product.tags
+
+                  assign normalized_tag = tag | downcase | strip
+
+                  if ships_to_canada == false
+
+                    case normalized_tag
+
+                      when 'ships-to-canada', 'ships to canada', 'ships_to_canada', 'shipscanada'
+
+                        assign ships_to_canada = true
+
+                    endcase
+
+                  endif
+
+                  if is_new_arrival == false
+
+                    case normalized_tag
+
+                      when 'new', 'new arrival', 'new-arrival', 'new arrivals', 'new-arrivals', 'new_arrival'
+
+                        assign is_new_arrival = true
+
+                    endcase
+
+                  endif
+
+                endfor
+
+              endif
+
+              capture searchable_text
+
+                echo product.title
+
+                echo ' '
+
+                echo product.vendor
+
+                echo ' '
+
+                echo product.type
+
+                echo ' '
+
+                echo material_search
+
+                echo ' '
+
+                echo color_search
+
+                echo ' '
+
+                echo product_tags
+
+              endcapture
+
+              assign searchable_text = searchable_text | strip | downcase | escape
+
+            %}
+
+            {% unless trg_skip_card %}
+
+            <li
+
+              id="{{ section.id }}-{{ product.id }}"
+
+              class="product-grid__item product-grid__item--{{ forloop.index0 }}"
+
+              data-page="{{ paginate.current_page }}"
+
+              data-product-id="{{ product.id }}"
+
+              data-trg-plp-display-mode="{{ trg_plp_display_mode }}"
+
+              data-trg-source-parent-id="{{ trg_source_parent_id | escape }}"
+
+              data-trg-search-item
+
+              data-trg-search-text="{{ searchable_text }}"
+
+              data-trg-ships-ca="{% if ships_to_canada %}true{% else %}false{% endif %}"
+
+              data-trg-on-sale="{% if is_on_sale %}true{% else %}false{% endif %}"
+
+              data-trg-new-arrivals="{% if is_new_arrival %}true{% else %}false{% endif %}"
+
+              ref="cards[]"
+
+            >
+
+              {% content_for 'block', type: '_product-card', id: 'product-card', closest.product: product %}
+
+              {% if false and variant_color_groups != blank and variant_color_groups.size > 1 and trg_plp_display_mode == 'variant_cards' %}
+
+                <div class="trg-plp-card-colours" aria-label="Available colours">
+
+                  <span class="trg-plp-card-colours__label">{{ variant_color_groups.size }} colours</span>
+
+                  <div class="trg-plp-card-colours__list">
+
+                    {% for color_group in variant_color_groups %}
+
+                      {% liquid
+
+                        assign group_label = color_group.color_raw | default: color_group.color_normalized | strip
+
+                        assign group_hex = color_group.color_hex | default: '#ddd8cf'
+
+                        assign group_image = color_group.image_url | default: ''
+
+                        assign group_variant_id = color_group.first_variant_id | default: color_group.source_variant_external_id | append: ''
+
+                        assign group_local_variant_id = color_group.shopify_first_variant_id | append: ''
+
+                        assign group_url = product.url
+
+                        assign group_query_value = group_label | url_encode
+
+                        if group_local_variant_id != blank
+
+                          if group_url contains '?'
+
+                            assign group_url = group_url | append: '&variant=' | append: group_local_variant_id | append: '&trg_color=' | append: group_query_value
+
+                          else
+
+                            assign group_url = group_url | append: '?variant=' | append: group_local_variant_id | append: '&trg_color=' | append: group_query_value
+
+                          endif
+
+                        elsif group_url contains '?'
+
+                          assign group_url = group_url | append: '&trg_color=' | append: group_query_value
+
+                        else
+
+                          assign group_url = group_url | append: '?trg_color=' | append: group_query_value
+
+                        endif
+
+                        assign group_is_active = false
+
+                        if trg_source_variant_id != blank and group_variant_id == trg_source_variant_id
+
+                          assign group_is_active = true
+
+                        elsif trg_source_variant_id == blank and forloop.first
+
+                          assign group_is_active = true
+
+                        endif
+
+                      %}
+
+                      <button
+
+                        type="button"
+
+                        class="trg-plp-card-colour{% if group_is_active %} is-active{% endif %}"
+
+                        aria-label="{{ group_label | escape }}"
+
+                        title="{{ group_label | escape }}"
+
+                        data-trg-colour-url="{{ group_url }}"
+
+                        data-trg-colour-image="{{ group_image }}"
+
+                      >
+
+                        <span class="trg-plp-card-colour__swatch" style="--trg-colour-swatch: {{ group_hex }};"></span>
+
+                        <span class="visually-hidden">{{ group_label }}</span>
+
+                      </button>
+
+                    {% endfor %}
+
+                  </div>
+
+                </div>
+
+              {% endif %}
+
+            </li>
+
+            {% endunless %}
+
+          {% endfor %}
+
+        {% endcapture %}
+
+
+
+        {% if search.performed and products_count == 0 %}
+
+          <section class="trg-search-empty-state" aria-labelledby="trg-search-empty-title">
+
+            <div class="trg-search-empty-state__panel">
+
+              <p class="trg-search-empty-state__eyebrow">Search</p>
+
+              <h2 id="trg-search-empty-title" class="trg-search-empty-state__title">
+
+                No products matched "{{ search.terms | escape }}"
+
+              </h2>
+
+              <p class="trg-search-empty-state__lead">
+
+                The live catalog is still compact. Try a broader term, start from the brand directory, or jump straight into a category.
+
+              </p>
+
+              {% if search.results_count > 0 %}
+
+                <p class="trg-search-empty-state__note">
+
+                  We found related site results for this search, but there are no published product cards to show yet.
+
+                </p>
+
+              {% endif %}
+
+              <div class="trg-search-empty-state__actions">
+
+                <a href="{{ routes.all_products_collection_url }}" class="trg-search-empty-state__button trg-search-empty-state__button--primary">
+
+                  {{ live_catalog_link_label }}
+
+                </a>
+
+                <a href="/pages/brands" class="trg-search-empty-state__button trg-search-empty-state__button--secondary">
+
+                  Open brand directory
+
+                </a>
+
+              </div>
+
+            </div>
+
+
+
+            <div class="trg-search-empty-state__meta">
+
+              <div class="trg-search-empty-state__group">
+
+                <p class="trg-search-empty-state__label">Browse categories</p>
+
+                <div class="trg-search-empty-state__chips">
+
+                  <a href="/collections/shirts" class="trg-search-empty-state__chip">Shirts &amp; Tops</a>
+
+                  <a href="/collections/outerwear" class="trg-search-empty-state__chip">Outerwear &amp; Jackets</a>
+
+                  <a href="/collections/bottoms" class="trg-search-empty-state__chip">Trousers &amp; Bottoms</a>
+
+                  <a href="/collections/footwear" class="trg-search-empty-state__chip">Footwear</a>
+
+                  <a href="/collections/knitwear" class="trg-search-empty-state__chip">Knitwear</a>
+
+                  <a href="/collections/accessories" class="trg-search-empty-state__chip">Accessories</a>
+
+                </div>
+
+              </div>
+
+
+
+              <div class="trg-search-empty-state__group">
+
+                <p class="trg-search-empty-state__label">Try another search</p>
+
+                <div class="trg-search-empty-state__chips">
+
+                  <a href="/search?q=workwear&options%5Bprefix%5D=last" class="trg-search-empty-state__chip">Workwear</a>
+
+                  <a href="/search?q=merino&options%5Bprefix%5D=last" class="trg-search-empty-state__chip">Merino</a>
+
+                  <a href="/search?q=made+in+canada&options%5Bprefix%5D=last" class="trg-search-empty-state__chip">Made in Canada</a>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </section>
+
+        {% else %}
+
+          {% render 'product-grid',
+
+            section: section,
+
+            children: children,
+
+            products: products,
+
+            paginate: paginate,
+
+            enable_infinite_scroll: section.settings.enable_infinite_scroll
+
+          %}
+
+        {% endif %}
+
+
+
+        {% if search.performed and products_count > 0 %}
+
+          <p class="trg-search-sparse-note" data-trg-sparse-note{% if products_count >= 4 %} hidden{% endif %}>
+
+            Try a broader search or <a href="{{ routes.all_products_collection_url }}">{{ live_catalog_link_label }}</a>.
+
+          </p>
+
+          <div class="trg-search-local-empty" data-trg-search-empty hidden>
+
+            <p class="trg-search-local-empty__title">No products match these filters.</p>
+
+            <p class="trg-search-local-empty__body">Clear the current filters or return to the wider live catalog.</p>
+
+            <div class="trg-search-local-empty__actions">
+
+              <a href="{{ search_reset_url }}" class="trg-search-local-empty__link">Reset filters</a>
+
+              <a href="{{ routes.all_products_collection_url }}" class="trg-search-local-empty__link">{{ live_catalog_link_label }}</a>
+
+            </div>
+
+          </div>
+
+        {% endif %}
+
+      </div>
+
+
+
+      {% content_for 'block',
+
+        type: 'filters',
+
+        id: 'filters',
+
+        results: search,
+
+        results_size: products_count,
+
+        trg_render_mode: 'drawer'
+
+      %}
+
+    </div>
+
+  </results-list>
+
+{% endpaginate %}
+
+
+
+{% schema %}
+
+{
+
+  "name": "t:names.search_results",
+
+  "settings": [
+
+    {
+
+      "type": "paragraph",
+
+      "content": "t:content.edit_empty_state_collection_in_theme_settings"
+
+    },
+
+    {
+
+      "type": "select",
+
+      "id": "layout_type",
+
+      "label": "t:settings.type",
+
+      "options": [
+
+        { "value": "grid", "label": "t:options.grid" },
+
+        { "value": "organic", "label": "t:options.editorial" }
+
+      ],
+
+      "default": "grid"
+
+    },
+
+    {
+
+      "type": "select",
+
+      "id": "product_card_size",
+
+      "label": "t:settings.card_size",
+
+      "options": [
+
+        { "value": "small", "label": "t:options.small" },
+
+        { "value": "medium", "label": "t:options.medium" },
+
+        { "value": "large", "label": "t:options.large" },
+
+        { "value": "extra-large", "label": "t:options.extra_large" }
+
+      ],
+
+      "default": "medium",
+
+      "visible_if": "{{ section.settings.layout_type == 'grid' }}"
+
+    },
+
+    {
+
+      "type": "select",
+
+      "id": "mobile_product_card_size",
+
+      "label": "t:settings.mobile_card_size",
+
+      "options": [
+
+        { "value": "small", "label": "t:options.small" },
+
+        { "value": "large", "label": "t:options.large" }
+
+      ],
+
+      "default": "small"
+
+    },
+
+    {
+
+      "type": "checkbox",
+
+      "id": "enable_infinite_scroll",
+
+      "label": "t:settings.auto_load_products",
+
+      "default": false
+
+    },
+
+    {
+
+      "type": "range",
+
+      "id": "products_per_page",
+
+      "label": "t:settings.products_per_page",
+
+      "min": 8,
+
+      "max": 36,
+
+      "step": 4,
+
+      "default": 24,
+
+      "visible_if": "{{ section.settings.enable_infinite_scroll == false }}"
+
+    },
+
+    {
+
+      "type": "header",
+
+      "content": "t:content.layout"
+
+    },
+
+    {
+
+      "type": "select",
+
+      "id": "product_grid_width",
+
+      "label": "t:settings.width",
+
+      "options": [
+
+        { "value": "centered", "label": "t:options.page" },
+
+        { "value": "full-width", "label": "t:options.full" }
+
+      ],
+
+      "default": "full-width"
+
+    },
+
+    {
+
+      "type": "checkbox",
+
+      "id": "full_width_on_mobile",
+
+      "label": "t:settings.full_width_on_mobile",
+
+      "default": false,
+
+      "visible_if": "{{ section.settings.product_grid_width != 'full-width' }}"
+
+    },
+
+    {
+
+      "type": "range",
+
+      "id": "columns_gap_horizontal",
+
+      "label": "t:settings.horizontal_gap",
+
+      "min": 0,
+
+      "max": 50,
+
+      "step": 1,
+
+      "unit": "px",
+
+      "default": 20
+
+    },
+
+    {
+
+      "type": "range",
+
+      "id": "columns_gap_vertical",
+
+      "label": "t:settings.vertical_gap",
+
+      "min": 0,
+
+      "max": 50,
+
+      "step": 1,
+
+      "unit": "px",
+
+      "default": 20
+
+    },
+
+    {
+
+      "type": "range",
+
+      "id": "padding-inline-start",
+
+      "label": "t:settings.left_padding",
+
+      "min": 0,
+
+      "max": 100,
+
+      "step": 1,
+
+      "unit": "px",
+
+      "default": 0
+
+    },
+
+    {
+
+      "type": "range",
+
+      "id": "padding-inline-end",
+
+      "label": "t:settings.right_padding",
+
+      "min": 0,
+
+      "max": 100,
+
+      "step": 1,
+
+      "unit": "px",
+
+      "default": 0
+
+    },
+
+    {
+
+      "type": "header",
+
+      "content": "TRG PLP Shell"
+
+    },
+
+    {
+
+      "type": "range",
+
+      "id": "trg_plp_shell_max_width",
+
+      "label": "Shell max width",
+
+      "min": 960,
+
+      "max": 1680,
+
+      "step": 20,
+
+      "unit": "px",
+
+      "default": 1320
+
+    },
+
+    {
+
+      "type": "range",
+
+      "id": "trg_plp_sidebar_width",
+
+      "label": "Sidebar width",
+
+      "min": 180,
+
+      "max": 320,
+
+      "step": 4,
+
+      "unit": "px",
+
+      "default": 220
+
+    },
+
+    {
+
+      "type": "select",
+
+      "id": "trg_plp_desktop_columns",
+
+      "label": "Desktop columns",
+
+      "options": [
+
+        { "value": "auto", "label": "Auto" },
+
+        { "value": "2", "label": "2" },
+
+        { "value": "3", "label": "3" },
+
+        { "value": "4", "label": "4" }
+
+      ],
+
+      "default": "4"
+
+    },
+
+    {
+
+      "type": "checkbox",
+
+      "id": "trg_plp_show_toggles",
+
+      "label": "Show TRG toggle filters",
+
+      "default": true
+
+    },
+
+    {
+
+      "type": "checkbox",
+
+      "id": "trg_plp_toggle_ships_ca",
+
+      "label": "Enable Ships to Canada toggle",
+
+      "default": true
+
+    },
+
+    {
+
+      "type": "text",
+
+      "id": "trg_plp_toggle_ships_ca_label",
+
+      "label": "Ships to Canada label",
+
+      "default": "Ships to Canada"
+
+    },
+
+    {
+
+      "type": "checkbox",
+
+      "id": "trg_plp_toggle_on_sale",
+
+      "label": "Enable On Sale toggle",
+
+      "default": true
+
+    },
+
+    {
+
+      "type": "text",
+
+      "id": "trg_plp_toggle_on_sale_label",
+
+      "label": "On Sale label",
+
+      "default": "On Sale"
+
+    },
+
+    {
+
+      "type": "checkbox",
+
+      "id": "trg_plp_toggle_new",
+
+      "label": "Enable New Arrivals toggle",
+
+      "default": true
+
+    },
+
+    {
+
+      "type": "text",
+
+      "id": "trg_plp_toggle_new_label",
+
+      "label": "New Arrivals label",
+
+      "default": "New Arrivals"
+
+    },
+
+    {
+
+      "type": "header",
+
+      "content": "t:content.section_layout"
+
+    },
+
+    {
+
+      "type": "color_scheme",
+
+      "id": "color_scheme",
+
+      "label": "t:settings.color_scheme",
+
+      "default": "scheme-1"
+
+    },
+
+    {
+
+      "type": "range",
+
+      "id": "padding-block-start",
+
+      "label": "t:settings.top_padding",
+
+      "min": 0,
+
+      "max": 100,
+
+      "step": 1,
+
+      "unit": "px",
+
+      "default": 0
+
+    },
+
+    {
+
+      "type": "range",
+
+      "id": "padding-block-end",
+
+      "label": "t:settings.bottom_padding",
+
+      "min": 0,
+
+      "max": 100,
+
+      "step": 1,
+
+      "unit": "px",
+
+      "default": 32
+
+    }
+
+  ],
+
+  "presets": []
+
+}
+
+{% endschema %}
+

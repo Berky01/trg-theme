@@ -1,0 +1,245 @@
+{% liquid
+  assign target_collection = section.settings.collection
+%}
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<section class="section section--full-width color-{{ section.settings.color_scheme }} trg-section">
+  <div class="trg-shell">
+    {% if section.settings.eyebrow != blank or section.settings.title != blank or section.settings.body != blank %}
+      <header class="trg-section-header" data-trg-reveal>
+        {% if section.settings.eyebrow != blank %}
+          <p class="trg-eyebrow">{{ section.settings.eyebrow | escape }}</p>
+        {% endif %}
+        {% if section.settings.title != blank %}
+          <div class="trg-heading">{{ section.settings.title }}</div>
+        {% endif %}
+        {% if section.settings.body != blank %}
+          <div class="trg-lead">{{ section.settings.body }}</div>
+        {% endif %}
+        {% if section.settings.link_label != blank and section.settings.link_url != blank %}
+          <a class="trg-link" href="{{ section.settings.link_url }}">{{ section.settings.link_label | escape }}</a>
+        {% endif %}
+      </header>
+    {% endif %}
+
+    <ul
+      class="trg-card-grid trg-card-grid--plp"
+      role="list"
+      style="--trg-columns-desktop: {{ section.settings.columns_desktop }}; --trg-columns-mobile: {{ section.settings.columns_mobile }}; --trg-card-ratio: {{ section.settings.image_ratio }};"
+    >
+      {% if target_collection != blank and target_collection.products_count > 0 %}
+        {% for product in target_collection.products limit: section.settings.products_to_show %}
+          {% liquid
+            assign product_url = product.selected_or_first_available_variant.url | default: product.url
+            assign media_alt = product.featured_media.alt | default: product.title
+          %}
+          <li class="product-grid__item" data-trg-reveal>
+            <article class="trg-card trg-surface">
+              <a class="trg-card__link" href="{{ product_url }}">
+                <div class="trg-card__media">
+                  {% if product.featured_media != blank %}
+                    {{
+                      product.featured_media
+                      | image_url: width: 900
+                      | image_tag:
+                        loading: 'lazy',
+                        widths: '280, 420, 560, 760, 900',
+                        sizes: '(min-width: 990px) 24vw, (min-width: 750px) 33vw, calc(100vw - 2rem)',
+                        alt: media_alt
+                    }}
+                  {% else %}
+                    {{ 'product-apparel-1' | placeholder_svg_tag }}
+                  {% endif %}
+                </div>
+
+                <div class="trg-card__content">
+                  {% if section.settings.show_vendor and product.vendor != blank %}
+                    {%- assign trg_card_currency = product.metafields.trg.currency | default: 'USD' -%}
+                    <p class="trg-card__meta trg-plp-card-brand" data-trg-currency="{{ trg_card_currency }}" data-trg-price="{{ product.price }}">{{ product.vendor | escape }}</p>
+                  {% endif %}
+                  <h3 class="trg-card__title">{{ product.title | escape }}</h3>
+                  {% if section.settings.show_price %}
+                    <div class="trg-card__price">
+                      {% render 'price', product_resource: product %}
+                    </div>
+                  {% endif %}
+                </div>
+              </a>
+            </article>
+          </li>
+        {% endfor %}
+      {% else %}
+        {% for i in (1..section.settings.products_to_show) %}
+          <li class="product-grid__item" data-trg-reveal>
+            <article class="trg-card trg-surface trg-card--placeholder">
+              <div class="trg-card__media">
+                {{ 'product-apparel-1' | placeholder_svg_tag }}
+              </div>
+              <div class="trg-card__content">
+                <h3 class="trg-card__title">{{ 'content.product_card_placeholder' | t }}</h3>
+              </div>
+            </article>
+          </li>
+        {% endfor %}
+      {% endif %}
+    </ul>
+  </div>
+</section>
+
+{% stylesheet %}
+  .trg-card-grid--plp {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .trg-card-grid--plp .product-grid__item {
+    list-style: none;
+  }
+
+  .trg-card-grid--plp .trg-card {
+    min-height: 100%;
+  }
+
+  .trg-card-grid--plp .trg-card__link {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-height: 100%;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .trg-card-grid--plp .trg-card__content {
+    display: grid;
+    gap: 6px;
+  }
+
+  .trg-card-grid--plp .trg-card__price {
+    color: var(--trg-body-color);
+    font-size: 0.9rem;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "TRG Card Grid",
+  "tag": "section",
+  "class": "trg-card-grid-section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Featured"
+    },
+    {
+      "type": "richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "<p>Featured <em>products</em></p>"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Body",
+      "default": "<p>Selected picks from your catalog, styled in the TRG card system.</p>"
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "label": "Header link label",
+      "default": "View all"
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "Header link"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "label": "Products to show",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "default": 6
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Desktop columns",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "Mobile columns",
+      "options": [
+        {
+          "value": "1",
+          "label": "1"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "Image ratio",
+      "options": [
+        {
+          "value": "4 / 5",
+          "label": "Portrait"
+        },
+        {
+          "value": "1 / 1",
+          "label": "Square"
+        },
+        {
+          "value": "16 / 10",
+          "label": "Landscape"
+        }
+      ],
+      "default": "4 / 5"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "label": "Show vendor",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_price",
+      "label": "Show price",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "TRG Card Grid"
+    }
+  ]
+}
+{% endschema %}
+
+

@@ -1,0 +1,326 @@
+{%- doc -%}
+  Renders a price filter.
+
+  @param {object} filter - The filter object to render.
+  @param {string} filter_style - The filter style, can be 'horizontal' or 'vertical'.
+  @param {boolean} [should_render_clear] - Whether to render the clear button.
+
+  @example
+  {% render 'price-filter', filter: filter, filter_style: 'vertical' %}
+{%- enddoc -%}
+
+<accordion-custom
+  class="facets__item"
+  {% if filter_style == 'horizontal' %}
+    data-disable-animation-on-desktop="true"
+    data-close-with-escape="true"
+  {% endif %}
+
+  {% if filter_style == 'vertical' %}
+    open
+    open-by-default-on-mobile
+    open-by-default-on-desktop
+  {% endif %}
+>
+  <details
+    class="facets__panel"
+    {% if filter_style == 'horizontal' %}
+      data-auto-close-details="desktop"
+    {% endif %}
+    {% if filter_style == 'vertical' %}
+      open
+    {% endif %}
+  >
+    <summary
+      class="facets__summary"
+      data-testid="price-filter"
+    >
+      <span class="facets__label">{{ filter.label }}</span>
+      <facet-status-component class="facets__status">
+        <template ref="moneyFormat">{{ shop.money_format }}</template>
+
+        <span
+          class="hide-when-empty"
+          ref="facetStatus"
+          data-currency="{{ localization.country.currency.iso_code }}"
+          data-range-max="{{ filter.range_max | money_without_currency }}"
+        >
+          {%- if filter.min_value.value != null or filter.max_value.value != null %}
+            {%- if filter.min_value.value != null and filter.max_value.value != null %}
+              {{- filter.min_value.value | money | strip_html -}}
+              –
+              {{- filter.max_value.value | money | strip_html -}}
+            {%- elsif filter.min_value.value != null -%}
+              {{ filter.min_value.value | money | strip_html }}–{{ filter.range_max | money | strip_html }}
+
+            {%- elsif filter.max_value.value != null -%}
+              {{- 0 | money | strip_html -}}
+              –
+              {{- filter.max_value.value | money | strip_html -}}
+            {%- endif -%}
+          {%- endif -%}
+        </span>
+      </facet-status-component>
+      <span class="svg-wrapper icon-caret icon-animated">
+        {{- 'icon-caret.svg' | inline_asset_content -}}
+      </span>
+    </summary>
+    <floating-panel-component
+      {% unless filter_style == 'vertical' %}
+        data-close-on-resize
+      {% endunless %}
+      class="facets__panel-content details-content{% if filter_style == 'horizontal' %} color-{{ settings.popover_color_scheme }}{% endif %}"
+    >
+      {% assign min_input_max_value = filter.max_value.value | default: filter.range_max %}
+      {% assign max_input_min_value = filter.min_value.value | default: 0 %}
+
+      <price-facet-component
+        class="
+          price-facet
+          {%- if filter_style == 'horizontal' %}
+            price-facet--horizontal
+          {%- endif %}
+        "
+        id="facet-inputs-{{ filter.param_name | escape | replace: '.', '-' }}"
+        data-money-format="{{ shop.money_format | strip_html }}"
+        data-currency="{{ localization.country.currency.iso_code }}"
+        on:change="/updatePriceFilterAndResults"
+      >
+        {%- liquid
+          assign _range_max = filter.range_max | default: 1000
+          assign _cur_min = filter.min_value.value
+          assign _cur_max = filter.max_value.value
+        -%}
+        <div class="trg-price-buckets" role="group" aria-label="Price buckets">
+          {%- assign buckets = 'under-100|0|100,100-250|100|250,250-500|250|500,500-1000|500|1000,1000-plus|1000|' | split: ',' -%}
+          {%- for b in buckets -%}
+            {%- assign parts = b | split: '|' -%}
+            {%- assign b_min = parts[1] -%}
+            {%- assign b_max = parts[2] -%}
+            {%- assign b_label = '' -%}
+            {%- case parts[0] -%}
+              {%- when 'under-100' -%}{%- assign b_label = 'Under $100' -%}
+              {%- when '100-250' -%}{%- assign b_label = '$100–250' -%}
+              {%- when '250-500' -%}{%- assign b_label = '$250–500' -%}
+              {%- when '500-1000' -%}{%- assign b_label = '$500–1000' -%}
+              {%- when '1000-plus' -%}{%- assign b_label = '$1000+' -%}
+            {%- endcase -%}
+            {%- assign b_active = false -%}
+            {%- assign _cm = _cur_min | default: 0 | plus: 0 -%}
+            {%- assign _cmx = _cur_max | default: 0 | plus: 0 -%}
+            {%- if b_max == '' -%}
+              {%- if _cm == 1000 and _cmx == 0 -%}{%- assign b_active = true -%}{%- endif -%}
+            {%- else -%}
+              {%- assign _bm = b_min | plus: 0 -%}
+              {%- assign _bmx = b_max | plus: 0 -%}
+              {%- if _cm == _bm and _cmx == _bmx -%}{%- assign b_active = true -%}{%- endif -%}
+            {%- endif -%}
+            <button type="button" class="trg-price-bucket{% if b_active %} on{% endif %}" data-min="{{ b_min }}" data-max="{{ b_max }}">{{ b_label }}</button>
+          {%- endfor -%}
+        </div>
+        <div class="facets__inputs-wrapper facets__inputs-wrapper--row">
+          <div
+            class="price-facet__inputs-wrapper"
+          >
+            <div class="field price-facet__field">
+              <input
+                class="field__input price-facet__input"
+                name="{{ filter.min_value.param_name }}"
+                id="{{ filter.label | escape }}-GTE"
+                {%- if filter.min_value.value -%}
+                  value="{{ filter.min_value.value | money_without_currency }}"
+                {%- endif -%}
+                type="text"
+                inputmode="decimal"
+                placeholder="0"
+                data-min="0"
+                data-max="{{ min_input_max_value | money_without_currency }}"
+                ref="minInput"
+                autocomplete="off"
+              >
+
+              <label
+                class="field__label price-facet__label"
+                for="{{ filter.label | escape }}-GTE"
+              >
+                {{ cart.currency.symbol }}
+              </label>
+            </div>
+
+            <div class="price-facet__separator">{{ 'fields.separator' | t }}</div>
+
+            <div class="field price-facet__field">
+              <input
+                class="field__input price-facet__input"
+                name="{{ filter.max_value.param_name }}"
+                id="{{ filter.label | escape }}-LTE"
+                {%- if filter.max_value.value -%}
+                  value="{{ filter.max_value.value | money_without_currency }}"
+                {%- endif -%}
+                type="text"
+                inputmode="decimal"
+                placeholder="{{ filter.range_max | money_without_currency }}"
+                data-min="{{ max_input_min_value | money_without_currency }}"
+                data-max="{{ filter.range_max | money_without_currency }}"
+                ref="maxInput"
+                autocomplete="off"
+              >
+              <label
+                class="field__label price-facet__label"
+                for="{{ filter.label | escape }}-LTE"
+              >
+                {{ cart.currency.symbol }}
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="
+            price-facet__highest-price
+            {%- if filter_style == 'horizontal' %}
+              price-facet__highest-price--horizontal
+            {%- endif %}
+          "
+        >
+          {%- assign formatted_highest_price = filter.range_max | money -%}
+          {{ 'content.price_filter_html' | t: price: formatted_highest_price }}
+        </div>
+
+        {% if filter.min_value.value != null or filter.max_value.value != null %}
+          {% assign has_active_values = true %}
+        {% endif %}
+
+        {% if should_render_clear %}
+          <facet-clear-component
+            class="clear-filter"
+            tabindex="{% if has_active_values %}0{% else %}-1{% endif %}"
+            on:click="/clearFilter"
+            on:keydown="/clearFilter"
+          >
+            <div
+              class="facets__clear {% if has_active_values %}facets__clear--active{% endif %}"
+              ref="clearButton"
+            >
+              {{- 'actions.clear' | t -}}
+            </div>
+          </facet-clear-component>
+        {% endif %}
+      </price-facet-component>
+    </floating-panel-component>
+  </details>
+</accordion-custom>
+
+{% stylesheet %}
+  /* Price filter */
+  .price-facet {
+    container-type: inline-size;
+    display: flex;
+    flex-direction: column;
+  }
+  .price-facet--horizontal {
+    min-width: 360px;
+  }
+
+  .price-facet__inputs-wrapper {
+    display: flex;
+    flex-direction: row;
+    padding: var(--style-border-width-inputs);
+    gap: calc(var(--gap-sm) + (var(--style-border-width-inputs) * 2));
+  }
+
+  @container (max-width: 199px) {
+    .price-facet__inputs-wrapper {
+      flex-wrap: wrap;
+    }
+  }
+
+  .price-facet__input {
+    width: 100%;
+    text-align: right;
+    padding-left: calc(2.5 * var(--input-padding-x));
+  }
+
+  .price-facet__input::placeholder {
+    color: var(--facets-input-label-color);
+  }
+
+  .price-facet__separator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-paragraph--size);
+  }
+
+  .price-facet__highest-price {
+    padding: var(--padding-xs) 0 var(--padding-sm);
+  }
+
+  .price-facet__highest-price--horizontal {
+    padding: 0 var(--padding-md) var(--padding-xs);
+  }
+
+  .price-facet__label {
+    top: 0;
+    left: 0;
+    color: var(--facets-input-label-color);
+    padding: var(--input-padding-y) var(--input-padding-x);
+    transform: none;
+  }
+  .trg-price-buckets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    padding: 0 0 0.6rem;
+  }
+  .trg-price-bucket {
+    appearance: none;
+    -webkit-appearance: none;
+    background: transparent;
+    border: 1px solid rgba(26, 26, 24, 0.18);
+    border-radius: 16px;
+    padding: 0.25rem 0.65rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: #1a1a18;
+    cursor: pointer;
+    transition: background 0.12s, border-color 0.12s, color 0.12s;
+    line-height: 1.2;
+  }
+  .trg-price-bucket:hover {
+    background: rgba(26, 26, 24, 0.04);
+    border-color: rgba(26, 26, 24, 0.35);
+  }
+  .trg-price-bucket.on {
+    background: #b8491f;
+    border-color: #b8491f;
+    color: #f5f1eb;
+  }
+{% endstylesheet %}
+
+<script>
+  (function(){
+    if (window.__trgPriceBucketsBound) return;
+    window.__trgPriceBucketsBound = true;
+    document.addEventListener('click', function(e){
+      var btn = e.target.closest('.trg-price-bucket');
+      if (!btn) return;
+      e.preventDefault();
+      var host = btn.closest('price-facet-component');
+      if (!host) return;
+      var min = btn.getAttribute('data-min') || '';
+      var max = btn.getAttribute('data-max') || '';
+      var minEl = host.querySelector('input[ref="minInput"], [ref="minInput"]') || host.querySelector('input[name*="price.gte"]');
+      var maxEl = host.querySelector('input[ref="maxInput"], [ref="maxInput"]') || host.querySelector('input[name*="price.lte"]');
+      if (!minEl || !maxEl) return;
+      minEl.value = min;
+      maxEl.value = max;
+      host.querySelectorAll('.trg-price-bucket').forEach(function(b){ b.classList.toggle('on', b === btn); });
+      ['input','change'].forEach(function(ev){
+        minEl.dispatchEvent(new Event(ev, {bubbles:true}));
+        maxEl.dispatchEvent(new Event(ev, {bubbles:true}));
+      });
+    });
+  })();
+</script>

@@ -1,0 +1,165 @@
+{%- liquid
+  assign brand_count = 0
+  if shop.metaobjects['brand']
+    assign brand_count = shop.metaobjects['brand'].values.size
+  endif
+  if brand_count == 0
+    assign brand_count = section.settings.fallback_brand_count
+  endif
+-%}
+
+<section class="trg-pillars" aria-label="{{ section.settings.heading | escape }}">
+  <div class="trg-pillars__inner">
+    {%- if section.settings.heading != blank -%}
+      <div class="trg-pillars__head">
+        <span class="trg-pillars__eyebrow">{{ section.settings.eyebrow | escape }}</span>
+        <h2 class="trg-pillars__heading">{{ section.settings.heading }}</h2>
+      </div>
+    {%- endif -%}
+
+    <div class="trg-pillars__grid">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'pillar' -%}
+          <div class="trg-pillars__item" {{ block.shopify_attributes }}>
+            <div class="trg-pillars__icon" aria-hidden="true">
+              {%- case block.settings.icon -%}
+                {%- when 'editorial' -%}
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h11l5 5v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z"/><path d="M15 4v5h5"/><line x1="7" y1="13" x2="17" y2="13"/><line x1="7" y1="17" x2="14" y2="17"/></svg>
+                {%- when 'curated' -%}
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.39 4.84L20 7.6l-3.8 3.7.9 5.3L12 14l-5.1 2.6.9-5.3L4 7.6l5.6-.76L12 2z"/></svg>
+                {%- when 'verified' -%}
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 4v6c0 5-3.5 9.4-8 10-4.5-.6-8-5-8-10V6l8-4z"/><polyline points="9 12 11 14 15 10"/></svg>
+                {%- when 'globe' -%}
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg>
+              {%- endcase -%}
+            </div>
+            <div class="trg-pillars__body">
+              <div class="trg-pillars__title">
+                {%- if block.settings.use_brand_count -%}
+                  {{ brand_count }}{{ block.settings.count_suffix }} {{ block.settings.title }}
+                {%- else -%}
+                  {{ block.settings.title }}
+                {%- endif -%}
+              </div>
+              {%- if block.settings.description != blank -%}
+                <p class="trg-pillars__desc">{{ block.settings.description }}</p>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .trg-pillars {
+    padding: 2.5rem 1.25rem;
+    background: var(--trg-pillars-bg, #f5f1eb);
+    color: var(--trg-pillars-fg, #1a1a18);
+    border-top: 1px solid rgba(26, 26, 24, 0.06);
+    border-bottom: 1px solid rgba(26, 26, 24, 0.06);
+  }
+  .trg-pillars__inner { max-width: 1200px; margin: 0 auto; }
+  .trg-pillars__head { text-align: center; margin-bottom: 1.5rem; }
+  .trg-pillars__eyebrow {
+    display: inline-block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #b8491f;
+    margin-bottom: 0.5rem;
+  }
+  .trg-pillars__heading {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.4rem, 2vw, 1.9rem);
+    font-weight: 400;
+    margin: 0;
+    line-height: 1.2;
+  }
+  .trg-pillars__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  .trg-pillars__item {
+    display: flex;
+    gap: 0.9rem;
+    align-items: flex-start;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(26, 26, 24, 0.08);
+    border-radius: 6px;
+  }
+  .trg-pillars__icon {
+    flex-shrink: 0;
+    width: 40px; height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(184, 73, 31, 0.08);
+    color: #b8491f;
+    border-radius: 50%;
+  }
+  .trg-pillars__title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: #1a1a18;
+    margin-bottom: 0.2rem;
+  }
+  .trg-pillars__desc {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    line-height: 1.45;
+    color: rgba(26, 26, 24, 0.72);
+    margin: 0;
+  }
+  @media (max-width: 749px) {
+    .trg-pillars { padding: 1.75rem 1rem; }
+    .trg-pillars__grid { grid-template-columns: 1fr; gap: 0.75rem; }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "TRG Home Pillars",
+  "tag": "section",
+  "class": "trg-home-pillars-shell",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "How we work" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Editorially curated. Transparently sourced." },
+    { "type": "number", "id": "fallback_brand_count", "label": "Fallback brand count", "default": 315 }
+  ],
+  "blocks": [
+    {
+      "type": "pillar",
+      "name": "Pillar",
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icon", "default": "curated", "options": [
+          { "value": "editorial", "label": "Editorial" },
+          { "value": "curated", "label": "Curated (star)" },
+          { "value": "verified", "label": "Verified shield" },
+          { "value": "globe", "label": "Globe" }
+        ]},
+        { "type": "text", "id": "title", "label": "Title", "default": "Editorially curated" },
+        { "type": "textarea", "id": "description", "label": "Description", "default": "Every brand vetted by hand — no paid placements, no affiliate-ranked lists." },
+        { "type": "checkbox", "id": "use_brand_count", "label": "Prepend live brand count", "default": false },
+        { "type": "text", "id": "count_suffix", "label": "Count suffix", "default": "+" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "TRG Home Pillars",
+      "blocks": [
+        { "type": "pillar", "settings": { "icon": "curated", "title": "Editorially curated", "description": "Every brand vetted by hand — no paid placements, no ad-driven rankings." } },
+        { "type": "pillar", "settings": { "icon": "editorial", "title": "brands tracked", "description": "From heritage makers to emerging labels, organised by style, origin, and fabric.", "use_brand_count": true, "count_suffix": "+" } },
+        { "type": "pillar", "settings": { "icon": "verified", "title": "Verified retailers", "description": "Direct-from-brand links when possible; trusted North-American stockists otherwise." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

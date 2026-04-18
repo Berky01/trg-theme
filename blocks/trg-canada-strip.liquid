@@ -1,0 +1,157 @@
+{%- liquid
+  assign product = closest.product
+
+  if request.visual_preview_mode and product == blank
+    assign product = collections.all.products.first
+  endif
+
+  assign ships_raw = product.metafields.trg.ships_to_canada.value | default: product.metafields.trg.ships_to_canada
+  assign ships_to_canada = false
+  if ships_raw == 'Yes' or ships_raw == 'yes' or ships_raw == true
+    assign ships_to_canada = true
+  endif
+
+  assign duties_raw = product.metafields.trg.ca_duties_apply.value | default: product.metafields.trg.ca_duties_apply
+  assign duties_apply = false
+  if duties_raw == 'Yes' or duties_raw == 'yes' or duties_raw == true
+    assign duties_apply = true
+  endif
+
+  assign returns_window = product.metafields.trg.returns_window.value | default: product.metafields.trg.returns_window
+-%}
+
+<div class="trg-canada-strip" data-canada-strip {{ block.shopify_attributes }}>
+  <button class="trg-canada-strip__header" onclick="this.closest('.trg-canada-strip').classList.toggle('open')" type="button">
+    <span class="trg-canada-strip__title">
+      <span class="trg-canada-strip__flag" aria-hidden="true">🍁</span>
+      Canadian Buyers
+    </span>
+    <svg class="trg-canada-strip__chevron" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 15l-6-6-6 6"/></svg>
+  </button>
+  <div class="trg-canada-strip__body">
+    {%- if ships_to_canada -%}
+      <div class="trg-canada-strip__fact">
+        <svg class="trg-canada-strip__icon trg-canada-strip__icon--ok" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        <span><strong>Ships to Canada</strong></span>
+      </div>
+    {%- else -%}
+      <div class="trg-canada-strip__fact">
+        <svg class="trg-canada-strip__icon trg-canada-strip__icon--warn" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <span><strong>Shipping to Canada</strong> — check retailer</span>
+      </div>
+    {%- endif -%}
+    {%- if duties_apply -%}
+      <div class="trg-canada-strip__fact">
+        <svg class="trg-canada-strip__icon trg-canada-strip__icon--warn" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <span><strong>Duties not prepaid</strong> — may apply at delivery</span>
+      </div>
+    {%- else -%}
+      <div class="trg-canada-strip__fact">
+        <svg class="trg-canada-strip__icon trg-canada-strip__icon--ok" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        <span><strong>No duties</strong> — DDP, price is final</span>
+      </div>
+    {%- endif -%}
+    {%- if returns_window != blank -%}
+      <div class="trg-canada-strip__fact">
+        <svg class="trg-canada-strip__icon trg-canada-strip__icon--ok" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        <span><strong>Returns:</strong> {{ returns_window }}</span>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% stylesheet %}
+  .trg-canada-strip {
+    display: none;
+    background: rgba(212, 41, 26, 0.04);
+    border: 1px solid rgba(212, 41, 26, 0.15);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  body[data-region='ca'] .trg-canada-strip {
+    display: block;
+  }
+
+  .trg-canada-strip__header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+  }
+
+  .trg-canada-strip__title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #d4291a;
+  }
+
+  .trg-canada-strip__flag {
+    font-size: 1rem;
+  }
+
+  .trg-canada-strip__chevron {
+    color: #d4291a;
+    transition: transform 0.2s;
+  }
+
+  .trg-canada-strip.open .trg-canada-strip__chevron {
+    transform: rotate(180deg);
+  }
+
+  .trg-canada-strip__body {
+    display: none;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0 1rem 0.85rem;
+  }
+
+  .trg-canada-strip.open .trg-canada-strip__body {
+    display: flex;
+  }
+
+  .trg-canada-strip__fact {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    font-size: 0.78rem;
+    color: #1a1a18;
+    line-height: 1.4;
+  }
+
+  .trg-canada-strip__icon {
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .trg-canada-strip__icon--ok {
+    color: #2a7a48;
+  }
+
+  .trg-canada-strip__icon--warn {
+    color: #c47a28;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "TRG Canada Strip",
+  "tag": null,
+  "settings": [],
+  "presets": [
+    {
+      "name": "TRG Canada Strip"
+    }
+  ]
+}
+{% endschema %}

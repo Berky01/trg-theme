@@ -1,0 +1,233 @@
+{% comment %}
+  TRG Account Page — Phase 1
+  /pages/my-account — JS-powered (reads from localStorage)
+{% endcomment %}
+
+{{ 'trg-account.css' | asset_url | stylesheet_tag }}
+
+{%- unless customer -%}
+<section class="trg-acct-guest">
+  <div class="trg-acct-guest__grid">
+    <div class="trg-acct-guest__intro">
+      <h1 class="trg-acct-guest__title">Your account</h1>
+      <p class="trg-acct-guest__lead">
+        Save brands, keep a wishlist, and hold your preferences in one place.
+      </p>
+
+      <div class="trg-acct-guest__blocks">
+        <section class="trg-acct-guest__block">
+          <h2>What you can keep here</h2>
+          <ul>
+            <li>Followed brands</li>
+            <li>Wishlisted products</li>
+            <li>Notification preferences</li>
+            <li>Colour guide progress</li>
+          </ul>
+        </section>
+
+        <section class="trg-acct-guest__block">
+          <h2>Before you sign in</h2>
+          <p>Your saved items stay tied to this account page after authentication.</p>
+          <div class="trg-acct-guest__links">
+            <a href="/pages/brands">Browse brands</a>
+            <a href="/collections/all">Browse live products</a>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <div class="trg-acct-guest__panel">
+      <div class="trg-acct-guest__brand">The Right Garment</div>
+      <p class="trg-acct-guest__panel-copy">
+        Sign in or create an account to manage saved brands and products.
+      </p>
+      <a href="/customer_authentication/login?return_to=/pages/my-account" class="trg-acct-guest__cta">
+        Sign in or create account
+      </a>
+      <p class="trg-acct-guest__note">After signing in, you will return here automatically.</p>
+    </div>
+  </div>
+</section>
+{%- endunless -%}
+
+{%- if customer -%}
+<div data-trg-customer-id="{{ customer.id }}" style="display:none"></div>
+
+<!-- HERO -->
+<div class="trg-acct__hero">
+  <div class="trg-acct__hero-inner">
+    <div class="trg-acct__hero-left">
+      <div class="trg-acct__avatar">{{ customer.first_name | slice: 0 | upcase }}{{ customer.last_name | slice: 0 | upcase }}</div>
+      <div>
+        <div class="trg-acct__name">{{ customer.first_name }} {{ customer.last_name | truncate: 1, '.' }}</div>
+        <div class="trg-acct__meta">
+          Member since {{ customer.created_at | date: '%B %Y' }}
+          {%- if customer.default_address and customer.default_address.city %}
+            · {{ customer.default_address.city }}, {{ customer.default_address.province_code }}
+          {% endif -%}
+        </div>
+      </div>
+    </div>
+    <div class="trg-acct__stats">
+      <div class="trg-acct__stat">
+        <div class="trg-acct__stat-num" data-stat="following">0</div>
+        <div class="trg-acct__stat-label">Following</div>
+      </div>
+      <div class="trg-acct__stat">
+        <div class="trg-acct__stat-num" data-stat="wishlist">0</div>
+        <div class="trg-acct__stat-label">Wishlist</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="trg-acct__tabs">
+  <div class="trg-acct__tabs-inner">
+    <button class="trg-acct__tab active" data-tab="brands">
+      <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+      My Brands <span class="trg-acct__tab-count" data-count="brands">0</span>
+    </button>
+    <button class="trg-acct__tab" data-tab="wishlist">
+      <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      Wishlist <span class="trg-acct__tab-count" data-count="wishlist">0</span>
+    </button>
+    <button class="trg-acct__tab" data-tab="notifications">
+      <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      Notifications
+    </button>
+    <button class="trg-acct__tab" data-tab="settings">
+      <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      Settings
+    </button>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="trg-acct__main">
+
+  <!-- MY BRANDS (JS-rendered) -->
+  <div class="trg-acct__panel active" id="trg-tab-brands">
+    <div class="trg-acct__toolbar">
+      <div class="trg-acct__toolbar-count" id="trg-brands-count-text">Loading...</div>
+    </div>
+    <div id="trg-brands-container">
+      <!-- JS will populate this -->
+    </div>
+  </div>
+
+  <!-- WISHLIST (JS-rendered) -->
+  <div class="trg-acct__panel" id="trg-tab-wishlist">
+    <div class="trg-acct__toolbar">
+      <div class="trg-acct__toolbar-count" id="trg-wishlist-count-text">Loading...</div>
+    </div>
+    <div id="trg-wishlist-container">
+      <!-- JS will populate this -->
+    </div>
+  </div>
+
+  <!-- NOTIFICATIONS -->
+  <div class="trg-acct__panel" id="trg-tab-notifications">
+    <div class="trg-acct__notif-section">
+      <div class="trg-acct__notif-title">Followed Brands</div>
+      <div class="trg-acct__notif-desc">Get notified when brands you follow add new products or run promotions.</div>
+      <div class="trg-acct__notif-row">
+        <div>
+          <div class="trg-acct__notif-label">New products digest</div>
+          <div class="trg-acct__notif-sub">Weekly email with new arrivals from your brands</div>
+        </div>
+        <button class="trg-acct__toggle on" data-pref="new_products"></button>
+      </div>
+      <div class="trg-acct__notif-row">
+        <div>
+          <div class="trg-acct__notif-label">Sale &amp; promotion alerts</div>
+          <div class="trg-acct__notif-sub">When a followed brand runs a sale</div>
+        </div>
+        <button class="trg-acct__toggle on" data-pref="sales"></button>
+      </div>
+    </div>
+    <div class="trg-acct__notif-section">
+      <div class="trg-acct__notif-title">Wishlist</div>
+      <div class="trg-acct__notif-desc">Alerts for items you've saved.</div>
+      <div class="trg-acct__notif-row">
+        <div>
+          <div class="trg-acct__notif-label">Price drop alerts</div>
+          <div class="trg-acct__notif-sub">When a wishlisted product goes on sale</div>
+        </div>
+        <button class="trg-acct__toggle" data-pref="price_drops"></button>
+      </div>
+      <div class="trg-acct__notif-row">
+        <div>
+          <div class="trg-acct__notif-label">Back in stock</div>
+          <div class="trg-acct__notif-sub">When a sold-out wishlisted item returns</div>
+        </div>
+        <button class="trg-acct__toggle" data-pref="back_in_stock"></button>
+      </div>
+    </div>
+    <div class="trg-acct__legal-note">
+      All email communications comply with CASL and CAN-SPAM. You can unsubscribe at any time via the link in every email, or by toggling off here. Unsubscribe requests are honoured within 10 business days.
+    </div>
+  </div>
+
+  <!-- SETTINGS -->
+  <div class="trg-acct__panel" id="trg-tab-settings">
+    <div class="trg-acct__settings-card">
+      <div class="trg-acct__settings-title">Profile</div>
+      <div class="trg-acct__field">
+        <label>First Name</label>
+        <input type="text" value="{{ customer.first_name }}" readonly>
+      </div>
+      <div class="trg-acct__field">
+        <label>Email</label>
+        <input type="email" value="{{ customer.email }}" readonly>
+      </div>
+    </div>
+    <div class="trg-acct__settings-card">
+      <div class="trg-acct__settings-title">Preferences</div>
+      <div class="trg-acct__field">
+        <label>Region</label>
+        <select id="trg-pref-region">
+          <option value="CA">Canada</option>
+          <option value="US">United States</option>
+        </select>
+      </div>
+      <div class="trg-acct__field">
+        <label>Size Preference</label>
+        <select id="trg-pref-size">
+          <option value="">Not set</option>
+          <option value="XS">XS</option>
+          <option value="S">S</option>
+          <option value="M">M</option>
+          <option value="L">L</option>
+          <option value="XL">XL</option>
+          <option value="XXL">XXL</option>
+        </select>
+      </div>
+    </div>
+    <div class="trg-acct__settings-card" id="trg-palette-card">
+      <div class="trg-acct__settings-title">Colour Profile</div>
+      <div id="trg-palette-card-body">
+        <div class="trg-acct__field-note">Find out which colours suit you best.</div>
+        <a href="/pages/colour-guide" class="trg-acct__btn-cta" style="margin-top:0.5rem;">Take the Colour Finder</a>
+      </div>
+    </div>
+    <div class="trg-acct__settings-card">
+      <div class="trg-acct__settings-title">Account</div>
+      <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-top:0.25rem;">
+        <a href="{{ routes.account_url }}" class="trg-acct__btn-danger">Manage Account</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+{%- endif -%}
+
+<script src="{{ 'trg-account.js' | asset_url }}" defer></script>
+
+{% schema %}
+{
+  "name": "TRG Account",
+  "tag": "section",
+  "class": "trg-account-section"
+}
+{% endschema %}

@@ -1,0 +1,248 @@
+<section class="section section--full-width color-{{ section.settings.color_scheme }} trg-section trg-cg-feature">
+  <div class="trg-shell trg-cg-feature__inner">
+    <div class="trg-cg-feature__text" data-trg-reveal>
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="trg-eyebrow trg-cg-feature__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+      {%- endif -%}
+      {%- if section.settings.title != blank -%}
+        <div class="trg-heading trg-cg-feature__title">{{ section.settings.title }}</div>
+      {%- endif -%}
+      {%- if section.settings.lede != blank -%}
+        <div class="trg-cg-feature__lede">{{ section.settings.lede }}</div>
+      {%- endif -%}
+      {%- if section.settings.body != blank -%}
+        <div class="trg-cg-feature__body">{{ section.settings.body }}</div>
+      {%- endif -%}
+
+      <div class="trg-cg-feature__stats">
+        <div>
+          <div class="trg-cg-feature__stat-num">{{ section.settings.stat_1_num | escape }}</div>
+          <div class="trg-cg-feature__stat-label">{{ section.settings.stat_1_label | escape }}</div>
+        </div>
+        <div>
+          <div class="trg-cg-feature__stat-num">{{ section.settings.stat_2_num | escape }}</div>
+          <div class="trg-cg-feature__stat-label">{{ section.settings.stat_2_label | escape }}</div>
+        </div>
+        <div>
+          <div class="trg-cg-feature__stat-num">{{ section.settings.stat_3_num | escape }}</div>
+          <div class="trg-cg-feature__stat-label">{{ section.settings.stat_3_label | escape }}</div>
+        </div>
+      </div>
+
+      {%- if section.settings.cta_label != blank and section.settings.cta_link != blank -%}
+        <a class="trg-cg-feature__cta trg-btn" href="{{ section.settings.cta_link }}">
+          {{ section.settings.cta_label | escape }}
+          <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      {%- endif -%}
+    </div>
+
+    <div class="trg-cg-feature__swatches" aria-hidden="true" data-trg-reveal>
+      {%- assign swatches = 'f8f6f3,f2ead8,e8dcc8,eae4d8,d4c8b0,f0e8d0,e4dccc,ece4d4,d4b890,c8a478,b8906a,a88a65,d8b89a,c4a484,a88862,8a6f4d,6e4c2e,5a3a20,4a2c18,8a6040,3a2414,7a5438,2e1c0e,604028,3a4a30,4f6245,2a3a24,5a7850,3e5034,1e281a,6e8460,485a3e,1e2a44,2a3854,3a4864,465870,12182a,5a6e86,2e4058,0e1420,2a2826,3e3c3a,55524e,6e6a64,8a8680,a8a49e,c2beba,d8d4cf,6a2a28,7a3230,4a1a18,8a4240,6a4858,7c5868,5a3848,8e6878' | split: ',' -%}
+      {%- for hex in swatches -%}
+        <div style="background:#{{ hex }}"></div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .trg-cg-feature {
+    padding-block: clamp(48px, 6vw, 80px);
+    border-top: 1px solid rgb(var(--color-foreground-rgb) / 0.08);
+    border-bottom: 1px solid rgb(var(--color-foreground-rgb) / 0.08);
+  }
+
+  .trg-cg-feature__inner {
+    display: grid;
+    gap: clamp(28px, 4vw, 48px);
+    align-items: center;
+  }
+
+  @media screen and (min-width: 990px) {
+    .trg-cg-feature__inner {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+      gap: clamp(40px, 5vw, 72px);
+    }
+  }
+
+  .trg-cg-feature__title {
+    font-size: clamp(1.6rem, 2.6vw, 2.2rem);
+    line-height: 1.15;
+    margin-bottom: 1rem;
+  }
+
+  .trg-cg-feature__lede,
+  .trg-cg-feature__lede > * {
+    font-family: var(--font-heading--family);
+    font-size: clamp(0.98rem, 1.15vw, 1.02rem);
+    line-height: 1.6;
+    color: rgb(var(--color-foreground-rgb));
+    margin-bottom: 1.1rem;
+  }
+
+  .trg-cg-feature__body,
+  .trg-cg-feature__body > * {
+    font-size: 0.88rem;
+    line-height: 1.75;
+    color: rgb(var(--color-foreground-rgb) / 0.55);
+    max-width: 480px;
+    margin-bottom: 1.75rem;
+  }
+
+  .trg-cg-feature__stats {
+    display: flex;
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+    padding: 1rem 0;
+    border-top: 1px solid rgb(var(--color-foreground-rgb) / 0.1);
+    border-bottom: 1px solid rgb(var(--color-foreground-rgb) / 0.1);
+    margin-bottom: 1.75rem;
+  }
+
+  .trg-cg-feature__stat-num {
+    font-family: var(--font-heading--family);
+    font-size: clamp(1.4rem, 2vw, 1.6rem);
+    font-weight: 600;
+    line-height: 1;
+    color: rgb(var(--color-foreground-rgb));
+  }
+
+  .trg-cg-feature__stat-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgb(var(--color-foreground-rgb) / 0.55);
+    margin-top: 0.3rem;
+  }
+
+  .trg-cg-feature__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.9rem 1.75rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: rgb(var(--color-foreground-rgb));
+    color: rgb(var(--color-background-rgb));
+    border-radius: 2px;
+    text-decoration: none;
+    transition: background 0.2s ease;
+  }
+
+  .trg-cg-feature__cta:hover {
+    background: var(--trg-accent-color, #b8491f);
+    color: #fff;
+  }
+
+  .trg-cg-feature__swatches {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 3px;
+    border: 1px solid rgb(var(--color-foreground-rgb) / 0.1);
+    border-radius: 3px;
+    overflow: hidden;
+    aspect-ratio: 8 / 7;
+  }
+
+  .trg-cg-feature__swatches > div {
+    aspect-ratio: 1;
+    transition: transform 0.2s ease;
+  }
+
+  .trg-cg-feature__swatches > div:hover {
+    transform: scale(1.08);
+    z-index: 2;
+    position: relative;
+  }
+
+  @media screen and (max-width: 749px) {
+    .trg-cg-feature__swatches { aspect-ratio: 8 / 6; }
+    .trg-cg-feature__stats { gap: 1.25rem; }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "TRG Colour Teaser",
+  "tag": "section",
+  "class": "trg-cg-feature-wrapper",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "The Colour Guide"
+    },
+    {
+      "type": "richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "<p>Dress in colour. <em>On purpose.</em></p>"
+    },
+    {
+      "type": "richtext",
+      "id": "lede",
+      "label": "Lede",
+      "default": "<p>A permanent reference for dressing in colour: find your palette, build an outfit around it, then shop by hue.</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Body",
+      "default": "<p>Three steps. First, a three-test quiz identifies your undertone. Second, an outfit builder that assigns colours to real garment slots. Third, the full 76-colour field — re-sorted by your palette when you have one, flat and browsable when you don't.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Stats"
+    },
+    { "type": "text", "id": "stat_1_num", "label": "Stat 1 number", "default": "76" },
+    { "type": "text", "id": "stat_1_label", "label": "Stat 1 label", "default": "Colours" },
+    { "type": "text", "id": "stat_2_num", "label": "Stat 2 number", "default": "8" },
+    { "type": "text", "id": "stat_2_label", "label": "Stat 2 label", "default": "Families" },
+    { "type": "text", "id": "stat_3_num", "label": "Stat 3 number", "default": "9" },
+    { "type": "text", "id": "stat_3_label", "label": "Stat 3 label", "default": "Profiles" },
+    {
+      "type": "header",
+      "content": "CTA"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "CTA label",
+      "default": "Open the Colour Guide"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "CTA link"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "family",
+      "name": "Legacy family",
+      "limit": 10,
+      "settings": [
+        { "type": "text", "id": "label", "label": "Family name" },
+        { "type": "text", "id": "count", "label": "Count label" },
+        { "type": "color", "id": "colour_1", "label": "Inner colour" },
+        { "type": "color", "id": "colour_2", "label": "Middle colour" },
+        { "type": "color", "id": "colour_3", "label": "Outer colour" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "TRG Colour Teaser"
+    }
+  ]
+}
+{% endschema %}

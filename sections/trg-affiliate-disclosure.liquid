@@ -1,0 +1,205 @@
+{{ 'trg-affiliate-disclosure.css' | asset_url | stylesheet_tag }}
+
+<section class="trg-ad">
+  <h1 class="trg-ad__title">Affiliate Disclosure</h1>
+
+  {%- comment -%} Summary strip {%- endcomment -%}
+  <div class="trg-ad__summary">
+    <div class="trg-ad__summary-inner">
+      <div class="trg-ad__summary-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div class="trg-ad__summary-text">
+        <strong>The short version:</strong> Some links on this site are affiliate links. If you click one and buy something, we may earn a small commission at no extra cost to you. Affiliate relationships never influence which brands appear in the directory or how they are described.
+      </div>
+    </div>
+  </div>
+
+  {%- comment -%} Main layout: sidebar TOC + content {%- endcomment -%}
+  <div class="trg-ad__wrap">
+
+    <aside class="trg-ad__toc">
+      <div class="trg-ad__toc-label">On this page</div>
+      <ul class="trg-ad__toc-list">
+        <li><a href="#trg-ad-how" class="active">How it works</a></li>
+        <li><a href="#trg-ad-which">Which links</a></li>
+        <li><a href="#trg-ad-networks">Our networks</a></li>
+        <li><a href="#trg-ad-editorial">Editorial integrity</a></li>
+        <li><a href="#trg-ad-compliance">Compliance</a></li>
+        <li><a href="#trg-ad-sponsorships">Sponsorships</a></li>
+      </ul>
+    </aside>
+
+    <div class="trg-ad__content">
+
+      {%- comment -%} How it works {%- endcomment -%}
+      <div class="trg-ad__hiw" id="trg-ad-how">
+        <div class="trg-ad__hiw-label">How affiliate links work</div>
+        <div class="trg-ad__hiw-steps">
+          <div class="trg-ad__hiw-step">
+            <div class="trg-ad__hiw-num">1</div>
+            <div class="trg-ad__hiw-body">
+              <div class="trg-ad__hiw-title">You click</div>
+              <div class="trg-ad__hiw-desc">A "Shop" button on a brand or product page takes you to the brand's site via a tracked link.</div>
+            </div>
+          </div>
+          <div class="trg-ad__hiw-step">
+            <div class="trg-ad__hiw-num">2</div>
+            <div class="trg-ad__hiw-body">
+              <div class="trg-ad__hiw-title">You buy</div>
+              <div class="trg-ad__hiw-desc">You shop and pay the same price you'd pay going directly. Nothing is added.</div>
+            </div>
+          </div>
+          <div class="trg-ad__hiw-step">
+            <div class="trg-ad__hiw-num">3</div>
+            <div class="trg-ad__hiw-body">
+              <div class="trg-ad__hiw-title">We earn</div>
+              <div class="trg-ad__hiw-desc">The brand pays us a small commission for the referral. You pay nothing extra.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {%- comment -%} Which links {%- endcomment -%}
+      <div class="trg-ad__section" id="trg-ad-which">
+        <h2 class="trg-ad__h2">Which links are affiliate links?</h2>
+        <div class="trg-ad__body">
+          <p>On brand and product pages, the primary "Shop" button and any retailer links (SSENSE, Mr. Porter, END Clothing, etc.) may be affiliate links. Instead of cluttering every page with individual disclaimers, we keep this page as the single source of disclosure.</p>
+          <p>Not all brands in our directory have active affiliate programs. Brands without one are listed identically to brands that do. No distinction in placement, description, or presentation.</p>
+        </div>
+      </div>
+
+      {%- comment -%} Networks {%- endcomment -%}
+      <div class="trg-ad__section" id="trg-ad-networks">
+        <h2 class="trg-ad__h2">Affiliate networks we work with</h2>
+        <div class="trg-ad__body">
+          <p>The Right Garment may earn commissions through the following networks and in-house brand programs:</p>
+        </div>
+        <div class="trg-ad__networks">
+          <div class="trg-ad__net-card">
+            <div class="trg-ad__net-name">Awin</div>
+            <div class="trg-ad__net-use">International brands and retailers</div>
+            <a href="https://www.awin.com/us/legal/privacy-policy" class="trg-ad__net-link" target="_blank" rel="noopener">Privacy policy &rarr;</a>
+          </div>
+          <div class="trg-ad__net-card">
+            <div class="trg-ad__net-name">Rakuten Advertising</div>
+            <div class="trg-ad__net-use">Major retailers across North America</div>
+            <a href="https://rakutenadvertising.com/legal-notices/services-privacy-policy/" class="trg-ad__net-link" target="_blank" rel="noopener">Privacy policy &rarr;</a>
+          </div>
+          <div class="trg-ad__net-card">
+            <div class="trg-ad__net-name">ShareASale</div>
+            <div class="trg-ad__net-use">Direct brand affiliate programs</div>
+            <a href="https://www.shareasale.com/PrivacyPolicy.pdf" class="trg-ad__net-link" target="_blank" rel="noopener">Privacy policy &rarr;</a>
+          </div>
+          <div class="trg-ad__net-card">
+            <div class="trg-ad__net-name">Impact</div>
+            <div class="trg-ad__net-use">North American brand programs</div>
+            <a href="https://impact.com/privacy-policy/" class="trg-ad__net-link" target="_blank" rel="noopener">Privacy policy &rarr;</a>
+          </div>
+          <div class="trg-ad__net-card">
+            <div class="trg-ad__net-name">CJ Affiliate</div>
+            <div class="trg-ad__net-use">Select brand partnerships</div>
+            <a href="https://www.cj.com/legal/privacy" class="trg-ad__net-link" target="_blank" rel="noopener">Privacy policy &rarr;</a>
+          </div>
+          <div class="trg-ad__net-card">
+            <div class="trg-ad__net-name">In-house programs</div>
+            <div class="trg-ad__net-use">Brands that run their own referral programs directly</div>
+          </div>
+        </div>
+        <p class="trg-ad__net-note">This list changes as we add brands. We keep it current.</p>
+      </div>
+
+      {%- comment -%} Editorial integrity {%- endcomment -%}
+      <div class="trg-ad__section" id="trg-ad-editorial">
+        <h2 class="trg-ad__h2">Does this affect our editorial decisions?</h2>
+        <div class="trg-ad__body">
+          <p><strong>No.</strong> Every brand in the directory is there because it meets our quality standards: construction, materials, and reputation. Brands are not charged for listings and cannot pay for preferential placement or description language.</p>
+          <p>Many brands we recommend have no affiliate program at all. We list them because they belong here.</p>
+        </div>
+        <div class="trg-ad__pullquote">
+          <div class="trg-ad__pullquote-text">A directory that can be bought is a directory nobody trusts. Our editorial independence is the product.</div>
+          <div class="trg-ad__pullquote-attr">The Right Garment</div>
+        </div>
+      </div>
+
+      {%- comment -%} Compliance {%- endcomment -%}
+      <div class="trg-ad__section" id="trg-ad-compliance">
+        <h2 class="trg-ad__h2">Regulatory compliance</h2>
+        <div class="trg-ad__body">
+          <p>This disclosure is made in accordance with the <strong>Canadian Competition Act</strong> and its provisions regarding material connections between endorsers and brands. It also satisfies <strong>FTC endorsement guidelines</strong> applicable to U.S. audiences.</p>
+          <p>The Right Garment operates in Canada and follows both Canadian and U.S. disclosure standards. If you have questions about how our affiliate relationships relate to specific content on this site, please contact us.</p>
+        </div>
+      </div>
+
+      {%- comment -%} Sponsorships {%- endcomment -%}
+      <div class="trg-ad__section" id="trg-ad-sponsorships">
+        <h2 class="trg-ad__h2">Featured listings &amp; sponsorships</h2>
+        <div class="trg-ad__body">
+          <p>The Right Garment may in future offer paid featured placements. For example, a brand appearing at the top of a category page or in a newsletter spotlight. Any such placement will be clearly labeled <strong>"Featured"</strong> or <strong>"Sponsored"</strong> wherever it appears.</p>
+          <p>No paid placements are currently active.</p>
+        </div>
+      </div>
+
+      {%- comment -%} Contact strip {%- endcomment -%}
+      <div class="trg-ad__contact">
+        <div class="trg-ad__contact-inner">
+          <div class="trg-ad__contact-title">Questions?</div>
+          <div class="trg-ad__contact-text">We're happy to explain how any specific link or relationship works.</div>
+        </div>
+        <a href="{{ section.settings.contact_url | default: '/pages/contact' }}" class="trg-ad__contact-btn">Get in touch</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+  (function(){
+    /* TOC active-state tracking */
+    var toc = document.querySelectorAll('.trg-ad__toc-list a');
+    var secs = document.querySelectorAll('.trg-ad__section, .trg-ad__hiw');
+    if (!toc.length || !secs.length) return;
+
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting) {
+          toc.forEach(function(l){ l.classList.remove('active'); });
+          var id = e.target.getAttribute('id');
+          var hit = document.querySelector('.trg-ad__toc-list a[href="#' + id + '"]');
+          if (hit) hit.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-80px 0px -60% 0px', threshold: 0 });
+    secs.forEach(function(s){ io.observe(s); });
+
+    /* Smooth scroll */
+    toc.forEach(function(link){
+      link.addEventListener('click', function(e){
+        e.preventDefault();
+        var t = document.querySelector(link.getAttribute('href'));
+        if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "TRG Affiliate Disclosure",
+  "tag": "section",
+  "class": "trg-affiliate-disclosure-v2",
+  "settings": [
+    {
+      "type": "url",
+      "id": "contact_url",
+      "label": "Contact page link"
+    }
+  ],
+  "blocks": [],
+  "presets": [
+    {
+      "name": "TRG Affiliate Disclosure"
+    }
+  ]
+}
+{% endschema %}

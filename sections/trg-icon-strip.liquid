@@ -1,0 +1,169 @@
+{%- assign strip_items = section.blocks | where: 'type', 'item' -%}
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<section class="section section--full-width color-{{ section.settings.color_scheme }} trg-strip trg-strip--{{ section.settings.variant }}">
+  <div class="trg-shell" style="padding-block: {{ section.settings.padding_y }}px;">
+    <div class="trg-strip__grid" style="--trg-strip-columns: {{ strip_items.size | at_most: 6 }};">
+      <div class="trg-strip__cell">
+        <p class="trg-strip__lead">{{ section.settings.lead_text }}</p>
+      </div>
+
+      {% for block in strip_items %}
+        <div class="trg-strip__cell" {{ block.shopify_attributes }}>
+          <p class="trg-strip__item">
+            {% if block.settings.icon != blank %}<span>{{ block.settings.icon | escape }}</span>{% endif %}
+            <span>{{ block.settings.text | escape }}</span>
+          </p>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .trg-strip--canada .trg-shell {
+    width: min(calc(100% - (var(--trg-side-padding) * 2)), 1320px);
+  }
+
+  .trg-strip--canada .trg-strip__grid {
+    gap: 0;
+    background: transparent;
+    align-items: center;
+  }
+
+  @media screen and (min-width: 990px) {
+    .trg-strip--canada .trg-strip__grid {
+      grid-template-columns: minmax(220px, auto) 1fr;
+    }
+  }
+
+  .trg-strip--canada {
+    background: rgb(var(--color-primary-rgb) / 0.06);
+    border-top: 1px solid rgb(var(--color-primary-rgb) / 0.12);
+    border-bottom: 1px solid rgb(var(--color-primary-rgb) / 0.12);
+  }
+
+  .trg-strip--canada .trg-strip__cell {
+    background: transparent;
+    padding: 0.4rem 0.75rem;
+  }
+
+  .trg-strip--canada .trg-strip__lead {
+    color: var(--color-primary);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .trg-strip--canada .trg-strip__item {
+    color: var(--trg-heading-color);
+    font-size: 0.82rem;
+  }
+
+  .trg-strip--canada .trg-strip__item > span:first-child {
+    color: var(--color-primary);
+  }
+
+  @media screen and (min-width: 990px) {
+    .trg-strip--canada .trg-strip__grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0;
+    }
+
+    .trg-strip--canada .trg-strip__cell:first-child {
+      min-width: 290px;
+    }
+
+    .trg-strip--canada .trg-strip__cell + .trg-strip__cell {
+      border-left: 1px solid rgb(var(--color-primary-rgb) / 0.12);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "TRG Feature Strip",
+  "tag": "section",
+  "class": "trg-feature-strip",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "select",
+      "id": "variant",
+      "label": "Variant",
+      "options": [
+        {
+          "value": "canada",
+          "label": "Canada strip"
+        },
+        {
+          "value": "default",
+          "label": "Default"
+        }
+      ],
+      "default": "canada"
+    },
+    {
+      "type": "text",
+      "id": "lead_text",
+      "label": "Lead text",
+      "default": "Built with Canadian shoppers in mind"
+    },
+    {
+      "type": "range",
+      "id": "padding_y",
+      "label": "Vertical padding",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Feature item",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Icon or emoji",
+          "default": "🍁"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Tracks Canada shipping"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "TRG Feature Strip",
+      "blocks": [
+        {
+          "type": "item"
+        },
+        {
+          "type": "item"
+        },
+        {
+          "type": "item"
+        },
+        {
+          "type": "item"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

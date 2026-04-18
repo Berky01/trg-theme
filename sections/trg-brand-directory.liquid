@@ -1,0 +1,469 @@
+{% comment %} Mobile brand PLP: static searchbar {% endcomment %}
+
+{% style %}
+
+  @media screen and (max-width: 989px) {
+
+    .trg-bdir__head { display: none !important; }
+
+    .trg-bdir__searchbar { position: static !important; top: auto !important; }
+
+    .header__navigation-bar-row { display: none !important; height: 0 !important; }
+
+  }
+
+{% endstyle %}
+
+{% comment %}TRG-TS:1774832301{% endcomment %}
+{% liquid
+
+  assign cat_filters = 'Shirts & Tops,Outerwear & Jackets,Trousers & Bottoms,Footwear,Knitwear,Denim,Suits & Tailoring,Accessories' | split: ','
+
+  assign aest_filters = 'Heritage,Workwear,Minimalist,Smart Casual,Japanese,Technical,Coastal' | split: ','
+
+  assign price_filters = 'Budget,Mid-range,Premium,Luxury' | split: ','
+
+  assign made_filters = 'USA,Canada,Japan,United Kingdom,Europe,Scandinavia' | split: ','
+
+%}
+
+{% comment %}CSS loaded in theme.liquid head{% endcomment %}
+
+<script src="{{ 'trg-brand-directory.js' | asset_url }}" defer></script>
+
+<section class="section section--full-width trg-bdir" data-id="{{ section.id }}">
+
+  <script type="application/json" data-brands-json>
+
+    [
+
+      {%- assign brand_output_count = 0 -%}
+
+      {%- comment -%}No paginate — Shopify iterates up to 1000 items{%- endcomment -%}
+
+        {%- for brand in shop.metaobjects.brand.values -%}
+
+          {%- assign name = brand.name.value | default: brand.name | default: brand.handle -%}
+
+          {%- if name == blank -%}{%- continue -%}{%- endif -%}
+
+          {%- if brand_output_count > 0 -%},{%- endif -%}
+
+        {%- liquid
+
+          assign name = brand.name.value | default: brand.name | default: brand.handle
+
+          if name == blank
+
+            continue
+
+          endif
+
+          assign country = brand.country.value | default: brand.country | strip
+
+          assign made_in = brand.made_in.value | default: brand.made_in | strip
+
+          assign raw_cat = brand.primary_category.value | default: brand.primary_category | strip
+
+          assign src = raw_cat | downcase
+
+          assign cat = 'Shirts & Tops'
+
+          if src contains 'footwear'
+
+            assign cat = 'Footwear'
+
+          elsif src contains 'outerwear'
+
+            assign cat = 'Outerwear & Jackets'
+
+          elsif src contains 'formalwear' or src contains 'tailoring' or src contains 'suiting'
+
+            assign cat = 'Suits & Tailoring'
+
+          elsif src contains 'knitwear'
+
+            assign cat = 'Knitwear'
+
+          elsif src contains 'denim'
+
+            assign cat = 'Denim'
+
+          elsif src contains 'accessories'
+
+            assign cat = 'Accessories'
+
+          elsif src contains 'trouser' or src contains 'bottom' or src contains 'pants'
+
+            assign cat = 'Trousers & Bottoms'
+
+          elsif src contains 'shirting' or src contains 'shirt' or src contains 'tops'
+
+            assign cat = 'Shirts & Tops'
+
+          elsif src contains 'casualwear' or src contains 'contemporary' or src contains 'basics' or src contains 'smart casual' or src contains 'workwear' or src contains 'streetwear' or src contains 'activewear'
+
+            assign cat = 'Shirts & Tops'
+
+          endif
+
+          assign pos = brand.brand_positioning.value | default: brand.brand_positioning | default: '' | replace: ';', ',' | replace: '/', ',' | replace: '|', ',' | split: ','
+
+          assign tags = brand.tags.value | default: brand.tags | default: '' | replace: ';', ',' | replace: '/', ',' | replace: '|', ',' | split: ','
+
+          assign desc = brand.description.value | default: brand.description | default: '' | strip_html | strip
+
+          assign aff = brand.affiliate_program.value | default: brand.affiliate_program | downcase | strip
+
+          assign ships = brand.ships_to_canada.value | default: brand.ships_to_canada | downcase | strip
+
+          assign ddp = brand.ddp_duties.value | default: brand.ddp_duties | downcase | strip
+
+          assign nat = brand.natural_materials.value | default: brand.natural_materials | downcase | strip
+
+          assign ca = brand.canadian_brand.value | default: brand.canadian_brand | downcase | strip
+
+          assign made_src = made_in | downcase
+
+          if made_src == blank
+
+            assign made_src = country | downcase
+
+          endif
+
+          assign made_group = 'Other'
+
+          if made_src contains 'usa' or made_src contains 'united states'
+
+            assign made_group = 'USA'
+
+          elsif made_src contains 'canada'
+
+            assign made_group = 'Canada'
+
+          elsif made_src contains 'japan'
+
+            assign made_group = 'Japan'
+
+          elsif made_src contains 'uk' or made_src contains 'united kingdom' or made_src contains 'england' or made_src contains 'scotland'
+
+            assign made_group = 'United Kingdom'
+
+          elsif made_src contains 'sweden' or made_src contains 'denmark' or made_src contains 'norway' or made_src contains 'scandinavia'
+
+            assign made_group = 'Scandinavia'
+
+          elsif made_src contains 'italy' or made_src contains 'france' or made_src contains 'spain' or made_src contains 'portugal' or made_src contains 'germany' or made_src contains 'belgium' or made_src contains 'netherlands' or made_src contains 'hungary' or made_src contains 'poland' or made_src contains 'europe'
+
+            assign made_group = 'Europe'
+
+          endif
+
+          assign logo = brand.logo.value | default: brand.logo
+
+          if logo != blank and logo.preview_image != blank
+
+            assign logo = logo.preview_image
+
+          endif
+
+          assign logo_url = ''
+
+          if logo != blank
+
+            assign logo_url = logo | image_url: width: 400
+
+          endif
+
+        -%}
+
+        {"handle":{{ name | handleize | json }},"name":{{ name | json }},"url":{{ name | handleize | prepend: "/collections/" | json }},"country":{{ country | json }},"madeIn":{{ made_in | json }},"madeInGroup":{{ made_group | json }},"primaryCategoryRaw":{{ raw_cat | json }},"category":{{ cat | json }},"priceRange":{{ brand.price_range.value | default: brand.price_range | json }},"buyPath":{{ brand.buy_path.value | default: brand.buy_path | json }},"bestRetailerNa":{{ brand.best_retailer_na.value | default: brand.best_retailer_na | json }},"bestRetailerCa":{{ brand.best_retailer_ca.value | default: brand.best_retailer_ca | json }},"affiliateProgram":{% if aff == 'yes' or aff == 'true' %}true{% else %}false{% endif %},"affiliateNetwork":{{ brand.affiliate_network.value | default: brand.affiliate_network | json }},"commission":{{ brand.commission.value | default: brand.commission | json }},"shipsToCanada":{% if ships == 'yes' or ships == 'true' %}true{% else %}false{% endif %},"ddpDuties":{% if ddp == 'yes' or ddp == 'true' %}true{% else %}false{% endif %},"naturalMaterials":{% if nat == 'yes' or nat == 'true' %}true{% else %}false{% endif %},"canadianBrand":{% if ca == 'yes' or ca == 'true' %}true{% else %}false{% endif %},"brandPositioning":{{ pos | json }},"tags":{{ tags | json }},"description":{{ desc | truncate: 120 | json }},"logoUrl":{{ logo_url | json }},"priority":{{ brand.priority.value | default: brand.priority | json }}}
+
+          {%- assign brand_output_count = brand_output_count | plus: 1 -%}
+
+        {%- endfor -%}
+
+      {%- assign total_brand_count = brand_output_count -%}
+
+        
+
+    ]
+
+  </script>
+
+  
+
+  <script>
+
+    /* Fix 39 brands where handleize differs from actual page handle */
+
+    (function(){var C={"Arc'teryx": "arcteryx", "Berg & Berg": "berg-and-berg", "Bryceland's": "brycelands", "Buzz Rickson's": "buzz-ricksons", "Cad & The Dandy": "cad-and-the-dandy", "Church's": "churchs", "Colhay's": "colhays", "Crockett & Jones": "crockett-and-jones", "Ede & Ravenscroft": "ede-and-ravenscroft", "Gaziano & Girling": "gaziano-and-girling", "Hawes & Curtis": "hawes-and-curtis", "Hilditch & Key": "hilditch-and-key", "L'Estrange London": "lestrange-london", "Levi's Vintage Clothing": "levis-vintage-clothing", "Mott & Bow": "mott-and-bow", "Naked & Famous": "naked-and-famous", "Outstanding & Co.": "outstanding-and-co", "Petru & Claymoor": "petru-and-claymoor", "Rancourt & Co": "rancourt-and-co", "Saint Crispin's": "saint-crispins", "Sanders & Sanders": "sanders-and-sanders", "Spier & Mackay": "spier-and-mackay", "Studio D'Artisan": "studio-dartisan", "The Real McCoy's": "the-real-mccoys", "Toad&Co": "toad-and-co", "Tricker's": "trickers", "Turnbull & Asser": "turnbull-and-asser", "White's Boots": "whites-boots", "Warehouse & Co.": "warehouse-and-co", "Mason's": "masons", "Paul & Shark": "paul-and-shark", "A Day's March": "a-days-march", "Begg & Co": "begg-and-co", "Rodd & Gunn": "rodd-and-gunn", "Abaga": "abagavelli", "Roberto Collima": "roberto-collina", "georgecleverley": "george-cleverley", "Ascotchang": "ascot-chang", "Pringlescotland": "pringle-of-scotland"};function fix(){var el=document.querySelector('[data-brands-json]');if(!el)return;try{var b=JSON.parse(el.textContent),n=0;b.forEach(function(x){if(C[x.name]){x.handle=C[x.name];x.url='/collections/'+C[x.name];n++;}});if(n){el.textContent=JSON.stringify(b);document.dispatchEvent(new CustomEvent('trg:brands-updated'));}}catch(e){}}fix();document.addEventListener('trg:brands-updated',function(){setTimeout(fix,100);});})();
+
+  </script>
+
+  
+
+  <div class="trg-bdir__head trg-bdir__desktop-chrome">
+    <div class="trg-bdir__shell trg-bdir__headin">
+      <div class="trg-bdir__eye">Directory</div>
+      <h1 class="trg-bdir__title">Brand <em>Directory</em></h1>
+    </div>
+  </div>
+  <div class="trg-bdir__searchbar trg-bdir__desktop-chrome">
+
+    <div class="trg-bdir__shell">
+
+      <form class="trg-bdir__search" data-form>
+
+        <span class="trg-bdir__icon" aria-hidden="true">{{ 'icon-search.svg' | inline_asset_content }}</span>
+
+        <div class="trg-bdir__chips" data-chips></div>
+
+        <input
+          class="trg-bdir__input"
+          type="search"
+          placeholder="Search brands, categories, or aesthetics..."
+          autocomplete="off"
+          enterkeyhint="search"
+          data-search
+        >
+
+        <div class="trg-bdir__pills">
+
+          {% for pill in aest_filters limit: 4 %}
+
+            <button type="button" class="trg-bdir__pill" data-pill="{{ pill }}">{{ pill }}</button>
+
+          {% endfor %}
+
+        </div>
+
+        <span class="trg-bdir__div"></span>
+
+        <button class="trg-bdir__go" type="submit">Search</button>
+
+      </form>
+
+    </div>
+
+  </div>
+
+  <div class="trg-bdir__body trg-bdir__body--outer">
+
+    <div class="trg-bdir__scrim" data-scrim></div>
+
+    <div class="trg-bdir__layout">
+
+      <aside class="trg-bdir__side" data-side>
+
+        <div class="trg-bdir__row">
+
+          <span class="trg-bdir__label">Filters</span>
+
+          <div class="trg-bdir__rowactions">
+
+            <button type="button" class="trg-bdir__clear" data-clear>Clear all</button>
+
+            <button type="button" class="trg-bdir__btn" data-toggle>Hide ▸</button>
+
+          </div>
+
+        </div>
+
+        <div class="trg-bdir__group" data-group="category">
+
+          <button type="button" class="trg-bdir__gt" data-group-toggle="category"><span>Category</span><span>▾</span></button>
+
+          <div class="trg-bdir__gb">
+
+            {% for item in cat_filters %}
+
+              <label class="trg-bdir__check">
+
+                <span class="trg-bdir__boxwrap"><input type="checkbox" name="category" value="{{ item }}"><span class="trg-bdir__box"></span></span>
+
+                <span>{{ item }}</span>
+
+                <span data-count="category::{{ item }}">0</span>
+
+              </label>
+
+            {% endfor %}
+
+          </div>
+
+        </div>
+
+        <div class="trg-bdir__group" data-group="aesthetic">
+
+          <button type="button" class="trg-bdir__gt" data-group-toggle="aesthetic"><span>Aesthetic</span><span>▾</span></button>
+
+          <div class="trg-bdir__gb">
+
+            {% for item in aest_filters %}
+
+              <label class="trg-bdir__check">
+
+                <span class="trg-bdir__boxwrap"><input type="checkbox" name="aesthetic" value="{{ item }}"><span class="trg-bdir__box"></span></span>
+
+                <span>{{ item }}</span>
+
+                <span data-count="aesthetic::{{ item }}">0</span>
+
+              </label>
+
+            {% endfor %}
+
+          </div>
+
+        </div>
+
+        <div class="trg-bdir__group" data-group="price">
+
+          <button type="button" class="trg-bdir__gt" data-group-toggle="price"><span>Price Range</span><span>▾</span></button>
+
+          <div class="trg-bdir__gb">
+
+            {% for item in price_filters %}
+
+              <label class="trg-bdir__check">
+
+                <span class="trg-bdir__boxwrap"><input type="checkbox" name="price" value="{{ item }}"><span class="trg-bdir__box"></span></span>
+
+                <span>{% case item %}{% when 'Budget' %}Under $100{% when 'Mid-range' %}$100-$300{% when 'Premium' %}$300-$600{% else %}$600+{% endcase %}</span>
+
+                <span data-count="price::{{ item }}">0</span>
+
+              </label>
+
+            {% endfor %}
+
+          </div>
+
+        </div>
+
+        <div class="trg-bdir__group" data-group="made">
+
+          <button type="button" class="trg-bdir__gt" data-group-toggle="made"><span>Made In</span><span>▾</span></button>
+
+          <div class="trg-bdir__gb">
+
+            {% for item in made_filters %}
+
+              <label class="trg-bdir__check">
+
+                <span class="trg-bdir__boxwrap"><input type="checkbox" name="made" value="{{ item }}"><span class="trg-bdir__box"></span></span>
+
+                <span>{{ item }}</span>
+
+                <span data-count="made::{{ item }}">0</span>
+
+              </label>
+
+            {% endfor %}
+
+          </div>
+
+        </div>
+
+        <div class="trg-bdir__group" data-group="shop">
+
+          <button type="button" class="trg-bdir__gt" data-group-toggle="shop"><span>Shopping</span><span>▾</span></button>
+
+          <div class="trg-bdir__gb">
+
+            <button type="button" class="trg-bdir__switchrow" data-switch="ships"><span><span class="trg-bdir__dot"></span>Ships to Canada</span><span class="trg-bdir__switch"></span></button>
+
+            <button type="button" class="trg-bdir__switchrow" data-switch="direct"><span>Buy Direct</span><span class="trg-bdir__switch"></span></button>
+
+          </div>
+
+        </div>
+
+      </aside>
+
+      <div class="trg-bdir__main">
+        <div class="trg-bdir__sort">
+          <button type="button" class="trg-bdir__btn trg-bdir__show" data-toggle>Show Filters</button>
+          <div class="trg-bdir__res"><strong data-results></strong> Brands</div>
+          <label class="trg-bdir__sortlbl">Sort<select data-sort><option value="recommended">Recommended</option><option value="name">Name A-Z</option><option value="price-low">Price: Low to High</option><option value="price-high">Price: High to Low</option></select></label>
+        </div>
+        <div hidden aria-hidden="true">
+          <span data-title>All Brands</span>
+          <span data-sub>Brand directory</span>
+        </div>
+        <nav class="trg-bdir__az" data-az aria-label="Jump to letter"></nav>
+        <div class="trg-bdir__grid" data-grid></div>
+        <div class="trg-bdir__empty" data-empty hidden><h3>{{ section.settings.empty_heading | escape }}</h3><p>{{ section.settings.empty_body | escape }}</p><button type="button" data-clear>{{ section.settings.empty_clear_label | escape }}</button></div>
+        <div class="trg-bdir__prog" data-prog><div class="trg-bdir__progmeta"><span data-prog-copy>Loading brands</span><span data-prog-page>Page 1 of 1</span></div><div class="trg-bdir__bar"><span data-fill></span></div></div>
+        <div class="trg-bdir__load"><button type="button" class="trg-bdir__btn" data-more>{{ section.settings.load_more_label | escape }}</button></div>
+      </div>
+    </div>
+
+  </div>
+
+  <button type="button" class="trg-bdir__top" data-top aria-label="Back to top">↑</button>
+
+</section>
+
+{% schema %}
+
+{
+
+  "name": "TRG Brand Directory",
+
+  "tag": "section",
+
+  "class": "trg-brand-directory-section",
+
+  "settings": [
+    {
+      "type": "header",
+      "content": "Empty state"
+    },
+    {
+      "type": "text",
+      "id": "empty_heading",
+      "label": "Heading",
+      "default": "No brands match your filters"
+    },
+    {
+      "type": "text",
+      "id": "empty_body",
+      "label": "Body",
+      "default": "Try adjusting your criteria."
+    },
+    {
+      "type": "text",
+      "id": "empty_clear_label",
+      "label": "Clear filters button",
+      "default": "Clear All Filters"
+    },
+    {
+      "type": "header",
+      "content": "Pagination"
+    },
+    {
+      "type": "text",
+      "id": "load_more_label",
+      "label": "Load more button",
+      "default": "Load More Brands"
+    }
+  ],
+
+  "presets": [
+
+    {
+
+      "name": "TRG Brand Directory"
+
+    }
+
+  ]
+
+}
+
+{% endschema %}
+
+
+

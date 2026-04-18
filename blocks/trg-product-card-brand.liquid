@@ -1,0 +1,20 @@
+{% liquid
+  assign product = closest.product
+%}
+
+{% if product != blank and product.vendor != blank %}
+  {% assign brand_collection_handle = product.vendor | handleize %}
+  <p class="trg-plp-card-brand" {{ block.shopify_attributes }}>
+    <a href="/collections/{{ brand_collection_handle }}" onclick="event.stopPropagation()">
+      {{ product.vendor | escape }}
+    </a>
+  </p>
+{% endif %}
+
+{% schema %}
+{
+  "name": "TRG product brand",
+  "tag": null,
+  "settings": []
+}
+{% endschema %}

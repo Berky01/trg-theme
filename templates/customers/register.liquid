@@ -1,0 +1,193 @@
+{%- layout 'theme' -%}
+
+<style>
+  .trg-auth-wrap {
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+    background: var(--paper, #f5f1eb);
+  }
+  .trg-auth {
+    background: #fff;
+    width: 100%;
+    max-width: 400px;
+    padding: 2rem 1.5rem;
+  }
+  .trg-auth__logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    text-align: center;
+    margin-bottom: 1.25rem;
+    color: var(--ink, #1a1a18);
+  }
+  .trg-auth__logo span { color: var(--accent, #b8491f); font-style: italic; }
+  .trg-auth__title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 400;
+    text-align: center;
+    margin-bottom: 0.3rem;
+  }
+  .trg-auth__desc {
+    font-size: 0.78rem;
+    color: var(--mid, #706a60);
+    font-weight: 300;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+  }
+  .trg-auth__field { margin-bottom: 0.75rem; }
+  .trg-auth__field label {
+    display: block;
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--mid, #706a60);
+    margin-bottom: 0.3rem;
+  }
+  .trg-auth__field input {
+    width: 100%;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    padding: 0.6rem 0.7rem;
+    border: 1px solid var(--border, #ddd8cf);
+    border-radius: 2px;
+    background: var(--warm-white, #faf8f4);
+    color: var(--ink, #1a1a18);
+    outline: none;
+  }
+  .trg-auth__field input:focus { border-color: var(--accent, #b8491f); }
+  .trg-auth__btn {
+    width: 100%;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.75rem;
+    border-radius: 2px;
+    cursor: pointer;
+    border: none;
+    background: var(--accent, #b8491f);
+    color: #fff;
+    margin-top: 0.5rem;
+    transition: opacity 0.2s;
+  }
+  .trg-auth__btn:hover { opacity: 0.88; }
+  .trg-auth__consent {
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--border, #ddd8cf);
+  }
+  .trg-auth__consent-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  .trg-auth__consent-row input[type="checkbox"] {
+    width: 15px; height: 15px;
+    margin-top: 2px;
+    flex-shrink: 0;
+    accent-color: var(--accent, #b8491f);
+  }
+  .trg-auth__consent-label {
+    font-size: 0.7rem;
+    color: var(--mid, #706a60);
+    font-weight: 300;
+    line-height: 1.45;
+  }
+  .trg-auth__consent-label a { color: var(--accent, #b8491f); text-decoration: none; }
+  .trg-auth__consent-req {
+    font-size: 0.58rem;
+    color: var(--accent, #b8491f);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .trg-auth__footer {
+    font-size: 0.72rem;
+    color: var(--mid, #706a60);
+    font-weight: 300;
+    text-align: center;
+    margin-top: 1.25rem;
+  }
+  .trg-auth__footer a { color: var(--accent, #b8491f); text-decoration: none; }
+  .trg-auth__legal {
+    font-size: 0.6rem;
+    color: var(--mid, #706a60);
+    font-weight: 300;
+    margin-top: 0.75rem;
+    text-align: center;
+    line-height: 1.5;
+  }
+  .trg-auth__legal a { color: var(--accent, #b8491f); text-decoration: none; }
+  .trg-auth__errors {
+    background: rgba(196,86,42,0.08);
+    border: 1px solid rgba(196,86,42,0.2);
+    padding: 0.6rem 0.8rem;
+    margin-bottom: 1rem;
+    font-size: 0.75rem;
+    color: var(--accent, #b8491f);
+    border-radius: 2px;
+  }
+</style>
+
+<div class="trg-auth-wrap">
+  <div class="trg-auth">
+    <div class="trg-auth__logo">The Right <span>Garment</span></div>
+    <div class="trg-auth__title">Create your account</div>
+    <div class="trg-auth__desc">Follow brands, save products, and get personalized picks.</div>
+
+    {% form 'create_customer' %}
+      {% if form.errors %}
+        <div class="trg-auth__errors">{{ form.errors | default_errors }}</div>
+      {% endif %}
+      <div class="trg-auth__field">
+        <label for="FirstName">First Name</label>
+        <input type="text" id="FirstName" name="customer[first_name]" autocomplete="given-name" placeholder="Your first name" autofocus>
+      </div>
+      <div class="trg-auth__field">
+        <label for="LastName">Last Name</label>
+        <input type="text" id="LastName" name="customer[last_name]" autocomplete="family-name" placeholder="Your last name">
+      </div>
+      <div class="trg-auth__field">
+        <label for="Email">Email</label>
+        <input type="email" id="Email" name="customer[email]" autocomplete="email" autocapitalize="off" placeholder="you@example.com">
+      </div>
+      <div class="trg-auth__field">
+        <label for="CreatePassword">Password</label>
+        <input type="password" id="CreatePassword" name="customer[password]" autocomplete="new-password" placeholder="••••••••">
+      </div>
+
+      <!-- CASL-COMPLIANT CONSENT -->
+      <div class="trg-auth__consent">
+        <div class="trg-auth__consent-row">
+          <input type="checkbox" id="consent-tos" required>
+          <label for="consent-tos" class="trg-auth__consent-label">
+            I agree to the <a href="/pages/about">Terms of Service</a> and <a href="/pages/privacy-policy">Privacy Policy</a>. <span class="trg-auth__consent-req">Required</span>
+          </label>
+        </div>
+        <div class="trg-auth__consent-row">
+          <input type="checkbox" id="consent-marketing" name="customer[accepts_marketing]" value="true">
+          <label for="consent-marketing" class="trg-auth__consent-label">
+            I'd like to receive the TRG newsletter and product update emails from The Right Garment. You can unsubscribe at any time.
+          </label>
+        </div>
+      </div>
+
+      <button type="submit" class="trg-auth__btn">Create Account</button>
+    {% endform %}
+
+    <div class="trg-auth__footer">
+      Already have an account? <a href="{{ routes.account_login_url }}">Sign in</a>
+    </div>
+    <div class="trg-auth__legal">
+      The Right Garment · Montréal, QC, Canada<br>
+      <a href="/pages/privacy-policy">Privacy Policy</a> · <a href="/pages/about">Terms</a>
+    </div>
+  </div>
+</div>

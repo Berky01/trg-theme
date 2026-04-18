@@ -1,0 +1,34 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "hero": {
+      "type": "trg-page-hero",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "hero_style": "dark",
+        "alignment": "center",
+        "show_pattern": true,
+        "eyebrow": "Transparency",
+        "title": "<p>Affiliate <em>Disclosure<\/em><\/p>",
+        "body": "<p>How The Right Garment earns revenue, and why it will never compromise what we recommend.<\/p>",
+        "meta_text": "Last updated March 2026"
+      }
+    },
+    "content": {
+      "type": "trg-affiliate-disclosure",
+      "settings": {}
+    }
+  },
+  "order": [
+    "hero",
+    "content"
+  ]
+}

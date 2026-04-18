@@ -1,0 +1,28 @@
+{%- comment -%}
+  TRG Palette Data — outputs product colour/face-adjacent data as JSON
+  for the palette filter system. Loaded on collection pages.
+{%- endcomment -%}
+
+{%- if collection and collection.products.size > 0 -%}
+<script id="trg-palette-data" type="application/json">
+{
+  {%- for product in collection.products -%}
+  "{{ product.handle | escape }}": {
+    "color": "{{ product.metafields.trg.color.value | default: '' | escape }}",
+    "fa": {% if product.tags contains 'face-adjacent' %}1{% else %}0{% endif %}
+  }{% unless forloop.last %},{% endunless %}
+  {%- endfor -%}
+}
+</script>
+{%- endif -%}
+
+<script src="{{ 'trg-palette.js' | asset_url }}" defer
+  data-palette-profiles="{{ 'trg-colour-profiles.json' | asset_url }}"></script>
+<link rel="stylesheet" href="{{ 'trg-palette.css' | asset_url }}">
+
+{% schema %}
+{
+  "name": "TRG Palette Data",
+  "settings": []
+}
+{% endschema %}

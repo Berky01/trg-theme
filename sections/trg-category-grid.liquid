@@ -1,0 +1,409 @@
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<section class="section section--full-width color-{{ section.settings.color_scheme }} trg-section trg-category-grid-section">
+  <div class="trg-shell">
+    {% render 'trg-section-header',
+      eyebrow: section.settings.eyebrow,
+      title: section.settings.title,
+      body: section.settings.body,
+      link_label: section.settings.link_label,
+      link_url: section.settings.link_url,
+      align: 'left',
+      reveal: true
+    %}
+
+    <div class="trg-category-grid" style="--trg-category-columns-desktop: {{ section.settings.columns_desktop }};">
+      {% liquid
+        assign live_catalog_count = collections['all'].products_count
+        assign limit_live_category_copy = false
+        if live_catalog_count <= 12
+          assign limit_live_category_copy = true
+        endif
+      %}
+      {% for block in section.blocks %}
+        {% liquid
+          assign selected_collection = block.settings.collection
+          assign use_collection_data = false
+          if section.settings.source_mode == 'collection_blocks' and selected_collection != blank
+            assign use_collection_data = true
+          endif
+
+          assign card_name = block.settings.name
+          assign card_count = block.settings.count
+          assign card_link = block.settings.link
+          assign card_icon = block.settings.icon
+          assign card_tint = block.settings.colour_tint
+          assign card_icon_image = blank
+          assign linked_collection = blank
+          assign card_handle = blank
+
+          if use_collection_data
+            assign card_name = selected_collection.title
+            assign card_link = selected_collection.url
+            assign linked_collection = selected_collection
+
+            if section.settings.collection_count_mode == 'products'
+              assign card_count = selected_collection.products_count | append: ' ' | append: section.settings.collection_count_suffix
+            elsif section.settings.collection_count_mode == 'hide'
+              assign card_count = blank
+            endif
+
+            if section.settings.collection_icon_mode == 'image' and selected_collection.image != blank
+              assign card_icon_image = selected_collection.image
+            endif
+          endif
+
+          if block.settings.count_override != blank
+            assign card_count = block.settings.count_override
+          endif
+          if block.settings.link != blank
+            assign card_link = block.settings.link
+          endif
+
+          if linked_collection == blank and card_link contains '/collections/'
+            assign card_handle = card_link | split: '/collections/' | last | split: '?' | first | split: '#' | first | handleize
+            if card_handle != blank
+              assign linked_collection = collections[card_handle]
+            endif
+          endif
+
+          if linked_collection != blank
+            assign card_link = linked_collection.url
+
+            if card_name == blank
+              assign card_name = linked_collection.title
+            endif
+
+            if limit_live_category_copy
+              if linked_collection.products_count == 1
+                assign card_count = '1 live product'
+              elsif linked_collection.products_count > 1
+                assign card_count = linked_collection.products_count | append: ' live products'
+              else
+                assign card_count = 'Catalog building'
+              endif
+            endif
+          endif
+        %}
+
+        <a class="trg-category-card"
+           href="{{ card_link | default: '#' }}"
+           {% if card_tint != blank %}style="--cat-tint: {{ card_tint }};"{% endif %}
+           data-trg-reveal {{ block.shopify_attributes }}>
+          <div class="trg-category-icon">
+            {% if card_icon_image != blank %}
+              {{
+                card_icon_image
+                | image_url: width: 80
+                | image_tag:
+                  loading: 'lazy',
+                  widths: '40, 60, 80',
+                  sizes: '40px',
+                  alt: card_name
+              }}
+            {% else %}
+              {%- assign cat_slug = card_name | downcase | replace: '&', '' | replace: '  ', ' ' | handleize -%}
+              {%- render 'trg-category-icon', type: cat_slug -%}
+            {% endif %}
+          </div>
+          <div class="trg-category-bottom">
+            <h3 class="trg-category-name">{{ card_name | escape }}</h3>
+            <div class="trg-category-meta">
+              {% if card_count != blank %}
+                <span class="trg-category-count">{{ card_count | escape }}</span>
+              {% endif %}
+              <span class="trg-category-arrow" aria-hidden="true">→</span>
+            </div>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .trg-category-grid-section {
+    border-top: 1px solid var(--trg-border-color);
+    border-bottom: 1px solid var(--trg-border-color);
+  }
+  .trg-category-grid-section .trg-section-header { align-items: start; }
+  .trg-category-grid-section .trg-section-header .trg-heading {
+    font-size: clamp(1.7rem, 2.6vw, 2.25rem);
+  }
+  .trg-category-grid-section .trg-section-header .trg-lead {
+    color: var(--trg-muted-color); font-size: 0.86rem; line-height: 1.7;
+  }
+
+  .trg-category-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(10px, 1.5vw, 16px);
+  }
+  @media screen and (min-width: 990px) {
+    .trg-category-grid {
+      grid-template-columns: repeat(var(--trg-category-columns-desktop, 4), minmax(0, 1fr));
+    }
+  }
+
+  .trg-category-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 168px;
+    padding: clamp(16px, 2.5vw, 26px);
+    border-radius: var(--trg-card-radius);
+    border: 1px solid var(--trg-border-color);
+    background: rgb(var(--color-background-rgb));
+    text-decoration: none;
+    color: inherit;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .trg-category-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(26,26,24,0.07);
+  }
+
+  /* Colour tint overlay */
+  .trg-category-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.07;
+    border-radius: inherit;
+    background: linear-gradient(135deg, var(--cat-tint, #706a60), var(--cat-tint, #706a60));
+    transition: opacity 0.2s;
+    pointer-events: none;
+  }
+  .trg-category-card:hover::before { opacity: 0.12; }
+
+  .trg-category-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgb(var(--color-background-rgb));
+    border: 1px solid rgb(var(--color-foreground-rgb) / 0.06);
+    display: grid;
+    place-items: center;
+    margin-bottom: auto;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 1px 3px rgba(26,26,24,0.04);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .trg-category-card:hover .trg-category-icon {
+    transform: scale(1.06);
+    box-shadow: 0 2px 8px rgba(26,26,24,0.08);
+  }
+  .trg-category-icon svg {
+    width: 22px;
+    height: 22px;
+    fill: none;
+    stroke: rgb(var(--color-foreground-rgb));
+    stroke-width: 1.3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    opacity: 0.55;
+    transition: opacity 0.15s;
+  }
+  .trg-category-card:hover .trg-category-icon svg { opacity: 0.8; }
+
+  .trg-category-icon img {
+    width: 100%; height: 100%; object-fit: cover;
+  }
+
+  .trg-category-bottom {
+    position: relative;
+    z-index: 1;
+    margin-top: auto;
+  }
+  .trg-category-name {
+    margin: 0 0 4px;
+    color: var(--trg-heading-color);
+    font-family: var(--font-heading--family);
+    font-size: 1rem;
+    line-height: 1.2;
+  }
+  .trg-category-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .trg-category-count {
+    margin: 0;
+    color: var(--trg-muted-color);
+    font-size: 0.72rem;
+    line-height: 1.4;
+  }
+  .trg-category-arrow {
+    color: var(--trg-border-color);
+    font-size: 0.8rem;
+    transition: color 0.15s ease, transform 0.15s ease;
+  }
+  .trg-category-card:hover .trg-category-arrow {
+    color: var(--trg-accent-color, var(--color-primary));
+    transform: translateX(3px);
+  }
+
+  /* Mobile */
+  @media screen and (max-width: 749px) {
+    .trg-category-card { min-height: 118px; }
+    .trg-category-icon { width: 40px; height: 40px; }
+    .trg-category-icon svg { width: 19px; height: 19px; }
+    .trg-category-name { font-size: 0.88rem; }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "TRG Category Grid",
+  "tag": "section",
+  "class": "trg-category-grid-schema",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow"
+    },
+    {
+      "type": "richtext",
+      "id": "title",
+      "label": "Title",
+      "default": "<p>Browse by <em>Category</em></p>"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Body",
+      "default": "<p>Explore the live category paths while the broader product assortment is still being loaded.</p>"
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "label": "Header link label"
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "Header link"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Desktop columns",
+      "min": 3,
+      "max": 5,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "header",
+      "content": "Dynamic source"
+    },
+    {
+      "type": "select",
+      "id": "source_mode",
+      "label": "Card source",
+      "options": [
+        { "value": "manual_blocks", "label": "Manual block text" },
+        { "value": "collection_blocks", "label": "Collection from each block" }
+      ],
+      "default": "manual_blocks"
+    },
+    {
+      "type": "select",
+      "id": "collection_count_mode",
+      "label": "Collection count source",
+      "options": [
+        { "value": "manual", "label": "Use block count text" },
+        { "value": "products", "label": "Use collection product count" },
+        { "value": "hide", "label": "Hide count" }
+      ],
+      "default": "manual"
+    },
+    {
+      "type": "text",
+      "id": "collection_count_suffix",
+      "label": "Collection count suffix",
+      "default": "products"
+    },
+    {
+      "type": "select",
+      "id": "collection_icon_mode",
+      "label": "Collection icon source",
+      "options": [
+        { "value": "text", "label": "Use block icon text" },
+        { "value": "image", "label": "Use collection image" }
+      ],
+      "default": "text"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Category card",
+      "limit": 12,
+      "settings": [
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Icon (legacy, SVG auto-detected from name)"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Outerwear"
+        },
+        {
+          "type": "text",
+          "id": "count",
+          "label": "Count text",
+          "default": "18 brands"
+        },
+        {
+          "type": "text",
+          "id": "count_override",
+          "label": "Count override (optional)"
+        },
+        {
+          "type": "color",
+          "id": "colour_tint",
+          "label": "Background colour tint",
+          "default": "#706a60"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "TRG Category Grid",
+      "blocks": [
+        { "type": "category" },
+        { "type": "category" },
+        { "type": "category" },
+        { "type": "category" },
+        { "type": "category" },
+        { "type": "category" },
+        { "type": "category" },
+        { "type": "category" }
+      ]
+    }
+  ]
+}
+{% endschema %}

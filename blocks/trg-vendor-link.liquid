@@ -1,0 +1,46 @@
+{% liquid
+  assign product = closest.product
+  if request.visual_preview_mode and product == blank
+    assign product = collections.all.products.first
+  endif
+%}
+
+{% if product != blank and product.vendor != blank %}
+  <a
+    class="trg-vendor-link"
+    href="{{ product.vendor | handleize | prepend: '/collections/' }}"
+    {{ block.shopify_attributes }}
+  >
+    {{ product.vendor }}
+  </a>
+{% endif %}
+
+{% stylesheet %}
+  .trg-vendor-link {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #b8491f;
+    text-decoration: none;
+    transition: opacity 0.15s;
+  }
+
+  .trg-vendor-link:hover {
+    opacity: 0.7;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "TRG Vendor Link",
+  "tag": null,
+  "settings": [],
+  "presets": [
+    {
+      "name": "TRG Vendor Link"
+    }
+  ]
+}
+{% endschema %}

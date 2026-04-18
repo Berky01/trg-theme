@@ -1,0 +1,295 @@
+{% liquid
+  assign brand_name = product.vendor
+  assign brand_handle = brand_name | handleize
+
+  comment
+    Shopify handleize strips & but our metaobject handles use "and"
+    Try the standard handle first, then fallback with & → and
+  endcomment
+  assign brand_meta = shop.metaobjects.brand[brand_handle]
+
+  if brand_meta == blank
+    assign alt_name = brand_name | replace: '&', 'and'
+    assign alt_handle = alt_name | handleize
+    assign brand_meta = shop.metaobjects.brand[alt_handle]
+    if brand_meta != blank
+      assign brand_handle = alt_handle
+    endif
+  endif
+
+  comment
+    Pull fields from metaobject
+  endcomment
+  assign brand_desc = blank
+  assign brand_positioning = blank
+  assign brand_price = blank
+  assign brand_country = blank
+  assign brand_made_in = blank
+  assign brand_ships_ca = blank
+  assign brand_logo_url = blank
+  assign brand_category = blank
+
+  if brand_meta != blank
+    assign brand_desc = brand_meta.description.value | default: brand_meta.description
+    assign brand_positioning = brand_meta.brand_positioning.value | default: brand_meta.brand_positioning
+    assign brand_price = brand_meta.price_range.value | default: brand_meta.price_range
+    assign brand_country = brand_meta.country.value | default: brand_meta.country
+    assign brand_made_in = brand_meta.made_in.value | default: brand_meta.made_in
+    assign brand_ships_ca = brand_meta.ships_to_canada.value | default: brand_meta.ships_to_canada
+    assign brand_logo_url = brand_meta.logo.value | default: brand_meta.logo
+    assign brand_category = brand_meta.primary_category.value | default: brand_meta.primary_category
+  endif
+
+  assign brand_url = '/collections/' | append: brand_handle
+
+  comment
+    Build initials from brand name for logo fallback
+  endcomment
+  assign brand_words = brand_name | split: ' '
+  assign brand_initials = ''
+  for word in brand_words
+    assign first_char = word | slice: 0, 1 | upcase
+    if first_char != '&' and forloop.index <= 2
+      assign brand_initials = brand_initials | append: first_char
+    endif
+  endfor
+  if brand_initials == blank
+    assign brand_initials = brand_name | slice: 0, 2 | upcase
+  endif
+
+  comment
+    Has any content beyond just a name?
+  endcomment
+  assign has_meta = false
+  if brand_positioning != blank or brand_price != blank or brand_made_in != blank
+    assign has_meta = true
+  endif
+%}
+
+<section class="trg-pdp-brand-strip" {{ section.shopify_attributes }}>
+  <div class="trg-brand-strip-inner">
+    <div class="trg-brand-strip-logo-wrap">
+      {% if brand_logo_url != blank %}
+        <img class="trg-brand-strip-logo-img" src="{{ brand_logo_url }}" alt="{{ brand_name | escape }}" loading="lazy">
+      {% else %}
+        <span class="trg-brand-strip-logo-text">{{ brand_initials }}</span>
+      {% endif %}
+    </div>
+
+    <div class="trg-brand-strip-info">
+      <div class="trg-brand-strip-head">
+        <h2 class="trg-brand-strip-name">{{ brand_name | escape }}</h2>
+        {% if brand_country != blank %}
+          <span class="trg-brand-strip-origin">{{ brand_country | escape }}</span>
+        {% endif %}
+      </div>
+
+      {% if brand_desc != blank %}
+        <p class="trg-brand-strip-desc">{{ brand_desc | truncate: 180 }}</p>
+      {% endif %}
+
+      {% if has_meta %}
+        <div class="trg-brand-strip-tags">
+          {% if brand_positioning != blank %}
+            <span class="trg-brand-strip-tag">{{ brand_positioning | escape }}</span>
+          {% endif %}
+          {% if brand_price != blank %}
+            <span class="trg-brand-strip-tag">{{ brand_price | escape }}</span>
+          {% endif %}
+          {% if brand_made_in != blank %}
+            <span class="trg-brand-strip-tag">Made in {{ brand_made_in | escape }}</span>
+          {% endif %}
+          {% if brand_category != blank %}
+            <span class="trg-brand-strip-tag">{{ brand_category | escape }}</span>
+          {% endif %}
+          {% if brand_ships_ca == 'Yes' %}
+            <span class="trg-brand-strip-tag trg-brand-strip-tag--ca" data-ca-only>Ships to CA</span>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+
+    <a class="trg-brand-strip-cta" href="{{ brand_url }}">
+      View Brand <span aria-hidden="true">&#8599;</span>
+    </a>
+  </div>
+</section>
+
+{% stylesheet %}
+  .trg-pdp-brand-strip {
+    background: #1a1a18;
+    color: #f5f1eb;
+    padding: 2.5rem 2rem;
+    margin-top: 0;
+  }
+
+  .trg-brand-strip-inner {
+    max-width: 1320px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .trg-brand-strip-logo-wrap {
+    width: 72px;
+    height: 72px;
+    flex-shrink: 0;
+    background: rgba(245,241,235,0.06);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .trg-brand-strip-logo-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 10px;
+    filter: brightness(0) invert(0.92);
+  }
+
+  .trg-brand-strip-logo-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: #f5f1eb;
+    font-style: italic;
+    opacity: 0.7;
+  }
+
+  .trg-brand-strip-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .trg-brand-strip-head {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .trg-brand-strip-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #f5f1eb;
+    margin: 0;
+    line-height: 1.3;
+  }
+
+  .trg-brand-strip-origin {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(245,241,235,0.70);
+  }
+
+  .trg-brand-strip-desc {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    line-height: 1.55;
+    color: rgba(245,241,235,0.5);
+    max-width: 560px;
+    margin: 0 0 0.65rem;
+  }
+
+  .trg-brand-strip-tags {
+    display: flex;
+    gap: 0.45rem;
+    flex-wrap: wrap;
+  }
+
+  .trg-brand-strip-tag {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(245,241,235,0.65);
+    border: 1px solid rgba(245,241,235,0.12);
+    padding: 0.2rem 0.55rem;
+    border-radius: 2px;
+  }
+
+  .trg-brand-strip-tag--ca {
+    display: none;
+  }
+
+  body[data-region="CA"] .trg-brand-strip-tag--ca {
+    display: inline-block;
+  }
+
+  .trg-brand-strip-cta {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: #f5f1eb;
+    border: 1px solid rgba(245,241,235,0.2);
+    padding: 0.6rem 1.1rem;
+    border-radius: 2px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: border-color 0.2s;
+  }
+
+  .trg-brand-strip-cta:hover {
+    border-color: rgba(245,241,235,0.5);
+    color: #f5f1eb;
+  }
+
+  @media (max-width: 749px) {
+    .trg-pdp-brand-strip {
+      padding: 2rem 1.25rem;
+    }
+
+    .trg-brand-strip-inner {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1.25rem;
+    }
+
+    .trg-brand-strip-cta {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "TRG Product Brand Strip",
+  "enabled_on": {
+    "templates": ["product"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Brand spotlight"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "View Brand"
+    }
+  ],
+  "presets": [
+    {
+      "name": "TRG Product Brand Strip"
+    }
+  ]
+}
+{% endschema %}

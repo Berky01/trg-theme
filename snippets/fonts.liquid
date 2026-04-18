@@ -1,0 +1,75 @@
+{% # theme-check-disable %}
+{%- liquid
+  assign emitted_font_urls = ''
+
+  assign body_font_url = ''
+  unless settings.type_body_font.system?
+    assign body_font_url = settings.type_body_font | font_url
+  endunless
+
+  assign subheading_font_url = ''
+  unless settings.type_subheading_font.system?
+    assign subheading_font_url = settings.type_subheading_font | font_url
+  endunless
+
+  assign heading_font_url = ''
+  unless settings.type_heading_font.system?
+    assign heading_font_url = settings.type_heading_font | font_url
+  endunless
+
+  assign accent_font_url = ''
+  unless settings.type_accent_font.system?
+    assign accent_font_url = settings.type_accent_font | font_url
+  endunless
+-%}
+{%- if body_font_url != blank -%}
+  {%- assign emitted_font_urls = emitted_font_urls | append: body_font_url | append: '|' -%}
+  <link
+    rel="preload"
+    as="font"
+    href="{{ body_font_url }}"
+    type="font/woff2"
+    crossorigin
+    fetchpriority="low"
+  >
+{%- endif -%}
+{%- if subheading_font_url != blank -%}
+  {%- unless emitted_font_urls contains subheading_font_url -%}
+    {%- assign emitted_font_urls = emitted_font_urls | append: subheading_font_url | append: '|' -%}
+    <link
+      rel="preload"
+      as="font"
+      href="{{ subheading_font_url }}"
+      type="font/woff2"
+      crossorigin
+      fetchpriority="low"
+    >
+  {%- endunless -%}
+{%- endif -%}
+{%- if heading_font_url != blank -%}
+  {%- unless emitted_font_urls contains heading_font_url -%}
+    {%- assign emitted_font_urls = emitted_font_urls | append: heading_font_url | append: '|' -%}
+    <link
+      rel="preload"
+      as="font"
+      href="{{ heading_font_url }}"
+      type="font/woff2"
+      crossorigin
+      fetchpriority="low"
+    >
+  {%- endunless -%}
+{%- endif -%}
+{%- if accent_font_url != blank -%}
+  {%- unless emitted_font_urls contains accent_font_url -%}
+    {%- assign emitted_font_urls = emitted_font_urls | append: accent_font_url | append: '|' -%}
+    <link
+      rel="preload"
+      as="font"
+      href="{{ accent_font_url }}"
+      type="font/woff2"
+      crossorigin
+      fetchpriority="low"
+    >
+  {%- endunless -%}
+{%- endif -%}
+{% # theme-check-enable %}

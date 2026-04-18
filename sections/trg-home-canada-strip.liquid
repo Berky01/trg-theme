@@ -1,0 +1,172 @@
+{% comment %}
+  Homepage Canada trust strip.
+  Hidden by default. Reveals via body[data-region='ca'] per Decision Lock 1.
+{% endcomment %}
+
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+
+<section
+  class="section section--full-width color-{{ section.settings.color_scheme }} trg-section trg-home-canada-strip"
+  style="--padding-block-start: {{ section.settings.padding_block_start }}px; --padding-block-end: {{ section.settings.padding_block_end }}px;"
+>
+  <div class="trg-shell">
+    <div class="trg-home-canada-strip__inner">
+      <div class="trg-home-canada-strip__lead">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/></svg>
+        <span>{{ section.settings.lead | escape }}</span>
+      </div>
+      <div class="trg-home-canada-strip__items">
+        {% for block in section.blocks %}
+          {% if block.type == 'item' %}
+            <div class="trg-home-canada-strip__item" {{ block.shopify_attributes }}>
+              {% case block.settings.icon %}
+                {% when 'pin' %}
+                  <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                {% when 'truck' %}
+                  <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 3v5h-7V8z"/></svg>
+                {% when 'shield' %}
+                  <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l9 4v6c0 6-9 10-9 10s-9-4-9-10V6l9-4z"/></svg>
+                {% else %}
+                  <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+              {% endcase %}
+              <span>{{ block.settings.label | escape }}</span>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .trg-home-canada-strip { display: none; }
+  body[data-region='ca'] .trg-home-canada-strip { display: block; }
+
+  .trg-home-canada-strip__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 2rem;
+    padding: 1rem 0;
+    border-top: 1px solid rgba(26,26,24,0.08);
+    border-bottom: 1px solid rgba(26,26,24,0.08);
+  }
+
+  .trg-home-canada-strip__lead {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #d4291a;
+  }
+
+  .trg-home-canada-strip__items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem 2rem;
+  }
+
+  .trg-home-canada-strip__item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.82rem;
+    color: #1a1a18;
+  }
+
+  .trg-home-canada-strip__item svg {
+    color: #d4291a;
+    flex-shrink: 0;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "TRG Home Canada Strip",
+  "tag": "section",
+  "class": "section-trg-home-canada-strip",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Visibility"
+    },
+    {
+      "type": "paragraph",
+      "content": "This strip is hidden by default and reveals only for visitors detected as being in Canada (body[data-region='ca'])."
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "lead",
+      "label": "Lead label",
+      "default": "Canada-Ready"
+    },
+    {
+      "type": "range",
+      "id": "padding_block_start",
+      "label": "Padding block start",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_block_end",
+      "label": "Padding block end",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "default": 0,
+      "unit": "px"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Strip item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Ships-to-Canada filter"
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "pin", "label": "Pin" },
+            { "value": "truck", "label": "Truck" },
+            { "value": "shield", "label": "Shield" },
+            { "value": "home", "label": "Home" }
+          ],
+          "default": "pin"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "TRG Home Canada Strip",
+      "blocks": [
+        { "type": "item", "settings": { "icon": "pin",    "label": "Ships-to-Canada filter" } },
+        { "type": "item", "settings": { "icon": "truck",  "label": "DDP & duty transparency" } },
+        { "type": "item", "settings": { "icon": "shield", "label": "SSENSE, Harry Rosen, Simons routing" } },
+        { "type": "item", "settings": { "icon": "home",   "label": "Canadian brand highlights" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

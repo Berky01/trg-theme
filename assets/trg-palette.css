@@ -1,0 +1,107 @@
+/* TRG Palette Filter v1 — badge + toggle styles */
+
+/* ── PLP Toggle (injected into Dwell sidebar) ──────────────── */
+.trg-palette-toggle {
+  display: flex; align-items: center; justify-content: space-between;
+  cursor: pointer; user-select: none;
+}
+.trg-palette-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  border: 1px solid var(--border, #ddd8cf); flex-shrink: 0;
+}
+.trg-palette-switch {
+  width: 34px; height: 19px; border-radius: 999px;
+  background: var(--border, #ddd8cf); cursor: pointer;
+  position: relative; transition: background .2s; flex-shrink: 0;
+}
+.trg-palette-switch::after {
+  content: ''; position: absolute; top: 2px; left: 2px;
+  width: 15px; height: 15px; border-radius: 50%;
+  background: white; transition: transform .2s;
+  box-shadow: 0 1px 3px rgba(0,0,0,.2);
+}
+.trg-palette-switch.active { background: var(--accent, #b8491f); }
+.trg-palette-switch.active::after { transform: translateX(15px); }
+
+/* ── PLP Product Card Badges ───────────────────────────────── */
+.trg-palette-badge {
+  position: absolute; bottom: 8px; left: 8px;
+  width: 14px; height: 14px; border-radius: 50%;
+  z-index: 2; pointer-events: none;
+  box-shadow: 0 1px 4px rgba(0,0,0,.18);
+}
+.trg-palette-badge--match {
+  background: #5a8a58;
+  border: 1.5px solid rgba(255,255,255,.7);
+}
+.trg-palette-badge--caution {
+  background: #c4923a;
+  border: 1.5px solid rgba(255,255,255,.7);
+}
+
+/* ── PDP Palette Indicator ─────────────────────────────────── */
+.trg-palette-pdp {
+  display: flex; align-items: center; gap: .6rem;
+  padding: .65rem 0; border-top: 1px solid var(--border);
+  margin-top: .5rem;
+}
+.trg-palette-pdp__dot {
+  width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0;
+  border: 1px solid var(--border);
+}
+.trg-palette-pdp__dot--caution { background: #c4923a; }
+.trg-palette-pdp__text {
+  font-size: .7rem; color: var(--mid, #6b6560); line-height: 1.45;
+}
+.trg-palette-pdp__text strong { color: var(--ink); font-weight: 500; }
+
+/* ── Account Profile Card ──────────────────────────────────── */
+.trg-palette-card {
+  border: 1px solid var(--border); border-radius: 8px;
+  padding: 1.2rem; background: var(--paper);
+}
+.trg-palette-card__head {
+  display: flex; align-items: center; gap: .55rem;
+  margin-bottom: .75rem;
+}
+.trg-palette-card__swatch {
+  width: 18px; height: 18px; border-radius: 50%;
+  border: 1px solid var(--border); flex-shrink: 0;
+}
+.trg-palette-card__name {
+  font-family: 'Playfair Display', serif;
+  font-size: .95rem; font-weight: 400; color: var(--ink);
+}
+.trg-palette-card__archetype {
+  font-size: .65rem; color: var(--mid); font-weight: 400;
+  margin-left: .35rem;
+}
+.trg-palette-card__preview {
+  display: flex; gap: .35rem; margin-bottom: .85rem;
+}
+.trg-palette-card__chip {
+  width: 28px; height: 28px; border-radius: 6px;
+  border: 1px solid rgba(0,0,0,.06);
+}
+.trg-palette-card__actions {
+  display: flex; gap: .75rem; align-items: center;
+}
+.trg-palette-card__link {
+  font-size: .68rem; color: var(--accent, #b8491f);
+  text-decoration: none; font-weight: 500;
+}
+.trg-palette-card__link:hover { text-decoration: underline; }
+.trg-palette-card__remove {
+  font-size: .62rem; color: var(--mid); background: 0; border: 0;
+  cursor: pointer; text-decoration: underline; padding: 0;
+}
+.trg-palette-card__remove:hover { color: var(--ink); }
+.trg-palette-card__empty {
+  font-size: .72rem; color: var(--mid); line-height: 1.6;
+}
+.trg-palette-card__cta {
+  display: inline-block; margin-top: .6rem;
+  font-size: .68rem; color: var(--accent, #b8491f);
+  text-decoration: none; font-weight: 500;
+}
+.trg-palette-card__cta:hover { text-decoration: underline; }

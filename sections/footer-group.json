@@ -1,0 +1,127 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "type": "footer",
+  "name": "Footer",
+  "sections": {
+    "trg_newsletter": {
+      "type": "trg-newsletter",
+      "settings": {
+        "color_scheme": "scheme-header-ink",
+        "layout_variant": "journal_dark",
+        "accent_color": "#c4562a",
+        "heading_color": "#f5f1eb",
+        "body_color": "#8f8a83",
+        "input_bg_color": "#242423",
+        "input_border_color": "#3b3a36",
+        "input_text_color": "#d4cdc3",
+        "button_bg_color": "#c4562a",
+        "button_text_color": "#ffffff",
+        "note_color": "#6f6b63",
+        "eyebrow": "The Right Garment Journal",
+        "heading": "<p>Good taste,<br><em>delivered weekly<\/em><\/p>",
+        "body": "<p>New brand additions, seasonal picks, buying guides, and occasional deep-dives. No spam. Unsubscribe any time.<\/p>",
+        "use_shopify_form": true,
+        "placeholder": "your@email.com",
+        "button_label": "Subscribe",
+        "button_link": "",
+        "note": "No spam. One issue per week.",
+        "padding_block_start": 0,
+        "padding_block_end": 0
+      }
+    },
+    "trg_footer": {
+      "type": "trg-footer",
+      "blocks": {
+        "menu_column_1": {
+          "type": "menu_column",
+          "settings": {
+            "heading": "Directory",
+            "menu": "footer"
+          }
+        },
+        "menu_column_2": {
+          "type": "menu_column",
+          "settings": {
+            "heading": "Categories",
+            "menu": "footer-menu-categories"
+          }
+        },
+        "menu_column_3": {
+          "type": "menu_column",
+          "settings": {
+            "heading": "About",
+            "menu": "footer-menu-about"
+          }
+        },
+        "legal_link_1": {
+          "type": "legal_link",
+          "settings": {
+            "label": "Affiliate Disclosure",
+            "url": "shopify:\/\/pages\/affiliate-disclosure"
+          }
+        },
+        "legal_link_2": {
+          "type": "legal_link",
+          "settings": {
+            "label": "Privacy Policy",
+            "url": "shopify:\/\/pages\/privacy-policy"
+          }
+        },
+        "legal_link_3": {
+          "type": "legal_link",
+          "settings": {
+            "label": "Terms of Service",
+            "url": "shopify:\/\/pages\/terms-of-service"
+          }
+        },
+        "legal_link_4": {
+          "type": "legal_link",
+          "settings": {
+            "label": "Contact",
+            "url": "shopify:\/\/pages\/contact"
+          }
+        }
+      },
+      "block_order": [
+        "menu_column_1",
+        "menu_column_2",
+        "menu_column_3",
+        "legal_link_1",
+        "legal_link_2",
+        "legal_link_3",
+        "legal_link_4"
+      ],
+      "settings": {
+        "color_scheme": "scheme-header-ink",
+        "skin": "editorial_dark",
+        "logo_width": 360,
+        "brand_name": "The Right Garment",
+        "brand_accent_word": "Garment",
+        "brand_tagline": "<p>A menswear directory for quality-conscious buyers. No fast fashion. No filler. Just brands worth knowing.<\/p>",
+        "show_social": false,
+        "instagram_url": "https:\/\/www.instagram.com",
+        "youtube_url": "https:\/\/www.youtube.com",
+        "tiktok_url": "https:\/\/www.tiktok.com",
+        "facebook_url": "https:\/\/www.facebook.com",
+        "x_url": "https:\/\/www.x.com",
+        "show_policy_links": true,
+        "show_powered_by": false,
+        "disclosure_note": "Purchases made through links may earn us a commission at no cost to you.",
+        "padding_block_start": 0,
+        "padding_block_end": 0
+      }
+    }
+  },
+  "order": [
+    "trg_newsletter",
+    "trg_footer"
+  ]
+}

@@ -1,0 +1,434 @@
+<div class="section-background color-{{ section.settings.color_scheme }}"></div>
+<section
+  class="section section--full-width color-{{ section.settings.color_scheme }} trg-section trg-newsletter trg-newsletter--{{ section.settings.layout_variant }}"
+  style="
+    --padding-block-start: {{ section.settings.padding_block_start }}px;
+    --padding-block-end: {{ section.settings.padding_block_end }}px;
+    --trg-newsletter-accent: {{ section.settings.accent_color }};
+    --trg-newsletter-heading-color: {{ section.settings.heading_color }};
+    --trg-newsletter-body-color: {{ section.settings.body_color }};
+    --trg-newsletter-input-bg: {{ section.settings.input_bg_color }};
+    --trg-newsletter-input-border: {{ section.settings.input_border_color }};
+    --trg-newsletter-input-text: {{ section.settings.input_text_color }};
+    --trg-newsletter-button-bg: {{ section.settings.button_bg_color }};
+    --trg-newsletter-button-text: {{ section.settings.button_text_color }};
+    --trg-newsletter-note-color: {{ section.settings.note_color }};
+  "
+>
+  <div class="trg-shell trg-newsletter__inner" data-trg-reveal>
+    {% if section.settings.layout_variant == 'footer_row' %}
+      <div class="trg-newsletter__bar">
+        <div class="trg-newsletter__copy">
+          {% if section.settings.eyebrow != blank %}<p class="trg-eyebrow">{{ section.settings.eyebrow | escape }}</p>{% endif %}
+          {% if section.settings.heading != blank %}<h2 class="trg-heading">{{ section.settings.heading }}</h2>{% endif %}
+          {% if section.settings.body != blank %}<div class="trg-lead">{{ section.settings.body }}</div>{% endif %}
+        </div>
+
+        <div class="trg-newsletter__action">
+          {% if section.settings.use_shopify_form %}
+            {% form 'customer', class: 'trg-newsletter__form' %}
+              <input type="hidden" name="contact[tags]" value="newsletter">
+              <input
+                class="trg-newsletter__input"
+                type="email"
+                name="contact[email]"
+                value="{{ form.email }}"
+                placeholder="{{ section.settings.placeholder | escape }}"
+                aria-label="{{ section.settings.placeholder | escape }}"
+                required
+              >
+              <button class="trg-newsletter__button trg-newsletter__button--secondary" type="submit">{{ section.settings.button_label | escape }}</button>
+            {% endform %}
+          {% else %}
+            <div class="trg-newsletter__form">
+              <input class="trg-newsletter__input" type="email" placeholder="{{ section.settings.placeholder | escape }}" disabled>
+              <a class="trg-newsletter__button trg-newsletter__button--secondary" href="{{ section.settings.button_link | default: '#' }}">{{ section.settings.button_label | escape }}</a>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    {% else %}
+      {% if section.settings.eyebrow != blank %}<p class="trg-eyebrow">{{ section.settings.eyebrow | escape }}</p>{% endif %}
+      {% if section.settings.heading != blank %}<h2 class="trg-heading">{{ section.settings.heading }}</h2>{% endif %}
+      {% if section.settings.body != blank %}<div class="trg-lead">{{ section.settings.body }}</div>{% endif %}
+
+      {% if section.settings.use_shopify_form %}
+        {% form 'customer', class: 'trg-newsletter__form' %}
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          <input
+            class="trg-newsletter__input"
+            type="email"
+            name="contact[email]"
+            value="{{ form.email }}"
+            placeholder="{{ section.settings.placeholder | escape }}"
+            aria-label="{{ section.settings.placeholder | escape }}"
+            required
+          >
+          <button class="trg-newsletter__button" type="submit">{{ section.settings.button_label | escape }}</button>
+        {% endform %}
+      {% else %}
+        <div class="trg-newsletter__form">
+          <input class="trg-newsletter__input" type="email" placeholder="{{ section.settings.placeholder | escape }}" disabled>
+          <a class="trg-newsletter__button" href="{{ section.settings.button_link | default: '#' }}">{{ section.settings.button_label | escape }}</a>
+        </div>
+      {% endif %}
+    {% endif %}
+
+    {% if section.settings.note != blank %}
+      <p class="trg-muted-note">{{ section.settings.note | escape }}</p>
+    {% endif %}
+  </div>
+</section>
+
+{% stylesheet %}
+  .trg-newsletter {
+    padding-top: calc(var(--trg-section-space-mobile) + var(--padding-block-start, 0px));
+    padding-bottom: calc(var(--trg-section-space-mobile) + var(--padding-block-end, 0px));
+  }
+
+  @media screen and (min-width: 750px) {
+    .trg-newsletter {
+      padding-top: calc(var(--trg-section-space) + var(--padding-block-start, 0px));
+      padding-bottom: calc(var(--trg-section-space) + var(--padding-block-end, 0px));
+    }
+  }
+
+  .trg-newsletter--centered {
+    text-align: center;
+  }
+
+  .trg-newsletter--centered .trg-newsletter__inner {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .trg-newsletter--centered .trg-newsletter__form {
+    margin-top: 16px;
+  }
+
+  .trg-newsletter--footer_row .trg-newsletter__bar {
+    display: grid;
+    gap: 16px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--trg-border-color);
+  }
+
+  @media screen and (min-width: 990px) {
+    .trg-newsletter--footer_row .trg-newsletter__bar {
+      grid-template-columns: minmax(0, 1fr) minmax(280px, 460px);
+      gap: 24px;
+      align-items: end;
+    }
+  }
+
+  .trg-newsletter--footer_row .trg-newsletter__copy {
+    display: grid;
+    gap: 8px;
+  }
+
+  .trg-newsletter--footer_row .trg-heading {
+    margin: 0;
+    font-size: clamp(1.5rem, 3.4vw, 2.1rem);
+    line-height: 1.1;
+  }
+
+  .trg-newsletter--footer_row .trg-lead {
+    max-width: 640px;
+  }
+
+  .trg-newsletter--footer_row .trg-newsletter__action {
+    width: 100%;
+  }
+
+  .trg-newsletter__form {
+    display: grid;
+    gap: 10px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .trg-newsletter__form {
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+    }
+  }
+
+  .trg-newsletter__input {
+    width: 100%;
+    min-height: 46px;
+    border-radius: var(--trg-card-radius);
+    border: 1px solid var(--trg-border-color);
+    background: rgb(var(--color-background-rgb));
+    color: var(--trg-heading-color);
+    padding: 10px 14px;
+    font-size: 0.9rem;
+  }
+
+  .trg-newsletter__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 46px;
+    border-radius: 2px;
+    border: 1px solid var(--trg-newsletter-button-bg, var(--trg-newsletter-accent, var(--trg-accent-color, var(--color-primary))));
+    background: var(--trg-newsletter-button-bg, var(--trg-newsletter-accent, var(--trg-accent-color, var(--color-primary))));
+    color: var(--trg-newsletter-button-text, var(--color-primary-button-text, #fff));
+    text-decoration: none;
+    padding: 0 1.2rem;
+    white-space: nowrap;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+
+  .trg-newsletter__button--secondary {
+    background: transparent;
+    color: var(--trg-heading-color);
+    border-color: var(--trg-border-color);
+  }
+
+  .trg-newsletter--footer_row .trg-newsletter__input {
+    border: 0;
+    border-bottom: 1px solid var(--trg-border-color);
+    border-radius: 0;
+    background: transparent;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .trg-newsletter--footer_row .button {
+    white-space: nowrap;
+  }
+
+  .trg-newsletter .trg-muted-note {
+    margin-top: 10px;
+  }
+
+  .trg-newsletter--journal_dark {
+    background: #1a1a18;
+    text-align: center;
+  }
+
+  .trg-newsletter--journal_dark .trg-newsletter__inner {
+    max-width: 660px;
+    margin: 0 auto;
+  }
+
+  .trg-newsletter--journal_dark .trg-eyebrow {
+    color: var(--trg-newsletter-accent, var(--trg-accent-color, var(--color-primary)));
+  }
+
+  .trg-newsletter--journal_dark .trg-heading {
+    color: var(--trg-newsletter-heading-color, #f5f1eb);
+    font-size: clamp(2rem, 3vw, 2.45rem);
+    line-height: 1.2;
+  }
+
+  .trg-newsletter--journal_dark .trg-heading em {
+    color: var(--trg-newsletter-accent, var(--trg-accent-color, var(--color-primary)));
+  }
+
+  .trg-newsletter--journal_dark .trg-lead {
+    color: var(--trg-newsletter-body-color, rgb(245 241 235 / 0.55));
+    font-size: 0.9rem;
+    line-height: 1.75;
+  }
+
+  .trg-newsletter--journal_dark .trg-newsletter__form {
+    margin-top: 1.2rem;
+    max-width: 460px;
+    margin-inline: auto;
+  }
+
+  .trg-newsletter--journal_dark .trg-newsletter__input {
+    background: var(--trg-newsletter-input-bg, rgb(245 241 235 / 0.06));
+    border-color: var(--trg-newsletter-input-border, rgb(245 241 235 / 0.15));
+    color: var(--trg-newsletter-input-text, #f5f1eb);
+  }
+
+  .trg-newsletter--journal_dark .trg-newsletter__input::placeholder {
+    color: var(--trg-newsletter-note-color, rgb(245 241 235 / 0.35));
+  }
+
+  .trg-newsletter--journal_dark .trg-newsletter__button {
+    background: var(--trg-newsletter-button-bg, var(--trg-newsletter-accent, var(--trg-accent-color, var(--color-primary))));
+    border-color: var(--trg-newsletter-button-bg, var(--trg-newsletter-accent, var(--trg-accent-color, var(--color-primary))));
+    color: var(--trg-newsletter-button-text, #fff);
+  }
+
+  .trg-newsletter--journal_dark .trg-muted-note {
+    color: var(--trg-newsletter-note-color, rgb(245 241 235 / 0.25));
+    font-size: 0.72rem;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "TRG Newsletter",
+  "tag": "section",
+  "class": "trg-newsletter-section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-4"
+    },
+    {
+      "type": "select",
+      "id": "layout_variant",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "footer_row",
+          "label": "Footer row"
+        },
+        {
+          "value": "centered",
+          "label": "Centered block"
+        },
+        {
+          "value": "journal_dark",
+          "label": "Journal dark"
+        }
+      ],
+      "default": "footer_row"
+    },
+    {
+      "type": "header",
+      "content": "Color tuning"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#c4562a"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#f5f1eb"
+    },
+    {
+      "type": "color",
+      "id": "body_color",
+      "label": "Body color",
+      "default": "#8f8a83"
+    },
+    {
+      "type": "color",
+      "id": "input_bg_color",
+      "label": "Input background",
+      "default": "#242423"
+    },
+    {
+      "type": "color",
+      "id": "input_border_color",
+      "label": "Input border",
+      "default": "#3b3a36"
+    },
+    {
+      "type": "color",
+      "id": "input_text_color",
+      "label": "Input text",
+      "default": "#d4cdc3"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Button background",
+      "default": "#c4562a"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "note_color",
+      "label": "Muted note color",
+      "default": "#6f6b63"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Newsletter"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "<p>Email address</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Body"
+    },
+    {
+      "type": "checkbox",
+      "id": "use_shopify_form",
+      "label": "Use Shopify customer form",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "placeholder",
+      "label": "Input placeholder",
+      "default": "Email address"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Subscribe"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link",
+      "info": "Used when Shopify form is disabled"
+    },
+    {
+      "type": "text",
+      "id": "note",
+      "label": "Footnote"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_block_start",
+      "label": "Top padding override",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_block_end",
+      "label": "Bottom padding override",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "TRG Newsletter"
+    }
+  ]
+}
+{% endschema %}
+
