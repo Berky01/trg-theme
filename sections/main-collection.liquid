@@ -143,7 +143,6 @@
         {% if collection.metafields.trg.brand.value %}
           {% render 'trg-brand-collection-banner', collection: collection, inline: true %}
         {% endif %}
-        <div class="trg-plp-active-tags-top" data-trg-active-tags data-trg-active-tags-top></div>
         {% unless trg_single_column_category_collection %}
           {% content_for 'block',
             type: 'filters',
@@ -162,7 +161,6 @@
           results_size: collection.products_count
         %}
       {% endunless %}
-      <div class="trg-plp-active-tags-top" data-trg-active-tags data-trg-active-tags-top></div>
     {% endif %}
 
     {% assign products_per_page = 24 %}
