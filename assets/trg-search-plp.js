@@ -76,6 +76,7 @@
     this.root = root;
     this.syncTimeout = null;
     this.postSyncTimeout = null;
+    this.postSyncTimers = [];
     this.searchInputTimeout = null;
     this.mutationObserver = null;
     this.cardSearchIndex = new WeakMap();
@@ -147,6 +148,10 @@
 
     window.clearTimeout(this.syncTimeout);
     window.clearTimeout(this.postSyncTimeout);
+    this.postSyncTimers.forEach(function (timerId) {
+      window.clearTimeout(timerId);
+    });
+    this.postSyncTimers = [];
     window.clearTimeout(this.searchInputTimeout);
     this.root.dataset.trgPlpReady = 'false';
   };
@@ -480,8 +485,15 @@
     var self = this;
     window.clearTimeout(this.postSyncTimeout);
     this.postSyncTimeout = window.setTimeout(function () {
-      if (self.root.dataset.trgPlpReady === 'true') self.scheduleSync();
-    }, 800);
+      self.postSyncTimers.forEach(function (timerId) {
+        window.clearTimeout(timerId);
+      });
+      self.postSyncTimers = [350, 1200, 2800].map(function (delay) {
+        return window.setTimeout(function () {
+          if (self.root.dataset.trgPlpReady === 'true') self.scheduleSync();
+        }, delay);
+      });
+    }, 120);
   };
 
   TrgPlpController.prototype.scheduleApplyFilters = function () {
