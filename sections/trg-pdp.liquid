@@ -1,4 +1,3 @@
-{% comment %}trg-pdp-cache-touch 2026-04-21T22:39:18-04:00{% endcomment %}
 {%- liquid
 
   comment
@@ -119,6 +118,18 @@
 
   endfor
 
+  assign guide_inline_colour = selected_colour | strip
+
+  if guide_inline_colour == blank
+    assign guide_inline_colour_tokens = '|beige|brown|blue|green|olive|navy|cream|ecru|black|white|charcoal|grey|gray|stone|sand|camel|tobacco|denim|rust|burgundy|red|tan|khaki|forest|indigo|'
+    assign guide_inline_title_words = p.title | downcase | split: ' '
+    assign guide_inline_title_tail = guide_inline_title_words | last
+    assign guide_inline_title_token = '|' | append: guide_inline_title_tail | append: '|'
+    if guide_inline_colour_tokens contains guide_inline_title_token
+      assign guide_inline_colour = guide_inline_title_tail | capitalize
+    endif
+  endif
+
   if trg_color_ui_mode == 'enabled'
     assign trg_show_color_ui = true
   endif
@@ -172,6 +183,36 @@
   assign season     = p.metafields.trg.season
 
   assign price_rng  = p.metafields.trg.price_range
+
+  assign trg_fit_note = p.metafields.trg.fit_note.value | default: p.metafields.trg.fit_note
+
+  if trg_fit_note == blank
+
+    assign trg_fit_note = p.metafields.custom.fit_note.value | default: p.metafields.custom.fit_note
+
+  endif
+
+  assign trg_fit_note = trg_fit_note | strip
+
+  assign trg_best_for = p.metafields.trg.best_for.value | default: p.metafields.trg.best_for
+
+  if trg_best_for == blank
+
+    assign trg_best_for = p.metafields.custom.best_for.value | default: p.metafields.custom.best_for
+
+  endif
+
+  assign trg_best_for = trg_best_for | strip
+
+  assign trg_entry_price_signal = p.metafields.trg.entry_price_signal.value | default: p.metafields.trg.entry_price_signal
+
+  if trg_entry_price_signal == blank
+
+    assign trg_entry_price_signal = p.metafields.custom.entry_price_signal.value | default: p.metafields.custom.entry_price_signal
+
+  endif
+
+  assign trg_entry_price_signal = trg_entry_price_signal | strip
 
 
 
@@ -350,6 +391,32 @@
 
     </div>
 
+    {% if trg_best_for != blank or trg_fit_note != blank or trg_entry_price_signal != blank %}
+
+      <div class="trg-pdp__signals" aria-label="Product highlights">
+
+        {% if trg_best_for != blank %}
+
+          <span class="trg-pdp__signal trg-pdp__signal--best-for">{{ trg_best_for }}</span>
+
+        {% endif %}
+
+        {% if trg_fit_note != blank %}
+
+          <span class="trg-pdp__signal">{{ trg_fit_note }}</span>
+
+        {% endif %}
+
+        {% if trg_entry_price_signal != blank %}
+
+          <span class="trg-pdp__signal">{{ trg_entry_price_signal }}</span>
+
+        {% endif %}
+
+      </div>
+
+    {% endif %}
+
 
 
     {%- comment -%} Grouped colour selector (from variant_color_data metafield) {%- endcomment -%}
@@ -518,7 +585,7 @@
 
         {%- if is_direct and buy_url_us != blank -%}
 
-          <a href="{{ buy_url_us }}" target="_blank" rel="noopener sponsored" class="trg-pdp__btn-primary">
+          <a href="{%- render 'trg-utm', url: buy_url_us, campaign: brand_handle -%}" target="_blank" rel="noopener sponsored" class="trg-pdp__btn-primary">
 
             Buy at {{ vendor_name | escape }}
 
@@ -534,7 +601,7 @@
 
           {%- if buy_url_us != blank -%}
 
-            <a href="{{ buy_url_us }}" target="_blank" rel="noopener sponsored" class="trg-pdp__btn-primary">
+            <a href="{%- render 'trg-utm', url: buy_url_us, campaign: brand_handle -%}" target="_blank" rel="noopener sponsored" class="trg-pdp__btn-primary">
 
               Buy at {{ vendor_name | escape }}
 
@@ -548,7 +615,7 @@
 
             <div class="trg-pdp__cta-divider">Also sold at</div>
 
-            <a href="{{ retailer_url_us }}" target="_blank" rel="noopener sponsored" class="trg-pdp__btn-secondary">
+            <a href="{%- render 'trg-utm', url: retailer_url_us, campaign: brand_handle -%}" target="_blank" rel="noopener sponsored" class="trg-pdp__btn-secondary">
 
               Buy at {{ retailer_name_us | escape }}
 
@@ -564,7 +631,7 @@
 
         {%- if is_reseller and retailer_name_us != blank and retailer_url_us != blank -%}
 
-          <a href="{{ retailer_url_us }}" target="_blank" rel="noopener sponsored" class="trg-pdp__btn-primary" style="background:#1a1a18;">
+          <a href="{%- render 'trg-utm', url: retailer_url_us, campaign: brand_handle -%}" target="_blank" rel="noopener sponsored" class="trg-pdp__btn-primary trg-pdp__btn-primary--solid">
 
             Buy at {{ retailer_name_us | escape }}
 
@@ -600,7 +667,7 @@
 
         {%- if is_direct and buy_url_ca != blank -%}
 
-          <a href="{{ buy_url_ca }}" target="_blank" rel="noopener sponsored" class="trg-pdp__btn-primary">
+          <a href="{%- render 'trg-utm', url: buy_url_ca, campaign: brand_handle -%}" target="_blank" rel="noopener sponsored" class="trg-pdp__btn-primary">
 
             Buy at {{ vendor_name | escape }}
 
@@ -618,7 +685,7 @@
 
           {%- if buy_url_ca != blank -%}
 
-            <a href="{{ buy_url_ca }}" target="_blank" rel="noopener sponsored" class="trg-pdp__btn-primary">
+            <a href="{%- render 'trg-utm', url: buy_url_ca, campaign: brand_handle -%}" target="_blank" rel="noopener sponsored" class="trg-pdp__btn-primary">
 
               Buy at {{ vendor_name | escape }}
 
@@ -632,7 +699,7 @@
 
             <div class="trg-pdp__cta-divider">Also sold at</div>
 
-            <a href="{{ eff_retailer_url_ca }}" target="_blank" rel="noopener sponsored" class="trg-pdp__btn-secondary">
+            <a href="{%- render 'trg-utm', url: eff_retailer_url_ca, campaign: brand_handle -%}" target="_blank" rel="noopener sponsored" class="trg-pdp__btn-secondary">
 
               Buy at {{ eff_retailer_name_ca | escape }}
 
@@ -650,7 +717,7 @@
 
         {%- if is_reseller and eff_retailer_url_ca != blank -%}
 
-          <a href="{{ eff_retailer_url_ca }}" target="_blank" rel="noopener sponsored" class="trg-pdp__btn-primary" style="background:#1a1a18;">
+          <a href="{%- render 'trg-utm', url: eff_retailer_url_ca, campaign: brand_handle -%}" target="_blank" rel="noopener sponsored" class="trg-pdp__btn-primary trg-pdp__btn-primary--solid">
 
             Buy at {{ eff_retailer_name_ca | escape }}
 
@@ -706,7 +773,7 @@
 
       data-product="{{ p.handle }}"
 
-      onclick="window.trgToggleWishlist && window.trgToggleWishlist(this)"
+      data-trg-wishlist
 
     >
 
@@ -720,9 +787,18 @@
 
   {%- comment -%} GALLERY {%- endcomment -%}
 
+  {%- liquid
+    assign pdp_source_ar = p.featured_media.preview_image.aspect_ratio | default: 0.8 | plus: 0
+    if pdp_source_ar < 0.6
+      assign pdp_source_ar = 0.6
+    elsif pdp_source_ar > 1.8
+      assign pdp_source_ar = 1.8
+    endif
+  -%}
+
   <div class="trg-pdp__gallery">
 
-    <div class="trg-pdp__gallery-main" id="trg-gallery-main">
+    <div class="trg-pdp__gallery-main" id="trg-gallery-main" style="--pdp-ar: {{ pdp_source_ar }};">
 
       {%- if p.featured_media -%}
 
@@ -737,6 +813,8 @@
           height="{{ p.featured_media.height }}"
 
           loading="eager"
+
+          fetchpriority="high"
 
           id="trg-gallery-img"
 
@@ -778,7 +856,7 @@
 
           >
 
-            <img src="{{ media | image_url: width: 160 }}" srcset="{{ media | image_url: width: 80 }} 1x, {{ media | image_url: width: 160 }} 2x" alt="" loading="lazy">
+            <img src="{{ media | image_url: width: 160 }}" srcset="{{ media | image_url: width: 80 }} 1x, {{ media | image_url: width: 160 }} 2x" sizes="72px" alt="" loading="lazy" width="72" height="72">
 
           </button>
 
@@ -797,7 +875,7 @@
 
     <div class="trg-pdp__canada" id="trg-canada-strip">
 
-      <button class="trg-pdp__canada-header" type="button" onclick="this.closest('.trg-pdp__canada').classList.toggle('open')">
+      <button class="trg-pdp__canada-header" type="button" data-trg-toggle-closest=".trg-pdp__canada" data-trg-toggle-class="open">
 
         <span class="trg-pdp__canada-title">
 
@@ -871,6 +949,14 @@
 
     </div>
 
+    {%- if guide_inline_colour != blank or trg_has_grouped_colours -%}
+      <div class="trg-pdp__guide-inline">
+        <div class="trg-pdp__guide-inline-label">Colour Guide</div>
+        <p class="trg-pdp__guide-inline-copy">Use the builder below to place <strong><span data-trg-selected-color-label>{{ guide_inline_colour | default: trg_variant_color_data.first.shopify_option_value | default: trg_variant_color_data.first.color_raw | default: trg_variant_color_data.first.color_normalized | escape }}</span></strong> with the rest of the outfit, then jump into the matching catalogue paths.</p>
+        <a class="trg-pdp__guide-inline-link pdp-guide-link" href="/pages/colour-guide?source=pdp">Open the full guide &rarr;</a>
+      </div>
+    {%- endif -%}
+
 
 
     {%- comment -%} META GRID {%- endcomment -%}
@@ -935,7 +1021,7 @@
 
       <div class="trg-pdp__acc-item open">
 
-        <button class="trg-pdp__acc-trigger" type="button" onclick="this.closest('.trg-pdp__acc-item').classList.toggle('open')">
+        <button class="trg-pdp__acc-trigger" type="button" data-trg-toggle-closest=".trg-pdp__acc-item" data-trg-toggle-class="open">
 
           <span class="trg-pdp__acc-label">Details</span>
 
@@ -957,7 +1043,7 @@
 
       <div class="trg-pdp__acc-item">
 
-        <button class="trg-pdp__acc-trigger" type="button" onclick="this.closest('.trg-pdp__acc-item').classList.toggle('open')">
+        <button class="trg-pdp__acc-trigger" type="button" data-trg-toggle-closest=".trg-pdp__acc-item" data-trg-toggle-class="open">
 
           <span class="trg-pdp__acc-label">Materials + Care</span>
 
@@ -969,9 +1055,9 @@
 
           {%- if material != blank or care_inst != blank -%}
 
-            {%- if material != blank -%}<p style="margin:0 0 0.4rem;font-weight:500;color:#1a1a18;">{{ material }}</p>{%- endif -%}
+            {%- if material != blank -%}<p class="trg-pdp__mat-line">{{ material }}</p>{%- endif -%}
 
-            {%- if care_inst != blank -%}<p style="margin:0;">{{ care_inst }}</p>{%- endif -%}
+            {%- if care_inst != blank -%}<p class="trg-pdp__care-line">{{ care_inst }}</p>{%- endif -%}
 
           {%- else -%}
 
@@ -987,7 +1073,7 @@
 
       <div class="trg-pdp__acc-item">
 
-        <button class="trg-pdp__acc-trigger" type="button" onclick="this.closest('.trg-pdp__acc-item').classList.toggle('open')">
+        <button class="trg-pdp__acc-trigger" type="button" data-trg-toggle-closest=".trg-pdp__acc-item" data-trg-toggle-class="open">
 
           <span class="trg-pdp__acc-label">Shipping + Returns</span>
 
@@ -1091,6 +1177,19 @@
 
       assign ctl_colour = title_parts.last | strip
 
+    endif
+
+  endif
+
+  if ctl_colour == blank
+
+    assign ctl_colour_tokens = '|beige|brown|blue|green|olive|navy|cream|ecru|black|white|charcoal|grey|gray|stone|sand|camel|tobacco|denim|rust|burgundy|red|tan|khaki|forest|indigo|'
+    assign ctl_title_words = p.title | downcase | split: ' '
+    assign ctl_title_tail = ctl_title_words | last
+    assign ctl_title_token = '|' | append: ctl_title_tail | append: '|'
+
+    if ctl_colour_tokens contains ctl_title_token
+      assign ctl_colour = ctl_title_tail | capitalize
     endif
 
   endif
@@ -1217,14 +1316,29 @@
     <div class="pdp-guide-shell">
       <div class="pdp-guide-head">
         <div>
-          <div class="pdp-guide-kicker">Complete the look</div>
+          <div class="pdp-guide-kicker">Colour Guide</div>
           <h3 class="pdp-guide-title">Build around <em>{{ ctl_colour | escape }}</em></h3>
-          <p class="pdp-guide-sub">Build an outfit around your <strong>{{ ctl_colour | escape }}</strong> {{ ctl_garment_label }}.</p>
+          <p class="pdp-guide-sub">The guide sits directly on the PDP. Lock this <strong>{{ ctl_colour | escape }}</strong> {{ ctl_garment_label }}, build the rest, then open the matching catalogue paths.</p>
         </div>
-        <a class="pdp-guide-link" href="{{ ctl_guide_url }}">Full Colour Guide &rarr;</a>
+        <a class="pdp-guide-link" href="{{ ctl_guide_url }}">Open the full guide &rarr;</a>
       </div>
-      <div class="ob-wrap" id="cg-outfit-builder"></div>
-      <p class="pdp-guide-footnote">Colour combinations via the <a href="{{ ctl_guide_url }}">Wada palette system</a>.</p>
+      <div class="pdp-guide-pills">
+        <span class="pdp-guide-pill">Current item locked</span>
+        <span class="pdp-guide-pill">Documented pairings</span>
+        <span class="pdp-guide-pill">Search links from selections</span>
+      </div>
+      <div class="guide-tabs" role="tablist" aria-label="PDP colour guide panels">
+        <button class="guide-tab active" type="button" role="tab" aria-selected="true" aria-controls="pdp-guide-builder-panel" id="pdp-guide-builder-tab" data-guide-panel="builder">Build the outfit</button>
+        <button class="guide-tab" type="button" role="tab" aria-selected="false" aria-controls="pdp-guide-pairings-panel" id="pdp-guide-pairings-tab" data-guide-panel="pairings">Documented pairings</button>
+      </div>
+      <div class="guide-panel guide-panel--builder active" id="pdp-guide-builder-panel" role="tabpanel" aria-labelledby="pdp-guide-builder-tab" data-guide-panel-id="builder">
+        <div class="ob-wrap" id="cg-outfit-builder"></div>
+      </div>
+      <div class="guide-panel guide-panel--pairings" id="pdp-guide-pairings-panel" role="tabpanel" aria-labelledby="pdp-guide-pairings-tab" data-guide-panel-id="pairings" hidden>
+        <div class="guide-pairings" id="pdp-guide-pairings-grid"></div>
+        <div class="guide-usage" id="pdp-guide-usage-grid"></div>
+      </div>
+      <p class="pdp-guide-footnote">The guide is part of the PDP now: build around the current item here, then open the full <a href="{{ ctl_guide_url }}">Colour Guide</a> when you need the wider system.</p>
     </div>
   </div>
 </div>
@@ -1269,1655 +1383,22 @@
 
 {% endif %}
 
-
-
-{% stylesheet %}
-
-  /* ================================================================ */
-
-     TRG PDP v3 - Complete styles
-
-  /* ================================================================ */
-
-
-
-  /* BREADCRUMB */
-
-  .trg-pdp-bc {
-
-    padding: 0.75rem 2rem;
-
-    border-bottom: 1px solid #ddd8cf;
-
-    background: #faf8f4;
-
-  }
-
-  .trg-pdp-bc__inner {
-
-    max-width: 1320px;
-
-    margin: 0 auto;
-
-    width: 100%;
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 0.5rem;
-
-    flex-wrap: nowrap;
-
-    overflow: hidden;
-
-    font-size: 0.72rem;
-
-    color: #8a8478;
-
-    line-height: 1.25;
-
-  }
-
-  .trg-pdp-bc a {
-
-    color: #8a8478;
-
-    text-decoration: none;
-
-    white-space: nowrap;
-
-    flex-shrink: 0;
-
-  }
-
-  .trg-pdp-bc a:hover {
-
-    color: #1a1a18;
-
-  }
-
-  .trg-pdp-bc__sep {
-
-    opacity: 0.4;
-
-    white-space: nowrap;
-
-    flex-shrink: 0;
-
-  }
-
-  .trg-pdp-bc__current {
-
-    color: #1a1a18;
-
-    font-weight: 500;
-
-    min-width: 0;
-
-    max-width: min(48vw, 34rem);
-
-    overflow: hidden;
-
-    text-overflow: ellipsis;
-
-    white-space: nowrap;
-
-  }
-
-
-
-  /* MAIN LAYOUT - 55/45 split */
-
-  .trg-pdp {
-
-    max-width: 1320px;
-
-    margin: 0 auto;
-
-    padding: 2rem 2rem 2.5rem;
-
-    display: grid;
-
-    grid-template-columns: 55fr 45fr;
-
-    grid-template-areas:
-
-      'gallery primary'
-
-      'gallery details';
-
-    align-items: start;
-
-    gap: 2rem;
-
-  }
-
-
-
-  /* GALLERY */
-
-  .trg-pdp__gallery {
-
-    grid-area: gallery;
-
-    align-self: start;
-
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 0.75rem;
-
-  }
-
-  .trg-pdp__gallery-main {
-
-    aspect-ratio: 4/5;
-
-    background: #fff;
-
-    border-radius: 3px;
-
-    overflow: hidden;
-
-    position: relative;
-
-  }
-
-  .trg-pdp__gallery-main img {
-
-    width: 100%;
-
-    height: 100%;
-
-    object-fit: contain;
-
-    display: block;
-
-  }
-
-  .trg-pdp__gallery-placeholder {
-
-    width: 100%;
-
-    height: 100%;
-
-    display: flex;
-
-    flex-direction: column;
-
-    align-items: center;
-
-    justify-content: center;
-
-    gap: 0.75rem;
-
-    color: #8a8478;
-
-  }
-
-  .trg-pdp__gallery-placeholder svg {
-
-    opacity: 0.3;
-
-  }
-
-  .trg-pdp__gallery-placeholder span {
-
-    font-size: 0.75rem;
-
-    letter-spacing: 0.06em;
-
-    opacity: 0.5;
-
-  }
-
-  .trg-pdp__thumbs {
-
-    display: flex;
-
-    gap: 0.5rem;
-
-    animation: trg-thumb-reveal 0.15s ease 0.4s both;
-
-  }
-
-  .trg-pdp__thumbs.is-ready {
-
-    animation: none;
-
-    opacity: 1;
-
-  }
-
-  @keyframes trg-thumb-reveal {
-
-    from { opacity: 0; }
-
-    to   { opacity: 1; }
-
-  }
-
-  .trg-pdp__thumb {
-
-    width: 72px;
-
-    height: 90px;
-
-    background: #fff;
-
-    border-radius: 2px;
-
-    overflow: hidden;
-
-    cursor: pointer;
-
-    border: 2px solid transparent;
-
-    transition: border-color 0.15s;
-
-    flex-shrink: 0;
-
-    padding: 0;
-
-  }
-
-  .trg-pdp__thumb.active {
-
-    border-color: #1a1a18;
-
-  }
-
-  .trg-pdp__thumb img {
-
-    width: 100%;
-
-    height: 100%;
-
-    object-fit: contain;
-
-    display: block;
-
-  }
-
-  .trg-pdp__thumb-ph {
-
-    width: 100%;
-
-    height: 100%;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    color: #8a8478;
-
-    font-size: 0.55rem;
-
-    opacity: 0.4;
-
-    text-align: center;
-
-  }
-
-
-
-  /* INFO COLUMN */
-
-  .trg-pdp__info {
-
-    display: flex;
-
-    flex-direction: column;
-
-  }
-
-  .trg-pdp__info--primary {
-
-    grid-area: primary;
-
-    padding-top: 0.25rem;
-
-  }
-
-  .trg-pdp__info--details {
-
-    grid-area: details;
-
-  }
-
-
-
-  /* Brand link */
-
-  .trg-pdp__brand-link {
-
-    display: inline-flex;
-
-    align-items: center;
-
-    gap: 0.4rem;
-
-    font-size: 0.7rem;
-
-    font-weight: 600;
-
-    letter-spacing: 0.14em;
-
-    text-transform: uppercase;
-
-    color: #c4562a;
-
-    text-decoration: none;
-
-    margin-bottom: 0.6rem;
-
-  }
-
-  .trg-pdp__brand-link:hover {
-
-    opacity: 0.75;
-
-  }
-
-  .trg-pdp__brand-link svg {
-
-    width: 10px;
-
-    height: 10px;
-
-  }
-
-
-
-  /* Title */
-
-  .trg-pdp__title {
-
-    font-family: 'Playfair Display', serif;
-
-    font-size: 1.75rem;
-
-    font-weight: 600;
-
-    line-height: 1.2;
-
-    color: #1a1a18;
-
-    margin: 0 0 0.5rem;
-
-  }
-
-
-
-  /* Price row */
-
-  .trg-pdp__price-row {
-
-    display: flex;
-
-    align-items: baseline;
-
-    gap: 0.75rem;
-
-    margin-bottom: 1.25rem;
-
-    padding-bottom: 1.25rem;
-
-    border-bottom: 1px solid #ddd8cf;
-
-  }
-
-  .trg-pdp__price {
-
-    font-family: 'Playfair Display', serif;
-
-    font-size: 1.5rem;
-
-    font-weight: 600;
-
-    color: #1a1a18;
-
-  }
-
-  .trg-pdp__price-ca {
-
-    font-size: 0.8rem;
-
-    color: #8a8478;
-
-    font-weight: 400;
-
-    display: none;
-
-  }
-
-  body[data-region='CA'] .trg-pdp__price-ca,
-
-  body[data-region='ca'] .trg-pdp__price-ca {
-
-    display: inline;
-
-  }
-
-  .trg-pdp__price-ca-badge {
-
-    display: none;
-
-    align-items: center;
-
-    gap: 0.3rem;
-
-    background: rgba(212,41,26,0.06);
-
-    border: 1px solid rgba(212,41,26,0.15);
-
-    color: #d4291a;
-
-    border-radius: 2px;
-
-    font-size: 0.65rem;
-
-    font-weight: 600;
-
-    letter-spacing: 0.1em;
-
-    text-transform: uppercase;
-
-    padding: 0.2rem 0.5rem;
-
-  }
-
-  body[data-region='CA'] .trg-pdp__price-ca-badge,
-
-  body[data-region='ca'] .trg-pdp__price-ca-badge {
-
-    display: flex;
-
-  }
-
-
-
-  /* Selector / size chips */
-
-  .trg-pdp__selector {
-
-    margin-bottom: 1.25rem;
-
-  }
-
-  .trg-pdp__selector-label {
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    gap: 0.75rem;
-
-    font-size: 0.7rem;
-
-    font-weight: 600;
-
-    letter-spacing: 0.1em;
-
-    text-transform: uppercase;
-
-    color: #8a8478;
-
-    margin-bottom: 0.6rem;
-
-  }
-
-  .trg-pdp__selector-value {
-
-    font-size: 0.68rem;
-
-    font-weight: 500;
-
-    letter-spacing: 0.04em;
-
-    text-transform: none;
-
-    color: #1a1a18;
-
-  }
-
-  .trg-pdp__chips {
-
-    display: flex;
-
-    gap: 0.4rem;
-
-    flex-wrap: wrap;
-
-  }
-
-  .trg-pdp__chips--colours {
-
-    gap: 0.55rem;
-
-  }
-
-  .trg-pdp__chip {
-
-    min-width: 44px;
-
-    padding: 0.4rem 0.6rem;
-
-    text-align: center;
-
-    border: 1px solid #ddd8cf;
-
-    border-radius: 2px;
-
-    font-size: 0.78rem;
-
-    font-weight: 500;
-
-    cursor: pointer;
-
-    transition: all 0.15s;
-
-    background: #ffffff;
-
-    color: #1a1a18;
-
-    font-family: inherit;
-
-  }
-
-  .trg-pdp__chip--colour {
-
-    display: inline-flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    width: 2.75rem;
-
-    height: 2.75rem;
-
-    min-width: 2.75rem;
-
-    padding: 0;
-
-    border-radius: 999px;
-
-    background: transparent;
-
-  }
-
-  .trg-pdp__chip-swatch {
-
-    width: 1.75rem;
-
-    height: 1.75rem;
-
-    border-radius: 999px;
-
-    background: var(--trg-colour-swatch, #ddd8cf);
-
-    border: 1px solid rgba(26, 26, 24, 0.12);
-
-    flex-shrink: 0;
-
-  }
-
-  .trg-pdp__chip-swatch--image {
-
-    background-position: center;
-
-    background-repeat: no-repeat;
-
-    background-size: cover;
-
-  }
-
-  .trg-pdp__chip:hover {
-
-    border-color: #1a1a18;
-
-  }
-
-  .trg-pdp__chip.active {
-
-    background: #1a1a18;
-
-    color: #f5f1eb;
-
-    border-color: #1a1a18;
-
-  }
-
-  .trg-pdp__chip--colour.active {
-
-    background: transparent;
-
-    color: #1a1a18;
-
-    border-color: #1a1a18;
-
-    box-shadow: 0 0 0 1px #1a1a18;
-
-  }
-
-  .trg-pdp__chip--colour:hover {
-
-    transform: translateY(-1px);
-
-  }
-
-
-
-  /* CTA SECTION */
-
-  .trg-pdp__cta-section {
-
-    margin-bottom: 0.5rem;
-
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 0.6rem;
-
-  }
-
-  .trg-pdp__market {
-
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 0.6rem;
-
-  }
-
-  .trg-pdp__market--ca {
-
-    display: none;
-
-  }
-
-  body[data-region='CA'] .trg-pdp__market--us,
-
-  body[data-region='ca'] .trg-pdp__market--us {
-
-    display: none;
-
-  }
-
-  body[data-region='CA'] .trg-pdp__market--ca,
-
-  body[data-region='ca'] .trg-pdp__market--ca {
-
-    display: flex;
-
-  }
-
-
-
-  .trg-pdp__btn-primary {
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    gap: 0.5rem;
-
-    background: #c4562a;
-
-    color: #ffffff;
-
-    font-family: 'DM Sans', sans-serif;
-
-    font-size: 0.82rem;
-
-    font-weight: 600;
-
-    letter-spacing: 0.08em;
-
-    text-transform: uppercase;
-
-    padding: 0.95rem 1.5rem;
-
-    border-radius: 2px;
-
-    border: none;
-
-    cursor: pointer;
-
-    text-decoration: none;
-
-    transition: background 0.2s;
-
-    width: 100%;
-
-  }
-
-  .trg-pdp__btn-primary:hover {
-
-    background: #b34d24;
-
-    color: #ffffff;
-
-  }
-
-  .trg-pdp__btn-primary svg {
-
-    flex-shrink: 0;
-
-  }
-
-
-
-  .trg-pdp__btn-secondary {
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    gap: 0.5rem;
-
-    background: #ffffff;
-
-    color: #1a1a18;
-
-    font-family: 'DM Sans', sans-serif;
-
-    font-size: 0.82rem;
-
-    font-weight: 500;
-
-    letter-spacing: 0.06em;
-
-    text-transform: uppercase;
-
-    padding: 0.85rem 1.5rem;
-
-    border-radius: 2px;
-
-    cursor: pointer;
-
-    text-decoration: none;
-
-    border: 1px solid #ddd8cf;
-
-    transition: border-color 0.2s;
-
-    width: 100%;
-
-  }
-
-  .trg-pdp__btn-secondary:hover {
-
-    border-color: #1a1a18;
-
-    color: #1a1a18;
-
-  }
-
-
-
-  /* Also Available At (dedup) */
-
-  .trg-pdp__also-at {
-
-    margin-top: 0.75rem;
-
-    padding-top: 0.75rem;
-
-    border-top: 1px solid var(--trg-border);
-
-  }
-
-  .trg-pdp__also-at__label {
-
-    font-size: 0.65rem;
-
-    font-weight: 600;
-
-    text-transform: uppercase;
-
-    letter-spacing: 0.1em;
-
-    color: var(--trg-mid);
-
-    margin-bottom: 0.4rem;
-
-  }
-
-  .trg-pdp__also-at__links {
-
-    display: flex;
-
-    flex-wrap: wrap;
-
-    gap: 0.4rem;
-
-  }
-
-  .trg-pdp__also-at__link {
-
-    display: inline-flex;
-
-    align-items: center;
-
-    gap: 0.3rem;
-
-    font-size: 0.78rem;
-
-    font-weight: 500;
-
-    color: var(--trg-ink);
-
-    padding: 0.35rem 0.65rem;
-
-    border: 1px solid var(--trg-border);
-
-    border-radius: 4px;
-
-    text-decoration: none;
-
-    transition: border-color 0.15s, background 0.15s;
-
-  }
-
-  .trg-pdp__also-at__link:hover {
-
-    border-color: var(--trg-ink);
-
-    background: rgba(26,26,24,0.03);
-
-  }
-
-  .trg-pdp__also-at__link svg {
-
-    opacity: 0.5;
-
-    flex-shrink: 0;
-
-  }
-
-
-
-  .trg-pdp__cta-divider {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 0.75rem;
-
-    font-size: 0.65rem;
-
-    color: #8a8478;
-
-    text-transform: uppercase;
-
-    letter-spacing: 0.1em;
-
-  }
-
-  .trg-pdp__cta-divider::before,
-
-  .trg-pdp__cta-divider::after {
-
-    content: '';
-
-    flex: 1;
-
-    height: 1px;
-
-    background: #ddd8cf;
-
-  }
-
-
-
-  .trg-pdp__disclosure {
-
-    font-size: 0.7rem;
-
-    color: #8a8478;
-
-    font-weight: 300;
-
-    letter-spacing: 0.02em;
-
-    margin-bottom: 0.4rem;
-
-  }
-
-
-
-  .trg-pdp__ca-note {
-
-    font-size: 0.72rem;
-
-    color: #8a8478;
-
-    line-height: 1.4;
-
-    padding: 0.6rem 0.75rem;
-
-    background: rgba(212,41,26,0.04);
-
-    border: 1px solid rgba(212,41,26,0.1);
-
-    border-radius: 2px;
-
-  }
-
-
-
-  .trg-pdp__no-link {
-
-    font-size: 0.82rem;
-
-    color: #8a8478;
-
-    font-weight: 300;
-
-    font-style: italic;
-
-    padding: 0.75rem 0;
-
-  }
-
-
-
-  /* Wishlist */
-
-  .trg-pdp__wishlist {
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    gap: 0.45rem;
-
-    width: 100%;
-
-    padding: 0.7rem 1rem;
-
-    background: transparent;
-
-    border: 1px solid #ddd8cf;
-
-    border-radius: 3px;
-
-    color: #8a8478;
-
-    font-family: 'DM Sans', sans-serif;
-
-    font-size: 0.78rem;
-
-    font-weight: 500;
-
-    letter-spacing: 0.06em;
-
-    text-transform: uppercase;
-
-    cursor: pointer;
-
-    transition: all 0.2s;
-
-    margin-bottom: 1rem;
-
-  }
-
-  .trg-pdp__wishlist:hover {
-
-    border-color: #1a1a18;
-
-    color: #1a1a18;
-
-  }
-
-  .trg-pdp__wishlist.trg-wishlist--saved {
-
-    color: #c4562a;
-
-    border-color: #c4562a;
-
-  }
-
-  .trg-pdp__wishlist.trg-wishlist--saved .trg-pdp__wishlist-icon {
-
-    fill: currentColor;
-
-  }
-
-
-
-  /* CANADA STRIP */
-
-  .trg-pdp__canada {
-
-    display: none;
-
-    background: rgba(212,41,26,0.04);
-
-    border: 1px solid rgba(212,41,26,0.15);
-
-    border-radius: 3px;
-
-    overflow: hidden;
-
-    margin-bottom: 1rem;
-
-  }
-
-  body[data-region='CA'] .trg-pdp__canada,
-
-  body[data-region='ca'] .trg-pdp__canada {
-
-    display: block;
-
-  }
-
-  .trg-pdp__canada-header {
-
-    width: 100%;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    padding: 0.75rem 1rem;
-
-    background: none;
-
-    border: none;
-
-    cursor: pointer;
-
-    text-align: left;
-
-    font-family: inherit;
-
-  }
-
-  .trg-pdp__canada-title {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 0.5rem;
-
-    font-size: 0.72rem;
-
-    font-weight: 600;
-
-    letter-spacing: 0.1em;
-
-    text-transform: uppercase;
-
-    color: #d4291a;
-
-  }
-
-  .trg-pdp__canada-chevron {
-
-    color: #d4291a;
-
-    transition: transform 0.2s;
-
-  }
-
-  .trg-pdp__canada.open .trg-pdp__canada-chevron {
-
-    transform: rotate(180deg);
-
-  }
-
-  .trg-pdp__canada-body {
-
-    display: none;
-
-    flex-direction: column;
-
-    gap: 0.5rem;
-
-    padding: 0 1rem 0.85rem;
-
-  }
-
-  .trg-pdp__canada.open .trg-pdp__canada-body {
-
-    display: flex;
-
-  }
-
-  .trg-pdp__canada-fact {
-
-    display: flex;
-
-    align-items: flex-start;
-
-    gap: 0.5rem;
-
-    font-size: 0.78rem;
-
-    color: #1a1a18;
-
-    line-height: 1.4;
-
-  }
-
-  .trg-pdp__canada-fact svg {
-
-    flex-shrink: 0;
-
-    margin-top: 1px;
-
-  }
-
-  .trg-pdp__canada-icon--ok {
-
-    color: #3d8c5e;
-
-  }
-
-  .trg-pdp__canada-icon--warn {
-
-    color: #c47a28;
-
-  }
-
-
-
-  /* META GRID */
-
-  .trg-pdp__meta {
-
-    display: grid;
-
-    grid-template-columns: 1fr 1fr;
-
-    gap: 0.75rem 1rem;
-
-    padding: 1.25rem 0;
-
-    border-top: 1px solid #ddd8cf;
-
-    border-bottom: 1px solid #ddd8cf;
-
-    margin-bottom: 1rem;
-
-  }
-
-  .trg-pdp__meta-key {
-
-    font-size: 0.65rem;
-
-    font-weight: 600;
-
-    letter-spacing: 0.12em;
-
-    text-transform: uppercase;
-
-    color: #8a8478;
-
-    margin-bottom: 0.2rem;
-
-  }
-
-  .trg-pdp__meta-val {
-
-    font-size: 0.82rem;
-
-    color: #1a1a18;
-
-    font-weight: 500;
-
-  }
-
-  .trg-pdp__meta-val--tag {
-
-    display: inline-block;
-
-    background: #ede8e0;
-
-    padding: 0.15rem 0.5rem;
-
-    border-radius: 2px;
-
-    font-size: 0.72rem;
-
-  }
-
-  .trg-pdp__meta-val--na {
-
-    color: #3d8c5e;
-
-  }
-
-
-
-  /* ACCORDION */
-
-  .trg-pdp__accordion {
-
-    border-top: 1px solid #ddd8cf;
-
-  }
-
-  .trg-pdp__acc-item {
-
-    border-bottom: 1px solid #ddd8cf;
-
-  }
-
-  .trg-pdp__acc-trigger {
-
-    width: 100%;
-
-    background: none;
-
-    border: none;
-
-    cursor: pointer;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    padding: 1rem 0;
-
-    text-align: left;
-
-    font-family: inherit;
-
-  }
-
-  .trg-pdp__acc-label {
-
-    font-size: 0.78rem;
-
-    font-weight: 600;
-
-    letter-spacing: 0.08em;
-
-    text-transform: uppercase;
-
-    color: #1a1a18;
-
-  }
-
-  .trg-pdp__acc-chevron {
-
-    color: #8a8478;
-
-    transition: transform 0.2s;
-
-  }
-
-  .trg-pdp__acc-item.open .trg-pdp__acc-chevron {
-
-    transform: rotate(180deg);
-
-  }
-
-  .trg-pdp__acc-body {
-
-    display: none;
-
-    padding-bottom: 1rem;
-
-    font-size: 0.85rem;
-
-    color: #8a8478;
-
-    line-height: 1.65;
-
-  }
-
-  .trg-pdp__acc-item.open .trg-pdp__acc-body {
-
-    display: block;
-
-  }
-
-  .trg-pdp__acc-body ul {
-
-    list-style: none;
-
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 0.35rem;
-
-    padding: 0;
-
-    margin: 0;
-
-  }
-
-  .trg-pdp__acc-body ul li::before {
-
-    content: '\2014\00a0\00a0';
-
-    opacity: 0.5;
-
-  }
-
-  .trg-pdp__acc-desc {
-
-    margin-top: 0.75rem;
-
-    font-size: 0.82rem;
-
-    line-height: 1.6;
-
-  }
-
-
-
-  /* GALLERY ARROWS + COUNTER */
-
-  .trg-pdp__gallery-arrow {
-
-    position: absolute;
-
-    top: 50%;
-
-    transform: translateY(-50%);
-
-    width: 36px;
-
-    height: 36px;
-
-    border-radius: 50%;
-
-    background: rgba(255,255,255,0.88);
-
-    border: 1px solid #ddd8cf;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    cursor: pointer;
-
-    opacity: 0;
-
-    transition: opacity 0.2s;
-
-    z-index: 2;
-
-    color: #1a1a18;
-
-    padding: 0;
-
-  }
-
-  .trg-pdp__gallery-main:hover .trg-pdp__gallery-arrow {
-
-    opacity: 1;
-
-  }
-
-  .trg-pdp__gallery-arrow:hover {
-
-    background: #ffffff;
-
-    border-color: #1a1a18;
-
-  }
-
-  .trg-pdp__gallery-arrow--prev { left: 0.75rem; }
-
-  .trg-pdp__gallery-arrow--next { right: 0.75rem; }
-
-
-
-  .trg-pdp__gallery-counter {
-
-    position: absolute;
-
-    bottom: 0.75rem;
-
-    right: 0.75rem;
-
-    background: rgba(26,26,24,0.65);
-
-    color: #fff;
-
-    font-family: 'DM Sans', sans-serif;
-
-    font-size: 0.62rem;
-
-    font-weight: 500;
-
-    padding: 0.2rem 0.55rem;
-
-    border-radius: 10px;
-
-    letter-spacing: 0.06em;
-
-    z-index: 2;
-
-  }
-
-
-
-  /* Hidden meta item (JS reveals when parsed from description) */
-
-  .trg-pdp__meta-item--hidden {
-
-    display: none;
-
-  }
-
-
-
-  /* RESPONSIVE */
-
-  @media (max-width: 990px) {
-
-    .trg-pdp {
-
-      grid-template-columns: 1fr;
-
-      grid-template-areas:
-
-        'primary'
-
-        'gallery'
-
-        'details';
-
-      gap: 2rem;
-
+<script>
+(function(){
+  document.addEventListener('click', function(e){
+    var btn = e.target instanceof Element ? e.target.closest('[data-trg-wishlist], [data-trg-toggle-closest]') : null;
+    if (!btn) return;
+    if (btn.hasAttribute('data-trg-wishlist')) {
+      if (window.trgToggleWishlist) window.trgToggleWishlist(btn);
+      return;
     }
-
-  }
-
-  @media (max-width: 749px) {
-
-    .trg-pdp {
-
-      padding: 1rem 1rem 2rem;
-
-      gap: 1.25rem;
-
-    }
-
-    .trg-pdp__title {
-
-      font-size: 1.6rem;
-
-    }
-
-
-
-    /* BREADCRUMB mobile */
-
-    .trg-pdp-bc {
-
-      padding: 0.5rem 1rem;
-
-      overflow: hidden;
-
-    }
-
-    .trg-pdp-bc__inner {
-
-      flex-wrap: nowrap;
-
-      overflow-x: auto;
-
-      -webkit-overflow-scrolling: touch;
-
-      scrollbar-width: none;
-
-      gap: 0.35rem;
-
-      font-size: 0.68rem;
-
-    }
-
-    .trg-pdp-bc__inner::-webkit-scrollbar {
-
-      display: none;
-
-    }
-
-    .trg-pdp-bc__inner a,
-
-    .trg-pdp-bc__inner span {
-
-      white-space: nowrap;
-
-      flex-shrink: 0;
-
-    }
-
-    .trg-pdp-bc__current {
-
-      flex-shrink: 1 !important;
-
-      min-width: 0;
-
-      overflow: hidden;
-
-      text-overflow: ellipsis;
-
-      max-width: 52vw;
-
-    }
-
-
-
-    /* META GRID mobile */
-
-    .trg-pdp__meta {
-
-      display: flex;
-
-      flex-wrap: wrap;
-
-      column-gap: 1.5rem;
-
-      row-gap: 0.5rem;
-
-      padding: 0.85rem 0;
-
-      border-top: 1px solid #ddd8cf;
-
-      border-bottom: none;
-
-      margin-bottom: 0;
-
-    }
-
-    .trg-pdp__meta-item {
-
-      display: flex;
-
-      align-items: baseline;
-
-      gap: 0.4rem;
-
-    }
-
-    .trg-pdp__meta-key {
-
-      font-size: 0.6rem;
-
-      margin-bottom: 0;
-
-    }
-
-    .trg-pdp__meta-val {
-
-      font-size: 0.8rem;
-
-    }
-
-    .trg-pdp__meta-val--tag {
-
-      background: none;
-
-      padding: 0;
-
-      font-size: 0.8rem;
-
-    }
-
-
-
-    /* Gallery arrows: always visible on touch */
-
-    .trg-pdp__gallery-arrow {
-
-      opacity: 1;
-
-      width: 32px;
-
-      height: 32px;
-
-      background: rgba(255,255,255,0.92);
-
-    }
-
-    .trg-pdp__gallery-arrow--prev { left: 0.5rem; }
-
-    .trg-pdp__gallery-arrow--next { right: 0.5rem; }
-
-    .trg-pdp__gallery-counter {
-
-      bottom: 0.5rem;
-
-      right: 0.5rem;
-
-    }
-
-  }
-
-{% endstylesheet %}
+    var sel = btn.getAttribute('data-trg-toggle-closest');
+    var cls = btn.getAttribute('data-trg-toggle-class') || 'open';
+    var host = sel ? btn.closest(sel) : null;
+    if (host) host.classList.toggle(cls);
+  });
+})();
+</script>
 
 
 
@@ -2969,5 +1450,3 @@
 }
 
 {% endschema %}
-
-

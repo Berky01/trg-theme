@@ -98,7 +98,7 @@ function obDetectBaseColour(name){
   const aliases={
     'indigo heather':'Indigo','heather grey':'Silver',
     'off white':'Off-White','off-white':'Off-White',
-    'dark navy':'Dark Navy','rust brown':'Rust',
+    'dark navy':'Dark Navy','rust brown':'Rust','beige':'Biscuit',
     'forest':'Forest','stone grey':'Pewter','sand':'Sand'
   };
   const exact=C.find(c=>c.n.toLowerCase()===lo);
@@ -113,8 +113,158 @@ function obDetectBaseColour(name){
   return null;
 }
 
+const SLOT_PRIORITY={
+  jacket:['trousers','shirt','knitwear','coat','shoes'],
+  coat:['trousers','shirt','knitwear','jacket','shoes'],
+  shirt:['trousers','jacket','knitwear','coat','shoes'],
+  knitwear:['trousers','jacket','shirt','coat','shoes'],
+  trousers:['shirt','jacket','knitwear','coat','shoes'],
+  shoes:['trousers','shirt','knitwear','jacket','coat']
+};
+
+const FAMILY_NOTES={
+  'Whites & Creams':'Keeps the outfit light and lets the base colour stay in front.',
+  'Sand & Khaki':'Builds a quieter tonal route without flattening the outfit.',
+  'Browns':'Best in leather, knitwear, or a heavier outer layer once the base is set.',
+  'Greens':'Useful as a secondary note after the main line already feels stable.',
+  'Blues':'The easiest way to ground most menswear colours without overthinking it.',
+  'Greys':'Cleans up the palette and keeps the contrast measured.',
+  'Reds & Burgundy':'Works better as a smaller note than a first move.',
+  'Mauves':'Best used late and in small doses.'
+};
+
+function obSlotIds(){
+  return G.map(function(garment){ return garment.id; });
+}
+
+function obSlotOrder(){
+  const preferred=(SLOT_PRIORITY[ob.lockedSlot]||obSlotIds()).filter(function(id){
+    return id!==ob.lockedSlot;
+  });
+  const fallback=obSlotIds().filter(function(id){
+    return id!==ob.lockedSlot&&preferred.indexOf(id)===-1;
+  });
+  return (ob.lockedSlot?[ob.lockedSlot]:[]).concat(preferred,fallback);
+}
+
+function obRenderableSlots(){
+  return obSlotOrder().map(function(id){
+    return G.find(function(garment){ return garment.id===id; });
+  }).filter(Boolean);
+}
+
 function obNextOpen(){
-  return G.find(g=>g.id!==ob.lockedSlot&&!ob.slots[g.id]);
+  return obRenderableSlots().find(function(garment){
+    return garment.id!==ob.lockedSlot&&!ob.slots[garment.id];
+  })||null;
+}
+
+function activateGuidePanel(panelId){
+  const tabs=Array.prototype.slice.call(document.querySelectorAll('.guide-tab[data-guide-panel]'));
+  const panels=Array.prototype.slice.call(document.querySelectorAll('.guide-panel[data-guide-panel-id]'));
+  tabs.forEach(function(tab){
+    const isActive=tab.getAttribute('data-guide-panel')===panelId;
+    tab.classList.toggle('active',isActive);
+    tab.setAttribute('aria-selected',isActive?'true':'false');
+  });
+  panels.forEach(function(panel){
+    const isActive=panel.getAttribute('data-guide-panel-id')===panelId;
+    panel.classList.toggle('active',isActive);
+    panel.hidden=!isActive;
+  });
+}
+
+function bindGuideTabs(){
+  document.querySelectorAll('.guide-tab[data-guide-panel]').forEach(function(tab){
+    if(tab.dataset.bound==='true')return;
+    tab.dataset.bound='true';
+    tab.addEventListener('click',function(){
+      activateGuidePanel(tab.getAttribute('data-guide-panel'));
+    });
+  });
+}
+
+function pairingTierLabel(score){
+  return score.tier==='perfect'?'Strong match':'Good match';
+}
+
+function pairingNote(baseColour,candidate){
+  const familyNote=FAMILY_NOTES[candidate.g]||'Works best once the main line already feels stable.';
+  return candidate.n+' with '+baseColour.n.toLowerCase()+' '+familyNote.charAt(0).toLowerCase()+familyNote.slice(1);
+}
+
+function guidePairingsFor(baseColour){
+  if(!baseColour)return[];
+  const ranked=C.filter(function(colour){
+    return colour.n!==baseColour.n;
+  }).map(function(colour){
+    return{colour:colour,score:sc(baseColour,colour)};
+  }).filter(function(entry){
+    return entry.score.tier!=='care';
+  }).sort(function(a,b){
+    const tierA=a.score.tier==='perfect'?2:1;
+    const tierB=b.score.tier==='perfect'?2:1;
+    if(tierB!==tierA)return tierB-tierA;
+    return b.score.pct-a.score.pct;
+  });
+  const picks=[];
+  const usedFamilies=Object.create(null);
+  ranked.forEach(function(entry){
+    if(picks.length>=6)return;
+    if(usedFamilies[entry.colour.g])return;
+    picks.push(entry);
+    usedFamilies[entry.colour.g]=true;
+  });
+  ranked.forEach(function(entry){
+    if(picks.length>=6)return;
+    if(picks.some(function(pick){ return pick.colour.n===entry.colour.n; }))return;
+    picks.push(entry);
+  });
+  return picks.slice(0,6);
+}
+
+function buildUsageCards(baseColour,pairings){
+  const nextSlot=obNextOpen();
+  const nextLabel=nextSlot?garmentLabel(nextSlot.id):'next piece';
+  const firstPair=pairings[0];
+  const firstPairText=firstPair?firstPair.colour.n+' is the easiest anchor.':'Start with a grounding neutral.';
+  return[
+    {label:'Start here',copy:'If you want the cleanest route, set the '+nextLabel+' first. '+firstPairText},
+    {label:'Keep it quiet',copy:'Once the base is set, keep the middle of the outfit calmer than '+baseColour.n.toLowerCase()+' rather than adding another loud colour.'},
+    {label:'Use accents late',copy:'Greens, burgundy, and brighter blues work best after the main line already feels stable.'}
+  ];
+}
+
+function renderGuidePanels(){
+  const pairingsGrid=byId('pdp-guide-pairings-grid');
+  const usageGrid=byId('pdp-guide-usage-grid');
+  if(!pairingsGrid||!usageGrid)return;
+  if(!obBase.colour){
+    pairingsGrid.innerHTML='<div class="guide-empty">We could not map this product colour cleanly yet. The builder still works, but use the full guide when you need the wider system.</div>';
+    usageGrid.innerHTML='';
+    return;
+  }
+  const pairings=guidePairingsFor(obBase.colour);
+  pairingsGrid.innerHTML=pairings.map(function(entry){
+    const tierClass=entry.score.tier==='good'?' is-good':'';
+    return`<article class="pair-card">
+      <div class="pair-swatches">
+        <div style="background:${obBase.colour.h}"></div>
+        <div style="background:${entry.colour.h}"></div>
+      </div>
+      <div class="pair-body">
+        <div class="pair-name">${obBase.colour.n} + ${entry.colour.n}</div>
+        <div class="pair-tier${tierClass}">${pairingTierLabel(entry.score)}</div>
+        <div class="pair-note">${pairingNote(obBase.colour,entry.colour)}</div>
+      </div>
+    </article>`;
+  }).join('');
+  usageGrid.innerHTML=buildUsageCards(obBase.colour,pairings).map(function(card){
+    return`<div class="guide-usage-card">
+      <div class="guide-usage-label">${card.label}</div>
+      <div class="guide-usage-copy">${card.copy}</div>
+    </div>`;
+  }).join('');
 }
 
 // ─── INIT ───
@@ -154,7 +304,7 @@ function obInit(config){
         </div>
         <div class="ob-gauge-meta">
           <p class="ob-gauge-label" id="ob-gauge-label">Outfit progress</p>
-          <p class="ob-gauge-desc" id="ob-gauge-desc">Build around the shirt, then add the rest garment by garment.</p>
+          <p class="ob-gauge-desc" id="ob-gauge-desc">Build around the current item, then add the rest garment by garment.</p>
         </div>
       </div>
       <button class="ob-undo" id="ob-undo" onclick="window._obUndo()"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 119 9"/><path d="M3 3v9h9"/></svg> Undo</button>
@@ -178,6 +328,8 @@ function obInit(config){
       <div class="ob-links" id="ob-lks"></div>
     </div>
   `;
+  bindGuideTabs();
+  renderGuidePanels();
   obRenderSlots();obRenderFamilies();updateGauge();obUShop();
   const firstOpen=obNextOpen();
   if(firstOpen)obSetActiveSlot(firstOpen.id);
@@ -187,7 +339,7 @@ function obInit(config){
 function obRenderSlots(){
   const slotsEl=byId('ob-slots');
   if(!slotsEl)return;
-  slotsEl.innerHTML=G.map(g=>{
+  slotsEl.innerHTML=obRenderableSlots().map(g=>{
     const col=ob.slots[g.id];
     const isLocked=!!ob.lockedSlot&&g.id===ob.lockedSlot;
     const isFilled=!!col;
@@ -317,7 +469,7 @@ function obPickColor(colorObj){
   ob.slots[ob.activeSlot]=colorObj;
   const next=obNextOpen();
   ob.activeSlot=next?next.id:null;
-  obRenderSlots();obRenderFamilies();updateGauge();obUShop();
+  obRenderSlots();obRenderFamilies();updateGauge();obUShop();renderGuidePanels();
   obRenderSuggestions(ob.activeSlot);obUpdatePrompt();
   const undoEl=byId('ob-undo');
   if(undoEl)undoEl.classList.add('vis');
@@ -329,7 +481,7 @@ function obRemove(slotId){
   ob.history.push({slot:slotId,prevColor:ob.slots[slotId],type:'remove'});
   delete ob.slots[slotId];
   ob.activeSlot=slotId;
-  obRenderSlots();obRenderFamilies();updateGauge();obUShop();
+  obRenderSlots();obRenderFamilies();updateGauge();obUShop();renderGuidePanels();
   obRenderSuggestions(slotId);obUpdatePrompt();
   const undoEl=byId('ob-undo');
   if(undoEl)undoEl.classList.add('vis');
@@ -344,7 +496,7 @@ function obUndo(){
     else delete ob.slots[last.slot];
   }
   ob.activeSlot=null;
-  obRenderSlots();obRenderFamilies();updateGauge();obUShop();
+  obRenderSlots();obRenderFamilies();updateGauge();obUShop();renderGuidePanels();
   if(!ob.history.length){
     const undoEl=byId('ob-undo');
     if(undoEl)undoEl.classList.remove('vis');
@@ -367,10 +519,12 @@ function updateGauge(){
   if(!gaugeFill||!pctEl||!labelEl||!descEl)return;
   gaugeFill.style.strokeDashoffset=offset;
   if(filled<=1){
+    const next=obNextOpen();
+    const nextLabel=next?garmentLabel(next.id):'next piece';
     pctEl.innerHTML='Start<br>here';
     labelEl.textContent='Outfit progress';
     descEl.textContent=ob.lockedSlot
-      ? 'Build around the '+garmentLabel(ob.lockedSlot)+', then add the rest garment by garment.'
+      ? 'Build around the '+garmentLabel(ob.lockedSlot)+'. Start with the '+nextLabel+'.'
       : 'Pick a starting piece, then add the rest garment by garment.';
   }else if(filled<6){
     pctEl.textContent=filled+'/6';
@@ -428,7 +582,11 @@ function obRenderSuggestions(slotId){
 
 // ─── SHOP AREA (PDP-specific) ───
 function obUShop(){
-  const entries=Object.entries(ob.slots),sa=byId('ob-sa'),lk=byId('ob-lks');
+  const entries=obSlotOrder().filter(function(slotId){
+    return !!ob.slots[slotId];
+  }).map(function(slotId){
+    return[slotId,ob.slots[slotId]];
+  }),sa=byId('ob-sa'),lk=byId('ob-lks');
   if(!sa||!lk)return;
   if(entries.length<2){sa.classList.remove('vis');lk.innerHTML='';return;}
   sa.classList.add('vis');
@@ -448,6 +606,8 @@ function obUShop(){
 document.addEventListener('DOMContentLoaded',function(){
   var el = byId('cg-outfit-builder');
   if(!el) return;
+  bindGuideTabs();
+  activateGuidePanel('builder');
   obInit(readBuilderContext());
 });
 
