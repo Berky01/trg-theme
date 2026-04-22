@@ -75,6 +75,7 @@
   function TrgPlpController(root) {
     this.root = root;
     this.syncTimeout = null;
+    this.postSyncTimeout = null;
     this.searchInputTimeout = null;
     this.cardSearchIndex = new WeakMap();
     this.handleClick = this.handleClick.bind(this);
@@ -126,6 +127,7 @@
     document.removeEventListener('shopify:section:load', this.handleUrlChange);
 
     window.clearTimeout(this.syncTimeout);
+    window.clearTimeout(this.postSyncTimeout);
     window.clearTimeout(this.searchInputTimeout);
     this.root.dataset.trgPlpReady = 'false';
   };
@@ -168,6 +170,11 @@
 
   TrgPlpController.prototype.handleUrlChange = function () {
     this.scheduleSync();
+    var self = this;
+    window.clearTimeout(this.postSyncTimeout);
+    this.postSyncTimeout = window.setTimeout(function () {
+      if (self.root.dataset.trgPlpReady === 'true') self.scheduleSync();
+    }, 800);
   };
 
   TrgPlpController.prototype.handleInput = function (event) {
