@@ -89,6 +89,7 @@
   TrgPlpController.prototype.connect = function () {
     if (this.root.dataset.trgPlpReady === 'true') return;
 
+    var self = this;
     this.root.dataset.trgPlpReady = 'true';
     this.installHistoryHooks();
     this.restoreFilterState();
@@ -108,6 +109,10 @@
     this.syncColourIntentBanner();
     this.syncWishlistState();
     this.updateBackToTop();
+
+    window.setTimeout(function () {
+      if (self.root.dataset.trgPlpReady === 'true') self.scheduleSync();
+    }, 500);
   };
 
   TrgPlpController.prototype.disconnect = function () {

@@ -343,6 +343,51 @@
   (function(){
     if (window.__trgPriceBucketsBound) return;
     window.__trgPriceBucketsBound = true;
+    function normalizeValue(value) {
+      var raw = (value || '').toString().trim();
+      if (!raw) return '';
+      var numeric = Number(raw.replace(/[^0-9.]/g, ''));
+      return Number.isFinite(numeric) ? String(numeric) : raw;
+    }
+    function getInputs(host) {
+      if (!host) return {};
+      return {
+        minEl: host.querySelector('input[ref="minInput"], [ref="minInput"]') || host.querySelector('input[name*="price.gte"]'),
+        maxEl: host.querySelector('input[ref="maxInput"], [ref="maxInput"]') || host.querySelector('input[name*="price.lte"]')
+      };
+    }
+    function syncBuckets(host) {
+      if (!host) return;
+      var inputs = getInputs(host);
+      var min = normalizeValue(inputs.minEl && inputs.minEl.value);
+      var max = normalizeValue(inputs.maxEl && inputs.maxEl.value);
+      host.querySelectorAll('.trg-price-bucket').forEach(function(button){
+        var buttonMin = normalizeValue(button.getAttribute('data-min'));
+        var buttonMax = normalizeValue(button.getAttribute('data-max'));
+        button.classList.toggle('on', buttonMin === min && buttonMax === max);
+      });
+    }
+    function bindHost(host) {
+      if (!host || host.dataset.trgPriceBucketsReady === 'true') return;
+      host.dataset.trgPriceBucketsReady = 'true';
+      var inputs = getInputs(host);
+      [inputs.minEl, inputs.maxEl].forEach(function(input){
+        if (!input) return;
+        ['input', 'change'].forEach(function(eventName){
+          input.addEventListener(eventName, function(){ syncBuckets(host); });
+        });
+      });
+      syncBuckets(host);
+    }
+    function initBuckets() {
+      document.querySelectorAll('price-facet-component').forEach(bindHost);
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initBuckets, { once: true });
+    } else {
+      initBuckets();
+    }
+    document.addEventListener('shopify:section:load', initBuckets);
     document.addEventListener('click', function(e){
       var btn = e.target.closest('.trg-price-bucket');
       if (!btn) return;
@@ -351,12 +396,13 @@
       if (!host) return;
       var min = btn.getAttribute('data-min') || '';
       var max = btn.getAttribute('data-max') || '';
-      var minEl = host.querySelector('input[ref="minInput"], [ref="minInput"]') || host.querySelector('input[name*="price.gte"]');
-      var maxEl = host.querySelector('input[ref="maxInput"], [ref="maxInput"]') || host.querySelector('input[name*="price.lte"]');
+      var inputs = getInputs(host);
+      var minEl = inputs.minEl;
+      var maxEl = inputs.maxEl;
       if (!minEl || !maxEl) return;
       minEl.value = min;
       maxEl.value = max;
-      host.querySelectorAll('.trg-price-bucket').forEach(function(b){ b.classList.toggle('on', b === btn); });
+      syncBuckets(host);
       ['input','change'].forEach(function(ev){
         minEl.dispatchEvent(new Event(ev, {bubbles:true}));
         maxEl.dispatchEvent(new Event(ev, {bubbles:true}));
