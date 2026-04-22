@@ -170,11 +170,7 @@
 
   TrgPlpController.prototype.handleUrlChange = function () {
     this.scheduleSync();
-    var self = this;
-    window.clearTimeout(this.postSyncTimeout);
-    this.postSyncTimeout = window.setTimeout(function () {
-      if (self.root.dataset.trgPlpReady === 'true') self.scheduleSync();
-    }, 800);
+    this.schedulePostSync();
   };
 
   TrgPlpController.prototype.handleInput = function (event) {
@@ -207,6 +203,7 @@
       )
     ) {
       this.scheduleSync();
+      this.schedulePostSync();
     }
   };
 
@@ -447,6 +444,14 @@
       self.renderActiveTags();
       self.applyFilters();
     }, 200);
+  };
+
+  TrgPlpController.prototype.schedulePostSync = function () {
+    var self = this;
+    window.clearTimeout(this.postSyncTimeout);
+    this.postSyncTimeout = window.setTimeout(function () {
+      if (self.root.dataset.trgPlpReady === 'true') self.scheduleSync();
+    }, 800);
   };
 
   TrgPlpController.prototype.scheduleApplyFilters = function () {
