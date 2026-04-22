@@ -43,7 +43,7 @@
             el.setAttribute('data-total-brands', String(brands.length));
             document.dispatchEvent(new CustomEvent('trg:brands-updated'));
           }
-        }).catch(function(e) { console.warn('TRG: overflow fetch failed', e); });
+        }).catch(function() {});
     } else {
       document.dispatchEvent(new CustomEvent('trg:brands-updated'));
     }
@@ -181,6 +181,7 @@
 
       let data = [];
       let totalBrandsCount = 0;
+      let lastDataSignature = '';
       try {
         data = JSON.parse(dataNode.textContent || '[]');
       } catch (error) {
@@ -195,7 +196,10 @@
       if (!totalBrandsCount || totalBrandsCount < data.length) totalBrandsCount = data.length;
 
       data = normalizeBrands(data);
-      dataNode.textContent = JSON.stringify(data);
+      lastDataSignature = JSON.stringify(data);
+      if ((dataNode.textContent || '') !== lastDataSignature) {
+        dataNode.textContent = lastDataSignature;
+      }
 
       const PAGE = 24;
 
@@ -203,7 +207,10 @@
       document.addEventListener('trg:brands-updated', () => {
         try {
           const fresh = normalizeBrands(JSON.parse(dataNode.textContent || '[]'));
-          dataNode.textContent = JSON.stringify(fresh);
+          const nextDataSignature = JSON.stringify(fresh);
+          if (nextDataSignature === lastDataSignature) return;
+          dataNode.textContent = nextDataSignature;
+          lastDataSignature = nextDataSignature;
           data.length = 0;
           data.push(...fresh);
           /* Re-read total from data attribute (updated by pagination) */
@@ -386,7 +393,6 @@
           if (prog) prog.hidden = !total;
           updAZ();
         } catch (err) {
-          console.error('[TRG Brand Directory] render error:', err);
         }
       };
 

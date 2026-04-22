@@ -193,16 +193,6 @@
 
   
 
-  <script>
-
-    /* Fix 39 brands where handleize differs from actual page handle */
-
-    (function(){var C={"Arc'teryx": "arcteryx", "Berg & Berg": "berg-and-berg", "Bryceland's": "brycelands", "Buzz Rickson's": "buzz-ricksons", "Cad & The Dandy": "cad-and-the-dandy", "Church's": "churchs", "Colhay's": "colhays", "Crockett & Jones": "crockett-and-jones", "Ede & Ravenscroft": "ede-and-ravenscroft", "Gaziano & Girling": "gaziano-and-girling", "Hawes & Curtis": "hawes-and-curtis", "Hilditch & Key": "hilditch-and-key", "L'Estrange London": "lestrange-london", "Levi's Vintage Clothing": "levis-vintage-clothing", "Mott & Bow": "mott-and-bow", "Naked & Famous": "naked-and-famous", "Outstanding & Co.": "outstanding-and-co", "Petru & Claymoor": "petru-and-claymoor", "Rancourt & Co": "rancourt-and-co", "Saint Crispin's": "saint-crispins", "Sanders & Sanders": "sanders-and-sanders", "Spier & Mackay": "spier-and-mackay", "Studio D'Artisan": "studio-dartisan", "The Real McCoy's": "the-real-mccoys", "Toad&Co": "toad-and-co", "Tricker's": "trickers", "Turnbull & Asser": "turnbull-and-asser", "White's Boots": "whites-boots", "Warehouse & Co.": "warehouse-and-co", "Mason's": "masons", "Paul & Shark": "paul-and-shark", "A Day's March": "a-days-march", "Begg & Co": "begg-and-co", "Rodd & Gunn": "rodd-and-gunn", "Abaga": "abagavelli", "Roberto Collima": "roberto-collina", "georgecleverley": "george-cleverley", "Ascotchang": "ascot-chang", "Pringlescotland": "pringle-of-scotland"};function fix(){var el=document.querySelector('[data-brands-json]');if(!el)return;try{var b=JSON.parse(el.textContent),n=0;b.forEach(function(x){if(C[x.name]){x.handle=C[x.name];x.url='/collections/'+C[x.name];n++;}});if(n){el.textContent=JSON.stringify(b);document.dispatchEvent(new CustomEvent('trg:brands-updated'));}}catch(e){}}fix();document.addEventListener('trg:brands-updated',function(){setTimeout(fix,100);});})();
-
-  </script>
-
-  
-
   <div class="trg-bdir__head trg-bdir__desktop-chrome">
     <div class="trg-bdir__shell trg-bdir__headin">
       <div class="trg-bdir__eye">Directory</div>
@@ -223,6 +213,7 @@
           class="trg-bdir__input"
           type="search"
           placeholder="Search brands, categories, or aesthetics..."
+          aria-label="Search brands"
           autocomplete="off"
           enterkeyhint="search"
           data-search
@@ -372,9 +363,9 @@
 
           <div class="trg-bdir__gb">
 
-            <button type="button" class="trg-bdir__switchrow" data-switch="ships"><span><span class="trg-bdir__dot"></span>Ships to Canada</span><span class="trg-bdir__switch"></span></button>
+            <button type="button" class="trg-bdir__switchrow" data-switch="ships" aria-label="Ships to Canada" aria-pressed="false"><span><span class="trg-bdir__dot" aria-hidden="true"></span>Ships to Canada</span><span class="trg-bdir__switch" aria-hidden="true"></span></button>
 
-            <button type="button" class="trg-bdir__switchrow" data-switch="direct"><span>Buy Direct</span><span class="trg-bdir__switch"></span></button>
+            <button type="button" class="trg-bdir__switchrow" data-switch="direct" aria-label="Buy Direct" aria-pressed="false"><span>Buy Direct</span><span class="trg-bdir__switch" aria-hidden="true"></span></button>
 
           </div>
 
@@ -464,6 +455,5 @@
 }
 
 {% endschema %}
-
 
 
