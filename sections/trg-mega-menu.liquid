@@ -155,7 +155,17 @@
                 {%- assign chip_list = block.settings.chips | split: ',' -%}
                 {%- for chip in chip_list -%}
                   {%- assign chip_clean = chip | strip -%}
-                  <button type="button" class="trg-mm-ac{% if forloop.first %} on{% endif %}" aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}">{{ chip_clean }}</button>
+                  {%- assign chip_parts = chip_clean | split: '|' -%}
+                  {%- assign chip_label = chip_parts[0] | strip -%}
+                  {%- assign chip_url = '' -%}
+                  {%- if chip_parts.size > 1 -%}
+                    {%- assign chip_url = chip_parts[1] | strip -%}
+                  {%- endif -%}
+                  {%- if chip_url != blank -%}
+                    <a href="{{ chip_url }}" class="trg-mm-ac{% if forloop.first %} on{% endif %}">{{ chip_label }}</a>
+                  {%- else -%}
+                    <button type="button" class="trg-mm-ac{% if forloop.first %} on{% endif %}" aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}">{{ chip_label }}</button>
+                  {%- endif -%}
                 {%- endfor -%}
               </div>
             </div>
@@ -450,7 +460,18 @@
                   <div class="trg-mob-chips" data-swipe>
                     {%- assign mchips = block.settings.chips | split: ',' -%}
                     {%- for chip in mchips -%}
-                      <button type="button" class="trg-mob-chip{% if forloop.first %} on{% endif %}" aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}">{{ chip | strip }}</button>
+                      {%- assign chip_clean = chip | strip -%}
+                      {%- assign chip_parts = chip_clean | split: '|' -%}
+                      {%- assign chip_label = chip_parts[0] | strip -%}
+                      {%- assign chip_url = '' -%}
+                      {%- if chip_parts.size > 1 -%}
+                        {%- assign chip_url = chip_parts[1] | strip -%}
+                      {%- endif -%}
+                      {%- if chip_url != blank -%}
+                        <a href="{{ chip_url }}" class="trg-mob-chip{% if forloop.first %} on{% endif %}">{{ chip_label }}</a>
+                      {%- else -%}
+                        <button type="button" class="trg-mob-chip{% if forloop.first %} on{% endif %}" aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}">{{ chip_label }}</button>
+                      {%- endif -%}
                     {%- endfor -%}
                   </div>
                 {%- endif -%}
@@ -795,6 +816,5 @@
 }
 
 {% endschema %}
-
 
 

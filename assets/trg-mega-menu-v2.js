@@ -189,12 +189,44 @@ function normalizeShopLinks(){
   });
 }
 
+function normalizeChipHref(href){
+  var raw=String(href||'').trim();
+  if(!raw)return'';
+  if(/^https?:\/\//i.test(raw)||raw.indexOf('/')===0)return raw;
+  return'/'+raw.replace(/^\/+/,'');
+}
+
+function parseLegacyChip(node){
+  var raw=(node&&node.textContent||'').replace(/\s+/g,' ').trim();
+  if(!raw||raw.indexOf('|')===-1)return null;
+  var parts=raw.split('|');
+  if(parts.length<2)return null;
+  var label=parts.shift().trim();
+  var href=normalizeChipHref(parts.join('|').trim());
+  if(!label||!href)return null;
+  return{label:label,href:href};
+}
+
+function upgradeLegacyChip(node,className,staticClass){
+  var parsed=parseLegacyChip(node);
+  if(!parsed)return node;
+  var link=document.createElement('a');
+  link.href=parsed.href;
+  link.className=(node.className||'').replace(new RegExp('\\b'+staticClass+'\\b','g'),'').trim()||className;
+  link.textContent=parsed.label;
+  if(node.classList.contains('on'))link.classList.add('on');
+  node.replaceWith(link);
+  return link;
+}
+
 function normalizeShopChips(){
   $$('#trg-mm-p-shop .trg-mm-acs').forEach(function(row){
     var chips=Array.from(row.querySelectorAll('.trg-mm-ac'));
     if(!chips.length)return;
     chips.forEach(function(node){
+      node=upgradeLegacyChip(node,'trg-mm-ac','trg-mm-ac--static');
       var button=node;
+      if(node.tagName==='A'&&node.getAttribute('href')){node.classList.remove('trg-mm-ac--static');return}
       if(node.tagName!=='BUTTON'){
         button=document.createElement('button');
         button.type='button';
@@ -214,7 +246,9 @@ function normalizeShopChips(){
     var chips=Array.from(row.querySelectorAll('.trg-mob-chip'));
     if(!chips.length)return;
     chips.forEach(function(node){
+      node=upgradeLegacyChip(node,'trg-mob-chip','trg-mob-chip--static');
       var button=node;
+      if(node.tagName==='A'&&node.getAttribute('href')){node.classList.remove('trg-mob-chip--static');return}
       if(node.tagName!=='BUTTON'){
         button=document.createElement('button');
         button.type='button';
@@ -255,6 +289,7 @@ function bindShopChips(){
     root.addEventListener('click',function(e){
       var chip=e.target.closest(binding.selector);
       if(!chip)return;
+      if(chip.tagName==='A'&&chip.getAttribute('href'))return;
       e.preventDefault();
       setChipState(chip);
     });
@@ -1044,7 +1079,6 @@ document.addEventListener('shopify:section:load',function(){setTimeout(function(
 window.addEventListener('resize',function(){hookHamburger();if(!isMob()&&mobOpen)closeMob()});
 
 })();
-
 
 
 
