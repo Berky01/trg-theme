@@ -992,7 +992,16 @@
     grid-column: 1 / -1 !important;
   }
 
-  .trg-plp-body--empty-brand .trg-plp-sidebar-column,
+  .trg-plp-body--empty-brand .trg-plp-sidebar-column {
+    display: block !important;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .trg-plp-body--empty-brand .trg-plp-sidebar-column > * {
+    visibility: hidden;
+  }
+
   .trg-plp-body--staged-empty-category .trg-plp-sidebar-column,
   .trg-plp-body--small-live-category .trg-plp-sidebar-column {
     display: none !important;
