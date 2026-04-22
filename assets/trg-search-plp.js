@@ -1,3 +1,6 @@
+/* TRG Unified PLP/Search Controller — v2 2026-04-12
+   Merged from main-collection.liquid (ES6) + trg-search-plp.js (ES5).
+   Loaded on collection + search pages via theme.liquid. */
 (function () {
   if (window.__trg_search_plp_ready) return;
   window.__trg_search_plp_ready = true;
@@ -8,7 +11,15 @@
   var LOCAL_SEARCH_INPUT_DEBOUNCE_MS = 160;
   var LOAD_MORE_MAX_PAGES = 8;
   var LOAD_MORE_MAX_CARDS = 192;
-  var CONTROLLER_REGISTRY_KEY = '__trgSearchPlpControllers';
+  var CONTROLLER_REGISTRY_KEY = '__trgPlpControllers';
+  var COLOUR_INTENT_SLOT_HANDLES = {
+    shirt: 'shirts',
+    trousers: 'trousers',
+    knitwear: 'knitwear',
+    jacket: 'jackets',
+    coat: 'outerwear',
+    shoes: 'footwear'
+  };
 
   function normalizeText(value) {
     return (value || '').toString().trim().toLowerCase();
@@ -17,11 +28,11 @@
   function escapeHtml(value) {
     return (value || '')
       .toString()
-      .replaceAll('&', '&amp;')
-      .replaceAll('<', '&lt;')
-      .replaceAll('>', '&gt;')
-      .replaceAll('"', '&quot;')
-      .replaceAll("'", '&#39;');
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
   }
 
   function readColourIntent() {
@@ -35,7 +46,33 @@
     }
   }
 
-  function TrgSearchPlpController(root) {
+  function resolveColourIntentSlot(intent, collectionHandle) {
+    if (!intent) return null;
+    var safeHandle = normalizeText(collectionHandle);
+    if (safeHandle) {
+      var matchedSlot = null;
+      intent.slots.forEach(function (slot) {
+        if (!matchedSlot && normalizeText(slot.handle) === safeHandle) matchedSlot = slot;
+      });
+      if (matchedSlot) return matchedSlot;
+      var matchedGarment = null;
+      Object.keys(COLOUR_INTENT_SLOT_HANDLES).forEach(function (key) {
+        if (COLOUR_INTENT_SLOT_HANDLES[key] === safeHandle) matchedGarment = key;
+      });
+      if (matchedGarment) {
+        var garmentSlot = null;
+        intent.slots.forEach(function (slot) {
+          if (!garmentSlot && normalizeText(slot.slot) === matchedGarment) garmentSlot = slot;
+        });
+        return garmentSlot || null;
+      }
+    }
+    return intent.anchor || intent.slots[0] || null;
+  }
+
+  /* ── Constructor ── */
+
+  function TrgPlpController(root) {
     this.root = root;
     this.syncTimeout = null;
     this.searchInputTimeout = null;
@@ -43,10 +80,13 @@
     this.handleClick = this.handleClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleInput = this.handleInput.bind(this);
+    this.handleScroll = this.handleScroll.bind(this);
     this.handleUrlChange = this.handleUrlChange.bind(this);
   }
 
-  TrgSearchPlpController.prototype.connect = function () {
+  /* ── Lifecycle ── */
+
+  TrgPlpController.prototype.connect = function () {
     if (this.root.dataset.trgPlpReady === 'true') return;
 
     this.root.dataset.trgPlpReady = 'true';
@@ -54,25 +94,29 @@
     this.restoreFilterState();
 
     document.addEventListener('click', this.handleClick);
-    document.addEventListener('change', this.handleChange, true);
-    document.addEventListener('input', this.handleInput, true);
+    document.addEventListener('change', this.handleChange);
+    document.addEventListener('input', this.handleInput);
+    window.addEventListener('scroll', this.handleScroll, { passive: true });
     window.addEventListener('trg:url-changed', this.handleUrlChange);
     document.addEventListener('shopify:section:load', this.handleUrlChange);
 
+    this.normalizeBrandBanner();
     this.syncSortSelect();
     this.syncDesktopFilterToggle();
     this.renderActiveTags();
     this.applyFilters();
     this.syncColourIntentBanner();
     this.syncWishlistState();
+    this.updateBackToTop();
   };
 
-  TrgSearchPlpController.prototype.disconnect = function () {
+  TrgPlpController.prototype.disconnect = function () {
     if (this.root.dataset.trgPlpReady !== 'true') return;
 
     document.removeEventListener('click', this.handleClick);
-    document.removeEventListener('change', this.handleChange, true);
-    document.removeEventListener('input', this.handleInput, true);
+    document.removeEventListener('change', this.handleChange);
+    document.removeEventListener('input', this.handleInput);
+    window.removeEventListener('scroll', this.handleScroll);
     window.removeEventListener('trg:url-changed', this.handleUrlChange);
     document.removeEventListener('shopify:section:load', this.handleUrlChange);
 
@@ -81,12 +125,18 @@
     this.root.dataset.trgPlpReady = 'false';
   };
 
-  TrgSearchPlpController.prototype.installHistoryHooks = function () {
-    if (window.__trgPlpHistoryPatched) return;
+  /* ── History hooks ── */
 
+  TrgPlpController.prototype.installHistoryHooks = function () {
+    if (window.__trgPlpHistoryPatched) return;
     window.__trgPlpHistoryPatched = true;
+
+    /* Phase 8: dispatch both TRG and Dwell filter events */
     var dispatch = function () {
       window.dispatchEvent(new Event('trg:url-changed'));
+      try {
+        document.dispatchEvent(new CustomEvent('filter:update', { bubbles: true }));
+      } catch (_) {}
     };
 
     ['pushState', 'replaceState'].forEach(function (method) {
@@ -101,24 +151,28 @@
     window.addEventListener('popstate', dispatch);
   };
 
-  TrgSearchPlpController.prototype.restoreFilterState = function () {
+  /* ── Filter state ── */
+
+  TrgPlpController.prototype.restoreFilterState = function () {
     var storedState = window.localStorage.getItem(FILTER_STORAGE_KEY);
     document.body.classList.toggle('filters-hidden', storedState === '0');
     this.syncDesktopFilterToggle();
   };
 
-  TrgSearchPlpController.prototype.handleUrlChange = function () {
+  /* ── Event handlers ── */
+
+  TrgPlpController.prototype.handleUrlChange = function () {
     this.scheduleSync();
   };
 
-  TrgSearchPlpController.prototype.handleInput = function (event) {
+  TrgPlpController.prototype.handleInput = function (event) {
     if (this.root.dataset.trgLocalSearch === 'false') return;
     if (event.target instanceof HTMLInputElement && event.target.matches('[data-trg-search-input]')) {
       this.scheduleApplyFilters();
     }
   };
 
-  TrgSearchPlpController.prototype.handleChange = function (event) {
+  TrgPlpController.prototype.handleChange = function (event) {
     var target = event.target;
     if (!(target instanceof HTMLElement)) return;
 
@@ -144,7 +198,7 @@
     }
   };
 
-  TrgSearchPlpController.prototype.handleClick = function (event) {
+  TrgPlpController.prototype.handleClick = function (event) {
     var target = event.target instanceof Element ? event.target : null;
     if (!target) return;
 
@@ -164,15 +218,48 @@
         if (dialog && typeof dialog.showDialog === 'function') {
           dialog.showDialog();
         } else {
-          document.querySelector('.facets-toggle__button')?.click();
+          var fallback = document.querySelector('.facets-toggle__button');
+          if (fallback) fallback.click();
         }
         return;
       }
-
       var shouldHide = !document.body.classList.contains('filters-hidden');
       document.body.classList.toggle('filters-hidden', shouldHide);
       window.localStorage.setItem(FILTER_STORAGE_KEY, shouldHide ? '0' : '1');
       this.syncDesktopFilterToggle();
+      return;
+    }
+
+    var mobileFilterButton = target.closest('[data-trg-plp-mobile-filter-button]');
+    if (mobileFilterButton) {
+      event.preventDefault();
+      var mDialog = document.querySelector('dialog-component#filters-drawer');
+      if (mDialog && typeof mDialog.showDialog === 'function') {
+        mDialog.showDialog();
+      } else {
+        var mFallback = document.querySelector('.facets-toggle__button');
+        if (mFallback) mFallback.click();
+      }
+      return;
+    }
+
+    var searchPill = target.closest('[data-trg-search-pill]');
+    if (searchPill instanceof HTMLElement) {
+      event.preventDefault();
+      var searchInput = document.querySelector('[data-trg-search-input]');
+      if (searchInput instanceof HTMLInputElement) {
+        searchInput.value = searchPill.dataset.trgSearchPill || '';
+        searchInput.dispatchEvent(new Event('input', { bubbles: true }));
+        searchInput.focus();
+      }
+      return;
+    }
+
+    var activeClear = target.closest('[data-trg-active-clear]');
+    if (activeClear instanceof HTMLButtonElement) {
+      event.preventDefault();
+      var activeSummary = activeClear.closest('[data-trg-active-summary]');
+      this.clearAllActiveTags(activeSummary instanceof HTMLElement ? activeSummary.dataset.clearUrl || '' : '');
       return;
     }
 
@@ -186,8 +273,10 @@
     var toggleFilter = target.closest('[data-trg-toggle]');
     if (toggleFilter instanceof HTMLButtonElement) {
       event.preventDefault();
+      var toggleName = toggleFilter.dataset.trgToggle || '';
       var isPressed = toggleFilter.getAttribute('aria-pressed') === 'true';
-      toggleFilter.setAttribute('aria-pressed', String(!isPressed));
+      if (!toggleName) return;
+      this.setTogglePressed(toggleName, !isPressed);
       this.renderActiveTags();
       this.applyFilters();
       return;
@@ -203,23 +292,152 @@
     var wishlistButton = target.closest('[data-trg-wishlist]');
     if (wishlistButton instanceof HTMLButtonElement) {
       event.preventDefault();
-      event.stopPropagation();
       this.toggleWishlist(wishlistButton);
+      return;
+    }
+
+    var colourSwatch = target.closest('.trg-plp-card-colour');
+    if (colourSwatch instanceof HTMLButtonElement) {
+      event.preventDefault();
+      this.handleColourSwatchClick(colourSwatch);
+      return;
+    }
+
+    var backToTop = target.closest('[data-trg-back-to-top]');
+    if (backToTop instanceof HTMLButtonElement) {
+      event.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
-  TrgSearchPlpController.prototype.scheduleSync = function () {
+  /* ── Brand banner normalization (collection pages) ── */
+
+  TrgPlpController.prototype.normalizeBrandBanner = function () {
+    var mainColumn = this.root.querySelector('.trg-plp-main-column');
+    if (!(mainColumn instanceof HTMLElement)) return;
+
+    var currentBanner = mainColumn.querySelector('.trg-bch');
+    if (currentBanner instanceof HTMLElement) {
+      currentBanner.classList.add('trg-bch--inline');
+    }
+
+    var externalBanner = null;
+    var allBanners = document.querySelectorAll('.trg-bch');
+    for (var i = 0; i < allBanners.length; i++) {
+      if (!mainColumn.contains(allBanners[i])) {
+        externalBanner = allBanners[i];
+        break;
+      }
+    }
+    if (!(externalBanner instanceof HTMLElement)) return;
+
+    var externalSection = externalBanner.closest('.trg-bch-section, [id^="shopify-section-"]');
+    var controls = mainColumn.querySelector('.trg-collection-controls');
+
+    var preserveStyles = function () {
+      if (!(externalSection instanceof HTMLElement)) return;
+      externalSection.querySelectorAll('link[rel="stylesheet"], style').forEach(function (node) {
+        if (!(node instanceof HTMLElement)) return;
+        if (node.tagName === 'LINK') {
+          var href = node.getAttribute('href');
+          if (!href) return;
+          var already = false;
+          document.querySelectorAll('link[rel="stylesheet"]').forEach(function (existing) {
+            if (existing !== node && existing.getAttribute('href') === href) already = true;
+          });
+          if (!already) document.head.appendChild(node.cloneNode(true));
+          return;
+        }
+        var cssText = (node.textContent || '').trim();
+        if (!cssText) return;
+        var alreadyStyle = false;
+        document.querySelectorAll('style').forEach(function (existing) {
+          if (existing !== node && (existing.textContent || '').trim() === cssText) alreadyStyle = true;
+        });
+        if (!alreadyStyle) document.head.appendChild(node.cloneNode(true));
+      });
+    };
+
+    if (!(currentBanner instanceof HTMLElement)) {
+      preserveStyles();
+      externalBanner.classList.add('trg-bch--inline');
+      if (controls instanceof HTMLElement) {
+        mainColumn.insertBefore(externalBanner, controls);
+      } else {
+        mainColumn.insertBefore(externalBanner, mainColumn.firstChild);
+      }
+    } else {
+      preserveStyles();
+      if (externalSection instanceof HTMLElement) {
+        externalSection.style.display = 'none';
+      externalSection.setAttribute('aria-hidden', 'true');
+      externalSection.setAttribute('data-skip-subtree-update', '');
+      externalSection.setAttribute('data-skip-node-update', '');
+      }
+      return;
+    }
+
+    if (externalSection instanceof HTMLElement) {
+      externalSection.style.display = 'none';
+      externalSection.setAttribute('aria-hidden', 'true');
+      externalSection.setAttribute('data-skip-subtree-update', '');
+      externalSection.setAttribute('data-skip-node-update', '');
+    }
+  };
+
+  /* ── Colour swatch click ── */
+
+  TrgPlpController.prototype.handleColourSwatchClick = function (button) {
+    var li = button.closest('.product-grid__item');
+    if (!li) return;
+    var imageUrl = (button.dataset.trgColourImage || '').trim();
+    var pdpUrl = (button.dataset.trgColourUrl || '').trim();
+
+    li.querySelectorAll('.trg-plp-card-colour').forEach(function (b) {
+      b.classList.remove('is-active');
+    });
+    button.classList.add('is-active');
+
+    if (imageUrl) {
+      var img = li.querySelector('.card-gallery img');
+      if (img) {
+        var base = imageUrl.replace(/\?.*$/, '');
+        var srcset = [200, 300, 400, 500, 600, 700, 800].map(function (w) {
+          return base + '?width=' + w + ' ' + w + 'w';
+        }).join(', ');
+        img.srcset = srcset;
+        img.src = base + '?width=600';
+        img.removeAttribute('loading');
+      }
+    }
+
+    if (pdpUrl) {
+      var clickDiv = li.querySelector('[onclick*="location.href"]');
+      if (clickDiv) {
+        clickDiv.setAttribute('onclick', "location.href='" + pdpUrl.replace(/'/g, "\\'") + "'");
+        clickDiv.dataset.url = pdpUrl;
+      }
+      li.querySelectorAll('a[href*="/products/"]').forEach(function (a) {
+        a.href = pdpUrl;
+      });
+    }
+  };
+
+  /* ── Scheduling ── */
+
+  TrgPlpController.prototype.scheduleSync = function () {
     var self = this;
     window.clearTimeout(this.syncTimeout);
     this.syncTimeout = window.setTimeout(function () {
+      self.normalizeBrandBanner();
       self.syncSortSelect();
       self.syncDesktopFilterToggle();
       self.renderActiveTags();
       self.applyFilters();
-    }, 90);
+    }, 200);
   };
 
-  TrgSearchPlpController.prototype.scheduleApplyFilters = function () {
+  TrgPlpController.prototype.scheduleApplyFilters = function () {
     var self = this;
     window.clearTimeout(this.searchInputTimeout);
     this.searchInputTimeout = window.setTimeout(function () {
@@ -227,14 +445,18 @@
     }, LOCAL_SEARCH_INPUT_DEBOUNCE_MS);
   };
 
-  TrgSearchPlpController.prototype.syncSortSelect = function () {
+  /* ── Sort select sync ── */
+
+  TrgPlpController.prototype.syncSortSelect = function () {
     var sortSelect = this.root.querySelector('[data-trg-plp-sort]');
     if (!(sortSelect instanceof HTMLSelectElement)) return;
 
-    var sourceSelect =
-      Array.from(document.querySelectorAll('select[name="sort_by"]')).find(function (select) {
-        return !select.disabled;
-      }) || document.querySelector('select[name="sort_by"]');
+    var sourceSelect = null;
+    var allSorts = document.querySelectorAll('select[name="sort_by"]');
+    for (var i = 0; i < allSorts.length; i++) {
+      if (!allSorts[i].disabled) { sourceSelect = allSorts[i]; break; }
+    }
+    if (!sourceSelect) sourceSelect = document.querySelector('select[name="sort_by"]');
     if (!(sourceSelect instanceof HTMLSelectElement)) return;
 
     var signature = Array.from(sourceSelect.options)
@@ -244,7 +466,7 @@
       .join('|');
 
     if (sortSelect.dataset.sourceSignature !== signature) {
-      sortSelect.innerHTML = '';
+      while (sortSelect.firstChild) sortSelect.removeChild(sortSelect.firstChild);
       Array.from(sourceSelect.options).forEach(function (option) {
         sortSelect.appendChild(new Option((option.textContent || '').trim(), option.value, option.selected, option.selected));
       });
@@ -254,7 +476,9 @@
     sortSelect.value = new URL(window.location.href).searchParams.get('sort_by') || sourceSelect.value;
   };
 
-  TrgSearchPlpController.prototype.syncDesktopFilterToggle = function () {
+  /* ── Desktop filter toggle ── */
+
+  TrgPlpController.prototype.syncDesktopFilterToggle = function () {
     var isMobile = window.matchMedia('(max-width: 989px)').matches;
     var shouldShow = isMobile || document.body.classList.contains('filters-hidden');
 
@@ -270,11 +494,13 @@
     });
   };
 
-  TrgSearchPlpController.prototype.getSearchCards = function () {
+  /* ── Card search ── */
+
+  TrgPlpController.prototype.getSearchCards = function () {
     return Array.from(this.root.querySelectorAll('[data-trg-search-item]'));
   };
 
-  TrgSearchPlpController.prototype.getCardSearchText = function (card) {
+  TrgPlpController.prototype.getCardSearchText = function (card) {
     if (!(card instanceof HTMLElement)) return '';
     if (this.cardSearchIndex.has(card)) return this.cardSearchIndex.get(card);
     var normalized = normalizeText(card.getAttribute('data-trg-search-text'));
@@ -282,55 +508,48 @@
     return normalized;
   };
 
-  TrgSearchPlpController.prototype.parsePositiveNumber = function (value, fallback) {
+  /* ── Numeric helpers ── */
+
+  TrgPlpController.prototype.parsePositiveNumber = function (value, fallback) {
     var parsed = Number(value);
     return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback;
   };
 
-  TrgSearchPlpController.prototype.getLoadMoreLimits = function (loadMoreZone) {
+  TrgPlpController.prototype.getLoadMoreLimits = function (loadMoreZone) {
     var pageFromUrl = new URL(window.location.href).searchParams.get('page');
     var currentPage = this.parsePositiveNumber(
-      (loadMoreZone && loadMoreZone.dataset.currentPage) || pageFromUrl || '1',
-      1
+      (loadMoreZone && loadMoreZone.dataset.currentPage) || pageFromUrl || '1', 1
     );
     var visibleCount = this.parsePositiveNumber(
-      (loadMoreZone && loadMoreZone.dataset.visibleCount) || this.getSearchCards().length || 0,
-      0
+      (loadMoreZone && loadMoreZone.dataset.visibleCount) || this.getSearchCards().length || 0, 0
     );
     var pageSize = this.parsePositiveNumber((loadMoreZone && loadMoreZone.dataset.pageSize) || 24, 24);
-    var maxPages = this.parsePositiveNumber(this.root.dataset.trgMaxAppendedPages || LOAD_MORE_MAX_PAGES, LOAD_MORE_MAX_PAGES);
-    var maxCards = this.parsePositiveNumber(
-      this.root.dataset.trgMaxAppendedCards || pageSize * maxPages || LOAD_MORE_MAX_CARDS,
-      LOAD_MORE_MAX_CARDS
+    var maxPages = this.parsePositiveNumber(
+      this.root.dataset.trgMaxAppendedPages || LOAD_MORE_MAX_PAGES, LOAD_MORE_MAX_PAGES
     );
-
-    return {
-      currentPage: currentPage,
-      visibleCount: visibleCount,
-      maxPages: maxPages,
-      maxCards: maxCards
-    };
+    var maxCards = this.parsePositiveNumber(
+      this.root.dataset.trgMaxAppendedCards || pageSize * maxPages || LOAD_MORE_MAX_CARDS, LOAD_MORE_MAX_CARDS
+    );
+    return { currentPage: currentPage, visibleCount: visibleCount, maxPages: maxPages, maxCards: maxCards };
   };
 
-  TrgSearchPlpController.prototype.getExistingParentKeys = function (grid) {
+  TrgPlpController.prototype.getExistingParentKeys = function (grid) {
     var seen = new Set();
     if (!(grid instanceof HTMLElement)) return seen;
-
     grid.querySelectorAll('.product-grid__item').forEach(function (card) {
       if (!(card instanceof HTMLElement)) return;
       var mode = (card.dataset.trgPlpDisplayMode || '').trim();
       var parentKey = (card.dataset.trgSourceParentId || '').trim();
-      if (mode === 'parent_card' && parentKey) {
-        seen.add(parentKey);
-      }
+      if (mode === 'parent_card' && parentKey) seen.add(parentKey);
     });
-
     return seen;
   };
 
-  TrgSearchPlpController.prototype.getActiveToggles = function () {
+  /* ── Toggle filters ── */
+
+  TrgPlpController.prototype.getActiveToggles = function () {
     var active = new Set();
-    document.querySelectorAll('[data-trg-toggle]').forEach(function (button) {
+    this.root.querySelectorAll('[data-trg-toggle]').forEach(function (button) {
       if (!(button instanceof HTMLButtonElement)) return;
       if (button.getAttribute('aria-pressed') === 'true' && button.dataset.trgToggle) {
         active.add(button.dataset.trgToggle);
@@ -339,12 +558,21 @@
     return active;
   };
 
-  TrgSearchPlpController.prototype.getToggleLabel = function (toggleName) {
-    var label = document.querySelector('[data-trg-toggle="' + toggleName + '"] .trg-plp-toggle-label');
+  TrgPlpController.prototype.setTogglePressed = function (toggleName, isPressed) {
+    if (!toggleName) return;
+    this.root.querySelectorAll('[data-trg-toggle="' + toggleName + '"]').forEach(function (button) {
+      if (button instanceof HTMLButtonElement) {
+        button.setAttribute('aria-pressed', String(isPressed));
+      }
+    });
+  };
+
+  TrgPlpController.prototype.getToggleLabel = function (toggleName) {
+    var label = this.root.querySelector('[data-trg-toggle="' + toggleName + '"] .trg-plp-toggle-label');
     return label ? (label.textContent || '').trim() : '';
   };
 
-  TrgSearchPlpController.prototype.matchesToggleFilters = function (card, activeToggles) {
+  TrgPlpController.prototype.matchesToggleFilters = function (card, activeToggles) {
     if (activeToggles.size === 0) return true;
     if (activeToggles.has('ships-ca') && card.dataset.trgShipsCa !== 'true') return false;
     if (activeToggles.has('on-sale') && card.dataset.trgOnSale !== 'true') return false;
@@ -352,13 +580,12 @@
     return true;
   };
 
-  TrgSearchPlpController.prototype.updateVisibleState = function (visibleCount) {
-    this.root.dataset.trgVisibleCount = String(visibleCount);
+  /* ── Visible state ── */
 
+  TrgPlpController.prototype.updateVisibleState = function (visibleCount) {
+    this.root.dataset.trgVisibleCount = String(visibleCount);
     var grid = this.root.querySelector('.product-grid');
-    if (grid instanceof HTMLElement) {
-      grid.dataset.trgVisibleCount = String(visibleCount);
-    }
+    if (grid instanceof HTMLElement) grid.dataset.trgVisibleCount = String(visibleCount);
 
     this.root.querySelectorAll('.products-count-wrapper span').forEach(function (node) {
       if (!(node instanceof HTMLElement)) return;
@@ -366,17 +593,15 @@
     });
 
     var sparseNote = this.root.querySelector('[data-trg-sparse-note]');
-    if (sparseNote instanceof HTMLElement) {
-      sparseNote.hidden = visibleCount === 0 || visibleCount >= 4;
-    }
+    if (sparseNote instanceof HTMLElement) sparseNote.hidden = visibleCount === 0 || visibleCount >= 4;
 
     var localEmpty = this.root.querySelector('[data-trg-search-empty]');
-    if (localEmpty instanceof HTMLElement) {
-      localEmpty.hidden = visibleCount !== 0;
-    }
+    if (localEmpty instanceof HTMLElement) localEmpty.hidden = visibleCount !== 0;
   };
 
-  TrgSearchPlpController.prototype.applyFilters = function () {
+  /* ── Apply filters ── */
+
+  TrgPlpController.prototype.applyFilters = function () {
     var searchInput = document.querySelector('[data-trg-search-input]');
     var query =
       this.root.dataset.trgLocalSearch === 'false'
@@ -386,183 +611,254 @@
     var activeToggles = this.getActiveToggles();
     var visibleCount = 0;
 
-    cards.forEach(function (card) {
+    for (var i = 0; i < cards.length; i++) {
+      var card = cards[i];
       var cardText = this.getCardSearchText(card);
       var matchesQuery = query === '' || cardText.indexOf(query) !== -1;
       var matches = matchesQuery && this.matchesToggleFilters(card, activeToggles);
       card.hidden = !matches;
       if (matches) visibleCount += 1;
-    }, this);
+    }
 
     this.updateVisibleState(visibleCount);
     this.syncColourIntentBanner(visibleCount);
   };
 
-  TrgSearchPlpController.prototype.syncColourIntentBanner = function (visibleCount) {
+  /* ── Colour intent banner ── */
+
+  TrgPlpController.prototype.syncColourIntentBanner = function (visibleCount) {
     var mainColumn = this.root.querySelector('.trg-plp-main-column');
     if (!(mainColumn instanceof HTMLElement)) return;
 
-    var intent = readColourIntent();
     var banner = mainColumn.querySelector('.trg-colour-intent-banner');
-    if (!intent) {
-      banner?.remove();
-      return;
-    }
-
-    var activeSlot = intent.anchor || intent.slots[0] || null;
-    var cards = this.getSearchCards();
-    var visibleCards = cards.filter(function (card) {
-      return !card.hidden;
-    });
-    var colourNeedle = normalizeText(activeSlot && activeSlot.color);
-    var colourMatchCount = colourNeedle
-      ? visibleCards.filter(function (card) {
-          return this.getCardSearchText(card).indexOf(colourNeedle) !== -1;
-        }, this).length
-      : 0;
-    var totalVisible = Number.isFinite(visibleCount) ? visibleCount : visibleCards.length;
-    var profileLabel = intent.profile_archetype || intent.profile_name || '';
-    var title = activeSlot
-      ? activeSlot.color + ' ' + (activeSlot.singular || activeSlot.slot)
-      : profileLabel
-        ? profileLabel + ' profile active'
-        : 'Saved colour brief';
-    var note = activeSlot
-      ? colourMatchCount + ' of ' + totalVisible + ' visible cards mention ' + activeSlot.color + '. This is a text match, not a strict colour filter.'
-      : profileLabel
-        ? 'Your saved profile is ' + profileLabel + '. Return to the guide to assign colours to garment slots.'
-        : 'Return to the guide to set an outfit brief.';
-    var query = activeSlot
-      ? '?source=search&base_colour=' + encodeURIComponent(activeSlot.color) + '&base_garment=' + encodeURIComponent(activeSlot.slot)
-      : '';
-    var chips = intent.slots
-      .slice(0, 4)
-      .map(function (slot) {
-        return (
-          '<span class="trg-colour-intent-chip">' +
-          '<span class="trg-colour-intent-chip__swatch" style="background:' + escapeHtml(slot.hex || '#ddd8cf') + '"></span>' +
-          escapeHtml(slot.color) +
-          ' ' +
-          escapeHtml(slot.singular || slot.slot) +
-          '</span>'
-        );
-      })
-      .join('');
-
-    if (!(banner instanceof HTMLElement)) {
-      banner = document.createElement('div');
-      banner.className = 'trg-colour-intent-banner';
-      var controls = mainColumn.querySelector('.trg-collection-controls');
-      if (controls instanceof HTMLElement) {
-        mainColumn.insertBefore(banner, controls);
-      } else {
-        mainColumn.insertBefore(banner, mainColumn.firstChild);
-      }
-    }
-
-    banner.innerHTML =
-      '<div class="trg-colour-intent-banner__head">' +
-      '<div>' +
-      '<p class="trg-colour-intent-banner__kicker">Saved colour brief</p>' +
-      '<h3 class="trg-colour-intent-banner__title">' + escapeHtml(title) + '</h3>' +
-      '<p class="trg-colour-intent-banner__note">' + escapeHtml(note) + '</p>' +
-      '</div>' +
-      '<div class="trg-colour-intent-banner__actions">' +
-      '<a class="trg-colour-intent-banner__link" href="/pages/colour-guide' + query + '">Open guide</a>' +
-      '<button type="button" class="trg-colour-intent-banner__clear" data-trg-colour-intent-clear>Clear</button>' +
-      '</div>' +
-      '</div>' +
-      (chips ? '<div class="trg-colour-intent-banner__chips">' + chips + '</div>' : '');
+    if (banner) banner.remove();
+    return;
   };
 
-  TrgSearchPlpController.prototype.resolveInputLabel = function (input) {
+  /* ── Input label resolution ── */
+
+  TrgPlpController.prototype.resolveInputLabel = function (input) {
     if (input instanceof HTMLInputElement && input.dataset.label) return input.dataset.label;
     if (!(input instanceof HTMLInputElement)) return '';
-
     if (input.id) {
-      var parentLabel = document.querySelector('label[for="' + input.id + '"]');
-      var textTarget =
-        parentLabel?.querySelector('.checkbox__label-text, .facets__pill-label, .facets__swatch-label') ||
-        parentLabel;
+      var parentLabel = this.root.querySelector('label[for="' + input.id + '"]');
+      var textTarget = parentLabel
+        ? (parentLabel.querySelector('.checkbox__label-text, .facets__pill-label, .facets__swatch-label') || parentLabel)
+        : null;
       return textTarget ? (textTarget.textContent || '').trim() : '';
     }
-
     return '';
   };
 
-  TrgSearchPlpController.prototype.renderActiveTags = function () {
-    var container = document.querySelector('[data-trg-active-tags]');
-    if (!(container instanceof HTMLElement)) return;
+  TrgPlpController.prototype.getActiveFacetInputs = function () {
+    return Array.from(
+      this.root.querySelectorAll(
+        '.facets-block-wrapper--vertical .facets--vertical:not(.facets--drawer) input[type="checkbox"]:checked, ' +
+        '.facets-block-wrapper--vertical .facets--vertical:not(.facets--drawer) input[type="radio"]:checked'
+      )
+    );
+  };
 
+  TrgPlpController.prototype.getPriceInputs = function () {
+    return {
+      minInput: this.root.querySelector(
+        '.facets-block-wrapper--vertical .facets--vertical:not(.facets--drawer) input[name="filter.v.price.gte"]'
+      ),
+      maxInput: this.root.querySelector(
+        '.facets-block-wrapper--vertical .facets--vertical:not(.facets--drawer) input[name="filter.v.price.lte"]'
+      )
+    };
+  };
+
+  TrgPlpController.prototype.readPriceValue = function (input) {
+    if (!(input instanceof HTMLInputElement)) return null;
+    var rawValue = (input.value || '').trim();
+    if (!rawValue) return null;
+    var numericValue = Number(rawValue.replace(/[^0-9.]/g, ''));
+    return Number.isFinite(numericValue) ? numericValue : null;
+  };
+
+  TrgPlpController.prototype.formatPriceAmount = function (value) {
+    if (!Number.isFinite(value)) return '';
+    var hasDecimals = Math.round(value) !== value;
+    return '$' + value.toLocaleString('en-US', {
+      minimumFractionDigits: hasDecimals ? 2 : 0,
+      maximumFractionDigits: hasDecimals ? 2 : 0
+    });
+  };
+
+  TrgPlpController.prototype.getPriceChip = function () {
+    var priceInputs = this.getPriceInputs();
+    var min = this.readPriceValue(priceInputs.minInput);
+    var max = this.readPriceValue(priceInputs.maxInput);
+    if (min === null && max === null) return null;
+
+    var label = '';
+    if (min === 0 && max === 100) {
+      label = 'Price: Under $100';
+    } else if (min === 100 && max === 250) {
+      label = 'Price: $100–250';
+    } else if (min === 250 && max === 500) {
+      label = 'Price: $250–500';
+    } else if (min === 500 && max === 1000) {
+      label = 'Price: $500–1000';
+    } else if (min === 1000 && max === null) {
+      label = 'Price: $1000+';
+    } else if (min !== null && max !== null) {
+      label = 'Price: ' + this.formatPriceAmount(min) + '–' + this.formatPriceAmount(max);
+    } else if (max !== null) {
+      label = 'Price: Under ' + this.formatPriceAmount(max);
+    } else {
+      label = 'Price: ' + this.formatPriceAmount(min) + '+';
+    }
+
+    return {
+      kind: 'price',
+      label: label,
+      min: min === null ? '' : String(min),
+      max: max === null ? '' : String(max)
+    };
+  };
+
+  TrgPlpController.prototype.collectActiveTags = function () {
     var chips = [];
-    document
-      .querySelectorAll('.facets--vertical input[type="checkbox"]:checked, .facets--vertical input[type="radio"]:checked')
-      .forEach(function (input) {
-        var label = this.resolveInputLabel(input);
-        if (!label) return;
-        chips.push({
-          kind: 'input',
-          label: label,
-          name: input.name,
-          value: input.value
-        });
-      }, this);
+    var self = this;
 
-    var minPriceInput = document.querySelector('input[name="filter.v.price.gte"]');
-    var maxPriceInput = document.querySelector('input[name="filter.v.price.lte"]');
-    if (minPriceInput instanceof HTMLInputElement && minPriceInput.value.trim() !== '') {
-      chips.push({ kind: 'price-min', label: 'Min $' + minPriceInput.value.trim() });
-    }
-    if (maxPriceInput instanceof HTMLInputElement && maxPriceInput.value.trim() !== '') {
-      chips.push({ kind: 'price-max', label: 'Max $' + maxPriceInput.value.trim() });
-    }
+    this.getActiveFacetInputs().forEach(function (input) {
+      var label = self.resolveInputLabel(input);
+      if (!label) return;
+      chips.push({ kind: 'input', label: label, name: input.name, value: input.value });
+    });
+
+    var priceChip = this.getPriceChip();
+    if (priceChip) chips.push(priceChip);
 
     this.getActiveToggles().forEach(function (toggle) {
-      var label = this.getToggleLabel(toggle);
+      var label = self.getToggleLabel(toggle);
       if (!label) return;
       chips.push({ kind: 'toggle', label: label, toggle: toggle });
-    }, this);
+    });
 
-    container.innerHTML = chips
+    return chips;
+  };
+
+  /* ── Active tags ── */
+
+  TrgPlpController.prototype.renderActiveTags = function () {
+    var chips = this.collectActiveTags();
+    var count = chips.length;
+    var html = chips
       .map(function (chip) {
-        var attrs = Object.entries(chip)
-          .map(function (entry) {
-            var key = entry[0];
-            var value = entry[1];
-            return 'data-' + (key === 'kind' ? 'kind' : key) + '="' + escapeHtml(value) + '"';
+        var attrs = Object.keys(chip)
+          .map(function (key) {
+            return 'data-' + (key === 'kind' ? 'kind' : key) + '="' + escapeHtml(chip[key]) + '"';
           })
           .join(' ');
         return (
-          '<button type="button" class="button-unstyled trg-search-bar__active-tag" data-trg-active-tag ' +
-          attrs +
-          '>' +
-          escapeHtml(chip.label) +
-          '<span>✕</span></button>'
+          '<button type="button" class="button-unstyled trg-plp-selected-chip" data-trg-active-tag aria-label="' +
+          escapeHtml('Remove ' + chip.label) + '" ' + attrs + '>' +
+          '<span class="trg-plp-selected-chip__label">' + escapeHtml(chip.label) + '</span>' +
+          '<span class="trg-plp-selected-chip__remove" aria-hidden="true">&times;</span>' +
+          '</button>'
         );
       })
       .join('');
+
+    this.root.querySelectorAll('[data-trg-active-tags]').forEach(function (container) {
+      container.innerHTML = html;
+    });
+
+    this.root.querySelectorAll('[data-trg-active-summary]').forEach(function (summary) {
+      if (!(summary instanceof HTMLElement)) return;
+      summary.hidden = count === 0;
+      summary.setAttribute('aria-hidden', count === 0 ? 'true' : 'false');
+    });
+
+    this.root.querySelectorAll('[data-trg-active-count]').forEach(function (node) {
+      node.textContent = count + ' selected';
+    });
+
+    this.root.querySelectorAll('[data-trg-filter-badge]').forEach(function (badge) {
+      if (!(badge instanceof HTMLElement)) return;
+      badge.hidden = count === 0;
+      badge.textContent = count > 0 ? String(count) : '';
+      if (count > 0) {
+        badge.setAttribute('aria-label', count + ' selected filters');
+      } else {
+        badge.removeAttribute('aria-label');
+      }
+    });
   };
 
-  TrgSearchPlpController.prototype.removeActiveTag = function (data) {
+  TrgPlpController.prototype.clearPriceFilters = function () {
+    var priceInputs = this.getPriceInputs();
+    var priceFields = [priceInputs.minInput, priceInputs.maxInput];
+
+    priceFields.forEach(function (input) {
+      if (input instanceof HTMLInputElement) input.value = '';
+    });
+
+    this.root.querySelectorAll('.facets-block-wrapper--vertical .trg-price-bucket.on').forEach(function (button) {
+      button.classList.remove('on');
+    });
+
+    ['input', 'change'].forEach(function (eventName) {
+      priceFields.forEach(function (input) {
+        if (input instanceof HTMLInputElement) {
+          input.dispatchEvent(new Event(eventName, { bubbles: true }));
+        }
+      });
+    });
+  };
+
+  TrgPlpController.prototype.clearAllActiveTags = function (clearUrl) {
+    var chips = this.collectActiveTags();
+    var hasFacetFilters = chips.some(function (chip) {
+      return chip.kind !== 'toggle';
+    });
+    var self = this;
+
+    this.getActiveToggles().forEach(function (toggleName) {
+      self.setTogglePressed(toggleName, false);
+    });
+
+    if (hasFacetFilters) {
+      if (clearUrl) {
+        window.location.assign(new URL(clearUrl, window.location.href).toString());
+        return;
+      }
+
+      var activeInputs = this.getActiveFacetInputs();
+      activeInputs.forEach(function (input) {
+        input.checked = false;
+      });
+      this.clearPriceFilters();
+      activeInputs.forEach(function (input) {
+        input.dispatchEvent(new Event('change', { bubbles: true }));
+      });
+      return;
+    }
+
+    this.renderActiveTags();
+    this.applyFilters();
+  };
+
+  /* ── Remove active tag ── */
+
+  TrgPlpController.prototype.removeActiveTag = function (data) {
     var kind = data.kind || '';
     if (kind === 'toggle') {
       var toggleName = data.toggle || '';
-      var toggleButton = document.querySelector('[data-trg-toggle="' + toggleName + '"]');
-      if (toggleButton instanceof HTMLButtonElement) {
-        toggleButton.setAttribute('aria-pressed', 'false');
+      if (toggleName) {
+        this.setTogglePressed(toggleName, false);
         this.renderActiveTags();
         this.applyFilters();
       }
       return;
     }
 
-    if (kind === 'price-min' || kind === 'price-max') {
-      var selector = kind === 'price-min' ? 'input[name="filter.v.price.gte"]' : 'input[name="filter.v.price.lte"]';
-      var priceInput = document.querySelector(selector);
-      if (priceInput instanceof HTMLInputElement) {
-        priceInput.value = '';
-        priceInput.dispatchEvent(new Event('change', { bubbles: true }));
-      }
+    if (kind === 'price') {
+      this.clearPriceFilters();
       return;
     }
 
@@ -570,9 +866,17 @@
     var value = data.value || '';
     if (!name) return;
 
-    var matchingInput = Array.from(document.querySelectorAll('input')).find(function (input) {
-      return input instanceof HTMLInputElement && input.name === name && input.value === value;
-    });
+    var matchingInput = null;
+    var allInputs = this.root.querySelectorAll(
+      '.facets-block-wrapper--vertical .facets--vertical:not(.facets--drawer) input'
+    );
+    for (var i = 0; i < allInputs.length; i++) {
+      var inp = allInputs[i];
+      if (inp instanceof HTMLInputElement && inp.name === name && inp.value === value) {
+        matchingInput = inp;
+        break;
+      }
+    }
 
     if (matchingInput instanceof HTMLInputElement) {
       matchingInput.checked = false;
@@ -580,7 +884,9 @@
     }
   };
 
-  TrgSearchPlpController.prototype.loadMore = async function (button) {
+  /* ── Load more ── */
+
+  TrgPlpController.prototype.loadMore = async function (button) {
     if (button.dataset.loading === 'true') return;
 
     var nextUrl = button.href;
@@ -613,34 +919,51 @@
       var seenParentKeys = this.getExistingParentKeys(grid);
       var fragment = document.createDocumentFragment();
 
-      nextItems.forEach(function (item) {
-        if (!(item instanceof HTMLElement)) return;
+      for (var i = 0; i < nextItems.length; i++) {
+        var item = nextItems[i];
+        if (!(item instanceof HTMLElement)) continue;
         var mode = (item.dataset.trgPlpDisplayMode || '').trim();
         var parentKey = (item.dataset.trgSourceParentId || '').trim();
         if (mode === 'parent_card' && parentKey) {
-          if (seenParentKeys.has(parentKey)) return;
+          if (seenParentKeys.has(parentKey)) continue;
           seenParentKeys.add(parentKey);
         }
-
         fragment.appendChild(item.cloneNode(true));
-      });
+      }
 
       if (fragment.childNodes.length > 0) {
+        grid.setAttribute('data-skip-subtree-update', '');
         grid.appendChild(fragment);
       }
 
+      /* Disable Dwell paginated-list observer to prevent duplicate appends */
+      var paginatedList = grid.closest('paginated-list');
+      if (paginatedList instanceof HTMLElement) {
+        paginatedList.setAttribute('data-trg-load-more-active', 'true');
+      }
+
+      /* Phase 5: preserve container element for Dwell morph compatibility */
       var nextZone = nextDocument.querySelector('[data-trg-load-more-zone]');
       var currentZone = this.root.querySelector('[data-trg-load-more-zone]');
       if (nextZone && currentZone) {
-        currentZone.replaceWith(nextZone);
+        currentZone.setAttribute('data-skip-subtree-update', '');
+        currentZone.innerHTML = nextZone.innerHTML;
+        for (var ai = 0; ai < nextZone.attributes.length; ai++) {
+          var attr = nextZone.attributes[ai];
+          if (attr.name.indexOf('data-') === 0) currentZone.setAttribute(attr.name, attr.value);
+        }
       }
 
       var pushedUrl = new URL(nextUrl, window.location.href);
       history.replaceState({}, '', pushedUrl.pathname + pushedUrl.search + pushedUrl.hash);
+      try {
+        document.dispatchEvent(new CustomEvent('filter:update', { bubbles: true }));
+        window.dispatchEvent(new Event('trg:url-changed'));
+      } catch (_) {}
       this.syncWishlistState();
       this.scheduleSync();
     } catch (error) {
-      console.error('Failed to load more search results.', error);
+      console.error('Failed to load more products.', error);
     } finally {
       if (button.isConnected) {
         button.textContent = originalLabel || 'Load more';
@@ -650,15 +973,17 @@
     }
   };
 
-  TrgSearchPlpController.prototype.getWishlistIds = function () {
+  /* ── Wishlist ── */
+
+  TrgPlpController.prototype.getWishlistIds = function () {
     try {
       return JSON.parse(window.localStorage.getItem(WISHLIST_STORAGE_KEY) || '[]');
-    } catch (error) {
+    } catch (_) {
       return [];
     }
   };
 
-  TrgSearchPlpController.prototype.syncWishlistState = function () {
+  TrgPlpController.prototype.syncWishlistState = function () {
     var savedIds = new Set(this.getWishlistIds().map(String));
     document.querySelectorAll('[data-trg-wishlist]').forEach(function (button) {
       if (!(button instanceof HTMLButtonElement)) return;
@@ -669,7 +994,7 @@
     });
   };
 
-  TrgSearchPlpController.prototype.toggleWishlist = function (button) {
+  TrgPlpController.prototype.toggleWishlist = function (button) {
     var productId = button.dataset.productId;
     if (!productId) return;
 
@@ -684,7 +1009,21 @@
     this.syncWishlistState();
   };
 
-  function initializeTrgSearchPlp() {
+  /* ── Back to top ── */
+
+  TrgPlpController.prototype.updateBackToTop = function () {
+    var button = document.querySelector('[data-trg-back-to-top]');
+    if (!(button instanceof HTMLButtonElement)) return;
+    button.classList.toggle('visible', window.scrollY > window.innerHeight * 1.5);
+  };
+
+  TrgPlpController.prototype.handleScroll = function () {
+    this.updateBackToTop();
+  };
+
+  /* ── Initialization ── */
+
+  function initializeTrgPlp() {
     var existingControllers = window[CONTROLLER_REGISTRY_KEY];
     if (existingControllers instanceof Set) {
       existingControllers.forEach(function (controller) {
@@ -694,14 +1033,15 @@
     }
 
     var nextControllers = existingControllers instanceof Set ? existingControllers : new Set();
-    document.querySelectorAll('.trg-search-plp').forEach(function (root) {
-      var controller = new TrgSearchPlpController(root);
+    document.querySelectorAll('.trg-plp-body, .trg-search-plp').forEach(function (root) {
+      if (root.dataset.trgPlpReady === 'true') return;
+      var controller = new TrgPlpController(root);
       controller.connect();
       nextControllers.add(controller);
     });
     window[CONTROLLER_REGISTRY_KEY] = nextControllers;
   }
 
-  document.addEventListener('DOMContentLoaded', initializeTrgSearchPlp, { once: true });
-  document.addEventListener('shopify:section:load', initializeTrgSearchPlp);
+  document.addEventListener('DOMContentLoaded', initializeTrgPlp, { once: true });
+  document.addEventListener('shopify:section:load', initializeTrgPlp);
 })();

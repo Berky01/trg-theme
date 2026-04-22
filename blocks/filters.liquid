@@ -146,6 +146,7 @@
           <line x1="14" y1="16" x2="21" y2="16"/>
         </svg>
         Filters
+        <span class="trg-plp-filter-badge" data-trg-filter-badge hidden aria-live="polite"></span>
       </button>
 
       <div
@@ -188,6 +189,30 @@
       {% if block_settings.enable_grid_density %}
         {% render 'grid-density-controls', viewport: 'desktop' %}
       {% endif %}
+    </div>
+
+    <div
+      class="trg-plp-selected-filters"
+      data-trg-active-summary
+      data-clear-url="{{ results_url | escape }}"
+      hidden
+      aria-hidden="true"
+    >
+      <div class="trg-plp-selected-filters__copy">
+        <span class="trg-plp-selected-filters__label">Selected filters</span>
+        <div class="trg-plp-selected-filters__list" data-trg-active-tags></div>
+      </div>
+
+      <div class="trg-plp-selected-filters__meta">
+        <span class="trg-plp-selected-filters__count" data-trg-active-count aria-live="polite">0 selected</span>
+        <button
+          type="button"
+          class="button-unstyled trg-plp-selected-filters__clear"
+          data-trg-active-clear
+        >
+          Clear all
+        </button>
+      </div>
     </div>
   {% endif %}
 
@@ -1416,7 +1441,7 @@
 
     .filters-sidebar .facets-drawer__title {
       margin: 0;
-      color: var(--mid, #8a8478);
+      color: var(--mid, #706a60);
       font-family: 'DM Sans', sans-serif;
       font-size: 0.72rem;
       font-weight: 500;
@@ -1483,7 +1508,7 @@
     .filters-sidebar .facets__summary {
       padding: 1.15rem 0 0.95rem;
       min-height: 0;
-      color: var(--mid, #8a8478);
+      color: var(--mid, #706a60);
       font-family: 'DM Sans', sans-serif;
       font-size: 0.72rem;
       font-weight: 500;
@@ -1501,7 +1526,7 @@
     .filters-sidebar .facets__status-wrapper,
     .filters-sidebar .facets__status {
       gap: 0;
-      color: var(--mid, #8a8478);
+      color: var(--mid, #706a60);
     }
 
     .filters-sidebar .facets__status {
@@ -1511,7 +1536,7 @@
     .filters-sidebar .facets__summary .icon-caret {
       width: 12px;
       height: 12px;
-      color: var(--mid, #8a8478);
+      color: var(--mid, #706a60);
     }
 
     .filters-sidebar .facets__panel-content,
@@ -1587,7 +1612,7 @@
 
     .filters-sidebar .trg-facet-count {
       margin-left: auto;
-      color: var(--mid, #8a8478);
+      color: var(--mid, #706a60);
       font-size: 0.84rem;
       line-height: 1;
       flex-shrink: 0;
@@ -1617,18 +1642,18 @@
     }
 
     .filters-sidebar .price-facet__label {
-      color: var(--mid, #8a8478);
+      color: var(--mid, #706a60);
       padding: 0.85rem 0.75rem;
     }
 
     .filters-sidebar .price-facet__separator {
-      color: var(--mid, #8a8478);
+      color: var(--mid, #706a60);
       font-size: 0.95rem;
     }
 
     .filters-sidebar .price-facet__highest-price {
       padding: 0.9rem 0 0.15rem;
-      color: var(--mid, #8a8478);
+      color: var(--mid, #706a60);
       font-size: 0.9rem;
       line-height: 1.45;
     }
@@ -1685,7 +1710,7 @@
       border: 1px solid var(--trg-plp-border-color, #ddd8cf);
       border-radius: 2px;
       background: #ffffff;
-      color: var(--trg-plp-muted-color, #8a8478);
+      color: var(--trg-plp-muted-color, #706a60);
       font-family: 'DM Sans', sans-serif;
       font-size: 0.72rem;
       font-weight: 500;
@@ -1899,7 +1924,7 @@
       height: 34px;
       background: none;
       border: none;
-      color: #8a8478;
+      color: #706a60;
       cursor: pointer;
       padding: 0;
       border-radius: 2px;
@@ -1918,7 +1943,7 @@
       width: 17px;
       height: 17px;
       margin-left: 0.4rem;
-      background: #c4562a;
+      background: #b8491f;
       color: white;
       border-radius: 50%;
       font-size: 0.62rem;
@@ -1977,13 +2002,13 @@
       font-weight: 500;
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: #8a8478;
+      color: #706a60;
       line-height: 1;
     }
 
     dialog-component#filters-drawer .facets__status {
       font-size: 0.65rem;
-      color: #c4562a;
+      color: #b8491f;
     }
 
     /* Chevron icon */
@@ -1991,7 +2016,7 @@
     dialog-component#filters-drawer .facets__summary svg {
       width: 12px;
       height: 12px;
-      color: #8a8478;
+      color: #706a60;
       transition: transform 0.2s;
     }
 
@@ -2102,7 +2127,7 @@
 
     dialog-component#filters-drawer .trg-facet-count {
       margin-left: auto;
-      color: #8a8478;
+      color: #706a60;
       font-size: 0.72rem;
       flex-shrink: 0;
     }
@@ -2149,14 +2174,14 @@
     }
 
     dialog-component#filters-drawer .price-facet__separator {
-      color: #8a8478;
+      color: #706a60;
       font-size: 0.82rem;
       white-space: nowrap;
       text-align: center;
     }
 
     dialog-component#filters-drawer .price-facet__highest-price {
-      color: #8a8478;
+      color: #706a60;
       font-size: 0.7rem;
       padding-top: 0.22rem;
       line-height: 1.4;
@@ -2164,7 +2189,7 @@
 
     dialog-component#filters-drawer .price-facet__label,
     dialog-component#filters-drawer .field__currency {
-      color: #8a8478;
+      color: #706a60;
       font-size: 0.82rem;
     }
 
@@ -2212,7 +2237,7 @@
       align-items: center;
       gap: 0.5rem;
       font-size: 0.88rem;
-      color: #8a8478;
+      color: #706a60;
       transition: color 0.15s;
     }
 
@@ -2307,7 +2332,7 @@
     dialog-component#filters-drawer .facets__see-results {
       flex: 2;
       padding: 0.72rem 1rem;
-      background: #c4562a;
+      background: #b8491f;
       color: white;
       border: none;
       border-radius: 2px;
