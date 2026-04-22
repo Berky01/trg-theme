@@ -230,6 +230,17 @@
     var target = event.target instanceof Element ? event.target : null;
     if (!target) return;
 
+    if (
+      target.closest(
+        '.facets-block-wrapper--vertical .trg-price-bucket, ' +
+        '.facets-block-wrapper--vertical .checkbox__input, ' +
+        '.facets-block-wrapper--vertical .checkbox__label, ' +
+        '.facets-block-wrapper--vertical .checkbox__label-text'
+      )
+    ) {
+      this.schedulePostSync();
+    }
+
     var clearColourIntent = target.closest('[data-trg-colour-intent-clear]');
     if (clearColourIntent instanceof HTMLButtonElement) {
       event.preventDefault();
