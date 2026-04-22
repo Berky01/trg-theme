@@ -77,6 +77,7 @@
     this.syncTimeout = null;
     this.postSyncTimeout = null;
     this.postSyncTimers = [];
+    this.activeTagSyncInterval = null;
     this.searchInputTimeout = null;
     this.mutationObserver = null;
     this.cardSearchIndex = new WeakMap();
@@ -126,6 +127,10 @@
     this.syncWishlistState();
     this.updateBackToTop();
 
+    this.activeTagSyncInterval = window.setInterval(function () {
+      if (self.root.dataset.trgPlpReady === 'true') self.renderActiveTags();
+    }, 1000);
+
     window.setTimeout(function () {
       if (self.root.dataset.trgPlpReady === 'true') self.scheduleSync();
     }, 500);
@@ -152,6 +157,8 @@
       window.clearTimeout(timerId);
     });
     this.postSyncTimers = [];
+    window.clearInterval(this.activeTagSyncInterval);
+    this.activeTagSyncInterval = null;
     window.clearTimeout(this.searchInputTimeout);
     this.root.dataset.trgPlpReady = 'false';
   };
