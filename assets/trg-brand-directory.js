@@ -227,7 +227,6 @@
       const qa = (selector) => bySel(section, selector);
       const inp = q('[data-search]');
       const grid = q('[data-grid]');
-      const chips = q('[data-chips]');
       const res = q('[data-results]');
       const tot = {textContent: ''}; // removed brand count from header
       const ttl = q('[data-title]');
@@ -334,15 +333,16 @@
         });
 
       const updChips = () => {
-        const items = [];
-        const searchValue = (inp.value || '').trim();
-        if (state.browse !== 'All Brands') items.push(state.browse);
-        items.push(...vals('category'), ...vals('aesthetic'), ...vals('price'), ...vals('made'));
-        if (state.tog.ships) items.push('Ships to Canada');
-        if (state.tog.direct) items.push('Buy Direct');
-        chips.innerHTML = items.map((value) => `<span class="trg-bdir__chip">${esc(value)}</span>`).join('');
-        chips.hidden = !items.length;
-        qa('[data-clear]').forEach((button) => button.classList.toggle('visible', !!items.length));
+        const hasActiveFilters =
+          state.browse !== 'All Brands' ||
+          vals('category').length > 0 ||
+          vals('aesthetic').length > 0 ||
+          vals('price').length > 0 ||
+          vals('made').length > 0 ||
+          state.tog.ships ||
+          state.tog.direct;
+
+        qa('[data-clear]').forEach((button) => button.classList.toggle('visible', hasActiveFilters));
       };
 
       const sorter = (items) => {
