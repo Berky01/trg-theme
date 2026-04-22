@@ -77,6 +77,7 @@
     this.syncTimeout = null;
     this.postSyncTimeout = null;
     this.searchInputTimeout = null;
+    this.mutationObserver = null;
     this.cardSearchIndex = new WeakMap();
     this.handleClick = this.handleClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -102,6 +103,19 @@
     window.addEventListener('trg:url-changed', this.handleUrlChange);
     document.addEventListener('shopify:section:load', this.handleUrlChange);
 
+    if (!this.mutationObserver && typeof MutationObserver === 'function') {
+      var observerController = this;
+      this.mutationObserver = new MutationObserver(function (mutations) {
+        var shouldSync = mutations.some(function (mutation) {
+          return mutation.type === 'childList' && (mutation.addedNodes.length > 0 || mutation.removedNodes.length > 0);
+        });
+        if (shouldSync && observerController.root.dataset.trgPlpReady === 'true') {
+          observerController.schedulePostSync();
+        }
+      });
+      this.mutationObserver.observe(this.root, { childList: true, subtree: true });
+    }
+
     this.normalizeBrandBanner();
     this.syncSortSelect();
     this.syncDesktopFilterToggle();
@@ -125,6 +139,11 @@
     window.removeEventListener('scroll', this.handleScroll);
     window.removeEventListener('trg:url-changed', this.handleUrlChange);
     document.removeEventListener('shopify:section:load', this.handleUrlChange);
+
+    if (this.mutationObserver) {
+      this.mutationObserver.disconnect();
+      this.mutationObserver = null;
+    }
 
     window.clearTimeout(this.syncTimeout);
     window.clearTimeout(this.postSyncTimeout);
