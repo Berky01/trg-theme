@@ -171,10 +171,10 @@
               </p>
             {% else %}
               <h2 class="main-collection-grid__empty-title h2">
-                This category is coming soon
+                This collection is staged, but products are not live yet
               </h2>
               <p>
-                We're still adding products here. In the meantime, browse our live products or explore brands.
+                Only {{ live_catalog_count }} live product{% unless live_catalog_count == 1 %}s{% endunless %} are currently available while the broader catalog is being loaded.
               </p>
             {% endif %}
             <div class="main-collection-grid__empty-actions">
@@ -183,7 +183,7 @@
               {% else %}
                 <a href="{{ routes.all_products_collection_url }}" class="main-collection-grid__empty-button">{{ live_catalog_label }}</a>
               {% endif %}
-              <a href="/pages/brands" class="main-collection-grid__empty-link">Explore brands</a>
+              <a href="/pages/brands" class="main-collection-grid__empty-link">Browse brands instead</a>
               {% if collection_brand_shop_url != blank %}
                 <a href="{{ routes.all_products_collection_url }}" class="main-collection-grid__empty-link">{{ live_catalog_label }}</a>
               {% endif %}

@@ -10,7 +10,6 @@
       "@theme/morph": "{{ 'morph.js' | asset_url }}",
       "@theme/paginated-list": "{{ 'paginated-list.js' | asset_url }}",
       "@theme/performance": "{{ 'performance.js' | asset_url }}",
-      "@theme/product-form": "{{ 'product-form.js' | asset_url }}",
       "@theme/recently-viewed-products": "{{ 'recently-viewed-products.js' | asset_url }}",
       "@theme/scrolling": "{{ 'scrolling.js' | asset_url }}",
       "@theme/section-renderer": "{{ 'section-renderer.js' | asset_url }}",
@@ -19,20 +18,16 @@
       "@theme/utilities": "{{ 'utilities.js' | asset_url }}",
       "@theme/variant-picker": "{{ 'variant-picker.js' | asset_url }}",
       "@theme/media-gallery": "{{ 'media-gallery.js' | asset_url }}",
-      "@theme/quick-add": "{{ 'quick-add.js' | asset_url }}",
       "@theme/paginated-list-aspect-ratio": "{{ 'paginated-list-aspect-ratio.js' | asset_url }}",
       "@theme/popover-polyfill": "{{ 'popover-polyfill.js' | asset_url }}",
-      "@theme/component-quantity-selector": "{{ 'component-quantity-selector.js' | asset_url }}",
-      "@theme/comparison-slider": "{{ 'comparison-slider.js' | asset_url }}",
-      "@theme/sticky-add-to-cart": "{{ 'sticky-add-to-cart.js' | asset_url }}",
-      "@theme/fly-to-cart": "{{ 'fly-to-cart.js' | asset_url }}"
+      "@theme/comparison-slider": "{{ 'comparison-slider.js' | asset_url }}"
     }
   }
 </script>
 
 <script
   src="{{ 'view-transitions.js' | asset_url }}"
-  async
+  defer
   {% if settings.page_transition_enabled or settings.transition_to_main_product %}
     blocking="render"
   {% endif %}
@@ -113,14 +108,6 @@
   type="module"
   fetchpriority="low"
 ></script>
-{% if settings.show_add_discount_code %}
-  <script
-    src="{{ 'cart-discount.js' | asset_url }}"
-    type="module"
-    fetchpriority="low"
-  ></script>
-{% endif %}
-
 <script
   src="{{ 'dialog.js' | asset_url }}"
   type="module"
@@ -177,77 +164,10 @@
   fetchpriority="low"
 ></script>
 <script
-  src="{{ 'component-quantity-selector.js' | asset_url }}"
-  type="module"
-  fetchpriority="low"
-></script>
-<script
   src="{{ 'rte-formatter.js' | asset_url }}"
   type="module"
   fetchpriority="low"
 ></script>
-{% unless template == 'page.colour-guide' %}
-  <script
-    src="{{ 'quick-add.js' | asset_url }}"
-    type="module"
-    fetchpriority="low"
-  ></script>
-  <script
-    src="{{ 'variant-picker.js' | asset_url }}"
-    type="module"
-    fetchpriority="low"
-  ></script>
-  <script
-    src="{{ 'product-form.js' | asset_url }}"
-    type="module"
-    fetchpriority="low"
-  ></script>
-  <script
-    src="{{ 'fly-to-cart.js' | asset_url }}"
-    type="module"
-    fetchpriority="low"
-  ></script>
-  <script
-    src="{{ 'media.js' | asset_url }}"
-    type="module"
-    fetchpriority="low"
-  ></script>
-  <script
-    src="{{ 'product-price.js' | asset_url }}"
-    type="module"
-    fetchpriority="low"
-  ></script>
-  <script
-    src="{{ 'product-sku.js' | asset_url }}"
-    type="module"
-    fetchpriority="low"
-  ></script>
-  <script
-    src="{{ 'product-inventory.js' | asset_url }}"
-    type="module"
-    fetchpriority="low"
-  ></script>
-  <script
-    src="{{ 'media-gallery.js' | asset_url }}"
-    type="module"
-    fetchpriority="low"
-  ></script>
-  <script
-    src="{{ 'volume-pricing.js' | asset_url }}"
-    type="module"
-    fetchpriority="low"
-  ></script>
-  <script
-    src="{{ 'price-per-item.js' | asset_url }}"
-    type="module"
-    fetchpriority="low"
-  ></script>
-  <script
-    src="{{ 'volume-pricing-info.js' | asset_url }}"
-    type="module"
-    fetchpriority="low"
-  ></script>
-{% endunless %}
 
 {% if localization.available_countries.size > 1 or localization.available_languages.size > 1 %}
   <script
@@ -258,16 +178,6 @@
 {% endif %}
 
 {% if template == 'product' or template.name == 'product' or request.page_type == 'product' %}
-  <script
-    src="{{ 'fly-to-cart.js' | asset_url }}"
-    type="module"
-    fetchpriority="low"
-  ></script>
-  <script
-    src="{{ 'sticky-add-to-cart.js' | asset_url }}"
-    type="module"
-    fetchpriority="low"
-  ></script>
   <script type="module">
     import { RecentlyViewed } from '@theme/recently-viewed-products';
     RecentlyViewed.addProduct('{{ product.id }}');
@@ -296,10 +206,6 @@
       items_added_to_cart_other: `{{ 'content.items_added_to_cart.other' | t }}`,
     },
     routes: {
-      cart_add_url: '{{ routes.cart_add_url | append: '.js' }}',
-      cart_change_url: '{{ routes.cart_change_url }}',
-      cart_update_url: '{{ routes.cart_update_url }}',
-      cart_url: '{{ routes.cart_url }}',
       predictive_search_url: '{{ routes.predictive_search_url }}',
       search_url: '{{ routes.search_url }}',
     },
@@ -308,4 +214,3 @@
     },
   };
 </script>
-

@@ -83,7 +83,7 @@ footer.trg-footer a:hover {
   overflow: hidden !important;
   font-size: 0.72rem !important;
   line-height: 1.25 !important;
-  color: #8a8478 !important;
+  color: #706a60 !important;
 }
 #MainContent .trg-pdp-bc a,
 #MainContent .trg-pdp-bc__sep {
@@ -91,7 +91,7 @@ footer.trg-footer a:hover {
   flex-shrink: 0 !important;
 }
 #MainContent .trg-pdp-bc a {
-  color: #8a8478 !important;
+  color: #706a60 !important;
   text-decoration: none !important;
 }
 #MainContent .trg-pdp-bc a:hover {
@@ -166,7 +166,7 @@ footer.trg-footer a:hover {
 
 /* ─── 9. POLISH: Tag/badge consistency ─── */
 #MainContent .badge,
-#MainContent [class*="badge-"],
+#MainContent [class*="badge-"]:not(.card-gallery),
 .trg-badge {
   font-family: 'DM Sans', sans-serif;
   font-size: 0.62rem;
@@ -817,7 +817,7 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
   }
 }
 
-/* ─── #23 MEDIUM: Newsletter — overflow-wrap on labels ─── */
+/* ─── #23 MEDIUM: Newsletter — overflow-wrap on labels ��── */
 @media screen and (max-width: 749px) {
   .trg-newsletter .button,
   .trg-newsletter--footer_row .button {
@@ -993,4 +993,41 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
 #trg-v4-input {
   color: rgba(245, 241, 235, 0.92) !important;
   -webkit-text-fill-color: rgba(245, 241, 235, 0.92) !important;
+}
+
+/* TRG audit hotfix 2026-04-23: WCAG contrast overrides */
+#MainContent .trg-home-hero__left .trg-eyebrow {
+  color: #e8937a !important;
+}
+#MainContent .trg-hero-btn--primary,
+#MainContent .trg-pdp__btn-primary {
+  background-color: #b84620 !important;
+  color: #ffffff !important;
+}
+#MainContent .trg-need-eyebrow,
+#MainContent .trg-need-card__kicker,
+#MainContent .trg-pdp__selector-label,
+#MainContent .trg-pdp__selector-label span,
+#MainContent .trg-pdp__price-ca,
+#MainContent .trg-pdp__wishlist-text,
+#MainContent .trg-pdp__meta-key,
+#MainContent .trg-pdp__acc-desc,
+#MainContent .trg-pdp__acc-desc li,
+#MainContent .trg-plp-progress-text,
+#MainContent .trg-plp-progress-page {
+  color: #5f5a51 !important;
+}
+#MainContent .trg-pdp__price-ca-badge,
+#MainContent .trg-pdp__canada-title,
+#MainContent .trg-pdp__canada-title span {
+  color: #a51f14 !important;
+}
+#MainContent .trg-pdp__ca-note {
+  color: #5a514a !important;
+}
+#MainContent .trg-pdp__meta-val--na {
+  color: #286c45 !important;
+}
+#MainContent .trg-ab-principle__num {
+  color: #b84620 !important;
 }

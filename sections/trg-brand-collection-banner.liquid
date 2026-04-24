@@ -12,6 +12,9 @@
     assign brand_country = brand.country.value | default: brand.country | strip
     assign brand_primary_category = brand.primary_category.value | default: brand.primary_category
     assign brand_primary_category_first = brand_primary_category | split: ',' | first | strip
+    assign brand_best_for = brand.best_for.value | default: brand.best_for | default: brand.known_for_best_for.value | default: brand.known_for_best_for | strip
+    assign brand_fit_note = brand.fit_note.value | default: brand.fit_note | default: brand.fit_tendency.value | default: brand.fit_tendency | strip
+    assign brand_entry_price_signal = brand.entry_price_signal.value | default: brand.entry_price_signal | strip
     assign brand_shop_url = brand.retailer_url_na.value | default: brand.retailer_url_na
     if brand_shop_url == blank
       assign brand_shop_url = brand.affiliate_link | default: brand.website
@@ -39,7 +42,7 @@
 
 {% if brand %}
 {{ 'trg-brand-collection-header.css' | asset_url | stylesheet_tag }}
-{%- comment -%}TRG SEO — BreadcrumbList JSON-LD (G11){%- endcomment -%}
+{%- comment -%}TRG SEO - BreadcrumbList JSON-LD (G11){%- endcomment -%}
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -91,7 +94,7 @@
             {%- if editorial_description != blank -%}
               <p class="brand-banner__desc{% if brand_description == blank %} brand-banner__desc--fallback{% endif %}">{{ editorial_description | truncate: 160 }}</p>
             {%- endif -%}
-            {%- if brand_primary_category != blank or brand_price_range != blank or brand_country != blank -%}
+            {%- if brand_primary_category != blank or brand_price_range != blank or brand_country != blank or brand_best_for != blank or brand_fit_note != blank or brand_entry_price_signal != blank -%}
               <div class="brand-banner__tags">
                 {%- assign rendered_tag_count = 0 -%}
                 {%- assign cats = brand_primary_category | split: ',' -%}
@@ -108,6 +111,14 @@
                 {%- endif -%}
                 {%- if rendered_tag_count < 3 and brand_country != blank and brand_country != brand_made_in -%}
                   <span class="brand-banner__tag">{{ brand_country }}</span>
+                  {%- assign rendered_tag_count = rendered_tag_count | plus: 1 -%}
+                {%- endif -%}
+                {%- if rendered_tag_count < 3 and brand_best_for != blank -%}
+                  <span class="brand-banner__tag">{{ brand_best_for }}</span>
+                  {%- assign rendered_tag_count = rendered_tag_count | plus: 1 -%}
+                {%- endif -%}
+                {%- if rendered_tag_count < 3 and brand_entry_price_signal != blank -%}
+                  <span class="brand-banner__tag">{{ brand_entry_price_signal }}</span>
                 {%- endif -%}
               </div>
             {%- endif -%}
@@ -138,6 +149,18 @@
               <div class="brand-banner__meta-row">
                 <span class="brand-banner__meta-key">Price Range</span>
                 <span class="brand-banner__meta-val">{{ brand_price_range }}</span>
+              </div>
+            {%- endif -%}
+            {%- if brand_fit_note != blank -%}
+              <div class="brand-banner__meta-row">
+                <span class="brand-banner__meta-key">Fit Note</span>
+                <span class="brand-banner__meta-val">{{ brand_fit_note }}</span>
+              </div>
+            {%- endif -%}
+            {%- if brand_best_for != blank -%}
+              <div class="brand-banner__meta-row">
+                <span class="brand-banner__meta-key">Best For</span>
+                <span class="brand-banner__meta-val">{{ brand_best_for }}</span>
               </div>
             {%- endif -%}
           </div>

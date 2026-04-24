@@ -71,24 +71,55 @@
     endif
   endif
 
-  assign trg_plp_media_fit_mode = 'cover'
+  # Detect editorial PLP surfaces (Plan B — bucketed adaptive AR)
+  # Catalog surfaces (brand/category collections) keep Plan A — uniform contain
+  # Plan B (bucketed AR) retired from /collections/all — staggered info Y positions
+  # looked broken in production. Plan A (uniform 4:5 contain) is now the catalog default.
+  # Keep Plan B gated behind /search only; revisit if editorial surfaces need it.
+  assign is_editorial_plp = false
+  if request.page_type == 'search'
+    assign is_editorial_plp = true
+  endif
+
+  assign trg_plp_media_fit_mode = 'contain'
+  assign trg_plp_ar_bucket = ''
+  assign trg_plp_media_inset_mode = ''
+
+  if product != blank
+    assign trg_plp_media_inset_mode = product.metafields.trg.plp_media_inset.value | default: product.metafields.trg.plp_media_inset | default: '' | strip | downcase
+    unless trg_plp_media_inset_mode == 'padded'
+      assign trg_plp_media_inset_mode = ''
+    endunless
+  endif
+
   if is_trg_plp_surface and product.media.size > 0
     assign trg_primary_media = product.featured_media | default: product.media.first
-    assign trg_primary_ratio = trg_primary_media.preview_image.aspect_ratio | default: 1 | plus: 0
+    assign trg_primary_ratio = trg_primary_media.preview_image.aspect_ratio | default: 0.8 | plus: 0
 
-    if trg_primary_media.media_type == 'image' and trg_primary_ratio >= 0.95
-      assign trg_plp_media_fit_mode = 'contain'
+    if is_editorial_plp
+      # Plan B — editorial (/search, /collections/all): cover + bucketed AR
+      assign trg_plp_media_fit_mode = 'cover'
+      if trg_primary_ratio < 0.9
+        assign trg_plp_ar_bucket = 'portrait'
+      elsif trg_primary_ratio <= 1.1
+        assign trg_plp_ar_bucket = 'square'
+      else
+        assign trg_plp_ar_bucket = 'landscape'
+      endif
     endif
+    # Plan A — catalog: contain + block-settings tile AR (default above)
   endif
 %}
 
 <div
   ref="cardGallery"
-  class="card-gallery card-gallery-{{ block.id }} spacing-style border-style{% if has_badges %} card-gallery--badge-{{ badge_position }}{% endif %}{% if is_trg_plp_surface and product.media.size > 0 %} trg-plp-fit-{{ trg_plp_media_fit_mode }}{% endif %}"
+  class="card-gallery card-gallery-{{ block.id }} spacing-style border-style{% if has_badges %} card-gallery--badge-{{ badge_position }}{% endif %}{% if is_trg_plp_surface and product.media.size > 0 %} trg-plp-fit-{{ trg_plp_media_fit_mode }}{% if trg_plp_ar_bucket != '' %} trg-plp-ar-{{ trg_plp_ar_bucket }}{% endif %}{% if trg_plp_media_inset_mode == 'padded' %} trg-plp-fit-inset{% endif %}{% endif %}"
   style="
     {% render 'border-override', settings: block_settings %}
     {% render 'spacing-style', settings: block_settings %}
     --gallery-aspect-ratio: {{ ratio }};
+    {% if is_trg_plp_surface %}background-color: #fafaf7;{% endif %}
+    {% if trg_plp_media_fit_mode == 'contain' %}--trg-plp-image-position: center center;{% endif %}
   "
   data-product-id="{{ product.id }}"
   {% if settings.show_second_image_on_hover and is_trg_plp_surface == false %}
@@ -102,6 +133,8 @@
   {% if is_trg_plp_surface %}
     data-trg-static-gallery="true"
     data-trg-media-fit="{{ trg_plp_media_fit_mode }}"
+    {% if trg_plp_media_inset_mode != '' %}data-trg-media-inset="{{ trg_plp_media_inset_mode }}"{% endif %}
+    {% if trg_plp_ar_bucket != '' %}data-trg-ar-bucket="{{ trg_plp_ar_bucket }}"{% endif %}
   {% endif %}
   {{ block.shopify_attributes }}
 >
@@ -112,7 +145,7 @@
         assign loading = 'lazy'
         assign sizes = 'auto, ' | append: image_sizes
 
-        if section.index == null or section.index < 5
+        if section.index != null and section.index < 5
           assign loading = 'eager'
           assign sizes = image_sizes
         endif
@@ -129,7 +162,7 @@
         aria-label="{{- product.title -}}"
       >
         <div class="{{ class }}">
-          {% render 'product-media', media: primary_media, sizes: sizes, loading: loading, preview_image_only: true %}
+          {% render 'product-media', media: primary_media, sizes: sizes, loading: loading, preview_image_only: true, decorative_image: true %}
         </div>
       </a>
     {% else %}
@@ -184,7 +217,7 @@
               continue
             endif
 
-            if forloop.first and section.index == null or section.index < 5
+            if forloop.first and section.index != null and section.index < 5
               assign loading = 'eager'
               assign sizes = image_sizes
             endif
