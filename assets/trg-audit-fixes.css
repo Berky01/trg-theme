@@ -1029,5 +1029,11 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
   color: #286c45 !important;
 }
 #MainContent .trg-ab-principle__num {
-  color: #b84620 !important;
+  color: #8f2f1b !important;
+}
+#MainContent .trg-need-card--feature .trg-need-card__kicker {
+  color: #f4eee4 !important;
+}
+#MainContent .trg-pdp__disclosure {
+  color: #5a514a !important;
 }
