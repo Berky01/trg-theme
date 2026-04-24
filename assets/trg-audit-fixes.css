@@ -1030,6 +1030,7 @@ body:not(.template-index) .shopify-section:not([id*="footer"]):not([id*="header"
 }
 #MainContent .trg-ab-principle__num {
   color: #8f2f1b !important;
+  opacity: 1 !important;
 }
 #MainContent .trg-need-card--feature .trg-need-card__kicker {
   color: #f4eee4 !important;
