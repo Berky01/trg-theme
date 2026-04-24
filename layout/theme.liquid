@@ -164,6 +164,18 @@ document.addEventListener('focusin',function(e){
 
     {{ 'trg-audit-fixes.css' | asset_url | stylesheet_tag }}
 
+    <style id="trg-audit-inline-contrast">
+      #MainContent .trg-need-card--feature .trg-need-card__kicker {
+        color: #f4eee4 !important;
+      }
+      #MainContent .trg-pdp__disclosure {
+        color: #5a514a !important;
+      }
+      #MainContent .trg-ab-principle__num {
+        color: #8f2f1b !important;
+      }
+    </style>
+
 
 
     {% if template == 'page.colour-guide' %}{{ 'trg-colour-guide.css' | asset_url | stylesheet_tag }}{% endif %}
